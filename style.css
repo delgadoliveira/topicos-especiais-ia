@@ -1,100 +1,137 @@
 /* ============================================================
    Customização suave da navegação do Slidev
-   - Em repouso: barra translúcida, compacta, no canto inferior direito
-   - Em hover/foco: expande suavemente com fade-in
-   - Funciona em telas pequenas sem cobrir conteúdo
+   Baseado na estrutura real do @slidev/client v0.49:
+   - Wrapper: <div class="absolute bottom-0 left-0 ..."> (em play.vue)
+   - Nav root: <nav class="flex flex-col"> (em NavControls.vue)
+   - Bar interno: <div class="flex flex-wrap-reverse text-xl ..."> com bg-main
+   - Botões: <button class="slidev-icon-btn">
    ============================================================ */
 
-/* Container principal da barra de navegação inferior */
-.slidev-controls,
-.slidev-nav-controls {
-  position: fixed !important;
-  bottom: 0.75rem !important;
-  right: 0.75rem !important;
-  top: auto !important;
-  left: auto !important;
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-  padding: 0.35rem 0.6rem;
-  border-radius: 999px;
-  background: rgba(20, 22, 30, 0.45);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.18);
-  opacity: 0.25;
-  transform: translateX(0) scale(0.92);
-  transform-origin: right center;
+/* -- 1. Wrapper de baixo-à-esquerda do play.vue --
+   Usa :has() para selecionar o div pai que contém <nav class="flex flex-col">
+   Suportado em Chrome 105+, Safari 15.4+, Firefox 121+ */
+#app .absolute.bottom-0.left-0:has(> nav),
+#app div:has(> nav.flex.flex-col) {
   transition:
     opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-    transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-    background-color 0.25s ease;
-  z-index: 100;
+    transform 0.35s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
-/* Hover/foco: expansão suave + plena opacidade */
-.slidev-controls:hover,
-.slidev-controls:focus-within,
-.slidev-nav-controls:hover,
-.slidev-nav-controls:focus-within {
-  opacity: 1;
-  transform: translateX(0) scale(1);
-  background: rgba(20, 22, 30, 0.78);
+/* Reduz a opacidade em repouso, expande no hover */
+#app .absolute.bottom-0.left-0:has(> nav) {
+  opacity: 0.28 !important;
+  transform: scale(0.94);
+  transform-origin: bottom left;
 }
 
-/* Botões individuais — micro animação ao passar o mouse */
-.slidev-controls .slidev-icon-btn,
-.slidev-nav-controls .slidev-icon-btn,
-.slidev-controls button,
-.slidev-nav-controls button {
+#app .absolute.bottom-0.left-0:has(> nav):hover,
+#app .absolute.bottom-0.left-0:has(> nav):focus-within {
+  opacity: 1 !important;
+  transform: scale(1);
+}
+
+/* -- 2. A "pílula" interna do NavControls (bar arredondada com bg-main) -- */
+nav.flex.flex-col > div.flex.flex-wrap-reverse {
+  border-radius: 12px !important;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.18);
+  transition: background-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+/* -- 3. Botões individuais — micro animação ao hover -- */
+.slidev-icon-btn {
   transition:
-    transform 0.18s ease,
+    transform 0.18s cubic-bezier(0.4, 0, 0.2, 1),
     background-color 0.18s ease,
-    color 0.18s ease;
+    color 0.18s ease !important;
   border-radius: 8px;
 }
 
-.slidev-controls .slidev-icon-btn:hover,
-.slidev-nav-controls .slidev-icon-btn:hover,
-.slidev-controls button:hover,
-.slidev-nav-controls button:hover {
+.slidev-icon-btn:hover {
   transform: translateY(-1px) scale(1.08);
+  background-color: rgba(124, 92, 255, 0.18) !important;
 }
 
-/* Indicador de página (X / Y) — também translúcido por padrão */
-.slidev-page,
-.slidev-progress {
-  transition: opacity 0.3s ease;
-  opacity: 0.35;
+.slidev-icon-btn.disabled {
+  opacity: 0.3;
+  pointer-events: none;
 }
-.slidev-page:hover,
-.slidev-progress:hover,
-.slidev-controls:hover ~ .slidev-page,
-.slidev-controls:hover ~ .slidev-progress {
+
+/* -- 4. Indicador "página X / Y" — discreto até hover -- */
+nav.flex.flex-col .h-40px {
+  opacity: 0.55;
+  transition: opacity 0.25s ease;
+}
+
+#app .absolute.bottom-0.left-0:hover .h-40px,
+nav.flex.flex-col:focus-within .h-40px {
   opacity: 1;
 }
 
-/* Painel de overview / menu — animação de entrada mais suave */
-.slidev-overview,
-.slidev-menu {
-  transition:
-    opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1),
-    transform 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+/* -- 5. Menu popup (TOC / overview button) — animação de entrada --
+   No MenuButton.vue: <div class="rounded-md bg-main text-main shadow absolute bottom-10 left-0 z-20"> */
+div[class*="bottom-10"][class*="left-0"][class*="z-20"] {
+  animation: slidevMenuIn 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+  max-height: 70vh;
+  overflow-y: auto;
+  border-radius: 10px !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.32);
 }
 
-/* Em telas estreitas — encolhe ainda mais por padrão */
-@media (max-width: 640px) {
-  .slidev-controls,
-  .slidev-nav-controls {
-    bottom: 0.4rem !important;
-    right: 0.4rem !important;
-    padding: 0.25rem 0.45rem;
-    opacity: 0.18;
+@keyframes slidevMenuIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
   }
 }
 
-/* Quando em modo apresentação fullscreen, manter discreto */
-.slidev-presenter .slidev-controls,
-.slidev-presenter .slidev-nav-controls {
-  opacity: 0.15;
+/* -- 6. Quick Overview (grade de slides) — fade-in suave -- */
+.slidev-overview,
+div[class*="quick-overview"] {
+  animation: slidevFadeIn 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes slidevFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* -- 7. Variáveis de cor do Slidev para os controles -- */
+:root {
+  --slidev-controls-foreground: rgba(255, 255, 255, 0.85);
+  --slidev-controls-background: rgba(20, 22, 30, 0.78);
+}
+
+/* -- 8. Mobile: reduz ainda mais quando em repouso -- */
+@media (max-width: 640px) {
+  #app .absolute.bottom-0.left-0:has(> nav) {
+    opacity: 0.2 !important;
+    transform: scale(0.88);
+  }
+  nav.flex.flex-col > div.flex.flex-wrap-reverse {
+    padding: 0.15rem 0.3rem !important;
+  }
+}
+
+/* -- 9. Modo apresentador: ainda mais discreto -- */
+.slidev-presenter #app .absolute.bottom-0.left-0:has(> nav) {
+  opacity: 0.15 !important;
+}
+
+/* -- 10. Fallback para browsers SEM :has() (Firefox <121) --
+   Aplica diretamente ao <nav> garantindo que algo aconteça */
+@supports not selector(:has(*)) {
+  nav.flex.flex-col {
+    opacity: 0.45;
+    transition: opacity 0.3s ease;
+  }
+  nav.flex.flex-col:hover,
+  nav.flex.flex-col:focus-within {
+    opacity: 1;
+  }
 }
