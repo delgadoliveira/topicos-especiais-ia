@@ -1,0 +1,19 @@
+{
+  "name": "topicos-especiais-ia-agentes",
+  "version": "1.0.0",
+  "description": "Tópicos Especiais em IA — Agentes de IA (Zero to Hero) — 4 encontros de 3h",
+  "private": true,
+  "scripts": {
+    "dev": "slidev --open",
+    "build": "slidev build",
+    "export": "slidev export",
+    "export-pdf": "slidev export --format pdf",
+    "export-png": "slidev export --format png"
+  },
+  "dependencies": {
+    "@slidev/cli": "^0.49.0",
+    "@slidev/theme-seriph": "^0.25.0",
+    "@slidev/theme-default": "^0.25.0",
+    "playwright-chromium": "^1.47.0"
+  }
+}
