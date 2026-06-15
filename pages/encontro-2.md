@@ -1104,6 +1104,55 @@ class: text-center
 
 ---
 
+---
+
+# 🌐 Mercado de reasoning & frameworks (2024-2025)
+
+<div class="grid grid-cols-2 gap-3 text-xs">
+
+<div class="p-3 rounded-lg bg-purple-500/10 border border-purple-500/30">
+<b>🧠 Reasoning models</b><br>
+• <b>OpenAI o1, o3, o3-mini</b> (set/2024 – jan/2025)<br>
+• <b>DeepSeek R1</b> (jan/2025) — open weights, abalou o mercado<br>
+• <b>Claude Sonnet 4 Thinking</b> (mai/2025)<br>
+• <b>Gemini 2.5 Pro Thinking</b><br>
+• <b>Qwen QwQ</b>, <b>Kimi k1.5</b> (Moonshot)
+</div>
+
+<div class="p-3 rounded-lg bg-cyan-500/10 border border-cyan-500/30">
+<b>🛠️ Frameworks de agente</b><br>
+• <b>LangGraph</b> (LangChain) — grafo de estados<br>
+• <b>OpenAI Agents SDK</b> (mar/2025)<br>
+• <b>LlamaIndex AgentWorkflow</b><br>
+• <b>Pydantic AI</b>, <b>Smolagents</b> (HF)<br>
+• <b>CrewAI</b>, <b>AutoGen</b> (multi-agent)<br>
+• <b>Mastra</b>, <b>Vercel AI SDK</b> (TS)
+</div>
+
+<div class="p-3 rounded-lg bg-green-500/10 border border-green-500/30">
+<b>🧩 Padrões emergentes em produção</b><br>
+• <b>Anthropic "Building effective agents"</b> (dez/2024) → 5 padrões adotados pelo mercado<br>
+• <b>OpenAI Swarm → Agents SDK</b> handoffs<br>
+• <b>LangGraph Supervisor</b> pattern<br>
+• <b>MCP</b> (nov/2024) virou o padrão de tool calling
+</div>
+
+<div class="p-3 rounded-lg bg-amber-500/10 border border-amber-500/30">
+<b>💸 Custos típicos por padrão (2025)</b><br>
+• ReAct simples (5 turnos): <b>~$0,02</b><br>
+• Reasoning model (o1) por query: <b>~$0,10–$1</b><br>
+• Multi-agent (5 agentes, 20 turnos): <b>~$0,50</b><br>
+• Deep Research run (OpenAI): <b>~$1–5</b>
+</div>
+
+</div>
+
+<div class="mt-3 text-xs opacity-70 text-center">
+Fontes: documentação oficial dos modelos, blogs Anthropic/OpenAI, repositórios públicos no GitHub.
+</div>
+
+---
+
 # 📚 Referências públicas — Encontro 2
 
 <div class="grid grid-cols-2 gap-3 text-xs mt-3">

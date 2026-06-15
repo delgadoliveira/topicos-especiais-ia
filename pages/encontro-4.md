@@ -1238,6 +1238,92 @@ meu-agente/
 
 ---
 
+---
+
+# 🌐 Mercado: avaliação, observabilidade & governança
+
+<div class="grid grid-cols-2 gap-3 text-xs">
+
+<div class="p-3 rounded-lg bg-purple-500/10 border border-purple-500/30">
+<b>📊 Eval & LLM-as-judge</b><br>
+• <b>Braintrust</b> (US$ 36M Series A)<br>
+• <b>Promptfoo</b> (open source)<br>
+• <b>Patronus AI</b>, <b>Galileo</b><br>
+• <b>OpenAI Evals</b>, <b>Anthropic evals</b><br>
+• <b>Ragas</b> (RAG-specific)
+</div>
+
+<div class="p-3 rounded-lg bg-cyan-500/10 border border-cyan-500/30">
+<b>🔭 Observabilidade de agentes</b><br>
+• <b>LangSmith</b> (LangChain)<br>
+• <b>Langfuse</b> (open source)<br>
+• <b>Arize Phoenix</b>, <b>Helicone</b><br>
+• <b>Weights & Biases Weave</b><br>
+• <b>Datadog LLM Observability</b>
+</div>
+
+<div class="p-3 rounded-lg bg-green-500/10 border border-green-500/30">
+<b>🛡️ Guardrails & segurança</b><br>
+• <b>NVIDIA NeMo Guardrails</b><br>
+• <b>Guardrails AI</b> (Pydantic-style)<br>
+• <b>Lakera Guard</b> (prompt injection)<br>
+• <b>Protect AI</b> (red team)<br>
+• <b>OWASP Top 10 for LLMs</b> (referência aberta)
+</div>
+
+<div class="p-3 rounded-lg bg-amber-500/10 border border-amber-500/30">
+<b>⚖️ Governança / regulação</b><br>
+• <b>EU AI Act</b> (ago/2024 em vigor, full em 2026)<br>
+• <b>NIST AI RMF</b> (referência US)<br>
+• <b>ISO/IEC 42001</b> (AI management system)<br>
+• <b>Anthropic RSP</b>, <b>OpenAI Preparedness</b> frameworks<br>
+• <b>UK AISI</b>, <b>US AISI</b> (safety institutes)
+</div>
+
+</div>
+
+<div class="mt-3 p-2 rounded-lg bg-blue-500/10 border border-blue-500/30 text-xs">
+🧩 <b>Analogia</b>: avaliar agente sem eval é como <b>fazer deploy sem CI</b>. Funciona até quebrar em produção — e aí você descobre no Twitter. <b>Toda</b> empresa séria de agentes em 2025 trata eval como pré-requisito de release.
+</div>
+
+---
+
+# 🚀 Onde os agentes vão chegar — 2025-2027
+
+<div class="grid grid-cols-3 gap-3 text-xs">
+
+<div class="p-3 rounded-lg bg-purple-500/10 border border-purple-500/30">
+<b>🧪 Tendências de pesquisa</b><br>
+• <b>Test-time compute</b> escalando (o1 → o3 → ?)<br>
+• <b>Agentes que aprendem</b> com a própria operação (Voyager-like)<br>
+• <b>World models</b> + agentes (DeepMind Genie)<br>
+• <b>Long-horizon</b> tasks (METR, 50%-task time horizon dobrando a cada ~7 meses)
+</div>
+
+<div class="p-3 rounded-lg bg-cyan-500/10 border border-cyan-500/30">
+<b>🏗️ Tendências de produto</b><br>
+• <b>Computer use</b> generalizado (Anthropic, OpenAI Operator)<br>
+• <b>Agent-to-agent</b> (A2A, MCP) → marketplaces de agentes<br>
+• <b>Voice agents</b> (Sierra, Retell, Vapi)<br>
+• <b>Vertical SaaS</b> com agente nativo substituindo SaaS clássico
+</div>
+
+<div class="p-3 rounded-lg bg-green-500/10 border border-green-500/30">
+<b>💼 Tendências de negócio</b><br>
+• <b>Pricing por outcome</b> (não por seat) — Intercom Fin, Sierra<br>
+• <b>"Service-as-software"</b>: BPO sendo substituído<br>
+• <b>Agent ops</b> como nova função (como DevOps em 2012)<br>
+• Consolidação: gigantes comprando startups de agente
+</div>
+
+</div>
+
+<div class="mt-3 p-3 rounded-lg bg-amber-500/10 border border-amber-500/30 text-xs">
+🎯 <b>Para você que está entrando agora</b>: o diferencial não é mais "saber chamar a API". É saber <b>desenhar o loop, instrumentar, avaliar e operar</b> agentes em produção — exatamente o que esta disciplina cobre.
+</div>
+
+---
+
 # 📚 Referências públicas — Encontro 4
 
 <div class="grid grid-cols-2 gap-3 text-xs mt-3">

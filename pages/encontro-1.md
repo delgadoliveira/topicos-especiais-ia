@@ -206,6 +206,492 @@ flowchart TB
 
 ---
 
+# Ciclo de vida de UM turno do agente
+
+O "loop" parece simples, mas internamente cada iteração tem 7 etapas:
+
+```mermaid {scale: 0.55}
+flowchart LR
+  A[1. Input<br/>usuário/observação] --> B[2. Montagem do contexto<br/>system + histórico + scratchpad]
+  B --> C[3. Chamada LLM<br/>com tool schemas]
+  C --> D{4. Saída}
+  D -- texto final --> Z[✅ Resposta ao usuário]
+  D -- tool_call --> E[5. Validação<br/>schema + permissões]
+  E --> F[6. Execução da tool<br/>API/SQL/código]
+  F --> G[7. Observação<br/>resultado serializado]
+  G --> B
+
+  style C fill:#7c5cff,color:#fff
+  style F fill:#2dd4bf,color:#000
+  style Z fill:#22c55e,color:#000
+  style E fill:#f59e0b,color:#000
+```
+
+<div class="mt-4 text-sm opacity-80">
+Cada iteração custa <b>uma chamada à API</b>. Agentes típicos rodam de 3 a 30 iterações por tarefa.
+</div>
+
+---
+
+# 🧠 Deep dive: o LLM (cérebro)
+
+<div class="grid grid-cols-2 gap-4 text-sm">
+
+<div class="p-4 rounded-xl bg-purple-500/10 border border-purple-500/30">
+<b>O que ele faz num agente:</b>
+<ul>
+<li>Lê o contexto inteiro a cada turno</li>
+<li>Decide: respondo? ou chamo uma tool?</li>
+<li>Se tool: escolhe qual e gera os argumentos</li>
+<li>Interpreta o resultado e segue</li>
+</ul>
+</div>
+
+<div class="p-4 rounded-xl bg-white/5 border border-white/10">
+<b>Famílias relevantes (2024-2025):</b>
+<ul>
+<li><b>Reasoning</b>: o1, o3, DeepSeek-R1, Claude Sonnet 4 Thinking</li>
+<li><b>Generalistas</b>: GPT-4o, Claude Sonnet, Gemini Pro</li>
+<li><b>Rápidos/baratos</b>: GPT-4o-mini, Haiku, Gemini Flash</li>
+<li><b>Open weights</b>: Llama 3.x, Qwen 2.5, Mistral</li>
+</ul>
+</div>
+
+</div>
+
+<div class="mt-3 p-3 rounded-lg bg-blue-500/10 border border-blue-500/30 text-sm">
+🧩 <b>Analogia</b>: o LLM é o <b>cérebro de um estagiário brilhante e amnésico</b>. Lê tudo que você colocar na frente dele, raciocina bem, mas <b>esquece tudo</b> assim que termina a tarefa. Cada chamada é um estagiário novo lendo a mesma pasta.
+</div>
+
+<div class="mt-3 p-3 rounded-lg bg-amber-500/10 border border-amber-500/30 text-sm">
+<b>Tradeoff central:</b> modelos maiores acertam mais mas custam ~10–50× e respondem ~3–10× mais lento. Estratégia comum no mercado (<b>Perplexity, Cursor, GitHub Copilot</b>): <b>roteador</b> — modelo barato classifica/decide, modelo caro entra só nas etapas críticas.
+</div>
+
+---
+
+# 🛠️ Deep dive: ferramentas (tools)
+
+Uma tool tem **3 partes** que o LLM precisa entender:
+
+<div class="grid grid-cols-3 gap-3 text-xs mt-4">
+
+<div class="p-3 rounded-lg bg-cyan-500/10 border border-cyan-500/30">
+<b>1. Nome + descrição</b><br>
+O LLM escolhe pela descrição. Se for ambígua, ele chama errado.
+<pre class="text-[10px] mt-2"><code>name: "search_web"
+desc: "Busca informações
+factuais atualizadas na
+web. Use quando o usuário
+pedir dados pós 2023."</code></pre>
+</div>
+
+<div class="p-3 rounded-lg bg-cyan-500/10 border border-cyan-500/30">
+<b>2. Schema dos parâmetros</b><br>
+JSON Schema (OpenAI/Anthropic). Define tipos, obrigatoriedade, enums.
+<pre class="text-[10px] mt-2"><code>{ "query": {
+    "type": "string",
+    "description": "..."},
+  "max_results": {
+    "type": "integer",
+    "default": 5 }}</code></pre>
+</div>
+
+<div class="p-3 rounded-lg bg-cyan-500/10 border border-cyan-500/30">
+<b>3. Implementação</b><br>
+Código Python que o seu runtime executa. O LLM <b>nunca</b> roda nada — ele só pede.
+<pre class="text-[10px] mt-2"><code>def search_web(query, max_results=5):
+    r = requests.get(...)
+    return r.json()</code></pre>
+</div>
+
+</div>
+
+<div class="mt-3 p-3 rounded-lg bg-blue-500/10 border border-blue-500/30 text-sm">
+🧩 <b>Analogia</b>: tools são as <b>mãos do estagiário</b>. Ele sabe descrever o que quer fazer, mas sem mãos não toca em nada do mundo real. <b>Você</b> decide quais mãos dar (e quais não): leitor de email ≠ enviador de email; query SQL ≠ DELETE.
+</div>
+
+<div class="mt-3 text-sm opacity-80">
+Categorias úteis: <b>retrieval</b> (busca, RAG), <b>computação</b> (Python sandbox, calc), <b>I/O</b> (arquivos, DB), <b>ação no mundo</b> (envio email, PR no GitHub), <b>meta</b> (delegar a outro agente).
+</div>
+
+<div class="mt-2 p-2 rounded-lg bg-white/5 text-xs">
+🏢 <b>Mercado</b>: <b>Anthropic MCP</b> (Model Context Protocol, nov/2024) e <b>OpenAI function calling</b> padronizaram a interface. <b>Zapier, Composio, Arcade</b> oferecem catálogos de 1000+ tools prontas (Slack, GitHub, Salesforce…).
+</div>
+
+---
+
+# 💾 Deep dive: memória — 3 camadas
+
+```mermaid {scale: 0.6}
+flowchart LR
+  subgraph CP["⚡ Curto prazo<br/>(context window)"]
+    A[mensagens da sessão<br/>+ scratchpad<br/>~ últimos K turnos]
+  end
+  subgraph WM["📝 Working memory<br/>(estado da tarefa)"]
+    B[plano atual<br/>variáveis intermediárias<br/>resultados parciais]
+  end
+  subgraph LP["🗄️ Longo prazo<br/>(persistente)"]
+    C[vector DB<br/>SQL / KV store<br/>arquivos]
+  end
+  A <--> B
+  B <--> C
+  style A fill:#7c5cff,color:#fff
+  style B fill:#f59e0b,color:#000
+  style C fill:#22c55e,color:#000
+```
+
+<div class="grid grid-cols-3 gap-3 text-xs mt-4">
+<div><b>Curto prazo</b>: histórico in-context. Limitado pela janela. Cresce a cada turno → eventualmente <b>satura</b>.</div>
+<div><b>Working memory</b>: scratchpad estruturado (JSON, markdown). Sobrevive entre turnos sem inflar o prompt todo.</div>
+<div><b>Longo prazo</b>: vector DB (Chroma, Qdrant, pgvector) p/ busca semântica; SQL p/ fatos estruturados; arquivos p/ artefatos.</div>
+</div>
+
+<div class="mt-3 p-3 rounded-lg bg-blue-500/10 border border-blue-500/30 text-xs">
+🧩 <b>Analogia</b>: pense em um <b>consultor</b>. Curto prazo = o que está na <b>mesa agora</b> (papéis abertos). Working memory = o <b>caderno de anotações</b> ao lado. Longo prazo = o <b>arquivo morto</b> do escritório que ele consulta quando precisa.
+</div>
+
+<div class="mt-2 p-2 rounded-lg bg-white/5 text-xs">
+🏢 <b>Mercado</b>: <b>ChatGPT Memory</b> (abr/2024), <b>Claude Projects</b>, <b>Cursor @-context</b>. Vector DBs líderes: <b>Pinecone, Weaviate, Qdrant, pgvector</b>. <b>Mem0 e Letta (ex-MemGPT)</b> são frameworks dedicados a memória de agente.
+</div>
+
+<div class="mt-2 p-2 rounded-lg bg-amber-500/10 border border-amber-500/30 text-xs">
+<b>Episódica</b> (o que aconteceu) vs <b>semântica</b> (fatos/conhecimento) vs <b>procedural</b> (como fazer algo). Veremos no Encontro 3.
+</div>
+
+---
+
+# 🔄 Deep dive: o loop de controle
+
+É **seu código** (não o LLM) que decide quando parar. Implementação típica:
+
+```python {maxHeight:'330px'}
+def run_agent(goal, max_steps=15, max_tokens=50_000):
+    messages = [system_prompt(), user(goal)]
+    tokens_used = 0
+
+    for step in range(max_steps):              # 🛑 limite de iterações
+        resp = llm.chat(messages, tools=TOOLS)
+        tokens_used += resp.usage.total_tokens
+        if tokens_used > max_tokens:            # 🛑 limite de custo
+            return "ABORT: orçamento estourado"
+
+        messages.append(resp.message)
+
+        if resp.message.tool_calls:
+            for call in resp.message.tool_calls:
+                try:
+                    result = dispatch(call.name, call.args)   # executa
+                except Exception as e:
+                    result = f"ERROR: {e}"                    # 🛑 não morre
+                messages.append(tool_msg(call.id, result))
+        else:
+            return resp.message.content         # 🛑 resposta final
+    return "ABORT: max_steps atingido"
+```
+
+<div class="mt-2 p-2 rounded-lg bg-blue-500/10 border border-blue-500/30 text-xs">
+🧩 <b>Analogia</b>: o loop é o <b>batimento cardíaco</b> do agente — e os <code>break</code> são os <b>marca-passos</b>. Sem eles o coração entra em fibrilação (loop infinito) e o paciente (sua AWS bill) morre.
+</div>
+
+<div class="mt-2 text-sm opacity-80">
+4 condições de parada: <b>resposta final</b>, <b>max_steps</b>, <b>orçamento</b>, <b>erro irrecuperável</b>. Sem isso, agentes <b>loopam infinitamente</b> (e geram conta no cartão).
+</div>
+
+<div class="mt-2 p-2 rounded-lg bg-white/5 text-xs">
+🏢 <b>Mercado</b>: frameworks que abstraem o loop: <b>LangGraph</b> (estados explícitos), <b>LlamaIndex AgentWorkflow</b>, <b>Pydantic AI</b>, <b>OpenAI Agents SDK</b> (mar/2025), <b>Smolagents</b> (Hugging Face). Veremos diferenças no Encontro 2.
+</div>
+
+---
+
+# 🎯 Deep dive: o objetivo e o system prompt
+
+Um bom system prompt para agentes tem **6 seções**:
+
+<div class="grid grid-cols-2 gap-3 text-xs">
+
+<div class="p-3 rounded-lg bg-pink-500/10 border border-pink-500/30">
+<b>1. Identidade/papel</b> — "Você é um analista de dados sênior…"
+</div>
+<div class="p-3 rounded-lg bg-pink-500/10 border border-pink-500/30">
+<b>2. Objetivo</b> — "Sua missão é responder perguntas usando apenas dados do BD."
+</div>
+<div class="p-3 rounded-lg bg-pink-500/10 border border-pink-500/30">
+<b>3. Ferramentas disponíveis</b> — lista resumida (o schema já vai no parâmetro <code>tools</code>).
+</div>
+<div class="p-3 rounded-lg bg-pink-500/10 border border-pink-500/30">
+<b>4. Procedimento / heurísticas</b> — "Sempre confirme o schema da tabela antes de fazer JOIN."
+</div>
+<div class="p-3 rounded-lg bg-pink-500/10 border border-pink-500/30">
+<b>5. Restrições</b> — "Nunca execute DELETE. Em caso de dúvida, peça confirmação."
+</div>
+<div class="p-3 rounded-lg bg-pink-500/10 border border-pink-500/30">
+<b>6. Formato de saída</b> — "Responda em markdown com seção 'Conclusão' no final."
+</div>
+
+</div>
+
+<div class="mt-3 p-2 rounded-lg bg-blue-500/10 border border-blue-500/30 text-xs">
+🧩 <b>Analogia</b>: o system prompt é o <b>manual do funcionário no primeiro dia</b>. Diz quem ele é, o que pode/não pode, e como se reportar. Se o manual é vago, todo funcionário improvisa de um jeito diferente.
+</div>
+
+<div class="mt-2 p-3 rounded-lg bg-amber-500/10 border border-amber-500/30 text-xs">
+⚠️ <b>Princípio</b>: o system prompt é a <b>constituição</b> do agente. Mudanças aqui têm efeito multiplicado. Versionе-o como código (git) e teste com regressão.
+</div>
+
+<div class="mt-2 p-2 rounded-lg bg-white/5 text-xs">
+🏢 <b>Mercado</b>: prompts vazados de produção mostram esse padrão — <b>Anthropic Claude.ai</b>, <b>Cursor</b>, <b>Devin</b>, <b>v0.dev</b> usam system prompts de 2k–10k tokens com seções nomeadas (repositórios públicos: <i>"system prompts leaked" no GitHub</i>).
+</div>
+
+---
+
+# Anatomia de uma mensagem — os 4 papéis
+
+Todo agente conversa em mensagens tipadas. Conhecer cada uma evita 80% dos bugs:
+
+<div class="grid grid-cols-2 gap-3 text-xs">
+
+<div class="p-3 rounded-lg bg-purple-500/10 border border-purple-500/30">
+<b>system</b> — instruções imutáveis do desenvolvedor. Aparece <b>uma vez</b> no início.
+<pre class="text-[10px] mt-1"><code>{"role": "system",
+ "content": "Você é..."}</code></pre>
+</div>
+
+<div class="p-3 rounded-lg bg-blue-500/10 border border-blue-500/30">
+<b>user</b> — input externo (humano ou outro sistema). Pode haver várias ao longo da sessão.
+<pre class="text-[10px] mt-1"><code>{"role": "user",
+ "content": "Qual o PIB do BR em 2023?"}</code></pre>
+</div>
+
+<div class="p-3 rounded-lg bg-green-500/10 border border-green-500/30">
+<b>assistant</b> — resposta do LLM. Pode ter <code>content</code> e/ou <code>tool_calls</code>.
+<pre class="text-[10px] mt-1"><code>{"role": "assistant",
+ "tool_calls": [{
+   "id": "c1",
+   "name": "search_web",
+   "args": {...}}]}</code></pre>
+</div>
+
+<div class="p-3 rounded-lg bg-cyan-500/10 border border-cyan-500/30">
+<b>tool</b> — resultado de uma ferramenta. <b>Deve</b> referenciar o <code>tool_call_id</code>.
+<pre class="text-[10px] mt-1"><code>{"role": "tool",
+ "tool_call_id": "c1",
+ "content": "PIB 2023: US$ 2,17 tri"}</code></pre>
+</div>
+
+</div>
+
+<div class="mt-3 text-xs opacity-70">
+Esse vai-e-vem <code>assistant(tool_call) → tool(result) → assistant(...) → tool(...) → assistant(content)</code> é o coração de qualquer agente.
+</div>
+
+---
+
+# Estado: o que **flui** entre iterações
+
+Diferente de uma chamada LLM solta, um agente carrega **estado acumulado**:
+
+<div class="grid grid-cols-2 gap-4 text-sm mt-4">
+
+<div class="p-3 rounded-lg bg-white/5 border border-white/10">
+<b>Estado explícito (no prompt)</b>
+<ul class="text-xs">
+<li>Histórico completo de mensagens</li>
+<li>Tool calls anteriores e seus resultados</li>
+<li>Scratchpad / plano atual</li>
+<li>System prompt</li>
+</ul>
+</div>
+
+<div class="p-3 rounded-lg bg-white/5 border border-white/10">
+<b>Estado implícito (no seu código)</b>
+<ul class="text-xs">
+<li>Contador de iterações</li>
+<li>Custo acumulado (tokens, $$)</li>
+<li>Sessões de DB/HTTP abertas</li>
+<li>Cache de resultados de tools</li>
+<li>Trace para observabilidade</li>
+</ul>
+</div>
+
+</div>
+
+<div class="mt-4 p-3 rounded-lg bg-amber-500/10 border border-amber-500/30 text-xs">
+<b>Implicação prática:</b> agentes não são "stateless" como uma API REST. Para escalar, persista o estado (Redis, banco) e torne o loop <b>retomável</b> — interrompido, deve poder continuar.
+</div>
+
+---
+
+# Paradigmas de orquestração
+
+Três arquiteturas que você vai encontrar no mercado:
+
+<div class="grid grid-cols-3 gap-3 text-xs">
+
+<div class="p-3 rounded-lg bg-purple-500/10 border border-purple-500/30">
+<b>🔁 ReAct (loop reativo)</b><br>
+Pensa → age → observa → repete. Decisões <b>turno a turno</b>.<br><br>
+✅ Simples, flexível<br>
+❌ Pode divagar
+<br><br>
+<i>Yao et al., 2022 — o que veremos hoje.</i>
+</div>
+
+<div class="p-3 rounded-lg bg-blue-500/10 border border-blue-500/30">
+<b>📋 Plan-and-Execute</b><br>
+Faz um plano completo primeiro, depois executa cada passo.<br><br>
+✅ Previsível, auditável<br>
+❌ Plano fica desatualizado se algo muda
+<br><br>
+<i>BabyAGI, LangChain PlanAndExecute.</i>
+</div>
+
+<div class="p-3 rounded-lg bg-green-500/10 border border-green-500/30">
+<b>🔄 Reflexion / Self-critique</b><br>
+Executa → critica o próprio resultado → tenta de novo.<br><br>
+✅ Melhora qualidade<br>
+❌ Mais caro, pode entrar em loop de auto-crítica
+<br><br>
+<i>Shinn et al., 2023.</i>
+</div>
+
+</div>
+
+<div class="mt-4 text-xs opacity-80">
+Na prática, sistemas state-of-art <b>combinam</b> os três: planejam em alto nível, executam em ReAct, refletem após blocos. Veremos isso no Encontro 2.
+</div>
+
+---
+
+# Autonomia: o espectro de controle
+
+Quanto controle humano você dá ao agente?
+
+<div class="mt-4">
+
+| Nível | Descrição | Exemplo |
+|---|---|---|
+| **L0 — Suggest** | Agente propõe, humano executa tudo | Copilot autocomplete |
+| **L1 — Confirm** | Cada ação requer aprovação | Cursor "accept all" por arquivo |
+| **L2 — Bounded** | Autônomo dentro de limites (read-only, sandbox) | Pesquisa web, análise de dados |
+| **L3 — Supervised** | Autônomo com revisão pós-fato | PRs abertos por bots, drafts de email |
+| **L4 — Autonomous** | Roda sem humano no loop | Agentes de monitoramento, support tier 1 |
+| **L5 — Self-improving** | Modifica seus próprios prompts/tools | Pesquisa de fronteira (Voyager, AutoML) |
+
+</div>
+
+<div class="mt-3 p-3 rounded-lg bg-amber-500/10 border border-amber-500/30 text-xs">
+🎯 <b>Comece sempre em L1 ou L2.</b> Subir de nível só depois de telemetria provando que o agente acerta em &gt;95% dos casos do seu domínio.
+</div>
+
+---
+
+# Onde os agentes **quebram** — mapa por componente
+
+| Componente | Falha típica | Sintoma | Mitigação (preview) |
+|---|---|---|---|
+| 🧠 LLM | Alucina argumento de tool | Tool roda com dado inventado | Schema estrito + validação |
+| 🛠️ Tool | Resultado enorme (10k tokens) | Janela satura em 2 turnos | Resumir / paginar / truncar |
+| 💾 Memória | Histórico cresce sem limite | Custo explode, latência sobe | Sliding window, sumarização |
+| 🔄 Loop | Sem condição de parada | Roda em loop infinito | `max_steps`, watchdog de custo |
+| 🎯 Objetivo | System prompt ambíguo | Comportamento inconsistente | Versão + testes de regressão |
+| 🤝 Multi-tool | Escolhe a tool errada | Tarefa nunca conclui | Descrições disjuntas, exemplos |
+
+<div class="mt-4 text-xs opacity-80">
+Cada uma dessas falhas vai ter um slot dedicado no Encontro 4. Por enquanto, <b>reconheça o vocabulário</b>.
+</div>
+
+---
+
+# 🌐 Panorama de mercado — agentes em 2025
+
+<div class="grid grid-cols-2 gap-3 text-xs">
+
+<div class="p-3 rounded-lg bg-purple-500/10 border border-purple-500/30">
+<b>💻 Coding agents</b><br>
+• <b>GitHub Copilot Workspace / Coding Agent</b><br>
+• <b>Cursor</b> (US$ 9B valuation, mai/2025)<br>
+• <b>Devin / Cognition</b> ($2B+)<br>
+• <b>Claude Code</b> (Anthropic, fev/2025)<br>
+• <b>Replit Agent</b>, <b>v0.dev</b>, <b>Bolt.new</b>
+</div>
+
+<div class="p-3 rounded-lg bg-cyan-500/10 border border-cyan-500/30">
+<b>🔎 Research / browse agents</b><br>
+• <b>Perplexity</b> (US$ 9B), <b>Pro Search</b><br>
+• <b>OpenAI Deep Research</b> (fev/2025)<br>
+• <b>Google Gemini Deep Research</b><br>
+• <b>You.com</b>, <b>Phind</b>
+</div>
+
+<div class="p-3 rounded-lg bg-green-500/10 border border-green-500/30">
+<b>🏢 Enterprise / vertical</b><br>
+• <b>Salesforce Agentforce</b> (out/2024)<br>
+• <b>Microsoft Copilot Studio</b> + Autonomous Agents<br>
+• <b>ServiceNow Now Assist</b><br>
+• <b>Klarna AI assistant</b> (substituiu 700 atendentes)<br>
+• <b>Sierra</b> (Bret Taylor, US$ 4B em CX)
+</div>
+
+<div class="p-3 rounded-lg bg-amber-500/10 border border-amber-500/30">
+<b>🧑‍💼 Computer use / desktop</b><br>
+• <b>Anthropic Computer Use</b> (out/2024)<br>
+• <b>OpenAI Operator</b> (jan/2025)<br>
+• <b>Google Project Mariner</b><br>
+• <b>Adept ACT</b> (adquirida pela Amazon)
+</div>
+
+</div>
+
+<div class="mt-3 text-xs opacity-70 text-center">
+Fontes: relatórios públicos de funding (Crunchbase, TechCrunch), anúncios oficiais das empresas.
+</div>
+
+---
+
+# 💰 O business case: por que agora?
+
+<div class="grid grid-cols-2 gap-4 text-sm">
+
+<div class="p-4 rounded-xl bg-white/5 border border-white/10">
+<b>📉 Queda brutal de custo</b><br>
+GPT-3.5 (2022): US$ 20 / 1M tokens<br>
+GPT-4o-mini (2024): US$ 0,15 / 1M tokens<br>
+→ <b>~130× mais barato</b> em 2 anos.<br><br>
+Isso viabiliza loops com dezenas de chamadas.
+</div>
+
+<div class="p-4 rounded-xl bg-white/5 border border-white/10">
+<b>📈 Salto de capacidade</b><br>
+SWE-bench (engenharia de software):<br>
+• 2023: ~2% (GPT-4 puro)<br>
+• 2024: ~50% (Devin, Claude 3.5)<br>
+• 2025: <b>~70%+</b> (Claude Sonnet 4 + agentes)<br><br>
+Tarefas reais já estão dentro do alcance.
+</div>
+
+<div class="p-4 rounded-xl bg-purple-500/10 border border-purple-500/30">
+<b>🎯 Casos com ROI medido</b><br>
+• <b>Klarna</b>: AI faz trabalho de 700 atendentes, NPS estável<br>
+• <b>Cosine</b>: SWE-bench 71%, dev sintético comercial<br>
+• <b>Harvey</b>: pesquisa jurídica usada em 235 firmas
+</div>
+
+<div class="p-4 rounded-xl bg-cyan-500/10 border border-cyan-500/30">
+<b>🛠️ Tooling maduro</b><br>
+• Frameworks estáveis (LangGraph, LlamaIndex)<br>
+• Observabilidade (LangSmith, Langfuse, Arize)<br>
+• Padrões abertos (MCP, A2A)<br>
+• Eval frameworks (Braintrust, Promptfoo)
+</div>
+
+</div>
+
+<div class="mt-3 text-xs opacity-70 text-center">
+Gartner (out/2024): "by 2028, 33% of enterprise software applications will include agentic AI" — partindo de &lt;1% em 2024.
+</div>
+
+---
+
 # 1.4 Como o LLM "pensa"
 
 Antes de construir agentes, é crucial entender 3 conceitos:

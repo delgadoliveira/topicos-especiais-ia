@@ -1329,6 +1329,56 @@ class: text-center
 
 ---
 
+---
+
+# 🌐 Mercado: RAG, grounding & memória
+
+<div class="grid grid-cols-2 gap-3 text-xs">
+
+<div class="p-3 rounded-lg bg-purple-500/10 border border-purple-500/30">
+<b>🗄️ Vector DBs líderes</b><br>
+• <b>Pinecone</b> (US$ 750M valuation)<br>
+• <b>Weaviate</b>, <b>Qdrant</b>, <b>Chroma</b><br>
+• <b>pgvector</b> (Postgres) — adotado por Supabase, Neon<br>
+• <b>Turbopuffer</b>, <b>LanceDB</b> (serverless)<br>
+• <b>Elasticsearch / OpenSearch</b> com vetores
+</div>
+
+<div class="p-3 rounded-lg bg-cyan-500/10 border border-cyan-500/30">
+<b>🔎 RAG-as-a-service / search</b><br>
+• <b>Exa</b> (busca neural para agentes)<br>
+• <b>Tavily</b> (search API focada em LLM)<br>
+• <b>Perplexity API</b>, <b>You.com API</b><br>
+• <b>Brave Search API</b><br>
+• <b>Azure AI Search</b>, <b>Vertex AI Search</b>
+</div>
+
+<div class="p-3 rounded-lg bg-green-500/10 border border-green-500/30">
+<b>🧠 Memória para agentes</b><br>
+• <b>Mem0</b> (open source, fork de embedchain)<br>
+• <b>Letta</b> (ex-MemGPT, papers de Berkeley)<br>
+• <b>Zep</b> (memory + temporal KG)<br>
+• <b>ChatGPT Memory</b>, <b>Claude Projects</b><br>
+• <b>Cursor codebase indexing</b>
+</div>
+
+<div class="p-3 rounded-lg bg-amber-500/10 border border-amber-500/30">
+<b>📦 Casos reais</b><br>
+• <b>Notion AI Q&A</b> (busca no workspace)<br>
+• <b>Glean</b> (US$ 4,6B) — enterprise search<br>
+• <b>Harvey</b> — RAG jurídico em 235 firmas<br>
+• <b>Perplexity</b> — RAG + web em tempo real<br>
+• <b>Klarna</b> — RAG sobre políticas de atendimento
+</div>
+
+</div>
+
+<div class="mt-3 p-2 rounded-lg bg-blue-500/10 border border-blue-500/30 text-xs">
+🧩 <b>Analogia de mercado</b>: pense em <b>Glean</b> como o "Google interno da empresa" — agente que faz grounding sobre Slack, Drive, Jira, Confluence. Esse é o produto-tipo que toda empresa Fortune 500 está construindo (ou comprando) em 2025.
+</div>
+
+---
+
 # 📚 Referências públicas — Encontro 3
 
 <div class="grid grid-cols-2 gap-3 text-xs mt-3">
