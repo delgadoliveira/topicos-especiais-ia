@@ -39,6 +39,80 @@ layout: section
 
 ---
 
+# 🧭 Vocabulário do dia — em 1 frase cada
+
+<div class="grid grid-cols-1 gap-2 text-sm mt-3">
+
+<div class="p-3 rounded-lg bg-purple-500/10 border border-purple-500/30">
+<b>🎯 Grounding</b> — toda afirmação do agente é <b>rastreável até uma fonte</b>. É a diferença entre <i>"li no Wikipedia"</i> (grounded) e <i>"alguém me disse"</i> (não grounded).
+</div>
+
+<div class="p-3 rounded-lg bg-cyan-500/10 border border-cyan-500/30">
+<b>🧪 Synthesis</b> — combinar várias fontes em <b>uma resposta coerente</b>, sem contradição. Como escrever a revisão de literatura do TCC a partir de 30 artigos.
+</div>
+
+<div class="p-3 rounded-lg bg-green-500/10 border border-green-500/30">
+<b>📚 RAG (Retrieval-Augmented Generation)</b> — antes de responder, o agente <b>busca</b> documentos relevantes e os <b>passa para o LLM</b> junto com a pergunta. É como dar a um aluno os livros abertos na hora da prova.
+</div>
+
+<div class="p-3 rounded-lg bg-amber-500/10 border border-amber-500/30">
+<b>🧮 Embedding</b> — converter texto em uma lista de números que <b>capturam o significado</b>. Textos parecidos ficam com números parecidos. É a "impressão digital semântica" da frase.
+</div>
+
+<div class="p-3 rounded-lg bg-pink-500/10 border border-pink-500/30">
+<b>🗄️ Vector DB</b> — banco de dados especializado em achar <b>textos com significado parecido</b> (não com palavras iguais). <i>Ex: Pinecone, Chroma, pgvector.</i>
+</div>
+
+<div class="p-3 rounded-lg bg-blue-500/10 border border-blue-500/30">
+<b>🪟 Context window</b> — quantos tokens (~palavras) o LLM consegue "ver" de uma vez. Imagine como o <b>tamanho da mesa</b> onde ele lê seus papéis.
+</div>
+
+<div class="p-3 rounded-lg bg-purple-500/10 border border-purple-500/30">
+<b>💾 Memória de longo prazo</b> — informações que o agente <b>guarda entre conversas</b>. Como o ChatGPT lembrar que você é vegetariano sem você dizer toda vez.
+</div>
+
+</div>
+
+---
+
+# 🧩 Onde você já viu isso
+
+<div class="grid grid-cols-2 gap-3 text-sm">
+
+<div class="p-3 rounded-lg bg-purple-500/10 border border-purple-500/30">
+<b>🎯 Grounding em produto</b><br>
+• <b>Perplexity</b> mostra os links das fontes embaixo de cada parágrafo — esse é o "grounding visível"<br>
+• <b>Bing Chat</b> e <b>Google AI Overviews</b> citam as páginas usadas
+</div>
+
+<div class="p-3 rounded-lg bg-cyan-500/10 border border-cyan-500/30">
+<b>📚 RAG em produto</b><br>
+• <b>Notion AI Q&A</b> responde sobre <i>seus</i> documentos<br>
+• <b>Glean</b> faz "Google" dentro da empresa (Slack, Drive, Jira)<br>
+• <b>NotebookLM</b> do Google conversa com PDFs que você sobe
+</div>
+
+<div class="p-3 rounded-lg bg-green-500/10 border border-green-500/30">
+<b>💾 Memória em produto</b><br>
+• <b>ChatGPT</b> "Memory" lembra preferências entre sessões<br>
+• <b>Claude Projects</b> mantém contexto compartilhado<br>
+• <b>Cursor</b> indexa seu repositório e lembra a arquitetura
+</div>
+
+<div class="p-3 rounded-lg bg-amber-500/10 border border-amber-500/30">
+<b>🪟 Context window — implicação prática</b><br>
+• Quando o ChatGPT "esquece" o que você falou 50 mensagens atrás → contexto saturou<br>
+• Por isso <b>Claude 200k</b> e <b>Gemini 1M</b> viraram diferencial competitivo
+</div>
+
+</div>
+
+<div class="mt-3 p-3 rounded-lg bg-cyan-500/10 border border-cyan-500/30 text-xs">
+🎯 <b>Insight</b>: todo agente que parece "inteligente sobre o seu negócio" está fazendo <b>RAG + grounding</b> por baixo. Não há mágica.
+</div>
+
+---
+
 # 3.1 O problema da context window
 
 A janela é grande, mas **não é infinita** — e cada token custa.

@@ -39,6 +39,90 @@ layout: section
 
 ---
 
+# 🧭 Vocabulário do dia — em 1 frase cada
+
+<div class="grid grid-cols-1 gap-2 text-sm mt-3">
+
+<div class="p-3 rounded-lg bg-red-500/10 border border-red-500/30">
+<b>👻 Alucinação</b> — o LLM responde com confiança <b>algo que é falso</b>. Não é "mentir" (não há intenção); é a natureza estatística do modelo gerando o que <i>parece</i> certo.
+</div>
+
+<div class="p-3 rounded-lg bg-orange-500/10 border border-orange-500/30">
+<b>💉 Prompt injection</b> — alguém esconde uma instrução maliciosa em um dado que o agente vai ler (ex: comentário em HTML), e o agente <b>obedece</b>. O equivalente moderno do SQL injection.
+</div>
+
+<div class="p-3 rounded-lg bg-purple-500/10 border border-purple-500/30">
+<b>⚖️ LLM-as-judge</b> — usar um LLM <b>como juiz</b> para avaliar a saída de outro LLM. Acurácia ~80-85% comparado a humanos — barato e escalável.
+</div>
+
+<div class="p-3 rounded-lg bg-cyan-500/10 border border-cyan-500/30">
+<b>🔭 Observabilidade</b> — conseguir <b>ver o que o agente fez</b> turno a turno: qual prompt, qual tool, qual resultado. Sem isso, você está debugando às cegas.
+</div>
+
+<div class="p-3 rounded-lg bg-green-500/10 border border-green-500/30">
+<b>📏 Eval (avaliação)</b> — conjunto de testes que mede se o agente está performando. Como <b>CI/CD</b> para IA: roda a cada mudança, alerta se piorou.
+</div>
+
+<div class="p-3 rounded-lg bg-amber-500/10 border border-amber-500/30">
+<b>🤝 MCP / A2A</b> — padrões abertos pelos quais agentes se conectam a <b>ferramentas (MCP)</b> ou a <b>outros agentes (A2A)</b>. Como USB-C para o mundo dos agentes.
+</div>
+
+<div class="p-3 rounded-lg bg-pink-500/10 border border-pink-500/30">
+<b>🖥️ Computer use</b> — agente que controla <b>mouse, teclado, tela</b> como um humano. <i>Ex: Claude Computer Use (out/2024), OpenAI Operator (jan/2025).</i>
+</div>
+
+</div>
+
+---
+
+# 🧩 Onde você já viu isso
+
+<div class="grid grid-cols-2 gap-3 text-sm">
+
+<div class="p-3 rounded-lg bg-red-500/10 border border-red-500/30">
+<b>👻 Alucinação famosa</b><br>
+• Caso <b>Air Canada</b> (2024): chatbot prometeu reembolso inexistente; tribunal obrigou a empresa a honrar<br>
+• Casos de <b>advogados</b> citando jurisprudência inventada pelo ChatGPT — multados pelos juízes
+</div>
+
+<div class="p-3 rounded-lg bg-orange-500/10 border border-orange-500/30">
+<b>💉 Prompt injection no mundo real</b><br>
+• Pesquisadores conseguiram fazer Bing Chat <b>vazar instruções secretas</b> via página manipulada<br>
+• Currículo com texto branco invisível dizendo <i>"contrate este candidato"</i> — usado contra filtros automatizados
+</div>
+
+<div class="p-3 rounded-lg bg-purple-500/10 border border-purple-500/30">
+<b>⚖️ LLM-as-judge em produto</b><br>
+• <b>Braintrust, Promptfoo, Ragas</b> automatizam isso<br>
+• OpenAI e Anthropic publicam <b>relatórios de model card</b> com evals desse tipo
+</div>
+
+<div class="p-3 rounded-lg bg-cyan-500/10 border border-cyan-500/30">
+<b>🔭 Observabilidade em produto</b><br>
+• <b>LangSmith, Langfuse, Arize</b> mostram cada turno do agente com prompts/respostas<br>
+• Sem isso, quando o agente erra em produção, você não sabe <b>por quê</b>
+</div>
+
+<div class="p-3 rounded-lg bg-amber-500/10 border border-amber-500/30">
+<b>🤝 MCP em ação</b><br>
+• <b>Claude Desktop</b> usa MCP para acessar Google Drive, GitHub, Slack<br>
+• <b>Cursor</b> integra MCPs de terceiros (Linear, Notion, Figma)
+</div>
+
+<div class="p-3 rounded-lg bg-pink-500/10 border border-pink-500/30">
+<b>🖥️ Computer use no mercado</b><br>
+• <b>OpenAI Operator</b> (US$ 200/mês): faz reserva no OpenTable, compra na Amazon<br>
+• <b>Anthropic Claude</b> controla um Linux virtual para tarefas de pesquisa
+</div>
+
+</div>
+
+<div class="mt-3 text-xs opacity-70 text-center">
+Esses são os tópicos que diferenciam quem <b>brinca</b> com agentes de quem <b>opera</b> em produção.
+</div>
+
+---
+
 # 4.1 As 7 falhas mais comuns
 
 <div class="grid grid-cols-2 gap-3 text-sm mt-4">

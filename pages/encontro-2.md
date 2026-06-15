@@ -39,6 +39,76 @@ layout: section
 
 ---
 
+# 🧭 Vocabulário do dia — em 1 frase cada
+
+Antes de mergulhar, os termos novos que você vai ouvir hoje:
+
+<div class="grid grid-cols-1 gap-2 text-sm mt-3">
+
+<div class="p-3 rounded-lg bg-purple-500/10 border border-purple-500/30">
+<b>🧠 Reasoning model</b> — modelo que "pensa em voz alta" antes de responder. <i>Ex: o1, o3, DeepSeek R1.</i> Pague mais, espere mais, ganhe respostas melhores em problemas complexos.
+</div>
+
+<div class="p-3 rounded-lg bg-cyan-500/10 border border-cyan-500/30">
+<b>🪜 Chain-of-Thought (CoT)</b> — pedir explicitamente: <i>"explique seu raciocínio passo a passo"</i>. Truque simples, ganho gigante em matemática e lógica.
+</div>
+
+<div class="p-3 rounded-lg bg-green-500/10 border border-green-500/30">
+<b>📋 Planning</b> — em vez de decidir um passo de cada vez, o agente faz um <b>plano completo primeiro</b>. Como escrever o roteiro antes de filmar.
+</div>
+
+<div class="p-3 rounded-lg bg-amber-500/10 border border-amber-500/30">
+<b>🔁 Reflexion</b> — agente <b>critica a própria resposta</b> e tenta de novo se não estiver bom. Como reler seu texto antes de enviar.
+</div>
+
+<div class="p-3 rounded-lg bg-pink-500/10 border border-pink-500/30">
+<b>📦 Structured output</b> — forçar o LLM a responder em formato fixo (ex: JSON), não em texto livre. Essencial para integração com sistemas.
+</div>
+
+<div class="p-3 rounded-lg bg-blue-500/10 border border-blue-500/30">
+<b>🛠️ Framework</b> — biblioteca pronta que esconde a "encanação" do agente. <i>Ex: LangGraph, LlamaIndex.</i> Como usar Django em vez de escrever um servidor HTTP do zero.
+</div>
+
+</div>
+
+---
+
+# 🧩 Onde você já viu isso
+
+<div class="grid grid-cols-2 gap-3 text-sm">
+
+<div class="p-3 rounded-lg bg-purple-500/10 border border-purple-500/30">
+<b>🧠 Reasoning models em produto</b><br>
+• Quando você usa <b>ChatGPT</b> e escolhe "o1" ou "o3" — a respostinha "thinking..." é literalmente o modelo gerando raciocínio antes de responder<br>
+• <b>Cursor</b> oferece "Reasoning mode" para refatorações grandes
+</div>
+
+<div class="p-3 rounded-lg bg-cyan-500/10 border border-cyan-500/30">
+<b>🪜 CoT no cotidiano</b><br>
+• Toda vez que você adiciona <i>"explique passo a passo"</i> ao prompt, está usando CoT<br>
+• Calculadoras avançadas como Wolfram Alpha exibem os passos da mesma forma
+</div>
+
+<div class="p-3 rounded-lg bg-green-500/10 border border-green-500/30">
+<b>📋 Planning em produto</b><br>
+• <b>Devin / Cognition</b>: mostra um plano com checkboxes antes de codar<br>
+• <b>Manus, OpenAI Operator</b>: planeja a sequência de cliques antes de executar
+</div>
+
+<div class="p-3 rounded-lg bg-amber-500/10 border border-amber-500/30">
+<b>🔁 Reflexion em produto</b><br>
+• <b>Cursor</b>: gera código → roda os testes → se falham, ajusta sozinho<br>
+• <b>Perplexity Pro Search</b>: refina busca se a primeira leva resultados ruins
+</div>
+
+</div>
+
+<div class="mt-3 text-xs opacity-70 text-center">
+Praticamente todo produto agentic em 2025 combina <b>2 ou 3</b> dessas técnicas.
+</div>
+
+---
+
 # 2.1 Recap: por que o ReAct manual falha?
 
 No Encontro 1 fizemos um agente "na unha" com `re.search`. Funciona, mas…

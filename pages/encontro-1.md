@@ -75,6 +75,116 @@ Em **4 encontros** vamos sair de *"não sei o que é um agente"* para *"sei dese
 
 ---
 
+---
+
+# 🧭 Antes de começar — vocabulário essencial
+
+Você vai ouvir 5 palavras o tempo todo. Vamos defini-las em **uma frase cada**:
+
+<div class="grid grid-cols-1 gap-2 text-sm mt-4">
+
+<div class="p-3 rounded-lg bg-purple-500/10 border border-purple-500/30">
+<b>🤖 IA (Inteligência Artificial)</b> — software que faz coisas que normalmente exigiriam pessoas: entender texto, ver imagens, conversar, decidir.
+</div>
+
+<div class="p-3 rounded-lg bg-cyan-500/10 border border-cyan-500/30">
+<b>🧠 LLM (Large Language Model)</b> — o "miolo" do ChatGPT, do Claude, do Gemini. Um modelo treinado em bilhões de páginas de texto que aprende a <b>prever a próxima palavra</b>. Surpreendentemente, isso o torna útil para responder perguntas, escrever código, traduzir, resumir…
+</div>
+
+<div class="p-3 rounded-lg bg-green-500/10 border border-green-500/30">
+<b>💬 Prompt</b> — o texto que você manda para o LLM. <i>"Resume esse artigo em 3 linhas"</i> é um prompt. Quanto melhor o prompt, melhor a resposta.
+</div>
+
+<div class="p-3 rounded-lg bg-amber-500/10 border border-amber-500/30">
+<b>🔌 API</b> — uma "tomada" pela qual seu programa fala com outro serviço pela internet. <b>API da OpenAI</b> = jeito de chamar o ChatGPT a partir do seu código, sem abrir o site.
+</div>
+
+<div class="p-3 rounded-lg bg-pink-500/10 border border-pink-500/30">
+<b>🦾 Agente</b> — um LLM com <b>permissão para agir</b>: buscar na web, escrever em uma planilha, mandar email, executar código… Em vez de só conversar, ele <i>faz coisas</i>.
+</div>
+
+</div>
+
+<div class="mt-3 text-xs opacity-70 text-center">
+Vamos abrir cada um desses termos com calma. Por enquanto, basta o reconhecimento.
+</div>
+
+---
+
+# 🧩 Onde você já viu isso no dia-a-dia
+
+Mesmo sem perceber, você provavelmente já usou **agentes de IA** nas últimas 24h:
+
+<div class="grid grid-cols-2 gap-3 text-sm mt-4">
+
+<div class="p-3 rounded-lg bg-white/5 border border-white/10">
+<b>📱 No seu celular</b><br>
+• <b>WhatsApp Meta AI</b> — responde, busca, sumariza<br>
+• <b>Siri / Google Assistente / Alexa</b> (versões novas)<br>
+• <b>ChatGPT app, Claude app, Gemini app</b>
+</div>
+
+<div class="p-3 rounded-lg bg-white/5 border border-white/10">
+<b>💻 No trabalho/estudo</b><br>
+• <b>Copilot no Word/Excel/Outlook</b><br>
+• <b>Gemini no Google Docs/Gmail</b><br>
+• <b>Notion AI</b>, <b>Slack AI</b>
+</div>
+
+<div class="p-3 rounded-lg bg-white/5 border border-white/10">
+<b>🛒 No consumo</b><br>
+• <b>Atendimento Magalu, Nubank, iFood</b> (chat inicial)<br>
+• <b>Recomendação do Spotify/Netflix</b> (não é agente puro, mas é IA)<br>
+• <b>Resumo de avaliações na Amazon</b>
+</div>
+
+<div class="p-3 rounded-lg bg-white/5 border border-white/10">
+<b>👨‍💻 Para quem programa</b><br>
+• <b>GitHub Copilot</b> autocompleta código<br>
+• <b>Cursor / Windsurf</b> editam o repositório inteiro<br>
+• <b>v0.dev / Bolt.new</b> geram sites do zero
+</div>
+
+</div>
+
+<div class="mt-3 p-3 rounded-lg bg-cyan-500/10 border border-cyan-500/30 text-xs">
+🎯 <b>O que esses produtos têm em comum?</b> Por baixo do capô, todos seguem o mesmo padrão de "LLM + ferramentas + loop" que vamos desmontar hoje.
+</div>
+
+---
+
+# 🎬 Uma cena para fixar a ideia
+
+Imagine que você pede ao ChatGPT:
+
+<div class="mt-4 p-3 rounded-lg bg-purple-500/10 border border-purple-500/30 italic">
+"Qual foi o time campeão do Brasileirão 2024 e quantos gols o artilheiro fez?"
+</div>
+
+<div class="mt-4 grid grid-cols-2 gap-4 text-sm">
+
+<div class="p-4 rounded-xl bg-red-500/10 border border-red-500/30">
+<b>🚫 LLM puro (sem ser agente)</b><br>
+"Não tenho informações sobre eventos posteriores a janeiro de 2024..."<br><br>
+<i>Ou pior: inventa uma resposta plausível mas errada.</i>
+</div>
+
+<div class="p-4 rounded-xl bg-green-500/10 border border-green-500/30">
+<b>✅ Agente</b><br>
+1. Percebe que precisa de dado atualizado<br>
+2. Chama uma <b>ferramenta</b> de busca na web<br>
+3. Lê os resultados<br>
+4. Verifica e responde: <i>"Botafogo foi campeão; Alerrandro foi artilheiro com 19 gols. Fonte: …"</i>
+</div>
+
+</div>
+
+<div class="mt-4 text-sm opacity-80 text-center">
+Essa é a diferença prática entre <b>LLM</b> e <b>agente</b>: o agente <b>sabe quando pedir ajuda</b> e <b>sabe como usar ferramentas</b>.
+</div>
+
+---
+
 # 1.2 O que é um Agente de IA?
 
 Existem dezenas de definições. A mais útil, pragmática, vem da **Anthropic (2024)**:
@@ -362,43 +472,43 @@ flowchart LR
 
 # 🔄 Deep dive: o loop de controle
 
-É **seu código** (não o LLM) que decide quando parar. Implementação típica:
+É **seu código** (não o LLM) que decide quando parar. Pense no loop como **um maestro** regendo a orquestra:
 
-```python {maxHeight:'330px'}
-def run_agent(goal, max_steps=15, max_tokens=50_000):
-    messages = [system_prompt(), user(goal)]
-    tokens_used = 0
+<div class="grid grid-cols-2 gap-3 text-sm mt-3">
 
-    for step in range(max_steps):              # 🛑 limite de iterações
-        resp = llm.chat(messages, tools=TOOLS)
-        tokens_used += resp.usage.total_tokens
-        if tokens_used > max_tokens:            # 🛑 limite de custo
-            return "ABORT: orçamento estourado"
-
-        messages.append(resp.message)
-
-        if resp.message.tool_calls:
-            for call in resp.message.tool_calls:
-                try:
-                    result = dispatch(call.name, call.args)   # executa
-                except Exception as e:
-                    result = f"ERROR: {e}"                    # 🛑 não morre
-                messages.append(tool_msg(call.id, result))
-        else:
-            return resp.message.content         # 🛑 resposta final
-    return "ABORT: max_steps atingido"
-```
-
-<div class="mt-2 p-2 rounded-lg bg-blue-500/10 border border-blue-500/30 text-xs">
-🧩 <b>Analogia</b>: o loop é o <b>batimento cardíaco</b> do agente — e os <code>break</code> são os <b>marca-passos</b>. Sem eles o coração entra em fibrilação (loop infinito) e o paciente (sua AWS bill) morre.
+<div class="p-3 rounded-lg bg-purple-500/10 border border-purple-500/30">
+<b>O que o loop faz, em palavras:</b>
+<ol class="text-xs">
+<li>Pergunta ao LLM: "qual o próximo passo?"</li>
+<li>Se for resposta final → entrega ao usuário</li>
+<li>Se for "use a ferramenta X" → executa X</li>
+<li>Coloca o resultado de volta no contexto</li>
+<li>Volta ao passo 1</li>
+</ol>
 </div>
 
-<div class="mt-2 text-sm opacity-80">
-4 condições de parada: <b>resposta final</b>, <b>max_steps</b>, <b>orçamento</b>, <b>erro irrecuperável</b>. Sem isso, agentes <b>loopam infinitamente</b> (e geram conta no cartão).
+<div class="p-3 rounded-lg bg-amber-500/10 border border-amber-500/30">
+<b>4 condições de parada (obrigatórias):</b>
+<ul class="text-xs">
+<li>✅ Resposta final entregue</li>
+<li>🛑 Atingiu <code>max_steps</code> (ex: 15 iterações)</li>
+<li>💸 Estourou o orçamento de tokens/dinheiro</li>
+<li>💥 Erro irrecuperável</li>
+</ul>
+</div>
+
+</div>
+
+<div class="mt-3 p-2 rounded-lg bg-blue-500/10 border border-blue-500/30 text-xs">
+🧩 <b>Analogia</b>: o loop é o <b>batimento cardíaco</b> do agente — e os limites de parada são os <b>marca-passos</b>. Sem eles o coração entra em fibrilação (loop infinito) e o paciente (sua conta da nuvem) morre.
 </div>
 
 <div class="mt-2 p-2 rounded-lg bg-white/5 text-xs">
-🏢 <b>Mercado</b>: frameworks que abstraem o loop: <b>LangGraph</b> (estados explícitos), <b>LlamaIndex AgentWorkflow</b>, <b>Pydantic AI</b>, <b>OpenAI Agents SDK</b> (mar/2025), <b>Smolagents</b> (Hugging Face). Veremos diferenças no Encontro 2.
+🏢 <b>Mercado</b>: frameworks que já trazem o loop pronto: <b>LangGraph</b>, <b>LlamaIndex AgentWorkflow</b>, <b>Pydantic AI</b>, <b>OpenAI Agents SDK</b> (mar/2025), <b>Smolagents</b> (Hugging Face). Você vai conhecê-los no Encontro 2.
+</div>
+
+<div class="mt-2 text-xs opacity-60 text-center">
+👉 O código completo do loop está no Encontro 1 (Hands-on) — não se preocupe agora, é só ~20 linhas de Python.
 </div>
 
 ---
