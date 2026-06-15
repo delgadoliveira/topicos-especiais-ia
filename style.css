@@ -1,0 +1,100 @@
+/* ============================================================
+   Customização suave da navegação do Slidev
+   - Em repouso: barra translúcida, compacta, no canto inferior direito
+   - Em hover/foco: expande suavemente com fade-in
+   - Funciona em telas pequenas sem cobrir conteúdo
+   ============================================================ */
+
+/* Container principal da barra de navegação inferior */
+.slidev-controls,
+.slidev-nav-controls {
+  position: fixed !important;
+  bottom: 0.75rem !important;
+  right: 0.75rem !important;
+  top: auto !important;
+  left: auto !important;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.35rem 0.6rem;
+  border-radius: 999px;
+  background: rgba(20, 22, 30, 0.45);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.18);
+  opacity: 0.25;
+  transform: translateX(0) scale(0.92);
+  transform-origin: right center;
+  transition:
+    opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+    background-color 0.25s ease;
+  z-index: 100;
+}
+
+/* Hover/foco: expansão suave + plena opacidade */
+.slidev-controls:hover,
+.slidev-controls:focus-within,
+.slidev-nav-controls:hover,
+.slidev-nav-controls:focus-within {
+  opacity: 1;
+  transform: translateX(0) scale(1);
+  background: rgba(20, 22, 30, 0.78);
+}
+
+/* Botões individuais — micro animação ao passar o mouse */
+.slidev-controls .slidev-icon-btn,
+.slidev-nav-controls .slidev-icon-btn,
+.slidev-controls button,
+.slidev-nav-controls button {
+  transition:
+    transform 0.18s ease,
+    background-color 0.18s ease,
+    color 0.18s ease;
+  border-radius: 8px;
+}
+
+.slidev-controls .slidev-icon-btn:hover,
+.slidev-nav-controls .slidev-icon-btn:hover,
+.slidev-controls button:hover,
+.slidev-nav-controls button:hover {
+  transform: translateY(-1px) scale(1.08);
+}
+
+/* Indicador de página (X / Y) — também translúcido por padrão */
+.slidev-page,
+.slidev-progress {
+  transition: opacity 0.3s ease;
+  opacity: 0.35;
+}
+.slidev-page:hover,
+.slidev-progress:hover,
+.slidev-controls:hover ~ .slidev-page,
+.slidev-controls:hover ~ .slidev-progress {
+  opacity: 1;
+}
+
+/* Painel de overview / menu — animação de entrada mais suave */
+.slidev-overview,
+.slidev-menu {
+  transition:
+    opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* Em telas estreitas — encolhe ainda mais por padrão */
+@media (max-width: 640px) {
+  .slidev-controls,
+  .slidev-nav-controls {
+    bottom: 0.4rem !important;
+    right: 0.4rem !important;
+    padding: 0.25rem 0.45rem;
+    opacity: 0.18;
+  }
+}
+
+/* Quando em modo apresentação fullscreen, manter discreto */
+.slidev-presenter .slidev-controls,
+.slidev-presenter .slidev-nav-controls {
+  opacity: 0.15;
+}
