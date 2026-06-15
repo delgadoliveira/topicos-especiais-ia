@@ -368,6 +368,10 @@ Melhora performance em <b>20-30%</b> em benchmarks como HumanEval e ALFWorld, se
 
 # Self-Reflection em código
 
+<div class="mb-3 p-3 rounded bg-sky-500/10 border border-sky-500/30 text-sm">
+📖 <b>Em palavras (sem ler código):</b> o agente <b>tenta resolver</b>, depois <b>se critica</b> ("isso de fato responde a pergunta?"), e se a crítica disser que não, ele <b>tenta de novo</b> levando a crítica em consideração. Repete até dar certo ou bater o limite de tentativas.
+</div>
+
 ```python
 def agent_with_reflection(tarefa: str, max_tries: int = 3):
     historico = []
@@ -439,6 +443,10 @@ Suportado nativamente por: <b>OpenAI</b> (Structured Outputs, ago/2024), <b>Anth
 ---
 
 # Pydantic AI — framework type-safe
+
+<div class="mb-3 p-3 rounded bg-sky-500/10 border border-sky-500/30 text-sm">
+📖 <b>Em palavras:</b> você <b>descreve a forma do resultado</b> que quer (ex: "um ticket com título, prioridade 1-5, departamento e flag de urgência") e o framework <b>obriga o LLM a obedecer</b>. Em vez de "espero que venha JSON certo", você ganha um objeto Python validado — pronto pra alimentar um banco, uma fila, outra API.
+</div>
 
 ```python
 from pydantic import BaseModel
@@ -743,6 +751,10 @@ flowchart TB
 
 # Function Calling — definindo tools
 
+<div class="mb-3 p-3 rounded bg-sky-500/10 border border-sky-500/30 text-sm">
+📖 <b>Em palavras:</b> essa lista é um <b>"cardápio"</b> que você entrega ao LLM. Cada item descreve <i>uma função Python sua</i> em formato JSON: o <b>nome</b>, uma <b>descrição</b> (importantíssima — é o que o LLM usa pra decidir quando chamar) e os <b>parâmetros</b> que ela aceita. O LLM lê o cardápio, vê o que precisa pra resolver a tarefa, e pede o prato.
+</div>
+
 ```python
 tools = [
     {
@@ -779,6 +791,10 @@ tools = [
 ---
 
 # Function Calling — o loop
+
+<div class="mb-3 p-3 rounded bg-sky-500/10 border border-sky-500/30 text-sm">
+📖 <b>Em palavras:</b> é o <b>mesmo loop do Encontro 1</b>, mas agora o LLM responde com um campo estruturado <code>tool_calls</code> em vez de texto bagunçado. Você (1) chama o modelo, (2) se ele não pediu ferramenta, é resposta final, (3) se pediu, você executa a função real, anexa o resultado e volta. Sem regex, sem parsing frágil.
+</div>
 
 ```python {all|1-9|11-15|17-25|all}
 def run_agent_fc(pergunta: str, max_steps: int = 6):
@@ -907,6 +923,10 @@ LangChain é o framework mais popular para agentes em Python. Tem **prós e cont
 
 # Agente em LangChain — exemplo
 
+<div class="mb-3 p-3 rounded bg-sky-500/10 border border-sky-500/30 text-sm">
+📖 <b>Em palavras:</b> tudo o que fizemos "na unha" (loop + tools + prompt) vira <b>3 linhas</b>: declare as tools com <code>@tool</code>, monte o agente com <code>create_tool_calling_agent</code>, e rode com <code>executor.invoke()</code>. O framework esconde o loop, o parsing e o erro-handling. <b>Trade-off:</b> mais produtividade, menos visibilidade do que acontece por baixo.
+</div>
+
 ```python
 from langchain_openai import ChatOpenAI
 from langchain.agents import AgentExecutor, create_tool_calling_agent
@@ -966,6 +986,10 @@ Cada nó é uma função Python. Você controla <b>quando</b> ir para onde. Supo
 ---
 
 # LangGraph — código mínimo
+
+<div class="mb-3 p-3 rounded bg-sky-500/10 border border-sky-500/30 text-sm">
+📖 <b>Em palavras:</b> você <b>desenha o agente como um diagrama</b>: tem um nó "agent" (que pensa) e um nó "tools" (que executa). Você diz "do agent, se tiver tool_call, vá pra tools; senão termine". O LangGraph cuida do estado entre os nós. Pense: <b>fluxograma executável</b>, não código procedural.
+</div>
 
 ```python
 from typing import Annotated, TypedDict

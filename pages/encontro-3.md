@@ -195,6 +195,10 @@ Em contextos longos (>10k tokens), modelos prestam <b>mais atenção ao início 
 
 # Exemplo: sumarização automática
 
+<div class="mb-3 p-3 rounded bg-sky-500/10 border border-sky-500/30 text-sm">
+📖 <b>Em palavras:</b> antes de cada chamada ao LLM, você conta os tokens. Se passou do limite, <b>mantém as últimas 4 mensagens intactas</b> (contexto recente, mais importante) e <b>pede para o próprio LLM resumir o resto</b> em 200 palavras. Resultado: o histórico nunca cresce sem controle, mas as decisões importantes ficam preservadas no resumo.
+</div>
+
 ```python
 def manage_context(messages: list, max_tokens: int = 8000):
     """Se passar do limite, sumariza as mensagens antigas."""
@@ -600,6 +604,10 @@ Após gerar, um <b>segundo LLM</b> verifica: "Cada afirmação é suportada pelo
 
 # Técnicas de grounding (2/2) — em código
 
+<div class="mb-3 p-3 rounded bg-sky-500/10 border border-sky-500/30 text-sm">
+📖 <b>Em palavras:</b> duas camadas. <b>(1)</b> No prompt, você manda o LLM responder <i>só</i> com base nos documentos, citar a fonte de cada afirmação e admitir quando não sabe. <b>(2)</b> Depois, um <b>segundo passo de verificação</b> pega a resposta e checa frase por frase se está apoiada no contexto — separando o que é fato citado do que é "alucinação".
+</div>
+
 ```python
 SYSTEM = """Responda APENAS com base nos documentos abaixo.
 Para CADA afirmação, adicione [doc_id] da fonte.
@@ -939,6 +947,10 @@ flowchart TB
 
 # Exemplo: memória com mem0
 
+<div class="mb-3 p-3 rounded bg-sky-500/10 border border-sky-500/30 text-sm">
+📖 <b>Em palavras:</b> o mem0 funciona como um <b>caderno do usuário</b>. Você <code>add()</code> fatos que o agente aprende ("prefere PT-BR", "trabalha com Python"). Na próxima conversa — mesmo dias depois — você faz <code>search()</code> com a pergunta atual e ele te devolve só as memórias <i>relevantes</i> pra injetar no prompt. É como um CRM, mas pra LLM.
+</div>
+
 ```python
 from mem0 import Memory
 
@@ -1232,6 +1244,10 @@ flowchart TB
 ---
 
 # Exemplo: Crew com CrewAI
+
+<div class="mb-3 p-3 rounded bg-sky-500/10 border border-sky-500/30 text-sm">
+📖 <b>Em palavras:</b> imagine uma <b>equipe de funcionários</b>. Cada <code>Agent</code> tem um cargo (role), um objetivo e um "currículo" (backstory) — isso vira parte do prompt dele. Cada <code>Task</code> é uma entrega esperada, atribuída a um agente. O <code>Crew</code> orquestra: o pesquisador entrega, o escritor pega o resultado dele como contexto e produz o artigo. <b>Divisão de trabalho automatizada.</b>
+</div>
 
 ```python
 from crewai import Agent, Task, Crew

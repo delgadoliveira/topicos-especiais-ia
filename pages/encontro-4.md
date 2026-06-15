@@ -168,6 +168,10 @@ Agente diz "feito!" mas a tarefa não foi feita ou foi feita errada. <b>O pior</
 
 # Falha #1 · Loops infinitos — mitigações
 
+<div class="mb-3 p-3 rounded bg-sky-500/10 border border-sky-500/30 text-sm">
+📖 <b>Em palavras:</b> três cintos de segurança no loop do agente. <b>(1)</b> <code>max_steps</code>: nunca rode mais que N iterações. <b>(2)</b> Guarde a "assinatura" de cada chamada de tool — se a <b>mesma chamada idêntica</b> repetir 3 vezes seguidas, é loop, aborte. <b>(3)</b> (não no slide, mas igualmente importante) <b>timeout global</b> e <b>orçamento de tokens</b>. Sem isso, um agente pode queimar muito dinheiro em segundos.
+</div>
+
 ```python
 def run_with_safety(pergunta, max_steps=10, max_same_tool=3):
     msgs = [...]

@@ -758,6 +758,161 @@ Fontes: relatórios públicos de funding (Crunchbase, TechCrunch), anúncios ofi
 
 ---
 
+# 🏢 Quem está construindo a fronteira — os laboratórios
+
+<div class="text-sm mb-3 opacity-80">
+Antes de falar de <i>produtos</i>, é importante entender <b>quem</b> está fazendo os modelos que alimentam todos os agentes. Conheça os "labs de fronteira" (frontier labs):
+</div>
+
+<div class="grid grid-cols-3 gap-3 text-xs">
+
+<div class="p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/30">
+<b>🟢 OpenAI</b> <span class="opacity-60">(2015, SF)</span><br>
+<i>Modelo:</i> <b>GPT-4o, o1, o3, GPT-5</b><br>
+<i>Aposta:</i> AGI via escala + <b>reasoning models</b> (cadeia de raciocínio interna). Liderou a onda generativa em nov/2022 com o ChatGPT.<br>
+<i>Parcerias:</i> Microsoft (US$ 13B+), Apple Intelligence.<br>
+<i>Valuation:</i> ~US$ 500B (2025).
+</div>
+
+<div class="p-3 rounded-lg bg-orange-500/10 border border-orange-500/30">
+<b>🟠 Anthropic</b> <span class="opacity-60">(2021, SF)</span><br>
+<i>Modelo:</i> <b>Claude (Haiku/Sonnet/Opus)</b><br>
+<i>Aposta:</i> "Constitutional AI" — segurança alinhada via princípios. Líder em <b>uso por desenvolvedores</b> e em agentes (MCP, Computer Use).<br>
+<i>Parcerias:</i> Amazon (US$ 8B), Google (US$ 2B).<br>
+<i>Valuation:</i> ~US$ 60B (2025).
+</div>
+
+<div class="p-3 rounded-lg bg-blue-500/10 border border-blue-500/30">
+<b>🔵 Google DeepMind</b> <span class="opacity-60">(unificada em 2023)</span><br>
+<i>Modelo:</i> <b>Gemini 1.5/2.0/2.5 Pro/Flash</b><br>
+<i>Aposta:</i> <b>multimodal nativo</b> + <b>contexto gigante (1M-2M tokens)</b>. Integração profunda com Search, Workspace, Android.<br>
+<i>Vantagem:</i> única que opera <b>todo o stack</b> (chip TPU → modelo → produto → distribuição).
+</div>
+
+<div class="p-3 rounded-lg bg-cyan-500/10 border border-cyan-500/30">
+<b>🪟 Microsoft</b> <span class="opacity-60">(via OpenAI + interno)</span><br>
+<i>Modelo:</i> <b>Phi (próprio)</b> + GPT via Azure.<br>
+<i>Aposta:</i> <b>distribuição</b> — Copilot dentro de Windows, Office, GitHub, Azure. Lançou <b>Copilot Studio</b> e <b>autonomous agents</b> em 2024.<br>
+<i>Trunfo:</i> já está no desktop de <b>1.4B</b> de usuários corporativos.
+</div>
+
+<div class="p-3 rounded-lg bg-indigo-500/10 border border-indigo-500/30">
+<b>🦙 Meta</b> <span class="opacity-60">(FAIR)</span><br>
+<i>Modelo:</i> <b>Llama 3.x / 4</b> — <b>open weights</b>.<br>
+<i>Aposta:</i> <b>commoditizar o modelo</b> — entregar de graça pra que ninguém cobre Meta por usar IA. Padrão de fato em open-source.<br>
+<i>Impacto:</i> viabilizou ecossistemas como Ollama, Groq, Together.
+</div>
+
+<div class="p-3 rounded-lg bg-zinc-500/10 border border-zinc-500/30">
+<b>⚫ xAI</b> <span class="opacity-60">(2023, Elon Musk)</span><br>
+<i>Modelo:</i> <b>Grok 2 / 3 / 4</b><br>
+<i>Aposta:</i> <b>velocidade de escala</b> — cluster Colossus com 100k+ H100s em Memphis. Acesso em tempo real ao X (Twitter).<br>
+<i>Posição:</i> entrou tarde, mas com poder de fogo computacional inédito.
+</div>
+
+</div>
+
+---
+
+# 🌏 Open-source, novos entrantes e o eixo Ásia
+
+<div class="grid grid-cols-2 gap-3 text-sm">
+
+<div class="p-4 rounded-xl bg-purple-500/10 border border-purple-500/30">
+<b>🇫🇷 Mistral AI</b> (Paris, 2023)<br>
+<span class="text-xs">Campeã europeia. Modelos abertos (<b>Mistral Large 2, Codestral, Pixtral</b>) e API. Parceria com Microsoft. Foco em <b>soberania digital</b> europeia.</span>
+</div>
+
+<div class="p-4 rounded-xl bg-red-500/10 border border-red-500/30">
+<b>🇨🇳 DeepSeek</b> (Hangzhou, 2023)<br>
+<span class="text-xs"><b>DeepSeek-V3 / R1</b> (jan/2025) chocaram o mercado: performance equivalente a GPT-4o / o1 por <b>fração do custo de treino</b> (~US$ 6M vs US$ 100M+). Caiu 17% da Nvidia em um dia.</span>
+</div>
+
+<div class="p-4 rounded-xl bg-amber-500/10 border border-amber-500/30">
+<b>🇨🇳 Alibaba (Qwen)</b> · <b>🇨🇳 Moonshot (Kimi)</b> · <b>01.AI</b><br>
+<span class="text-xs"><b>Qwen 2.5 / 3</b> domina rankings open-source. Kimi com contexto de 2M tokens. Polo chinês move-se mais rápido em open weights que o ocidental.</span>
+</div>
+
+<div class="p-4 rounded-xl bg-teal-500/10 border border-teal-500/30">
+<b>🇨🇦 Cohere</b> · <b>🇮🇱 AI21</b> · <b>🇺🇸 Inflection</b> (absorvida pela MSFT)<br>
+<span class="text-xs">Players focados em <b>enterprise</b> e RAG (Cohere Command R+). Especialização em vez de fronteira generalista.</span>
+</div>
+
+</div>
+
+<div class="mt-4 p-3 rounded bg-cyan-500/10 border border-cyan-500/30 text-sm">
+🎯 <b>Implicação prática:</b> para agentes, você raramente está preso a um único fornecedor. Frameworks como LangChain, LiteLLM e o próprio <b>OpenAI-compatible API</b> deixam você <b>trocar de modelo em uma linha</b> de código. Estratégia comum: <b>modelo barato (Gemini Flash / GPT-4o-mini / DeepSeek)</b> para 90% das chamadas, <b>modelo caro (Claude Opus / GPT-5 / o3)</b> só nas etapas críticas.
+</div>
+
+---
+
+# 📅 Linha do tempo — a corrida da IA generativa
+
+```mermaid {scale: 0.62}
+timeline
+  title Marcos da era dos agentes (2022-2025)
+  2022 Nov : ChatGPT (OpenAI) - 100M users em 2 meses
+  2023 Mar : GPT-4 : Claude 1 (Anthropic) : Bard (Google)
+  2023 Jul : Llama 2 (Meta, open weights) : Code Interpreter
+  2024 Fev : Gemini 1.5 (1M tokens) : Sora (vídeo)
+  2024 Mai : GPT-4o (multimodal nativo) : Claude 3.5 Sonnet
+  2024 Set : OpenAI o1 (reasoning) : Llama 3.2
+  2024 Out : Anthropic Computer Use : MCP (Model Context Protocol)
+  2024 Nov : Claude 3.5 Haiku : Gemini 2.0
+  2025 Jan : DeepSeek R1 (choque de custo) : OpenAI Operator
+  2025 Fev : Claude Code : Grok 3 : OpenAI Deep Research
+  2025 Mar : OpenAI Agents SDK : Gemini 2.5 Pro
+  2025 Mai : Claude 4 (Opus/Sonnet) : Cursor US$ 9B
+```
+
+<div class="mt-3 text-xs opacity-70 text-center">
+A cadência se acelerou: hoje há lançamento relevante <b>toda semana</b>. Aprender o <b>framework mental</b> de agentes vale mais que decorar API X.
+</div>
+
+---
+
+# 🧭 Como cada empresa se posiciona — em 1 frase
+
+<div class="grid grid-cols-2 gap-3 text-xs mt-3">
+
+<div class="p-3 rounded-lg bg-white/5 border border-white/10">
+<b>🟢 OpenAI:</b> "Vamos chegar primeiro à AGI e construir o produto-mãe (ChatGPT) para todos."<br>
+<span class="opacity-70">Modelo de receita: subscription (Plus/Pro) + API.</span>
+</div>
+
+<div class="p-3 rounded-lg bg-white/5 border border-white/10">
+<b>🟠 Anthropic:</b> "Construir o modelo mais confiável, especialmente para uso empresarial e desenvolvedores."<br>
+<span class="opacity-70">Modelo de receita: API + Claude.ai + Bedrock.</span>
+</div>
+
+<div class="p-3 rounded-lg bg-white/5 border border-white/10">
+<b>🔵 Google:</b> "Integrar IA em tudo que já temos (Search, Android, Workspace) — defender o monopólio de busca."<br>
+<span class="opacity-70">Modelo de receita: ads + Workspace + Cloud.</span>
+</div>
+
+<div class="p-3 rounded-lg bg-white/5 border border-white/10">
+<b>🪟 Microsoft:</b> "Colocar Copilot em todo software que vendemos — virar o sistema operacional do trabalho."<br>
+<span class="opacity-70">Modelo de receita: Copilot license (US$ 30/usuário/mês) + Azure.</span>
+</div>
+
+<div class="p-3 rounded-lg bg-white/5 border border-white/10">
+<b>🦙 Meta:</b> "Open-source para impedir que concorrentes virem gatekeepers — e usar IA para feed/ads."<br>
+<span class="opacity-70">Modelo de receita: ads (Instagram/FB) potencializados por IA.</span>
+</div>
+
+<div class="p-3 rounded-lg bg-white/5 border border-white/10">
+<b>🇨🇳 China (DeepSeek/Qwen):</b> "Open-source agressivo + eficiência de custo para furar o bloqueio de chips."<br>
+<span class="opacity-70">Modelo: B2B/B2G doméstico, exportação tecnológica.</span>
+</div>
+
+</div>
+
+<div class="mt-4 p-3 rounded bg-amber-500/10 border border-amber-500/30 text-sm">
+🎓 <b>Para você, aluno:</b> não existe vencedor único. O mercado tem espaço para fronteira (OpenAI/Anthropic), distribuição (MSFT/Google), open-source (Meta/Mistral/DeepSeek) e nichos (Cohere, Harvey, Sierra). <b>Saber montar agentes é mais valioso que dominar uma API específica.</b>
+</div>
+
+---
+
 # 💰 O business case: por que agora?
 
 <div class="grid grid-cols-2 gap-4 text-sm">
