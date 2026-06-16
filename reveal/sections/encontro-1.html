@@ -1738,12 +1738,20 @@ Pergunta → [pensa] → [testa hipótese] → [verifica] → [revisa] → Respo
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #1f2937 100%)">
 <h1>Por que reasoning models importam para agentes?</h1>
-<div  class="grid-2 stagger-in text-xs">
-<div  class="card card-amber parallax-card scale-in"><b>Trade-off</b><ul class="text-sm"><li>Mais tokens pensando = mais custo</li><li>Mais lento: segundos → minutos</li><li>Mas resolve tarefas antes inviáveis</li></ul></div>
-<div  class="card card-green parallax-card scale-in"><b>Impacto em agentes</b><ul class="text-sm"><li>Planejam melhor</li><li>Fazem menos loops desnecessários</li><li>Decidem melhor quando chamar tool</li><li>SWE-bench: o3-pro chega a 70%+ em bugs reais</li></ul></div>
+<div class="text-sm" style="margin-bottom: 1rem;">Reasoning models (o1, o3, DeepSeek R1, Claude thinking) não são "modelos melhores" — são uma <b>arquitetura fundamentalmente diferente</b>: gastam compute <b>na hora de responder</b> (test-time) em vez de só no treino.</div>
+<div class="grid-3 stagger-in text-xs">
+<div class="card card-amber parallax-card scale-in fragment"><b>💸 Custo</b>
+<ul style="line-height: 1.6;"><li>5-30× mais tokens por resposta</li><li>Latência: 5s → 60s+ em tarefas difíceis</li><li>Custo por query: $0.01 → $0.10-$1.00</li></ul>
+<div class="mt-1 opacity-70">Não use para perguntas simples!</div>
 </div>
-
-<div  class="mt-3 text-xs card card-purple parallax-card scale-in"><b>🧩 Analogia:</b> um reasoning model é quem rascunha a prova antes de entregar.</div>
+<div class="card card-green parallax-card scale-in fragment"><b>📈 Ganho em agentes</b>
+<ul style="line-height: 1.6;"><li>Planejam melhor → menos loops inúteis</li><li>Decidem melhor quando chamar tool</li><li>Resolvem problemas multi-step complexos</li><li>SWE-bench: 2% (2023) → <b>70%+</b> (2025)</li></ul>
+</div>
+<div class="card card-purple parallax-card scale-in fragment"><b>🏗️ Padrão de design</b>
+<ul style="line-height: 1.6;"><li>Use reasoning model como <b>planner</b></li><li>Delegue execução para modelo barato</li><li>Resultado: acurácia alta, custo controlado</li><li>Ex: o3 planeja, GPT-4o-mini executa</li></ul>
+</div>
+</div>
+<div class="insight-box mt-2 text-xs">🧩 <b>Analogia:</b> um reasoning model é como um arquiteto que desenha a planta (caro, demora, mas acerta). O modelo rápido é o pedreiro que executa (barato, eficiente, segue instruções). Juntos: qualidade + economia.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
