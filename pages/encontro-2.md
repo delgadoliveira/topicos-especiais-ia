@@ -8,6 +8,26 @@ layout: section
 <div class="text-sm opacity-60 mt-4">3 horas · CoT, ToT, Planning, Function Calling, LangChain/LangGraph</div>
 
 ---
+layout: center
+class: text-center
+---
+
+# 💭 Onde paramos…
+
+<div class="text-xl mt-6 opacity-90">
+No Encontro 1, você construiu um agente funcional.<br>
+Mas ele tinha um problema: <b>era impulsivo</b>.
+</div>
+
+<div class="mt-6 text-lg text-amber-400">
+Agia sem pensar. Escolhia ferramentas erradas. Não planejava.
+</div>
+
+<div class="mt-8 text-sm opacity-60">
+Hoje vamos ensiná-lo a <b>raciocinar</b> antes de agir — e a usar ferramentas de forma <b>robusta</b>.
+</div>
+
+---
 
 # 🗺️ Agenda do Encontro 2
 
@@ -141,6 +161,22 @@ No Encontro 1 fizemos um agente "na unha" com `re.search`. Funciona, mas…
 
 <div class="mt-6 text-center text-sm opacity-70">
 Mas antes de chegar nas tools robustas, vamos entender <b>como melhorar o reasoning</b>.
+</div>
+
+---
+layout: center
+class: text-center
+---
+
+# 🧠 Parte 1: Ensinando a pensar
+
+<div class="text-lg mt-6 opacity-80">
+O segredo mais simples da IA: pedir ao modelo para <b>mostrar os passos</b><br>
+já melhora a performance em <b>20-40%</b>.
+</div>
+
+<div class="mt-6 text-sm opacity-60">
+Vamos ver 4 técnicas, da mais simples à mais sofisticada.
 </div>
 
 ---
@@ -480,7 +516,11 @@ layout: section
 
 # 🏗️ Os 5 padrões agentic da Anthropic
 
-A referência da indústria · *"Building Effective Agents"* (Anthropic, 2024)
+<div class="text-sm opacity-60 mt-4">A referência da indústria · <i>"Building Effective Agents"</i> (Anthropic, 2024)</div>
+
+<div class="mt-6 text-sm opacity-80">
+Até agora vimos como o LLM <b>pensa</b>. Agora vamos ver como <b>organizar a execução</b> — os padrões que as melhores equipes usam.
+</div>
 
 ---
 
@@ -727,6 +767,24 @@ flowchart TB
 
 <div class="mt-4 p-3 rounded bg-amber-500/10 border border-amber-500/30 text-sm">
 🎓 Hoje em produção, a mistura mais comum é: <b>planner + ReAct executor + replanning quando necessário</b>.
+</div>
+
+---
+
+---
+layout: center
+class: text-center
+---
+
+# 🎯 Parte 2: Agindo com precisão
+
+<div class="text-lg mt-6 opacity-90">
+O agente já sabe <b>pensar</b> (CoT, ToT, Planning).<br>
+Agora precisa de <b>mãos firmes</b> — ferramentas estruturadas e confiáveis.
+</div>
+
+<div class="mt-6 text-sm opacity-60">
+É aqui que o "artesanal" do Encontro 1 vira <b>padrão de indústria</b>.
 </div>
 
 ---
@@ -1293,6 +1351,54 @@ Fontes: documentação oficial dos modelos, blogs Anthropic/OpenAI, repositório
 
 <div class="mt-2 text-xs opacity-70">
 Todo conteúdo deste encontro é de domínio público. Marcas mencionadas pertencem aos respectivos donos; uso exclusivamente educacional.
+</div>
+
+---
+
+---
+
+# 🔄 Recap — O que construímos no Encontro 2
+
+<div class="grid grid-cols-2 gap-4 text-sm">
+
+<div class="p-4 rounded-xl bg-purple-500/10 border border-purple-500/30">
+<b>📜 Evolução que acompanhamos:</b>
+<ul class="text-xs mt-2">
+<li><b>2022:</b> Paper CoT (Wei et al.) — "pense passo a passo"</li>
+<li><b>2023:</b> Function Calling (OpenAI) — JSON estruturado</li>
+<li><b>2024:</b> Anthropic Patterns — workflows vs agentes</li>
+<li><b>2024-25:</b> LangGraph, CrewAI — orquestração como grafo</li>
+</ul>
+</div>
+
+<div class="p-4 rounded-xl bg-cyan-500/10 border border-cyan-500/30">
+<b>🔧 O que você agora sabe fazer:</b>
+<ul class="text-xs mt-2">
+<li>Aplicar CoT, Self-Consistency, Tree-of-Thoughts</li>
+<li>Implementar planning (Plan-and-Execute, ReWOO)</li>
+<li>Usar Function Calling com schemas JSON</li>
+<li>Escolher entre LangChain, LangGraph e SDK puro</li>
+</ul>
+</div>
+
+<div class="p-4 rounded-xl bg-green-500/10 border border-green-500/30">
+<b>🏢 Produtos que usam isso:</b>
+<ul class="text-xs mt-2">
+<li>ChatGPT — function calling + plugins</li>
+<li>Cursor — planning antes de editar código</li>
+<li>Devin — plan-and-execute multi-step</li>
+</ul>
+</div>
+
+<div class="p-4 rounded-xl bg-amber-500/10 border border-amber-500/30">
+<b>❓ Perguntas que ficaram abertas:</b>
+<ul class="text-xs mt-2">
+<li>E quando o histórico fica grande demais? (→ E3: Context)</li>
+<li>Como dar "conhecimento" ao agente? (→ E3: RAG)</li>
+<li>Como agentes colaboram? (→ E3: Multi-agentes)</li>
+</ul>
+</div>
+
 </div>
 
 ---

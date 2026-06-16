@@ -8,6 +8,27 @@ layout: section
 <div class="text-sm opacity-60 mt-4">3 horas · Context window, RAG, vector DBs, memória, skills, MCP, multi-agentes</div>
 
 ---
+layout: center
+class: text-center
+---
+
+# 💭 Onde paramos…
+
+<div class="text-xl mt-6 opacity-90">
+Seu agente já <b>pensa</b> (CoT, Planning) e <b>age com precisão</b> (Function Calling).<br>
+Mas tem um problema grave:
+</div>
+
+<div class="mt-6 text-2xl text-red-400 font-bold">
+Ele é amnésico.
+</div>
+
+<div class="mt-6 text-sm opacity-60">
+Não lembra da conversa de ontem. Não sabe quem você é. Não tem acesso aos seus documentos.<br>
+Hoje vamos dar <b>memória</b>, <b>conhecimento</b> e <b>habilidades reutilizáveis</b> ao agente.
+</div>
+
+---
 
 # 🗺️ Agenda do Encontro 3
 
@@ -109,6 +130,30 @@ layout: section
 
 <div class="mt-3 p-3 rounded-lg bg-cyan-500/10 border border-cyan-500/30 text-xs">
 🎯 <b>Insight</b>: todo agente que parece "inteligente sobre o seu negócio" está fazendo <b>RAG + grounding</b> por baixo. Não há mágica.
+</div>
+
+---
+
+---
+layout: center
+class: text-center
+---
+
+# 🧠 Parte 1: O desafio do contexto
+
+<div class="text-lg mt-6 opacity-90">
+Um LLM lê <b>tudo</b> a cada chamada — e paga por cada token lido.<br>
+Quando a conversa cresce, três coisas acontecem:
+</div>
+
+<div class="mt-6 grid grid-cols-3 gap-4 text-sm">
+<div class="p-3 rounded bg-red-500/10 border border-red-500/30">💸 Custo explode</div>
+<div class="p-3 rounded bg-red-500/10 border border-red-500/30">🐢 Latência sobe</div>
+<div class="p-3 rounded bg-red-500/10 border border-red-500/30">🧠 Qualidade cai</div>
+</div>
+
+<div class="mt-6 text-sm opacity-60">
+Vamos entender por quê — e as soluções que o mercado usa.
 </div>
 
 ---
@@ -981,6 +1026,24 @@ print(chat("Me ajude a escrever uma função"))
 
 ---
 
+---
+layout: center
+class: text-center
+---
+
+# 🔧 Parte 2: Habilidades e colaboração
+
+<div class="text-lg mt-6 opacity-90">
+O agente já tem <b>memória</b> e <b>conhecimento externo</b> (RAG).<br>
+Agora vamos dar a ele <b>habilidades permanentes</b> — e a capacidade de <b>trabalhar em equipe</b>.
+</div>
+
+<div class="mt-6 text-sm opacity-60">
+Skills, MCP, e padrões multi-agente.
+</div>
+
+---
+
 # 3.6 Skills — capacidades reutilizáveis
 
 📅 Lançado pela Anthropic em **outubro/2025**.
@@ -1515,6 +1578,56 @@ class: text-center
 
 <div class="mt-2 text-xs opacity-70">
 Todo conteúdo deste encontro é de domínio público. Marcas mencionadas pertencem aos respectivos donos; uso exclusivamente educacional.
+</div>
+
+---
+
+---
+
+# 🔄 Recap — O que construímos no Encontro 3
+
+<div class="grid grid-cols-2 gap-4 text-sm">
+
+<div class="p-4 rounded-xl bg-purple-500/10 border border-purple-500/30">
+<b>📜 Evolução que acompanhamos:</b>
+<ul class="text-xs mt-2">
+<li><b>2020:</b> Paper RAG (Lewis et al.) — buscar antes de responder</li>
+<li><b>2023:</b> Vector DBs explodem (Pinecone, Chroma, Weaviate)</li>
+<li><b>2024:</b> MCP (Anthropic) — protocolo universal de tools</li>
+<li><b>2025:</b> Multi-agentes em produção (OpenAI Swarm, CrewAI)</li>
+</ul>
+</div>
+
+<div class="p-4 rounded-xl bg-cyan-500/10 border border-cyan-500/30">
+<b>🔧 O que você agora sabe fazer:</b>
+<ul class="text-xs mt-2">
+<li>Gerenciar context window (truncar, resumir, RAG)</li>
+<li>Construir pipeline RAG completo com embeddings</li>
+<li>Implementar memória de longo prazo</li>
+<li>Criar Skills + usar MCP</li>
+<li>Orquestrar multi-agentes (e quando NÃO usar)</li>
+</ul>
+</div>
+
+<div class="p-4 rounded-xl bg-green-500/10 border border-green-500/30">
+<b>🏢 Produtos que usam isso:</b>
+<ul class="text-xs mt-2">
+<li>Perplexity — RAG em escala (busca + citação)</li>
+<li>NotebookLM — grounding em documentos do usuário</li>
+<li>Claude Projects — memória persistente por projeto</li>
+<li>GitHub Copilot — MCP para extensões</li>
+</ul>
+</div>
+
+<div class="p-4 rounded-xl bg-amber-500/10 border border-amber-500/30">
+<b>❓ Perguntas que ficaram abertas:</b>
+<ul class="text-xs mt-2">
+<li>E quando o agente falha em produção? (→ E4: Falhas)</li>
+<li>Como medir se o agente é bom? (→ E4: Avaliação)</li>
+<li>Quais produtos estão ganhando? (→ E4: State-of-art)</li>
+</ul>
+</div>
+
 </div>
 
 ---

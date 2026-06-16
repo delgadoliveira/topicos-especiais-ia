@@ -8,6 +8,26 @@ layout: section
 <div class="text-sm opacity-60 mt-4">3 horas · Falhas, avaliação, observabilidade, Cursor/Claude Code/Devin, projeto final</div>
 
 ---
+layout: center
+class: text-center
+---
+
+# 💭 Onde paramos…
+
+<div class="text-xl mt-6 opacity-90">
+Seu agente <b>pensa</b>, <b>age</b>, <b>lembra</b> e <b>aprende</b>.<br>
+Funciona no seu notebook. Mas…
+</div>
+
+<div class="mt-6 text-2xl text-amber-400 font-bold">
+E quando der errado em produção?
+</div>
+
+<div class="mt-6 text-sm opacity-60">
+Hoje vamos aprender a <b>proteger, avaliar e observar</b> agentes — e ver como os melhores do mundo fazem.
+</div>
+
+---
 
 # 🗺️ Agenda do Encontro 4
 
@@ -119,6 +139,24 @@ layout: section
 
 <div class="mt-3 text-xs opacity-70 text-center">
 Esses são os tópicos que diferenciam quem <b>brinca</b> com agentes de quem <b>opera</b> em produção.
+</div>
+
+---
+
+---
+layout: center
+class: text-center
+---
+
+# 🛡️ Parte 1: Quando os agentes falham
+
+<div class="text-lg mt-6 opacity-90">
+Todo agente vai falhar. A questão não é <b>se</b>, é <b>quando e como</b>.<br>
+Conhecer as falhas comuns é o primeiro passo para <b>preveni-las</b>.
+</div>
+
+<div class="mt-6 text-sm opacity-60">
+7 categorias de falha → mitigações → como medir se funcionou.
 </div>
 
 ---
@@ -736,6 +774,10 @@ layout: section
 # 🌍 State-of-the-Art
 ## Os produtos que estão definindo a era dos agentes
 
+<div class="text-sm opacity-60 mt-4">
+Vimos como proteger e avaliar. Agora vamos ver <b>quem está fazendo isso melhor</b> — e o que podemos aprender.
+</div>
+
 ---
 
 # 4.6 Coding Agents — o setor mais ativo
@@ -946,6 +988,22 @@ Copiloto + agentes pra processos ERP.
 <span class="text-sm">LangSmith, Langfuse, Phoenix. Escolha um, não esperem o problema.</span>
 </div>
 
+</div>
+
+---
+layout: center
+class: text-center
+---
+
+# 🎓 Hora de integrar tudo
+
+<div class="text-xl mt-6 opacity-90">
+Ao longo de 4 encontros, você aprendeu a:<br>
+<b>construir</b> → <b>pensar</b> → <b>lembrar</b> → <b>proteger</b> agentes.
+</div>
+
+<div class="mt-6 text-lg text-cyan-400">
+Agora é sua vez. O projeto final combina <b>tudo</b> em um agente completo.
 </div>
 
 ---
@@ -1490,6 +1548,54 @@ meu-agente/
 </div>
 
 </v-clicks>
+
+---
+
+# 🔄 Recap — O que construímos no Encontro 4
+
+<div class="grid grid-cols-2 gap-4 text-sm">
+
+<div class="p-4 rounded-xl bg-purple-500/10 border border-purple-500/30">
+<b>📜 Evolução que acompanhamos:</b>
+<ul class="text-xs mt-2">
+<li><b>2023:</b> Primeiros agentes em produção — e primeiras falhas</li>
+<li><b>2024:</b> Benchmarks (SWE-bench, GAIA) mostram o que funciona</li>
+<li><b>2024:</b> Observabilidade (LangSmith, Arize) se torna essencial</li>
+<li><b>2025:</b> Cursor, Claude Code, Devin — agentes como produto final</li>
+</ul>
+</div>
+
+<div class="p-4 rounded-xl bg-cyan-500/10 border border-cyan-500/30">
+<b>🔧 O que você agora sabe fazer:</b>
+<ul class="text-xs mt-2">
+<li>Identificar e mitigar as 7 falhas mais comuns</li>
+<li>Avaliar agentes com métricas e benchmarks</li>
+<li>Implementar observabilidade e guardrails</li>
+<li>Analisar criticamente os produtos state-of-art</li>
+<li>Construir um agente completo para produção</li>
+</ul>
+</div>
+
+<div class="p-4 rounded-xl bg-green-500/10 border border-green-500/30">
+<b>🏢 O mercado em 1 frase:</b>
+<ul class="text-xs mt-2">
+<li>Agentes não são mais pesquisa — são <b>produto</b></li>
+<li>Empresas pagam por agentes que <b>funcionam e são confiáveis</b></li>
+<li>O diferencial é: avaliar, proteger e iterar rápido</li>
+</ul>
+</div>
+
+<div class="p-4 rounded-xl bg-amber-500/10 border border-amber-500/30">
+<b>🎯 Sua jornada a partir de agora:</b>
+<ul class="text-xs mt-2">
+<li>Escolha um problema real → construa um agente</li>
+<li>Meça com benchmarks → itere</li>
+<li>Compartilhe o que aprender com a comunidade</li>
+<li>O campo muda toda semana — mantenha-se atualizado</li>
+</ul>
+</div>
+
+</div>
 
 ---
 layout: center

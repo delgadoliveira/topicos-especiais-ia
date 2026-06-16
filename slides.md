@@ -1,5 +1,5 @@
 ---
-theme: seriph
+theme: apple-basic
 title: Tópicos Especiais em IA — Agentes de IA
 info: |
   ## Tópicos Especiais em IA — Agentes de IA (Zero to Hero)
