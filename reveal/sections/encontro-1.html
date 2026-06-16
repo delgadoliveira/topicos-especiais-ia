@@ -622,26 +622,24 @@ Pense em montar um robô: vamos adicionar peça por peça.
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%)">
-<h1>Resumo: o que cada parte adiciona ao sistema</h1>
-<div class="slide-in-right mt-2">
-<table style="font-size: 0.5em; width: 100%; border-collapse: collapse;">
+<h1 style="font-size:1.3em;">Resumo: o que cada parte adiciona</h1>
+<table style="font-size: 0.48em; width: 100%; border-collapse: collapse; margin-top: 0.5rem;">
 <thead><tr style="border-bottom: 2px solid rgba(96,165,250,0.4);">
-<th style="padding: 0.5rem; text-align: left;">Componente</th>
-<th style="padding: 0.5rem; text-align: left;">Sem ele...</th>
-<th style="padding: 0.5rem; text-align: left;">Com ele → capacidade</th>
+<th style="padding: 0.3rem 0.4rem; text-align: left;">Componente</th>
+<th style="padding: 0.3rem 0.4rem; text-align: left;">Sem ele...</th>
+<th style="padding: 0.3rem 0.4rem; text-align: left;">Com ele →</th>
 </tr></thead>
 <tbody>
-<tr class="fragment"><td style="padding: 0.5rem;">🎭 Persona</td><td style="padding: 0.5rem;">Respostas genéricas, sem limites</td><td style="padding: 0.5rem;">✅ Foco, consistência, segurança</td></tr>
-<tr class="fragment"><td style="padding: 0.5rem;">🧠 LLM</td><td style="padding: 0.5rem;">Nenhuma inteligência</td><td style="padding: 0.5rem;">✅ Raciocínio, linguagem, decisão</td></tr>
-<tr class="fragment"><td style="padding: 0.5rem;">💾 Memória</td><td style="padding: 0.5rem;">Esquece tudo entre sessões</td><td style="padding: 0.5rem;">✅ Continuidade, personalização</td></tr>
-<tr class="fragment"><td style="padding: 0.5rem;">🛠️ Tools</td><td style="padding: 0.5rem;">Só gera texto, não age</td><td style="padding: 0.5rem;">✅ Ação no mundo real</td></tr>
-<tr class="fragment"><td style="padding: 0.5rem;">🔄 Loop</td><td style="padding: 0.5rem;">1 pergunta → 1 resposta</td><td style="padding: 0.5rem;">✅ Autonomia, multi-step</td></tr>
+<tr><td style="padding: 0.3rem 0.4rem;">🎭 Persona</td><td style="padding: 0.3rem 0.4rem;">Genérico, sem limites</td><td style="padding: 0.3rem 0.4rem;">✅ Foco e segurança</td></tr>
+<tr><td style="padding: 0.3rem 0.4rem;">🧠 LLM</td><td style="padding: 0.3rem 0.4rem;">Nenhuma inteligência</td><td style="padding: 0.3rem 0.4rem;">✅ Raciocínio e decisão</td></tr>
+<tr><td style="padding: 0.3rem 0.4rem;">💾 Memória</td><td style="padding: 0.3rem 0.4rem;">Esquece entre sessões</td><td style="padding: 0.3rem 0.4rem;">✅ Continuidade</td></tr>
+<tr><td style="padding: 0.3rem 0.4rem;">🛠️ Tools</td><td style="padding: 0.3rem 0.4rem;">Só gera texto</td><td style="padding: 0.3rem 0.4rem;">✅ Ação real</td></tr>
+<tr><td style="padding: 0.3rem 0.4rem;">🔄 Loop</td><td style="padding: 0.3rem 0.4rem;">1 pergunta → 1 resposta</td><td style="padding: 0.3rem 0.4rem;">✅ Autonomia multi-step</td></tr>
 </tbody></table>
+<div style="margin-top: 0.8rem; padding: 0.5rem 0.7rem; border-left: 3px solid rgba(251,191,36,0.6); font-size: 0.52em; background: rgba(251,191,36,0.06); border-radius: 4px;">
+🎯 <b>Insight:</b> um "agente" = LLM + 4 acessórios. A mágica está na <b>composição</b>, não em tecnologia nova.
 </div>
-<div class="card card-amber mt-3 text-sm fragment">
-🎯 <b>Insight chave:</b> um "agente" é simplesmente um LLM + esses 4 acessórios. A mágica está na <b>composição</b>, não em tecnologia nova.
-</div>
-<div class="mt-2 text-xs opacity-70">Google Cloud (2026): persona + memory + tools + model. OpenAI (2025): loop explícito com reflexão e telemetria.</div>
+<div style="margin-top: 0.4rem; font-size: 0.4em; opacity: 0.6;">Fontes: Google Cloud (2026), OpenAI (2025)</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
@@ -792,20 +790,41 @@ Exemplos: GPT-4o, Claude Sonnet, Gemini 2.5 Pro, Llama 4, Qwen 3 — todos são 
 <pre class="mt-2"><code>Entrada: "O céu é"  →  Saída mais provável: "azul" (87%), "bonito" (5%), "claro" (3%)
 </code></pre>
 
-<div  class="mt-2 text-sm">Ele gera texto <b>um token por vez</b>, escolhendo o mais provável a cada passo:</div>
-
-<div  class="mt-2 text-sm agent-trace" style="font-family:var(--font-mono);">
-"O" → "céu" → "é" → "azul" → "durante" → "o" → "dia" → "."
+<div class="mt-2 text-xs" style="background:rgba(0,0,0,0.3); border-radius:8px; padding:0.6rem;">
+<label style="font-weight:600; display:block; margin-bottom:0.3rem;">🔬 Tokenizador interativo — digite e veja os tokens:</label>
+<input id="tokenizer-input" type="text" value="Agentes de IA são o futuro da automação inteligente" style="width:100%; padding:0.4rem 0.6rem; border-radius:6px; border:1px solid rgba(96,165,250,0.4); background:rgba(0,0,0,0.4); color:#fff; font-size:0.95em; font-family:var(--font-mono);" oninput="tokenizeDemo(this.value)">
+<div id="tokenizer-output" style="margin-top:0.4rem; min-height:1.8rem; line-height:1.8; font-family:var(--font-mono); font-size:0.9em;"></div>
+<div style="opacity:0.5; font-size:0.8em; margin-top:0.2rem;">Cada cor = 1 token. Aproximação BPE simplificada (~GPT-4 tokenizer).</div>
 </div>
+<script>
+(function(){
+const colors = ['#60a5fa','#f59e0b','#34d399','#f472b6','#a78bfa','#fb923c','#22d3ee','#e879f9'];
+function bpeSplit(text) {
+  // Simplified BPE-like split: common Portuguese subwords + fallback to 3-4 char chunks
+  const pattern = /(\s+|[.,:;!?(){}[\]"'`]|ção|ções|mente|ência|ável|ível|ando|endo|indo|aram|eram|iram|agem|ente|ação|ismo|ista|ores|ados|idas|ões|ão|lh[aeo]|nh[aeo]|ch[aeo]|qu[ei]|rr|ss|[A-ZÁÉÍÓÚÂÊÔÃÕÇ][a-záéíóúâêôãõç]*|[a-záéíóúâêôãõç]{1,4}|\d+|.)/g;
+  return text.match(pattern) || [];
+}
+window.tokenizeDemo = function(text) {
+  const out = document.getElementById('tokenizer-output');
+  if (!text) { out.innerHTML = ''; return; }
+  const tokens = bpeSplit(text);
+  out.innerHTML = tokens.map((t, i) =>
+    `<span style="background:${colors[i % colors.length]}22; border:1px solid ${colors[i % colors.length]}88; border-radius:3px; padding:0.1rem 0.3rem; margin:0.1rem; display:inline-block; color:${colors[i % colors.length]}">${t.replace(/</g,'&lt;')}</span>`
+  ).join('') + `<span style="opacity:0.5; margin-left:0.5rem;">(${tokens.length} tokens)</span>`;
+};
+// Init on slide visible
+setTimeout(()=> tokenizeDemo(document.getElementById('tokenizer-input')?.value), 500);
+})();
+</script>
 
-<div class="grid-2 stagger-in text-xs mt-3">
+<div class="grid-2 stagger-in text-xs mt-2">
 <div class="card card-green fragment">
-<b>🎯 Por que isso produz inteligência?</b><br>
-Para prever bem a próxima palavra em bilhões de contextos, o modelo precisa aprender: gramática, lógica, fatos, humor, código, raciocínio matemático... Tudo "emerge" do objetivo de predição.
+<b>🎯 Por que predição = inteligência?</b><br>
+Para prever bem em bilhões de contextos, precisa aprender gramática, lógica, fatos, código... Tudo "emerge" do objetivo de predição.
 </div>
 <div class="card card-amber fragment">
 <b>⚠️ Consequência perigosa:</b><br>
-Ele gera o que é <b>estatisticamente plausível</b>, não o que é <b>verdadeiro</b>. "O Brasil tem 28 estados" soa plausível — mas é falso. Daí vêm as alucinações.
+Gera o que é <b>estatisticamente plausível</b>, não o que é <b>verdadeiro</b>. Daí vêm as alucinações.
 </div>
 </div>
 </section>
