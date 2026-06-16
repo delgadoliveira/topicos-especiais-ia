@@ -1059,28 +1059,54 @@ print(f"   ({acertos/len(CASOS)*100:.0f}% de acerto)")
   <div class="tip-box mt-2 text-xs">💡 <b>Entregável:</b> um notebook Colab (.ipynb) com código funcional + resultados dos 10 casos de teste.</div>
 </section>
 
-<section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
-  <h1>4.11 Para onde ir a partir daqui (1/2)</h1>
-  <div class="grid-2">
-    <div class="card card-purple"><div class="card-title">📚 Papers fundamentais</div><div class="card-desc"><i>Attention Is All You Need</i> · <i>ReAct</i> · <i>Chain-of-Thought</i> · <i>Tree of Thoughts</i> · <i>Toolformer</i> · <i>MemGPT</i></div></div>
-    <div class="card card-cyan"><div class="card-title">🌐 Recursos contínuos</div><div class="card-desc">Anthropic Cookbook · OpenAI Cookbook · LangChain Academy · LangGraph docs · Hugging Face Agents Course · r/LocalLLaMA</div></div>
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #3f3f46 100%)">
+  <h1>📏 Da prova de conceito à produção — Last Mile</h1>
+  <div class="text-xs mt-1"><b>MIT Module 6:</b> "Por que pilotos funcionam mas deploys falham?"</div>
+  <div class="compare-cols">
+    <div class="compare-col bad">
+      <h3>❌ Por que pilotos falham no deploy</h3>
+      <ul>
+        <li>Dados de teste ≠ dados reais</li>
+        <li>Sem monitoramento em produção</li>
+        <li>Usuários encontram edge cases</li>
+        <li>Resistência interna da equipe</li>
+        <li>Sem ownership claro (quem conserta?)</li>
+      </ul>
+    </div>
+    <div class="compare-col good">
+      <h3>✅ Checklist para produção</h3>
+      <ul>
+        <li>[ ] Métricas definidas (latência, custo, qualidade)</li>
+        <li>[ ] Fallback humano configurado</li>
+        <li>[ ] Alertas para anomalias</li>
+        <li>[ ] Rollback em &lt; 5 min</li>
+        <li>[ ] Documentação para on-call</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card text-xs mt-2" style="background:rgba(96,165,250,0.06); border:1px solid rgba(96,165,250,0.25);">
+🏢 <b>Caso real:</b> A Klarna (fintech sueca) colocou um agente de atendimento em produção para 700 funcionários. Resultado: resolveu 2.3M conversas em 1 mês, equivalente a 700 atendentes. Mas levou 6 meses de "last mile" para chegar lá — guardrails, fallbacks, monitoramento.
   </div>
 </section>
-
-<section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
-  <h1>4.11 Para onde ir a partir daqui (2/2)</h1>
-  <div class="grid-2">
-    <div class="card card-green"><div class="card-title">🛠️ Frameworks pra aprofundar</div><div class="card-desc">LangGraph · Pydantic AI · DSPy · smolagents · Letta.</div></div>
-    <div class="card card-amber"><div class="card-title">📰 Onde acompanhar a área</div><div class="card-desc">Latent Space · Simon Willison · changelogs da Anthropic/OpenAI · Papers with Code · @karpathy · @hwchase17 · @swyx.</div></div>
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #064e3b 100%)">
+  <h1>⚖️ Governance &amp; Compliance</h1>
+  <table>
+    <tr><th>Regulação</th><th>Escopo</th><th>Impacto em agentes</th></tr>
+    <tr><td><b>LGPD</b> (Brasil)</td><td>Dados pessoais</td><td>Consentimento antes de processar PII</td></tr>
+    <tr><td><b>GDPR</b> (EU)</td><td>Dados pessoais</td><td>Right to explanation, data minimization</td></tr>
+    <tr><td><b>EU AI Act</b></td><td>Sistemas de IA</td><td>Classificação de risco, auditoria</td></tr>
+    <tr><td><b>HIPAA</b> (Saúde)</td><td>Dados médicos</td><td>Criptografia, access control</td></tr>
+  </table>
+  <div class="text-xs mt-2"><b>Onde inserir guardrails (MIT Mod 7):</b></div>
+  <div class="grid-3 mt-2">
+    <div class="card card-cyan text-center"><div class="card-desc">📥 Input<br>Validação + PII filter</div></div>
+    <div class="card card-purple text-center"><div class="card-desc">⚙️ Execução<br>Sandboxing + limits</div></div>
+    <div class="card card-amber text-center"><div class="card-desc">📤 Output<br>Toxicity + fact-check</div></div>
   </div>
-  <div class="insight-box">📌 Estratégia prática: estude fundamentos estáveis e acompanhe tendências pelos changelogs e benchmarks.</div>
-  <div class="grid-3 text-xs mt-2" style="gap:0.4rem;">
-    <div class="card card-green"><b>🧑‍💼 Se você é de Gestão</b><br>• Identifique 1 processo manual repetitivo<br>• Faça PoC com agente single-task<br>• Meça ROI em 30 dias</div>
-    <div class="card card-purple"><b>🧑‍💻 Se você é de Produto/Tech</b><br>• Aprenda LangGraph ou OpenAI Agents SDK<br>• Implemente observabilidade desde o dia 1<br>• Contribua para MCP servers</div>
-    <div class="card card-amber"><b>📊 Se você é de Dados/Analytics</b><br>• Construa RAG sobre seus relatórios<br>• Crie eval pipelines para qualidade<br>• Explore text-to-SQL com agentes</div>
+  <div class="card text-xs mt-2" style="background:rgba(251,191,36,0.06); border:1px solid rgba(251,191,36,0.25);">
+⚠️ <b>Regra prática:</b> Se o agente processa dados de clientes → LGPD se aplica. Se toma decisões que afetam pessoas → precisa de explicabilidade. Se opera em saúde/finanças → regulação setorial adicional. Quando em dúvida: <b>human-in-the-loop</b>.
   </div>
 </section>
-
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
   <h1>🌐 Mercado: avaliação, observabilidade &amp; governança</h1>
   <div class="grid-2 stagger-in">
@@ -1091,7 +1117,37 @@ print(f"   ({acertos/len(CASOS)*100:.0f}% de acerto)")
   </div>
   <div class="insight-box">🧩 <b>Analogia:</b> avaliar agente sem eval é como fazer deploy sem CI — funciona até quebrar em produção.</div>
 </section>
-
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1f2937 100%)" class="text-center">
+  <h1>🧪 Prática final — teste seu agente como se fosse produção</h1>
+  <div class="text-sm opacity-70 mt-2">Você acabou de ver Last Mile, governança e o mercado de avaliação. Agora aplique: implemente guardrails, meça qualidade e instrumente tracing — os três pilares que separam um protótipo de um agente pronto para o mundo real.</div>
+</section>
+<section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
+  <h1>🧪 Exercício 4.1 — Guardrails de segurança</h1>
+  <div class="text-xs opacity-70">Implemente validadores de input/output para proteger seu agente.</div>
+  <div class="pyrunner-container" data-src="exercises/e4_1_guardrails.py">
+    <textarea></textarea>
+    <button class="run-btn">▶ Executar</button>
+    <div class="pyrunner-output"></div>
+  </div>
+</section>
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
+  <h1>🧪 Exercício 4.2 — Avaliando qualidade do agente</h1>
+  <div class="text-xs opacity-70">Implemente métricas básicas para avaliar as respostas do agente.</div>
+  <div class="pyrunner-container" data-src="exercises/e4_2_avaliacao.py">
+    <textarea></textarea>
+    <button class="run-btn">▶ Executar</button>
+    <div class="pyrunner-output"></div>
+  </div>
+</section>
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
+  <h1>🧪 Exercício 4.3 — Debug de agente com trace</h1>
+  <div class="text-xs opacity-70">Implemente um sistema de tracing para debugar execuções do agente.</div>
+  <div class="pyrunner-container" data-src="exercises/e4_3_tracing.py">
+    <textarea></textarea>
+    <button class="run-btn">▶ Executar</button>
+    <div class="pyrunner-output"></div>
+  </div>
+</section>
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
   <h1>📈 Adoção de agentes — projeção de mercado</h1>
   <div class="stats-row">
@@ -1104,17 +1160,86 @@ print(f"   ({acertos/len(CASOS)*100:.0f}% de acerto)")
   </div>
   <div class="insight-box">📊 <b>Gartner (2024):</b> de menos de 1% em 2024 para 33% em 2028. O crescimento exponencial já começou.</div>
 </section>
-
-<section data-background-gradient="linear-gradient(135deg, #111827 0%, #0f766e 100%)">
-  <h1>🚀 Onde os agentes vão chegar — 2025-2027</h1>
-  <div class="grid-3">
-    <div class="card card-purple"><div class="card-title">🧪 Tendências de pesquisa</div><div class="card-desc">Test-time compute · agentes que aprendem com a operação · world models · tarefas long-horizon.</div></div>
-    <div class="card card-cyan"><div class="card-title">🏗️ Tendências de produto</div><div class="card-desc">Computer use · A2A/MCP · voice agents · vertical SaaS com agente nativo.</div></div>
-    <div class="card card-green"><div class="card-title">💼 Tendências de negócio</div><div class="card-desc">Pricing por outcome · service-as-software · agent ops · consolidação por aquisição.</div></div>
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #064e3b 100%)">
+  <h1>🔮 Para onde os agentes vão — 2025-2027</h1>
+  <p class="text-sm" style="opacity:0.85;">Três forças empurram a fronteira ao mesmo tempo — e nenhuma delas é "um modelo maior".</p>
+  <div class="grid-2 mt-2 text-sm" style="gap:0.7rem;">
+    <div class="card card-purple"><div class="card-title">🤖 Autonomia com limites</div><div class="card-desc text-xs">Devin, Manus e Claude Code já resolvem tarefas de horas em minutos. O salto de 2025-26 não é "mais autônomo", é <b>autônomo com freios</b>: guardrails, supervisão e saber <b>quando parar</b>. Pesquisa: tarefas long-horizon e test-time compute.</div></div>
+    <div class="card card-cyan"><div class="card-title">🌐 Ecossistemas interoperáveis</div><div class="card-desc text-xs">MCP (Anthropic) + A2A (Google) formam a <b>"internet dos agentes"</b>: agentes de empresas diferentes descobrindo e chamando uns aos outros por protocolo aberto, em vez de integrações sob medida.</div></div>
+    <div class="card card-green"><div class="card-title">💻 Computer use generalizado</div><div class="card-desc text-xs">Agentes que operam <b>qualquer software</b> como um humano — tela, mouse, teclado (Claude, GPT-4o, Gemini). Hoje frágil e lento; tende a virar commodity e abrir o software legado sem API.</div></div>
+    <div class="card card-amber"><div class="card-title">🧠 Reasoning sob demanda</div><div class="card-desc text-xs">Modelos que "pensam por horas" quando preciso (o3, Gemini Deep Think). O gargalo deixa de ser <b>inteligência</b> e passa a ser <b>custo e latência</b> — escolher quanto raciocínio comprar por tarefa.</div></div>
   </div>
-  <div class="tip-box">🎯 O diferencial deixou de ser “saber chamar API”; agora é desenhar loop, instrumentar, avaliar e operar agentes.</div>
+  <div class="insight-box text-xs mt-2">🎯 Lendo por <b>três eixos</b>: <b>pesquisa</b> (long-horizon, test-time compute, world models) · <b>produto</b> (computer use, voice, vertical SaaS com agente nativo) · <b>negócio</b> (pricing por outcome, service-as-software, agent ops). O diferencial deixou de ser "saber chamar uma API" — é <b>desenhar o loop, instrumentar, avaliar e operar</b> agentes.</div>
 </section>
-
+<section data-background-gradient="linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)">
+  <h1>🔄 Recap — O que você domina agora</h1>
+  <div class="grid-2 stagger-in">
+    <div class="card card-purple"><div class="card-title">🧠 Raciocínio (E1-E2)</div><div class="card-desc">De prompt simples → CoT → Self-Consistency → ToT → modelos de reasoning. Você sabe <b>quando</b> usar cada nível.</div></div>
+    <div class="card card-cyan"><div class="card-title">🏗️ Arquitetura (E2-E3)</div><div class="card-desc">5 padrões agentic, function calling, RAG, memória, MCP. Você sabe <b>como</b> conectar as peças.</div></div>
+    <div class="card card-green"><div class="card-title">🛡️ Produção (E4)</div><div class="card-desc">7 falhas, guardrails, avaliação com benchmarks, observabilidade. Você sabe <b>por que</b> agentes falham e como prevenir.</div></div>
+    <div class="card card-amber"><div class="card-title">🚀 Mercado (E1-E4)</div><div class="card-desc">Cursor, Claude Code, Devin, Perplexity, Klarna — você entende o que está por trás de cada produto.</div></div>
+  </div>
+  <div class="tip-box mt-2 text-xs">De "o que é um agente?" → "como os melhores produtos do mundo funcionam" em 4 encontros.</div>
+</section>
+<section data-background-gradient="linear-gradient(135deg, #1a1a2e 0%, #312e81 100%)">
+  <h1>🗺️ A jornada completa — E1 a E4</h1>
+  <div class="flow-diagram">
+    <div class="flow-node node-purple">E1: Fundamentos</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node node-cyan">E2: Raciocínio</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node node-green">E3: Contexto</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node node-amber">E4: Produção</div>
+  </div>
+  <div class="grid-4 mt-2 stagger-in text-xs" style="gap:0.5rem;">
+    <div class="card card-purple"><b>E1</b><br>O que é um agente, ReAct, primeiras tools</div>
+    <div class="card card-cyan"><b>E2</b><br>CoT, planejamento, padrões de orquestração</div>
+    <div class="card card-green"><b>E3</b><br>RAG, memória, MCP, multi-agente</div>
+    <div class="card card-amber"><b>E4</b><br>Falhas, avaliação, segurança, SOTA</div>
+  </div>
+  <div class="insight-box mt-2 text-xs">Você agora tem o <b>mapa mental completo</b> para construir, avaliar e escalar agentes. O próximo passo é <b>seu</b>.</div>
+</section>
+<section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
+  <h1>🗺️ 4.11 Roadmap estratégico — curto, médio, longo prazo</h1>
+  <div class="text-xs">Baseado no Capstone do MIT — como planejar adoção de agentes:</div>
+  <div class="grid-3 mt-2">
+    <div class="card card-green slide-in-left"><div class="card-title">📅 0–3 meses</div><div class="card-desc"><ul><li>Identificar 1 processo repetitivo</li><li>PoC com agente single-task</li><li>Medir baseline vs agente</li><li>Budget: ~$50/mês (API)</li></ul></div></div>
+    <div class="card card-amber scale-in"><div class="card-title">📅 3–6 meses</div><div class="card-desc"><ul><li>Integrar com sistemas (MCP/APIs)</li><li>Adicionar HITL e monitoring</li><li>Expandir para 2-3 use cases</li><li>Definir KPIs claros</li></ul></div></div>
+    <div class="card card-purple slide-in-right"><div class="card-title">📅 6–12 meses</div><div class="card-desc"><ul><li>Multi-agent orquestrado</li><li>Governance framework</li><li>Self-improving (feedback loops)</li><li>Escalar para toda a equipe</li></ul></div></div>
+  </div>
+  <div class="insight-box">🎓 <b>MIT Capstone:</b> Seu projeto final: desenhe um plano de integração de agentes para uma função de negócio real.</div>
+</section>
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #1f2937 100%)">
+  <h1>4.12 Conselhos finais</h1>
+  <div class="stagger-in" style="grid-template-columns: 1fr;">
+    <div class="card"><div class="card-desc">🧪 <b>Construa.</b> Ler sobre agentes não substitui construir um. Você só entende RAG quando ele falha pra você.</div></div>
+    <div class="card"><div class="card-desc">🔬 <b>Meça.</b> Sem eval set, você está iterando no escuro. 10 casos curados &gt; intuição.</div></div>
+    <div class="card"><div class="card-desc">🎚️ <b>Comece simples.</b> 80% dos casos "que precisam de agente" precisam só de um workflow com 2-3 chamadas LLM.</div></div>
+    <div class="card"><div class="card-desc">⏱️ <b>A área muda toda semana.</b> Aprenda os <b>fundamentos</b> (que mudam pouco) e <b>delegue</b> as tendências (que mudam muito).</div></div>
+    <div class="card card-cyan"><div class="card-desc">🌟 <b>O melhor agente é o que resolve um problema real.</b> Não persiga benchmarks — persiga utilidade.</div></div>
+  </div>
+</section>
+<section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
+  <h1>4.13 Para onde ir a partir daqui (1/2)</h1>
+  <div class="grid-2">
+    <div class="card card-purple"><div class="card-title">📚 Papers fundamentais</div><div class="card-desc"><i>Attention Is All You Need</i> · <i>ReAct</i> · <i>Chain-of-Thought</i> · <i>Tree of Thoughts</i> · <i>Toolformer</i> · <i>MemGPT</i></div></div>
+    <div class="card card-cyan"><div class="card-title">🌐 Recursos contínuos</div><div class="card-desc">Anthropic Cookbook · OpenAI Cookbook · LangChain Academy · LangGraph docs · Hugging Face Agents Course · r/LocalLLaMA</div></div>
+  </div>
+</section>
+<section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
+  <h1>4.13 Para onde ir a partir daqui (2/2)</h1>
+  <div class="grid-2">
+    <div class="card card-green"><div class="card-title">🛠️ Frameworks pra aprofundar</div><div class="card-desc">LangGraph · Pydantic AI · DSPy · smolagents · Letta.</div></div>
+    <div class="card card-amber"><div class="card-title">📰 Onde acompanhar a área</div><div class="card-desc">Latent Space · Simon Willison · changelogs da Anthropic/OpenAI · Papers with Code · @karpathy · @hwchase17 · @swyx.</div></div>
+  </div>
+  <div class="insight-box">📌 Estratégia prática: estude fundamentos estáveis e acompanhe tendências pelos changelogs e benchmarks.</div>
+  <div class="grid-3 text-xs mt-2" style="gap:0.4rem;">
+    <div class="card card-green"><b>🧑‍💼 Se você é de Gestão</b><br>• Identifique 1 processo manual repetitivo<br>• Faça PoC com agente single-task<br>• Meça ROI em 30 dias</div>
+    <div class="card card-purple"><b>🧑‍💻 Se você é de Produto/Tech</b><br>• Aprenda LangGraph ou OpenAI Agents SDK<br>• Implemente observabilidade desde o dia 1<br>• Contribua para MCP servers</div>
+    <div class="card card-amber"><b>📊 Se você é de Dados/Analytics</b><br>• Construa RAG sobre seus relatórios<br>• Crie eval pipelines para qualidade<br>• Explore text-to-SQL com agentes</div>
+  </div>
+</section>
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #172554 100%)">
   <h1>📚 Referências públicas — Encontro 4 (1/2)</h1>
   <div class="grid-2">
@@ -1143,7 +1268,6 @@ print(f"   ({acertos/len(CASOS)*100:.0f}% de acerto)")
     </div>
   </div>
 </section>
-
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e293b 100%)">
   <h1>📚 Referências públicas — Encontro 4 (2/2)</h1>
   <div class="grid-2">
@@ -1177,155 +1301,6 @@ print(f"   ({acertos/len(CASOS)*100:.0f}% de acerto)")
   </div>
   <div class="text-xs opacity-70 mt-2">⚖️ Conteúdo de domínio público, uso exclusivamente educacional, sem endosso das marcas citadas.</div>
 </section>
-
-<section data-background-gradient="linear-gradient(135deg, #111827 0%, #1f2937 100%)">
-  <h1>4.12 Conselhos finais</h1>
-  <div class="stagger-in" style="grid-template-columns: 1fr;">
-    <div class="card"><div class="card-desc">🧪 <b>Construa.</b> Ler sobre agentes não substitui construir um. Você só entende RAG quando ele falha pra você.</div></div>
-    <div class="card"><div class="card-desc">🔬 <b>Meça.</b> Sem eval set, você está iterando no escuro. 10 casos curados &gt; intuição.</div></div>
-    <div class="card"><div class="card-desc">🎚️ <b>Comece simples.</b> 80% dos casos "que precisam de agente" precisam só de um workflow com 2-3 chamadas LLM.</div></div>
-    <div class="card"><div class="card-desc">⏱️ <b>A área muda toda semana.</b> Aprenda os <b>fundamentos</b> (que mudam pouco) e <b>delegue</b> as tendências (que mudam muito).</div></div>
-    <div class="card card-cyan"><div class="card-desc">🌟 <b>O melhor agente é o que resolve um problema real.</b> Não persiga benchmarks — persiga utilidade.</div></div>
-  </div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)">
-  <h1>🔄 Recap — O que você domina agora</h1>
-  <div class="grid-2 stagger-in">
-    <div class="card card-purple"><div class="card-title">🧠 Raciocínio (E1-E2)</div><div class="card-desc">De prompt simples → CoT → Self-Consistency → ToT → modelos de reasoning. Você sabe <b>quando</b> usar cada nível.</div></div>
-    <div class="card card-cyan"><div class="card-title">🏗️ Arquitetura (E2-E3)</div><div class="card-desc">5 padrões agentic, function calling, RAG, memória, MCP. Você sabe <b>como</b> conectar as peças.</div></div>
-    <div class="card card-green"><div class="card-title">🛡️ Produção (E4)</div><div class="card-desc">7 falhas, guardrails, avaliação com benchmarks, observabilidade. Você sabe <b>por que</b> agentes falham e como prevenir.</div></div>
-    <div class="card card-amber"><div class="card-title">🚀 Mercado (E1-E4)</div><div class="card-desc">Cursor, Claude Code, Devin, Perplexity, Klarna — você entende o que está por trás de cada produto.</div></div>
-  </div>
-  <div class="tip-box mt-2 text-xs">De "o que é um agente?" → "como os melhores produtos do mundo funcionam" em 4 encontros.</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #111827 0%, #3f3f46 100%)">
-  <h1>📏 Da prova de conceito à produção — Last Mile</h1>
-  <div class="text-xs mt-1"><b>MIT Module 6:</b> "Por que pilotos funcionam mas deploys falham?"</div>
-  <div class="compare-cols">
-    <div class="compare-col bad">
-      <h3>❌ Por que pilotos falham no deploy</h3>
-      <ul>
-        <li>Dados de teste ≠ dados reais</li>
-        <li>Sem monitoramento em produção</li>
-        <li>Usuários encontram edge cases</li>
-        <li>Resistência interna da equipe</li>
-        <li>Sem ownership claro (quem conserta?)</li>
-      </ul>
-    </div>
-    <div class="compare-col good">
-      <h3>✅ Checklist para produção</h3>
-      <ul>
-        <li>[ ] Métricas definidas (latência, custo, qualidade)</li>
-        <li>[ ] Fallback humano configurado</li>
-        <li>[ ] Alertas para anomalias</li>
-        <li>[ ] Rollback em &lt; 5 min</li>
-        <li>[ ] Documentação para on-call</li>
-      </ul>
-    </div>
-  </div>
-  <div class="card text-xs mt-2" style="background:rgba(96,165,250,0.06); border:1px solid rgba(96,165,250,0.25);">
-🏢 <b>Caso real:</b> A Klarna (fintech sueca) colocou um agente de atendimento em produção para 700 funcionários. Resultado: resolveu 2.3M conversas em 1 mês, equivalente a 700 atendentes. Mas levou 6 meses de "last mile" para chegar lá — guardrails, fallbacks, monitoramento.
-  </div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #064e3b 100%)">
-  <h1>⚖️ Governance &amp; Compliance</h1>
-  <table>
-    <tr><th>Regulação</th><th>Escopo</th><th>Impacto em agentes</th></tr>
-    <tr><td><b>LGPD</b> (Brasil)</td><td>Dados pessoais</td><td>Consentimento antes de processar PII</td></tr>
-    <tr><td><b>GDPR</b> (EU)</td><td>Dados pessoais</td><td>Right to explanation, data minimization</td></tr>
-    <tr><td><b>EU AI Act</b></td><td>Sistemas de IA</td><td>Classificação de risco, auditoria</td></tr>
-    <tr><td><b>HIPAA</b> (Saúde)</td><td>Dados médicos</td><td>Criptografia, access control</td></tr>
-  </table>
-  <div class="text-xs mt-2"><b>Onde inserir guardrails (MIT Mod 7):</b></div>
-  <div class="grid-3 mt-2">
-    <div class="card card-cyan text-center"><div class="card-desc">📥 Input<br>Validação + PII filter</div></div>
-    <div class="card card-purple text-center"><div class="card-desc">⚙️ Execução<br>Sandboxing + limits</div></div>
-    <div class="card card-amber text-center"><div class="card-desc">📤 Output<br>Toxicity + fact-check</div></div>
-  </div>
-  <div class="card text-xs mt-2" style="background:rgba(251,191,36,0.06); border:1px solid rgba(251,191,36,0.25);">
-⚠️ <b>Regra prática:</b> Se o agente processa dados de clientes → LGPD se aplica. Se toma decisões que afetam pessoas → precisa de explicabilidade. Se opera em saúde/finanças → regulação setorial adicional. Quando em dúvida: <b>human-in-the-loop</b>.
-  </div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
-  <h1>🗺️ Roadmap estratégico — curto, médio, longo prazo</h1>
-  <div class="text-xs">Baseado no Capstone do MIT — como planejar adoção de agentes:</div>
-  <div class="grid-3 mt-2">
-    <div class="card card-green slide-in-left"><div class="card-title">📅 0–3 meses</div><div class="card-desc"><ul><li>Identificar 1 processo repetitivo</li><li>PoC com agente single-task</li><li>Medir baseline vs agente</li><li>Budget: ~$50/mês (API)</li></ul></div></div>
-    <div class="card card-amber scale-in"><div class="card-title">📅 3–6 meses</div><div class="card-desc"><ul><li>Integrar com sistemas (MCP/APIs)</li><li>Adicionar HITL e monitoring</li><li>Expandir para 2-3 use cases</li><li>Definir KPIs claros</li></ul></div></div>
-    <div class="card card-purple slide-in-right"><div class="card-title">📅 6–12 meses</div><div class="card-desc"><ul><li>Multi-agent orquestrado</li><li>Governance framework</li><li>Self-improving (feedback loops)</li><li>Escalar para toda a equipe</li></ul></div></div>
-  </div>
-  <div class="insight-box">🎓 <b>MIT Capstone:</b> Seu projeto final: desenhe um plano de integração de agentes para uma função de negócio real.</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1f2937 100%)" class="text-center">
-  <h1>🧪 Exercícios Interativos — Encontro 4</h1>
-  <div class="text-sm opacity-70 mt-2">Pratique guardrails, avaliação e debugging antes de fechar a disciplina.</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
-  <h1>🧪 Exercício 4.1 — Guardrails de segurança</h1>
-  <div class="text-xs opacity-70">Implemente validadores de input/output para proteger seu agente.</div>
-  <div class="pyrunner-container" data-src="exercises/e4_1_guardrails.py">
-    <textarea></textarea>
-    <button class="run-btn">▶ Executar</button>
-    <div class="pyrunner-output"></div>
-  </div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
-  <h1>🧪 Exercício 4.2 — Avaliando qualidade do agente</h1>
-  <div class="text-xs opacity-70">Implemente métricas básicas para avaliar as respostas do agente.</div>
-  <div class="pyrunner-container" data-src="exercises/e4_2_avaliacao.py">
-    <textarea></textarea>
-    <button class="run-btn">▶ Executar</button>
-    <div class="pyrunner-output"></div>
-  </div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
-  <h1>🧪 Exercício 4.3 — Debug de agente com trace</h1>
-  <div class="text-xs opacity-70">Implemente um sistema de tracing para debugar execuções do agente.</div>
-  <div class="pyrunner-container" data-src="exercises/e4_3_tracing.py">
-    <textarea></textarea>
-    <button class="run-btn">▶ Executar</button>
-    <div class="pyrunner-output"></div>
-  </div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #1a1a2e 0%, #312e81 100%)">
-  <h1>🗺️ A jornada completa — E1 a E4</h1>
-  <div class="flow-diagram">
-    <div class="flow-node node-purple">E1: Fundamentos</div>
-    <div class="flow-arrow">→</div>
-    <div class="flow-node node-cyan">E2: Raciocínio</div>
-    <div class="flow-arrow">→</div>
-    <div class="flow-node node-green">E3: Contexto</div>
-    <div class="flow-arrow">→</div>
-    <div class="flow-node node-amber">E4: Produção</div>
-  </div>
-  <div class="grid-4 mt-2 stagger-in text-xs" style="gap:0.5rem;">
-    <div class="card card-purple"><b>E1</b><br>O que é um agente, ReAct, primeiras tools</div>
-    <div class="card card-cyan"><b>E2</b><br>CoT, planejamento, padrões de orquestração</div>
-    <div class="card card-green"><b>E3</b><br>RAG, memória, MCP, multi-agente</div>
-    <div class="card card-amber"><b>E4</b><br>Falhas, avaliação, segurança, SOTA</div>
-  </div>
-  <div class="insight-box mt-2 text-xs">Você agora tem o <b>mapa mental completo</b> para construir, avaliar e escalar agentes. O próximo passo é <b>seu</b>.</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #064e3b 100%)" class="text-center">
-  <h1>🔮 O futuro próximo — 2025-2026</h1>
-  <div class="grid-2 mt-2 stagger-in text-sm" style="gap:0.8rem;">
-    <div class="card card-purple parallax-card"><b>🤖 Agentes autônomos</b><br><span class="text-xs">Devin, Manus e Claude Code mostram que agentes podem resolver problemas de horas em minutos — mas ainda precisam de supervisão.</span></div>
-    <div class="card card-cyan parallax-card"><b>🌐 Agentes que colaboram</b><br><span class="text-xs">A2A (Google) + MCP (Anthropic) = agentes de empresas diferentes conversando entre si. O "internet dos agentes".</span></div>
-    <div class="card card-green parallax-card"><b>💻 Computer Use generalizado</b><br><span class="text-xs">Agentes que usam qualquer software como humano. Claude, GPT-4o e Gemini já demonstram isso. Em 2 anos será commodity.</span></div>
-    <div class="card card-amber parallax-card"><b>🧠 Reasoning ilimitado</b><br><span class="text-xs">Modelos que "pensam por horas" se necessário (o3, Gemini Deep Think). O gargalo deixa de ser inteligência e passa a ser custo.</span></div>
-  </div>
-</section>
-
 <section data-background-gradient="linear-gradient(135deg, #1e293b 0%, #0f172a 100%)" class="text-center">
   <h1>🎓 Fim da disciplina</h1>
   <div class="text-sm mt-3" style="max-width:600px; margin:0 auto;">
