@@ -1,5 +1,5 @@
 /* ============================================================
-   Estilos globais — navegação desabilitada via frontmatter
+   Estilos globais — navegação desabilitada
    ============================================================ */
 
 /* -- Slide transitions -- */
@@ -7,9 +7,22 @@
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
-/* -- Esconde qualquer resíduo de nav controls -- */
-#app .absolute.bottom-0.left-0:has(> nav),
-#app div:has(> nav.flex.flex-col),
-nav.flex.flex-col {
+/* -- Remove ALL navigation UI elements -- */
+.slidev-controls,
+.slidev-navigation,
+.slidev-icon-btn,
+nav,
+[class*="slidev-nav"],
+[class*="navigation"],
+.fixed.bottom-0,
+.fixed.right-0,
+.fixed.left-0:not(.slidev-page),
+.absolute.bottom-0,
+.absolute.right-0:not(.slidev-page *) {
   display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  overflow: hidden !important;
 }
