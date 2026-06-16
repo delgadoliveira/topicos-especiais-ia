@@ -1,5 +1,5 @@
 <template>
   <div class="absolute bottom-2 left-4 text-[10px] opacity-40 font-mono select-none">
-    v2.4.6 · Tópicos Especiais em IA · 2026
+    v2.4.7 · Tópicos Especiais em IA · 2026
   </div>
 </template>

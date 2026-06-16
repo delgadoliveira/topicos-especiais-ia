@@ -463,74 +463,106 @@ print(ticket.prioridade, ticket.requer_resposta_imediata)  # 5 True</code></pre>
 
 <section data-background-gradient="linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)">
 <h1>Plan-and-Execute vs ReWOO</h1>
-<div class="card text-sm card-purple parallax-card fragment">
-<b>🗺️ Plan-and-Execute</b> <span class="opacity-70">(LangChain, 2023)</span><br>
-<ol class="mt-2"><li class="fragment" data-fragment-index="1"><b>Planner</b> cria a lista de passos<br></li><li class="fragment" data-fragment-index="2"><b>Executor</b> executa cada passo com tools<br></li><li class="fragment" data-fragment-index="3">Pode <b>re-planejar</b> se algo der errado<br><br></li></ol>
-<p class="slide-in-left">✅ Bom para tarefas multi-step com dependências claras<br><br>❌ Mais lento: 2 LLMs em série</p>
+<div class="text-xs" style="margin-bottom:0.7rem; opacity:0.8;">O dilema pedagógico: <b>pensar a rota inteira</b> reduz improviso, mas pode ficar caro e rígido. Dois padrões aparecem na literatura e nos frameworks.</div>
+<div class="grid-2 stagger-in text-xs" style="gap:0.8rem;">
+<div class="card card-purple parallax-card fragment"><b>🗺️ Plan-and-Execute</b><br><span class="opacity-70">Planeja → executa → observa → replaneja.</span><div class="mt-2">Bom quando o ambiente muda: navegar web, debugar código, investigar dados. O executor aprende com cada observação antes de seguir.</div></div>
+<div class="card card-cyan parallax-card fragment"><b>🔀 ReWOO</b> <span class="opacity-70">(Reasoning Without Observation)</span><br><span class="opacity-70">Planeja todas as evidências antes de chamar tools.</span><div class="mt-2">Bom quando as consultas são independentes: coletar cotações, buscar fatos paralelos, comparar documentos.</div></div>
 </div>
+<div class="card mt-2 text-xs card-amber parallax-card fragment">Referências: ReAct (Yao et al., 2023), Plan-and-Solve prompting (Wang et al., 2023), ReWOO (Xu et al., 2023).</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e293b 100%)">
 <h1>Plan-and-Execute vs ReWOO — cont.</h1>
-<div class="card text-sm card-cyan parallax-card fragment">
-<b>🔀 ReWOO</b> <span class="opacity-70">(Reasoning WithOut Observation, 2023)</span><br>
-<ol class="mt-2"><li class="fragment" data-fragment-index="1"><b>Planner</b> lista todas as chamadas de tool de uma vez (<code>#E1</code>, <code>#E2</code>...)<br></li><li class="fragment" data-fragment-index="2"><b>Worker</b> executa em <b>paralelo</b><br></li><li class="fragment" data-fragment-index="3"><b>Solver</b> junta tudo na resposta final<br><br></li></ol>
-<p class="slide-in-left">✅ Muito mais rápido e barato (menos chamadas LLM)<br><br>❌ Não se adapta se uma tool falha no meio</p>
+<pre class="scale-in"><code class="language-text">Pergunta: "Compare laptops para ML até R$ 8k"
+
+Plan-and-Execute:
+  1. buscar opções → observar resultados
+  2. filtrar GPUs → observar disponibilidade
+  3. comparar preço/VRAM → responder
+
+ReWOO:
+  E1 = buscar("laptops RTX até 8k")
+  E2 = buscar("benchmarks RTX 4060 laptop ML")
+  E3 = buscar("preços varejo Brasil")
+  Solver(E1, E2, E3) → recomendação</code></pre>
+<div class="grid-3 stagger-in text-xs" style="gap:0.55rem;">
+<div class="card card-green parallax-card fragment"><b>Use Plan-and-Execute</b><br>quando há dependência, erro provável ou decisão sensível.</div>
+<div class="card card-cyan parallax-card fragment"><b>Use ReWOO</b><br>quando evidências podem ser coletadas em paralelo.</div>
+<div class="card card-red parallax-card fragment"><b>Evite ambos</b><br>quando uma única chamada direta resolve.</div>
 </div>
-<div class="card mt-3 text-xs card-amber parallax-card fragment">🎓 Em produção, a combinação mais comum é <b>planner + executor estilo ReAct + replanning quando necessário</b>.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #1f2937 100%)">
 <h1>🧠 Agentic Planning — como agentes criam e gerenciam planos</h1>
-<div class="text-xs" style="margin-bottom: 0.75rem;">O diferencial de agentes como Devin, Manus e Claude Code não é só raciocinar: é <b>criar, acompanhar e revisar um plano</b>.</div>
+<div class="text-xs" style="margin-bottom: 0.75rem;">A ideia não nasceu com LLMs. Ela vem de <b>planejamento em IA clássica</b>: estado, ações, pré-condições, efeitos e objetivo.</div>
 <div class="stagger-in grid-2 text-xs" style="gap: 0.8rem;">
-<div class="card card-purple parallax-card fragment"><b>O que o agente faz</b><ol class="mt-1" style="line-height: 1.5;"><li><b>Decompõe</b> o objetivo</li><li><b>Ordena</b> por dependências</li><li><b>Estima</b> custo/complexidade</li><li><b>Executa</b> monitorando progresso</li><li><b>Adapta</b> se algo falha ou muda</li></ol></div>
-<div class="card card-cyan parallax-card fragment"><b>🧩 Analogia: GPS</b><div class="mt-1" style="opacity: 0.8;"><b>Sem planning:</b> você decide esquina por esquina.<br><b>Com planning:</b> vê a rota inteira, sabe quantos passos faltam e recalcula se uma rua fechar.</div></div>
+<div class="card card-purple parallax-card fragment"><b>🧱 Teoria clássica</b><div class="mt-1" style="line-height:1.5;">STRIPS (Fikes & Nilsson, 1971) modelava o mundo como <i>estado inicial → ações válidas → estado objetivo</i>. HTN Planning quebrava metas em subtarefas hierárquicas.</div></div>
+<div class="card card-cyan parallax-card fragment"><b>🤖 O que muda com LLMs</b><div class="mt-1" style="line-height:1.5;">O modelo não tem um simulador perfeito do mundo. Ele propõe um plano plausível, executa tools, observa evidências e corrige a rota.</div></div>
 </div>
+<div class="card mt-2 text-xs card-green parallax-card fragment"><b>Intuição:</b> planning é a ponte entre “responder uma pergunta” e “gerenciar uma tarefa”.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
 <h1>📋 Anatomia de um plano de agente</h1>
-<div class="text-sm" style="margin-bottom: 0.75rem;">Um plano bem estruturado tem 4 elementos: <b>objetivo</b>, <b>passos</b>, <b>dependências/status</b> e <b>gatilho de replanning</b>.</div>
+<div class="text-sm" style="margin-bottom: 0.75rem;">Um bom plano é mais parecido com um <b>contrato de execução</b> do que com uma lista de tarefas.</div>
 <pre class="scale-in"><code class="language-python"># começo do plano
-objetivo = "Pesquisar e comparar 3 hotéis em SP para viagem corporativa"
-passos = [
-    {"id": 1, "acao": "Buscar hotéis 4-5 estrelas em SP centro",
-     "tool": "search_web", "status": "done", "resultado": "..."},
-    {"id": 2, "acao": "Extrair preços e avaliações dos 5 melhores",
-     "tool": "scrape_page", "status": "in_progress", "depende_de": [1]},
-]</code></pre>
+plan = {
+  "objetivo": "Escolher hotel para viagem corporativa em SP",
+  "criterio_sucesso": "3 opções justificadas com preço, localização e risco",
+  "restricoes": ["até R$ 900/noite", "perto da Av. Paulista"],
+  "passos": [
+    {"id": "S1", "acao": "buscar candidatos", "tool": "search_web",
+     "depende_de": [], "status": "done"},
+    {"id": "S2", "acao": "extrair preço e avaliação", "tool": "browser",
+     "depende_de": ["S1"], "status": "running"},
+  ]
+}</code></pre>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #0f766e 100%)">
 <h1>📋 Anatomia de um plano de agente — cont.</h1>
-<pre class="scale-in"><code class="language-python">passos += [
-    {"id": 3, "acao": "Comparar custo-benefício em tabela",
-     "tool": "none (raciocínio)", "status": "pending", "depende_de": [2]},
-    {"id": 4, "acao": "Gerar recomendação final com justificativa",
-     "tool": "none", "status": "pending", "depende_de": [3]},
+<pre class="scale-in"><code class="language-python">plan["passos"] += [
+  {"id": "S3", "acao": "comparar trade-offs", "tool": "reasoning",
+   "depende_de": ["S2"], "status": "pending"},
+  {"id": "S4", "acao": "gerar recomendação auditável", "tool": "writer",
+   "depende_de": ["S3"], "status": "pending"},
 ]
-replanning_trigger = "Se qualquer passo falhar 2x, re-planejar"</code></pre>
-<div class="card mt-3 text-xs card-green parallax-card fragment"><b>Pontos-chave:</b> cada passo tem <code>status</code>, <code>depende_de</code> e a tool necessária. O agente sabe exatamente onde está e o que falta.</div>
+
+plan["guardrails"] = {
+  "budget_max_tool_calls": 8,
+  "replan_if": ["tool_error", "evidencia_conflitante", "restricao_violada"],
+  "human_approval_if": ["compra", "cancelamento", "envio_externo"],
+}</code></pre>
+<div class="grid-3 stagger-in text-xs" style="gap:0.55rem;">
+<div class="card card-purple parallax-card fragment"><b>Observável</b><br>status e evidências por passo.</div>
+<div class="card card-cyan parallax-card fragment"><b>Controlável</b><br>limites de custo, risco e aprovação.</div>
+<div class="card card-green parallax-card fragment"><b>Avaliável</b><br>sucesso definido antes da resposta.</div>
+</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
 <h1>🔄 Replanning — quando o plano precisa mudar</h1>
-<div class="text-xs" style="margin-bottom: 0.75rem;">Planos rígidos quebram. Agentes úteis <b>re-planejam dinamicamente</b>.</div>
-<div class="stagger-in grid-2 text-xs" style="gap: 0.8rem;">
-<div class="card parallax-card fragment" style="background: rgba(248, 113, 113, 0.08); border: 1px solid rgba(248, 113, 113, 0.28);"><b>❌ Gatilhos</b><ul class="mt-1" style="line-height: 1.5;"><li>Tool retornou erro</li><li>Resultado inesperado</li><li>Usuário mudou o objetivo</li><li>Custo/tempo excedeu limite</li><li>Novo contexto invalida um passo</li></ul></div>
-<div class="card card-green parallax-card fragment"><b>✅ Estratégias</b><ul class="mt-1" style="line-height: 1.5;"><li><b>Local:</b> refaz só o passo que falhou</li><li><b>Parcial:</b> replaneja do passo atual em diante</li><li><b>Total:</b> descarta tudo e recomeça</li><li><b>Delegação:</b> pede ajuda a outro agente</li></ul></div>
+<div class="text-xs" style="margin-bottom: 0.75rem;">Replanning é um <b>loop de controle</b>: monitorar o mundo, detectar desvio e ajustar a rota. É próximo do ciclo MAPE-K da IBM Autonomic Computing.</div>
+<div class="stagger-in grid-4 text-xs" style="gap:0.55rem;">
+<div class="card card-cyan parallax-card fragment"><b>Monitor</b><br>tool falhou? evidência chegou? custo subiu?</div>
+<div class="card card-red parallax-card fragment"><b>Analyze</b><br>falha local ou premissa do plano errada?</div>
+<div class="card card-purple parallax-card fragment"><b>Plan</b><br>patch pequeno, subplano novo ou reinício total?</div>
+<div class="card card-green parallax-card fragment"><b>Execute</b><br>continua com trilha de auditoria.</div>
 </div>
+<div class="card mt-2 text-xs card-amber parallax-card fragment"><b>Anti-padrão:</b> replanejar a cada passo sem critério. Isso vira loop caro. Defina gatilhos objetivos.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
 <h1>🔄 Replanning — exemplos em produto</h1>
 <div class="stagger-in grid-3 text-xs" style="gap: 0.55rem;">
-<div class="card card-purple parallax-card fragment"><b>Devin</b><br>Mostra plano com checkboxes, risca o que concluiu e adiciona novos passos se necessário.</div>
-<div class="card card-cyan parallax-card fragment"><b>Manus</b><br>Cria um plano visual antes de qualquer ação no browser e recalcula a rota ao longo da execução.</div>
-<div class="card card-cyan parallax-card fragment"><b>Claude Code</b><br>Verbaliza "meu plano é..." antes de editar arquivos e ajusta o plano quando encontra bloqueios.</div>
+<div class="card card-purple parallax-card fragment"><b>Devin / coding agents</b><br>Planejam tarefas de engenharia, executam testes, abrem PR e replanejam quando build ou lint falha.</div>
+<div class="card card-cyan parallax-card fragment"><b>Browser agents</b><br>Manus, Operator e afins precisam trocar rota quando UI muda, login bloqueia ou dado não aparece.</div>
+<div class="card card-cyan parallax-card fragment"><b>Claude Code / Copilot agents</b><br>Transformam plano em checklist: editar arquivo, rodar teste, interpretar erro, ajustar hipótese.</div>
 </div>
-<div class="card mt-2 text-xs card-amber parallax-card fragment"><b>🎯 Regra prática:</b> em tarefas com mais de 3 passos, peça um plano explícito antes de executar. Isso reduz loops infinitos em ~60%.</div>
+<div class="grid-2 stagger-in text-xs" style="gap:0.55rem; margin-top:0.55rem;">
+<div class="card card-green parallax-card fragment"><b>Regra prática</b><br>Peça plano explícito quando há 3+ passos, tools externas, custo alto ou risco de ação irreversível.</div>
+<div class="card card-amber parallax-card fragment"><b>Leitura recomendada</b><br>Anthropic, <i>Building Effective Agents</i> (2024); LangGraph docs sobre persistence/checkpoints; Yao et al., <i>ReAct</i>.</div>
+</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">

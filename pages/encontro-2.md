@@ -655,55 +655,75 @@ flowchart TB
 
 # Plan-and-Execute vs ReWOO
 
-<div class="p-2 rounded-xl bg-purple-500/10 border border-purple-500/30 text-sm">
-<b>🗺️ Plan-and-Execute</b> <span class="opacity-70">(LangChain, 2023)</span><br>
-1. <b>Planner</b> cria a lista de passos<br>
-2. <b>Executor</b> executa cada passo com tools<br>
-3. Pode <b>re-planejar</b> se algo der errado<br><br>
-✅ Bom para tarefas multi-step com dependências claras<br>
-❌ Mais lento: 2 LLMs em série
+<div class="text-xs mb-2 opacity-80">O dilema pedagógico: <b>pensar a rota inteira</b> reduz improviso, mas pode ficar caro e rígido. Dois padrões aparecem na literatura e nos frameworks.</div>
+<div class="grid grid-cols-2 gap-3 text-xs">
+<div class="p-3 rounded-xl bg-purple-500/10 border border-purple-500/30">
+<b>🗺️ Plan-and-Execute</b><br>
+<span class="opacity-70">Planeja → executa → observa → replaneja.</span>
+<div class="mt-2 leading-snug">Bom quando o ambiente muda: navegar web, debugar código, investigar dados. O executor aprende com cada observação antes de seguir.</div>
 </div>
+<div class="p-3 rounded-xl bg-cyan-500/10 border border-cyan-500/30">
+<b>🔀 ReWOO</b> <span class="opacity-70">(Reasoning Without Observation)</span><br>
+<span class="opacity-70">Planeja todas as evidências antes de chamar tools.</span>
+<div class="mt-2 leading-snug">Bom quando as consultas são independentes: coletar cotações, buscar fatos paralelos, comparar documentos.</div>
+</div>
+</div>
+<div class="mt-2 p-2 rounded bg-amber-500/10 border border-amber-500/30 text-xs">Referências: ReAct (Yao et al., 2023), Plan-and-Solve prompting (Wang et al., 2023), ReWOO (Xu et al., 2023).</div>
 
 ---
 
 # Plan-and-Execute vs ReWOO — cont.
 
-<div class="p-2 rounded-xl bg-cyan-500/10 border border-cyan-500/30 text-sm">
-<b>🔀 ReWOO</b> <span class="opacity-70">(Reasoning WithOut Observation, 2023)</span><br>
-1. <b>Planner</b> lista todas as chamadas de tool de uma vez (`#E1`, `#E2`...)<br>
-2. <b>Worker</b> executa em <b>paralelo</b><br>
-3. <b>Solver</b> junta tudo na resposta final<br><br>
-✅ Muito mais rápido e barato (menos chamadas LLM)<br>
-❌ Não se adapta se uma tool falha no meio
-</div>
+```text
+Pergunta: "Compare laptops para ML até R$ 8k"
 
-<div class="mt-3 p-2 rounded bg-amber-500/10 border border-amber-500/30 text-xs">🎓 Em produção, a combinação mais comum é <b>planner + executor estilo ReAct + replanning quando necessário</b>.</div>
+Plan-and-Execute:
+  1. buscar opções → observar resultados
+  2. filtrar GPUs → observar disponibilidade
+  3. comparar preço/VRAM → responder
+
+ReWOO:
+  E1 = buscar("laptops RTX até 8k")
+  E2 = buscar("benchmarks RTX 4060 laptop ML")
+  E3 = buscar("preços varejo Brasil")
+  Solver(E1, E2, E3) → recomendação
+```
+
+<div class="grid grid-cols-3 gap-2 text-xs mt-2">
+<div class="p-2 rounded bg-green-500/10 border border-green-500/30"><b>Use Plan-and-Execute</b><br>quando há dependência, erro provável ou decisão sensível.</div>
+<div class="p-2 rounded bg-cyan-500/10 border border-cyan-500/30"><b>Use ReWOO</b><br>quando evidências podem ser coletadas em paralelo.</div>
+<div class="p-2 rounded bg-red-500/10 border border-red-500/30"><b>Evite ambos</b><br>quando uma única chamada direta resolve.</div>
+</div>
 
 ---
 
 # 🧠 Agentic Planning — como agentes criam e gerenciam planos
 
-<div class="text-xs mb-2">O diferencial de agentes como Devin, Manus e Claude Code não é só raciocinar: é <b>criar, acompanhar e revisar um plano</b>.</div>
+<div class="text-xs mb-2">A ideia não nasceu com LLMs. Ela vem de <b>planejamento em IA clássica</b>: estado, ações, pré-condições, efeitos e objetivo.</div>
 <div class="grid grid-cols-2 gap-3 text-xs">
-<div class="p-2 rounded-xl bg-purple-500/10 border border-purple-500/30"><b>O que o agente faz</b><ol class="mt-1 leading-snug"><li><b>Decompõe</b> o objetivo</li><li><b>Ordena</b> por dependências</li><li><b>Estima</b> custo/complexidade</li><li><b>Executa</b> monitorando progresso</li><li><b>Adapta</b> se algo falha ou muda</li></ol></div>
-<div class="p-2 rounded-xl bg-cyan-500/10 border border-cyan-500/30"><b>🧩 Analogia: GPS</b><div class="mt-1 opacity-80"><b>Sem planning:</b> você decide esquina por esquina.<br><b>Com planning:</b> vê a rota inteira, sabe quantos passos faltam e recalcula se uma rua fechar.</div></div>
+<div class="p-3 rounded-xl bg-purple-500/10 border border-purple-500/30"><b>🧱 Teoria clássica</b><div class="mt-1 leading-snug">STRIPS (Fikes & Nilsson, 1971) modelava o mundo como <i>estado inicial → ações válidas → estado objetivo</i>. HTN Planning quebrava metas em subtarefas hierárquicas.</div></div>
+<div class="p-3 rounded-xl bg-cyan-500/10 border border-cyan-500/30"><b>🤖 O que muda com LLMs</b><div class="mt-1 leading-snug">O modelo não tem um simulador perfeito do mundo. Ele propõe um plano plausível, executa tools, observa evidências e corrige a rota.</div></div>
 </div>
+<div class="mt-2 p-2 rounded bg-green-500/10 border border-green-500/30 text-xs"><b>Intuição:</b> planning é a ponte entre “responder uma pergunta” e “gerenciar uma tarefa”.</div>
 
 ---
 
 # 📋 Anatomia de um plano de agente
 
-<div class="text-sm mb-2">Um plano bem estruturado tem 4 elementos: <b>objetivo</b>, <b>passos</b>, <b>dependências/status</b> e <b>gatilho de replanning</b>.</div>
+<div class="text-sm mb-2">Um bom plano é mais parecido com um <b>contrato de execução</b> do que com uma lista de tarefas.</div>
 
 ```python
-# começo do plano
-objetivo = "Pesquisar e comparar 3 hotéis em SP para viagem corporativa"
-passos = [
-    {"id": 1, "acao": "Buscar hotéis 4-5 estrelas em SP centro",
-     "tool": "search_web", "status": "done", "resultado": "..."},
-    {"id": 2, "acao": "Extrair preços e avaliações dos 5 melhores",
-     "tool": "scrape_page", "status": "in_progress", "depende_de": [1]},
-]
+plan = {
+  "objetivo": "Escolher hotel para viagem corporativa em SP",
+  "criterio_sucesso": "3 opções justificadas com preço, localização e risco",
+  "restricoes": ["até R$ 900/noite", "perto da Av. Paulista"],
+  "passos": [
+    {"id": "S1", "acao": "buscar candidatos", "tool": "search_web",
+     "depende_de": [], "status": "done"},
+    {"id": "S2", "acao": "extrair preço e avaliação", "tool": "browser",
+     "depende_de": ["S1"], "status": "running"},
+  ]
+}
 ```
 
 ---
@@ -711,37 +731,52 @@ passos = [
 # 📋 Anatomia de um plano de agente — cont.
 
 ```python
-passos += [
-    {"id": 3, "acao": "Comparar custo-benefício em tabela",
-     "tool": "none (raciocínio)", "status": "pending", "depende_de": [2]},
-    {"id": 4, "acao": "Gerar recomendação final com justificativa",
-     "tool": "none", "status": "pending", "depende_de": [3]},
+plan["passos"] += [
+  {"id": "S3", "acao": "comparar trade-offs", "tool": "reasoning",
+   "depende_de": ["S2"], "status": "pending"},
+  {"id": "S4", "acao": "gerar recomendação auditável", "tool": "writer",
+   "depende_de": ["S3"], "status": "pending"},
 ]
-replanning_trigger = "Se qualquer passo falhar 2x, re-planejar"
+
+plan["guardrails"] = {
+  "budget_max_tool_calls": 8,
+  "replan_if": ["tool_error", "evidencia_conflitante", "restricao_violada"],
+  "human_approval_if": ["compra", "cancelamento", "envio_externo"],
+}
 ```
 
-<div class="mt-3 p-2 rounded-lg bg-green-500/10 border border-green-500/30 text-xs"><b>Pontos-chave:</b> cada passo tem <code>status</code>, <code>depende_de</code> e a tool necessária. O agente sabe exatamente onde está e o que falta.</div>
+<div class="mt-2 grid grid-cols-3 gap-2 text-xs">
+<div class="p-2 rounded bg-purple-500/10 border border-purple-500/30"><b>Observável</b><br>status e evidências por passo.</div>
+<div class="p-2 rounded bg-cyan-500/10 border border-cyan-500/30"><b>Controlável</b><br>limites de custo, risco e aprovação.</div>
+<div class="p-2 rounded bg-green-500/10 border border-green-500/30"><b>Avaliável</b><br>sucesso definido antes da resposta.</div>
+</div>
 
 ---
 
 # 🔄 Replanning — quando o plano precisa mudar
 
-<div class="text-xs mb-2">Planos rígidos quebram. Agentes úteis <b>re-planejam dinamicamente</b>.</div>
-<div class="grid grid-cols-2 gap-3 text-xs">
-<div class="p-2 rounded-lg bg-red-500/10 border border-red-500/30"><b>❌ Gatilhos</b><ul class="mt-1 leading-snug"><li>Tool retornou erro</li><li>Resultado inesperado</li><li>Usuário mudou o objetivo</li><li>Custo/tempo excedeu limite</li><li>Novo contexto invalida um passo</li></ul></div>
-<div class="p-2 rounded-lg bg-green-500/10 border border-green-500/30"><b>✅ Estratégias</b><ul class="mt-1 leading-snug"><li><b>Local:</b> refaz só o passo que falhou</li><li><b>Parcial:</b> replaneja do passo atual em diante</li><li><b>Total:</b> descarta tudo e recomeça</li><li><b>Delegação:</b> pede ajuda a outro agente</li></ul></div>
+<div class="text-xs mb-2">Replanning é um <b>loop de controle</b>: monitorar o mundo, detectar desvio e ajustar a rota. É próximo do ciclo MAPE-K da IBM Autonomic Computing.</div>
+<div class="grid grid-cols-4 gap-2 text-xs">
+<div class="p-2 rounded-lg bg-blue-500/10 border border-blue-500/30"><b>Monitor</b><br>tool falhou? evidência chegou? custo subiu?</div>
+<div class="p-2 rounded-lg bg-red-500/10 border border-red-500/30"><b>Analyze</b><br>falha local ou premissa do plano errada?</div>
+<div class="p-2 rounded-lg bg-purple-500/10 border border-purple-500/30"><b>Plan</b><br>patch pequeno, subplano novo ou reinício total?</div>
+<div class="p-2 rounded-lg bg-green-500/10 border border-green-500/30"><b>Execute</b><br>continua com trilha de auditoria.</div>
 </div>
+<div class="mt-2 p-2 rounded bg-amber-500/10 border border-amber-500/30 text-xs"><b>Anti-padrão:</b> replanejar a cada passo sem critério. Isso vira loop caro. Defina gatilhos objetivos.</div>
 
 ---
 
 # 🔄 Replanning — exemplos em produto
 
 <div class="grid grid-cols-3 gap-2 text-xs">
-<div class="p-2 rounded-lg bg-purple-500/10 border border-purple-500/30"><b>Devin</b><br>Mostra plano com checkboxes, risca o que concluiu e adiciona novos passos se necessário.</div>
-<div class="p-2 rounded-lg bg-cyan-500/10 border border-cyan-500/30"><b>Manus</b><br>Cria um plano visual antes de qualquer ação no browser e recalcula a rota ao longo da execução.</div>
-<div class="p-2 rounded-lg bg-sky-500/10 border border-sky-500/30"><b>Claude Code</b><br>Verbaliza "meu plano é..." antes de editar arquivos e ajusta o plano quando encontra bloqueios.</div>
+<div class="p-2 rounded-lg bg-purple-500/10 border border-purple-500/30"><b>Devin / coding agents</b><br>Planejam tarefas de engenharia, executam testes, abrem PR e replanejam quando build ou lint falha.</div>
+<div class="p-2 rounded-lg bg-cyan-500/10 border border-cyan-500/30"><b>Browser agents</b><br>Manus, Operator e afins precisam trocar rota quando UI muda, login bloqueia ou dado não aparece.</div>
+<div class="p-2 rounded-lg bg-sky-500/10 border border-sky-500/30"><b>Claude Code / Copilot agents</b><br>Transformam plano em checklist: editar arquivo, rodar teste, interpretar erro, ajustar hipótese.</div>
 </div>
-<div class="mt-2 p-2 rounded-lg bg-amber-500/10 border border-amber-500/30 text-xs"><b>🎯 Regra prática:</b> em tarefas com mais de 3 passos, peça um plano explícito antes de executar. Isso reduz loops infinitos em ~60%.</div>
+<div class="mt-2 grid grid-cols-2 gap-2 text-xs">
+<div class="p-2 rounded-lg bg-green-500/10 border border-green-500/30"><b>Regra prática</b><br>Peça plano explícito quando há 3+ passos, tools externas, custo alto ou risco de ação irreversível.</div>
+<div class="p-2 rounded-lg bg-amber-500/10 border border-amber-500/30"><b>Leitura recomendada</b><br>Anthropic, <i>Building Effective Agents</i> (2024); LangGraph docs sobre persistence/checkpoints; Yao et al., <i>ReAct</i>.</div>
+</div>
 
 ---
 
