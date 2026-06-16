@@ -1685,107 +1685,82 @@ print(run_rag_agent(&quot;Como funciona memória persistente?&quot;))</code></pr
 
 <section data-background-gradient="linear-gradient(135deg, #3b0764 0%, #0f172a 100%)" class="text-center">
 <h1>🏋️ 3.10 Exercícios — Encontro 3</h1>
-<div class="meta-info"><span class="badge">5 atividades</span><span class="badge">Memória</span><span class="badge">RAG</span><span class="badge">Skills</span><span class="badge">Multi-agente</span></div>
+<div class="meta-info"><span class="badge">5 tutoriais guiados</span><span class="badge">TODOs pequenos</span><span class="badge">Executar</span><span class="badge">Validar no slide</span></div>
+<div class="text-sm opacity-70 mt-3">A primeira execução pode levar alguns segundos para carregar o Python no navegador.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #172554 100%)">
-<h1>Exercício 3.1 · RAG sobre seus próprios docs</h1>
-<div class="card card-purple">
-
-<b>Tarefa:</b> monte um RAG sobre <b>3-5 PDFs ou Markdowns reais</b> (manual técnico, artigos, sua tese, qualquer coisa).
-
-<b>Requisitos:</b>
-<ul class="text-xs mt-1">
-<li>Use Chroma local</li>
-<li>Chunking de 500 tokens com overlap de 50</li>
-<li>Top-K = 4</li>
-<li>Mostre os documentos recuperados antes da resposta</li>
-</ul>
-
-<b>Teste com 5 perguntas:</b>
-<ul class="text-xs mt-1">
-<li>2 fáceis (estão literais no doc)</li>
-<li>2 difíceis (exigem síntese de 2+ trechos)</li>
-<li>1 "pegadinha" (não está no doc — o agente deve dizer "não sei")</li>
-</ul>
-
+<h1>Exercício 3.1 · Janela de contexto guiada</h1>
+<div class="grid-2 text-xs mb-2">
+<div class="card card-cyan"><b>O que você vai completar</b><br>1. estimativa de tokens · 2. preservação do system prompt · 3. corte do histórico antigo · 4. ordem cronológica.</div>
+<div class="card card-purple"><b>Como validar</b><br>Execute, leia o checklist, corrija um TODO por vez e rode novamente. Não precisa implementar um gerenciador completo.</div>
+</div>
+<div class="pyrunner-container" data-src="exercises/e3_1_sliding_window.py">
+  <textarea></textarea>
+  <button class="run-btn">▶ Executar</button>
+  <div class="pyrunner-output"></div>
 </div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e293b 100%)">
-<h1>Exercício 3.2 · Memória entre sessões</h1>
-<div class="card card-purple">
-
-<b>Tarefa:</b> use <b>mem0</b> ou <b>LangGraph + SqliteSaver</b> para criar um chat que <b>lembra</b> do usuário entre execuções.
-
-<b>Cenário:</b>
-<ol class="text-xs mt-1">
-<li>Sessão 1: usuário diz "me chamo Maria, sou engenheira de dados, prefiro Python"</li>
-<li>Encerre o programa</li>
-<li>Sessão 2 (novo <code>python script.py</code>): pergunta "qual minha profissão?"</li>
-</ol>
-
-O agente deve responder corretamente <b>sem</b> receber a info novamente.
-
+<h1>Exercício 3.2 · Mini-RAG passo a passo</h1>
+<div class="grid-2 text-xs mb-2">
+<div class="card card-green"><b>Pipeline</b><br>tokenize → similarity → retrieve top-k → responder usando apenas contexto recuperado.</div>
+<div class="card card-amber"><b>Conceito-chave</b><br>O exercício não chama LLM real: ele isola o mecanismo de grounding para você ver quando a busca funciona ou falha.</div>
+</div>
+<div class="pyrunner-container" data-src="exercises/e3_2_mini_rag.py">
+  <textarea></textarea>
+  <button class="run-btn">▶ Executar</button>
+  <div class="pyrunner-output"></div>
 </div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #1f2937 100%)">
-<h1>Exercício 3.3 · Crie um MCP server</h1>
-<div class="card card-purple">
-
-<b>Tarefa:</b> crie um servidor MCP simples que expõe <b>2 ferramentas</b> úteis:
-
-<ol class="text-xs mt-1">
-<li><code>listar_arquivos(diretorio: str)</code> — lista arquivos de um diretório</li>
-<li><code>contar_linhas(caminho_arquivo: str)</code> — conta linhas de um arquivo</li>
-</ol>
-
-<b>Conecte ao Claude Desktop</b> (ou Cursor) editando o <code>claude_desktop_config.json</code>.
-
-<b>Teste:</b> pergunte ao Claude "quantas linhas tem o maior arquivo .py da pasta X?"
-
-<b>O que isso ensina:</b> seu agente passa a ter ferramentas custom em <b>qualquer cliente MCP</b>, não só num script Python.
-
+<h1>Exercício 3.3 · Memória entre sessões, sem banco real</h1>
+<div class="grid-2 text-xs mb-2">
+<div class="card card-purple"><b>Passos</b><br>1. salvar fatos · 2. buscar episódios · 3. exportar snapshot · 4. importar em uma nova “sessão”.</div>
+<div class="card card-cyan"><b>Por que assim?</b><br>Antes de usar mem0, LangGraph ou SQLite, entenda a diferença entre memória semântica e episódica.</div>
+</div>
+<div class="pyrunner-container" data-src="exercises/e3_3_memoria.py">
+  <textarea></textarea>
+  <button class="run-btn">▶ Executar</button>
+  <div class="pyrunner-output"></div>
 </div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)">
-<h1>Exercício 3.4 · Crew de 2 agentes</h1>
-<div class="card card-purple">
-
-<b>Tarefa:</b> use <b>CrewAI</b> ou <b>LangGraph</b> para montar:
-
-<ul class="text-xs mt-1">
-<li><b>Agente 1 — Pesquisador:</b> recebe um tema, faz 3 buscas web, retorna fatos</li>
-<li><b>Agente 2 — Crítico:</b> recebe os fatos, avalia se são confiáveis, marca os duvidosos</li>
-</ul>
-
-<b>Teste:</b> <i>"Quais foram os 3 maiores avanços em IA em 2025?"</i>
-
-<b>Análise:</b> compare com a resposta de um único agente fazendo a mesma tarefa. O multi-agente foi melhor? Pior? Mais caro?
-
+<h1>Exercício 3.4 · MCP em miniatura: registry de tools</h1>
+<div class="grid-2 text-xs mb-2">
+<div class="card card-green"><b>O que será simulado</b><br>Um servidor expõe tools; um cliente escolhe uma tool; o dispatcher executa com argumentos controlados.</div>
+<div class="card card-amber"><b>Importante</b><br>No navegador não conectamos Claude/Cursor de verdade. O objetivo é praticar o padrão mental do MCP antes da integração real.</div>
+</div>
+<div class="pyrunner-container" data-src="exercises/e3_4_mcp_tools.py">
+  <textarea></textarea>
+  <button class="run-btn">▶ Executar</button>
+  <div class="pyrunner-output"></div>
 </div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #064e3b 100%)">
-<h1>Exercício 3.5 · Análise de context window</h1>
-<div class="card card-cyan">
+<h1>Exercício 3.5 · Dois agentes: pesquisador + crítico</h1>
+<div class="grid-2 text-xs mb-2">
+<div class="card card-purple"><b>Handoff</b><br>Pesquisador produz fatos com fonte/confiança. Crítico marca riscos. Síntese usa apenas fatos confiáveis.</div>
+<div class="card card-red"><b>Pergunta pedagógica</b><br>O segundo agente melhorou qualidade ou só adicionou custo? Use o checklist para discutir trade-offs.</div>
+</div>
+<div class="pyrunner-container" data-src="exercises/e3_5_crew.py">
+  <textarea></textarea>
+  <button class="run-btn">▶ Executar</button>
+  <div class="pyrunner-output"></div>
+</div>
+</section>
 
-<b>Tarefa de análise (sem código obrigatório):</b>
-
-Escolha um agente real que você usa (Cursor, Claude Code, ChatGPT, etc) e responda:
-
-<ol class="text-xs mt-1">
-<li>Qual a janela de contexto do modelo subjacente?</li>
-<li>Como ele lida com <b>históricos longos</b> (você já viu o "histórico antigo" sumir)?</li>
-<li>Ele usa <b>RAG</b>? Em que parte (busca no seu código? em docs?)</li>
-<li>Tem memória <b>entre sessões</b>? Como ela funciona (na sua percepção)?</li>
-<li>Que <b>falhas de contexto</b> você já viu? (Ex: "esqueceu" algo que você disse no início.)</li>
-</ol>
-
-Escreva 1 página. Será discutido no Encontro 4.
-
+<section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
+<h1>Fechamento dos exercícios · reflexão rápida</h1>
+<div class="grid-2 text-xs mt-3">
+<div class="card card-cyan"><b>Contexto</b><br>Quando você deve resumir, cortar histórico, fazer RAG ou salvar memória?</div>
+<div class="card card-purple"><b>Integração</b><br>Quando uma tool simples vira um servidor MCP reutilizável?</div>
+<div class="card card-green"><b>Multi-agente</b><br>Quando separar papéis melhora qualidade? Quando só aumenta latência e custo?</div>
+<div class="card card-amber"><b>Próximo passo</b><br>Escolha um exercício e troque a base fake por dados reais no seu projeto final.</div>
 </div>
 </section>
 

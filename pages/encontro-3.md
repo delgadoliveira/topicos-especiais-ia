@@ -1273,100 +1273,74 @@ layout: section
 
 # 🏋️ 3.10 Exercícios — Encontro 3
 
-5 atividades · Memória, RAG, skills, multi-agente
+5 tutoriais guiados · complete pequenos TODOs · execute e valide no slide
+
+<div class="mt-4 text-sm opacity-70">A primeira execução pode levar alguns segundos para carregar o Python no navegador.</div>
 
 ---
 
-# Exercício 3.1 · RAG sobre seus próprios docs
+# Exercício 3.1 · Janela de contexto guiada
 
-<div class="p-5 rounded-xl bg-purple-500/10 border-2 border-purple-500/40">
-
-**Tarefa:** monte um RAG sobre <b>3-5 PDFs ou Markdowns reais</b> (manual técnico, artigos, sua tese, qualquer coisa).
-
-**Requisitos:**
-- Use Chroma local
-- Chunking de 500 tokens com overlap de 50
-- Top-K = 4
-- Mostre os documentos recuperados antes da resposta
-
-**Teste com 5 perguntas:**
-- 2 fáceis (estão literais no doc)
-- 2 difíceis (exigem síntese de 2+ trechos)
-- 1 "pegadinha" (não está no doc — o agente deve dizer "não sei")
-
+<div class="grid grid-cols-2 gap-3 text-xs mb-3">
+<div class="p-3 rounded-xl bg-cyan-500/10 border border-cyan-500/30"><b>O que você vai completar</b><br>1. estimativa de tokens · 2. preservação do system prompt · 3. corte do histórico antigo · 4. ordem cronológica.</div>
+<div class="p-3 rounded-xl bg-purple-500/10 border border-purple-500/30"><b>Como validar</b><br>Execute, leia o checklist, corrija um TODO por vez e rode novamente. Não precisa implementar um gerenciador completo.</div>
 </div>
 
+<PyRunner src="/topicos-especiais-ia/exercises/e3_1_sliding_window.py" height="360px" />
+
 ---
 
-# Exercício 3.2 · Memória entre sessões
+# Exercício 3.2 · Mini-RAG passo a passo
 
-<div class="p-5 rounded-xl bg-purple-500/10 border-2 border-purple-500/40">
-
-**Tarefa:** use **mem0** ou **LangGraph + SqliteSaver** para criar um chat que **lembra** do usuário entre execuções.
-
-**Cenário:**
-1. Sessão 1: usuário diz "me chamo Maria, sou engenheira de dados, prefiro Python"
-2. Encerre o programa
-3. Sessão 2 (novo `python script.py`): pergunta "qual minha profissão?"
-
-O agente deve responder corretamente **sem** receber a info novamente.
-
+<div class="grid grid-cols-2 gap-3 text-xs mb-3">
+<div class="p-3 rounded-xl bg-green-500/10 border border-green-500/30"><b>Pipeline</b><br>tokenize → similarity → retrieve top-k → responder usando apenas contexto recuperado.</div>
+<div class="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30"><b>Conceito-chave</b><br>O exercício não chama LLM real: ele isola o mecanismo de grounding para você ver quando a busca funciona ou falha.</div>
 </div>
 
+<PyRunner src="/topicos-especiais-ia/exercises/e3_2_mini_rag.py" height="360px" />
+
 ---
 
-# Exercício 3.3 · Crie um MCP server
+# Exercício 3.3 · Memória entre sessões, sem banco real
 
-<div class="p-5 rounded-xl bg-purple-500/10 border-2 border-purple-500/40">
-
-**Tarefa:** crie um servidor MCP simples que expõe **2 ferramentas** úteis:
-
-1. `listar_arquivos(diretorio: str)` — lista arquivos de um diretório
-2. `contar_linhas(caminho_arquivo: str)` — conta linhas de um arquivo
-
-**Conecte ao Claude Desktop** (ou Cursor) editando o `claude_desktop_config.json`.
-
-**Teste:** pergunte ao Claude "quantas linhas tem o maior arquivo .py da pasta X?"
-
-**O que isso ensina:** seu agente passa a ter ferramentas custom em <b>qualquer cliente MCP</b>, não só num script Python.
-
+<div class="grid grid-cols-2 gap-3 text-xs mb-3">
+<div class="p-3 rounded-xl bg-purple-500/10 border border-purple-500/30"><b>Passos</b><br>1. salvar fatos · 2. buscar episódios · 3. exportar snapshot · 4. importar em uma nova “sessão”.</div>
+<div class="p-3 rounded-xl bg-cyan-500/10 border border-cyan-500/30"><b>Por que assim?</b><br>Antes de usar mem0, LangGraph ou SQLite, entenda a diferença entre memória semântica e episódica.</div>
 </div>
 
+<PyRunner src="/topicos-especiais-ia/exercises/e3_3_memoria.py" height="360px" />
+
 ---
 
-# Exercício 3.4 · Crew de 2 agentes
+# Exercício 3.4 · MCP em miniatura: registry de tools
 
-<div class="p-5 rounded-xl bg-purple-500/10 border-2 border-purple-500/40">
-
-**Tarefa:** use **CrewAI** ou **LangGraph** para montar:
-
-- **Agente 1 — Pesquisador:** recebe um tema, faz 3 buscas web, retorna fatos
-- **Agente 2 — Crítico:** recebe os fatos, avalia se são confiáveis, marca os duvidosos
-
-**Teste:** *"Quais foram os 3 maiores avanços em IA em 2025?"*
-
-**Análise:** compare com a resposta de um único agente fazendo a mesma tarefa. O multi-agente foi melhor? Pior? Mais caro?
-
+<div class="grid grid-cols-2 gap-3 text-xs mb-3">
+<div class="p-3 rounded-xl bg-green-500/10 border border-green-500/30"><b>O que será simulado</b><br>Um servidor expõe tools; um cliente escolhe uma tool; o dispatcher executa com argumentos controlados.</div>
+<div class="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30"><b>Importante</b><br>No navegador não conectamos Claude/Cursor de verdade. O objetivo é praticar o padrão mental do MCP antes da integração real.</div>
 </div>
 
+<PyRunner src="/topicos-especiais-ia/exercises/e3_4_mcp_tools.py" height="360px" />
+
 ---
 
-# Exercício 3.5 · Análise de context window
+# Exercício 3.5 · Dois agentes: pesquisador + crítico
 
-<div class="p-5 rounded-xl bg-cyan-500/10 border-2 border-cyan-500/40">
+<div class="grid grid-cols-2 gap-3 text-xs mb-3">
+<div class="p-3 rounded-xl bg-purple-500/10 border border-purple-500/30"><b>Handoff</b><br>Pesquisador produz fatos com fonte/confiança. Crítico marca riscos. Síntese usa apenas fatos confiáveis.</div>
+<div class="p-3 rounded-xl bg-red-500/10 border border-red-500/30"><b>Pergunta pedagógica</b><br>O segundo agente melhorou qualidade ou só adicionou custo? Use o checklist para discutir trade-offs.</div>
+</div>
 
-**Tarefa de análise (sem código obrigatório):**
+<PyRunner src="/topicos-especiais-ia/exercises/e3_5_crew.py" height="360px" />
 
-Escolha um agente real que você usa (Cursor, Claude Code, ChatGPT, etc) e responda:
+---
 
-1. Qual a janela de contexto do modelo subjacente?
-2. Como ele lida com **históricos longos** (você já viu o "histórico antigo" sumir)?
-3. Ele usa **RAG**? Em que parte (busca no seu código? em docs?)
-4. Tem memória **entre sessões**? Como ela funciona (na sua percepção)?
-5. Que **falhas de contexto** você já viu? (Ex: "esqueceu" algo que você disse no início.)
+# Fechamento dos exercícios · reflexão rápida
 
-Escreva 1 página. Será discutido no Encontro 4.
-
+<div class="grid grid-cols-2 gap-3 text-xs mt-3">
+<div class="p-3 rounded-xl bg-cyan-500/10 border border-cyan-500/30"><b>Contexto</b><br>Quando você deve resumir, cortar histórico, fazer RAG ou salvar memória?</div>
+<div class="p-3 rounded-xl bg-purple-500/10 border border-purple-500/30"><b>Integração</b><br>Quando uma tool simples vira um servidor MCP reutilizável?</div>
+<div class="p-3 rounded-xl bg-green-500/10 border border-green-500/30"><b>Multi-agente</b><br>Quando separar papéis melhora qualidade? Quando só aumenta latência e custo?</div>
+<div class="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30"><b>Próximo passo</b><br>Escolha um exercício e troque a base fake por dados reais no seu projeto final.</div>
 </div>
 
 ---

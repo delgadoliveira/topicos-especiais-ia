@@ -366,7 +366,8 @@ Para cada um:
 | 5 | 25' | Advanced RAG (HyDE, multi-query, re-ranking) |
 | 6 | 20' | Context engineering & prompt caching |
 | 7 | 25' | Memória de longo prazo |
-| 8 | 10' | Mercado + exercícios |
+| 8 | 25' | Exercícios guiados no PyRunner |
+| 9 | 10' | Mercado + fechamento |
 
 ## 📖 Roteiro slide-a-slide
 
@@ -414,6 +415,8 @@ Para cada um:
 - [ ] RAG básico com Chroma + 5 PDFs públicos
 - [ ] Comparação latência/custo com e sem prompt caching
 - [ ] Exemplo de Mem0 lembrando preferências do usuário entre sessões
+- [ ] Abrir os exercícios 3.1-3.5 e mostrar o padrão: editar um TODO pequeno, executar, ler o checklist, repetir
+- [ ] Explicar que MCP e multi-agente são simulações locais no navegador; a integração real fica para projeto/ambiente externo
 
 ## ❓ FAQ
 
