@@ -826,6 +826,209 @@ print(chat(&quot;Me ajude a escrever uma função&quot;))</code></pre>
 <div class="card card-cyan mt-3 text-xs">✅ Resultado: ele responde em português, tom técnico e sem emojis mesmo em outra sessão.</div>
 </section>
 
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)" class="text-center">
+<h1>🧠 Além do RAG: memória como arquitetura</h1>
+<p class="text-sm">No <b>Stanford CS329A</b>, a ideia não é só “colocar mais texto no prompt”.<br>É tratar contexto como um <b>sistema de memória</b>, com camadas e políticas.</p>
+<div class="grid-3 mt-2 stagger-in text-xs">
+  <div class="card card-purple expandable">
+    <div class="card-title">🪟 Contexto = mesa de trabalho</div>
+    <div class="card-desc">O que está aberto agora, visível para o modelo.</div>
+    <div class="card-detail">
+      <p><b>Analogia:</b> sua mesa ou aba atual do navegador.</p>
+      <p>Se você lota a mesa com tudo, fica caro, lento e confuso.</p>
+    </div>
+  </div>
+  <div class="card card-cyan expandable">
+    <div class="card-title">🗃️ Memória externa = armário</div>
+    <div class="card-desc">Informações ficam guardadas fora do prompt.</div>
+    <div class="card-detail">
+      <p>Pode ser Vector DB, banco relacional, arquivos, sumários ou checkpoints.</p>
+      <p>O agente busca só o que precisa, em vez de carregar tudo toda hora.</p>
+    </div>
+  </div>
+  <div class="card card-green expandable">
+    <div class="card-title">⚖️ Política de memória</div>
+    <div class="card-desc">Quem entra, quem sai e quem volta para o contexto.</div>
+    <div class="card-detail">
+      <p><b>Perguntas-chave:</b> o que vale lembrar? o que pode ser resumido? o que deve ser reconsultado?</p>
+      <p>Isso é <b>context engineering</b> na prática.</p>
+    </div>
+  </div>
+</div>
+<div class="insight-box mt-3">📚 Fonte-guia: Stanford CS329A — memória, context management e agentes que escolhem como usar contexto.</div>
+</section>
+
+<section>
+<h1>🧠 MemGPT — LLMs como sistemas operacionais</h1>
+<p class="text-sm"><b>MemGPT</b> (Packer et al., 2023) propõe olhar para o agente como um <b>OS</b>:<br><b>contexto principal = RAM</b> · <b>memória externa = HD</b>.</p>
+<div class="flow-diagram mt-2">
+  <div class="flow-node node-purple fragment">Usuário fala</div>
+  <div class="flow-arrow fragment">→</div>
+  <div class="flow-node node-cyan fragment">Contexto ativo<br>“RAM”</div>
+  <div class="flow-arrow fragment">↔</div>
+  <div class="flow-node node-green fragment">Memória arquivada<br>“HD / disco”</div>
+  <div class="flow-arrow fragment">→</div>
+  <div class="flow-node node-amber fragment">Resposta</div>
+</div>
+<div class="grid-3 mt-3 text-xs stagger-in">
+  <div class="card card-cyan expandable">
+    <div class="card-title">💬 O que fica na “RAM”</div>
+    <div class="card-desc">Pergunta atual, instruções e poucos fatos críticos.</div>
+    <div class="card-detail">
+      <p>É a parte cara e limitada: tudo aqui consome tokens a cada chamada.</p>
+      <p>Por isso o agente não deve deixar “tudo aberto”.</p>
+    </div>
+  </div>
+  <div class="card card-green expandable">
+    <div class="card-title">💾 O que vai para o “HD”</div>
+    <div class="card-desc">Histórico antigo, detalhes raros e documentos grandes.</div>
+    <div class="card-detail">
+      <p><b>Paging out:</b> tirar do contexto atual, mas guardar para recuperar depois.</p>
+      <p><b>Paging in:</b> trazer de volta quando a tarefa exigir.</p>
+    </div>
+  </div>
+  <div class="card card-amber expandable">
+    <div class="card-title">🧑‍💻 Quem decide?</div>
+    <div class="card-desc">O próprio agente gerencia a memória.</div>
+    <div class="card-detail">
+      <p>Na visão do MemGPT, o LLM recebe instruções explícitas para decidir o que manter, resumir ou arquivar.</p>
+      <p>É menos “prompt gigante” e mais “gerente de memória”.</p>
+    </div>
+  </div>
+</div>
+<div class="tip-box mt-3">🖥️ Analogia simples: seu computador não coloca todos os arquivos na RAM; o agente bom também não.</div>
+</section>
+
+<section>
+<h1>⚡ CacheBlend &amp; Efficient RAG</h1>
+<p class="text-sm">Para RAG funcionar em produção, não basta recuperar bem — precisa ser <b>rápido</b>, <b>barato</b> e <b>repetível</b>.</p>
+<div class="flow-diagram mt-2">
+  <div class="flow-node node-purple fragment">Pergunta</div>
+  <div class="flow-arrow fragment">→</div>
+  <div class="flow-node node-cyan fragment">Retrieval</div>
+  <div class="flow-arrow fragment">→</div>
+  <div class="flow-node node-green fragment">Cache de contexto<br>/ KV / chunks</div>
+  <div class="flow-arrow fragment">→</div>
+  <div class="flow-node node-amber fragment">Fusão rápida</div>
+  <div class="flow-arrow fragment">→</div>
+  <div class="flow-node node-purple fragment">LLM</div>
+</div>
+<div class="grid-3 mt-3 text-xs stagger-in">
+  <div class="card card-purple expandable">
+    <div class="card-title">♻️ Reaproveitar o que já foi lido</div>
+    <div class="card-desc">Não recalcule tudo do zero a cada pergunta parecida.</div>
+    <div class="card-detail">
+      <p><b>Exemplo:</b> política de RH, manual da empresa e docs da API aparecem o dia inteiro.</p>
+      <p>Se esses blocos já foram processados, faz sentido cacheá-los.</p>
+    </div>
+  </div>
+  <div class="card card-cyan expandable">
+    <div class="card-title">🧩 CacheBlend = fusão eficiente</div>
+    <div class="card-desc">Mistura pedaços recuperados com cache, reduzindo recomputação.</div>
+    <div class="card-detail">
+      <p>A ideia central é: <b>reusar</b> conhecimento recuperado e recalcular só o mínimo necessário.</p>
+      <p>Resultado típico: menor <i>time-to-first-token</i> e mais throughput.</p>
+    </div>
+  </div>
+  <div class="card card-green expandable">
+    <div class="card-title">🏭 Efficient RAG na prática</div>
+    <div class="card-desc">Caching + híbrido + rerank + compressão.</div>
+    <div class="card-detail">
+      <p>RAG escalável normalmente combina: cache de consultas frequentes, busca híbrida, reranker e compressão de contexto.</p>
+      <p>Objetivo: dar resposta boa <b>sem</b> pagar a conta de um prompt monstro.</p>
+    </div>
+  </div>
+</div>
+<div class="insight-box mt-3">📚 Stanford CS329A enfatiza isso: retrieval útil precisa virar <b>knowledge fusion prática</b>, não só demo bonita.</div>
+</section>
+
+<section>
+<h1>🧩 Cartridges — conhecimento portátil</h1>
+<p class="text-sm"><b>Cartridges</b> são representações leves de contexto longo: o agente “estuda” um domínio antes e guarda um pacote reutilizável para carregar sob demanda.</p>
+<div class="grid-3 mt-2 stagger-in text-xs">
+  <div class="card card-purple expandable">
+    <div class="card-title">📚 1. Self-study offline</div>
+    <div class="card-desc">O agente lê docs, código ou um corpus inteiro antes do uso.</div>
+    <div class="card-detail">
+      <p>Em vez de reprocessar 500 páginas sempre, ele faz uma fase de estudo e destilação.</p>
+      <p>É como montar um resumo inteligente com estrutura para consulta futura.</p>
+    </div>
+  </div>
+  <div class="card card-cyan expandable">
+    <div class="card-title">🎮 2. Vira um “cartucho”</div>
+    <div class="card-desc">Conhecimento compactado, leve e reutilizável.</div>
+    <div class="card-detail">
+      <p><b>Analogia:</b> videogame antigo — você encaixa o cartucho certo e ganha aquele mundo.</p>
+      <p>No agente, o cartucho carrega fatos, estrutura, índices e atalhos daquele domínio.</p>
+    </div>
+  </div>
+  <div class="card card-green expandable">
+    <div class="card-title">🚀 3. Load on demand</div>
+    <div class="card-desc">Só entra no contexto quando o tema pede.</div>
+    <div class="card-detail">
+      <p>Se a pergunta é sobre jurídico, carrega o cartucho jurídico; se é sobre código, carrega o cartucho do repositório.</p>
+      <p>Menos contexto inútil, mais foco.</p>
+    </div>
+  </div>
+</div>
+<div class="card card-amber expandable mt-3 text-xs">
+  <div class="card-title">💡 Por que isso importa?</div>
+  <div class="card-desc">Cartridges tentam unir o melhor de dois mundos: profundidade de contexto e baixo custo de uso.</div>
+  <div class="card-detail">
+    <p>É uma alternativa entre <b>colar tudo no prompt</b> e <b>fazer retrieval do zero o tempo todo</b>.</p>
+    <p>No espírito do Stanford CS329A, é memória preparada para agentes que aprendem a se organizar.</p>
+  </div>
+</div>
+</section>
+
+<section>
+<h1>📊 Comparando arquiteturas de memória</h1>
+<div class="grid-4 mt-2 text-xs stagger-in">
+  <div class="card card-red expandable">
+    <div class="card-title">1. Sem memória</div>
+    <div class="card-desc">Cada turno começa do zero.</div>
+    <div class="card-detail">
+      <p><b>Bom para:</b> FAQs simples.</p>
+      <p><b>Quebra em:</b> personalização, continuidade e tarefas longas.</p>
+    </div>
+  </div>
+  <div class="card card-amber expandable">
+    <div class="card-title">2. Curto prazo</div>
+    <div class="card-desc">Só o histórico da conversa atual.</div>
+    <div class="card-detail">
+      <p><b>Bom para:</b> chats curtos.</p>
+      <p><b>Problema:</b> esquece entre sessões e sofre com context window.</p>
+    </div>
+  </div>
+  <div class="card card-green expandable">
+    <div class="card-title">3. Longo prazo</div>
+    <div class="card-desc">Vector DB / memória persistente entre sessões.</div>
+    <div class="card-detail">
+      <p><b>Bom para:</b> preferências, fatos do usuário e documentos externos.</p>
+      <p><b>Problema:</b> ainda depende de retrieval certo e não decide sozinho o que “sai da RAM”.</p>
+    </div>
+  </div>
+  <div class="card card-purple expandable">
+    <div class="card-title">4. Hierárquica (MemGPT-style)</div>
+    <div class="card-desc">Contexto ativo + memória externa + política de paginação.</div>
+    <div class="card-detail">
+      <p><b>Bom para:</b> agentes persistentes, longos e mais autônomos.</p>
+      <p><b>Trade-off:</b> exige orquestração melhor, mas escala muito melhor que “prompt infinito”.</p>
+    </div>
+  </div>
+</div>
+<div class="flow-diagram mt-3">
+  <div class="flow-node node-red fragment">Zero memória</div>
+  <div class="flow-arrow fragment">→</div>
+  <div class="flow-node node-amber fragment">Histórico local</div>
+  <div class="flow-arrow fragment">→</div>
+  <div class="flow-node node-green fragment">Memória persistente</div>
+  <div class="flow-arrow fragment">→</div>
+  <div class="flow-node node-purple fragment">Memória hierárquica</div>
+</div>
+<div class="tip-box mt-3">🎯 Regra prática para iniciantes: comece com <b>curto prazo + RAG</b>; evolua para <b>memória hierárquica</b> quando o agente precisar durar muito e decidir melhor o que lembrar.</div>
+</section>
+
 <section data-background-gradient="linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%)" class="text-center">
 <h1>🔧 Parte 2: Habilidades e colaboração</h1>
 <p class="text-sm">O agente já tem <b>memória</b> e <b>conhecimento externo</b> (RAG).<br>Agora vamos dar a ele <b>habilidades permanentes</b> — e a capacidade de <b>trabalhar em equipe</b>.</p>
@@ -1176,8 +1379,8 @@ Escreva 1 página. Será discutido no Encontro 4.
 <section>
 <h1>📚 Referências públicas — Encontro 3 (2/2)</h1>
 <div class="grid-2 text-xs mt-3">
-<div class="tip-box"><b>Memória & Skills</b><ul class="mt-1"><li>Packer et al. (2023) — <i>MemGPT</i> · <a href="https://arxiv.org/abs/2310.08560">arXiv:2310.08560</a></li><li>Park et al. (2023) — <i>Generative Agents</i> · <a href="https://arxiv.org/abs/2304.03442">arXiv:2304.03442</a></li><li>Anthropic (2024) — <i>Prompt Caching</i> · <a href="https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching">docs.anthropic.com</a></li><li>Anthropic (2024) — <i>MCP Specification</i> · <a href="https://modelcontextprotocol.io/">modelcontextprotocol.io</a></li></ul></div>
-<div class="card card-amber"><b>Multi-agente & Frameworks</b><ul class="mt-1"><li>Wu et al. (2023) — <i>AutoGen</i> · <a href="https://arxiv.org/abs/2308.08155">arXiv:2308.08155</a></li><li>CrewAI Docs · <a href="https://docs.crewai.com/">docs.crewai.com</a></li><li>Chroma · <a href="https://docs.trychroma.com/">docs.trychroma.com</a> · Qdrant · <a href="https://qdrant.tech/documentation/">qdrant.tech</a> · pgvector · <a href="https://github.com/pgvector/pgvector">github.com/pgvector</a></li></ul></div>
+<div class="tip-box"><b>Memória & Skills</b><ul class="mt-1"><li>Stanford CS329A — <i>Self-Improving AI Agents</i> · <a href="https://stanford-cs329a.github.io/">stanford-cs329a.github.io</a></li><li>Packer et al. (2023) — <i>MemGPT</i> · <a href="https://arxiv.org/abs/2310.08560">arXiv:2310.08560</a></li><li>Park et al. (2023) — <i>Generative Agents</i> · <a href="https://arxiv.org/abs/2304.03442">arXiv:2304.03442</a></li><li>Anthropic (2024) — <i>Prompt Caching</i> · <a href="https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching">docs.anthropic.com</a></li><li>Anthropic (2024) — <i>MCP Specification</i> · <a href="https://modelcontextprotocol.io/">modelcontextprotocol.io</a></li></ul></div>
+<div class="card card-amber"><b>Multi-agente & Frameworks</b><ul class="mt-1"><li>CacheBlend (2024) — <i>Fast LLM Serving for RAG with Cached Knowledge Fusion</i> · <a href="https://arxiv.org/abs/2405.16444">arXiv:2405.16444</a></li><li>Wu et al. (2023) — <i>AutoGen</i> · <a href="https://arxiv.org/abs/2308.08155">arXiv:2308.08155</a></li><li>CrewAI Docs · <a href="https://docs.crewai.com/">docs.crewai.com</a></li><li>Chroma · <a href="https://docs.trychroma.com/">docs.trychroma.com</a> · Qdrant · <a href="https://qdrant.tech/documentation/">qdrant.tech</a> · pgvector · <a href="https://github.com/pgvector/pgvector">github.com/pgvector</a></li></ul></div>
 </div>
 <div class="mt-2 text-xs opacity-70">Todo conteúdo deste encontro é de domínio público. Marcas mencionadas pertencem aos respectivos donos; uso exclusivamente educacional.</div>
 </section>

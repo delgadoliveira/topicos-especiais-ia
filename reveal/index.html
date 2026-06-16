@@ -58,26 +58,31 @@
         </section>
 
         <section>
-          <h2>⚙️ Setup do Ambiente</h2>
-          <div class="terminal">
-            <div class="terminal-header">
-              <span class="terminal-dot red"></span>
-              <span class="terminal-dot yellow"></span>
-              <span class="terminal-dot green"></span>
-              <span class="terminal-title">Terminal</span>
+          <h2>⚙️ Como rodar os exercícios</h2>
+          <div class="grid-2" style="gap:1.2rem; margin-top:1rem;">
+            <div class="card card-green" style="opacity:1; transform:none;">
+              <div class="card-icon">🌐</div>
+              <div class="card-title" style="font-size:0.85em;">Opção 1 — Direto no navegador (recomendado)</div>
+              <div class="card-desc" style="font-size:0.6em; margin-top:0.5rem;">
+                <p>Todos os exercícios desta apresentação rodam <b>aqui mesmo</b>, no navegador, usando <b>Pyodide</b> (Python compilado para WebAssembly).</p>
+                <p style="margin-top:0.4rem;"><b>Não precisa instalar nada.</b> Clique em "▶ Executar" nos blocos de código e veja o resultado ao vivo.</p>
+              </div>
             </div>
-            <pre class="terminal-body"><code class="language-bash"># Python 3.10+ necessário
-python -m venv .venv
-source .venv/bin/activate  # Windows: .venv\Scripts\activate
-
-# Dependências
+            <div class="card" style="opacity:1; transform:none;">
+              <div class="card-icon">💻</div>
+              <div class="card-title" style="font-size:0.85em;">Opção 2 — Local (para ir além)</div>
+              <div class="card-desc" style="font-size:0.6em; margin-top:0.5rem;">
+                <p>Se quiser usar APIs reais (OpenAI, Anthropic) ou frameworks completos:</p>
+                <div class="terminal" style="margin-top:0.4rem;">
+                  <pre class="terminal-body" style="font-size:0.85em;"><code class="language-bash">python -m venv .venv && source .venv/bin/activate
 pip install openai langchain langgraph chromadb
-
-# Configurar API key
 echo "OPENAI_API_KEY=sk-..." > .env</code></pre>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="tip-box fragment">
-            💡 <b>Dica:</b> Todos os exercícios rodam direto no navegador com Pyodide — sem instalar nada para começar!
+          <div class="tip-box fragment" style="margin-top:0.8rem;">
+            💡 <b>Dica:</b> Comece pelo navegador. Quando sentir confiança, migre para o ambiente local e conecte APIs de verdade.
           </div>
         </section>
       </section>
@@ -296,40 +301,76 @@ echo "OPENAI_API_KEY=sk-..." > .env</code></pre>
 
     <!-- Left Sidebar Navigation -->
     <aside class="sidebar-nav" id="sidebar-nav">
-      <div class="sidebar-toggle" id="sidebar-toggle">
-        <span class="sidebar-toggle-icon">☰</span>
-      </div>
       <div class="sidebar-content">
-        <div class="sidebar-header">📚 Navegação</div>
+        <div class="sidebar-header">📚 Navegação do Curso</div>
         <ul class="sidebar-list">
-          <li class="sidebar-section" data-section="0">
+          <li class="sidebar-item" data-section="0">
             <span class="sidebar-icon">🏠</span>
             <span class="sidebar-label">Introdução</span>
           </li>
-          <li class="sidebar-section" data-section="1">
+          <li class="sidebar-item" data-section="1">
             <span class="sidebar-icon">📜</span>
             <span class="sidebar-label">História da IA</span>
           </li>
           <li class="sidebar-divider"></li>
-          <li class="sidebar-section" data-section="2">
-            <span class="sidebar-icon">🧱</span>
-            <span class="sidebar-label">Encontro 1</span>
-            <span class="sidebar-subtitle">Fundamentos</span>
+          <li class="sidebar-group">
+            <div class="sidebar-item" data-section="2">
+              <span class="sidebar-icon">🧱</span>
+              <span class="sidebar-label">Encontro 1 — Fundamentos</span>
+            </div>
+            <ul class="sidebar-topics">
+              <li data-section="2" data-slide="3">O que é um Agente</li>
+              <li data-section="2" data-slide="5">Agente vs Assistente vs Bot</li>
+              <li data-section="2" data-slide="8">Anatomia de um Agente</li>
+              <li data-section="2" data-slide="12">O padrão ReAct</li>
+              <li data-section="2" data-slide="18">Hands-on: Primeiro Agente</li>
+              <li data-section="2" data-slide="22">Exercícios</li>
+            </ul>
           </li>
-          <li class="sidebar-section" data-section="3">
-            <span class="sidebar-icon">🧠</span>
-            <span class="sidebar-label">Encontro 2</span>
-            <span class="sidebar-subtitle">Reasoning & Planning</span>
+          <li class="sidebar-group">
+            <div class="sidebar-item" data-section="3">
+              <span class="sidebar-icon">🧠</span>
+              <span class="sidebar-label">Encontro 2 — Reasoning & Planning</span>
+            </div>
+            <ul class="sidebar-topics">
+              <li data-section="3" data-slide="2">Chain-of-Thought (CoT)</li>
+              <li data-section="3" data-slide="5">Tree-of-Thoughts (ToT)</li>
+              <li data-section="3" data-slide="8">Plan-and-Execute</li>
+              <li data-section="3" data-slide="12">Function Calling</li>
+              <li data-section="3" data-slide="16">LangChain & LangGraph</li>
+              <li data-section="3" data-slide="20">Test-time Compute</li>
+              <li data-section="3" data-slide="24">Exercícios</li>
+            </ul>
           </li>
-          <li class="sidebar-section" data-section="4">
-            <span class="sidebar-icon">💾</span>
-            <span class="sidebar-label">Encontro 3</span>
-            <span class="sidebar-subtitle">Skills & Memória</span>
+          <li class="sidebar-group">
+            <div class="sidebar-item" data-section="4">
+              <span class="sidebar-icon">💾</span>
+              <span class="sidebar-label">Encontro 3 — Skills & Memória</span>
+            </div>
+            <ul class="sidebar-topics">
+              <li data-section="4" data-slide="2">Context Window</li>
+              <li data-section="4" data-slide="5">RAG & Vector DBs</li>
+              <li data-section="4" data-slide="9">Memória (curto/longo prazo)</li>
+              <li data-section="4" data-slide="12">MemGPT & Arquiteturas</li>
+              <li data-section="4" data-slide="15">MCP (Model Context Protocol)</li>
+              <li data-section="4" data-slide="18">Multi-agentes</li>
+              <li data-section="4" data-slide="22">Exercícios</li>
+            </ul>
           </li>
-          <li class="sidebar-section" data-section="5">
-            <span class="sidebar-icon">🚀</span>
-            <span class="sidebar-label">Encontro 4</span>
-            <span class="sidebar-subtitle">State-of-the-Art</span>
+          <li class="sidebar-group">
+            <div class="sidebar-item" data-section="5">
+              <span class="sidebar-icon">🚀</span>
+              <span class="sidebar-label">Encontro 4 — State-of-the-Art</span>
+            </div>
+            <ul class="sidebar-topics">
+              <li data-section="5" data-slide="2">Falhas Comuns</li>
+              <li data-section="5" data-slide="5">Custo & Latência</li>
+              <li data-section="5" data-slide="8">Segurança & Guardrails</li>
+              <li data-section="5" data-slide="12">Avaliação de Agentes</li>
+              <li data-section="5" data-slide="15">Cursor / Devin / Claude Code</li>
+              <li data-section="5" data-slide="18">CodeMonkeys & AlphaEvolve</li>
+              <li data-section="5" data-slide="22">Projeto Final</li>
+            </ul>
           </li>
         </ul>
         <div class="sidebar-progress">
@@ -338,6 +379,11 @@ echo "OPENAI_API_KEY=sk-..." > .env</code></pre>
         <div class="sidebar-counter" id="sidebar-counter"></div>
       </div>
     </aside>
+    <div class="sidebar-toggle" id="sidebar-toggle">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M3 12h18M3 6h18M3 18h18"/>
+      </svg>
+    </div>
 
     <!-- Bottom Navigation (prev/next) -->
     <nav class="custom-nav" id="custom-nav">

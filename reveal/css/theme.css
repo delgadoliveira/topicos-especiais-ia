@@ -728,77 +728,82 @@
 
 /* ═══════════════════════════════════════════════════════
    LEFT SIDEBAR NAVIGATION
+   Collapsed: thin strip with toggle button (no cut icons)
+   Open: full panel with detailed topic navigation
    ═══════════════════════════════════════════════════════ */
 .sidebar-nav {
   position: fixed;
   top: 0;
   left: 0;
   height: 100vh;
-  width: 52px;
+  width: 0;
   z-index: 200;
   transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   overflow: hidden;
 }
 
-.sidebar-nav:hover,
 .sidebar-nav.open {
-  width: 240px;
+  width: 280px;
+}
+
+.sidebar-toggle {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 210;
+  background: rgba(10, 10, 30, 0.7);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  color: var(--text-muted);
+  transition: all 0.2s ease;
+}
+
+.sidebar-toggle:hover {
+  color: var(--cyan);
+  border-color: rgba(34, 211, 238, 0.3);
+  background: rgba(10, 10, 30, 0.9);
+}
+
+.sidebar-toggle svg {
+  width: 18px;
+  height: 18px;
+}
+
+.sidebar-nav.open ~ .sidebar-toggle,
+.sidebar-nav.open .sidebar-toggle {
+  left: 244px;
 }
 
 .sidebar-content {
   position: absolute;
   top: 0;
   left: 0;
-  width: 240px;
+  width: 280px;
   height: 100%;
   display: flex;
   flex-direction: column;
-  background: rgba(10, 10, 30, 0.92);
+  background: rgba(10, 10, 30, 0.95);
   backdrop-filter: blur(20px);
   border-right: 1px solid var(--border-subtle);
-  padding: 1rem 0;
-}
-
-.sidebar-toggle {
-  position: absolute;
-  top: 0.8rem;
-  left: 0;
-  width: 52px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  z-index: 210;
-}
-
-.sidebar-toggle-icon {
-  font-size: 1.2rem;
-  color: var(--text-muted);
-  transition: color 0.2s, transform 0.3s;
-}
-
-.sidebar-nav:hover .sidebar-toggle-icon,
-.sidebar-nav.open .sidebar-toggle-icon {
-  color: var(--cyan);
-  transform: rotate(90deg);
+  padding: 0.8rem 0;
 }
 
 .sidebar-header {
-  padding: 0.6rem 1rem 0.8rem 3.2rem;
+  padding: 0.8rem 1.2rem;
   font-size: 0.7rem;
-  font-weight: 600;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--text-muted);
-  white-space: nowrap;
-  opacity: 0;
-  transition: opacity 0.2s 0.1s;
-}
-
-.sidebar-nav:hover .sidebar-header,
-.sidebar-nav.open .sidebar-header {
-  opacity: 1;
+  color: var(--cyan);
+  border-bottom: 1px solid var(--border-subtle);
+  margin-bottom: 0.4rem;
 }
 
 .sidebar-list {
@@ -807,29 +812,38 @@
   margin: 0;
   flex: 1;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .sidebar-list::-webkit-scrollbar {
-  width: 3px;
+  width: 4px;
 }
 
 .sidebar-list::-webkit-scrollbar-thumb {
   background: var(--border-subtle);
-  border-radius: 3px;
+  border-radius: 4px;
 }
 
-.sidebar-section {
+.sidebar-list::-webkit-scrollbar-thumb:hover {
+  background: var(--cyan);
+}
+
+/* Top-level items (Intro, História) */
+.sidebar-item {
   display: flex;
   align-items: center;
   gap: 0.6rem;
-  padding: 0.55rem 0.8rem 0.55rem 1rem;
+  padding: 0.5rem 1.2rem;
   cursor: pointer;
   transition: all 0.2s ease;
   position: relative;
   white-space: nowrap;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-secondary);
 }
 
-.sidebar-section::before {
+.sidebar-item::before {
   content: '';
   position: absolute;
   left: 0;
@@ -843,66 +857,99 @@
   transition: all 0.25s ease;
 }
 
-.sidebar-section.active::before {
+.sidebar-item.active::before {
   opacity: 1;
   transform: scaleY(1);
 }
 
-.sidebar-section:hover {
+.sidebar-item:hover {
   background: rgba(34, 211, 238, 0.06);
+  color: var(--text-primary);
 }
 
-.sidebar-section.active {
+.sidebar-item.active {
   background: rgba(34, 211, 238, 0.1);
+  color: var(--cyan);
 }
 
 .sidebar-icon {
-  font-size: 1.1rem;
-  min-width: 1.6rem;
+  font-size: 1rem;
+  min-width: 1.4rem;
   text-align: center;
   flex-shrink: 0;
 }
 
 .sidebar-label {
-  font-size: 0.72rem;
-  font-weight: 600;
-  color: var(--text-secondary);
-  opacity: 0;
-  transition: opacity 0.2s 0.05s;
+  font-size: inherit;
+  color: inherit;
 }
 
-.sidebar-nav:hover .sidebar-label,
-.sidebar-nav.open .sidebar-label {
-  opacity: 1;
+/* Groups (Encontros with subtopics) */
+.sidebar-group {
+  list-style: none;
+  margin-top: 0.2rem;
 }
 
-.sidebar-section.active .sidebar-label {
-  color: var(--cyan);
+.sidebar-group > .sidebar-item {
+  padding: 0.55rem 1.2rem;
 }
 
-.sidebar-subtitle {
-  font-size: 0.58rem;
+/* Subtopics */
+.sidebar-topics {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sidebar-group.expanded .sidebar-topics {
+  max-height: 400px;
+}
+
+.sidebar-topics li {
+  padding: 0.3rem 1.2rem 0.3rem 2.8rem;
+  font-size: 0.6rem;
   color: var(--text-muted);
-  position: absolute;
-  left: 3.4rem;
-  bottom: 0.2rem;
-  opacity: 0;
-  transition: opacity 0.2s 0.1s;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  position: relative;
 }
 
-.sidebar-nav:hover .sidebar-subtitle,
-.sidebar-nav.open .sidebar-subtitle {
-  opacity: 0.7;
+.sidebar-topics li::before {
+  content: '·';
+  position: absolute;
+  left: 2.2rem;
+  color: var(--text-muted);
+}
+
+.sidebar-topics li:hover {
+  color: var(--cyan);
+  background: rgba(34, 211, 238, 0.04);
+}
+
+.sidebar-topics li.active {
+  color: var(--cyan);
+  font-weight: 600;
+}
+
+.sidebar-topics li.active::before {
+  content: '›';
+  color: var(--cyan);
 }
 
 .sidebar-divider {
   height: 1px;
-  margin: 0.4rem 1rem;
+  margin: 0.4rem 1.2rem;
   background: var(--border-subtle);
 }
 
 .sidebar-progress {
-  margin: 0.6rem 1rem 0.3rem;
+  margin: 0.6rem 1.2rem 0.3rem;
   height: 3px;
   background: rgba(255, 255, 255, 0.06);
   border-radius: 3px;
@@ -919,15 +966,8 @@
 
 .sidebar-counter {
   text-align: center;
-  font-size: 0.6rem;
+  font-size: 0.58rem;
   font-family: var(--font-mono);
   color: var(--text-muted);
-  padding-bottom: 0.4rem;
-  opacity: 0;
-  transition: opacity 0.2s 0.1s;
-}
-
-.sidebar-nav:hover .sidebar-counter,
-.sidebar-nav.open .sidebar-counter {
-  opacity: 1;
+  padding: 0.3rem 0 0.6rem;
 }

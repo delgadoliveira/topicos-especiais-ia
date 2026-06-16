@@ -477,6 +477,83 @@ def create_plan(objective: str) -&gt; list[dict]:
 <div class="mt-2 text-xs opacity-70">Fluxo: <b>planejar → executar → monitorar → re-planejar</b>. A sofisticação está em decidir <i>quando</i> e <i>como</i> recalcular.</div>
 </section>
 
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #172554 100%)">
+<h1>🚀 Além do planning: 4 upgrades modernos</h1>
+<p class="slide-in-left">Na trilha do <b>Stanford CS329A</b>, dá para deixar um agente mais forte <b>na hora da execução</b> sem trocar o modelo — só mudando <b>como</b> ele pensa, busca e verifica.</p>
+<div class="grid-2 stagger-in text-sm" style="gap: 0.8rem; margin-top: 1.2rem;">
+<div class="card card-purple expandable parallax-card fragment"><b>⚡ Test-time compute scaling</b><div class="card-detail"><p>Em vez de 1 tentativa, você gasta mais compute na inferência: amostra várias respostas, compara, vota ou escolhe a melhor.</p><div class="detail-analogy">🎯 Analogia: não entregar a primeira redação do ENEM — fazer 5 rascunhos e enviar o melhor.</div></div></div>
+<div class="card card-cyan expandable parallax-card fragment"><b>🌳 LATS</b><div class="card-detail"><p>Usa busca em árvore, como motor de xadrez: explora caminhos alternativos, estima qual ramo parece promissor e segue por ele.</p><div class="detail-analogy">♟️ Não é “chutar o próximo lance”; é olhar algumas jogadas à frente.</div></div></div>
+<div class="card card-green expandable parallax-card fragment"><b>✅ Verificação por passo</b><div class="card-detail"><p>Em vez de checar só a resposta final, o sistema confere <b>cada etapa</b> do raciocínio. Isso reduz erros “bonitos, porém errados”.</p><div class="detail-analogy">🧮 Como um professor de matemática que corrige conta por conta, não só o resultado no fim.</div></div></div>
+<div class="card card-amber expandable parallax-card fragment"><b>🏃 SPRINT</b><div class="card-detail"><p>Planeja um pouco, executa em paralelo, observa o que voltou e planeja de novo. Não espera um plano perfeito para começar.</p><div class="detail-analogy">🍳 Cozinha profissional: alguém corta legumes enquanto outra pessoa já deixa a panela no fogo.</div></div></div>
+</div>
+<div class="mt-3 text-sm text-center opacity-70">Ideia central: <b>mais pensamento útil em tempo de execução</b> = agentes mais robustos em tarefas difíceis.</div>
+</section>
+
+<section>
+<h1>⚡ Test-time Compute Scaling</h1>
+<p class="slide-in-left">📚 <b>Stanford CS329A</b> destaca esta linha com <i>Large Language Monkeys</i> e <i>Scaling LLM Test-Time Compute</i>: gastar mais compute <b>na inferência</b> pode deixar o LLM mais “inteligente”.</p>
+<div class="flow-diagram"><div class="flow-node node-purple">Pergunta difícil</div><div class="flow-arrow">→</div><div class="flow-node node-purple">Amostra 1</div><div class="flow-arrow">→</div><div class="flow-node node-purple">Amostra 2</div><div class="flow-arrow">→</div><div class="flow-node node-purple">Amostra 3...N</div><div class="flow-arrow">→</div><div class="flow-node node-amber">🗳️ voto / reranker / verificador</div><div class="flow-arrow">→</div><div class="flow-node node-green">Melhor resposta</div></div>
+<div class="grid-3 stagger-in text-sm" style="gap: 0.7rem; margin-top: 1rem;">
+<div class="card card-purple expandable parallax-card fragment"><b>Repeated sampling</b><div class="card-detail"><p>Faz várias tentativas com temperatura maior. Cada tentativa pensa de um jeito diferente.</p><p><b>Bom para:</b> matemática, código, planejamento com múltiplos caminhos.</p></div></div>
+<div class="card card-cyan expandable parallax-card fragment"><b>Best-of-N</b><div class="card-detail"><p>Você gera N respostas e escolhe a melhor usando regras, voto, testes ou outro modelo avaliador.</p><p><b>Exemplo:</b> gerar 5 soluções de código e ficar com a que passa mais testes.</p></div></div>
+<div class="card card-amber expandable parallax-card fragment"><b>Trade-off</b><div class="card-detail"><p>Ganha qualidade, mas paga em <b>latência</b> e <b>custo</b>. Vale quando errar é caro.</p><div class="detail-analogy">💼 Fazer 1 orçamento é rápido; comparar 5 fornecedores costuma dar decisão melhor.</div></div></div>
+</div>
+<div class="agent-trace text-sm" style="margin-top: 1rem;">
+<div class="trace-line trace-user">user: Qual arquitetura devo usar para um app com 10 milhões de usuários?</div>
+<div class="trace-line trace-thought">run 1: prioriza custo • run 2: prioriza simplicidade • run 3: prioriza resiliência</div>
+<div class="trace-line trace-obs">verifier: run 2 ignora escalabilidade; run 1 e 3 são válidos</div>
+<div class="trace-line trace-action">selector: escolhe run 3 por cobrir escala + fallback</div>
+</div>
+</section>
+
+<section>
+<h1>🌳 LATS — busca em árvore para agentes</h1>
+<p class="slide-in-left">📄 <b>Zhou et al.</b> — <i>Language Agent Tree Search</i>. A ideia é combinar <b>reasoning + acting + planning</b> com busca em árvore, como um motor de xadrez.</p>
+<div class="flow-diagram"><div class="flow-node node-purple">Objetivo</div><div class="flow-arrow">→</div><div class="flow-node node-purple">gera 3 próximos passos</div><div class="flow-arrow">→</div><div class="flow-node node-amber">avalia cada ramo</div><div class="flow-arrow">→</div><div class="flow-node node-purple">expande o melhor</div><div class="flow-arrow">→</div><div class="flow-node node-cyan">executa / observa</div><div class="flow-arrow">→</div><div class="flow-node node-green">melhor plano encontrado</div></div>
+<div class="stagger-in grid-2 text-sm" style="gap: 0.8rem; margin-top: 1rem;">
+<div class="card card-purple expandable parallax-card fragment"><b>ToT vs LATS</b><div class="card-detail"><p><b>ToT</b> explora vários <i>pensamentos</i>. <b>LATS</b> explora pensamentos <b>e ações</b>, usando feedback do ambiente para decidir qual ramo continuar.</p><p>Ou seja: é mais “agentic”.</p></div></div>
+<div class="card card-green expandable parallax-card fragment"><b>Analogia de iniciante</b><div class="card-detail"><p>Imagine planejar férias. Você abre 3 rotas: hotel no centro, perto do evento ou perto do aeroporto. Vai comparando preço, deslocamento e risco antes de escolher.</p></div></div>
+<div class="card card-cyan expandable parallax-card fragment"><b>Quando usar</b><div class="card-detail"><p>Tarefas com muitos caminhos possíveis: debugging difícil, web agents, quebra-cabeças, planejamento de viagem, pesquisa com várias fontes.</p></div></div>
+<div class="card card-amber expandable parallax-card fragment"><b>Quando é exagero</b><div class="card-detail"><p>Responder “qual a capital do RS?” com busca em árvore seria desperdício. LATS é para cenários em que <b>escolher o caminho</b> é a parte difícil.</p></div></div>
+</div>
+<div class="agent-trace text-sm" style="margin-top: 1rem;">
+<div class="trace-line trace-user">user: Monte um roteiro de 3 dias em Porto Alegre com foco em custo-benefício</div>
+<div class="trace-line trace-thought">ramo A: hotel central • ramo B: Airbnb mais afastado • ramo C: hostel premium</div>
+<div class="trace-line trace-obs">avaliação: B economiza mais, mas aumenta deslocamento; A tem melhor equilíbrio geral</div>
+<div class="trace-line trace-action">expansão: no ramo A, agora compara restaurantes e transporte</div>
+</div>
+</section>
+
+<section>
+<h1>✅ Verificação: ORM vs PRM</h1>
+<p class="slide-in-left">📄 <b>“Let's Verify Step by Step”</b> e a trilha de <b>Robust Verification</b> do Stanford CS329A mostram um ponto importante: às vezes o problema não é gerar mais — é <b>conferir melhor</b>.</p>
+<div class="compare-cols" style="gap: 0.9rem; margin-top: 1rem;">
+<div class="card card-amber expandable parallax-card fragment"><b>ORM — Output Reward Model</b><div class="card-detail"><p>Olha só o <b>resultado final</b> e pergunta: “parece bom?”</p><p><b>Vantagem:</b> simples.</p><p><b>Limitação:</b> pode aprovar uma resposta com passos internos errados.</p><div class="detail-example">📝 Como um professor que vê apenas “Resposta: 42”.</div></div></div>
+<div class="card card-green expandable parallax-card fragment"><b>PRM — Process Reward Model</b><div class="card-detail"><p>Avalia o <b>processo passo a passo</b>: esta soma faz sentido? esta premissa foi usada corretamente?</p><p><b>Vantagem:</b> pega o erro cedo.</p><div class="detail-example">🧮 Como corrigir cada linha da conta antes do resultado final.</div></div></div>
+</div>
+<div class="flow-diagram" style="margin-top: 1rem;"><div class="flow-node node-purple">Passo 1</div><div class="flow-arrow">→</div><div class="flow-node node-green">verifica ✓</div><div class="flow-arrow">→</div><div class="flow-node node-purple">Passo 2</div><div class="flow-arrow">→</div><div class="flow-node node-red">erro detectado ✗</div><div class="flow-arrow">→</div><div class="flow-node node-amber">corrige antes de seguir</div></div>
+<div class="agent-trace text-sm" style="margin-top: 1rem;">
+<div class="trace-line trace-user">user: Se o hotel custa R$189/noite por 3 noites, quanto sobra de R$2000?</div>
+<div class="trace-line trace-thought">modelo: 189 × 3 = 547</div>
+<div class="trace-line trace-obs">PRM/verificador: multiplicação incorreta; o certo é 567</div>
+<div class="trace-line trace-action">modelo corrige: 2000 - 567 = 1433</div>
+</div>
+<div class="mt-3 text-sm text-center opacity-70"><b>Resumo:</b> ORM julga o placar final; PRM acompanha o jogo lance a lance.</div>
+</section>
+
+<section>
+<h1>🏃 SPRINT — planejar e executar ao mesmo tempo</h1>
+<p class="slide-in-left">📄 <b>SPRINT</b> = <i>Enabling Interleaved Planning and Parallelized Execution in Reasoning Models</i>. Em vez de “planejar tudo → executar tudo”, o modelo <b>alterna</b> planejamento e execução paralela.</p>
+<div class="flow-diagram"><div class="flow-node node-purple">Objetivo</div><div class="flow-arrow">→</div><div class="flow-node node-purple">plano parcial</div><div class="flow-arrow">→</div><div class="flow-node node-cyan">execução A</div><div class="flow-arrow">→</div><div class="flow-node node-cyan">execução B</div><div class="flow-arrow">→</div><div class="flow-node node-amber">novas observações</div><div class="flow-arrow">→</div><div class="flow-node node-purple">replaneja</div><div class="flow-arrow">→</div><div class="flow-node node-green">próxima onda</div></div>
+<div class="grid-3 stagger-in text-sm" style="gap: 0.7rem; margin-top: 1rem;">
+<div class="card card-purple expandable parallax-card fragment"><b>1. Planeje o suficiente</b><div class="card-detail"><p>Não espere o “plano perfeito”. Planeje só o necessário para disparar as primeiras subtarefas.</p></div></div>
+<div class="card card-cyan expandable parallax-card fragment"><b>2. Execute em paralelo</b><div class="card-detail"><p>Se duas buscas não dependem uma da outra, rode juntas: preços de hotel e previsão do tempo, por exemplo.</p></div></div>
+<div class="card card-green expandable parallax-card fragment"><b>3. Replaneje com o que voltou</b><div class="card-detail"><p>Os resultados parciais mudam o plano. Isso torna o agente mais rápido e mais adaptável.</p></div></div>
+</div>
+<div class="card card-amber expandable parallax-card fragment text-sm" style="margin-top: 1rem;"><b>🍽️ Analogia:</b> um restaurante não espera a sobremesa ficar pronta para começar o prato principal. A cozinha coordena várias estações em paralelo e ajusta conforme os pedidos andam.
+<div class="card-detail"><p><b>Quando brilha:</b> tarefas longas com subtarefas independentes, como pesquisa na web, coleta de documentos, análise de logs e agentes de browser.</p></div></div>
+</section>
+
 <section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #172554 100%)">
 <h1>🎯 Parte 2: Agindo com precisão</h1>
 <div style="font-size: 0.78em; margin-top: 2rem; opacity: 0.9;">
@@ -826,8 +903,8 @@ def plan_and_execute(pergunta: str):
 <section>
 <h1>📚 Referências públicas — Encontro 2</h1>
 <div class="stagger-in grid-2 text-xs mt-2" style="gap: 0.8rem;">
-<div class="card card-purple parallax-card fragment"><b>Reasoning & planning</b><div class="mt-1" style="line-height: 1.5;">• Wei et al. (2022) — <i>Chain-of-Thought Prompting</i> · <a href="https://arxiv.org/abs/2201.11903">arXiv:2201.11903</a><br>• Wang et al. (2022) — <i>Self-Consistency Improves CoT</i> · <a href="https://arxiv.org/abs/2203.11171">arXiv:2203.11171</a><br>• Yao et al. (2023) — <i>Tree of Thoughts</i> · <a href="https://arxiv.org/abs/2305.10601">arXiv:2305.10601</a><br>• Xu et al. (2023) — <i>ReWOO</i> · <a href="https://arxiv.org/abs/2305.18323">arXiv:2305.18323</a><br>• Shinn et al. (2023) — <i>Reflexion</i> · <a href="https://arxiv.org/abs/2303.11366">arXiv:2303.11366</a></div></div>
-<div class="card card-cyan parallax-card fragment"><b>Reasoning models</b><div class="mt-1" style="line-height: 1.5;">• OpenAI (2024) — <i>Learning to Reason with LLMs (o1)</i> · <a href="https://openai.com/index/learning-to-reason-with-llms/">openai.com</a><br>• DeepSeek-AI (2025) — <i>DeepSeek-R1</i> · <a href="https://arxiv.org/abs/2501.12948">arXiv:2501.12948</a><br>• Snell et al. (2024) — <i>Scaling Test-Time Compute</i> · <a href="https://arxiv.org/abs/2408.03314">arXiv:2408.03314</a></div></div>
+<div class="card card-purple parallax-card fragment"><b>Reasoning, planning & verification</b><div class="mt-1" style="line-height: 1.5;">• Wei et al. (2022) — <i>Chain-of-Thought Prompting</i> · <a href="https://arxiv.org/abs/2201.11903">arXiv:2201.11903</a><br>• Wang et al. (2022) — <i>Self-Consistency Improves CoT</i> · <a href="https://arxiv.org/abs/2203.11171">arXiv:2203.11171</a><br>• Yao et al. (2023) — <i>Tree of Thoughts</i> · <a href="https://arxiv.org/abs/2305.10601">arXiv:2305.10601</a><br>• Zhou et al. (2024) — <i>Language Agent Tree Search</i> · <a href="https://arxiv.org/abs/2310.04406">arXiv:2310.04406</a><br>• Lightman et al. (2023) — <i>Let's Verify Step by Step</i> · <a href="https://arxiv.org/abs/2305.20050">arXiv:2305.20050</a><br>• Xu et al. (2023) — <i>ReWOO</i> · <a href="https://arxiv.org/abs/2305.18323">arXiv:2305.18323</a><br>• Shinn et al. (2023) — <i>Reflexion</i> · <a href="https://arxiv.org/abs/2303.11366">arXiv:2303.11366</a></div></div>
+<div class="card card-cyan parallax-card fragment"><b>Reasoning models & Stanford CS329A</b><div class="mt-1" style="line-height: 1.5;">• Stanford CS329A (2025) — tópicos de test-time compute, robust verification e multi-step planning · <a href="https://cs329a.stanford.edu/">cs329a.stanford.edu</a><br>• Brown et al. (2024) — <i>Large Language Monkeys</i> · <a href="https://arxiv.org/abs/2407.21787">arXiv:2407.21787</a><br>• Snell et al. (2024) — <i>Scaling Test-Time Compute</i> · <a href="https://arxiv.org/abs/2408.03314">arXiv:2408.03314</a><br>• Biju et al. (2025) — <i>SPRINT</i> · <a href="https://arxiv.org/abs/2506.05745">arXiv:2506.05745</a><br>• OpenAI (2024) — <i>Learning to Reason with LLMs (o1)</i> · <a href="https://openai.com/index/learning-to-reason-with-llms/">openai.com</a><br>• DeepSeek-AI (2025) — <i>DeepSeek-R1</i> · <a href="https://arxiv.org/abs/2501.12948">arXiv:2501.12948</a></div></div>
 </div>
 </section>
 
@@ -843,8 +920,8 @@ def plan_and_execute(pergunta: str):
 <section>
 <h1>🔄 Recap — O que construímos no Encontro 2</h1>
 <div class="stagger-in grid-2 text-xs" style="gap: 0.8rem;">
-<div class="card card-purple parallax-card fragment"><b>📜 Evolução que acompanhamos</b><div class="mt-1" style="line-height: 1.5;">• <b>2022:</b> CoT — "pense passo a passo"<br>• <b>2023:</b> Function Calling — JSON estruturado<br>• <b>2024:</b> Anthropic Patterns — workflows vs agentes<br>• <b>2024-25:</b> LangGraph/CrewAI — orquestração como grafo</div></div>
-<div class="card card-cyan parallax-card fragment"><b>🔧 O que você agora sabe fazer</b><div class="mt-1" style="line-height: 1.5;">• Aplicar CoT, Self-Consistency e ToT<br>• Implementar planning (Plan-and-Execute, ReWOO)<br>• Usar Function Calling com schemas JSON<br>• Escolher entre LangChain, LangGraph e SDK puro</div></div>
+<div class="card card-purple parallax-card fragment"><b>📜 Evolução que acompanhamos</b><div class="mt-1" style="line-height: 1.5;">• <b>2022:</b> CoT — "pense passo a passo"<br>• <b>2023:</b> Function Calling e ReWOO<br>• <b>2024:</b> Test-time compute e LATS ganham força<br>• <b>2025:</b> SPRINT e verificação robusta entram no toolkit agentic</div></div>
+<div class="card card-cyan parallax-card fragment"><b>🔧 O que você agora sabe fazer</b><div class="mt-1" style="line-height: 1.5;">• Aplicar CoT, Self-Consistency, ToT e LATS<br>• Comparar planning clássico com execução intercalada (SPRINT)<br>• Entender ORM vs PRM e verificação passo a passo<br>• Usar Function Calling com schemas JSON</div></div>
 </div>
 </section>
 

@@ -57,25 +57,45 @@ function initReveal() {
   navNext.addEventListener('click', () => deck.next());
 
   // ─── Sidebar Navigation ───
-  const sidebarItems = document.querySelectorAll('.sidebar-section');
+  const sidebarItems = document.querySelectorAll('.sidebar-item');
+  const sidebarTopics = document.querySelectorAll('.sidebar-topics li');
+  const sidebarGroups = document.querySelectorAll('.sidebar-group');
   const sidebarProgressBar = document.getElementById('sidebar-progress-bar');
   const sidebarCounter = document.getElementById('sidebar-counter');
   const sidebarToggle = document.getElementById('sidebar-toggle');
   const sidebarNav = document.getElementById('sidebar-nav');
 
-  // Toggle sidebar on mobile
+  // Toggle sidebar open/close
   if (sidebarToggle) {
-    sidebarToggle.addEventListener('click', () => {
+    sidebarToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
       sidebarNav.classList.toggle('open');
     });
   }
 
-  // Click to navigate to section
+  // Click main section items to navigate
   sidebarItems.forEach(item => {
-    item.addEventListener('click', () => {
+    item.addEventListener('click', (e) => {
+      e.stopPropagation();
       const sectionIdx = parseInt(item.dataset.section);
-      deck.slide(sectionIdx, 0);
-      sidebarNav.classList.remove('open');
+      if (!isNaN(sectionIdx)) {
+        deck.slide(sectionIdx, 0);
+        // On mobile, close after nav
+        if (window.innerWidth < 768) sidebarNav.classList.remove('open');
+      }
+    });
+  });
+
+  // Click subtopics to navigate to specific slide
+  sidebarTopics.forEach(topic => {
+    topic.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const sectionIdx = parseInt(topic.dataset.section);
+      const slideIdx = parseInt(topic.dataset.slide) || 0;
+      if (!isNaN(sectionIdx)) {
+        deck.slide(sectionIdx, slideIdx);
+        if (window.innerWidth < 768) sidebarNav.classList.remove('open');
+      }
     });
   });
 
@@ -88,10 +108,30 @@ function initReveal() {
     // Bottom nav
     navProgress.textContent = `${current} / ${total}`;
 
-    // Sidebar: highlight active section
+    // Sidebar: highlight active section and expand its group
     sidebarItems.forEach(item => {
       const sectionIdx = parseInt(item.dataset.section);
       item.classList.toggle('active', sectionIdx === indices.h);
+    });
+
+    // Expand active group, collapse others
+    sidebarGroups.forEach(group => {
+      const groupItem = group.querySelector('.sidebar-item');
+      if (groupItem) {
+        const sectionIdx = parseInt(groupItem.dataset.section);
+        group.classList.toggle('expanded', sectionIdx === indices.h);
+      }
+    });
+
+    // Highlight closest subtopic
+    sidebarTopics.forEach(topic => {
+      const sectionIdx = parseInt(topic.dataset.section);
+      const slideIdx = parseInt(topic.dataset.slide) || 0;
+      // Mark active if same section and current vertical >= this topic's slide
+      const isSection = sectionIdx === indices.h;
+      const nextTopicSlide = topic.nextElementSibling ? parseInt(topic.nextElementSibling.dataset.slide) || 999 : 999;
+      const isActive = isSection && indices.v >= slideIdx && indices.v < nextTopicSlide;
+      topic.classList.toggle('active', isActive);
     });
 
     // Sidebar progress
