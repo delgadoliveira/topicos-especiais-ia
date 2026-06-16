@@ -462,11 +462,74 @@ Vamos quebrar essa definição em partes nos próximos slides.
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
 <h1>Tipos de Agentes</h1>
-<div  class="grid-2 stagger-in mt-3 text-xs">
-<div  class="card card-cyan parallax-card scale-in"><b>Por interação</b><ul class="mt-1"><li><b>Surface agents</b>: interativos, conversam com o usuário, coletam contexto e explicam a execução.</li><li><b>Background agents</b>: trabalham em segundo plano, com mais autonomia e pouca ou nenhuma interação humana.</li></ul></div>
-<div  class="card card-purple parallax-card scale-in"><b>Por quantidade</b><ul class="mt-1"><li><b>Single agent</b>: um agente concentra contexto, memória e ferramentas.</li><li><b>Multi-agent</b>: vários agentes especializados dividem papéis e coordenam subtarefas.</li></ul></div>
+<p style="font-size:0.75em; opacity:0.85;">Agentes não são todos iguais — existem diferentes dimensões de classificação:</p>
+
+<div class="grid-2 stagger-in" style="gap:0.8rem; margin-top:0.6rem;">
+
+<div class="card expandable" style="border-left:4px solid var(--cyan);">
+<div style="font-size:0.8em; font-weight:700; color:var(--cyan);">👁️ Por interação com o usuário</div>
+<div style="font-size:0.65em; margin-top:0.3rem; color:rgba(255,255,255,0.7);">
+<b>Surface agents</b> — conversam, explicam, pedem confirmação<br>
+<b>Background agents</b> — trabalham sozinhos, entregam resultado pronto
 </div>
-<div  class="mt-3 text-xs opacity-70" style="opacity:0.7;">Classificação: Google Cloud, 2026</div>
+<div class="card-detail">
+<p><b>Surface agent (interativo):</b> Chatbot do Nubank — conversa com o cliente, pede CPF, explica o que vai fazer, espera confirmação antes de agir. O humano vê cada passo.</p>
+<p><b>Background agent (autônomo):</b> GitHub Copilot Workspace — você abre uma issue, o agente planeja, implementa, testa e abre o PR. Você só vê o resultado final.</p>
+<p><b>Qual usar?</b> Surface para decisões sensíveis (financeiro, saúde). Background para tarefas repetitivas onde o resultado é verificável (CI/CD, data pipelines, código).</p>
+<div class="detail-example">Cursor = surface (mostra diffs, pede approve). Devin = mais background (trabalha sozinho em branches).</div>
+</div>
+</div>
+
+<div class="card expandable" style="border-left:4px solid var(--purple);">
+<div style="font-size:0.8em; font-weight:700; color:var(--purple);">👥 Por quantidade de agentes</div>
+<div style="font-size:0.65em; margin-top:0.3rem; color:rgba(255,255,255,0.7);">
+<b>Single-agent</b> — um cérebro, todas as ferramentas<br>
+<b>Multi-agent</b> — especialistas que colaboram
+</div>
+<div class="card-detail">
+<p><b>Single-agent:</b> Um agente com todas as ferramentas (busca, código, email). Simples de debugar, mas fica sobrecarregado em tarefas complexas.</p>
+<p><b>Multi-agent:</b> Pesquisador + Programador + Revisor, cada um com seu prompt e ferramentas. Coordenados por um "orquestrador".</p>
+<p><b>Quando usar multi-agent?</b> Quando a tarefa envolve papéis muito diferentes (ex: gerar código E testar E fazer deploy) ou quando especialização melhora qualidade.</p>
+<div class="detail-example">CrewAI, AutoGen e LangGraph suportam multi-agent. Vamos praticar no Encontro 3.</div>
+</div>
+</div>
+
+<div class="card expandable" style="border-left:4px solid var(--green);">
+<div style="font-size:0.8em; font-weight:700; color:var(--green);">💬 Por formato de ação</div>
+<div style="font-size:0.65em; margin-top:0.3rem; color:rgba(255,255,255,0.7);">
+<b>JSON Agent</b> — saída estruturada em JSON<br>
+<b>Code Agent</b> — gera código executável<br>
+<b>Function-calling</b> — protocolo nativo do modelo
+</div>
+<div class="card-detail">
+<p><b>JSON Agent:</b> O LLM gera <code>{"action": "search", "input": "clima SP"}</code>. Um parser lê e executa. Simples, mas limitado em lógica complexa.</p>
+<p><b>Code Agent:</b> O LLM gera Python completo com loops, condicionais, imports. Mais expressivo — pode fazer cálculos, processar dados, compor lógica. Usado pelo smolagents (HuggingFace).</p>
+<p><b>Function-calling:</b> O modelo foi treinado pra emitir chamadas de função no formato da API (OpenAI, Anthropic). O runtime intercepta e executa. É o mais confiável em produção.</p>
+<div class="detail-example">OpenAI usa function-calling. smolagents usa Code Agent. LangChain suporta ambos.</div>
+</div>
+</div>
+
+<div class="card expandable" style="border-left:4px solid var(--amber);">
+<div style="font-size:0.8em; font-weight:700; color:var(--amber);">⭐ Por nível de agência</div>
+<div style="font-size:0.65em; margin-top:0.3rem; color:rgba(255,255,255,0.7);">
+Do processador simples ao multi-agent autônomo<br>
+<span style="opacity:0.7;">(Espectro HuggingFace/smolagents)</span>
+</div>
+<div class="card-detail">
+<p>Agentes existem num <b>espectro contínuo</b> de autonomia crescente:</p>
+<table style="font-size:0.85em; width:100%;">
+<tr><td>☆☆☆</td><td>Saída do LLM não afeta o fluxo</td><td style="opacity:0.7;">Processador simples</td></tr>
+<tr><td>★☆☆</td><td>Saída escolhe entre caminhos</td><td style="opacity:0.7;">Router (if/else baseado no LLM)</td></tr>
+<tr><td>★★☆</td><td>Saída decide qual função chamar</td><td style="opacity:0.7;">Tool caller</td></tr>
+<tr><td>★★★</td><td>Saída controla iteração e parada</td><td style="opacity:0.7;">Agente multi-step</td></tr>
+<tr><td>★★★+</td><td>Um agente dispara outros agentes</td><td style="opacity:0.7;">Multi-agent system</td></tr>
+</table>
+<div class="detail-example">Fonte: smolagents conceptual guide (HuggingFace). Quanto mais estrelas, mais autonomia e mais risco.</div>
+</div>
+</div>
+
+</div>
+<div style="font-size:0.55rem; opacity:0.6; margin-top:0.5rem; text-align:center;">Fontes: Google Cloud (2026), HuggingFace Agents Course, Anthropic Building Effective Agents (2024)</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #1f2937 100%)">
