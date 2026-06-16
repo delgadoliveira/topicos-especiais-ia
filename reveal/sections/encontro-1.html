@@ -2149,8 +2149,86 @@ Estudos da Anthropic sugerem que <b>muitas falhas vêm de tools mal descritas</b
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
 <h1>📊 Onde agentes falham — distribuição de erros</h1>
-<div  class="stagger-in mt-2" style="display:grid;gap:0.55rem;"><div  class="card card-cyan"><div  class="text-xs">Tool description ruim — 35%</div><div style="height:10px;width:35%;background:#22d3ee;border-radius:999px;margin-top:8px"></div></div><div  class="card card-purple"><div  class="text-xs">Contexto insuficiente — 25%</div><div style="height:10px;width:25%;background:#a78bfa;border-radius:999px;margin-top:8px"></div></div><div  class="card card-amber"><div  class="text-xs">Loop/repetição — 15%</div><div style="height:10px;width:15%;background:#fbbf24;border-radius:999px;margin-top:8px"></div></div><div  class="card"><div  class="text-xs">Alucinação de tool — 10%</div><div style="height:10px;width:10%;background:#60a5fa;border-radius:999px;margin-top:8px"></div></div><div  class="card"><div  class="text-xs">Parsing/formato — 10%</div><div style="height:10px;width:10%;background:#4ade80;border-radius:999px;margin-top:8px"></div></div><div  class="card"><div  class="text-xs">Outros — 5%</div><div style="height:10px;width:5%;background:#f87171;border-radius:999px;margin-top:8px"></div></div></div>
-<div  class="mt-3 text-sm card card-amber parallax-card scale-in">🎯 <b>35% das falhas</b> vêm de tools mal descritas — o problema mais comum NÃO é o modelo.</div>
+<div class="text-xs" style="opacity:0.8; margin-bottom:0.5rem;">Dados agregados de produção (Langsmith, 2024). Clique nos cards para expandir.</div>
+
+<div class="stagger-in" style="display:grid; gap:0.5rem;">
+
+<div class="card card-cyan expandable">
+<div style="display:flex; align-items:center; gap:0.5rem;">
+<div class="text-sm"><b>🔧 Tool description ruim — 35%</b></div>
+<div style="flex:1; height:8px; background:rgba(34,211,238,0.2); border-radius:999px;"><div style="height:100%;width:35%;background:#22d3ee;border-radius:999px;"></div></div>
+</div>
+<div class="card-detail text-xs">
+<p><b>O que acontece:</b> O LLM escolhe a tool errada ou passa argumentos incorretos porque a descrição é vaga, ambígua ou incompleta.</p>
+<p><b>Exemplo real:</b> Uma tool chamada <code>get_data(q)</code> sem docstring — o agente não sabe se <code>q</code> é uma query SQL, uma pergunta em linguagem natural, ou um ID.</p>
+<p><b>Como resolver:</b> Nomes descritivos (verbo+objeto), docstrings com formato de entrada/saída, tipos explícitos, e exemplos de uso na descrição.</p>
+</div>
+</div>
+
+<div class="card card-purple expandable">
+<div style="display:flex; align-items:center; gap:0.5rem;">
+<div class="text-sm"><b>🧠 Contexto insuficiente — 25%</b></div>
+<div style="flex:1; height:8px; background:rgba(167,139,250,0.2); border-radius:999px;"><div style="height:100%;width:25%;background:#a78bfa;border-radius:999px;"></div></div>
+</div>
+<div class="card-detail text-xs">
+<p><b>O que acontece:</b> O prompt do sistema não dá informação suficiente para o agente decidir. Ele "adivinha" em vez de perguntar ou buscar.</p>
+<p><b>Exemplo real:</b> Agente de suporte sem acesso ao histórico do cliente tenta resolver problema sem contexto → resposta genérica ou errada.</p>
+<p><b>Como resolver:</b> RAG (retrieval), injeção de contexto dinâmico, memory de curto/longo prazo, e instruções explícitas de "pergunte se não sabe".</p>
+</div>
+</div>
+
+<div class="card card-amber expandable">
+<div style="display:flex; align-items:center; gap:0.5rem;">
+<div class="text-sm"><b>🔄 Loop/repetição — 15%</b></div>
+<div style="flex:1; height:8px; background:rgba(251,191,36,0.2); border-radius:999px;"><div style="height:100%;width:15%;background:#fbbf24;border-radius:999px;"></div></div>
+</div>
+<div class="card-detail text-xs">
+<p><b>O que acontece:</b> O agente entra em ciclo infinito — chama a mesma tool repetidamente com os mesmos argumentos, ou alterna entre duas ações sem progresso.</p>
+<p><b>Exemplo real:</b> Agente tenta corrigir um bug, roda o teste, falha, faz a mesma correção, roda de novo... 50 vezes.</p>
+<p><b>Como resolver:</b> Limite de iterações (max_steps), detecção de repetição no histórico, e instrução de "se falhou 2x com a mesma abordagem, tente algo diferente".</p>
+</div>
+</div>
+
+<div class="card expandable" style="border-color:rgba(96,165,250,0.3);">
+<div style="display:flex; align-items:center; gap:0.5rem;">
+<div class="text-sm"><b>👻 Alucinação de tool — 10%</b></div>
+<div style="flex:1; height:8px; background:rgba(96,165,250,0.2); border-radius:999px;"><div style="height:100%;width:10%;background:#60a5fa;border-radius:999px;"></div></div>
+</div>
+<div class="card-detail text-xs">
+<p><b>O que acontece:</b> O agente inventa uma ferramenta que não existe (ex: chama <code>send_slack_message</code> quando só tem <code>send_email</code>), ou inventa parâmetros que a tool não aceita.</p>
+<p><b>Exemplo real:</b> GPT-4 tentando chamar <code>browser.click()</code> em um ambiente que só tem tools de texto.</p>
+<p><b>Como resolver:</b> Schema estrito (function calling com validação), listar explicitamente as tools disponíveis no system prompt, rejeitar chamadas inválidas com mensagem clara.</p>
+</div>
+</div>
+
+<div class="card expandable" style="border-color:rgba(74,222,128,0.3);">
+<div style="display:flex; align-items:center; gap:0.5rem;">
+<div class="text-sm"><b>📋 Parsing/formato — 10%</b></div>
+<div style="flex:1; height:8px; background:rgba(74,222,128,0.2); border-radius:999px;"><div style="height:100%;width:10%;background:#4ade80;border-radius:999px;"></div></div>
+</div>
+<div class="card-detail text-xs">
+<p><b>O que acontece:</b> O modelo gera JSON malformado, esquece fechar chaves, mistura texto com JSON, ou retorna formato inesperado que quebra o parser.</p>
+<p><b>Exemplo real:</b> Modelo retorna <code>```json\n{...}\n```</code> com markdown wrapper quando o parser espera JSON puro.</p>
+<p><b>Como resolver:</b> Structured output (modo JSON da API), regex de extração tolerante, retry com feedback do erro de parsing, e few-shot examples no prompt.</p>
+</div>
+</div>
+
+<div class="card expandable" style="border-color:rgba(248,113,113,0.3);">
+<div style="display:flex; align-items:center; gap:0.5rem;">
+<div class="text-sm"><b>❓ Outros — 5%</b></div>
+<div style="flex:1; height:8px; background:rgba(248,113,113,0.2); border-radius:999px;"><div style="height:100%;width:5%;background:#f87171;border-radius:999px;"></div></div>
+</div>
+<div class="card-detail text-xs">
+<p><b>Inclui:</b> timeout de API, rate limiting, token overflow (contexto excede janela), permissões insuficientes, e falhas de rede.</p>
+<p><b>Como resolver:</b> Retry com backoff, chunking de contexto, graceful degradation, e circuit breakers para APIs externas.</p>
+</div>
+</div>
+
+</div>
+
+<div class="insight-box" style="margin-top:0.6rem;">
+<b>💡 Insight:</b> 60% das falhas (tool description + contexto) são problemas de <b>design do desenvolvedor</b>, não do modelo. Melhorar prompts e descrições é mais eficaz que trocar de modelo.
+</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #1f2937 100%)">
