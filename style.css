@@ -1,71 +1,71 @@
 /* ============================================================
-   Navegação — estilo glass-pill fixo no rodapé central
-   Design: sempre visível mas discreto, sem esconder nem escalar.
-   Inspirado em Linear, Notion, Arc Browser.
+   Navegação — barra vertical fixa na lateral direita
+   Não sobrepõe o conteúdo do slide.
    ============================================================ */
 
-/* -- 1. Wrapper bottom-left (play.vue) → reposiciona para bottom-center -- */
+/* -- 1. Wrapper (play.vue) → fixa na direita, vertical -- */
 #app .absolute.bottom-0.left-0:has(> nav),
 #app div:has(> nav.flex.flex-col) {
-  left: 50% !important;
-  transform: translateX(-50%) !important;
-  bottom: 16px !important;
+  position: fixed !important;
+  right: 12px !important;
+  left: auto !important;
+  top: 50% !important;
+  bottom: auto !important;
+  transform: translateY(-50%) !important;
   width: auto !important;
   padding: 0 !important;
-  opacity: 1 !important;
+  opacity: 0.6 !important;
   transition: opacity 0.3s ease !important;
-}
-
-/* Discreto quando não interage, mas sempre visível */
-#app .absolute.bottom-0.left-0:has(> nav) {
-  opacity: 0.55 !important;
+  z-index: 100 !important;
 }
 
 #app .absolute.bottom-0.left-0:has(> nav):hover,
-#app .absolute.bottom-0.left-0:has(> nav):focus-within {
+#app div:has(> nav.flex.flex-col):hover {
   opacity: 1 !important;
 }
 
-/* -- 2. Pill (barra interna) → glass morphism centralizada -- */
+/* -- 2. Barra interna → vertical, glass morphism -- */
 nav.flex.flex-col > div.flex.flex-wrap-reverse {
-  border-radius: 50px !important;
-  background: rgba(15, 17, 25, 0.72) !important;
-  backdrop-filter: blur(16px) saturate(1.4);
-  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+  flex-direction: column !important;
+  border-radius: 14px !important;
+  background: rgba(15, 17, 25, 0.75) !important;
+  backdrop-filter: blur(14px) saturate(1.3);
+  -webkit-backdrop-filter: blur(14px) saturate(1.3);
   border: 1px solid rgba(255, 255, 255, 0.08) !important;
   box-shadow:
     0 4px 20px rgba(0, 0, 0, 0.35),
     0 0 0 1px rgba(255, 255, 255, 0.04) inset;
-  padding: 6px 14px !important;
+  padding: 8px 4px !important;
   gap: 2px !important;
   transition: box-shadow 0.3s ease, background 0.3s ease;
 }
 
 nav.flex.flex-col > div.flex.flex-wrap-reverse:hover {
-  background: rgba(15, 17, 25, 0.88) !important;
+  background: rgba(15, 17, 25, 0.9) !important;
   box-shadow:
     0 8px 32px rgba(0, 0, 0, 0.45),
     0 0 0 1px rgba(124, 92, 255, 0.12) inset;
 }
 
-/* -- 3. Botões — hover suave sem salto -- */
+/* -- 3. Botões — compactos, hover suave -- */
 .slidev-icon-btn {
   transition:
     background-color 0.2s ease,
     color 0.2s ease,
     transform 0.15s ease !important;
-  border-radius: 8px !important;
-  padding: 6px !important;
+  border-radius: 6px !important;
+  padding: 5px !important;
+  font-size: 0.9rem !important;
 }
 
 .slidev-icon-btn:hover {
   background-color: rgba(124, 92, 255, 0.15) !important;
   color: #a78bfa !important;
-  transform: scale(1.05);
+  transform: scale(1.08);
 }
 
 .slidev-icon-btn:active {
-  transform: scale(0.95);
+  transform: scale(0.92);
   background-color: rgba(124, 92, 255, 0.25) !important;
 }
 
@@ -74,10 +74,13 @@ nav.flex.flex-col > div.flex.flex-wrap-reverse:hover {
   pointer-events: none;
 }
 
-/* -- 4. Slide counter — sempre legível -- */
+/* -- 4. Slide counter — vertical, compacto -- */
 nav.flex.flex-col .h-40px {
   opacity: 0.7;
-  font-size: 0.75rem;
+  font-size: 0.65rem;
+  writing-mode: horizontal-tb;
+  text-align: center;
+  padding: 2px 4px;
   transition: opacity 0.2s ease;
 }
 
@@ -85,10 +88,10 @@ nav.flex.flex-col:hover .h-40px {
   opacity: 1;
 }
 
-/* -- 5. Menu popup — slide-up com glass -- */
+/* -- 5. Menu popup — aparece à esquerda da barra -- */
 div[class*="bottom-10"][class*="left-0"][class*="z-20"] {
-  animation: menuSlideUp 0.25s cubic-bezier(0.2, 0, 0, 1);
-  border-radius: 14px !important;
+  animation: menuFadeIn 0.2s ease;
+  border-radius: 12px !important;
   background: rgba(15, 17, 25, 0.92) !important;
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
@@ -98,66 +101,46 @@ div[class*="bottom-10"][class*="left-0"][class*="z-20"] {
   overflow-y: auto;
 }
 
-@keyframes menuSlideUp {
-  from {
-    opacity: 0;
-    transform: translateY(12px) scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
+@keyframes menuFadeIn {
+  from { opacity: 0; transform: translateX(8px); }
+  to   { opacity: 1; transform: translateX(0); }
 }
 
-/* -- 6. Quick Overview — gentle fade -- */
-.slidev-overview,
-div[class*="quick-overview"] {
-  animation: fadeIn 0.3s ease;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: scale(0.98); }
-  to   { opacity: 1; transform: scale(1); }
-}
-
-/* -- 7. Global slide transitions — buttery smooth -- */
+/* -- 6. Slide transitions -- */
 .slidev-page {
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
-/* -- 8. Color tokens -- */
+/* -- 7. Color tokens -- */
 :root {
   --slidev-controls-foreground: rgba(255, 255, 255, 0.9);
-  --slidev-controls-background: rgba(15, 17, 25, 0.72);
+  --slidev-controls-background: rgba(15, 17, 25, 0.75);
 }
 
-/* -- 9. Mobile — pill compacta -- */
+/* -- 8. Mobile — esconde barra lateral, mostra bottom -- */
 @media (max-width: 640px) {
-  #app .absolute.bottom-0.left-0:has(> nav) {
+  #app .absolute.bottom-0.left-0:has(> nav),
+  #app div:has(> nav.flex.flex-col) {
+    right: auto !important;
+    left: 50% !important;
+    top: auto !important;
     bottom: 8px !important;
+    transform: translateX(-50%) !important;
   }
   nav.flex.flex-col > div.flex.flex-wrap-reverse {
+    flex-direction: row !important;
     padding: 4px 8px !important;
     border-radius: 40px !important;
   }
-  .slidev-icon-btn {
-    padding: 4px !important;
-    font-size: 0.85rem;
-  }
 }
 
-/* -- 10. Presenter mode — minimal -- */
-.slidev-presenter #app .absolute.bottom-0.left-0:has(> nav) {
-  opacity: 0.3 !important;
-}
-
-/* -- 11. Fallback (no :has support) -- */
+/* -- 9. Fallback (no :has support) -- */
 @supports not selector(:has(*)) {
   nav.flex.flex-col {
-    position: fixed;
-    bottom: 16px;
-    left: 50%;
-    transform: translateX(-50%);
+    position: fixed !important;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
     opacity: 0.6;
     transition: opacity 0.3s ease;
     z-index: 100;
@@ -165,5 +148,8 @@ div[class*="quick-overview"] {
   nav.flex.flex-col:hover,
   nav.flex.flex-col:focus-within {
     opacity: 1;
+  }
+  nav.flex.flex-col > div.flex.flex-wrap-reverse {
+    flex-direction: column !important;
   }
 }
