@@ -2605,14 +2605,15 @@ def clima(cidade: str) -&gt; str:
 
 <section data-background-gradient="linear-gradient(135deg, #3b0764 0%, #0b1120 100%)">
 <h1>Exercício 1.5 · The Strict Manager</h1>
-<div  class="card card-purple parallax-card scale-in">
+<div class="card card-purple parallax-card scale-in">
 <p><strong>Tarefa:</strong> implemente um system prompt usando <strong>CO-STAR</strong> que transforma o agente em um gerenciador de despesas rígido.</p>
+<div class="card card-cyan mt-2 text-xs"><b>📖 Tutorial passo a passo disponível:</b> <a href="tutorials/e1_5_strict_manager.html" style="color:var(--cyan);">Abrir tutorial completo</a> — construa o código do zero com explicação de cada detalhe.</div>
 
-<div  class="text-sm mt-2" style="background:rgba(139,92,246,0.1);padding:0.4rem;border-radius:0.3rem;border-left:3px solid var(--purple);">
+<div class="text-sm mt-2" style="background:rgba(139,92,246,0.1);padding:0.4rem;border-radius:0.3rem;border-left:3px solid var(--purple);">
 <b>Contexto:</b> você é <strong>gestor financeiro sênior</strong> de uma startup de 50 pessoas. O orçamento de reembolso é limitado, há tentativas recorrentes de fraude e você precisa de <strong>zero compromissos éticos</strong>.
 </div>
 
-<p><strong>Seu prompt deve conter:</strong></p>
+<p><strong>Seu prompt deve conter os 6 elementos CO-STAR:</strong></p>
 <ol class="text-sm">
 <li><strong>Context:</strong> empresa, tamanho, cenário de risco</li>
 <li><strong>Objective:</strong> analisar despesas e decidir aprovação/rejeição</li>
@@ -2622,25 +2623,7 @@ def clima(cidade: str) -&gt; str:
 <li><strong>Response:</strong> JSON estruturado com decisão binária + regras violadas</li>
 </ol>
 
-<p><strong>Teste seu prompt com 5 despesas reais ou fictícias:</strong></p>
-<ul class="text-sm">
-<li>Uma viagem "justificada" com hotel 5 estrelas</li>
-<li>Uma refeição de trabalho com valor razoável</li>
-<li>Um software/ferramenta sem OC prévio</li>
-<li>Um reembolso pessoal (sim, alguém vai tentar)</li>
-<li>Uma despesa legítima, dentro do policy</li>
-</ul>
-
-<p><strong>Entregáveis:</strong></p>
-<ol class="text-sm">
-<li>Arquivo <code>manager_prompt.txt</code> com seu CO-STAR completo</li>
-<li>Arquivo <code>test_cases.json</code> com as 5 despesas + respostas do agente</li>
-<li>Nota (2-3 frases): qual foi a regra mais importante que seu prompt "entendeu"?</li>
-</ol>
-
-<div  class="card card-amber" style="font-size:0.65em; margin-top:0.4rem;">
-⚠️ <b>Desafio adicional (opcional):</b> tente fazer o agente "bugar" com uma despesa que pareça legítima, mas viola a lógica. Depois, corrija seu prompt para fechar o buraco.
-</div>
+<div class="card card-green mt-2 text-xs fragment"><b>🔗 Conexão com o projeto final:</b> Este agente é a <b>base</b> que você vai evoluir nos próximos encontros — adicionando CoT (E2), RAG (E3) e guardrails (E4) até ter um agente de produção.</div>
 </div>
 </section>
 
