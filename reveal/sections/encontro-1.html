@@ -365,70 +365,62 @@ Vamos quebrar essa definição em partes nos próximos slides.
 
 <section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
 <h1>🤖 Agente vs Assistente vs Bot</h1>
-<p class="text-sm">Três conceitos que parecem iguais — mas têm diferenças enormes na prática:</p>
+<p style="font-size:0.75em; opacity:0.85;">Mesmo pedido — três respostas completamente diferentes:</p>
 
-<div class="grid-3 stagger-in" style="gap:1rem; margin-top:1.2rem;">
+<div style="background:rgba(139,92,246,0.1); border:1px solid rgba(139,92,246,0.3); border-radius:12px; padding:0.6rem 1rem; text-align:center; margin:0.6rem 0; font-size:0.8em;">
+  🗣️ <b>Usuário:</b> <i>"Preciso de um voo barato pra São Paulo na sexta"</i>
+</div>
 
-<div class="card card-red expandable" style="text-align:center;">
-  <div class="card-icon">🔧</div>
-  <div class="card-title" style="font-size:0.9em;">Bot (Chatbot)</div>
-  <div class="card-desc" style="font-size:0.65em; margin-top:0.4rem;">
-    <p><b>Segue script fixo</b></p>
-    <p>Árvore de decisão pré-definida. Se o usuário sai do roteiro, quebra.</p>
+<div class="grid-3 stagger-in" style="gap:0.8rem; margin-top:0.6rem;">
+
+<div class="card expandable" style="border-left:4px solid var(--red); text-align:left;">
+  <div style="font-size:0.85em; font-weight:700; color:var(--red);">🔧 Bot</div>
+  <div style="font-size:0.7em; margin-top:0.4rem; padding:0.4rem; background:rgba(0,0,0,0.2); border-radius:6px; font-family:var(--font-mono);">
+    "Digite 1 para consultar voos<br>Digite 2 para pacotes<br>Digite 3 para falar com atendente"
   </div>
   <div class="card-detail">
-    <p><b>Como funciona:</b> IF/ELSE gigante ou fluxo no Dialogflow/ManyChat.</p>
-    <p><b>Exemplo:</b> "Digite 1 para saldo, 2 para extrato, 3 para falar com humano"</p>
-    <p><b>Limitação:</b> Não entende linguagem natural. Não adapta. Não aprende.</p>
-    <div class="detail-example">📞 Aquele bot de telemarketing que te faz repetir "FALAR COM ATENDENTE" 5 vezes.</div>
+    <p><b>O que é:</b> Fluxo pré-programado (if/else). Não entende linguagem natural.</p>
+    <p><b>Problema:</b> Se você disser "quero o mais barato pra sexta", ele responde "opção inválida".</p>
+    <p><b>Autonomia:</b> Zero — só segue o script que o programador escreveu.</p>
+    <div class="detail-example">Ex: URA telefônica, bots de WhatsApp com menu numérico, chatbots de FAQ com botões.</div>
   </div>
 </div>
 
-<div class="card card-amber expandable" style="text-align:center;">
-  <div class="card-icon">💡</div>
-  <div class="card-title" style="font-size:0.9em;">Assistente</div>
-  <div class="card-desc" style="font-size:0.65em; margin-top:0.4rem;">
-    <p><b>Responde e sugere</b></p>
-    <p>Entende linguagem natural, mas espera VOCÊ decidir e agir.</p>
+<div class="card expandable" style="border-left:4px solid var(--amber); text-align:left;">
+  <div style="font-size:0.85em; font-weight:700; color:var(--amber);">💡 Assistente</div>
+  <div style="font-size:0.7em; margin-top:0.4rem; padding:0.4rem; background:rgba(0,0,0,0.2); border-radius:6px; font-family:var(--font-mono);">
+    "Para encontrar voos baratos, recomendo:<br>1. Acesse Google Flights<br>2. Coloque SP como destino<br>3. Selecione sexta-feira..."
   </div>
   <div class="card-detail">
-    <p><b>Como funciona:</b> LLM responde perguntas e faz recomendações, mas não executa ações.</p>
-    <p><b>Exemplo:</b> ChatGPT te explica como enviar um email, mas não envia por você.</p>
-    <p><b>Limitação:</b> Reativo — só responde quando perguntado. Não toma iniciativa.</p>
-    <div class="detail-example">💬 "Para reservar o voo, acesse o site X, clique em Y..." — te ensina mas não faz.</div>
+    <p><b>O que é:</b> LLM que entende sua pergunta e responde com informação útil.</p>
+    <p><b>Problema:</b> Te diz <i>como fazer</i>, mas não <i>faz por você</i>. Você ainda precisa agir.</p>
+    <p><b>Autonomia:</b> Baixa — responde e sugere, mas não executa nenhuma ação.</p>
+    <div class="detail-example">Ex: ChatGPT padrão, Alexa respondendo perguntas, Google Assistant em modo informativo.</div>
   </div>
 </div>
 
-<div class="card card-green expandable" style="text-align:center;">
-  <div class="card-icon">🦾</div>
-  <div class="card-title" style="font-size:0.9em;">Agente</div>
-  <div class="card-desc" style="font-size:0.65em; margin-top:0.4rem;">
-    <p><b>Decide e executa</b></p>
-    <p>Recebe um objetivo, planeja, usa ferramentas, e entrega resultado.</p>
+<div class="card expandable" style="border-left:4px solid var(--green); text-align:left;">
+  <div style="font-size:0.85em; font-weight:700; color:var(--green);">🦾 Agente</div>
+  <div style="font-size:0.7em; margin-top:0.4rem; padding:0.4rem; background:rgba(0,0,0,0.2); border-radius:6px; font-family:var(--font-mono);">
+    "Encontrei 3 opções. A mais barata é LATAM<br>às 7h por R$289. Reservo no seu cartão<br>final 4421? ✈️"
   </div>
   <div class="card-detail">
-    <p><b>Como funciona:</b> LLM em loop — pensa, age, observa, repete até resolver.</p>
-    <p><b>Exemplo:</b> "Reserve o voo mais barato pra SP sexta" → busca, compara, reserva, te manda confirmação.</p>
-    <p><b>Diferencial:</b> Proativo, multi-etapa, usa ferramentas, toma decisões autônomas.</p>
-    <div class="detail-example">✈️ Você dorme, o agente compra a passagem, reserva hotel, e monta o roteiro.</div>
+    <p><b>O que é:</b> LLM + ferramentas + loop. Ele <i>pesquisou</i>, <i>comparou</i>, <i>decidiu</i> e está pronto pra <i>agir</i>.</p>
+    <p><b>Diferencial:</b> Tomou decisões autônomas e pode executar a ação (reservar) se autorizado.</p>
+    <p><b>Autonomia:</b> Alta — planeja, executa, verifica resultado, adapta se algo der errado.</p>
+    <div class="detail-example">Ex: Copilot Workspace, agentes de viagem, Cursor editando código, Devin deployando apps.</div>
   </div>
 </div>
 
 </div>
 
-<div class="mt-2" style="font-size:0.6rem;">
-<table style="width:100%; font-size:1em;">
-  <thead><tr style="background:rgba(255,255,255,0.05);"><th style="padding:0.5rem;">Dimensão</th><th style="padding:0.5rem; color:var(--red);">🔧 Bot</th><th style="padding:0.5rem; color:var(--amber);">💡 Assistente</th><th style="padding:0.5rem; color:var(--green);">🦾 Agente</th></tr></thead>
-  <tbody>
-    <tr><td style="padding:0.4rem;"><b>Autonomia</b></td><td style="padding:0.4rem;">Nenhuma</td><td style="padding:0.4rem;">Baixa-média</td><td style="padding:0.4rem;">Alta</td></tr>
-    <tr><td style="padding:0.4rem;"><b>Entende linguagem?</b></td><td style="padding:0.4rem;">❌ Pattern match</td><td style="padding:0.4rem;">✅ Sim</td><td style="padding:0.4rem;">✅ Sim</td></tr>
-    <tr><td style="padding:0.4rem;"><b>Usa ferramentas?</b></td><td style="padding:0.4rem;">❌ Não</td><td style="padding:0.4rem;">⚠️ Limitado</td><td style="padding:0.4rem;">✅ Várias</td></tr>
-    <tr><td style="padding:0.4rem;"><b>Toma decisões?</b></td><td style="padding:0.4rem;">❌ Segue script</td><td style="padding:0.4rem;">⚠️ Sugere</td><td style="padding:0.4rem;">✅ Decide + age</td></tr>
-    <tr><td style="padding:0.4rem;"><b>Multi-step?</b></td><td style="padding:0.4rem;">❌ Fixo</td><td style="padding:0.4rem;">⚠️ Se guiado</td><td style="padding:0.4rem;">✅ Autônomo</td></tr>
-  </tbody>
-</table>
+<div style="margin-top:0.7rem; display:flex; align-items:center; justify-content:center; gap:0.4rem; font-size:0.6rem; opacity:0.7;">
+  <span style="color:var(--red);">Script fixo</span>
+  <span>→</span>
+  <span style="color:var(--amber);">Entende + sugere</span>
+  <span>→</span>
+  <span style="color:var(--green);font-weight:700;">Entende + decide + executa</span>
 </div>
-<div class="text-xs" style="opacity:0.6; margin-top:0.4rem;">👆 Clique nos cards acima para ver exemplos detalhados · Fonte: adaptado de Google Cloud + Anthropic, 2024–2025</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
