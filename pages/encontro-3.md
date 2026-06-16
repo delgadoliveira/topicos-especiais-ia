@@ -30,6 +30,24 @@ Hoje vamos dar <b>memória</b>, <b>conhecimento</b> e <b>habilidades reutilizáv
 
 ---
 
+# 🧪 A jornada — Nível 3: com Memória + RAG
+<div class="p-3 rounded bg-zinc-800 border border-zinc-700 text-xs font-mono mb-2">
+<span class="text-green-400">user:</span> Planeja uma viagem de 3 dias para Porto Alegre com R$2000<br><br>
+<span class="text-yellow-400">thought:</span> Usuário é vegetariano; na última viagem preferiu hotel boutique.<br>
+<span class="text-blue-400">action:</span> buscar_hoteis("Porto Alegre", estilo="boutique", budget=800)<br>
+<span class="text-blue-400">action:</span> RAG_query("restaurantes vegetarianos Porto Alegre avaliação > 4.5")<br>
+<span class="text-gray-400">observation [RAG]:</span> Quinoa Real ⭐4.8 | Veggie Way ⭐4.6 | Manjericão ⭐4.7<br><br>
+<span class="text-purple-400">assistant:</span> Baseado nas suas preferências, montei um roteiro boutique + vegetariano.<br>Orçamento: R$1.847 (sobram R$153).
+</div>
+<div class="grid grid-cols-3 gap-2 text-xs">
+<div class="p-2 rounded bg-green-500/10 border border-green-500/30 text-center"><b>✅ Personalizado</b></div>
+<div class="p-2 rounded bg-green-500/10 border border-green-500/30 text-center"><b>✅ Dados verificáveis</b></div>
+<div class="p-2 rounded bg-green-500/10 border border-green-500/30 text-center"><b>✅ Orçamento exato</b></div>
+</div>
+<div class="mt-2 text-xs text-center opacity-70">Memória + RAG = agente que te conhece e busca fatos reais.</div>
+
+---
+
 # 🗺️ Agenda do Encontro 3
 
 <div class="grid grid-cols-2 gap-6 mt-6">

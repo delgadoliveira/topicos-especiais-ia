@@ -29,6 +29,26 @@ Hoje vamos aprender a <b>proteger, avaliar e observar</b> agentes — e ver como
 
 ---
 
+# 🧪 A jornada — Nível 4: Produção
+<div class="p-3 rounded bg-zinc-800 border border-zinc-700 text-xs font-mono mb-2">
+<span class="text-green-400">user:</span> Planeja viagem 3 dias Porto Alegre R$2000<br><br>
+<span class="text-gray-500">[guardrail]</span> ✓ Sem PII | ✓ Budget positivo | ✓ Cidade válida<br>
+<span class="text-yellow-400">plan:</span> [1] hotéis → [2] restaurantes → [3] passeios → [4] roteiro → [5] validar budget<br>
+<span class="text-gray-500">[trace]</span> steps: 5 | tokens: 2.340 | cost: $0.003 | latency: 4.2s<br>
+<span class="text-gray-500">[eval]</span> relevance: 0.94 | groundedness: 0.91 | budget_accuracy: 0.98<br><br>
+<span class="text-purple-400">assistant:</span> ✅ Roteiro validado. 3 dias, R$1.847, personalizado e com fontes.<br>
+<span class="text-gray-500">[monitor]</span> LangSmith ✓ | alertas: none | satisfação: pending
+</div>
+<div class="grid grid-cols-4 gap-2 text-xs">
+<div class="p-2 rounded bg-green-500/10 border border-green-500/30 text-center"><b>✅ Guardrails</b></div>
+<div class="p-2 rounded bg-green-500/10 border border-green-500/30 text-center"><b>✅ Métricas</b></div>
+<div class="p-2 rounded bg-green-500/10 border border-green-500/30 text-center"><b>✅ Trace</b></div>
+<div class="p-2 rounded bg-green-500/10 border border-green-500/30 text-center"><b>✅ Monitoramento</b></div>
+</div>
+<div class="mt-2 text-xs text-center opacity-70">O mesmo agente — agora pronto para produção com SLA e observabilidade.</div>
+
+---
+
 # 🗺️ Agenda do Encontro 4
 
 <div class="grid grid-cols-2 gap-6 mt-6">

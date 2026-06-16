@@ -29,6 +29,25 @@ Hoje vamos ensiná-lo a <b>raciocinar</b> antes de agir — e a usar ferramentas
 
 ---
 
+# 🧪 A jornada — Nível 2: com Reasoning + Tools
+<div class="p-3 rounded bg-zinc-800 border border-zinc-700 text-xs font-mono mb-2">
+<span class="text-green-400">user:</span> Planeja uma viagem de 3 dias para Porto Alegre com R$2000<br><br>
+<span class="text-yellow-400">thought:</span> Preciso decompor e buscar preços reais.<br>
+<span class="text-blue-400">action:</span> buscar_hoteis("Porto Alegre", checkin="2025-03-01", budget=600)<br>
+<span class="text-gray-400">observation:</span> Ibis Styles Centro: R$189/noite ✓ | Laghetto: R$280/noite<br>
+<span class="text-yellow-400">thought:</span> 3×189=567. Sobram R$1433 para comida e passeios.<br>
+<span class="text-blue-400">action:</span> buscar_restaurantes("Porto Alegre", tipo="gaúcho")<br>
+<span class="text-gray-400">observation:</span> Barranco ($$), CTG Farroupilha ($), Na Brasa ($$$)
+</div>
+<div class="grid grid-cols-3 gap-2 text-xs">
+<div class="p-2 rounded bg-green-500/10 border border-green-500/30 text-center"><b>✅ Preços reais</b></div>
+<div class="p-2 rounded bg-green-500/10 border border-green-500/30 text-center"><b>✅ Raciocínio visível</b></div>
+<div class="p-2 rounded bg-amber-500/10 border border-amber-500/30 text-center"><b>⚠️ Sem memória</b></div>
+</div>
+<div class="mt-2 text-xs text-center opacity-70">Agora o agente pensa e usa ferramentas — mas ainda não lembra suas preferências.</div>
+
+---
+
 # 🗺️ Agenda do Encontro 2
 
 <div class="grid grid-cols-2 gap-6 mt-6">

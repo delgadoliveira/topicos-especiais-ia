@@ -1086,6 +1086,19 @@ xychart-beta
 
 ---
 
+# 🧪 A jornada de um agente — Nível 1: LLM puro
+<div class="p-3 rounded bg-zinc-800 border border-zinc-700 text-xs font-mono mb-3">
+<span class="text-green-400">user:</span> Planeja uma viagem de 3 dias para Porto Alegre com R$2000<br>
+<span class="text-purple-400">assistant:</span> Claro! Aqui vai um roteiro...<br>• Dia 1: Mercado Público + Redenção<br>• Hotel: Hotel X (R$150/noite) ← <span class="text-red-400">⚠️ inventou o preço</span><br>• Restaurante: Churrascaria Y ← <span class="text-red-400">⚠️ pode nem existir mais</span>
+</div>
+<div class="grid grid-cols-2 gap-3 text-xs">
+<div class="p-3 rounded bg-red-500/10 border border-red-500/30"><b>❌ Problemas</b><ul class="mt-1"><li>Preços inventados</li><li>Sem dados reais/atuais</li><li>Nenhuma verificação</li><li>Sem personalização</li></ul></div>
+<div class="p-3 rounded bg-cyan-500/10 border border-cyan-500/30"><b>🧠 O que faltou</b><ul class="mt-1"><li>Ferramentas</li><li>Raciocínio estruturado</li><li>Verificação de fatos</li><li>Memória</li></ul></div>
+</div>
+<div class="mt-2 text-xs text-center opacity-70">🔜 Nos próximos encontros, vamos evoluir esta mesma query.</div>
+
+---
+
 # 🎬 Da teoria à prática
 
 <div class="text-xl mt-6 opacity-90">
