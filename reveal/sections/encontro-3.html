@@ -1343,26 +1343,44 @@ Hoje: Claude, ChatGPT, VS Code, Cursor, Cline, Continue…
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #172554 100%)">
 <h1>MCP em ação — servidor mínimo (Python)</h1>
-<pre><code class="language-python">from mcp.server.fastmcp import FastMCP
-mcp = FastMCP(&quot;minha-calculadora&quot;)
+<p class="text-sm">Um servidor MCP é só um arquivo Python que declara <b>tools</b> com <code>@mcp.tool()</code>. O decorator transforma a função (nome + tipos + docstring) no schema que o cliente descobre.</p>
+<pre><code class="language-python"># pip install "mcp[cli]"
+from mcp.server.fastmcp import FastMCP
+
+mcp = FastMCP("minha-calculadora")
+
 @mcp.tool()
 def somar(a: int, b: int) -&gt; int:
-    &quot;&quot;&quot;Soma dois números inteiros.&quot;&quot;&quot;
-    return a + b</code></pre>
+    """Soma dois números inteiros."""
+    return a + b
+
+@mcp.tool()
+def multiplicar(a: int, b: int) -&gt; int:
+    """Multiplica dois números inteiros."""
+    return a * b
+
+if __name__ == "__main__":
+    mcp.run()   # roda via stdio (JSON-RPC)</code></pre>
+<div class="card card-cyan mt-2 text-xs">💡 A <b>docstring vira a descrição</b> que o LLM lê para decidir quando chamar a tool — escreva-a com cuidado.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e293b 100%)">
-<h1>MCP em ação — servidor mínimo (Python) — continuação</h1>
-<pre><code class="language-python">@mcp.tool()
-def multiplicar(a: int, b: int) -&gt; int:
-    &quot;&quot;&quot;Multiplica dois números inteiros.&quot;&quot;&quot;
-    return a * b
-if __name__ == &quot;__main__&quot;:
-    mcp.run()</code></pre>
-<div class="card card-cyan mt-3 text-sm">
-Pronto. Esse servidor funciona em <b>Claude Desktop</b>, <b>Cursor</b>, <b>VS Code Copilot</b>, ou qualquer cliente MCP, sem mudar uma linha. <b>Esse é o ponto</b>.
+<h1>MCP em ação — como conectar o servidor</h1>
+<p class="text-sm">Definir não basta: você <b>registra</b> o servidor no cliente. No Claude Desktop, basta apontar o comando no JSON de configuração:</p>
+<pre><code class="language-json">// claude_desktop_config.json
+{
+  "mcpServers": {
+    "calculadora": {
+      "command": "python",
+      "args": ["/caminho/para/servidor.py"]
+    }
+  }
+}</code></pre>
+<div class="grid-2 mt-2 text-xs">
+  <div class="card card-green">✅ <b>Pronto:</b> reinicie o cliente e a tool <code>somar</code> aparece. O mesmo arquivo funciona em <b>Claude Desktop</b>, <b>Cursor</b> e <b>VS Code Copilot</b> sem mudar uma linha.</div>
+  <div class="card card-amber">🧪 <b>Para depurar:</b> <code>mcp dev servidor.py</code> abre o <b>MCP Inspector</b>, onde você testa as tools sem precisar de um cliente real.</div>
 </div>
-<div class="insight-box mt-2 text-xs">🚀 <b>Impacto empresarial:</b> antes do MCP, cada integração custava semanas de dev. Com MCP, uma empresa pode expor seus sistemas internos (ERP, CRM, DB) UMA vez e qualquer agente os acessa. É a diferença entre N² integrações e N.</div>
+<div class="insight-box mt-2 text-xs">🚀 <b>Impacto:</b> antes do MCP, cada integração custava semanas. Com MCP, a empresa expõe seus sistemas (ERP, CRM, DB) <b>uma vez</b> e qualquer agente os acessa — a diferença entre N² integrações e N.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #1f2937 100%)">
