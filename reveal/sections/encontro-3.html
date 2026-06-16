@@ -81,6 +81,17 @@
 <div class="tip-box mt-2 text-xs">📌 Link direto para este slide agora mostra todo o conteúdo sem depender de clicar nos fragmentos.</div>
 </section>
 
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #7c2d12 100%)">
+<h1>🚨 O problema: seu agente é amnésico e limitado</h1>
+<p class="text-sm">No Encontro 2, construímos agentes que pensam e agem. Mas eles têm <b>3 limitações fatais</b>:</p>
+<div class="grid-3 mt-2 stagger-in">
+<div class="card card-red fragment"><div class="card-title">🧠 Esquece tudo</div><div class="card-desc">Cada chamada começa do zero. O usuário repete contexto toda vez. <b>ChatGPT sem Memory</b> era exatamente isso.</div></div>
+<div class="card card-red fragment"><div class="card-title">📄 Não sabe nada seu</div><div class="card-desc">Conhece o mundo até o treino, mas não conhece <b>seus documentos, seu código, sua empresa</b>.</div></div>
+<div class="card card-red fragment"><div class="card-title">💸 Fica caro rápido</div><div class="card-desc">Mandar todo o histórico toda vez = custo crescente + latência + perda de qualidade (lost-in-the-middle).</div></div>
+</div>
+<div class="insight-box mt-2 text-xs">Este encontro resolve exatamente isso: <b>contexto inteligente + memória + RAG + protocolos de conexão</b>.</div>
+</section>
+
 <section data-background-gradient="linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)">
 <h1>🧭 Vocabulário do dia — em 1 frase cada</h1>
 <div class="stagger-in mt-2">
@@ -243,6 +254,10 @@ print(f&quot;Resumo: {resultado[0][&#x27;content&#x27;]}&quot;)</code></pre>
   <div class="flow-arrow fragment">→</div>
   <div class="flow-node node-green fragment">Resposta fundamentada</div>
 </div>
+<div class="grid-2 mt-2 stagger-in text-xs">
+<div class="card card-cyan fragment"><b>🏢 Quem faz isso:</b> Perplexity (web RAG em tempo real), Notion AI (RAG sobre seus docs), Cursor (RAG sobre seu codebase), Glean (RAG enterprise sobre Slack/Drive/Jira).</div>
+<div class="card card-amber fragment"><b>📊 Números:</b> RAG reduz alucinação em 40-60% (Meta, 2024). Perplexity processa 100M+ queries/mês com este padrão. Custo: ~$0.002/query com embeddings baratos.</div>
+</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e293b 100%)">
@@ -306,6 +321,7 @@ print(chain.invoke({&quot;input&quot;: &quot;Como configuro o produto?&quot;})[&
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #064e3b 100%)">
 <h1>Advanced RAG — quando o básico não basta</h1>
+<div class="card card-red text-xs mb-2 fragment"><b>🚨 Caso real:</b> Uma fintech implementou RAG básico para FAQ. Resultado: 45% das respostas estavam erradas porque (1) a pergunta do usuário era ambígua, (2) chunks relevantes ficavam abaixo do top-5, (3) informação contradizente de versões antigas. <b>Solução:</b> pipeline de Advanced RAG abaixo.</div>
 <p class="text-sm">RAG ingênuo (embeddings + top-K) tem <b>muitos pontos de falha</b>. Em produção, usa-se um pipeline:</p>
 
 <div class="flow-diagram mt-2">
@@ -790,6 +806,7 @@ chain_stuff = load_summarize_chain(llm, chain_type=&quot;stuff&quot;)</code></pr
   <div class="card card-green">Knowledge graph<br><span class="text-xs">ou vector DB</span></div>
   <div class="card card-purple">Skills / Tools<br><span class="text-xs">código reutilizável</span></div>
 </div>
+<div class="card card-cyan mt-2 text-xs fragment"><b>🏢 Em produção:</b> ChatGPT Memory (20M+ usuários), Claude Projects (contexto persistente por projeto), Cursor (indexa repo inteiro como memória de trabalho), Microsoft Copilot (Graph como memória enterprise). Memória é o que transforma chatbot em <b>assistente pessoal</b>.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
@@ -1137,6 +1154,7 @@ Hoje: Claude Desktop, Cursor, VS Code, Cline, Continue…
 </div>
 
 </div>
+<div class="card card-green mt-2 text-xs fragment"><b>🏢 Adoção 2025:</b> Anthropic lançou MCP em Nov/2024. Em 6 meses: 1000+ servers open-source, adotado por Cursor, Windsurf, Zed, Sourcegraph. É o "USB-C dos agentes" — conecte uma vez, funciona em qualquer cliente MCP.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #0f766e 100%)">
@@ -1204,6 +1222,7 @@ Lista oficial: <a href="https://github.com/modelcontextprotocol/servers">github.
 
 <section data-background-gradient="linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)">
 <h1>3.8 Padrões multi-agente</h1>
+<div class="card card-red text-xs mb-2 fragment"><b>🚨 Quando um agente não basta:</b> Cursor tentou um único agente para "review + edit + test + deploy". Resultado: contexto estourava, qualidade caía após 10 passos. Solução: supervisor + workers especializados. Cada worker foca em 1 skill com contexto limpo.</div>
 
 <div class="grid-3 mt-2">
   <div class="card card-purple fragment"><b>1. Supervisor / Orchestrator</b><div class="flow-diagram mt-1"><div class="flow-node node-purple">Supervisor</div><div class="flow-arrow">→</div><div class="flow-node node-cyan">A / B / C</div></div></div>
@@ -1493,4 +1512,3 @@ Escreva 1 página. Será discutido no Encontro 4.
 </div>
 <div class="card card-cyan mt-3 text-center"><div class="card-title">Próximo: Encontro 4 — Problemas Comuns &amp; State-of-the-Art</div><div class="card-desc">Onde tudo isso encontra a <i>realidade</i>: falhas, custos, e os produtos que estão ganhando o mercado.</div></div>
 </section>
-

@@ -120,6 +120,17 @@
 <div class="text-xs text-center" style="margin-top:0.8rem; opacity:0.7;">Cada técnica será demonstrada com código executável no Colab.</div>
 </section>
 
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #172554 100%)">
+<h1>💰 Por que isso importa — o mercado em 2025</h1>
+<div class="grid-2 stagger-in text-sm" style="gap:0.8rem;">
+<div class="card card-purple parallax-card fragment"><b>$4.6B</b><br><span class="text-xs">Investimento em startups de AI Agents só em 2024 (Pitchbook). Cognition (Devin): $175M. Cursor: $400M valuation.</span></div>
+<div class="card card-cyan parallax-card fragment"><b>36% das Fortune 500</b><br><span class="text-xs">Já têm pelo menos 1 agente em produção (McKinsey, Jan 2025). Maioria: atendimento, código, análise.</span></div>
+<div class="card card-green parallax-card fragment"><b>SWE-bench: 49% → 72%</b><br><span class="text-xs">Em 12 meses, agentes de código passaram de resolver metade para quase 3/4 dos problemas reais de GitHub.</span></div>
+<div class="card card-amber parallax-card fragment"><b>O padrão</b><br><span class="text-xs">Todo produto de destaque usa: reasoning + planning + tools + evaluation. É exatamente o que vamos aprender hoje.</span></div>
+</div>
+<div class="tip-box mt-2 text-xs">Cada técnica deste encontro está sendo usada <b>agora</b> em produtos que você usa todo dia.</div>
+</section>
+
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
 <h1>🧭 Vocabulário do dia — termos-chave</h1>
 <p class="text-sm">Os conceitos novos que você vai encontrar. Uma frase cada — aprofundamos durante a aula:</p>
@@ -525,6 +536,7 @@ print(ticket.prioridade, ticket.requer_resposta_imediata)  # 5 True</code></pre>
 <div class="card card-amber parallax-card fragment"><b>Trade-off</b><br>Mais latência, menos improviso.</div>
 </div>
 <div class="insight-box mt-2 text-xs">É o padrão certo quando o problema já tem “receita”.</div>
+<div class="card card-green mt-2 text-xs fragment"><b>🏢 Quem usa:</b> Notion AI (extrair → resumir → formatar), GitHub Copilot Workspace (plan → implement → test), Jasper AI (research → draft → edit).</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #064e3b 100%)">
@@ -535,6 +547,7 @@ print(ticket.prioridade, ticket.requer_resposta_imediata)  # 5 True</code></pre>
 <div class="card card-amber parallax-card fragment"><b>Exemplo</b><br>E-mail curto vai para modelo barato; contrato jurídico vai para modelo maior.</div>
 </div>
 <div class="tip-box mt-2 text-xs">Routing não é só performance: é também <b>especialização</b>.</div>
+<div class="card card-purple mt-2 text-xs fragment"><b>🏢 Quem usa:</b> Intercom (triage: billing→bot barato, churn risk→humano), Stripe Radar (tx simples→regra, complexa→ML), Claude (haiku para fácil, opus para difícil).</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
@@ -545,6 +558,7 @@ print(ticket.prioridade, ticket.requer_resposta_imediata)  # 5 True</code></pre>
 </div>
 <div class="flow-diagram mt-2"><div class="flow-node node-purple">Tarefa</div><div class="flow-arrow">→</div><div class="flow-node node-cyan">A / B / C em paralelo</div><div class="flow-arrow">→</div><div class="flow-node node-amber">Agregador</div><div class="flow-arrow">→</div><div class="flow-node node-green">Saída</div></div>
 <div class="card mt-2 text-xs card-amber parallax-card fragment"><b>Quando vale:</b> quando os ramos não dependem entre si. O ganho vem de <b>latência</b>, <b>cobertura</b> ou ambos.</div>
+<div class="card card-green mt-2 text-xs fragment"><b>🏢 Quem usa:</b> Perplexity (busca 5 fontes em paralelo + sintetiza), Cursor (analisa múltiplos arquivos simultaneamente), Devin (roda testes em paralelo enquanto corrige código).</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
@@ -554,6 +568,7 @@ print(ticket.prioridade, ticket.requer_resposta_imediata)  # 5 True</code></pre>
 <div class="card card-purple parallax-card fragment"><b>Diferença vs paralelo</b><br>Aqui o sistema decide <b>quantos workers criar</b> e <b>o que cada um fará</b>.</div>
 <div class="card card-green parallax-card fragment"><b>Exemplo típico</b><br>Agente de código escolhe quais arquivos ler, quais testes rodar e quando parar.</div>
 </div>
+<div class="card card-amber mt-2 text-xs fragment"><b>🏢 Quem usa:</b> Claude Code/Copilot Coding Agent (decompõe PR em subtarefas, delega para workers especializados), AutoGPT/CrewAI (orchestrator distribui research tasks), Adept (orquestra cliques em apps diferentes).</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
@@ -564,6 +579,7 @@ print(ticket.prioridade, ticket.requer_resposta_imediata)  # 5 True</code></pre>
 <div class="card card-cyan parallax-card fragment"><b>Quando usar</b><br>Código, escrita técnica, tradução e decisões auditáveis.</div>
 <div class="card card-amber parallax-card fragment"><b>Lembrete</b><br>É a versão sistêmica da self-reflection.</div>
 </div>
+<div class="card card-green mt-2 text-xs fragment"><b>🏢 Quem usa:</b> Cursor Tab (gera código → lint verifica → refina), AlphaCode (gera milhares → avalia com testes → seleciona), Grammarly (sugere → avalia tom → refina).</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
@@ -741,10 +757,10 @@ Responda APENAS JSON:
 <h1>🚀 Quatro upgrades modernos</h1>
 <p class="slide-in-left" style="opacity:0.8;">Planejar ajuda muito. Mas, em tarefas difíceis, ainda dá para melhorar <b>durante a execução</b>.</p>
 <div class="grid-2 stagger-in text-sm" style="gap:0.8rem;">
-<div class="card card-purple expandable parallax-card fragment"><b>⚡ Test-time compute</b><div class="card-detail"><p>Mais tentativas ou mais verificação na inferência.</p></div></div>
-<div class="card card-cyan expandable parallax-card fragment"><b>🌳 LATS</b><div class="card-detail"><p>Busca em árvore para explorar caminhos alternativos.</p></div></div>
-<div class="card card-green expandable parallax-card fragment"><b>✅ PRM</b><div class="card-detail"><p>Verificação passo a passo, não só no fim.</p></div></div>
-<div class="card card-amber expandable parallax-card fragment"><b>🏃 SPRINT</b><div class="card-detail"><p>Planeja um pouco, executa em paralelo e replaneja.</p></div></div>
+<div class="card card-purple expandable parallax-card fragment"><b>⚡ Test-time compute</b><div class="card-detail"><p>Gastar mais compute na inferência (não no treino). OpenAI o1/o3 usam isso: pensam mais antes de responder. Resultado: +30% em matemática vs GPT-4. Custo: 3-10x mais tokens.</p></div></div>
+<div class="card card-cyan expandable parallax-card fragment"><b>🌳 LATS</b><div class="card-detail"><p>Language Agent Tree Search: combina MCTS + LLM. Explora múltiplos caminhos, avalia cada um, aprofunda o melhor. Usado em HumanEval: +20% vs CoT simples. Trade-off: 5-50x mais chamadas.</p></div></div>
+<div class="card card-green expandable parallax-card fragment"><b>✅ PRM</b><div class="card-detail"><p>Process Reward Model: treina um modelo para avaliar cada passo do raciocínio. DeepMind usou em MATH: 78% → 92% de acerto. Essencial quando o resultado final pode estar "certo por acaso".</p></div></div>
+<div class="card card-amber expandable parallax-card fragment"><b>🏃 SPRINT</b><div class="card-detail"><p>Speculative Planning with Reified Inference: planeja parcialmente → dispara ondas paralelas → usa resultado para replanejar. Reduz latência em 40-60% em tarefas com muitas tools. Inspiração: Cursor executa edits em paralelo enquanto planeja o próximo.</p></div></div>
 </div>
 </section>
 

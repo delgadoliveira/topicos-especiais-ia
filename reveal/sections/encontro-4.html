@@ -118,21 +118,21 @@
 <section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
   <h1>4.1 As 7 falhas mais comuns (1/2)</h1>
   <div class="grid-2 stagger-in">
-    <div class="card fragment"><div class="card-title">1. 🔁 Loops infinitos</div><div class="card-desc">Agente chama a mesma tool várias vezes esperando resultado diferente.</div></div>
-    <div class="card fragment"><div class="card-title">2. 👻 Alucinação</div><div class="card-desc">Inventa fatos, IDs e nomes de tools que não existem.</div></div>
-    <div class="card fragment"><div class="card-title">3. 💸 Custo descontrolado</div><div class="card-desc">Histórico cresce, chamadas se acumulam e a conta explode.</div></div>
-    <div class="card fragment"><div class="card-title">4. 🐢 Latência inaceitável</div><div class="card-desc">30s+ por resposta e o usuário abandona.</div></div>
+    <div class="card fragment"><div class="card-title">1. 🔁 Loops infinitos</div><div class="card-desc">Agente chama a mesma tool esperando resultado diferente.<br><span class="text-xs opacity-80">📌 Caso: AutoGPT em 2023 gastava $50+ em loops de pesquisa sem convergir. Fix: max_steps + detecção de repetição.</span></div></div>
+    <div class="card fragment"><div class="card-title">2. 👻 Alucinação</div><div class="card-desc">Inventa fatos, IDs e nomes de tools que não existem.<br><span class="text-xs opacity-80">📌 Caso: Advogado nos EUA usou ChatGPT que inventou 6 processos judiciais fictícios (2023). Fix: grounding + verificação.</span></div></div>
+    <div class="card fragment"><div class="card-title">3. 💸 Custo descontrolado</div><div class="card-desc">Histórico cresce, chamadas se acumulam e a conta explode.<br><span class="text-xs opacity-80">📌 Caso: Dev usando GPT-4 com agent loop acordou com fatura de $1,200 em uma noite. Fix: budget caps + alertas.</span></div></div>
+    <div class="card fragment"><div class="card-title">4. 🐢 Latência inaceitável</div><div class="card-desc">30s+ por resposta e o usuário abandona.<br><span class="text-xs opacity-80">📌 Dado: 53% dos usuários abandonam se resposta demora &gt;10s (Google). Fix: streaming + routing para modelo menor.</span></div></div>
   </div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
   <h1>4.1 As 7 falhas mais comuns (2/2)</h1>
   <div class="stagger-in" style="grid-template-columns: 1fr;">
-    <div class="card fragment"><div class="card-title">5. 🎯 Drift de objetivo</div><div class="card-desc">Em tarefas longas, o agente “esquece” o que estava tentando resolver.</div></div>
-    <div class="card fragment"><div class="card-title">6. 💉 Prompt injection</div><div class="card-desc">Dado externo (web, e-mail, documento) sequestra o comportamento do agente.</div></div>
-    <div class="card fragment"><div class="card-title">7. 🤝 Falsa confiança</div><div class="card-desc">O agente diz “feito!” mas a tarefa não foi feita — é silencioso e perigoso.</div></div>
+    <div class="card fragment"><div class="card-title">5. 🎯 Drift de objetivo</div><div class="card-desc">Em tarefas longas, o agente "esquece" o que estava tentando resolver.<br><span class="text-xs opacity-80">📌 Caso: Devin (coding agent) em tasks &gt;20 passos perdia o objetivo original em 35% dos casos (benchmark interno). Fix: replanning periódico.</span></div></div>
+    <div class="card fragment"><div class="card-title">6. 💉 Prompt injection</div><div class="card-desc">Dado externo (web, e-mail, documento) sequestra o comportamento do agente.<br><span class="text-xs opacity-80">📌 Caso: Bing Chat em 2023 foi manipulado por texto invisível em páginas web. Fix: input sanitization + sandboxing de dados externos.</span></div></div>
+    <div class="card fragment"><div class="card-title">7. 🤝 Falsa confiança</div><div class="card-desc">O agente diz "feito!" mas a tarefa não foi feita — é silencioso e perigoso.<br><span class="text-xs opacity-80">📌 Caso: Coding agents reportam "all tests pass" mas rodaram subset errado. Fix: verificação independente + assertions no resultado.</span></div></div>
   </div>
-  <div class="tip-box">⚠️ As três últimas costumam aparecer juntas: objetivo mal mantido, dado malicioso e pouca verificação final.</div>
+  <div class="tip-box">⚠️ As três últimas costumam aparecer juntas: objetivo mal mantido, dado malicioso e pouca verificação final. <b>Solução comum: observabilidade end-to-end.</b></div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
@@ -611,6 +611,21 @@ Qual responde melhor? A / B / Empate"""</code></pre>
     <div class="card fragment"><div class="card-title">SAP Joule</div><div class="card-desc">Copiloto + agentes para processos ERP.</div></div>
   </div>
   <div class="insight-box">💼 Em 2025, quase todo SaaS grande está adicionando “agentes”; a disputa virou distribuição, confiança e integração.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #172554 100%)">
+<h1>📊 Benchmarks que importam — Junho 2025</h1>
+<table class="text-xs">
+<thead><tr><th>Benchmark</th><th>O que mede</th><th>Líder</th><th>Score</th></tr></thead>
+<tbody>
+<tr><td><b>SWE-bench Verified</b></td><td>Resolver issues reais do GitHub</td><td>Claude Code</td><td>72.7%</td></tr>
+<tr><td><b>GAIA</b></td><td>Tarefas multi-step com tools</td><td>GPT-4o + tools</td><td>68%</td></tr>
+<tr><td><b>HumanEval</b></td><td>Gerar código correto</td><td>Claude 3.5 Sonnet</td><td>92%</td></tr>
+<tr><td><b>WebArena</b></td><td>Navegar sites como humano</td><td>Claude Computer Use</td><td>35.8%</td></tr>
+<tr><td><b>MATH (Lvl 5)</b></td><td>Problemas olímpicos de math</td><td>o3</td><td>96.7%</td></tr>
+</tbody>
+</table>
+<div class="insight-box mt-2 text-xs">🔑 Note: em 12 meses, SWE-bench foi de 13% (GPT-4 naive) → 72%. O ritmo de melhoria é <b>exponencial</b> — e ainda não estabilizou.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
@@ -1166,13 +1181,14 @@ print(json.dumps(results, indent=2, ensure_ascii=False))</code></pre>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)">
-  <h1>🔄 Recap — O que construímos no Encontro 4</h1>
+  <h1>🔄 Recap — O que você domina agora</h1>
   <div class="grid-2 stagger-in">
-    <div class="card fragment"><div class="card-title">📜 Evolução</div><div class="card-desc">Falhas em produção, benchmarks como SWE-bench/GAIA, observabilidade essencial e coding agents virando produto final.</div></div>
-    <div class="card fragment"><div class="card-title">🔧 O que você sabe fazer</div><div class="card-desc">Mitigar as 7 falhas, avaliar agentes com métricas, usar guardrails e analisar produtos state-of-the-art.</div></div>
-    <div class="card fragment"><div class="card-title">🏢 Mercado em 1 frase</div><div class="card-desc">Agentes deixaram de ser pesquisa; empresas pagam por agentes que funcionam, são confiáveis e iteram rápido.</div></div>
-    <div class="card fragment"><div class="card-title">🎯 Próximo passo</div><div class="card-desc">Escolha um problema real, construa, meça com benchmarks e compartilhe o que aprender com a comunidade.</div></div>
+    <div class="card card-purple fragment"><div class="card-title">🧠 Raciocínio (E1-E2)</div><div class="card-desc">De prompt simples → CoT → Self-Consistency → ToT → modelos de reasoning. Você sabe <b>quando</b> usar cada nível.</div></div>
+    <div class="card card-cyan fragment"><div class="card-title">🏗️ Arquitetura (E2-E3)</div><div class="card-desc">5 padrões agentic, function calling, RAG, memória, MCP. Você sabe <b>como</b> conectar as peças.</div></div>
+    <div class="card card-green fragment"><div class="card-title">🛡️ Produção (E4)</div><div class="card-desc">7 falhas, guardrails, avaliação com benchmarks, observabilidade. Você sabe <b>por que</b> agentes falham e como prevenir.</div></div>
+    <div class="card card-amber fragment"><div class="card-title">🚀 Mercado (E1-E4)</div><div class="card-desc">Cursor, Claude Code, Devin, Perplexity, Klarna — você entende o que está por trás de cada produto.</div></div>
   </div>
+  <div class="tip-box mt-2 text-xs">De "o que é um agente?" → "como os melhores produtos do mundo funcionam" em 4 encontros.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #3f3f46 100%)">
@@ -1236,10 +1252,45 @@ print(json.dumps(results, indent=2, ensure_ascii=False))</code></pre>
   <div class="insight-box">🎓 <b>MIT Capstone:</b> Seu projeto final: desenhe um plano de integração de agentes para uma função de negócio real.</div>
 </section>
 
+<section data-background-gradient="linear-gradient(135deg, #1a1a2e 0%, #312e81 100%)">
+  <h1>🗺️ A jornada completa — E1 a E4</h1>
+  <div class="flow-diagram">
+    <div class="flow-node node-purple">E1: Fundamentos</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node node-cyan">E2: Raciocínio</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node node-green">E3: Contexto</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node node-amber">E4: Produção</div>
+  </div>
+  <div class="grid-4 mt-2 stagger-in text-xs" style="gap:0.5rem;">
+    <div class="card card-purple fragment"><b>E1</b><br>O que é um agente, ReAct, primeiras tools</div>
+    <div class="card card-cyan fragment"><b>E2</b><br>CoT, planejamento, padrões de orquestração</div>
+    <div class="card card-green fragment"><b>E3</b><br>RAG, memória, MCP, multi-agente</div>
+    <div class="card card-amber fragment"><b>E4</b><br>Falhas, avaliação, segurança, SOTA</div>
+  </div>
+  <div class="insight-box mt-2 text-xs">Você agora tem o <b>mapa mental completo</b> para construir, avaliar e escalar agentes. O próximo passo é <b>seu</b>.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #064e3b 100%)" class="text-center">
+  <h1>🔮 O futuro próximo — 2025-2026</h1>
+  <div class="grid-2 mt-2 stagger-in text-sm" style="gap:0.8rem;">
+    <div class="card card-purple parallax-card fragment"><b>🤖 Agentes autônomos</b><br><span class="text-xs">Devin, Manus e Claude Code mostram que agentes podem resolver problemas de horas em minutos — mas ainda precisam de supervisão.</span></div>
+    <div class="card card-cyan parallax-card fragment"><b>🌐 Agentes que colaboram</b><br><span class="text-xs">A2A (Google) + MCP (Anthropic) = agentes de empresas diferentes conversando entre si. O "internet dos agentes".</span></div>
+    <div class="card card-green parallax-card fragment"><b>💻 Computer Use generalizado</b><br><span class="text-xs">Agentes que usam qualquer software como humano. Claude, GPT-4o e Gemini já demonstram isso. Em 2 anos será commodity.</span></div>
+    <div class="card card-amber parallax-card fragment"><b>🧠 Reasoning ilimitado</b><br><span class="text-xs">Modelos que "pensam por horas" se necessário (o3, Gemini Deep Think). O gargalo deixa de ser inteligência e passa a ser custo.</span></div>
+  </div>
+</section>
+
 <section data-background-gradient="linear-gradient(135deg, #1e293b 0%, #0f172a 100%)" class="text-center">
-  <h1>🎓 Fim do Encontro 4</h1>
-  <h2>E da disciplina!</h2>
-  <div class="text-sm opacity-70 mt-3">Em 12 horas você saiu de <b>"o que é um agente?"</b> para construir, avaliar e debugar agentes de IA em produção.</div>
+  <h1>🎓 Fim da disciplina</h1>
+  <div class="text-sm mt-3" style="max-width:600px; margin:0 auto;">
+    <p>Em 12 horas, você saiu de <b>"o que é um agente?"</b> para entender como os melhores produtos do mundo são construídos.</p>
+    <p class="mt-2 opacity-80">A área muda toda semana. Mas os fundamentos — <b>reasoning, planning, tools, memory, evaluation</b> — são estáveis.</p>
+    <p class="mt-2"><b>Domine os fundamentos. Construa coisas reais. Compartilhe o que aprender.</b></p>
+  </div>
+  <div class="mt-3" style="font-size:2rem;">🤖 Bem-vindo à era dos agentes.</div>
+  <div class="text-xs opacity-50 mt-3">Prof. Alan Delgado de Oliveira — 2025</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1f2937 100%)" class="text-center">
@@ -1275,11 +1326,5 @@ print(json.dumps(results, indent=2, ensure_ascii=False))</code></pre>
     <button class="run-btn">▶ Executar</button>
     <div class="pyrunner-output"></div>
   </div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #1e293b 0%, #111827 100%)" class="text-center">
-  <div class="text-sm mt-3">Agora é com você.</div>
-  <div class="text-xs opacity-70 mt-2">Construa coisas. Quebre coisas. Compartilhe o que aprender.</div>
-  <h2 class="mt-3">🤖 Bem-vindo à era dos agentes.</h2>
 </section>
 
