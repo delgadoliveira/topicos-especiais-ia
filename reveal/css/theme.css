@@ -29,6 +29,13 @@
   font-family: var(--font-sans);
   font-size: 28px;
   color: var(--text-primary);
+  background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+}
+
+/* Default slide background — ensures no slide is plain black */
+.reveal .slides section {
+  background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+  border-radius: 0;
 }
 
 .reveal .slides {

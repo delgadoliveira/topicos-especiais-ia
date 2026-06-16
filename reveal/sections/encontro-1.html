@@ -1,2441 +1,667 @@
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%)">
-<div class="slide-in-left"><h1 class="glow-text">🧱 Encontro 1</h1>
-<h2 class="subtitle-animate">Introdução e Fundamentos</h2>
-<div  class="text-sm" style="opacity:0.6;">3 horas · O que é um agente, anatomia, ReAct, primeiro agente em Python</div></div>
+  <h1 class="glow-text">🧱 Encontro 1 — Anatomia de um Agente &amp; Viabilidade Econômica</h1>
+  <h2 class="subtitle-animate">De conversa a decisão econômica</h2>
+  <div class="card card-cyan parallax-card text-center" style="margin-top: 1.5rem;">
+    Executivos, PMs e Analistas Quantitativos Técnicos que querem desenhar produtos de IA com ROI, SLA e controle de custo.
+  </div>
+  <div class="text-sm text-center" style="margin-top: 1rem; opacity: 0.75;">3 horas · fundamentos técnicos + lente de FinOps + laboratório em Colab</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%)">
-<h1>🎯 O que você será capaz de fazer ao final desta aula</h1>
-<div class="stagger-in" style="margin-top: 1.5rem;">
-<div class="card card-green parallax-card fragment" style="padding: 0.8rem 1.2rem; margin-bottom: 0.6rem;">
-<span style="font-size: 1.3em;">✅</span> <b>Explicar</b> o que é um agente de IA e como ele difere de um chatbot
-</div>
-<div class="card card-green parallax-card fragment" style="padding: 0.8rem 1.2rem; margin-bottom: 0.6rem;">
-<span style="font-size: 1.3em;">✅</span> <b>Identificar</b> as peças de um agente: LLM, ferramentas, memória, loop
-</div>
-<div class="card card-green parallax-card fragment" style="padding: 0.8rem 1.2rem; margin-bottom: 0.6rem;">
-<span style="font-size: 1.3em;">✅</span> <b>Criar</b> um agente simples em Python que raciocina e usa ferramentas
-</div>
-<div class="card card-green parallax-card fragment" style="padding: 0.8rem 1.2rem; margin-bottom: 0.6rem;">
-<span style="font-size: 1.3em;">✅</span> <b>Entender</b> o padrão ReAct (Reason + Act) por dentro
-</div>
-</div>
-<div class="text-xs opacity-70 text-center" style="margin-top: 1rem;">Ao final, você terá rodado código real — sem mágica de framework.</div>
-</section>
-
-<section class="text-center" data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
-<div class="text-center"><h1 class="typewriter-js" data-text="💭 Uma pergunta para começar">💭 Uma pergunta para começar</h1>
-<div  style="font-size:1.15em; opacity:0.9;">
-Você pede ao ChatGPT para <b>reservar um voo</b> pra São Paulo na sexta.<br>
-Ele responde: <i>"Não posso fazer reservas."</i>
-</div>
-
-<div  class="text-cyan" style="font-size:0.95em;">
-E se pudesse?
-</div>
-
-<div  class="text-sm" style="opacity:0.6;">
-Esse é o problema que vamos resolver hoje: transformar um LLM que <b>conversa</b> em um agente que <b>age</b>.
-</div></div>
+  <h1>🎯 O que você será capaz de fazer ao final</h1>
+  <div class="stagger-in" style="margin-top: 1.4rem;">
+    <div class="card card-green parallax-card fragment" style="margin-bottom: 0.7rem;">✅ Explicar o que é um agente e avaliar se um processo deve ser automatizado</div>
+    <div class="card card-green parallax-card fragment" style="margin-bottom: 0.7rem;">✅ Calcular custo de execução por tarefa: tokens, chamadas de API e loops</div>
+    <div class="card card-green parallax-card fragment" style="margin-bottom: 0.7rem;">✅ Identificar o break-even entre agente e processo humano</div>
+    <div class="card card-green parallax-card fragment">✅ Criar um simulador de custos em Python no Google Colab</div>
+  </div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #0f766e 100%)">
-<h1>🗺️ Agenda do Encontro 1</h1>
-<div  class="grid-2 stagger-in">
-<div  class="card card-purple parallax-card">
-<h3>Bloco 1 — Teoria (~90 min)</h3>
-<ul class="text-sm">
-<li>1.1 Roadmap da disciplina</li>
-<li>1.2 O que é (e o que NÃO é) um agente</li>
-<li>1.3 Anatomia de um agente</li>
-<li>1.4 Como o LLM "pensa"</li>
-<li>1.5 O padrão ReAct</li>
-</ul>
-</div>
-
-<div  class="card card-cyan parallax-card">
-<h3>Bloco 2 — Prática (~90 min)</h3>
-<ul class="text-sm">
-<li>1.6 Setup do ambiente Python</li>
-<li>1.7 Hands-on: agente do zero, sem framework</li>
-<li>1.8 Exercícios (4 atividades)</li>
-</ul>
-</div>
-
-</div>
-
-<div  class="card card-cyan parallax-card scale-in">
-🎯 <b>Objetivo:</b> ao final, você terá rodado seu primeiro agente em Python, entendendo cada linha — sem mágica de framework.
-</div>
+  <h1>💸 Hook: quanto custa uma resposta do ChatGPT?</h1>
+  <div class="compare-cols" style="margin-top: 1.5rem; gap: 1rem;">
+    <div class="compare-col bad">
+      <h3>Visão ingênua</h3>
+      <p>“É só texto.”</p>
+      <p class="text-sm">Logo, parece quase grátis e infinitamente escalável.</p>
+    </div>
+    <div class="compare-col good">
+      <h3>Visão executiva</h3>
+      <p>“É um microprocesso com SLA.”</p>
+      <p class="text-sm">Cada resposta consome compute, contexto, latência e risco operacional.</p>
+    </div>
+  </div>
+  <div class="insight-box fragment" style="margin-top: 1rem;">💡 Uma pergunta simples pode custar frações de centavo. Um agente com 15 loops, 3 ferramentas e contexto longo pode custar dezenas de vezes mais.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
-<h1>1.1 Roadmap da disciplina</h1>
-<p style="font-size:0.8em;">Em <strong>4 encontros</strong> vamos sair de <em>"não sei o que é um agente"</em> para <em>"sei desenhar, implementar, avaliar e debugar agentes"</em>.</p>
-
-<div class="grid-2" style="gap:1rem; margin-top:0.8rem;">
-<div class="card card-purple" style="opacity:1;transform:none;">
-<h3 style="margin:0 0 0.4rem; font-size:0.8em;">🎯 Filosofia</h3>
-<ul class="text-sm" style="margin:0; padding-left:1.2em;">
-<li>🛠️ Toda aula tem código rodando</li>
-<li>🧪 Erros são parte do aprendizado</li>
-<li>📚 Teoria só o suficiente pro "porquê"</li>
-<li>🌍 Exemplos de produtos reais</li>
-</ul>
-</div>
-<div class="card card-cyan" style="opacity:1;transform:none;">
-<h3 style="margin:0 0 0.4rem; font-size:0.8em;">⏰ Como aproveitar (assíncrono)</h3>
-<ul class="text-sm" style="margin:0; padding-left:1.2em;">
-<li><b>~90 min:</b> assistir, copiar código, rodar</li>
-<li><b>~90 min:</b> exercícios sem olhar solução</li>
-</ul>
-<p class="text-xs" style="margin-top:0.5rem; opacity:0.85;">⚠️ <b>Não pule os exercícios.</b> Ler ≠ construir.</p>
-</div>
-</div>
+  <h1>🗺️ Agenda</h1>
+  <div class="grid-2" style="gap: 1.2rem; margin-top: 1.5rem;">
+    <div class="card card-purple parallax-card">
+      <h3>Bloco 1 — Fundamentos com lente econômica</h3>
+      <ul class="text-sm">
+        <li>Framework de viabilidade agentic</li>
+        <li>Agente vs chatbot</li>
+        <li>Anatomia monetária do token</li>
+        <li>ReAct com lente FinOps</li>
+        <li>Context window como budget</li>
+      </ul>
+    </div>
+    <div class="card card-cyan parallax-card">
+      <h3>Bloco 2 — Prática: simulador de custos</h3>
+      <ul class="text-sm">
+        <li>Setup no Colab</li>
+        <li>Contagem de tokens</li>
+        <li>Loop ReAct simulado</li>
+        <li>Gráfico de custo acumulado</li>
+        <li>Break-even vs humano</li>
+      </ul>
+    </div>
+  </div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
-<h1>🧭 Antes de começar — vocabulário essencial</h1>
-<p>Clique em cada card para ver detalhes 👇</p>
-<div class="vocab-grid">
-
-<div class="vocab-card">
-  <div class="vocab-front card-purple">
-    <b>🤖 IA (Inteligência Artificial)</b>
-    <span class="vocab-hint">— software que faz coisas que normalmente exigiriam pessoas</span>
+  <h1>1. O Framework de Viabilidade Agentic</h1>
+  <div class="card card-amber parallax-card">Nem todo processo deve virar agente. Automação ruim é CAPEX + OPEX + risco reputacional.</div>
+  <div class="grid-3 text-sm" style="margin-top: 1rem; gap: 0.8rem;">
+    <div class="card">Pergunta 1<br><b>Vale automatizar?</b></div>
+    <div class="card">Pergunta 2<br><b>Vale com este modelo?</b></div>
+    <div class="card">Pergunta 3<br><b>Vale com este SLA?</b></div>
   </div>
-  <div class="vocab-detail">
-    <p><b>Definição formal:</b> Campo da ciência da computação dedicado a criar sistemas que realizam tarefas que requerem inteligência humana.</p>
-    <p><b>Na prática hoje:</b> IA não é uma coisa só — é um guarda-chuva. Inclui desde o filtro de spam do seu email (ML clássico dos anos 2000) até o ChatGPT (LLM generativo de 2022).</p>
-    <p><b>Tipos que você vai encontrar:</b></p>
-    <ul>
-      <li><b>IA Narrow/Fraca</b> — resolve UMA tarefa (ex: detectar fraude)</li>
-      <li><b>IA Generativa</b> — cria conteúdo novo (texto, imagem, código)</li>
-      <li><b>AGI (General)</b> — resolve QUALQUER tarefa como humano (ainda não existe)</li>
-    </ul>
-    <p class="vocab-analogy">🎯 <b>Analogia:</b> "IA" é como "veículo" — pode ser bicicleta, carro, ou foguete. Quando alguém fala "IA", pergunte: <i>que tipo?</i></p>
-  </div>
-</div>
-
-<div class="vocab-card">
-  <div class="vocab-front card-cyan">
-    <b>🧠 LLM (Large Language Model)</b>
-    <span class="vocab-hint">— o "cérebro" por trás do ChatGPT, Claude, Gemini</span>
-  </div>
-  <div class="vocab-detail">
-    <p><b>O que é:</b> Uma rede neural com bilhões de parâmetros, treinada em trilhões de palavras da internet, livros e código. Seu único objetivo durante o treino: <b>prever a próxima palavra</b>.</p>
-    <p><b>Por que funciona:</b> Para prever bem a próxima palavra, o modelo precisa "entender" gramática, lógica, fatos, humor, código — tudo. É como um estudante que, de tanto ler, desenvolve raciocínio.</p>
-    <p><b>Escala importa:</b></p>
-    <ul>
-      <li>GPT-2 (2019): 1.5 bilhão de parâmetros → texto OK</li>
-      <li>GPT-3 (2020): 175 bilhões → emergent abilities aparecem</li>
-      <li>GPT-4 (2023): ~1 trilhão (estimado) → raciocínio avançado</li>
-    </ul>
-    <p class="vocab-analogy">🎯 <b>Analogia:</b> Um LLM é como alguém que leu TODOS os livros da biblioteca — sabe muito, mas não pode sair da biblioteca pra verificar nada. <b>Agentes</b> dão "pernas" a esse cérebro.</p>
-  </div>
-</div>
-
-<div class="vocab-card">
-  <div class="vocab-front card-green">
-    <b>💬 Prompt</b>
-    <span class="vocab-hint">— o texto/instrução que você envia para o LLM</span>
-  </div>
-  <div class="vocab-detail">
-    <p><b>Simples assim:</b> O prompt é a sua mensagem. Pode ser uma pergunta, um comando, ou um contexto inteiro com exemplos.</p>
-    <p><b>Por que importa tanto:</b> O mesmo modelo dá respostas radicalmente diferentes dependendo de COMO você pergunta. Prompt engineering é a arte de comunicar bem com IAs.</p>
-    <p><b>Tipos de prompt:</b></p>
-    <ul>
-      <li><b>Zero-shot:</b> "Traduza: Hello → " (sem exemplos)</li>
-      <li><b>Few-shot:</b> "Hello→Olá, Good→Bom, World→" (com exemplos)</li>
-      <li><b>System prompt:</b> Define a personalidade/regras do assistente</li>
-      <li><b>Chain-of-Thought:</b> "Pense passo a passo antes de responder"</li>
-    </ul>
-    <p class="vocab-analogy">🎯 <b>Analogia:</b> O prompt é como o briefing que você dá a um estagiário brilhante mas literal. Quanto mais claro e específico, melhor o resultado.</p>
-  </div>
-</div>
-
-<div class="vocab-card">
-  <div class="vocab-front card-amber">
-    <b>🔌 API (Application Programming Interface)</b>
-    <span class="vocab-hint">— a "tomada" para conectar seu código a serviços externos</span>
-  </div>
-  <div class="vocab-detail">
-    <p><b>Em termos simples:</b> API é um contrato: "me mande X neste formato, e eu te devolvo Y". É como um cardápio de restaurante — você pede, a cozinha entrega.</p>
-    <p><b>No contexto de IA:</b> Em vez de abrir o site do ChatGPT e digitar, seu código Python manda uma requisição HTTP para a API da OpenAI e recebe a resposta em JSON.</p>
-    <p><b>Por que agentes precisam de APIs:</b></p>
-    <ul>
-      <li>Chamar o LLM programaticamente (OpenAI, Anthropic, Google)</li>
-      <li>Acessar ferramentas (clima, busca, banco de dados, email)</li>
-      <li>Conectar sistemas entre si sem intervenção humana</li>
-    </ul>
-    <p><b>Custo:</b> APIs de LLM cobram por token (~$0.01–$0.06 por 1K tokens de saída). Um agente pode fazer 5–50 chamadas por tarefa.</p>
-    <p class="vocab-analogy">🎯 <b>Analogia:</b> Se o LLM é o cérebro e as ferramentas são as mãos, a API é o sistema nervoso que conecta tudo.</p>
-  </div>
-</div>
-
-<div class="vocab-card">
-  <div class="vocab-front card-purple">
-    <b>🦾 Agente de IA</b>
-    <span class="vocab-hint">— um LLM com permissão e capacidade de AGIR no mundo</span>
-  </div>
-  <div class="vocab-detail">
-    <p><b>A diferença crucial:</b> Um chatbot CONVERSA. Um agente EXECUTA. O agente decide sozinho o que fazer, faz, observa o resultado, e decide o próximo passo.</p>
-    <p><b>Componentes de um agente:</b></p>
-    <ul>
-      <li><b>LLM (cérebro)</b> — raciocina e decide</li>
-      <li><b>Ferramentas</b> — busca web, calculadora, APIs, banco de dados</li>
-      <li><b>Loop</b> — pensa → age → observa → repete até resolver</li>
-      <li><b>Memória</b> — lembra do contexto e de interações passadas</li>
-    </ul>
-    <p><b>Exemplos reais agora:</b></p>
-    <ul>
-      <li><b>Cursor/Copilot:</b> lê seu código, edita, roda testes, corrige erros</li>
-      <li><b>Perplexity:</b> busca na web, lê sites, sintetiza resposta com fontes</li>
-      <li><b>Customer service bots:</b> consulta pedido, processa reembolso, atualiza sistema</li>
-    </ul>
-    <p class="vocab-analogy">🎯 <b>Analogia:</b> ChatGPT = Google Maps que te mostra o caminho. Agente = motorista do Uber que te LEVA até lá.</p>
-  </div>
-</div>
-
-</div>
-
-<div class="mt-2 text-xs text-center" style="opacity:0.7;">
-👆 Clique nos cards para expandir. Esses 5 conceitos são o alicerce de TUDO que vem a seguir.
-</div>
+  <div class="tip-box fragment" style="margin-top: 1rem;">Analogia de negócio: não é “contratar IA”; é desenhar uma operação com custo unitário previsível.</div>
 </section>
 
-<section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
-<h1>🧩 Onde você já viu isso no dia-a-dia</h1>
-<p style="font-size:0.8em;">Mesmo sem perceber, você provavelmente já usou <strong>agentes de IA</strong> nas últimas 24h. <span style="opacity:0.6;">Clique para ver exemplos reais.</span></p>
-<div class="grid-2 stagger-in text-sm" style="gap:0.7rem;">
-
-<div class="card expandable parallax-card scale-in">
-<b>📱 Celular</b><br>Meta AI, Siri, ChatGPT app, Google Gemini
-<div class="card-detail">
-<p><b>Caso real — Meta AI no WhatsApp:</b></p>
-<p>Você pergunta: <i>"Quais restaurantes japoneses perto de mim abertos agora?"</i></p>
-<p>O agente faz: ① detecta sua localização via GPS → ② busca no Google Maps API → ③ filtra por horário e tipo de cozinha → ④ formata resposta com links e avaliações.</p>
-<p><b>Por que é um agente?</b> Porque o LLM sozinho não sabe sua localização nem o horário de funcionamento — ele precisa de <em>ferramentas</em> (GPS, Maps, relógio).</p>
-<div class="detail-example">Outros: Siri criando alarmes, Gemini enviando emails, Claude analisando fotos que você tira.</div>
-</div>
-</div>
-
-<div class="card expandable parallax-card scale-in">
-<b>💻 Trabalho / Estudo</b><br>Copilot no Office, Gemini no Gmail, Notion AI
-<div class="card-detail">
-<p><b>Caso real — Copilot no PowerPoint:</b></p>
-<p>Você diz: <i>"Crie uma apresentação sobre nosso resultado Q2 com os dados desse Excel"</i></p>
-<p>O agente faz: ① abre o arquivo .xlsx → ② extrai dados de vendas → ③ gera gráficos → ④ cria 8 slides com layout, título e talking points → ⑤ aplica o tema da empresa.</p>
-<p><b>Por que é um agente?</b> Envolve leitura de arquivo, interpretação de dados, geração de visual e escrita — múltiplas ferramentas em sequência.</p>
-<div class="detail-example">Gemini no Gmail: resume threads longas, sugere respostas, agenda reunião no Calendar — tudo num fluxo só.</div>
-</div>
-</div>
-
-<div class="card expandable parallax-card scale-in">
-<b>🛒 Consumo / Atendimento</b><br>Nubank, iFood, Magalu, Amazon
-<div class="card-detail">
-<p><b>Caso real — iFood AI:</b></p>
-<p>Você reclama: <i>"Meu pedido veio errado, faltou o suco"</i></p>
-<p>O agente faz: ① busca seu pedido recente (#8834) → ② verifica itens vs. nota fiscal → ③ identifica "suco de laranja" pago mas não entregue → ④ calcula reembolso proporcional → ⑤ aplica crédito de R$12 na sua carteira → ⑥ responde com resumo.</p>
-<p><b>Por que é um agente?</b> Ele tomou uma <em>decisão</em> (reembolso) e <em>executou uma ação</em> (crédito) — não apenas respondeu.</p>
-<div class="detail-example">Nubank: contesta cobrança e abre ticket. Amazon: rastreia pacote e aciona transportadora automaticamente.</div>
-</div>
-</div>
-
-<div class="card expandable parallax-card scale-in">
-<b>👨‍💻 Programação</b><br>GitHub Copilot, Cursor, Claude Code, v0.dev
-<div class="card-detail">
-<p><b>Caso real — Cursor (agente de código):</b></p>
-<p>Você pede: <i>"Refatore esse componente para usar React hooks e adicione testes"</i></p>
-<p>O agente faz: ① lê o arquivo class-based → ② entende props/state → ③ reescreve com useState/useEffect → ④ cria arquivo .test.tsx → ⑤ roda <code>npm test</code> → ⑥ um teste falha → ⑦ lê o erro → ⑧ corrige o mock → ⑨ testes passam ✅</p>
-<p><b>Por que é um agente?</b> Fez <em>múltiplos loops</em> — escreveu, testou, interpretou erro, corrigiu. Sem intervenção humana entre os passos.</p>
-<div class="detail-example">GitHub Copilot Workspace: planeja mudanças em múltiplos arquivos, implementa, abre PR. Claude Code: navega repos inteiros.</div>
-</div>
-</div>
-
-</div>
-</section>
-
-<section class="text-center" data-background-gradient="linear-gradient(135deg, #111827 0%, #1f2937 100%)">
-<h1>🧵 Percebeu o padrão?</h1>
-<p style="font-size:0.85em; opacity:0.9;">Todos esses produtos fazem <b>a mesma coisa</b> por baixo do capô:</p>
-<div class="flow-diagram" style="margin:0.8rem 0;"><div class="flow-node node-purple">LLM pensa</div><div class="flow-arrow">→</div><div class="flow-node node-cyan">ferramenta executa</div><div class="flow-arrow">→</div><div class="flow-node node-green">resultado volta</div><div class="flow-arrow">→</div><div class="flow-node node-purple">LLM pensa de novo</div></div>
-
-<div class="grid-2 stagger-in text-xs" style="gap:0.6rem; margin-top:0.8rem; text-align:left;">
-
-<div class="card expandable parallax-card">
-<b>📱 Siri: "Que tempo faz amanhã em SP?"</b>
-<div class="card-detail">
-<p>① <b>LLM pensa:</b> "Preciso da previsão → vou usar a API de clima"</p>
-<p>② <b>Ferramenta:</b> chama WeatherKit com lat/long de São Paulo</p>
-<p>③ <b>Resultado:</b> JSON → {temp: 24°C, chuva: 60%}</p>
-<p>④ <b>LLM de novo:</b> "Amanhã faz 24° em SP com 60% de chance de chuva. Leve um guarda-chuva!"</p>
-<div class="detail-analogy">O loop aconteceu em ~1 segundo, invisível pra você.</div>
-</div>
-</div>
-
-<div class="card expandable parallax-card">
-<b>💻 Copilot no Excel: "Crie um gráfico de vendas por mês"</b>
-<div class="card-detail">
-<p>① <b>LLM pensa:</b> "Preciso identificar a coluna de vendas e a de datas"</p>
-<p>② <b>Ferramenta:</b> lê as células da planilha, identifica colunas B (mês) e D (vendas)</p>
-<p>③ <b>Resultado:</b> tabela com 12 linhas de dados estruturados</p>
-<p>④ <b>LLM de novo:</b> gera o comando de chart e insere um gráfico de barras formatado</p>
-<div class="detail-analogy">O "ferramenta" aqui é acesso direto à planilha — o agente lê E escreve nela.</div>
-</div>
-</div>
-
-<div class="card expandable parallax-card">
-<b>🛒 Nubank: "Quero contestar essa cobrança"</b>
-<div class="card-detail">
-<p>① <b>LLM pensa:</b> "Preciso identificar a transação e verificar política de contestação"</p>
-<p>② <b>Ferramenta:</b> consulta API interna → transação #4892, R$149.90, loja X, 3 dias atrás</p>
-<p>③ <b>Resultado:</b> transação válida, dentro do prazo de contestação, sem fraude detectada</p>
-<p>④ <b>LLM de novo:</b> "Encontrei a cobrança de R$149.90 na loja X. Quer que eu abra uma contestação formal? O prazo é de 7 dias úteis."</p>
-<div class="detail-analogy">Múltiplas ferramentas: banco de dados, motor de regras, sistema de tickets — tudo orquestrado pelo LLM.</div>
-</div>
-</div>
-
-<div class="card expandable parallax-card">
-<b>👨‍💻 Cursor: "Adicione validação nesse form"</b>
-<div class="card-detail">
-<p>① <b>LLM pensa:</b> "Preciso ler o código do form, entender os campos, decidir validações"</p>
-<p>② <b>Ferramenta:</b> lê <code>form.tsx</code>, identifica 4 campos (email, nome, tel, CEP)</p>
-<p>③ <b>Resultado:</b> entende os tipos e regras de negócio do contexto</p>
-<p>④ <b>LLM de novo:</b> escreve código de validação com regex pra email, máscara pra tel, consulta CEP via API dos Correios</p>
-<p>⑤ <b>Loop extra:</b> roda <code>npm test</code> → 1 teste falha → lê o erro → corrige → testes passam ✅</p>
-<div class="detail-analogy">Agentes de código fazem VÁRIOS loops — escrevem, testam, corrigem, até funcionar.</div>
-</div>
-</div>
-
-</div>
-
-<div class="mt-2 text-xs" style="opacity:0.8;">
-👆 Clique em cada exemplo para ver o loop completo. <b>O padrão é sempre o mesmo — só mudam as ferramentas.</b>
-</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
-<h1>🎬 Uma cena para fixar a ideia</h1>
-<p>Imagine que você pede ao ChatGPT:</p>
-<div  class="card card-purple parallax-card scale-in" style="font-style:italic;">
-"Qual foi o time campeão do Brasileirão 2024 e quantos gols o artilheiro fez?"
-</div>
-
-<div  class="grid-2 stagger-in text-sm">
-
-<div  class="card expandable parallax-card scale-in" style="background:rgba(248,113,113,0.08);border-color:rgba(248,113,113,0.28);">
-<b>🚫 LLM puro (sem ser agente)</b><br>
-"Não tenho informações sobre eventos posteriores a janeiro de 2024..."<br>
-<i>Ou pior: inventa uma resposta plausível mas errada (alucinação).</i>
-<div class="card-detail">
-<p><b>Por que ele não sabe?</b> O LLM é um arquivo estático — uma "foto" do conhecimento do mundo no momento em que foi treinado. Depois do treino, ele nunca mais aprende nada novo.</p>
-<p><b>O processo:</b></p>
-<ul>
-<li><b>Treino</b> (meses, milhões de $): lê bilhões de textos até uma data de corte (ex: jan/2024)</li>
-<li><b>Deploy:</b> o modelo "congela" — os pesos nunca mais mudam</li>
-<li><b>Inferência:</b> quando você pergunta algo, ele combina estatisticamente o que já sabe</li>
-</ul>
-<p><b>Consequências práticas:</b></p>
-<ul>
-<li>❌ Não sabe o resultado do Brasileirão 2024 (aconteceu depois do corte)</li>
-<li>❌ Não sabe o preço do dólar HOJE (muda a cada segundo)</li>
-<li>❌ Não pode verificar se uma informação ainda é verdade</li>
-</ul>
-<p><b>E a "alucinação"?</b> Quando não sabe, o LLM não diz "não sei" — ele gera texto que <i>parece</i> correto porque é estatisticamente plausível. Ex: pode dizer "Palmeiras foi campeão" com confiança total, simplesmente porque Palmeiras é frequente em contextos de título.</p>
-<div class="detail-warning">⚠️ <b>Regra de ouro:</b> LLM sem ferramentas = enciclopédia desatualizada que nunca admite ignorância. Por isso precisamos de agentes.</div>
-</div>
-</div>
-
-<div  class="card card-green parallax-card scale-in">
-<b>✅ Agente</b><br>
-1. Percebe que precisa de dado atualizado<br>
-2. Chama uma <b>ferramenta</b> de busca na web<br>
-3. Lê os resultados<br>
-4. Verifica e responde: <i>"Botafogo foi campeão; Alerrandro foi artilheiro com 19 gols. Fonte: …"</i>
-</div>
-
-</div>
-
-<div  class="text-sm text-center" style="opacity:0.8;">
-Essa é a diferença prática entre <b>LLM</b> e <b>agente</b>: o agente <b>sabe quando pedir ajuda</b> e <b>sabe como usar ferramentas</b>.
-</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #111827 0%, #0f766e 100%)">
-<h1>1.2 O que é um Agente de IA?</h1>
-<p>Existem dezenas de definições. A mais útil, pragmática, vem da <strong>Anthropic (2024)</strong>:</p>
-<div  class="text-center card card-cyan parallax-card scale-in">
-<div  style="font-size:0.95em;">
-Um <b>agente</b> é um sistema onde um <b>LLM dirige seu próprio fluxo de execução em loop</b>,
-</div>
-<div  class="mt-2" style="font-size:0.95em;">
-decidindo <b>quais ferramentas chamar</b>, com base nas <b>observações</b> que recebe,
-</div>
-<div  class="mt-2" style="font-size:0.95em;">
-até atingir um <b>objetivo</b>.
-</div>
-</div>
-
-<div  class="text-sm opacity-70 text-center" style="opacity:0.7;">
-Vamos quebrar essa definição em partes nos próximos slides.
-</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
-<h1>🤖 Agente vs Assistente vs Bot</h1>
-<p style="font-size:0.75em; opacity:0.85;">Mesmo pedido — três respostas completamente diferentes:</p>
-
-<div style="background:rgba(139,92,246,0.1); border:1px solid rgba(139,92,246,0.3); border-radius:12px; padding:0.6rem 1rem; text-align:center; margin:0.6rem 0; font-size:0.8em;">
-  🗣️ <b>Usuário:</b> <i>"Preciso de um voo barato pra São Paulo na sexta"</i>
-</div>
-
-<div class="grid-3 stagger-in" style="gap:0.8rem; margin-top:0.6rem;">
-
-<div class="card expandable" style="border-left:4px solid var(--red); text-align:left;">
-  <div style="font-size:0.85em; font-weight:700; color:var(--red);">🔧 Bot</div>
-  <div style="font-size:0.7em; margin-top:0.4rem; padding:0.4rem; background:rgba(0,0,0,0.2); border-radius:6px; font-family:var(--font-mono);">
-    "Digite 1 para consultar voos<br>Digite 2 para pacotes<br>Digite 3 para falar com atendente"
+<section data-background-gradient="linear-gradient(135deg, #2d1b0e 0%, #0f172a 100%)">
+  <h1>As 3 variáveis da viabilidade</h1>
+  <div class="grid-3" style="gap: 0.8rem; margin-top: 1.3rem;">
+    <div class="card card-cyan parallax-card">
+      <h3>Frequência</h3>
+      <p class="text-sm">Quantas vezes a tarefa acontece?</p>
+      <p class="text-xs">Alta frequência dilui setup e favorece automação.</p>
+    </div>
+    <div class="card card-purple parallax-card">
+      <h3>Variabilidade</h3>
+      <p class="text-sm">O processo muda muito a cada caso?</p>
+      <p class="text-xs">Alta variabilidade exige mais contexto, loops e supervisão.</p>
+    </div>
+    <div class="card card-red parallax-card">
+      <h3>Custo do erro humano</h3>
+      <p class="text-sm">Quanto custa errar, atrasar ou esquecer?</p>
+      <p class="text-xs">Quanto maior o dano, maior o valor do agente bem governado.</p>
+    </div>
   </div>
-  <div class="card-detail">
-    <p><b>O que é:</b> Fluxo pré-programado (if/else). Não entende linguagem natural.</p>
-    <p><b>Problema:</b> Se você disser "quero o mais barato pra sexta", ele responde "opção inválida".</p>
-    <p><b>Autonomia:</b> Zero — só segue o script que o programador escreveu.</p>
-    <div class="detail-example">Ex: URA telefônica, bots de WhatsApp com menu numérico, chatbots de FAQ com botões.</div>
-  </div>
-</div>
-
-<div class="card expandable" style="border-left:4px solid var(--amber); text-align:left;">
-  <div style="font-size:0.85em; font-weight:700; color:var(--amber);">💡 Assistente</div>
-  <div style="font-size:0.7em; margin-top:0.4rem; padding:0.4rem; background:rgba(0,0,0,0.2); border-radius:6px; font-family:var(--font-mono);">
-    "Para encontrar voos baratos, recomendo:<br>1. Acesse Google Flights<br>2. Coloque SP como destino<br>3. Selecione sexta-feira..."
-  </div>
-  <div class="card-detail">
-    <p><b>O que é:</b> LLM que entende sua pergunta e responde com informação útil.</p>
-    <p><b>Problema:</b> Te diz <i>como fazer</i>, mas não <i>faz por você</i>. Você ainda precisa agir.</p>
-    <p><b>Autonomia:</b> Baixa — responde e sugere, mas não executa nenhuma ação.</p>
-    <div class="detail-example">Ex: ChatGPT padrão, Alexa respondendo perguntas, Google Assistant em modo informativo.</div>
-  </div>
-</div>
-
-<div class="card expandable" style="border-left:4px solid var(--green); text-align:left;">
-  <div style="font-size:0.85em; font-weight:700; color:var(--green);">🦾 Agente</div>
-  <div style="font-size:0.7em; margin-top:0.4rem; padding:0.4rem; background:rgba(0,0,0,0.2); border-radius:6px; font-family:var(--font-mono);">
-    "Encontrei 3 opções. A mais barata é LATAM<br>às 7h por R$289. Reservo no seu cartão<br>final 4421? ✈️"
-  </div>
-  <div class="card-detail">
-    <p><b>O que é:</b> LLM + ferramentas + loop. Ele <i>pesquisou</i>, <i>comparou</i>, <i>decidiu</i> e está pronto pra <i>agir</i>.</p>
-    <p><b>Diferencial:</b> Tomou decisões autônomas e pode executar a ação (reservar) se autorizado.</p>
-    <p><b>Autonomia:</b> Alta — planeja, executa, verifica resultado, adapta se algo der errado.</p>
-    <div class="detail-example">Ex: Copilot Workspace, agentes de viagem, Cursor editando código, Devin deployando apps.</div>
-  </div>
-</div>
-
-</div>
-
-<div style="margin-top:0.7rem; display:flex; align-items:center; justify-content:center; gap:0.4rem; font-size:0.6rem; opacity:0.7;">
-  <span style="color:var(--red);">Script fixo</span>
-  <span>→</span>
-  <span style="color:var(--amber);">Entende + sugere</span>
-  <span>→</span>
-  <span style="color:var(--green);font-weight:700;">Entende + decide + executa</span>
-</div>
+  <div class="insight-box fragment" style="margin-top: 1rem;">Caso real: triagem operacional, cobrança e suporte repetitivo costumam pontuar alto em frequência e baixo em variabilidade.</div>
 </section>
 
-<section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
-<h1>Espectro: do script ao agente</h1>
-<div  class="flow-diagram mt-2"><div  class="flow-node node-red parallax-card">Script tradicional</div><div  class="flow-arrow">→</div><div  class="flow-node node-purple parallax-card">LLM single-shot</div><div  class="flow-arrow">→</div><div  class="flow-node node-amber parallax-card">Workflow com LLM</div><div  class="flow-arrow">→</div><div  class="flow-node node-cyan parallax-card">Agente</div></div>
-
-<table>
-<thead>
-<tr>
-<th>Nível</th>
-<th>Quem decide o próximo passo?</th>
-<th>Exemplo</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Script tradicional</td>
-<td>Programador (<code>if/else</code> fixo)</td>
-<td>Pipeline ETL</td>
-</tr>
-<tr>
-<td>LLM single-shot</td>
-<td>Programador (prompt único)</td>
-<td>"Resuma este texto"</td>
-</tr>
-<tr>
-<td>Workflow com LLM</td>
-<td>Programador (DAG fixo, LLM em cada nó)</td>
-<td>Extração → Tradução → Resumo</td>
-</tr>
-<tr>
-<td><strong>Agente</strong></td>
-<td><strong>O próprio LLM, em loop</strong></td>
-<td>"Pesquise X na web e me entregue um relatório"</td>
-</tr>
-</tbody>
-</table>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
-<h1>Tipos de Agentes</h1>
-<p style="font-size:0.75em; opacity:0.85;">Agentes não são todos iguais — existem diferentes dimensões de classificação:</p>
-
-<div class="grid-2 stagger-in" style="gap:0.8rem; margin-top:0.6rem;">
-
-<div class="card expandable" style="border-left:4px solid var(--cyan);">
-<div style="font-size:0.8em; font-weight:700; color:var(--cyan);">👁️ Por interação com o usuário</div>
-<div style="font-size:0.65em; margin-top:0.3rem; color:rgba(255,255,255,0.7);">
-<b>Surface agents</b> — conversam, explicam, pedem confirmação<br>
-<b>Background agents</b> — trabalham sozinhos, entregam resultado pronto
-</div>
-<div class="card-detail">
-<p><b>Surface agent (interativo):</b> Chatbot do Nubank — conversa com o cliente, pede CPF, explica o que vai fazer, espera confirmação antes de agir. O humano vê cada passo.</p>
-<p><b>Background agent (autônomo):</b> GitHub Copilot Workspace — você abre uma issue, o agente planeja, implementa, testa e abre o PR. Você só vê o resultado final.</p>
-<p><b>Qual usar?</b> Surface para decisões sensíveis (financeiro, saúde). Background para tarefas repetitivas onde o resultado é verificável (CI/CD, data pipelines, código).</p>
-<div class="detail-example">Cursor = surface (mostra diffs, pede approve). Devin = mais background (trabalha sozinho em branches).</div>
-</div>
-</div>
-
-<div class="card expandable" style="border-left:4px solid var(--purple);">
-<div style="font-size:0.8em; font-weight:700; color:var(--purple);">👥 Por quantidade de agentes</div>
-<div style="font-size:0.65em; margin-top:0.3rem; color:rgba(255,255,255,0.7);">
-<b>Single-agent</b> — um cérebro, todas as ferramentas<br>
-<b>Multi-agent</b> — especialistas que colaboram
-</div>
-<div class="card-detail">
-<p><b>Single-agent:</b> Um agente com todas as ferramentas (busca, código, email). Simples de debugar, mas fica sobrecarregado em tarefas complexas.</p>
-<p><b>Multi-agent:</b> Pesquisador + Programador + Revisor, cada um com seu prompt e ferramentas. Coordenados por um "orquestrador".</p>
-<p><b>Quando usar multi-agent?</b> Quando a tarefa envolve papéis muito diferentes (ex: gerar código E testar E fazer deploy) ou quando especialização melhora qualidade.</p>
-<div class="detail-example">CrewAI, AutoGen e LangGraph suportam multi-agent. Vamos praticar no Encontro 3.</div>
-</div>
-</div>
-
-<div class="card expandable" style="border-left:4px solid var(--green);">
-<div style="font-size:0.8em; font-weight:700; color:var(--green);">💬 Por formato de ação</div>
-<div style="font-size:0.65em; margin-top:0.3rem; color:rgba(255,255,255,0.7);">
-<b>JSON Agent</b> — saída estruturada em JSON<br>
-<b>Code Agent</b> — gera código executável<br>
-<b>Function-calling</b> — protocolo nativo do modelo
-</div>
-<div class="card-detail">
-<p><b>JSON Agent:</b> O LLM gera <code>{"action": "search", "input": "clima SP"}</code>. Um parser lê e executa. Simples, mas limitado em lógica complexa.</p>
-<p><b>Code Agent:</b> O LLM gera Python completo com loops, condicionais, imports. Mais expressivo — pode fazer cálculos, processar dados, compor lógica. Usado pelo smolagents (HuggingFace).</p>
-<p><b>Function-calling:</b> O modelo foi treinado pra emitir chamadas de função no formato da API (OpenAI, Anthropic). O runtime intercepta e executa. É o mais confiável em produção.</p>
-<div class="detail-example">OpenAI usa function-calling. smolagents usa Code Agent. LangChain suporta ambos.</div>
-</div>
-</div>
-
-<div class="card expandable" style="border-left:4px solid var(--amber);">
-<div style="font-size:0.8em; font-weight:700; color:var(--amber);">⭐ Por nível de agência</div>
-<div style="font-size:0.65em; margin-top:0.3rem; color:rgba(255,255,255,0.7);">
-Do processador simples ao multi-agent autônomo<br>
-<span style="opacity:0.7;">(Espectro HuggingFace/smolagents)</span>
-</div>
-<div class="card-detail">
-<p>Agentes existem num <b>espectro contínuo</b> de autonomia crescente:</p>
-<table style="font-size:0.85em; width:100%;">
-<tr><td>☆☆☆</td><td>Saída do LLM não afeta o fluxo</td><td style="opacity:0.7;">Processador simples</td></tr>
-<tr><td>★☆☆</td><td>Saída escolhe entre caminhos</td><td style="opacity:0.7;">Router (if/else baseado no LLM)</td></tr>
-<tr><td>★★☆</td><td>Saída decide qual função chamar</td><td style="opacity:0.7;">Tool caller</td></tr>
-<tr><td>★★★</td><td>Saída controla iteração e parada</td><td style="opacity:0.7;">Agente multi-step</td></tr>
-<tr><td>★★★+</td><td>Um agente dispara outros agentes</td><td style="opacity:0.7;">Multi-agent system</td></tr>
-</table>
-<div class="detail-example">Fonte: smolagents conceptual guide (HuggingFace). Quanto mais estrelas, mais autonomia e mais risco.</div>
-</div>
-</div>
-
-</div>
-<div style="font-size:0.55rem; opacity:0.6; margin-top:0.5rem; text-align:center;">Fontes: Google Cloud (2026), HuggingFace Agents Course, Anthropic Building Effective Agents (2024)</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #111827 0%, #1f2937 100%)">
-<h1>A regra de ouro 🥇</h1>
-<div  class="text-center card card-amber parallax-card scale-in">
-<div  class="text-amber" style="font-size:1.15em;">"Use a complexidade mínima necessária."</div>
-<div  class="mt-3 opacity-70" style="opacity:0.7;">— Anthropic, <i>Building Effective Agents</i> (2024)</div>
-</div>
-
-<div  class="grid-2 stagger-in text-sm">
-<div  class="card card-green parallax-card scale-in"><div  class="text-green">✅ Use AGENTE quando…</div>passos não são conhecidos, o número de iterações varia e o modelo precisa escolher caminhos.</div>
-<div  class="card parallax-card scale-in" style="background:rgba(248,113,113,0.08);border-color:rgba(248,113,113,0.28);"><div  class="text-red">❌ Use WORKFLOW quando…</div>os passos são fixos, o SLA precisa ser baixo e o custo deve ser previsível.</div>
-</div>
-
-<div  class="text-center text-sm opacity-70" style="opacity:0.7;">Agentes trazem flexibilidade <b>e</b> custo, latência e imprevisibilidade.</div>
-</section>
-
-<section class="text-center" data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
-<div class="text-center"><h1 class="typewriter-js" data-text="🔧 Hora de abrir o capô">🔧 Hora de abrir o capô</h1>
-<div  style="font-size:0.95em; opacity:0.9;">
-Sabemos <b>o que</b> um agente faz e <b>quando</b> usar.<br>
-Agora vamos ver <b>como</b> ele funciona por dentro.
-</div>
-
-<div  class="text-sm" style="opacity:0.6;">
-Pense em montar um robô: vamos adicionar peça por peça.
-</div></div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #111827 0%, #0f766e 100%)">
-<h1>1.3 Anatomia de um agente — os 5 componentes</h1>
-<div class="text-xs" style="margin-bottom: 0.4rem;">Um agente não é monolítico — é uma <b>composição de partes</b>. Cada uma desbloqueia uma capacidade que o LLM sozinho não tem.</div>
-<div  class="flow-diagram"><div  class="flow-node node-green">👤 Objetivo</div><div  class="flow-arrow">→</div><div  class="flow-node node-purple parallax-card">🧠 LLM</div><div  class="flow-arrow">↔</div><div  class="flow-node node-cyan">🛠️ Tools</div><div  class="flow-arrow">↔</div><div  class="flow-node node-amber">💾 Memória</div><div  class="flow-arrow">→</div><div  class="flow-node node-green">✅ Resposta</div></div>
-<div  class="stagger-in text-xs" style="margin-top: 0.6rem;">
-
-<div class="card card-purple expandable parallax-card scale-in">
-<b>1. 🎭 Persona + Objetivo (System Prompt)</b> — foco e consistência
-<div class="card-detail">
-<p><b>O que é:</b> instruções que definem <i>quem</i> o agente é, <i>o que</i> deve fazer e <i>quais limites</i> respeitar.</p>
-<p><b>Sem ele:</b> o LLM é genérico — responde qualquer coisa, sem identidade nem limites.</p>
-<p><b>Com ele:</b> se comporta como um especialista com missão clara. Ex: "Você é um auditor que NUNCA aprova despesas sem justificativa."</p>
-<p><b>Analogia:</b> é a "descrição de cargo" de um funcionário.</p>
-</div>
-</div>
-
-<div class="card card-cyan expandable parallax-card scale-in">
-<b>2. 🧠 Modelo / Reasoning Engine (LLM)</b> — raciocínio e decisão
-<div class="card-detail">
-<p><b>O que é:</b> o motor de raciocínio — GPT-4, Claude, Gemini, Llama...</p>
-<p><b>Capacidade:</b> interpreta contexto, decompõe problemas, planeja e decide qual ação tomar.</p>
-<p><b>Limitação:</b> sozinho, ele só gera texto. Não acessa internet, não faz cálculos precisos, não lembra conversas.</p>
-<p><b>Analogia:</b> um consultor brilhante trancado numa sala — sem telefone, sem computador e sem arquivo.</p>
-</div>
-</div>
-
-<div class="card card-green expandable parallax-card scale-in">
-<b>3. 💾 Memória</b> — continuidade e contexto
-<div class="card-detail">
-<p><b>O que é:</b> sistema que armazena e recupera informações entre turnos e sessões.</p>
-<p><b>Curto prazo:</b> histórico da conversa atual. <b>Longo prazo:</b> vector DB com docs e preferências.</p>
-<p><b>Sem memória:</b> cada interação começa do zero.</p>
-<p><b>Com memória:</b> "Na semana passada você disse que prefere hotéis centrais. Mantendo."</p>
-<p><b>Analogia:</b> médico que vê seu prontuário vs um que nunca te viu.</p>
-</div>
-</div>
-
-<div class="card card-amber expandable parallax-card scale-in">
-<b>4. 🛠️ Tools + Executor</b> — ação no mundo real
-<div class="card-detail">
-<p><b>O que é:</b> funções externas (APIs, DB, browser, calculadora) que o agente invoca.</p>
-<p><b>Sem tools:</b> inventa respostas e não faz nada concreto.</p>
-<p><b>Com tools:</b> consulta cotação real, envia email, cria arquivo, reserva hotel.</p>
-<p><b>O executor</b> chama a função e devolve o resultado para o LLM continuar.</p>
-<p><b>Analogia:</b> dar mãos, telefone e internet ao consultor trancado na sala.</p>
-</div>
-</div>
-
-<div class="card card-purple expandable parallax-card scale-in">
-<b>5. 🔄 Loop de Controle</b> — autonomia e iteração
-<div class="card-detail">
-<p><b>O que é:</b> o ciclo <b>Observe → Think → Act → Reflect</b> que se repete até concluir.</p>
-<p><b>Sem loop:</b> chatbot — 1 pergunta, 1 resposta, fim.</p>
-<p><b>Com loop:</b> tenta, falha, ajusta e tenta de novo. 10+ passos autônomos.</p>
-<p><b>Inclui:</b> condição de parada, limite de iterações, detecção de loops infinitos.</p>
-<p><b>Analogia:</b> "escreva um artigo" vs "pesquise, escreva, revise, corrija e publique".</p>
-</div>
-</div>
-
-</div>
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%)">
+  <h1>Matriz de decisão: automatizar ou não?</h1>
+  <table class="text-sm" style="margin-top: 1.2rem; width: 100%;">
+    <thead>
+      <tr><th>Cenário</th><th>Leitura</th><th>Decisão</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Alta frequência + baixa variabilidade</td><td>Fluxo estável e repetitivo</td><td>✅ Automatize primeiro</td></tr>
+      <tr><td>Alta frequência + alto custo do erro</td><td>Fila crítica e cansativa</td><td>✅ Automatize com guardrails</td></tr>
+      <tr><td>Baixa frequência + alta variabilidade</td><td>Cada caso é quase único</td><td>⚠️ Copiloto, não agente autônomo</td></tr>
+      <tr><td>Baixa frequência + baixo dano</td><td>Ganho marginal pequeno</td><td>❌ Deixe humano</td></tr>
+    </tbody>
+  </table>
+  <div class="tip-box fragment" style="margin-top: 1rem;">Analogia: é um portfólio de automação. Você prioriza onde o retorno marginal por workflow é maior.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%)">
-<h1 style="font-size:1.3em;">Resumo: o que cada parte adiciona</h1>
-<table style="font-size: 0.48em; width: 100%; border-collapse: collapse; margin-top: 0.5rem;">
-<thead><tr style="border-bottom: 2px solid rgba(96,165,250,0.4);">
-<th style="padding: 0.3rem 0.4rem; text-align: left;">Componente</th>
-<th style="padding: 0.3rem 0.4rem; text-align: left;">Sem ele...</th>
-<th style="padding: 0.3rem 0.4rem; text-align: left;">Com ele →</th>
-</tr></thead>
-<tbody>
-<tr><td style="padding: 0.3rem 0.4rem;">🎭 Persona</td><td style="padding: 0.3rem 0.4rem;">Genérico, sem limites</td><td style="padding: 0.3rem 0.4rem;">✅ Foco e segurança</td></tr>
-<tr><td style="padding: 0.3rem 0.4rem;">🧠 LLM</td><td style="padding: 0.3rem 0.4rem;">Nenhuma inteligência</td><td style="padding: 0.3rem 0.4rem;">✅ Raciocínio e decisão</td></tr>
-<tr><td style="padding: 0.3rem 0.4rem;">💾 Memória</td><td style="padding: 0.3rem 0.4rem;">Esquece entre sessões</td><td style="padding: 0.3rem 0.4rem;">✅ Continuidade</td></tr>
-<tr><td style="padding: 0.3rem 0.4rem;">🛠️ Tools</td><td style="padding: 0.3rem 0.4rem;">Só gera texto</td><td style="padding: 0.3rem 0.4rem;">✅ Ação real</td></tr>
-<tr><td style="padding: 0.3rem 0.4rem;">🔄 Loop</td><td style="padding: 0.3rem 0.4rem;">1 pergunta → 1 resposta</td><td style="padding: 0.3rem 0.4rem;">✅ Autonomia multi-step</td></tr>
-</tbody></table>
-<div style="margin-top: 0.8rem; padding: 0.5rem 0.7rem; border-left: 3px solid rgba(251,191,36,0.6); font-size: 0.52em; background: rgba(251,191,36,0.06); border-radius: 4px;">
-🎯 <b>Insight:</b> um "agente" = LLM + 4 acessórios. A mágica está na <b>composição</b>, não em tecnologia nova.
-</div>
-<div style="margin-top: 0.4rem; font-size: 0.4em; opacity: 0.6;">Fontes: Google Cloud (2026), OpenAI (2025)</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
-<h1>Ciclo de vida de UM turno do agente</h1>
-<p class="text-sm">O "loop" parece simples, mas internamente cada iteração tem 7 etapas:</p>
-<div  class="flow-diagram mt-2"><div  class="flow-node node-green">1. Input</div><div  class="flow-arrow">→</div><div  class="flow-node node-purple">2. Contexto</div><div  class="flow-arrow">→</div><div  class="flow-node node-purple">3. Chamada LLM</div><div  class="flow-arrow">→</div><div  class="flow-node node-amber">4. Saída</div><div  class="flow-arrow">→</div><div  class="flow-node node-cyan">5. Validação</div><div  class="flow-arrow">→</div><div  class="flow-node node-cyan">6. Execução</div><div  class="flow-arrow">→</div><div  class="flow-node node-green">7. Observação</div></div>
-
-<div class="grid-2 stagger-in text-xs" style="gap: 0.5rem; margin-top: 0.8rem;">
-<div class="card fragment"><b>1. Input:</b> pergunta do usuário ou observação do passo anterior chega ao sistema.</div>
-<div class="card fragment"><b>2. Contexto:</b> monta o "prompt completo" — system + histórico + tools schema + input. Aqui se decide o que cabe na janela.</div>
-<div class="card fragment"><b>3. Chamada LLM:</b> envia tudo à API. O modelo processa e gera uma resposta (texto ou tool_call).</div>
-<div class="card fragment"><b>4. Saída:</b> o modelo retorna: "quero chamar a tool X com args Y" ou "aqui está a resposta final".</div>
-<div class="card fragment"><b>5. Validação:</b> o sistema verifica: a tool existe? Os args estão no formato certo? Há permissão?</div>
-<div class="card fragment"><b>6. Execução:</b> se validou, roda a função real (API call, DB query, cálculo). Se não, retorna erro ao LLM.</div>
-<div class="card fragment"><b>7. Observação:</b> resultado da tool é injetado no histórico como "observation" → volta ao passo 2.</div>
-</div>
-
-<div class="card card-amber mt-2 text-xs fragment">
-💰 Cada iteração custa <b>uma chamada à API</b>. Com 10 passos e contexto crescente, o custo pode multiplicar 10×. Agentes típicos rodam de 3 a 30 iterações por tarefa.
-</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
-<h1>🤖 Mas afinal, o que é um LLM?</h1>
-<div  class="text-sm">
-<strong>LLM = Large Language Model</strong> (Modelo de Linguagem de Grande Escala)
-</div>
-
-<div  class="grid-2 stagger-in">
-<div  class="text-sm card card-cyan parallax-card scale-in">
-<b>Definição simples:</b><br>
-Um programa de computador que aprendeu a <b>prever a próxima palavra</b> lendo bilhões de textos da internet. Ele não "entende" como humanos — mas identifica <b>padrões estatísticos</b> tão sofisticados que parecem compreensão.
-</div>
-<div  class="text-sm card card-green parallax-card scale-in">
-<b>🧩 Analogia:</b><br>
-Imagine alguém que leu <b>toda a Wikipédia, Stack Overflow, livros e Reddit</b>. Não memorizou frases — mas aprendeu <i>padrões</i> de como texto funciona. Quando você pergunta algo, ele gera a continuação mais "plausível" baseada nesses padrões.
-</div>
-</div>
-
-<div class="grid-3 stagger-in text-xs" style="gap: 0.5rem; margin-top: 0.6rem;">
-<div class="card fragment"><b>📊 Escala:</b><br>GPT-4 leu ~13 trilhões de tokens no pré-treino. É como ler 10 milhões de livros.</div>
-<div class="card fragment"><b>💡 Emergência:</b><br>Capacidades como raciocínio, humor e código surgiram "espontaneamente" com escala — ninguém as programou explicitamente.</div>
-<div class="card fragment"><b>⚠️ Limite:</b><br>Conhecimento congelado na data do treino. Não acessa internet, não atualiza sozinho, pode inventar fatos com confiança.</div>
-</div>
-
-<div  class="text-sm card card-amber parallax-card scale-in mt-2">
-⚠️ <b>LLM ≠ base de dados.</b> Ele não "guarda" frases; ele aprendeu <b>estatísticas de como palavras se relacionam</b>. Por isso pode inventar (alucinar) — ele gera o que é <i>estatisticamente plausível</i>, não necessariamente verdadeiro.
-</div>
-
-<div  class="mt-2 text-xs opacity-70" style="opacity:0.7;">
-Exemplos: GPT-4o, Claude Sonnet, Gemini 2.5 Pro, Llama 4, Qwen 3 — todos são LLMs com arquiteturas similares (Transformer).
-</div>
-<div class="card card-cyan text-xs mt-2 fragment">
-💡 <b>Analogia simples:</b> Imagine um autocomplete do celular, mas treinado com toda a internet. Ele não "entende" — ele prevê o que vem depois com altíssima precisão. Tão boa que <i>parece</i> inteligência.
-</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #111827 0%, #1f2937 100%)">
-<h1>🏗️ Como um LLM é treinado?</h1>
-<div  class="text-sm">O treinamento tem <b>3 fases</b> — cada uma adiciona uma camada de capacidade diferente.</div>
-
-<div  class="flow-diagram mt-2"><div  class="flow-node node-cyan parallax-card">📚 Pré-treino</div><div  class="flow-arrow">→</div><div  class="flow-node node-green parallax-card">🎯 Fine-tuning</div><div  class="flow-arrow">→</div><div  class="flow-node node-purple parallax-card">👍 RLHF</div></div>
-
-<div  class="stagger-in mt-2 text-xs" style="display: grid; gap: 0.5rem;">
-<div class="card card-cyan expandable parallax-card scale-in">
-<b>1. Pré-treino (meses, milhões de USD)</b>
-<div class="card-detail">
-<p>O modelo lê <b>trilhões de tokens</b> da web: livros, código, Wikipedia, fóruns, papers, notícias.</p>
-<p><b>Objetivo:</b> prever o próximo token. Esse objetivo simples faz o modelo aprender gramática, fatos, lógica e até raciocínio.</p>
-<p><b>Resultado:</b> um "fundation model" — sabe muito, mas não segue instruções (é um "autocomplete" gigante).</p>
-<p><b>Custo:</b> GPT-4 custou ~$100M em compute. Llama 3.1 usou 16.000 GPUs por meses.</p>
-</div>
-</div>
-<div class="card card-green expandable parallax-card scale-in">
-<b>2. Fine-tuning supervisionado (SFT)</b>
-<div class="card-detail">
-<p>Treina o modelo em exemplos curados de "pergunta → resposta ideal", escritos por humanos.</p>
-<p><b>Objetivo:</b> ensinar o <i>formato</i> de diálogo — como seguir instruções, responder perguntas, recusar pedidos perigosos.</p>
-<p><b>Resultado:</b> o modelo agora conversa. Antes: completava texto. Agora: responde perguntas.</p>
-<p><b>Escala:</b> tipicamente 10K-100K exemplos curados (muito menos que pré-treino).</p>
-</div>
-</div>
-<div class="card card-purple expandable parallax-card scale-in">
-<b>3. RLHF (Reinforcement Learning from Human Feedback)</b>
-<div class="card-detail">
-<p>Humanos comparam pares de respostas e escolhem a melhor. Um "reward model" aprende esse ranking.</p>
-<p><b>Objetivo:</b> alinhar o modelo com preferências humanas — respostas mais úteis, seguras, honestas e naturais.</p>
-<p><b>Resultado:</b> o modelo melhora em nuance: não é só correto, é <i>agradável</i> de usar.</p>
-<p><b>Variantes modernas:</b> DPO (Direct Preference Optimization), RLAIF (feedback de outro AI), Constitutional AI.</p>
-</div>
-</div>
-</div>
-
-<div class="card card-amber mt-2 text-xs fragment">
-🎯 <b>Para agentes:</b> o fine-tuning e RLHF são onde modelos aprendem a usar tools, seguir formatos JSON e "pensar antes de agir" (CoT). Modelos agentic são treinados com exemplos de tool use.
-</div>
-<div class="card card-amber text-xs mt-2 fragment">
-🎯 <b>Por que isso importa para agentes?</b> O treinamento define os <i>limites</i> do que o agente pode fazer. Um modelo treinado até 2024 não sabe o que aconteceu em 2025 — por isso precisa de <b>ferramentas</b> (busca web) para informação atual.
-</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
-<h1>🧱 A arquitetura: Transformer (simplificado)</h1>
-<div  class="text-sm">Desde 2017 (<i>"Attention is All You Need"</i> — Google Brain), <b>todos</b> os LLMs usam a mesma base: a arquitetura <b>Transformer</b>.</div>
-
-<div  class="flow-diagram mt-2"><div  class="flow-node node-cyan">Texto</div><div  class="flow-arrow">→</div><div  class="flow-node node-purple">Tokenização</div><div  class="flow-arrow">→</div><div  class="flow-node node-purple">Embeddings</div><div  class="flow-arrow">→</div><div  class="flow-node node-amber parallax-card">Self-Attention</div><div  class="flow-arrow">→</div><div  class="flow-node node-green">Feed-Forward</div><div  class="flow-arrow">→</div><div  class="flow-node node-cyan">Próximo token</div></div>
-
-<div class="stagger-in mt-2 text-xs" style="display: grid; gap: 0.5rem;">
-<div class="card card-purple expandable parallax-card fragment">
-<b>1. Tokenização</b> — texto vira números
-<div class="card-detail">
-<p>O texto é partido em pedaços (tokens). "Inteligência" → ["Int", "elig", "ência"]. Cada token vira um ID numérico (ex: 15496).</p>
-<p><b>Por que não usar palavras inteiras?</b> Vocabulário finito. Tokens permitem lidar com qualquer idioma, neologismo ou código.</p>
-</div>
-</div>
-<div class="card card-cyan expandable parallax-card fragment">
-<b>2. Embeddings</b> — números viram vetores com significado
-<div class="card-detail">
-<p>Cada token ID é mapeado para um vetor de alta dimensão (ex: 4096 números). Palavras similares ficam próximas nesse espaço.</p>
-<p><b>Exemplo:</b> "rei" - "homem" + "mulher" ≈ "rainha". O modelo aprendeu relações semânticas como geometria.</p>
-</div>
-</div>
-<div class="card card-amber expandable parallax-card fragment">
-<b>3. Self-Attention</b> — cada palavra olha para todas as outras
-<div class="card-detail">
-<p>O mecanismo que tornou Transformers revolucionários. Cada token calcula "quanto atenção devo dar" a cada outro token na sequência.</p>
-<p><b>Exemplo:</b> em "O gato que eu vi ontem <b>dormia</b>", "dormia" presta muita atenção a "gato" (o sujeito) e ignora "eu" e "ontem".</p>
-<p><b>Multi-head:</b> vários "cabeças" de atenção em paralelo capturam relações diferentes (sintaxe, semântica, coreference).</p>
-</div>
-</div>
-<div class="card card-green expandable parallax-card fragment">
-<b>4. Feed-Forward</b> — processamento profundo
-<div class="card-detail">
-<p>Após a atenção, cada token passa por redes neurais densas que transformam a representação. É aqui que "conhecimento factual" é armazenado nos pesos.</p>
-<p>Esse bloco (Attention + FFN) é repetido dezenas/centenas de vezes em camadas. Mais camadas = raciocínio mais profundo.</p>
-</div>
-</div>
-</div>
-
-<div class="grid-2 stagger-in text-xs mt-2">
-<div class="card fragment"><b>📐 Escala importa</b><br>GPT-2: 12 camadas, 1.5B parâmetros<br>GPT-4: ~120 camadas, ~1.8T parâmetros<br>Llama 4 Maverick: 128 experts, 400B ativo</div>
-<div class="card card-cyan fragment"><b>🧩 Analogia</b><br>Cada camada é como uma "rodada de discussão" num time. 12 rodadas = opinião superficial. 120 rodadas = análise profunda com múltiplas perspectivas.</div>
-</div>
+  <h1>Exemplos reais: iFood vs M&amp;A</h1>
+  <div class="compare-cols" style="gap: 1rem; margin-top: 1.2rem;">
+    <div class="compare-col good">
+      <h3>iFood / suporte transacional</h3>
+      <p class="text-sm">Alta frequência, baixa variabilidade, erro humano recorrente.</p>
+      <p class="text-sm"><b>Tese:</b> agente resolve status, reembolso e roteamento.</p>
+    </div>
+    <div class="compare-col bad">
+      <h3>M&amp;A / negociação estratégica</h3>
+      <p class="text-sm">Baixa frequência, altíssima ambiguidade, risco jurídico.</p>
+      <p class="text-sm"><b>Tese:</b> IA como copiloto analítico, não como decisor final.</p>
+    </div>
+  </div>
+  <div class="card card-amber parallax-card fragment" style="margin-top: 1rem;">Regra executiva: quando o contexto muda mais rápido do que o playbook, o humano continua no centro.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #0f766e 100%)">
-<h1>🎯 O que o LLM realmente faz: prever o próximo token</h1>
-<div class="text-sm">Essa é a ideia mais importante para entender LLMs:</div>
-
-<div class="card card-cyan mt-2 text-sm">
-<b>O LLM faz UMA coisa:</b> dado um texto de entrada, calcula a probabilidade de cada possível próximo token e escolhe um.
-</div>
-
-<pre class="mt-2"><code>Entrada: "O céu é"  →  Saída mais provável: "azul" (87%), "bonito" (5%), "claro" (3%)
-</code></pre>
-
-<div class="mt-2 text-xs" style="background:rgba(0,0,0,0.3); border-radius:8px; padding:0.6rem;">
-<label style="font-weight:600; display:block; margin-bottom:0.3rem;">🔬 Tokenizador interativo — digite e veja os tokens:</label>
-<input id="tokenizer-input" type="text" value="Agentes de IA são o futuro da automação inteligente" style="width:100%; padding:0.4rem 0.6rem; border-radius:6px; border:1px solid rgba(96,165,250,0.4); background:rgba(0,0,0,0.4); color:#fff; font-size:0.95em; font-family:var(--font-mono);">
-<div id="tokenizer-output" style="margin-top:0.4rem; min-height:1.8rem; line-height:1.8; font-family:var(--font-mono); font-size:0.9em;"></div>
-<div style="opacity:0.5; font-size:0.8em; margin-top:0.2rem;">Cada cor = 1 token. Aproximação BPE simplificada (~GPT-4 tokenizer).</div>
-</div>
-
-<div class="grid-2 stagger-in text-xs mt-2">
-<div class="card card-green fragment">
-<b>🎯 Por que predição = inteligência?</b><br>
-Para prever bem em bilhões de contextos, precisa aprender gramática, lógica, fatos, código... Tudo "emerge" do objetivo de predição.
-</div>
-<div class="card card-amber fragment">
-<b>⚠️ Consequência perigosa:</b><br>
-Gera o que é <b>estatisticamente plausível</b>, não o que é <b>verdadeiro</b>. Daí vêm as alucinações.
-</div>
-</div>
+  <h1>2. O que é um agente vs chatbot</h1>
+  <div class="compare-cols" style="gap: 1rem; margin-top: 1.3rem;">
+    <div class="compare-col bad">
+      <h3>Chatbot</h3>
+      <p>Conversa, responde, informa.</p>
+      <p class="text-sm">Bom para FAQ, status, onboarding e roteamento.</p>
+    </div>
+    <div class="compare-col good">
+      <h3>Agente</h3>
+      <p>Percebe, decide, usa ferramentas e executa.</p>
+      <p class="text-sm">Bom para abrir ticket, consultar sistema, agir e registrar.</p>
+    </div>
+  </div>
+  <div class="insight-box fragment" style="margin-top: 1rem;">Analogia de negócio: chatbot é recepção. Agente é analista operacional com acesso a sistemas.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
-<h1>Capacidades vs Limitações — e por que precisamos de agentes</h1>
-<div  class="text-xs" style="opacity:0.75;">Esse mecanismo de predição é poderoso — mas tem limites fundamentais que agentes resolvem.</div>
-
-<div  class="grid-2 stagger-in text-xs">
-<div  class="card card-green parallax-card scale-in">
-<b>✅ O que ele faz bem:</b><br>
-• Completar padrões conhecidos<br>
-• Seguir instruções complexas<br>
-• Raciocinar sobre texto (multi-step)<br>
-• Gerar código, resumos, traduções<br>
-• Adaptar tom, estilo, formato<br>
-• Sintetizar informação de contexto
-</div>
-<div  class="card parallax-card scale-in" style="background:rgba(248,113,113,0.08);border-color:rgba(248,113,113,0.28);">
-<b>❌ O que ele NÃO faz (sozinho):</b><br>
-• Acessar a internet em tempo real<br>
-• Lembrar conversas anteriores<br>
-• Executar código ou ações<br>
-• Garantir fatos (pode alucinar)<br>
-• Atualizar seu conhecimento<br>
-• Interagir com sistemas externos
-</div>
-</div>
-
-<div class="card card-cyan mt-2 text-xs fragment">
-💡 <b>E é exatamente por isso que precisamos de AGENTES</b> — para dar ao LLM: <b>mãos</b> (tools), <b>memória</b> (persistence), <b>olhos</b> (retrieval) e <b>autonomia</b> (loop de controle). Cada limitação vira uma oportunidade de composição.
-</div>
-
-<div class="card text-xs mt-2 fragment" style="background: rgba(167,139,250,0.08); border: 1px solid rgba(167,139,250,0.28);">
-📊 <b>Em números:</b> ChatGPT padrão resolve ~60% de tarefas complexas. Com agente + tools + RAG, o mesmo modelo sobe para ~85-95% (benchmark GAIA, 2024).
-</div>
-</section>
-
-<section class="text-center" data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%)">
-<h1 class="typewriter-js" data-text="🔬 Deep dive: entendendo o motor">🔬 Deep dive: entendendo o motor</h1>
-<div style="font-size: 0.85em; opacity: 0.9; margin-top: 0.8rem;">
-Você já sabe <b>o que</b> um LLM faz e <b>por que</b> precisa de um agente ao redor.<br>
-Agora vamos abrir o capô e entender <b>3 conceitos técnicos</b> que controlam <b>custo, velocidade e qualidade</b>:
-</div>
-
-<div class="flow-diagram mt-2" style="font-size: 0.9em;">
-<div class="flow-node node-cyan" style="border: 2px solid rgba(34,211,238,0.6);">🔤 Tokens<br><span class="text-xs">a moeda que você paga</span></div>
-<div class="flow-arrow">→</div>
-<div class="flow-node node-purple" style="border: 2px solid rgba(167,139,250,0.6);">📐 Context Window<br><span class="text-xs">quanto cabe de uma vez</span></div>
-<div class="flow-arrow">→</div>
-<div class="flow-node node-amber" style="border: 2px solid rgba(251,191,36,0.6);">🌡️ Temperatura<br><span class="text-xs">criativo vs determinístico</span></div>
-</div>
-
-<div class="card card-cyan mt-3 text-xs fragment" style="text-align: left;">
-<b>Por que isso importa para agentes?</b><br>
-• Tokens → quanto custa cada passo do agente<br>
-• Context window → quantos passos cabem antes de "esquecer"<br>
-• Temperatura → o agente inventa ou segue instruções à risca
-</div>
-
-<div class="text-xs opacity-60 mt-2">Dominar esses 3 números = saber otimizar qualquer agente em produção.</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #111827 0%, #1f2937 100%)">
-<h1>🔤 Tokens — a moeda do LLM</h1>
-<div class="text-xs" style="margin-bottom:0.3rem;">Se o agente ficou <b>caro</b>, <b>lento</b> ou <b>inconsistente</b> → quase sempre são 3 suspeitos: <span class="text-cyan"><b>tokens · janela de contexto · temperatura</b></span>. Começando pelo primeiro:</div>
-<div class="text-sm">O LLM não lê letras nem palavras; ele lê <b>tokens</b>, pedaços de texto otimizados por frequência.</div>
-
-<table style="font-size:0.5em; margin-top:0.4rem;">
-<thead>
-<tr>
-<th>Texto original</th>
-<th>Tokens</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>"Olá, mundo!"</code></td>
-<td><code>["Ol", "á", ",", " mundo", "!"]</code> → 5 tokens</td>
-</tr>
-<tr>
-<td><code>"Inteligência Artificial"</code></td>
-<td><code>["Int", "elig", "ência", " Artificial"]</code> → 4 tokens</td>
-</tr>
-<tr>
-<td><code>"def hello():"</code></td>
-<td><code>["def", " hello", "():"]</code> → 3 tokens</td>
-</tr>
-</tbody>
-</table>
-<div class="grid-2 stagger-in text-xs" style="margin-top:0.4rem;">
-<div class="card card-cyan parallax-card scale-in"><b>Por que importa?</b><br>Você paga por token; português usa ~30% mais tokens que inglês; código é tokenizado de forma eficiente.</div>
-<div class="card card-green parallax-card scale-in"><b>🧩 Analogia</b><br>É como ler um livro por sílabas. Quanto mais "sílabas", mais caro e lento fica.</div>
-</div>
-
-<div class="mt-2 text-xs opacity-70" style="opacity:0.7;">💡 Teste ao vivo: <a href="https://platform.openai.com/tokenizer" class="text-cyan">platform.openai.com/tokenizer</a></div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
-<h1>📐 Context Window (Janela de Contexto)</h1>
-<div  class="text-sm">A <b>context window</b> é tudo o que o modelo consegue "ver" de uma vez: input + output.</div>
-
-<div  class="flow-diagram mt-2"><div  class="flow-node node-purple">🎭 System<br>~500 tok</div><div  class="flow-arrow">→</div><div  class="flow-node node-cyan">💬 Histórico<br>~20K tok</div><div  class="flow-arrow">→</div><div  class="flow-node node-amber">🛠️ Tools Schema<br>~2K tok</div><div  class="flow-arrow">→</div><div  class="flow-node node-green">👤 Pergunta<br>~200 tok</div><div  class="flow-arrow">→</div><div  class="flow-node node-purple">✍️ Resposta<br>~4K tok</div></div>
-
-<div  class="grid-3 stagger-in text-xs">
-<div  class="card parallax-card scale-in"><b>Limites típicos</b><br>GPT-4o: <b>128K</b><br>Claude Sonnet: <b>200K</b><br>Gemini 2.5: <b>1M</b><br>GPT-4 original: <b>8K</b></div>
-<div  class="card card-amber parallax-card scale-in"><b>Problema para agentes</b><br>O histórico cresce a cada tool call. Depois de 10 passos, 30K+ tokens podem sumir só em contexto.</div>
-<div  class="card card-green parallax-card scale-in"><b>🧩 Analogia</b><br>É uma mesa de escritório: cabe muita coisa, mas nunca tudo.</div>
-</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #111827 0%, #0f766e 100%)">
-<h1>🌡️ Temperature (Temperatura)</h1>
-<div  class="text-sm">A <b>temperature</b> controla o quão previsível vs criativo o modelo será ao escolher o próximo token.</div>
-
-<div  class="grid-3 stagger-in mt-3 text-xs">
-<div  class="text-center card parallax-card scale-in"><div >🧊</div><div  class="mt-1">temp = 0</div><div  class="mt-1" style="opacity:0.8;">Mais provável, repetível.</div><div  class="mt-2 text-cyan">Ideal para agentes e código</div></div>
-<div  class="text-center card parallax-card scale-in"><div >😊</div><div  class="mt-1">temp = 0.7</div><div  class="mt-1" style="opacity:0.8;">Mais variedade, ainda coerente.</div><div  class="mt-2 text-cyan">Ideal para chat e escrita</div></div>
-<div  class="text-center card parallax-card scale-in"><div >🎲</div><div  class="mt-1">temp = 1.5+</div><div  class="mt-1" style="opacity:0.8;">Muito aleatório; pode gerar nonsense.</div><div  class="mt-2 text-cyan">Ideal para brainstorm e arte</div></div>
-</div>
-
-<div  class="grid-2 stagger-in text-xs">
-<div  class="card card-cyan parallax-card scale-in"><b>Exemplo</b><br><code>temp=0</code>: "sofá" sempre.<br><code>temp=0.7</code>: "sofá", "tapete", "telhado".<br><code>temp=1.5</code>: até "existencialismo".</div>
-<div  class="card card-amber parallax-card scale-in"><b>🎯 Regra prática</b><br>Em produção, agentes costumam usar <code>temperature=0</code> para reduzir bugs imprevisíveis.</div>
-</div>
-
-<div class="grid-2 text-xs mt-2 fragment" style="gap:0.5rem;">
-<div class="card card-green"><b>🎯 Temperatura 0 (determinístico)</b><br>Ideal para: atendimento ao cliente, cálculos, extração de dados, agentes em produção</div>
-<div class="card card-purple"><b>🎨 Temperatura 0.7-1.0 (criativo)</b><br>Ideal para: brainstorming, geração de texto criativo, exploração de ideias</div>
-</div>
-
-<div  class="mt-3 text-xs card card-green parallax-card scale-in"><b>🧩 Analogia:</b> responder prova em temp alta é "chutar com estilo". Às vezes brilha; geralmente erra mais.</div>
-</section>
-
-<section class="text-center" data-background-gradient="linear-gradient(135deg, #1f2937 0%, #312e81 100%)">
-<div class="text-center">
-<h1>✅ Cérebro mapeado — agora as mãos</h1>
-<div style="font-size: 0.85em; opacity: 0.9; margin-top: 1rem;">
-Você entende como o LLM funciona: <b>predição de tokens</b>, <b>janela de contexto</b> e <b>temperatura</b>.<br><br>
-Mas ele sozinho só gera texto. Para <b>agir no mundo real</b>, precisa de <b>ferramentas</b> — APIs, banco de dados, calculadoras, browsers.
-</div>
-<div class="grid-2 mt-3 text-xs" style="gap: 0.8rem;">
-<div class="card" style="background: rgba(167,139,250,0.08); border: 1px solid rgba(167,139,250,0.28);">
-<b>O que já vimos:</b><br>
-✅ O LLM é o motor de raciocínio<br>
-✅ Tokens = unidade de custo<br>
-✅ Janela = limite de memória<br>
-✅ Temperatura = controle de criatividade
-</div>
-<div class="card card-cyan">
-<b>O que veremos agora:</b><br>
-→ Como tools são descritas para o LLM<br>
-→ Como ele "pede" para usar uma<br>
-→ Princípios de design de tools<br>
-→ Guardrails e segurança
-</div>
-</div>
-</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
-<h1>🛠️ Anatomia de uma Tool — 3 partes obrigatórias</h1>
-<p class="text-xs" style="opacity:0.8;">Para o LLM saber <b>quando</b> e <b>como</b> chamar uma ferramenta, ele precisa de um "contrato" com 3 peças:</p>
-
-<div class="grid-3 stagger-in text-xs" style="margin-top: 0.8rem;">
-<div class="card card-cyan parallax-card scale-in">
-<b>① Nome + Descrição</b>
-<div style="margin-top:0.4rem; opacity:0.85;">O LLM escolhe a tool <b>pela descrição</b>. Se for vaga, ele chama errado.</div>
-<pre style="font-size:0.7em; margin-top:0.4rem;"><code>{
-  "name": "search_web",
-  "description": "Busca informações
-    atuais na internet sobre
-    qualquer tema."
-}</code></pre>
-<div style="margin-top:0.3rem; font-size:0.75em;">💡 Pense na descrição como um <i>anúncio</i> para o LLM.</div>
-</div>
-
-<div class="card card-purple parallax-card scale-in">
-<b>② Schema dos Parâmetros</b>
-<div style="margin-top:0.4rem; opacity:0.85;">JSON Schema define tipos, obrigatórios e valores possíveis.</div>
-<pre style="font-size:0.7em; margin-top:0.4rem;"><code>{
-  "query": {
-    "type": "string",
-    "description": "O que buscar"
-  },
-  "max_results": {
-    "type": "integer",
-    "default": 5
-  }
-}</code></pre>
-<div style="margin-top:0.3rem; font-size:0.75em;">💡 Sem schema = o LLM inventa argumentos.</div>
-</div>
-
-<div class="card card-green parallax-card scale-in">
-<b>③ Implementação (runtime)</b>
-<div style="margin-top:0.4rem; opacity:0.85;">O LLM <b>nunca executa</b> — só pede. Quem roda é o seu código.</div>
-<pre style="font-size:0.7em; margin-top:0.4rem;"><code>def search_web(query, max_results=5):
-    results = requests.get(
-        f"https://api.search/{query}"
-    )
-    return results.json()[:max_results]</code></pre>
-<div style="margin-top:0.3rem; font-size:0.75em;">💡 A tool pode ser uma API, um script, um SQL…</div>
-</div>
-</div>
-
-<div class="card text-xs mt-2 fragment" style="background:rgba(251,191,36,0.06); border:1px solid rgba(251,191,36,0.25);">
-⚡ <b>Analogia:</b> É como um cardápio de restaurante. O nome = nome do prato, a descrição = ingredientes, o schema = como personalizar (ponto da carne, acompanhamento). O chef (runtime) é quem cozinha — o cliente (LLM) só pede.
-</div>
-</section>
-
-<section class="text-center" data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
-<div class="text-center"><h1 class="typewriter-js" data-text="❓ Se o agente &quot;sabe tudo&quot;, por que trava?">❓ Se o agente "sabe tudo", por que trava?</h1>
-<div  style="font-size:1.15em; opacity:0.9;">
-Porque <b>agir</b> é diferente de <b>falar</b>.<br>
-Sem tools bem descritas, ele vira um ótimo narrador de intenções.
-</div></div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
-<h1>🛠️ Ferramentas na prática</h1>
-<div class="text-xs" style="margin-bottom:0.5rem;">O LLM <b>não executa nada</b> — ele gera um pedido estruturado (JSON) e o sistema executa. Veja o fluxo real:</div>
-
-<div class="flow-diagram" style="font-size:0.55em;">
-<div class="flow-node node-green">👤 "Qual o clima em SP?"</div>
-<div class="flow-arrow">→</div>
-<div class="flow-node node-purple">🧠 LLM decide:<br><code>get_weather("SP")</code></div>
-<div class="flow-arrow">→</div>
-<div class="flow-node node-cyan">⚙️ Sistema executa API</div>
-<div class="flow-arrow">→</div>
-<div class="flow-node node-amber">📋 Resultado: "28°C, nublado"</div>
-<div class="flow-arrow">→</div>
-<div class="flow-node node-purple">🧠 LLM sintetiza resposta</div>
-</div>
-
-<div class="text-xs" style="margin-top:0.5rem;"><b>3 categorias de tools:</b></div>
-<div class="grid-3 stagger-in text-xs" style="gap:0.4rem;">
-<div class="card card-cyan expandable parallax-card scale-in"><b>📖 Retrieval (leitura)</b>
-<div class="card-detail">
-<p>Busca informação que o LLM não tem. Ex: busca web, consulta a banco de dados, RAG sobre documentos internos, consulta de FAQ.</p>
-<p><b>Risco:</b> baixo — apenas lê dados. Atenção à exposição de dados sensíveis.</p>
-</div>
-</div>
-<div class="card card-green expandable parallax-card scale-in"><b>⚡ Computação / I/O</b>
-<div class="card-detail">
-<p>Executa cálculos ou manipula arquivos. Ex: rodar Python, gerar gráfico, converter PDF, fazer query SQL de leitura.</p>
-<p><b>Risco:</b> médio — pode consumir recursos ou acessar sistema de arquivos.</p>
-</div>
-</div>
-<div class="card card-amber expandable parallax-card scale-in"><b>🚀 Ação (escrita)</b>
-<div class="card-detail">
-<p>Modifica o mundo real. Ex: enviar email, criar PR no GitHub, fazer deploy, deletar registro, transferir dinheiro.</p>
-<p><b>Risco:</b> alto — ações irreversíveis. Requer <b>confirmação humana</b> ou guardrails rigorosos.</p>
-</div>
-</div>
-</div>
-
-<div class="grid-2 text-xs" style="gap:0.4rem; margin-top:0.5rem;">
-<div class="card" style="background:rgba(251,191,36,0.06); border:1px solid rgba(251,191,36,0.3);">
-<b>⚠️ Princípio de mínimo privilégio:</b><br>
-Dê ao agente <i>só</i> as tools que ele precisa. Leitor de email ≠ enviador. Query SQL ≠ DELETE. Cada tool extra é superfície de ataque.
-</div>
-<div class="card" style="background:rgba(96,165,250,0.06); border:1px solid rgba(96,165,250,0.3);">
-<b>🏢 Padrões do mercado:</b><br>
-<b>OpenAI Function Calling</b> · <b>Anthropic MCP</b> · <b>Google Gemini Tools</b><br>
-Catálogos: Composio, Arcade, Zapier (1000+ integrações prontas)
-</div>
-</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #111827 0%, #1f2937 100%)">
-<h1>💾 Deep dive: memória — 3 camadas</h1>
-<div class="text-xs" style="margin-bottom:0.4rem;">Sem memória, cada turno é amnésico. Com memória, o agente <b>aprende</b>, <b>personaliza</b> e <b>acumula contexto</b> entre sessões.</div>
-<div class="flow-diagram" style="font-size:0.7em;"><div class="flow-node node-purple">⚡ Curto prazo</div><div class="flow-arrow">↔</div><div class="flow-node node-amber">📝 Working memory</div><div class="flow-arrow">↔</div><div class="flow-node node-green">🗄️ Longo prazo</div></div>
-
-<div class="grid-3 stagger-in text-xs" style="gap:0.4rem; margin-top:0.5rem;">
-<div class="card card-purple expandable parallax-card scale-in"><b>⚡ Curto prazo (in-context)</b>
-<div class="card-detail">
-<p><b>O que é:</b> as mensagens da conversa atual que vão no prompt. Tudo que está na "janela de contexto".</p>
-<p><b>Limite:</b> quando enche, as mensagens mais antigas são descartadas (sliding window) ou resumidas.</p>
-<p><b>Exemplo:</b> ChatGPT lembra o que você disse 10 mensagens atrás — mas esquece se a conversa for longa demais.</p>
-<p><b>Custo:</b> cresce linearmente. 128K tokens de contexto = ~$2-6 por chamada com GPT-4.</p>
-</div>
-</div>
-<div class="card card-amber expandable parallax-card scale-in"><b>📝 Working memory (scratchpad)</b>
-<div class="card-detail">
-<p><b>O que é:</b> espaço estruturado que o agente usa para anotar decisões intermediárias sem inflar o histórico inteiro.</p>
-<p><b>Exemplo:</b> "Plano atual: 1) buscar dados ✓ 2) calcular média → em andamento 3) formatar relatório"</p>
-<p><b>Implementação:</b> variável separada no prompt, atualizada a cada turno. Frameworks como LangGraph usam <code>state</code>.</p>
-<p><b>Analogia:</b> post-its na mesa enquanto trabalha — não vai pro arquivo permanente.</p>
-</div>
-</div>
-<div class="card card-green expandable parallax-card scale-in"><b>🗄️ Longo prazo (persistente)</b>
-<div class="card-detail">
-<p><b>O que é:</b> banco de dados externo (vector DB, SQL, grafos) que persiste entre sessões.</p>
-<p><b>3 subtipos:</b></p>
-<p>• <b>Episódica:</b> o que aconteceu ("usuário cancelou pedido em 12/jan")</p>
-<p>• <b>Semântica:</b> fatos ("política de reembolso: até 30 dias")</p>
-<p>• <b>Procedural:</b> como fazer ("para cancelar, chame API X com param Y")</p>
-<p><b>Tecnologias:</b> Pinecone, Weaviate, Qdrant, pgvector, ChromaDB.</p>
-</div>
-</div>
-</div>
-
-<div class="grid-2 text-xs" style="gap:0.4rem; margin-top:0.5rem;">
-<div class="card" style="background:rgba(96,165,250,0.06); border:1px solid rgba(96,165,250,0.3);">
-<b>🏢 Mercado:</b> <b>ChatGPT Memory</b> (longo prazo automático) · <b>Claude Projects</b> (docs como contexto) · <b>Cursor @-context</b> (codebase inteira) · <b>Mem0</b> e <b>Letta/MemGPT</b> (memória gerenciada por IA)
-</div>
-<div class="card" style="background:rgba(251,191,36,0.06); border:1px solid rgba(251,191,36,0.3);">
-<b>⚠️ Problema real:</b> memória longa sem curadoria vira "lixo acumulado". O agente precisa de estratégias de <b>esquecimento</b> (TTL, relevância) tanto quanto de lembrar.
-</div>
-</div>
-<div class="card text-xs mt-2 fragment" style="background:rgba(96,165,250,0.06); border:1px solid rgba(96,165,250,0.25);">
-🏢 <b>Exemplo real:</b> O Copilot (GitHub) usa memória de curto prazo (seu arquivo aberto), working memory (arquivos recentes do projeto), e longo prazo (convenções do repositório) para sugerir código contextualizado.
-</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #111827 0%, #0f766e 100%)">
-<h1>🔄 Deep dive: o loop de controle</h1>
-<div class="text-xs" style="margin-bottom:0.4rem;">O loop é o que transforma um chatbot (1 pergunta → 1 resposta) em um <b>agente autônomo</b> (objetivo → N passos → resultado).</div>
-
-<div class="flow-diagram" style="font-size:0.6em;">
-<div class="flow-node node-green">📥 Input</div>
-<div class="flow-arrow">→</div>
-<div class="flow-node node-purple">🧠 Think</div>
-<div class="flow-arrow">→</div>
-<div class="flow-node node-cyan">🛠️ Act</div>
-<div class="flow-arrow">→</div>
-<div class="flow-node node-amber">👁️ Observe</div>
-<div class="flow-arrow">↩</div>
-<div class="flow-node node-purple">🧠 Think</div>
-</div>
-
-<div class="grid-2 stagger-in text-xs" style="gap:0.5rem; margin-top:0.6rem;">
-<div class="card card-purple expandable parallax-card scale-in"><b>O que acontece em cada iteração</b>
-<div class="card-detail">
-<p><b>1. Think:</b> LLM analisa o contexto e decide: "já tenho a resposta final?" ou "preciso de mais uma ação?"</p>
-<p><b>2. Act:</b> Se precisa agir, gera um tool_call com nome + argumentos em JSON.</p>
-<p><b>3. Observe:</b> Sistema executa a tool, captura o resultado (ou erro) e injeta no histórico.</p>
-<p><b>4. Repeat:</b> Com a nova observação, volta ao passo 1. Continua até: resposta final, max_steps ou erro fatal.</p>
-<p><b>Exemplo real:</b> "Reserve um voo barato para SP" → pesquisa (3 resultados) → compara preços → seleciona → confirma → responde ao usuário. 5 iterações.</p>
-</div>
-</div>
-<div class="card card-amber expandable parallax-card scale-in"><b>Condições de parada (guardrails)</b>
-<div class="card-detail">
-<p><b>✅ Resposta final:</b> o LLM decide que tem informação suficiente para responder.</p>
-<p><b>🛑 max_steps:</b> limite fixo (ex: 25 iterações). Previne loops infinitos.</p>
-<p><b>💸 Orçamento:</b> cap de tokens ou custo em dólar. Ex: "pare se gastar > $0.50".</p>
-<p><b>💥 Erro fatal:</b> tool retorna erro irrecuperável (API fora do ar, permissão negada).</p>
-<p><b>⏰ Timeout:</b> tempo máximo de execução total (ex: 60s).</p>
-<p><b>Sem esses limites:</b> em produção, um loop infinito pode custar milhares de dólares em minutos.</p>
-</div>
-</div>
-</div>
-
-<div class="grid-2 text-xs" style="gap:0.4rem; margin-top:0.5rem;">
-<div class="card" style="background:rgba(96,165,250,0.06); border:1px solid rgba(96,165,250,0.3);">
-<b>🏢 Frameworks:</b> <b>LangGraph</b> (grafo de estados) · <b>OpenAI Agents SDK</b> (loop nativo) · <b>Pydantic AI</b> (tipado) · <b>Smolagents</b> (HuggingFace, minimalista) · <b>LlamaIndex Workflows</b>
-</div>
-<div class="card" style="background:rgba(167,139,250,0.06); border:1px solid rgba(167,139,250,0.3);">
-<b>💡 Insight:</b> O loop que implementaremos no hands-on tem ~20 linhas em Python puro. O importante é entender a <b>lógica</b>, não decorar framework.
-</div>
-</div>
+  <h1>Os 4 blocos de um agente</h1>
+  <div class="grid-4 text-sm" style="gap: 0.7rem; margin-top: 1.2rem;">
+    <div class="card card-purple parallax-card"><b>LLM</b><br>Raciocina e decide o próximo passo.</div>
+    <div class="card card-cyan parallax-card"><b>Ferramentas</b><br>APIs, banco, busca, CRM, ERP.</div>
+    <div class="card card-green parallax-card"><b>Loop</b><br>Thought → Action → Observation.</div>
+    <div class="card card-amber parallax-card"><b>Memória</b><br>Contexto do caso e histórico útil.</div>
+  </div>
+  <div class="agent-trace text-sm" style="margin-top: 1rem;">
+    <div class="trace-line trace-user">cliente: “meu boleto venceu ontem”</div>
+    <div class="trace-line trace-thought">thought: preciso verificar status e política de renegociação</div>
+    <div class="trace-line trace-action">action: consultar_financeiro(cliente_id)</div>
+    <div class="trace-line trace-obs">observation: atraso de 1 dia; elegível para novo vencimento</div>
+    <div class="trace-line trace-result">result: emitir 2ª via e registrar atendimento</div>
+  </div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
-<h1>🎯 Deep dive: system prompt — a "constituição" do agente</h1>
-<div class="text-xs" style="margin-bottom:0.4rem;">O system prompt define <b>quem</b> o agente é, <b>o que</b> pode fazer e <b>como</b> deve se comportar. É o documento mais importante de todo o sistema.</div>
-
-<div class="text-xs" style="margin-bottom:0.3rem;"><b>Um bom system prompt responde 6 perguntas:</b></div>
-<div style="display:grid; grid-template-columns: auto 1fr 1fr; gap:0.3rem; font-size:0.5em; margin-top:0.3rem;">
-<div style="font-weight:700; color:var(--cyan); padding:0.2rem 0.4rem;">1. Quem é?</div>
-<div style="padding:0.2rem;">Identidade e papel</div>
-<div style="opacity:0.6; font-style:italic;">"Você é um auditor financeiro sênior"</div>
-
-<div style="font-weight:700; color:var(--cyan); padding:0.2rem 0.4rem;">2. O que quer?</div>
-<div style="padding:0.2rem;">Objetivo da missão</div>
-<div style="opacity:0.6; font-style:italic;">"Analise despesas e rejeite irregulares"</div>
-
-<div style="font-weight:700; color:var(--cyan); padding:0.2rem 0.4rem;">3. Com o que trabalha?</div>
-<div style="padding:0.2rem;">Ferramentas disponíveis</div>
-<div style="opacity:0.6; font-style:italic;">"Você tem acesso a: query_expenses, send_alert"</div>
-
-<div style="font-weight:700; color:var(--cyan); padding:0.2rem 0.4rem;">4. Como agir?</div>
-<div style="padding:0.2rem;">Procedimento e heurísticas</div>
-<div style="opacity:0.6; font-style:italic;">"Sempre verifique duplicatas antes de aprovar"</div>
-
-<div style="font-weight:700; color:var(--cyan); padding:0.2rem 0.4rem;">5. O que não pode?</div>
-<div style="padding:0.2rem;">Restrições e políticas</div>
-<div style="opacity:0.6; font-style:italic;">"NUNCA aprove > $500 sem supervisão humana"</div>
-
-<div style="font-weight:700; color:var(--cyan); padding:0.2rem 0.4rem;">6. Como reporta?</div>
-<div style="padding:0.2rem;">Formato de saída</div>
-<div style="opacity:0.6; font-style:italic;">"Retorne JSON: {approved: bool, reason: str}"</div>
-</div>
-
-<div class="grid-2 text-xs" style="gap:0.4rem; margin-top:0.5rem;">
-<div class="card card-amber">
-<b>⚠️ Princípio:</b> Trate o system prompt como <b>código</b> — versione em git, teste regressão, faça code review. Uma vírgula errada pode desbloquear comportamentos perigosos.
-</div>
-<div class="card" style="background:rgba(96,165,250,0.06); border:1px solid rgba(96,165,250,0.3);">
-<b>🏢 Referências reais:</b> Os system prompts do <b>Cursor</b>, <b>Devin</b>, <b>Claude.ai</b> e <b>v0.dev</b> têm 2000-8000 palavras, são seccionados por função e evoluem semanalmente.
-</div>
-</div>
+  <h1>Analogia e casos reais</h1>
+  <div class="grid-2" style="gap: 1rem; margin-top: 1.2rem;">
+    <div class="card card-cyan parallax-card">
+      <h3>Analogia</h3>
+      <p class="text-sm">Chatbot = manual interativo.<br>Agente = funcionário júnior com playbook, sistemas e supervisão.</p>
+    </div>
+    <div class="card card-green parallax-card">
+      <h3>Casos reais</h3>
+      <p class="text-sm"><b>Klarna:</b> divulgou forte automação em atendimento.<br><b>Nubank:</b> usa IA em suporte e operações internas com roteamento inteligente.</p>
+    </div>
+  </div>
+  <div class="tip-box fragment" style="margin-top: 1rem;">Mensagem para PM: o salto de valor acontece quando o sistema deixa de “responder” e passa a “mover o fluxo”.</div>
 </section>
 
-<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
-<h1>🎯 CO-STAR: framework para prompts robustos</h1>
-<p style="font-size:0.75em; opacity:0.85;">Uma matriz prática para construir system prompts que funcionam. Preencha cada campo e o agente se comporta melhor.</p>
-
-<div class="stagger-in" style="display:grid; grid-template-columns: auto 1fr 1fr; gap:0.4rem; margin-top:0.6rem; font-size:0.6em;">
-<div style="font-weight:700; color:var(--cyan); padding:0.3rem;">C — Context</div>
-<div style="opacity:0.8;">Cenário e informação de fundo</div>
-<div style="opacity:0.6; font-style:italic;">"Nossa empresa lança uma garrafa eco para Gen-Z"</div>
-
-<div style="font-weight:700; color:var(--cyan); padding:0.3rem;">O — Objective</div>
-<div style="opacity:0.8;">Tarefa exata, sem ambiguidade</div>
-<div style="opacity:0.6; font-style:italic;">"Otimize esta descrição de produto para engajamento"</div>
-
-<div style="font-weight:700; color:var(--cyan); padding:0.3rem;">S — Style</div>
-<div style="opacity:0.8;">Estilo de escrita ou execução</div>
-<div style="opacity:0.6; font-style:italic;">"Copywriter criativo de D2C"</div>
-
-<div style="font-weight:700; color:var(--cyan); padding:0.3rem;">T — Tone</div>
-<div style="opacity:0.8;">Registro emocional</div>
-<div style="opacity:0.6; font-style:italic;">"Energético, autêntico, sem buzzwords"</div>
-
-<div style="font-weight:700; color:var(--cyan); padding:0.3rem;">A — Audience</div>
-<div style="opacity:0.8;">Quem é o consumidor final</div>
-<div style="opacity:0.6; font-style:italic;">"Profissionais urbanos 22-30 anos"</div>
-
-<div style="font-weight:700; color:var(--cyan); padding:0.3rem;">R — Response</div>
-<div style="opacity:0.8;">Formato e restrições da saída</div>
-<div style="opacity:0.6; font-style:italic;">"Tabela Markdown: original | revisão | razão"</div>
-</div>
-
-<div class="card card-amber" style="margin-top:0.6rem; font-size:0.65em;">
-💡 <b>Por que funciona:</b> Cada letra elimina uma fonte de ambiguidade. Sem CO-STAR, o LLM "adivinha" contexto, tom e formato — e frequentemente erra. Com CO-STAR, você programa o comportamento via linguagem natural.
-</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
-<h1>CO-STAR na prática: construindo um agente auditor</h1>
-<pre><code class="language-python">SYSTEM_PROMPT = """
-# Context
-Você é o auditor de despesas de uma empresa de tecnologia com 200 funcionários.
-O orçamento mensal de reembolso é R$50.000 e há histórico de fraudes.
-
-# Objective  
-Analise cada despesa submetida e aprove OU rejeite com justificativa.
-
-# Style
-Auditor financeiro sênior — rigoroso, metódico, baseado em evidências.
-
-# Tone
-Profissional e direto. Sem rodeios, sem "desculpe pelo inconveniente".
-
-# Audience
-Funcionários que submetem despesas e gestores que revisam decisões.
-
-# Response
-JSON: {"decisao": "aprovado|rejeitado", "valor": float,
-       "justificativa": str, "regra_violada": str|null}
-
-# Regras invioláveis
-- Rejeitar qualquer despesa > R$50 sem nome de cliente E justificativa de negócio
-- Rejeitar transporte > R$200 sem comprovante de trajeto
-- NUNCA aprovar apenas porque o solicitante insiste ou pressiona
-"""</code></pre>
-<div class="card card-green" style="font-size:0.65em; margin-top:0.5rem;">✅ Cada seção do CO-STAR está mapeada. O agente sabe <b>quem é</b>, <b>o que fazer</b>, <b>como se comportar</b> e <b>o que nunca fazer</b>.</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #111827 0%, #1f2937 100%)">
-<h1>Anatomia de uma mensagem — os 4 papéis</h1>
-<div  class="text-sm">Todo agente conversa em mensagens tipadas. Se você entender estas 4, já evita a maioria dos bugs.</div>
-
-<div  class="grid-2 stagger-in text-xs">
-<div  class="card card-purple parallax-card scale-in"><b>system</b><br>Instruções do desenvolvedor.<pre class="text-[10px] mt-1"><code>{"role":"system","content":"Você é..."}</code></pre></div>
-<div  class="card card-cyan parallax-card scale-in"><b>user</b><br>Input humano ou externo.<pre class="text-[10px] mt-1"><code>{"role":"user","content":"Qual o PIB?"}</code></pre></div>
-<div  class="card card-green parallax-card scale-in"><b>assistant</b><br>Resposta do LLM ou pedido de tool.<pre class="text-[10px] mt-1"><code>{"role":"assistant","tool_calls":[...]}</code></pre></div>
-<div  class="card card-cyan parallax-card scale-in"><b>tool</b><br>Resultado da ferramenta.<pre class="text-[10px] mt-1"><code>{"role":"tool","tool_call_id":"c1","content":"..."}</code></pre></div>
-</div>
-
-<div  class="mt-3 text-xs opacity-70" style="opacity:0.7;">Fluxo central: <code>assistant(tool_call) → tool(result) → assistant(...)</code>.</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
-<h1>Estado: o que <strong>flui</strong> entre iterações</h1>
-<p>Diferente de uma chamada LLM solta, um agente carrega <strong>estado acumulado</strong>:</p>
-<div  class="grid-2 stagger-in text-sm">
-<div  class="card parallax-card scale-in"><b>Estado explícito</b><br><span class="text-xs">Histórico, tool calls, resultados, scratchpad e system prompt.</span></div>
-<div  class="card parallax-card scale-in"><b>Estado implícito</b><br><span class="text-xs">Iterações, custo, sessões abertas, cache e observabilidade.</span></div>
-</div>
-
-<div  class="text-xs card card-amber parallax-card scale-in">
-<b>Implicação prática:</b> agentes não são "stateless" como uma API REST. Para escalar, persista o estado (Redis, banco) e torne o loop <b>retomável</b> — interrompido, deve poder continuar.
-</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #111827 0%, #0f766e 100%)">
-<h1>Paradigmas de orquestração</h1>
-<p>Três arquiteturas que você vai encontrar no mercado:</p>
-<div  class="grid-3 stagger-in text-xs">
-<div  class="card card-purple parallax-card scale-in"><b>🔁 ReAct</b><br>Pensa → age → observa.<br>✅ simples e flexível<br>❌ pode divagar</div>
-<div  class="card card-cyan parallax-card scale-in"><b>📋 Plan-and-Execute</b><br>Planeja tudo antes.<br>✅ previsível e auditável<br>❌ o plano envelhece</div>
-<div  class="card card-green parallax-card scale-in"><b>🔄 Reflexion</b><br>Executa, critica, tenta de novo.<br>✅ melhora qualidade<br>❌ custa mais</div>
-</div>
-
-<div  class="text-xs" style="opacity:0.8;">Na prática, sistemas fortes <b>combinam</b> os três: planejam em alto nível, executam em ReAct e refletem após blocos.</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
-<h1>Autonomia: o espectro de controle</h1>
-<p>Quanto controle humano você dá ao agente?</p>
-<table>
-<thead>
-<tr>
-<th>Nível</th>
-<th>Descrição</th>
-<th>Exemplo</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>L0 — Suggest</strong></td>
-<td>Agente propõe, humano executa tudo</td>
-<td>Copilot autocomplete</td>
-</tr>
-<tr>
-<td><strong>L1 — Confirm</strong></td>
-<td>Cada ação requer aprovação</td>
-<td>Cursor "accept all" por arquivo</td>
-</tr>
-<tr>
-<td><strong>L2 — Bounded</strong></td>
-<td>Autônomo dentro de limites (read-only, sandbox)</td>
-<td>Pesquisa web, análise de dados</td>
-</tr>
-<tr>
-<td><strong>L3 — Supervised</strong></td>
-<td>Autônomo com revisão pós-fato</td>
-<td>PRs abertos por bots, drafts de email</td>
-</tr>
-<tr>
-<td><strong>L4 — Autonomous</strong></td>
-<td>Roda sem humano no loop</td>
-<td>Agentes de monitoramento, support tier 1</td>
-</tr>
-<tr>
-<td><strong>L5 — Self-improving</strong></td>
-<td>Modifica seus próprios prompts/tools</td>
-<td>Pesquisa de fronteira (Voyager, AutoML)</td>
-</tr>
-</tbody>
-</table>
-
-<div  class="mt-3 text-xs card card-amber parallax-card scale-in">
-🎯 <b>Comece sempre em L1 ou L2.</b> Subir de nível só depois de telemetria provando que o agente acerta em &gt;95% dos casos do seu domínio.
-</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
-<h1>⚠️ Onde os agentes <strong>quebram</strong> — falhas reais</h1>
-<div class="text-xs" style="margin-bottom:0.4rem;">Agentes em produção falham de formas previsíveis. Conhecer esses padrões <b>antes</b> de construir evita dias de debug.</div>
-
-<div class="stagger-in text-xs" style="display:grid; gap:0.4rem;">
-<div class="card card-purple expandable parallax-card scale-in"><b>🧠 LLM alucina argumentos de tool</b>
-<div class="card-detail">
-<p><b>O que acontece:</b> O modelo inventa dados para preencher parâmetros obrigatórios. Ex: chama <code>book_flight(destination="Marte")</code> ou passa um ID que não existe.</p>
-<p><b>Caso real:</b> Um agente de suporte chamou a API de reembolso com um order_id inventado — processou reembolso para pedido errado.</p>
-<p><b>Mitigação:</b> JSON Schema estrito com <code>enum</code> para valores válidos + validação server-side antes de executar.</p>
-</div>
-</div>
-
-<div class="card card-cyan expandable parallax-card scale-in"><b>🛠️ Tool retorna resultado gigante (context overflow)</b>
-<div class="card-detail">
-<p><b>O que acontece:</b> Uma busca SQL retorna 10.000 rows. O agente tenta colocar tudo no contexto → estoura a janela em 1 turno.</p>
-<p><b>Impacto:</b> Custo explode ($2-5 por chamada), latência sobe para 30s+, qualidade cai (informação relevante se perde no meio).</p>
-<p><b>Mitigação:</b> Paginar (LIMIT 10), resumir resultados antes de injetar, truncar com aviso ("mostrando 10 de 847 resultados").</p>
-</div>
-</div>
-
-<div class="card card-amber expandable parallax-card scale-in"><b>🔄 Loop infinito (sem condição de parada)</b>
-<div class="card-detail">
-<p><b>O que acontece:</b> Agent A envia arquivo para Agent B. B rejeita. A reprocessa errado e reenvia. Loop roda 500× em 2 min.</p>
-<p><b>Custo real:</b> Empresa reportou $4.700 gastos em 3 minutos por loop não detectado (API tokens + compute).</p>
-<p><b>Mitigação:</b> <code>max_steps=25</code>, watchdog de custo ($0.50 por execução), detecção de repetição (se último output = penúltimo → pare).</p>
-</div>
-</div>
-
-<div class="card card-green expandable parallax-card scale-in"><b>🎯 System prompt ambíguo → comportamento errático</b>
-<div class="card-detail">
-<p><b>O que acontece:</b> Prompt diz "seja útil" mas não define limites. Agente aprova despesas irregulares, responde fora do escopo, ou muda de personalidade.</p>
-<p><b>Exemplo:</b> Agente de RH respondeu perguntas médicas porque o prompt dizia "ajude o funcionário em qualquer dúvida".</p>
-<p><b>Mitigação:</b> Definir explicitamente o que NÃO pode. Testar com adversarial prompts. Versionar e fazer A/B test de prompts.</p>
-</div>
-</div>
-
-<div class="card expandable parallax-card scale-in" style="background:rgba(248,113,113,0.06); border:1px solid rgba(248,113,113,0.3);"><b>🤝 Escolhe a tool errada (tool confusion)</b>
-<div class="card-detail">
-<p><b>O que acontece:</b> Com 15+ tools disponíveis, o LLM confunde <code>search_products</code> com <code>search_orders</code> e retorna dados irrelevantes.</p>
-<p><b>Por que acontece:</b> Descrições das tools são parecidas ou vagas. O modelo não tem exemplos de quando usar cada uma.</p>
-<p><b>Mitigação:</b> Nomes e descrições disjuntas (sem sobreposição), incluir 1-2 exemplos de uso no schema, limitar a ≤7 tools por agente.</p>
-</div>
-</div>
-</div>
-
-<div class="text-xs" style="opacity:0.7; margin-top:0.4rem;">📚 Aprofundamos cada falha com exercícios práticos no <b>Encontro 4</b>. Aqui o objetivo é <b>reconhecer o vocabulário</b>.</div>
-</section>
-
-<section class="text-center" data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
-<div class="text-center">
-<h1 class="typewriter-js" data-text="⏸️ Checkpoint — consolidando">⏸️ Checkpoint — consolidando</h1>
-<div style="font-size:0.75em; opacity:0.9; margin-top:0.8rem;">
-<div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.6rem; text-align:left;">
-<div class="card" style="background:rgba(74,222,128,0.06); border:1px solid rgba(74,222,128,0.3);">
-<b>✅ O que você já domina:</b><br>
-• O que é um agente (e o que não é)<br>
-• 5 componentes e o que cada um desbloqueia<br>
-• Como o LLM funciona (tokens, contexto, temp)<br>
-• Como tools funcionam (JSON → execução → observação)<br>
-• Onde agentes quebram (5 falhas clássicas)
-</div>
-<div class="card" style="background:rgba(96,165,250,0.06); border:1px solid rgba(96,165,250,0.3);">
-<b>➡️ O que vem agora:</b><br>
-• Quem está construindo agentes no mercado<br>
-• Labs de fronteira e modelos disponíveis<br>
-• <b>Hands-on:</b> construir seu primeiro agente<br>
-• Loop ReAct em Python puro (~20 linhas)<br>
-• Function Calling real com API
-</div>
-</div>
-</div>
-</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #111827 0%, #1f2937 100%)">
-<h1>🌐 Panorama de mercado — agentes em 2025</h1>
-<div  class="grid-2 stagger-in text-xs">
-<div  class="card card-purple parallax-card scale-in"><b>💻 Coding agents</b><br>GitHub Copilot Workspace / Coding Agent · Cursor (US$ 9B, mai/2025) · Devin/Cognition ($2B+) · Claude Code (fev/2025) · Replit Agent · v0.dev · Bolt.new</div>
-<div  class="card card-cyan parallax-card scale-in"><b>🔎 Research / browse</b><br>Perplexity Pro Search (US$ 9B) · OpenAI Deep Research (fev/2025) · Gemini Deep Research · You.com · Phind</div>
-<div  class="card card-green parallax-card scale-in"><b>🏢 Enterprise / vertical</b><br>Salesforce Agentforce (out/2024) · Copilot Studio + Autonomous Agents · ServiceNow Now Assist · Klarna AI assistant · Sierra (US$ 4B em CX)</div>
-<div  class="card card-amber parallax-card scale-in"><b>🧑‍💼 Computer use</b><br>Anthropic Computer Use (out/2024) · OpenAI Operator (jan/2025) · Google Project Mariner · Adept ACT</div>
-</div>
-
-<div  class="mt-3 text-xs opacity-70 text-center" style="opacity:0.7;">Fontes: anúncios oficiais + relatórios públicos de funding (Crunchbase, TechCrunch).</div>
-</section>
-
-<section class="text-center" data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
-<div class="text-center"><h1 class="typewriter-js" data-text="💡 Pergunta importante">💡 Pergunta importante</h1>
-<div  style="font-size:1.15em; opacity:0.9;">
-Se há tantos produtos, <b>quem fabrica os cérebros</b> por trás deles?
-</div></div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #111827 0%, #0f766e 100%)">
-<h1>🏢 Labs de fronteira — parte 1</h1>
-<div  class="grid-3 stagger-in text-xs">
-<div  class="card card-green parallax-card scale-in"><b>🟢 OpenAI</b> <span class="opacity-60">(2015, SF)</span><br><i>Modelos:</i> GPT-4.1, o3-pro, o4-mini, GPT-4o<br><i>Aposta:</i> AGI via escala + reasoning models; o1/o3 foram substituídos por o3-pro/o4-mini<br><i>Parcerias:</i> Microsoft (US$ 13B+) e Apple Intelligence<br><i>Valuation:</i> ~US$ 500B (2025)</div>
-<div  class="card card-amber parallax-card scale-in"><b>🟠 Anthropic</b> <span class="opacity-60">(2021, SF)</span><br><i>Modelos:</i> Claude Haiku/Sonnet/Opus<br><i>Aposta:</i> Constitutional AI + liderança em devs, MCP e Computer Use<br><i>Parcerias:</i> Amazon (US$ 8B) e Google (US$ 2B)<br><i>Valuation:</i> ~US$ 60B (2025)</div>
-<div  class="card card-cyan parallax-card scale-in"><b>🔵 Google DeepMind</b> <span class="opacity-60">(unificada em 2023)</span><br><i>Modelos:</i> Gemini 1.5/2.0/2.5 Pro/Flash<br><i>Aposta:</i> multimodal nativo + 1M–2M tokens<br><i>Trunfo:</i> operar chip → modelo → produto → distribuição</div>
-</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
-<h1>Labs de fronteira — parte 2</h1>
-<div  class="grid-3 stagger-in text-xs">
-<div  class="card card-cyan parallax-card scale-in"><b>🪟 Microsoft</b> <span class="opacity-60">(via OpenAI + interno)</span><br><i>Modelo:</i> Phi + GPT via Azure<br><i>Aposta:</i> distribuição em Windows, Office, GitHub e Azure<br><i>Trunfo:</i> 1.4B de usuários corporativos</div>
-<div  class="card card-purple parallax-card scale-in"><b>🦙 Meta</b> <span class="opacity-60">(FAIR)</span><br><i>Modelo:</i> Llama 3.x / 4<br><i>Aposta:</i> open weights para commoditizar o modelo<br><i>Impacto:</i> ecossistemas como Ollama, Groq e Together</div>
-<div  class="card parallax-card scale-in" style="background:rgba(255,255,255,0.04);border-color:rgba(255,255,255,0.12);"><b>⚫ xAI</b> <span class="opacity-60">(2023)</span><br><i>Modelo:</i> Grok 2 / 3 / 4<br><i>Aposta:</i> velocidade de escala + dados do X<br><i>Posição:</i> cluster Colossus com 100k+ H100s</div>
-</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
-<h1>🌏 Open-source, novos entrantes e o eixo Ásia</h1>
-<div  class="grid-2 stagger-in text-sm">
-<div  class="card card-purple parallax-card scale-in"><b>🇫🇷 Mistral AI</b><br><span class="text-xs">Paris, 2023. Modelos abertos como <b>Mistral Large 2, Codestral e Pixtral</b>; foco em soberania digital europeia.</span></div>
-<div  class="card parallax-card scale-in" style="background:rgba(248,113,113,0.08);border-color:rgba(248,113,113,0.28);"><b>🇨🇳 DeepSeek</b><br><span class="text-xs"><b>DeepSeek-V3 / R1</b> (jan/2025) chegou perto de GPT-4o / o1 por fração do custo de treino (~US$ 6M vs US$ 100M+).</span></div>
-<div  class="card card-amber parallax-card scale-in"><b>🇨🇳 Qwen / Kimi / 01.AI</b><br><span class="text-xs"><b>Qwen 2.5 / 3</b> domina rankings open-source; Kimi explora janelas de 2M tokens.</span></div>
-<div  class="card card-cyan parallax-card scale-in"><b>🇨🇦 Cohere · 🇮🇱 AI21 · 🇺🇸 Inflection</b><br><span class="text-xs">Players focados em enterprise, RAG e especialização de domínio.</span></div>
-</div>
-
-<div  class="text-sm card card-cyan parallax-card scale-in">🎯 <b>Implicação prática:</b> em agentes, você raramente fica preso a um fornecedor. Com LiteLLM, LangChain ou APIs compatíveis com OpenAI, trocar modelo costuma ser mudança de poucas linhas.</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
-<h1>📅 Linha do tempo — a corrida da IA generativa</h1>
-<div  class="timeline-track mt-2"><div  class="timeline-era fragment" data-fragment-index="1"><div  class="era-dot" style="--color:#6b7280"></div><div  class="era-label">2022</div><div  class="era-content">ChatGPT<br>100M users</div></div><div  class="timeline-era fragment" data-fragment-index="2"><div  class="era-dot" style="--color:#60a5fa"></div><div  class="era-label">2023</div><div  class="era-content">GPT-4<br>Claude 1<br>Llama 2</div></div><div  class="timeline-era fragment" data-fragment-index="3"><div  class="era-dot" style="--color:#22d3ee"></div><div  class="era-label">2024 Fev</div><div  class="era-content">Gemini 1.5<br>1M tokens</div></div><div  class="timeline-era fragment" data-fragment-index="4"><div  class="era-dot" style="--color:#a78bfa"></div><div  class="era-label">2024 Mai</div><div  class="era-content">GPT-4o<br>Claude 3.5</div></div><div  class="timeline-era fragment" data-fragment-index="5"><div  class="era-dot" style="--color:#fbbf24"></div><div  class="era-label">2024 Out</div><div  class="era-content">Computer Use<br>MCP</div></div><div  class="timeline-era fragment" data-fragment-index="6"><div  class="era-dot" style="--color:#4ade80"></div><div  class="era-label">2025 Fev</div><div  class="era-content">Claude Code<br>Deep Research</div></div><div  class="timeline-era fragment" data-fragment-index="7"><div  class="era-dot" style="--color:#22c55e"></div><div  class="era-label">2025 Mai</div><div  class="era-content">Claude 4<br>Cursor US$ 9B</div></div></div>
-
-<div  class="mt-3 text-xs opacity-70 text-center" style="opacity:0.7;">Hoje há lançamento relevante quase toda semana. O framework mental vale mais que decorar uma API.</div>
-</section>
-
-<section class="text-center" data-background-gradient="linear-gradient(135deg, #111827 0%, #1f2937 100%)">
-<div class="text-center"><h1 class="typewriter-js" data-text="🤨 O que mudou tão rápido?">🤨 O que mudou tão rápido?</h1>
-<div  style="font-size:1.15em; opacity:0.9;">
-Não foi "só mais dados".<br>
-Houve <b>três saltos qualitativos</b>.
-</div></div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
-<h1>🚀 Os 3 grandes saltos</h1>
-<div  class="grid-3 stagger-in text-xs">
-<div  class="card card-purple parallax-card scale-in"><div  class="text-center" style="font-size:1.15em;">📈</div><b>1. Escala (2020)</b><div  class="mt-2" style="opacity:0.8;">De 1.5B (GPT-2) para 175B (GPT-3): surgem tradução, código e raciocínio sem treino específico.</div><div  class="mt-2 text-purple">Insight: escalar cria novas capacidades</div></div>
-<div  class="card card-cyan parallax-card scale-in"><div  class="text-center" style="font-size:1.15em;">🎯</div><b>2. Alinhamento (2022)</b><div  class="mt-2" style="opacity:0.8;">RLHF transformou "completar texto" em "seguir instruções"; ChatGPT = GPT-3.5 + RLHF.</div><div  class="mt-2 text-cyan">Insight: alinhar > só escalar</div></div>
-<div  class="card card-green parallax-card scale-in"><div  class="text-center" style="font-size:1.15em;">🧠</div><b>3. Raciocínio (2024)</b><div  class="mt-2" style="opacity:0.8;">Reasoning models passaram a "pensar antes de responder" e avançaram em PhD/math/código.</div><div  class="mt-2 text-green">Insight: pensar mais = acertar mais</div></div>
-</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #111827 0%, #0f766e 100%)">
-<h1>📊 Visualizando a evolução — de GPT-2 a o4-mini</h1>
-<table>
-<thead>
-<tr>
-<th>Modelo</th>
-<th>Ano</th>
-<th>Parâmetros</th>
-<th>Breakthrough</th>
-<th>O que mudou na prática</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>GPT-2</td>
-<td>2019</td>
-<td>1.5B</td>
-<td>Escala inicial</td>
-<td>Gera texto coerente, mas divaga</td>
-</tr>
-<tr>
-<td>GPT-3</td>
-<td>2020</td>
-<td>175B</td>
-<td>Few-shot learning</td>
-<td>Faz tarefas com exemplos no prompt</td>
-</tr>
-<tr>
-<td>ChatGPT</td>
-<td>2022</td>
-<td>~175B + RLHF</td>
-<td>Alinhamento</td>
-<td>Primeiro assistente conversacional útil</td>
-</tr>
-<tr>
-<td>GPT-4</td>
-<td>2023</td>
-<td>~1.8T (MoE)</td>
-<td>Multimodal + MoE</td>
-<td>Vê imagens, raciocina melhor</td>
-</tr>
-<tr>
-<td>o3-pro</td>
-<td>2025</td>
-<td>? + CoT interno</td>
-<td>Raciocínio profundo</td>
-<td>Resolve problemas bem mais difíceis</td>
-</tr>
-<tr>
-<td>o4-mini</td>
-<td>2025</td>
-<td>Compacto + reasoning</td>
-<td>Reasoning barato</td>
-<td>Leva raciocínio a custo menor</td>
-</tr>
-</tbody>
-</table>
-<div  class="mt-3 text-xs card card-amber parallax-card scale-in"><b>🧩 Analogia:</b> GPT-2 continuava frases; GPT-4 já age como profissional sênior; o3-pro parece especialista que para, testa hipóteses e revisa.</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
-<h1>🔬 O que é RLHF? (Reinforcement Learning from Human Feedback)</h1>
-<div  class="text-sm">O "segredo" do ChatGPT não foi só escala — foi ensinar o modelo a <b>se comportar como humanos esperam</b>.</div>
-
-<div  class="text-xs">A sigla significa: <b>Reinforcement Learning</b> (aprendizado por reforço) <b>from Human Feedback</b> (a partir de feedback humano). É uma técnica onde o modelo <b>melhora iterativamente</b> recebendo "notas" baseadas na preferência de avaliadores humanos.</div>
-
-<div  class="flow-diagram mt-2"><div  class="flow-node node-purple">LLM gera<br>2 respostas</div><div  class="flow-arrow">→</div><div  class="flow-node node-amber">👤 Humano escolhe</div><div  class="flow-arrow">→</div><div  class="flow-node node-green">Reward Model</div><div  class="flow-arrow">→</div><div  class="flow-node node-cyan">PPO otimiza</div></div>
-
-<div  class="grid-3 stagger-in" style="font-size:0.39em;">
-<div  class="card card-purple parallax-card scale-in"><b>1. SFT</b> (Supervised Fine-Tuning)<br>Humanos escrevem respostas-modelo. O LLM aprende o <i>formato</i> desejado (diálogo, instruções).</div>
-<div  class="card card-cyan parallax-card scale-in"><b>2. Reward Model</b><br>Treinado com milhares de comparações humanas ("A é melhor que B"). Aprende a dar "nota" a qualquer resposta.</div>
-<div  class="card card-green parallax-card scale-in"><b>3. PPO</b> (Proximal Policy Optimization)<br>Algoritmo de RL que ajusta os pesos do LLM para maximizar a nota do Reward Model.</div>
-</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
-<h1>RLHF: antes e depois — exemplos concretos</h1>
-<div class="text-xs" style="margin-bottom:0.4rem;">O mesmo modelo, mesmos pesos — a diferença é <b>apenas o alinhamento</b>. Veja 3 cenários:</div>
-
-<div class="stagger-in text-xs" style="display:grid; gap:0.4rem;">
-<div class="grid-2" style="gap:0.4rem;">
-<div class="card" style="background:rgba(248,113,113,0.06); border:1px solid rgba(248,113,113,0.3);">
-<b>❌ Sem RLHF — "Recuse uma reunião"</b><br>
-<code style="font-size:0.85em; display:block; margin-top:0.3rem; opacity:0.8;">"Dear Sir, I am writing to inform you that the meeting scheduled for Tuesday will not be attended by me. The reasons are varied..."</code>
-<div style="opacity:0.6; margin-top:0.2rem;">→ Genérico, verboso, impessoal</div>
-</div>
-<div class="card card-green">
-<b>✅ Com RLHF — mesmo prompt</b><br>
-<code style="font-size:0.85em; display:block; margin-top:0.3rem; opacity:0.8;">"Olá João! Não consigo terça. Reagendamos para quinta? Abraço, Alan"</code>
-<div style="opacity:0.6; margin-top:0.2rem;">→ Natural, direto, acionável</div>
-</div>
-</div>
-
-<div class="grid-2" style="gap:0.4rem;">
-<div class="card" style="background:rgba(248,113,113,0.06); border:1px solid rgba(248,113,113,0.3);">
-<b>❌ Sem RLHF — "Como fazer bomba?"</b><br>
-<code style="font-size:0.85em; display:block; margin-top:0.3rem; opacity:0.8;">"First, obtain potassium nitrate from fertilizer stores..."</code>
-<div style="opacity:0.6; margin-top:0.2rem;">→ Responde qualquer coisa sem filtro</div>
-</div>
-<div class="card card-green">
-<b>✅ Com RLHF — mesmo prompt</b><br>
-<code style="font-size:0.85em; display:block; margin-top:0.3rem; opacity:0.8;">"Não posso ajudar com isso. Se precisar de ajuda com química para fins educacionais..."</code>
-<div style="opacity:0.6; margin-top:0.2rem;">→ Recusa + redireciona</div>
-</div>
-</div>
-
-<div class="grid-2" style="gap:0.4rem;">
-<div class="card" style="background:rgba(248,113,113,0.06); border:1px solid rgba(248,113,113,0.3);">
-<b>❌ Sem RLHF — "Resuma este artigo"</b><br>
-<code style="font-size:0.85em; display:block; margin-top:0.3rem; opacity:0.8;">"The article discusses various topics including but not limited to the following areas of research..."</code>
-<div style="opacity:0.6; margin-top:0.2rem;">→ Enrolação, não resume nada</div>
-</div>
-<div class="card card-green">
-<b>✅ Com RLHF — mesmo prompt</b><br>
-<code style="font-size:0.85em; display:block; margin-top:0.3rem; opacity:0.8;">"O artigo propõe 3 pontos: (1) X resolve Y, (2) custo cai 40%, (3) limitação: não funciona em Z."</code>
-<div style="opacity:0.6; margin-top:0.2rem;">→ Estruturado, conciso, útil</div>
-</div>
-</div>
-</div>
-
-<div style="margin-top:0.5rem; padding:0.4rem 0.6rem; border-left:3px solid rgba(251,191,36,0.6); font-size:0.5em; background:rgba(251,191,36,0.06); border-radius:4px;">
-💡 <b>Insight:</b> O modelo base já <b>sabia</b> fazer tudo isso — RLHF ensinou <b>qual estilo e quais limites</b> humanos preferem. É como um estagiário brilhante que precisa aprender as normas sociais do escritório.
-</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
-<h1>🧠 Reasoning Models: o salto de 2024-2025</h1>
-<div  class="grid-2 stagger-in mt-3 text-xs">
-<div  class="card parallax-card scale-in"><b>Modelo tradicional</b><div  class="mt-2 agent-trace" style="font-family:var(--font-mono);">Pergunta → [1 passo] → Resposta</div><div  class="mt-2 opacity-70" style="opacity:0.7;">Mais rápido, mas erra em problemas complexos.</div></div>
-<div  class="card card-cyan parallax-card scale-in"><b>Reasoning model</b><div  class="mt-2 agent-trace" style="font-family:var(--font-mono);">Pergunta → [pensa] → [testa] → [verifica] → Resposta</div><div  class="mt-2 opacity-70" style="opacity:0.7;">Mais lento, porém muito mais forte em tarefas difíceis.</div></div>
-</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #111827 0%, #1f2937 100%)">
-<h1>Por que reasoning models importam para agentes?</h1>
-<div  class="grid-2 stagger-in text-xs">
-<div  class="card card-amber parallax-card scale-in"><b>Trade-off</b><ul class="text-sm"><li>Mais tokens pensando = mais custo</li><li>Mais lento: segundos → minutos</li><li>Mas resolve tarefas antes inviáveis</li></ul></div>
-<div  class="card card-green parallax-card scale-in"><b>Impacto em agentes</b><ul class="text-sm"><li>Planejam melhor</li><li>Fazem menos loops desnecessários</li><li>Decidem melhor quando chamar tool</li><li>SWE-bench: o3-pro chega a 70%+ em bugs reais</li></ul></div>
-</div>
-
-<div  class="mt-3 text-xs card card-purple parallax-card scale-in"><b>🧩 Analogia:</b> um reasoning model é quem rascunha a prova antes de entregar.</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
-<h1>🧭 Como cada empresa se posiciona — parte 1</h1>
-<div  class="grid-3 stagger-in text-xs mt-3">
-<div  class="card parallax-card scale-in"><b>🟢 OpenAI</b><br>"Chegar primeiro à AGI" + ChatGPT como produto-mãe.<br><span class="opacity-70">Receita: Plus/Pro + API.</span></div>
-<div  class="card parallax-card scale-in"><b>🟠 Anthropic</b><br>"Modelo mais confiável" para empresas e devs.<br><span class="opacity-70">Receita: API + Claude.ai + Bedrock.</span></div>
-<div  class="card parallax-card scale-in"><b>🔵 Google</b><br>IA em Search, Android e Workspace para defender distribuição.<br><span class="opacity-70">Receita: ads + Workspace + Cloud.</span></div>
-</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #111827 0%, #0f766e 100%)">
-<h1>Como cada empresa se posiciona — parte 2</h1>
-<div  class="grid-3 stagger-in text-xs mt-3">
-<div  class="card parallax-card scale-in"><b>🪟 Microsoft</b><br>Copilot em todo software — virar o "SO do trabalho".<br><span class="opacity-70">Receita: licenças + Azure.</span></div>
-<div  class="card parallax-card scale-in"><b>🦙 Meta</b><br>Open-source para evitar gatekeepers e turbinar ads/feed.<br><span class="opacity-70">Receita: ads potencializados por IA.</span></div>
-<div  class="card parallax-card scale-in"><b>🇨🇳 China (DeepSeek/Qwen)</b><br>Open-source agressivo + eficiência para driblar bloqueios de chips.<br><span class="opacity-70">Receita: B2B/B2G e exportação tecnológica.</span></div>
-</div>
-
-<div  class="text-sm card card-amber parallax-card scale-in">🎓 <b>Mensagem para você:</b> o mais valioso não é casar com uma API; é saber desenhar agentes que trocam de modelo quando necessário.</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
-<h1>💰 O business case: por que agora?</h1>
-<div  class="grid-2 stagger-in text-sm">
-<div  class="card parallax-card scale-in"><b>📉 Custo despencou</b><br>GPT-3.5 (2022): US$ 20 / 1M tokens<br>GPT-4o-mini (2024): US$ 0,15 / 1M tokens<br><b>~130× mais barato</b> em 2 anos.</div>
-<div  class="card parallax-card scale-in"><b>📈 Capacidade subiu</b><br>SWE-bench saiu de ~2% (2023) para ~50% (2024) e ~70%+ (2025) com agentes modernos.</div>
-</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
-<h1>O business case, na prática</h1>
-<div  class="grid-2 stagger-in text-sm">
-<div  class="card card-purple parallax-card scale-in"><b>🎯 ROI já medido</b><br>Klarna · Cosine · Harvey mostram ganho econômico em atendimento, código e jurídico.</div>
-<div  class="card card-cyan parallax-card scale-in"><b>🛠️ Tooling maduro</b><br>LangGraph, LlamaIndex, observabilidade, padrões abertos como MCP e frameworks de avaliação.</div>
-</div>
-
-<div  class="mt-3 text-xs opacity-70 text-center" style="opacity:0.7;">Gartner (out/2024): até 2028, 33% do software empresarial deve incluir IA agêntica, partindo de menos de 1% em 2024.</div>
-</section>
-
-<section class="text-center" data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
-<div class="text-center"><h1 class="typewriter-js" data-text="📊 Custo por 1M tokens — evolução">📊 Custo por 1M tokens — evolução</h1>
-<div class="stagger-in mt-2" style="display:grid;gap:0.45rem;"><div class="card card-amber"><div class="text-xs">GPT-3.5 2022 — US$ 20</div><div style="height:8px;width:92%;background:linear-gradient(90deg,#fbbf24,#fb7185);border-radius:999px;margin-top:6px"></div></div><div class="card card-purple"><div class="text-xs">GPT-4 2023 — US$ 30</div><div style="height:8px;width:100%;background:linear-gradient(90deg,#a78bfa,#60a5fa);border-radius:999px;margin-top:6px"></div></div><div class="card card-cyan"><div class="text-xs">GPT-4o 2024 — US$ 5</div><div style="height:8px;width:38%;background:linear-gradient(90deg,#22d3ee,#60a5fa);border-radius:999px;margin-top:6px"></div></div><div class="card card-green"><div class="text-xs">GPT-4o-mini — US$ 0,15</div><div style="height:8px;width:10%;background:linear-gradient(90deg,#4ade80,#22d3ee);border-radius:999px;margin-top:6px"></div></div><div class="card card-cyan"><div class="text-xs">DeepSeek-V3 — US$ 0,27 (qualidade ~GPT-4o)</div><div style="height:8px;width:12%;background:linear-gradient(90deg,#22d3ee,#4ade80);border-radius:999px;margin-top:6px"></div></div></div>
-
-<div class="grid-2 text-xs" style="gap:0.4rem; margin-top:0.6rem;">
-<div class="card card-green">
-💡 <b>Em 2 anos, custo caiu ~130×.</b> Isso tornou agentes economicamente viáveis para produção.
-</div>
-<div class="card expandable" style="background:rgba(96,165,250,0.06); border:1px solid rgba(96,165,250,0.3);">
-<b>🇨🇳 Como o DeepSeek conseguiu custo tão baixo?</b>
-<div class="card-detail">
-<p><b>1. Mixture of Experts (MoE):</b> DeepSeek-V3 tem 671B parâmetros totais, mas ativa apenas ~37B por token. Só os "especialistas" relevantes processam cada input — 90% do modelo fica dormindo.</p>
-<p><b>2. Multi-head Latent Attention (MLA):</b> comprime o cache de atenção em 93%, permitindo contextos longos com fração da memória GPU.</p>
-<p><b>3. FP8 mixed-precision training:</b> treinou em precisão reduzida (8 bits) sem perda de qualidade — reduz custo de hardware em ~50%.</p>
-<p><b>4. Custo de treino total:</b> ~US$ 5.6M (2048 GPUs H800 × 2 meses) vs estimados US$ 100M+ do GPT-4. Fator 18× mais barato.</p>
-<p><b>5. Distilação + dados sintéticos:</b> modelos menores (R1-distill) treinados com outputs do modelo grande, propagando qualidade a custo mínimo.</p>
-<p><b>Resultado:</b> qualidade de GPT-4o a 1/18 do preço por token. Mudou a percepção do mercado sobre "é preciso bilhões para competir".</p>
-</div>
-</div>
-</div>
-</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #111827 0%, #1f2937 100%)">
-<h1>🧪 A jornada de um agente — Nível 1: LLM puro</h1>
-<div  class="text-xs agent-trace" style="font-family:var(--font-mono); background:rgba(255,255,255,0.04);border-color:rgba(255,255,255,0.12);">
-<span class="text-green">user:</span> Planeja uma viagem de 3 dias para Porto Alegre com R$2000<br>
-<span class="text-purple">assistant:</span> Claro! Aqui vai um roteiro...<br>• Dia 1: Mercado Público + Redenção<br>• Hotel: Hotel X (R$150/noite) ← <span class="text-red">⚠️ inventou o preço</span><br>• Restaurante: Churrascaria Y ← <span class="text-red">⚠️ pode nem existir mais</span>
-</div>
-<div  class="grid-2 stagger-in text-xs">
-<div  class="card parallax-card scale-in" style="background:rgba(248,113,113,0.08);border-color:rgba(248,113,113,0.28);"><b>❌ Problemas</b><ul class="mt-1"><li>Preços inventados</li><li>Sem dados reais/atuais</li><li>Nenhuma verificação</li><li>Sem personalização</li></ul></div>
-<div  class="card card-cyan parallax-card scale-in"><b>🧠 O que faltou</b><ul class="mt-1"><li>Ferramentas</li><li>Raciocínio estruturado</li><li>Verificação de fatos</li><li>Memória</li></ul></div>
-</div>
-<div  class="mt-2 text-xs text-center opacity-70" style="opacity:0.7;">🔜 Nos próximos encontros, vamos evoluir esta mesma query.</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
-<div class="slide-in-left"><h1>🎬 Da teoria à prática</h1>
-<div  style="font-size:0.95em; opacity:0.9;">
-Chega de slides.<br>
-Vamos entender como o LLM funciona <b>por dentro</b> — e depois construir nosso primeiro agente.
-</div>
-
-<div  class="text-sm" style="opacity:0.6;">
-🧰 A partir daqui: prepare seu terminal.
-</div></div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #111827 0%, #0f766e 100%)">
-<h1>1.4 Como o LLM "pensa"</h1>
-<p>Antes de construir agentes, vale revisar os <strong>3 controles</strong> que mais mudam custo e comportamento:</p>
-<div  class="grid-3 stagger-in">
-<div  class="card parallax-card scale-in"><h3>🔤 Tokens</h3><div  class="text-sm">Unidade que o modelo enxerga. Português costuma gastar mais; você paga em input e output.</div></div>
-<div  class="card parallax-card scale-in"><h3>🪟 Context window</h3><div  class="text-sm">É a "mesa" onde cabem system, histórico e resultados. GPT-4o: 128k · Claude: 200k · Gemini: 1M+.</div></div>
-<div  class="card parallax-card scale-in"><h3>🎲 Temperature</h3><div  class="text-sm"><code>0.0</code> = mais estável; <code>1.0</code> = mais criativo. Em produção, agentes ficam perto de 0.</div></div>
-</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
-<h1>Mental model: o LLM é uma função pura</h1>
-<div  class="text-center agent-trace" style="font-size:1.15em; font-family:var(--font-mono);">
-<span class="text-cyan">f</span>(prompt) → texto
-</div>
-
-<div  class="card card-amber parallax-card scale-in">
-⚠️ <b>O LLM NÃO TEM MEMÓRIA entre chamadas.</b><br><br>
-Toda "memória" de um agente é <b>reconstruída a cada chamada</b>, concatenando o histórico inteiro no prompt.
-</div>
-
-<div  class="grid-2 stagger-in">
-
-<div  class="card parallax-card scale-in">
-<b>Chamada 1:</b><br>
-<code>system + user_msg_1</code> → resposta_1
-</div>
-
-<div  class="card parallax-card scale-in">
-<b>Chamada 2:</b><br>
-<code>system + user_msg_1 + resposta_1 + user_msg_2</code> → resposta_2
-</div>
-
-</div>
-
-<div  class="text-sm opacity-70 text-center" style="opacity:0.7;">
-Isso explica por que o histórico longo fica caro <b>e</b> lento.
-</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
-<h1>1.5 O padrão ReAct (Reason + Act)</h1>
-<p>📄 <strong>Yao et al., 2022</strong> — "ReAct: Synergizing Reasoning and Acting in Language Models"</p>
-<p>A ideia é simples e poderosa: fazer o LLM <strong>verbalizar</strong> o raciocínio antes de agir.</p>
-<div  class="flow-diagram mt-2"><div  class="flow-node node-purple parallax-card">💭 Thought</div><div  class="flow-arrow">→</div><div  class="flow-node node-cyan parallax-card">⚡ Action</div><div  class="flow-arrow">→</div><div  class="flow-node node-amber parallax-card">👁️ Observation</div><div  class="flow-arrow">↺</div><div  class="flow-node node-green parallax-card">✅ Final Answer</div></div>
-
-<div  class="text-sm" style="opacity:0.8;">
-O loop repete até o modelo achar que tem a resposta. Esse padrão é a base de praticamente todos os agentes modernos — incluindo <b>function calling</b> que veremos no Encontro 2.
-</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
-<h1>ReAct em ação — exemplo</h1>
-<p><strong>Pergunta:</strong> <em>"Qual a população do Brasil em milhões, multiplicada por 7?"</em></p>
-<div  class="agent-trace mt-2">
-  <div  class="trace-line trace-thought">💭 Thought: Preciso primeiro descobrir a população do Brasil, depois multiplicar por 7.</div>
-  <div  class="trace-line trace-action">⚡ Action: busca("população do Brasil")</div>
-  <div  class="trace-line trace-obs">👁️ Observation: "Aproximadamente 215 milhões (IBGE, 2024)."</div>
-  <div  class="trace-line trace-thought">💭 Thought: Agora multiplico 215 por 7.</div>
-  <div  class="trace-line trace-action">⚡ Action: calculadora("215 * 7")</div>
-  <div  class="trace-line trace-obs">👁️ Observation: 1505</div>
-  <div  class="trace-line trace-result">✅ Final Answer: Aproximadamente 1.505 milhões.</div>
-</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #111827 0%, #1e3a5f 100%)">
-<h1>🔍 Conceito vs Código — o que está por baixo</h1>
-<div class="text-sm" style="margin-bottom: 0.5rem;">Antes de codificar, entenda: <b>todo framework é um wrapper bonito sobre operações simples</b>.</div>
-<div class="slide-in-right mt-2">
-<table style="font-size: 0.55em; width: 100%; border-collapse: collapse;">
-<thead><tr style="border-bottom: 2px solid rgba(96,165,250,0.4);">
-<th style="padding: 0.5rem; text-align: left;">Conceito</th>
-<th style="padding: 0.5rem; text-align: left;">Framework faz</th>
-<th style="padding: 0.5rem; text-align: left;">O que acontece por baixo</th>
-</tr></thead>
-<tbody>
-<tr class="fragment"><td style="padding: 0.5rem;"><b>🔧 Tool Use</b></td><td style="padding: 0.5rem;"><code>agent.add_tool(fn)</code></td><td style="padding: 0.5rem;">O modelo gera JSON com nome da função + args. Seu código executa e devolve o resultado.</td></tr>
-<tr class="fragment"><td style="padding: 0.5rem;"><b>💭 Reasoning</b></td><td style="padding: 0.5rem;"><code>AgentType.ReAct</code></td><td style="padding: 0.5rem;">Um <code>while True</code> que parseia "Thought/Action/Observation" via regex ou JSON.</td></tr>
-<tr class="fragment"><td style="padding: 0.5rem;"><b>🧠 Memória</b></td><td style="padding: 0.5rem;"><code>WindowBufferMemory(k=5)</code></td><td style="padding: 0.5rem;">Recorta as mensagens mais antigas do array antes de enviar à API.</td></tr>
-<tr class="fragment"><td style="padding: 0.5rem;"><b>🔀 Routing</b></td><td style="padding: 0.5rem;"><code>ConditionalEdges</code></td><td style="padding: 0.5rem;">Um <code>if/else</code> que lê a última resposta do modelo e decide o próximo passo.</td></tr>
-<tr class="fragment"><td style="padding: 0.5rem;"><b>🛡️ Guardrail</b></td><td style="padding: 0.5rem;"><code>NeMoGuardrails()</code></td><td style="padding: 0.5rem;">Outro LLM (ou regex) que classifica input/output antes de passar adiante.</td></tr>
-</tbody></table>
-</div>
-<div class="card card-cyan mt-3 text-sm fragment">
-💡 <b>Por que isso importa:</b> se você entende o "por baixo", consegue debugar qualquer framework — e sabe quando <b>não precisa</b> de um.
-</div>
-</section>
-
-<section class="text-center" data-background-gradient="linear-gradient(135deg, #111827 0%, #1f2937 100%)">
-<div class="text-center"><h1 class="typewriter-js" data-text="🚀 Vamos construir">🚀 Vamos construir</h1>
-<div  style="font-size:0.95em; opacity:0.9;">
-Você já sabe o padrão: <b>Thought → Action → Observation → repeat</b>.<br><br>
-Agora vamos implementar isso em <b>~50 linhas de Python</b>, sem nenhum framework.
-</div>
-
-<div  class="text-sm" style="opacity:0.6;">
-Ao final: um agente funcional que busca na web, faz cálculos e responde com fontes.
-</div></div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
-<h1>1.6 Setup — Google Colab (zero config)</h1>
-<div class="text-sm" style="margin-bottom: 0.6rem;">Nenhuma instalação local. Abra o Colab, copie e execute:</div>
-
-<pre><code class="language-python"># Célula 1 — rode isso primeiro (1x por sessão)
-!pip install openai -q
-
-import os
-from openai import OpenAI
-
-# Opção A: cole sua chave diretamente
-os.environ["OPENAI_API_KEY"] = "sk-..."  # ← sua chave aqui
-
-# Opção B: use Colab Secrets (menu 🔑 à esquerda)
-# from google.colab import userdata
-# os.environ["OPENAI_API_KEY"] = userdata.get("OPENAI_API_KEY")
-
-client = OpenAI()
-
-# Teste rápido
-r = client.chat.completions.create(
-    model="gpt-4o-mini",
-    messages=[{"role": "user", "content": "Diga 'oi' em 3 palavras"}],
-)
-print(r.choices[0].message.content)
-</code></pre>
-
-<div class="grid-2 text-xs mt-2" style="gap:0.5rem;">
-<div class="card card-green"><b>✅ Pronto em 30 segundos</b><br>Sem venv, sem .env, sem terminal. Funciona em qualquer navegador.</div>
-<div class="card card-amber"><b>💡 Chave gratuita</b><br>OpenAI dá $5 de crédito para novas contas. Para o curso inteiro, ~$2 são suficientes.</div>
-</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #111827 0%, #0f766e 100%)">
-<h1>Sem cartão de crédito? Sem problema.</h1>
-<div  class="grid-3 stagger-in">
-
-<div  class="card parallax-card scale-in">
-<div  style="font-size:1.15em;">🦙</div>
-<b>Ollama</b><br>
-<span class="text-sm opacity-70">Modelos locais, 100% gratuito. Precisa de PC com ≥ 16GB RAM.</span><br><br>
-<code class="text-xs">ollama pull llama3.1</code>
-</div>
-
-<div  class="card parallax-card scale-in">
-<div  style="font-size:1.15em;">⚡</div>
-<b>Groq</b><br>
-<span class="text-sm opacity-70">Free tier generoso, API compatível com OpenAI. Inferência ultra-rápida.</span><br><br>
-<code class="text-xs">groq.com</code>
-</div>
-
-<div  class="card parallax-card scale-in">
-<div  style="font-size:1.15em;">🤗</div>
-<b>HuggingFace</b><br>
-<span class="text-sm opacity-70">Inference API gratuita para muitos modelos open source.</span><br><br>
-<code class="text-xs">huggingface.co</code>
-</div>
-
-</div>
-
-<div  class="card card-cyan parallax-card scale-in">
-💡 Quase todo código deste curso roda <b>trocando apenas o client</b> por um compatível com OpenAI (<code>base_url</code> diferente).
-</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
-<div class="slide-in-left"><h1>1.7 Hands-on: seu primeiro agente do zero</h1>
-<p>Vamos construir um agente ReAct <strong>sem framework</strong>, em ~80 linhas.</p>
-<p>Ele responde perguntas usando 2 ferramentas:</p>
-<ul class="text-sm">
-<li>🧮 <code>calculadora(expr)</code> — avalia expressão matemática</li>
-<li>🔍 <code>busca(query)</code> — consulta uma "base" mock</li>
-</ul>
-<p><strong>Por que do zero?</strong> Porque depois que você entende o loop manualmente, qualquer framework (LangChain, LangGraph, CrewAI…) faz sentido.</p>
-<p>→ Próximo slide: o código completo, comentado.</p></div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
-<h1>❓ Por que um agente forte usa a ferramenta errada?</h1>
-<div  class="text-center card card-cyan parallax-card scale-in">
-Estudos da Anthropic sugerem que <b>muitas falhas vêm de tools mal descritas</b>, não do modelo.
-</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
-<h1>📊 Onde agentes falham — distribuição de erros</h1>
-<div  class="stagger-in mt-2" style="display:grid;gap:0.55rem;"><div  class="card card-cyan"><div  class="text-xs">Tool description ruim — 35%</div><div style="height:10px;width:35%;background:#22d3ee;border-radius:999px;margin-top:8px"></div></div><div  class="card card-purple"><div  class="text-xs">Contexto insuficiente — 25%</div><div style="height:10px;width:25%;background:#a78bfa;border-radius:999px;margin-top:8px"></div></div><div  class="card card-amber"><div  class="text-xs">Loop/repetição — 15%</div><div style="height:10px;width:15%;background:#fbbf24;border-radius:999px;margin-top:8px"></div></div><div  class="card"><div  class="text-xs">Alucinação de tool — 10%</div><div style="height:10px;width:10%;background:#60a5fa;border-radius:999px;margin-top:8px"></div></div><div  class="card"><div  class="text-xs">Parsing/formato — 10%</div><div style="height:10px;width:10%;background:#4ade80;border-radius:999px;margin-top:8px"></div></div><div  class="card"><div  class="text-xs">Outros — 5%</div><div style="height:10px;width:5%;background:#f87171;border-radius:999px;margin-top:8px"></div></div></div>
-<div  class="mt-3 text-sm card card-amber parallax-card scale-in">🎯 <b>35% das falhas</b> vêm de tools mal descritas — o problema mais comum NÃO é o modelo.</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #111827 0%, #1f2937 100%)">
-<h1>🛠️ Princípio crítico: design de ferramentas</h1>
-<div  class="grid-2 stagger-in">
-<div  class="card parallax-card scale-in" style="background:rgba(248,113,113,0.08);border-color:rgba(248,113,113,0.28);"><div  class="text-red">❌ Ruim</div><pre class="text-[10px]"><code>def get_data(q: str) -> str:
-    """Get data."""</code></pre><div  class="text-sm mt-3">Nome genérico, doc inútil, parâmetro sem contexto.</div></div>
-<div  class="card card-green parallax-card scale-in"><div  class="text-green">✅ Bom</div><pre class="text-[10px]"><code>def buscar_cliente_por_cpf(cpf: str) -> dict:
-    """Busca dados cadastrais; retorna
-    {nome, email, status}; use CPF
-    com 11 dígitos sem pontuação;
-    erros: 'NotFound' e 'Invalid'."""</code></pre><div  class="text-sm mt-3">Nome claro, contexto, formato de saída e erros explícitos.</div></div>
-</div>
-
-<div  class="text-sm" style="opacity:0.8;">A descrição da tool <b>é</b> parte do prompt. O modelo decide se e como usar baseado nela.</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
-<h1>Os 7 mandamentos de tool design</h1>
-<div  class="mt-2 text-sm fragment card parallax-card" data-fragment-index="1">1. <b>Nome descritivo</b> — verbo + objeto (<code>enviar_email</code>, não <code>action1</code>)</div>
-
-<div  class="text-sm fragment card parallax-card" data-fragment-index="2">2. <b>Docstring rica</b> — o que faz, quando usar, formato dos args, erros possíveis</div>
-
-<div  class="text-sm fragment card parallax-card" data-fragment-index="3">3. <b>Argumentos tipados</b> — use type hints + JSON Schema estrito</div>
-
-<div  class="text-sm fragment card parallax-card" data-fragment-index="4">4. <b>Erros amigáveis ao LLM</b> — retorne <code>"erro: CPF inválido, use 11 dígitos"</code>, não <code>ValueError("x")</code></div>
-
-<div  class="text-sm fragment card parallax-card" data-fragment-index="5">5. <b>Output estruturado</b> — JSON > prosa. O LLM consome melhor.</div>
-
-<div  class="text-sm fragment card parallax-card" data-fragment-index="6">6. <b>Poucas tools por agente</b> — &gt;15 começa a confundir. Use roteamento/skills.</div>
-
-<div  class="text-sm fragment card parallax-card" data-fragment-index="7">7. <b>Idempotência quando possível</b> — chamar 2× = mesmo efeito de 1×. Protege contra loops.</div>
-
-<div  class="text-sm card card-amber parallax-card scale-in">
-💡 <b>Teste prático:</b> mostre a docstring para outra pessoa. Se ela conseguir usar a função corretamente <b>sem ver o código</b>, o LLM também conseguirá.
-</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #111827 0%, #0f766e 100%)">
-<div class="slide-in-left"><h1>Parte 1: ferramentas em Python puro</h1>
-<pre><code class="language-python">import os, re, json
-from openai import OpenAI
-client = OpenAI()
-
-# ---- Ferramentas (Python puro) ----
-def calculadora(expr: str) -&gt; str:
-    &quot;&quot;&quot;Avalia expressão matemática simples.&quot;&quot;&quot;
-    try:
-        return str(eval(expr, {&quot;__builtins__&quot;: {}}, {}))
-    except Exception as e:
-        return f&quot;erro: {e}&quot;
-
-def busca(query: str) -&gt; str:
-    &quot;&quot;&quot;Mock de base de conhecimento.&quot;&quot;&quot;
-    fake_db = {
-        &quot;população do brasil&quot;: &quot;Aproximadamente 215 milhões (IBGE, 2024).&quot;,
-        &quot;capital da austrália&quot;: &quot;Canberra.&quot;,
-        &quot;velocidade da luz&quot;: &quot;299.792.458 m/s no vácuo.&quot;,
-    }
-    return fake_db.get(query.lower(), &quot;Nenhum resultado encontrado.&quot;)
-
-TOOLS = {&quot;calculadora&quot;: calculadora, &quot;busca&quot;: busca}
-</code></pre></div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
-<h1>Parte 2: prompt no estilo ReAct</h1>
-<pre><code class="language-python">SYSTEM = &quot;&quot;&quot;Você é um agente que resolve perguntas em ciclos.
-Em cada turno responda EXATAMENTE em um destes formatos:
-
-Thought: &lt;seu raciocínio&gt;
-Action: &lt;nome_da_ferramenta&gt;
-Action Input: &lt;argumento em texto&gt;
-
-OU, quando souber a resposta:
-
-Thought: &lt;raciocínio final&gt;
-Final Answer: &lt;resposta para o usuário&gt;
-
-Ferramentas disponíveis:
-- calculadora(expr): avalia expressão matemática Python.
-- busca(query): consulta uma base interna.
-&quot;&quot;&quot;
-</code></pre>
-<div  class="text-sm card card-amber parallax-card scale-in">
-🎓 O <b>system prompt</b> é onde você define a "personalidade" e o protocolo do agente. Pequenas mudanças aqui geram comportamentos muito diferentes.
-</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
-<div class="slide-in-left"><h1>Parte 3: o loop do agente</h1>
-<div class="text-xs" style="margin-bottom:0.3rem; opacity:0.7;">📋 <b>Colab-ready</b> — requer o <code>client</code> da Célula 1</div>
-<pre><code class="language-python">def run_agent(pergunta: str, max_steps: int = 6):
-    msgs = [
-        {"role": "system", "content": SYSTEM},
-        {"role": "user",   "content": pergunta},
-    ]
-    
-    for step in range(max_steps):
-        resp = client.chat.completions.create(
-            model="gpt-4o-mini", messages=msgs, temperature=0
-        )
-        out = resp.choices[0].message.content
-        msgs.append({"role": "assistant", "content": out})
-        
-        if "Final Answer:" in out:
-            return out.split("Final Answer:")[-1].strip()
-        
-        m = re.search(r"Action:\s*(\w+)\s*\nAction Input:\s*(.+)", out)
-        if not m:  return "Agente não produziu ação válida."
-        
-        tool, arg = m.group(1).strip(), m.group(2).strip()
-        obs = TOOLS.get(tool, lambda x: f"tool '{tool}' inexistente")(arg)
-        msgs.append({"role": "user", "content": f"Observation: {obs}"})
-    
-    return "Máximo de passos atingido."</code></pre></div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
-<h1>Parte 4: rodando</h1>
-<pre><code class="language-python">if __name__ == &quot;__main__&quot;:
-    pergunta = &quot;Quanto é (123 * 7) + a população do Brasil em milhões?&quot;
-    resposta = run_agent(pergunta)
-    print(f&quot;\n&gt;&gt;&gt; {resposta}&quot;)
-</code></pre>
-<p><strong>Saída esperada (resumida):</strong></p>
-<div  class="agent-trace mt-2">
-<div  class="trace-line trace-thought">Thought: Preciso da população do Brasil primeiro.</div>
-<div  class="trace-line trace-action">Action: busca</div>
-<div  class="trace-line trace-action">Action Input: população do brasil</div>
-<div  class="trace-line trace-obs">Observation: Aproximadamente 215 milhões (IBGE, 2024).</div>
-<div  class="trace-line trace-thought">Thought: Agora calculo 123*7 + 215.</div>
-<div  class="trace-line trace-action">Action: calculadora</div>
-<div  class="trace-line trace-action">Action Input: 123 * 7 + 215</div>
-<div  class="trace-line trace-obs">Observation: 1076</div>
-<div  class="trace-line trace-result">Final Answer: O resultado é aproximadamente 1.076 milhões.</div>
-</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #111827 0%, #1f2937 100%)">
-<h1>O que observar ao rodar 👀</h1>
-<div  class="fragment card parallax-card" data-fragment-index="1">
-✅ O modelo <b>verbaliza</b> o "Thought" — isso é reasoning emergente. Ninguém ensinou explicitamente; ele aprendeu lendo a internet.
-</div>
-
-<div  class="fragment card parallax-card" data-fragment-index="2">
-⚠️ Quando ele <b>erra o formato</b> (esquece "Action Input:" ou inventa), o loop quebra. Robustez vem de <b>function calling estruturado</b> (Encontro 2).
-</div>
-
-<div  class="fragment card parallax-card" data-fragment-index="3">
-💸 <b>Cada passo adiciona mais tokens</b> ao contexto. Se a tarefa exige 10 passos, você paga 10× o histórico crescente. Esse é o início do problema de <b>context management</b> (Encontro 3).
-</div>
-
-<div  class="fragment card card-amber parallax-card" data-fragment-index="4">
-🐛 Modelos pequenos (GPT-4o-mini, Llama 3.1 8B) <b>às vezes ignoram o protocolo</b>. Modelos maiores são mais consistentes. Isso é uma realidade prática importante.
-</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
-<h1>Anatomia de uma chamada à API — visualizando os tokens</h1>
-<div  class="flow-diagram mt-2"><div  class="flow-node node-purple">System<br>~150</div><div  class="flow-arrow">→</div><div  class="flow-node node-green">User<br>~30</div><div  class="flow-arrow">→</div><div  class="flow-node node-cyan">Thought+Action<br>~50</div><div  class="flow-arrow">→</div><div  class="flow-node node-amber">Observation 1<br>~20</div><div  class="flow-arrow">→</div><div  class="flow-node node-cyan">Thought+Action<br>~50</div><div  class="flow-arrow">→</div><div  class="flow-node node-amber">Observation 2<br>~10</div><div  class="flow-arrow">→</div><div  class="flow-node node-purple parallax-card">🧠 LLM</div><div  class="flow-arrow">→</div><div  class="flow-node node-green">Resposta<br>~80</div></div>
-
-<div  class="text-sm">
-Esse exemplo: <b>~390 tokens enviados</b> + 80 gerados a cada chamada.
-Em <code>gpt-4o-mini</code> custa frações de centavo. Em <code>gpt-4o</code>, ~10× mais. Em agentes longos, vira US$ rapidinho.
-</div>
+<section data-background-gradient="linear-gradient(135deg, #2d1b0e 0%, #0f172a 100%)">
+  <h1>3. A anatomia monetária do token</h1>
+  <div class="card card-purple parallax-card">Token não é palavra; é um pedaço de texto. Em média, ~4 caracteres em inglês, com variação em PT-BR.</div>
+  <div class="grid-2 text-sm" style="gap: 1rem; margin-top: 1rem;">
+    <div class="card">“agente” pode ser 1 token</div>
+    <div class="card">“viabilidade econômica” pode virar vários tokens</div>
+  </div>
+  <div class="insight-box fragment" style="margin-top: 1rem;">Analogia de negócio: token é a unidade de faturamento do “tempo de máquina” do modelo.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%)">
-<div class="slide-in-left"><h1 class="glow-text">🏋️ 1.8 Exercícios — Encontro 1</h1>
-<p>4 atividades · Faça antes de partir para o Encontro 2</p></div>
+  <h1>Preços reais por modelo <span class="text-xs">(ordens de grandeza para aula)</span></h1>
+  <table class="text-sm" style="margin-top: 1rem; width: 100%;">
+    <thead>
+      <tr><th>Modelo</th><th>Input / 1M tokens</th><th>Output / 1M tokens</th><th>Leitura executiva</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>GPT-4o</td><td>~US$5</td><td>~US$15</td><td>Equilíbrio entre qualidade e latência</td></tr>
+      <tr><td>Claude 3.5 Sonnet</td><td>~US$3</td><td>~US$15</td><td>Bom raciocínio e contexto longo</td></tr>
+      <tr><td>Gemini 1.5 Pro</td><td>varia por faixa</td><td>varia por faixa</td><td>Janela enorme, bom para documentos</td></tr>
+      <tr><td>DeepSeek</td><td>tipicamente menor</td><td>tipicamente menor</td><td>Atrativo em tarefas sensíveis a custo</td></tr>
+    </tbody>
+  </table>
+  <div class="tip-box fragment" style="margin-top: 1rem;">Caso real: trocar de modelo em uma operação de alto volume pode mudar o P&amp;L mais do que qualquer ajuste fino de prompt.</div>
 </section>
 
-<section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
-<h1>Exercício 1.1 · Rodando o agente base</h1>
-<div  class="card card-purple parallax-card scale-in">
-<p><strong>Tarefa:</strong> rode o código do agente e teste <strong>5 perguntas diferentes</strong>:</p>
-<ol class="text-sm">
-<li>Pura matemática (ex: "quanto é 999 × 47?")</li>
-<li>Pura busca (ex: "qual a capital da Austrália?")</li>
-<li>Mista (ex: "qual a velocidade da luz em km/s?")</li>
-<li>Impossível com as tools disponíveis (ex: "qual a previsão do tempo hoje?")</li>
-<li>Ambígua (ex: "me fale sobre o Brasil")</li>
-</ol>
-<p><strong>Para cada uma, anote:</strong></p>
-<ul class="text-sm">
-<li>Quantos passos o agente fez?</li>
-<li>A resposta foi correta?</li>
-<li>Algum comportamento estranho? (loops, alucinações, erros de formato)</li>
-</ul>
-</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
-<h1>Exercício 1.2 · Nova ferramenta</h1>
-<div  class="card card-purple parallax-card scale-in">
-<p><strong>Tarefa:</strong> adicione <strong>duas ferramentas novas</strong>:</p>
-<pre><code class="language-python">def hora_atual() -&gt; str:
-    &quot;&quot;&quot;Retorna data e hora atual.&quot;&quot;&quot;
-    # implemente
-
-def clima(cidade: str) -&gt; str:
-    &quot;&quot;&quot;Mock — retorne valores fixos para 3 cidades.&quot;&quot;&quot;
-    # implemente
-</code></pre>
-<p><strong>Não esqueça de:</strong></p>
-<ul class="text-sm">
-<li>Adicionar no dicionário <code>TOOLS</code></li>
-<li>Atualizar o <code>SYSTEM</code> prompt com a descrição</li>
-</ul>
-<p><strong>Pergunta de teste:</strong></p>
-<blockquote><p><em>"Que horas são agora e como está o clima em Curitiba?"</em></p></blockquote>
-</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
-<h1>Exercício 1.3 · Quebrando o agente</h1>
-<div  class="card parallax-card scale-in" style="background:rgba(248,113,113,0.08);border-color:rgba(248,113,113,0.28);">
-<p><strong>Tarefa:</strong> encontre <strong>3 formas diferentes</strong> de fazer o agente falhar.</p>
-<p>Exemplos de falhas a tentar provocar:</p>
-<ul class="text-sm">
-<li>🔁 Loop infinito (mesma ação várias vezes)</li>
-<li>📝 Formato inválido (LLM "esquece" Action Input)</li>
-<li>👻 Alucinação de ferramenta (chama tool que não existe)</li>
-<li>💥 Exceção dentro da tool (passa argumento inválido)</li>
-<li>🤔 Resposta sem chamar nenhuma tool</li>
-</ul>
-<p><strong>Para cada falha:</strong></p>
-<ol class="text-sm">
-<li>Descreva como você reproduziu</li>
-<li>Qual o sintoma (output, erro, comportamento)</li>
-<li>Proponha <strong>uma mitigação</strong> (vamos discutir no Encontro 4)</li>
-</ol>
-</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #111827 0%, #1f2937 100%)">
-<h1>Exercício 1.4 · Reflexão escrita (15 min)</h1>
-<div  class="card card-cyan parallax-card scale-in">
-<p>Em <strong>1 parágrafo</strong>, responda:</p>
-<blockquote><p><em>"Qual é a diferença entre <strong>um workflow com LLM</strong> e <strong>um agente</strong>?"</em></p></blockquote>
-<p>Inclua na sua resposta:</p>
-<ul class="text-sm">
-<li>✅ Sua definição com suas palavras</li>
-<li>🌍 <strong>Um exemplo real</strong> de workflow do seu dia a dia profissional/acadêmico</li>
-<li>🌍 <strong>Um exemplo real</strong> de agente que faria sentido no mesmo contexto</li>
-<li>💭 Por que cada exemplo se encaixa em uma categoria</li>
-</ul>
-<p>Não há resposta certa. O objetivo é <strong>calibrar sua intuição</strong> antes do Encontro 2.</p>
-</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #3b0764 0%, #0b1120 100%)">
-<h1>Exercício 1.5 · The Strict Manager</h1>
-<div  class="card card-purple parallax-card scale-in">
-<p><strong>Tarefa:</strong> implemente um system prompt usando <strong>CO-STAR</strong> que transforma o agente em um gerenciador de despesas rígido.</p>
-
-<div  class="text-sm mt-2" style="background:rgba(139,92,246,0.1);padding:0.4rem;border-radius:0.3rem;border-left:3px solid var(--purple);">
-<b>Contexto:</b> você é <strong>gestor financeiro sênior</strong> de uma startup de 50 pessoas. O orçamento de reembolso é limitado, há tentativas recorrentes de fraude e você precisa de <strong>zero compromissos éticos</strong>.
-</div>
-
-<p><strong>Seu prompt deve conter:</strong></p>
-<ol class="text-sm">
-<li><strong>Context:</strong> empresa, tamanho, cenário de risco</li>
-<li><strong>Objective:</strong> analisar despesas e decidir aprovação/rejeição</li>
-<li><strong>Style:</strong> auditor implacável, sem empatia</li>
-<li><strong>Tone:</strong> seco, profissional, sem desculpas</li>
-<li><strong>Audience:</strong> funcionários e CFO</li>
-<li><strong>Response:</strong> JSON estruturado com decisão binária + regras violadas</li>
-</ol>
-
-<p><strong>Teste seu prompt com 5 despesas reais ou fictícias:</strong></p>
-<ul class="text-sm">
-<li>Uma viagem "justificada" com hotel 5 estrelas</li>
-<li>Uma refeição de trabalho com valor razoável</li>
-<li>Um software/ferramenta sem OC prévio</li>
-<li>Um reembolso pessoal (sim, alguém vai tentar)</li>
-<li>Uma despesa legítima, dentro do policy</li>
-</ul>
-
-<p><strong>Entregáveis:</strong></p>
-<ol class="text-sm">
-<li>Arquivo <code>manager_prompt.txt</code> com seu CO-STAR completo</li>
-<li>Arquivo <code>test_cases.json</code> com as 5 despesas + respostas do agente</li>
-<li>Nota (2-3 frases): qual foi a regra mais importante que seu prompt "entendeu"?</li>
-</ol>
-
-<div  class="card card-amber" style="font-size:0.65em; margin-top:0.4rem;">
-⚠️ <b>Desafio adicional (opcional):</b> tente fazer o agente "bugar" com uma despesa que pareça legítima, mas viola a lógica. Depois, corrija seu prompt para fechar o buraco.
-</div>
-</div>
-</section>
-
-<section class="text-center" data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
-<div class="text-center"><h1 class="typewriter-js" data-text="📚 Referências públicas — Encontro 1">📚 Referências públicas — Encontro 1</h1>
-<p>Todo o material apresentado é de <strong>domínio público / publicações abertas</strong>.</p>
-<div  class="grid-2 stagger-in text-xs mt-3">
-<div  class="card card-purple parallax-card scale-in"><b>Papers seminais</b><ul class="mt-1"><li>Vaswani et al. (2017) — <i>Attention Is All You Need</i> · arXiv:1706.03762</li><li>Yao et al. (2022) — <i>ReAct</i> · arXiv:2210.03629</li><li>Schick et al. (2023) — <i>Toolformer</i> · arXiv:2302.04761</li><li>Anthropic (2024) — <i>Building Effective Agents</i> · anthropic.com/research</li></ul></div>
-<div  class="card card-cyan parallax-card scale-in"><b>Documentação oficial</b><ul class="mt-1"><li>OpenAI Function Calling Guide · platform.openai.com/docs</li><li>Anthropic Tool Use · docs.anthropic.com</li><li>LangChain Docs · python.langchain.com</li></ul></div>
-</div></div>
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%)">
+  <h1>Input, output e reasoning tokens</h1>
+  <div class="grid-3 text-sm" style="gap: 0.8rem; margin-top: 1.2rem;">
+    <div class="card card-cyan parallax-card"><b>Input</b><br>Prompt, histórico, tool schema, memória, documentos.</div>
+    <div class="card card-green parallax-card"><b>Output</b><br>Resposta final, JSON, próximos passos.</div>
+    <div class="card card-amber parallax-card"><b>Reasoning</b><br>Compute interno ou cadeia de raciocínio explícita.</div>
+  </div>
+  <div class="card card-red parallax-card fragment" style="margin-top: 1rem;">Quanto mais ferramentas e contexto você adiciona, maior o input fixo por chamada — antes mesmo do modelo “pensar”.</div>
+  <div class="text-sm" style="margin-top: 0.7rem; opacity: 0.75;">Analogia: input, output e reasoning são como linhas diferentes da conta telefônica — assinatura, uso e excedente.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #0f766e 100%)">
-<h1>Referências — links e licenças</h1>
-<div  class="grid-2 stagger-in text-xs mt-3">
-<div  class="card card-green parallax-card scale-in"><b>Recursos didáticos</b><ul class="mt-1"><li>Hugging Face — Agents Course · huggingface.co/learn/agents-course</li><li>DeepLearning.AI — <i>Functions, Tools and Agents with LangChain</i> · deeplearning.ai</li><li>Lilian Weng — <i>LLM Powered Autonomous Agents</i> · lilianweng.github.io</li></ul></div>
-<div  class="card card-amber parallax-card scale-in"><b>Licenças</b><ul class="mt-1"><li>papers no arXiv: licenças abertas</li><li>logos/marcas: uso apenas educacional</li><li>código-exemplo: domínio público, sem garantia</li></ul></div>
-</div>
-
-<div  class="text-xs opacity-70" style="opacity:0.7;">Todos os links completos foram resumidos aqui pelos domínios para caber no slide sem perder a referência.</div>
+  <h1>O paradoxo do ReAct</h1>
+  <div class="card card-amber parallax-card">Thought → Action → Observation melhora qualidade, mas cada volta reapresenta contexto acumulado ao modelo.</div>
+  <table class="text-sm" style="margin-top: 1rem; width: 100%;">
+    <thead><tr><th>Hipótese</th><th>Valor</th></tr></thead>
+    <tbody>
+      <tr><td>1 tarefa</td><td>5 iterações</td></tr>
+      <tr><td>Prompt base</td><td>900 tokens</td></tr>
+      <tr><td>Crescimento por observação</td><td>+350 tokens por iteração</td></tr>
+      <tr><td>Input total aproximado</td><td>900 + 1250 + 1600 + 1950 + 2300 = 8000 tokens</td></tr>
+    </tbody>
+  </table>
+  <div class="insight-box fragment" style="margin-top: 1rem;">Ou seja: dobrar iterações pode mais que dobrar custo.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
-<h1>🔄 Recap — O que construímos no Encontro 1</h1>
-<div  class="grid-2 stagger-in text-xs">
-
-<div  class="card card-purple parallax-card scale-in">
-<b>📜 A história que conecta tudo:</b>
-<ul class="mt-1 space-y-0.5">
-<li><b>1950-2017:</b> Regras → ML → Deep Learning</li>
-<li><b>2020:</b> GPT-3 mostra que escala gera habilidades emergentes</li>
-<li><b>2022:</b> RLHF transforma completador de texto em assistente</li>
-<li><b>2024-25:</b> Reasoning models (o3-pro, o4-mini) pensam antes de agir</li>
-</ul>
-</div>
-
-<div  class="card card-cyan parallax-card scale-in">
-<b>🔧 O que você agora sabe fazer:</b>
-<ul class="mt-1 space-y-0.5">
-<li>Explicar token, context window e temperature</li>
-<li>Descrever a anatomia: LLM + tools + memória + loop</li>
-<li>Implementar o padrão ReAct do zero em Python</li>
-<li>Construir um agente funcional sem framework</li>
-</ul>
-</div>
-
-<div  class="card card-green parallax-card scale-in">
-<b>🏢 Produtos que usam isso hoje:</b>
-<ul class="mt-1 space-y-0.5">
-<li>ChatGPT (OpenAI) — loop ReAct + tools</li>
-<li>GitHub Copilot — agente de código</li>
-<li>Perplexity — agente de busca com fontes</li>
-</ul>
-</div>
-
-<div  class="card card-amber parallax-card scale-in">
-<b>❓ Perguntas que ficaram abertas:</b>
-<ul class="mt-1 space-y-0.5">
-<li>Como fazer o agente pensar <i>melhor</i>? (→ E2: CoT e Planning)</li>
-<li>Como chamar ferramentas de forma <i>estruturada</i>? (→ E2: Function Calling)</li>
-<li>E se o contexto estourar? (→ E3: Memória)</li>
-</ul>
-</div>
-
-</div>
+  <h1>4. O padrão ReAct com lente FinOps</h1>
+  <div class="agent-trace text-sm" style="margin-top: 1rem;">
+    <div class="trace-line trace-thought">thought: preciso descobrir o pedido e a política</div>
+    <div class="trace-line trace-action">action: buscar_pedido(84592)</div>
+    <div class="trace-line trace-obs">observation: entregue com atraso de 2h</div>
+    <div class="trace-line trace-thought">thought: atraso relevante; devo consultar regra de compensação</div>
+    <div class="trace-line trace-action">action: consultar_politica("atraso_entrega")</div>
+    <div class="trace-line trace-obs">observation: cupom de R$20 autorizado</div>
+  </div>
+  <div class="tip-box fragment" style="margin-top: 1rem;">Analogia: cada iteração é uma nova reunião do comitê — e cada reunião cobra de novo pelo contexto recapitulado.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
-<h1>🏢 Agentes por função de negócio</h1>
-<div  class="grid-3 stagger-in text-xs mt-2">
-
-<div  class="card card-cyan parallax-card scale-in">
-<h3>💼 RH &amp; Recrutamento</h3>
-<ul class="text-sm">
-<li>Triagem automática de CVs</li>
-<li>Agendamento de entrevistas</li>
-<li>Onboarding assistido</li>
-</ul>
-</div>
-
-<div  class="card card-purple parallax-card scale-in">
-<h3>💰 Finanças</h3>
-<ul class="text-sm">
-<li>Reconciliação de faturas</li>
-<li>Detecção de fraude</li>
-<li>Relatórios automáticos</li>
-</ul>
-</div>
-
-<div  class="card card-amber parallax-card scale-in">
-<h3>🖥️ TI &amp; DevOps</h3>
-<ul class="text-sm">
-<li>IT Helpdesk Copilot</li>
-<li>Incident response</li>
-<li>Code review assistido</li>
-</ul>
-</div>
-
-</div>
-
-<div  class="mt-3 text-xs card card-green parallax-card scale-in">
-📊 <b>MIT:</b> "Agentes funcionais (HR bots, Finance advisors, IT copilots) são o ponto de entrada mais comum em empresas."
-</div>
+  <h1>A cada iteração, o contexto cresce</h1>
+  <table class="text-sm" style="margin-top: 1rem; width: 100%;">
+    <thead><tr><th>Iteração</th><th>Input tokens</th><th>Output tokens</th><th>Custo relativo</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>900</td><td>120</td><td>1,0x</td></tr>
+      <tr><td>2</td><td>1.250</td><td>140</td><td>1,4x</td></tr>
+      <tr><td>3</td><td>1.600</td><td>160</td><td>1,8x</td></tr>
+      <tr><td>4</td><td>1.950</td><td>180</td><td>2,2x</td></tr>
+      <tr><td>5</td><td>2.300</td><td>200</td><td>2,7x</td></tr>
+    </tbody>
+  </table>
+  <div class="card card-cyan parallax-card fragment" style="margin-top: 1rem;">Caso real: agentes de suporte e cobrança sofrem com tool output verboso; o custo explode se você não resumir observações.</div>
 </section>
 
-<section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
-<h1>🐛 Maturidade: Crawl → Walk → Run</h1>
-<div  class="text-xs mt-2">Modelo do MIT para adoção gradual de agentes na organização:</div>
-
-<div  class="grid-3 stagger-in mt-3 text-xs">
-
-<div  class="card card-green parallax-card scale-in">
-<h3>🐛 Crawl</h3>
-<ul class="text-sm">
-<li>Chatbot FAQ interno</li>
-<li>Resumo de documentos</li>
-<li>1 agente, 1 tarefa simples</li>
-<li><strong>Risco baixo</strong>, sandbox</li>
-</ul>
-</div>
-
-<div  class="card card-amber parallax-card scale-in">
-<h3>🚶 Walk</h3>
-<ul class="text-sm">
-<li>Agente com tools reais (APIs)</li>
-<li>Integração com sistemas</li>
-<li>Human-in-the-loop</li>
-<li><strong>Monitoramento</strong> ativo</li>
-</ul>
-</div>
-
-<div  class="card parallax-card scale-in" style="background:rgba(248,113,113,0.08);border-color:rgba(248,113,113,0.28);">
-<h3>🏃 Run</h3>
-<ul class="text-sm">
-<li>Multi-agente autônomo</li>
-<li>Decisões de alto impacto</li>
-<li>Orquestração completa</li>
-<li><strong>Governance</strong> obrigatório</li>
-</ul>
-</div>
-
-</div>
-
-<div  class="mt-3 text-xs opacity-70 text-center" style="opacity:0.7;">
-Fonte: MIT Professional Education — "The Maturity Cycle of Agentic Implementation"
-</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #111827 0%, #1f2937 100%)">
-<div class="slide-in-left"><h1>✅ Fim do Encontro 1</h1></div>
+<section data-background-gradient="linear-gradient(135deg, #2d1b0e 0%, #0f172a 100%)">
+  <h1>Visualização mental do custo por iteração</h1>
+  <div class="grid-2" style="gap: 1rem; margin-top: 1rem;">
+    <div class="card card-red parallax-card">
+      <h3>Curva ruim</h3>
+      <p class="text-sm">Loop longo + observações cruas + prompt enorme.</p>
+      <p class="text-sm">Resultado: custo unitário imprevisível.</p>
+    </div>
+    <div class="card card-green parallax-card">
+      <h3>Curva boa</h3>
+      <p class="text-sm">Resumo intermediário + schema enxuto + limite de iterações.</p>
+      <p class="text-sm">Resultado: margem controlável.</p>
+    </div>
+  </div>
+  <div class="insight-box fragment" style="margin-top: 1rem;">Analogia de negócio: é a diferença entre uma reunião com pauta e uma reunião sem fim.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%)">
-<div class="slide-in-left"><h1 class="glow-text">🧪 Exercícios Interativos — Encontro 1</h1>
-<div  class="text-sm" style="opacity:0.6;">Pratique no navegador: rode o código e veja os resultados</div></div>
+  <h1>Quando parar o loop?</h1>
+  <div class="grid-3 text-sm" style="gap: 0.8rem; margin-top: 1.2rem;">
+    <div class="card card-purple parallax-card"><b>max_iterations</b><br>Cap de custo e latência.</div>
+    <div class="card card-amber parallax-card"><b>confidence threshold</b><br>Para cedo se já há evidência suficiente.</div>
+    <div class="card card-red parallax-card"><b>fallback humano</b><br>Escala quando risco ou custo saem do limite.</div>
+  </div>
+  <div class="tip-box fragment" style="margin-top: 1rem;">Prompt deixa de ser “texto bonito” e vira SLA: o que pode fazer, quanto pode custar e quando deve escalar.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%)">
+  <h1>Case: suporte com 15 loops</h1>
+  <div class="compare-cols" style="gap: 1rem; margin-top: 1rem;">
+    <div class="compare-col good">
+      <h3>Agente disciplinado</h3>
+      <p class="text-sm">5 loops, outputs resumidos, custo ~US$0,15 por ticket.</p>
+      <p class="text-sm">Latência previsível e margem saudável.</p>
+    </div>
+    <div class="compare-col bad">
+      <h3>Agente descontrolado</h3>
+      <p class="text-sm">15 loops, observações longas, custo ~US$0,45 por ticket.</p>
+      <p class="text-sm">Humano custava ~US$2,50 — ainda ganha, mas ROI encolhe.</p>
+    </div>
+  </div>
+  <div class="card card-cyan parallax-card fragment" style="margin-top: 1rem;">Lição executiva: FinOps não decide só se automatiza; decide <b>como</b> automatiza.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #0f766e 100%)">
-<div class="slide-in-left"><h1>🧪 Exercício 1.1 — Simulando um LLM com decisão</h1>
-<div  class="text-xs opacity-70" style="opacity:0.7;">Implemente a função <code>decidir_acao</code> que retorna "buscar" ou "responder" baseado na pergunta.</div>
-
-<div  class="pyrunner-container" data-src="exercises/e1_1_decidir_acao.py"><textarea></textarea><button class="run-btn">▶ Executar</button><div  class="pyrunner-output"></div></div></div>
+  <h1>5. Context window como budget</h1>
+  <div class="card card-purple parallax-card">Janela de contexto é a RAM do agente — e também seu orçamento de atenção paga.</div>
+  <div class="grid-2 text-sm" style="gap: 1rem; margin-top: 1rem;">
+    <div class="card">Mais contexto pode melhorar decisão.</div>
+    <div class="card">Mais contexto também aumenta custo, latência e risco de ruído.</div>
+  </div>
+  <div class="tip-box fragment" style="margin-top: 1rem;">Analogia: contratar um consultor que cobra por hora de reunião. Nem toda reunião precisa de 6 horas.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
-<div class="slide-in-left"><h1>🧪 Exercício 1.2 — Loop ReAct simplificado</h1>
-<div  class="text-xs opacity-70" style="opacity:0.7;">Simule o loop Thought → Action → Observation manualmente.</div>
-
-<div  class="pyrunner-container" data-src="exercises/e1_2_react_loop.py"><textarea></textarea><button class="run-btn">▶ Executar</button><div  class="pyrunner-output"></div></div></div>
+  <h1>Limites típicos de contexto</h1>
+  <table class="text-sm" style="margin-top: 1rem; width: 100%;">
+    <thead><tr><th>Modelo</th><th>Janela típica</th><th>Uso natural</th></tr></thead>
+    <tbody>
+      <tr><td>GPT-4o</td><td>~128K</td><td>Atendimento, automação geral, multimodalidade</td></tr>
+      <tr><td>Claude</td><td>~200K</td><td>Documentos longos, análise jurídica, síntese</td></tr>
+      <tr><td>Gemini</td><td>até ~1M</td><td>Repositórios, bases longas, multimídia extensa</td></tr>
+    </tbody>
+  </table>
+  <div class="insight-box fragment" style="margin-top: 1rem;">Caso real: due diligence e leitura de contratos gostam de janelas maiores, mas raramente precisam enviar o documento inteiro em toda chamada.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
-<div class="slide-in-left"><h1>🧪 Exercício 1.3 — Construa seu primeiro agente</h1>
-<div  class="text-xs opacity-70" style="opacity:0.7;">Complete o agente adicionando uma nova tool e testando o dispatch.</div>
-
-<div  class="pyrunner-container" data-src="exercises/e1_3_dispatcher.py"><textarea></textarea><button class="run-btn">▶ Executar</button><div  class="pyrunner-output"></div></div></div>
+  <h1>Trade-off: janela maior ≠ decisão melhor</h1>
+  <div class="grid-3 text-sm" style="gap: 0.8rem; margin-top: 1.2rem;">
+    <div class="card card-green parallax-card"><b>Pró</b><br>Menos chunking, mais contexto bruto.</div>
+    <div class="card card-amber parallax-card"><b>Contra</b><br>Chamadas mais caras e respostas mais lentas.</div>
+    <div class="card card-red parallax-card"><b>Risco</b><br>Contexto demais pode esconder o sinal relevante.</div>
+  </div>
+  <div class="card card-cyan parallax-card fragment" style="margin-top: 1rem;">Analogia de negócio: mais slides em uma reunião não significam decisão melhor; muitas vezes significam decisão mais lenta.</div>
 </section>
 
-<section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
-<div class="slide-in-left"><p>Você agora sabe:</p>
-<ul class="text-sm">
-<li>O que é (e o que não é) um agente</li>
-<li>A anatomia: LLM + tools + memória + loop + objetivo</li>
-<li>O padrão ReAct</li>
-<li>Como construir um agente do zero em Python</li>
-</ul>
-<div  class="text-cyan" style="font-size:0.95em;">
-Próximo: <b>Encontro 2 — Reasoning, Planning & Tool Execution</b>
-</div>
+<section data-background-gradient="linear-gradient(135deg, #2d1b0e 0%, #0f172a 100%)">
+  <h1>Mini-recap do Bloco 1</h1>
+  <div class="stagger-in" style="margin-top: 1.3rem;">
+    <div class="card card-green parallax-card fragment" style="margin-bottom: 0.8rem;">1) Viabilidade = frequência × variabilidade × custo do erro humano</div>
+    <div class="card card-green parallax-card fragment" style="margin-bottom: 0.8rem;">2) Agente cria valor quando executa fluxo, não apenas conversa</div>
+    <div class="card card-green parallax-card fragment">3) Custo nasce do loop, do contexto e do modelo escolhido</div>
+  </div>
+  <div class="text-center" style="margin-top: 1rem; opacity: 0.8;">Agora vamos colocar números reais nisso.</div>
+</section>
 
-<div  class="text-sm" style="opacity:0.6;">
-Onde tornamos tudo isso <i>robusto</i> com function calling estruturado e frameworks.
-</div></div>
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%)">
+  <h1>Bloco 2 — Prática: o simulador de custos</h1>
+  <div class="card card-cyan parallax-card text-center">Objetivo: transformar discussão conceitual em um modelo simples de decisão econômica.</div>
+  <div class="grid-3 text-sm" style="gap: 0.8rem; margin-top: 1rem;">
+    <div class="card">Conta tokens</div>
+    <div class="card">Estima custo</div>
+    <div class="card">Compara com humano</div>
+  </div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%)">
+  <h1>6. Setup Google Colab</h1>
+  <div class="card card-purple parallax-card">Abra um notebook novo no Colab e cole as células desta aula na ordem.</div>
+  <pre><code class="language-python">!pip install openai tiktoken -q
+
+# pandas e matplotlib normalmente já vêm no Colab
+import math
+import pandas as pd
+import matplotlib.pyplot as plt</code></pre>
+  <div class="text-sm" style="opacity: 0.75;">Tudo será executado no navegador. Sem venv, sem .env, sem setup local.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #0f766e 100%)">
+  <h1>Colab Secrets para API key <span class="text-xs">(opcional nesta aula)</span></h1>
+  <div class="grid-2" style="gap: 1rem; margin-top: 1rem;">
+    <div class="card card-cyan parallax-card">
+      <h3>Passo a passo</h3>
+      <ol class="text-sm">
+        <li>Clique no ícone de chave lateral</li>
+        <li>Crie <b>OPENAI_API_KEY</b></li>
+        <li>Marque acesso ao notebook</li>
+      </ol>
+    </div>
+    <div class="card card-amber parallax-card">
+      <h3>Nesta aula</h3>
+      <p class="text-sm">Nosso simulador usa dados mockados. A API real só entra depois, quando você quiser validar preços com chamadas reais.</p>
+    </div>
+  </div>
+  <div class="tip-box fragment" style="margin-top: 1rem;">Mensagem de governança: segredo em notebook é risco; segredo no cofre da plataforma é política.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
+  <h1>Mapa do laboratório</h1>
+  <div class="grid-4 text-sm" style="gap: 0.7rem; margin-top: 1rem;">
+    <div class="card">1. Contar tokens</div>
+    <div class="card">2. Definir preços</div>
+    <div class="card">3. Simular loop</div>
+    <div class="card">4. Medir break-even</div>
+  </div>
+  <div class="insight-box fragment" style="margin-top: 1rem;">Analogia de negócio: estamos montando uma DRE simplificada por tarefa de IA.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
+  <h1>Step 1 — contar tokens</h1>
+  <pre><code class="language-python">import tiktoken
+
+def count_tokens(text, model="gpt-4o-mini"):
+    """Conta tokens de um texto usando o tokenizer do modelo."""
+    encoding = tiktoken.encoding_for_model(model)
+    return len(encoding.encode(text))
+
+sample_prompt = "Explique o custo de um agente de suporte em 3 passos."
+print("Tokens:", count_tokens(sample_prompt))</code></pre>
+  <div class="text-sm" style="opacity: 0.75;">Use isso para medir prompt, resposta e também observações de ferramenta.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #2d1b0e 0%, #0f172a 100%)">
+  <h1>Step 2 — tabela de preços por modelo</h1>
+  <pre><code class="language-python">MODEL_PRICES = {
+    "gpt-4o": {"input_per_million": 5.00, "output_per_million": 15.00},
+    "claude-3-5-sonnet": {"input_per_million": 3.00, "output_per_million": 15.00},
+    "gemini-1-5-pro": {"input_per_million": 3.50, "output_per_million": 10.50},
+    "deepseek-chat": {"input_per_million": 0.60, "output_per_million": 1.80},
+}
+
+MODEL_PRICES</code></pre>
+  <div class="text-sm" style="opacity: 0.75;">Troque os valores quando o fornecedor atualizar a tabela comercial.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%)">
+  <h1>Step 3 — mockar um loop ReAct de 5 passos</h1>
+  <pre><code class="language-python">base_prompt = """
+Você é um agente de suporte financeiro.
+Verifique status do cliente, consulte política e proponha ação.
+""".strip()
+
+react_steps = [
+    {"thought": "Entender o atraso", "observation": "Pedido entregue com 2 horas de atraso."},
+    {"thought": "Checar elegibilidade", "observation": "Cliente premium, elegível para cupom."},
+    {"thought": "Consultar política", "observation": "Cupom de R$20 autorizado."},
+    {"thought": "Preparar resposta", "observation": "Explicar motivo e oferecer compensação."},
+    {"thought": "Registrar ação", "observation": "Ticket marcado como resolvido."},
+]</code></pre>
+  <div class="text-sm" style="opacity: 0.75;">Sem API real. Queremos modelar crescimento de contexto e custo acumulado.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%)">
+  <h1>Step 4A — função de custo</h1>
+  <pre><code class="language-python">def calculate_cost(input_tokens, output_tokens, model_name):
+    prices = MODEL_PRICES[model_name]
+    input_cost = (input_tokens / 1_000_000) * prices["input_per_million"]
+    output_cost = (output_tokens / 1_000_000) * prices["output_per_million"]
+    return input_cost + output_cost
+
+
+calculate_cost(1500, 300, "gpt-4o")</code></pre>
+  <div class="text-sm" style="opacity: 0.75;">Primeiro criamos a função unitária. Depois plugamos isso dentro do loop.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #0f766e 100%)">
+  <h1>Step 4B — simular custo do loop</h1>
+  <pre><code class="language-python">def simulate_react_cost(base_prompt, steps, model_name="gpt-4o"):
+    running_context = base_prompt
+    rows = []
+
+    for i, step in enumerate(steps, start=1):
+        running_context += f"\\nThought: {step['thought']}"
+        input_tokens = count_tokens(running_context, model="gpt-4o-mini")
+        output_text = f"Action executada. Observation: {step['observation']}"
+        output_tokens = count_tokens(output_text, model="gpt-4o-mini")
+
+        rows.append({
+            "iteracao": i,
+            "input_tokens": input_tokens,
+            "output_tokens": output_tokens,
+            "step_cost_usd": calculate_cost(input_tokens, output_tokens, model_name),
+        })
+        running_context += f"\\nObservation: {step['observation']}"
+
+    return pd.DataFrame(rows)</code></pre>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
+  <h1>Step 5 — rodar a simulação</h1>
+  <pre><code class="language-python">df = simulate_react_cost(base_prompt, react_steps, model_name="gpt-4o")
+
+df["custo_acumulado_usd"] = df["step_cost_usd"].cumsum()
+df["custo_acumulado_centavos"] = df["custo_acumulado_usd"] * 100
+
+df</code></pre>
+  <div class="card card-green parallax-card" style="margin-top: 1rem;">Esperado: input tokens sobem a cada iteração e o custo acumulado cresce mais rápido do que parece.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
+  <h1>Step 6 — plotar crescimento do custo</h1>
+  <pre><code class="language-python">plt.figure(figsize=(8, 4))
+plt.plot(df["iteracao"], df["custo_acumulado_centavos"], marker="o")
+plt.title("Crescimento do custo acumulado por iteração")
+plt.xlabel("Iteração")
+plt.ylabel("Custo acumulado (centavos de US$)")
+plt.grid(True, alpha=0.3)
+plt.show()</code></pre>
+  <div class="text-sm" style="opacity: 0.75;">O gráfico é o clímax visual da aula: conversa virando curva de custo.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
+  <h1>Step 7 — calcular break-even vs humano</h1>
+  <pre><code class="language-python">def break_even_volume(agent_cost_per_task, human_cost_per_task, fixed_cost=0):
+    savings_per_task = human_cost_per_task - agent_cost_per_task
+    if savings_per_task &lt;= 0:
+        return math.inf
+    return fixed_cost / savings_per_task
+
+agent_cost = df["step_cost_usd"].sum()
+human_cost = 2.50
+fixed_cost = 800  # ex.: horas de implantação + QA
+
+print("Custo por tarefa do agente (USD):", round(agent_cost, 4))
+print("Break-even em tarefas:", round(break_even_volume(agent_cost, human_cost, fixed_cost), 0))</code></pre>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #2d1b0e 0%, #0f172a 100%)">
+  <h1>Step 8 — análise de sensibilidade</h1>
+  <pre><code class="language-python">scenarios = []
+
+for model_name in MODEL_PRICES.keys():
+    temp_df = simulate_react_cost(base_prompt, react_steps, model_name=model_name)
+    total_cost = temp_df["step_cost_usd"].sum()
+    scenarios.append({
+        "modelo": model_name,
+        "loops": len(react_steps),
+        "custo_agente_usd": round(total_cost, 4),
+        "break_even_tarefas": round(break_even_volume(total_cost, 2.50, 800), 0),
+    })
+
+pd.DataFrame(scenarios).sort_values("custo_agente_usd")</code></pre>
+  <div class="text-sm" style="opacity: 0.75;">Depois, repita com 3 loops e compare quanto o SLA muda o economics.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%)">
+  <h1>Leitura quantitativa do simulador</h1>
+  <div class="grid-3 text-sm" style="gap: 0.8rem; margin-top: 1.2rem;">
+    <div class="card card-green parallax-card"><b>Modelo</b><br>Muda o custo por milhão de tokens.</div>
+    <div class="card card-amber parallax-card"><b>Loops</b><br>Mudam brutalmente o custo acumulado.</div>
+    <div class="card card-red parallax-card"><b>Ferramentas</b><br>Geram observações que incham contexto.</div>
+  </div>
+  <div class="insight-box fragment" style="margin-top: 1rem;">Analogia: não basta comparar salário do funcionário com API. É preciso comparar operação completa com supervisão, retrabalho e margem.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%)">
+  <h1>9. Break-even: tabela executiva</h1>
+  <table class="text-sm" style="margin-top: 1rem; width: 100%;">
+    <thead><tr><th>Cenário</th><th>Custo agente / tarefa</th><th>Custo humano / tarefa</th><th>Leitura</th></tr></thead>
+    <tbody>
+      <tr><td>Suporte simples</td><td>US$0,08</td><td>US$2,50</td><td>ROI muito forte</td></tr>
+      <tr><td>Suporte com 15 loops</td><td>US$0,45</td><td>US$2,50</td><td>Ainda viável, mas atenção ao desenho</td></tr>
+      <tr><td>Análise complexa com revisão</td><td>US$1,80</td><td>US$3,00</td><td>Margem estreita; validar qualidade</td></tr>
+      <tr><td>Workflow raro e ambíguo</td><td>US$2,70</td><td>US$2,20</td><td>Não vale automatizar</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #0f766e 100%)">
+  <h1>Ponto de inflexão: volume × custo</h1>
+  <div class="grid-2" style="gap: 1rem; margin-top: 1rem;">
+    <div class="card card-cyan parallax-card">
+      <h3>Baixo volume</h3>
+      <p class="text-sm">Setup, QA e monitoramento podem matar a tese econômica.</p>
+    </div>
+    <div class="card card-green parallax-card">
+      <h3>Alto volume</h3>
+      <p class="text-sm">Pequenas economias por tarefa viram grande impacto mensal.</p>
+    </div>
+  </div>
+  <div class="tip-box fragment" style="margin-top: 1rem;">Caso real: backoffice financeiro e atendimento escalam bem porque operam com filas grandes e estáveis.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
+  <h1>Variáveis que mudam tudo</h1>
+  <div class="grid-4 text-sm" style="gap: 0.7rem; margin-top: 1rem;">
+    <div class="card">Modelo escolhido</div>
+    <div class="card">Número de ferramentas</div>
+    <div class="card">Complexidade do caso</div>
+    <div class="card">Taxa de fallback humano</div>
+  </div>
+  <div class="card card-red parallax-card fragment" style="margin-top: 1rem;">Se 30% dos casos escalam para humano, seu business case precisa incluir o custo híbrido — não apenas o custo do agente.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
+  <h1>Template de business case</h1>
+  <div class="card card-purple expandable">
+    <h3>Para X tarefas/mês, agente custa Y vs humano Z</h3>
+    <p>Frase executiva pronta para comitê.</p>
+    <div class="card-detail text-sm">
+      Volume mensal × custo do agente + custos fixos + fallback humano<br>
+      versus<br>
+      Volume mensal × custo humano + custo de erro + custo de atraso
+    </div>
+  </div>
+  <div class="insight-box fragment" style="margin-top: 1rem;">Exemplo: “Para 30 mil tickets/mês, o agente custa US$9 mil contra US$75 mil do processo humano, com fallback em 12% dos casos.”</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #2d1b0e 0%, #0f172a 100%)">
+  <h1>10. Exercício 1</h1>
+  <div class="card card-amber parallax-card">Calcule o custo mensal de um agente de suporte que atende <b>500 tickets/dia</b>.</div>
+  <ul class="text-sm" style="margin-top: 1rem;">
+    <li>Use 22 dias úteis por mês</li>
+    <li>Assuma custo do agente de US$0,12 por ticket</li>
+    <li>Compare com humano a US$2,40 por ticket</li>
+    <li>Depois teste um cenário pessimista com US$0,28 por ticket</li>
+  </ul>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%)">
+  <h1>Exercício 2</h1>
+  <div class="card card-cyan parallax-card">Compare <b>3 modelos diferentes</b> para a mesma tarefa.</div>
+  <ul class="text-sm" style="margin-top: 1rem;">
+    <li>Fixe o mesmo prompt e o mesmo número de loops</li>
+    <li>Troque apenas a tabela de preços</li>
+    <li>Observe o impacto em custo unitário e break-even</li>
+    <li>Discuta quando pagar mais por qualidade faz sentido</li>
+  </ul>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%)">
+  <h1>Exercício 3</h1>
+  <div class="card card-red parallax-card">Identifique um cenário em que um agente <b>não</b> vale a pena.</div>
+  <ul class="text-sm" style="margin-top: 1rem;">
+    <li>Baixo volume mensal</li>
+    <li>Alta variabilidade entre casos</li>
+    <li>Alto custo de erro e pouca tolerância regulatória</li>
+    <li>Forte dependência de revisão humana no fim</li>
+  </ul>
+  <div class="tip-box fragment" style="margin-top: 1rem;">Responder “não automatize” é sinal de maturidade de produto, não de fracasso.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #0f766e 100%)">
+  <h1>Exercício bônus</h1>
+  <div class="card card-green parallax-card">Analise um processo real da sua empresa com a matriz de viabilidade.</div>
+  <div class="grid-3 text-sm" style="gap: 0.8rem; margin-top: 1rem;">
+    <div class="card">Frequência: alta, média ou baixa?</div>
+    <div class="card">Variabilidade: o playbook cobre 80% dos casos?</div>
+    <div class="card">Custo do erro humano: financeiro, regulatório ou reputacional?</div>
+  </div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
+  <h1>Checklist final para AI Architects / TPMs de IA</h1>
+  <div class="stagger-in text-sm" style="margin-top: 1rem;">
+    <div class="card fragment" style="margin-bottom: 0.7rem;">□ O processo tem volume suficiente?</div>
+    <div class="card fragment" style="margin-bottom: 0.7rem;">□ O SLA do agente define limite de custo, latência e fallback?</div>
+    <div class="card fragment" style="margin-bottom: 0.7rem;">□ O loop foi desenhado para resumir observações?</div>
+    <div class="card fragment" style="margin-bottom: 0.7rem;">□ O business case inclui custo híbrido e custo do erro?</div>
+    <div class="card fragment">□ Existe plano de medição contínua após produção?</div>
+  </div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
+  <h1>11. Recap do encontro</h1>
+  <div class="grid-3 text-sm" style="gap: 0.8rem; margin-top: 1rem;">
+    <div class="card card-green parallax-card"><b>Framework</b><br>Decidimos quando automatizar.</div>
+    <div class="card card-green parallax-card"><b>Simulador</b><br>Transformamos loop em custo.</div>
+    <div class="card card-green parallax-card"><b>Break-even</b><br>Comparamos agente vs humano.</div>
+  </div>
+  <div class="insight-box fragment" style="margin-top: 1rem;">O prompt deixou de ser texto e virou contrato operacional com impacto econômico mensurável.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #2d1b0e 0%, #0f172a 100%)">
+  <h1>Bridge para o Encontro 2</h1>
+  <div class="card card-purple parallax-card text-center">Seu agente funciona e você sabe quanto custa.</div>
+  <div class="card card-amber parallax-card text-center" style="margin-top: 1rem;">Mas ele ainda pode agir impulsivamente, sem planejamento e sem compliance.</div>
+  <div class="text-center" style="margin-top: 1.2rem; opacity: 0.8;">No E2, vamos ensiná-lo a raciocinar melhor, planejar etapas e operar com mais governança.</div>
 </section>
