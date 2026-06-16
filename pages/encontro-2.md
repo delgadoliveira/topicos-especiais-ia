@@ -1227,7 +1227,7 @@ for event in app.stream({"messages": [("user", "...")]}):
 
 ---
 
-# 2.10 Decision tree: qual abordagem usar?
+# Síntese: qual abordagem usar?
 
 ```mermaid {scale: 0.5}
 flowchart TD
