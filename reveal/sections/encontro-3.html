@@ -13,16 +13,16 @@
 <section data-background-gradient="linear-gradient(135deg, #0a2e1f 0%, #1e3a5f 100%)">
 <h1>🎯 O que você será capaz de fazer ao final desta aula</h1>
 <div class="stagger-in" style="margin-top: 1.5rem;">
-<div class="card card-green parallax-card fragment" style="padding: 0.8rem 1.2rem; margin-bottom: 0.6rem;">
+<div class="card card-green parallax-card" style="padding: 0.8rem 1.2rem; margin-bottom: 0.6rem;">
 <span style="font-size: 1.3em;">✅</span> <b>Criar um assistente baseado em documentos</b> (RAG)
 </div>
-<div class="card card-green parallax-card fragment" style="padding: 0.8rem 1.2rem; margin-bottom: 0.6rem;">
+<div class="card card-green parallax-card" style="padding: 0.8rem 1.2rem; margin-bottom: 0.6rem;">
 <span style="font-size: 1.3em;">✅</span> <b>Dar memória ao agente</b> — curto e longo prazo
 </div>
-<div class="card card-green parallax-card fragment" style="padding: 0.8rem 1.2rem; margin-bottom: 0.6rem;">
+<div class="card card-green parallax-card" style="padding: 0.8rem 1.2rem; margin-bottom: 0.6rem;">
 <span style="font-size: 1.3em;">✅</span> <b>Conectar ferramentas externas</b> via MCP (Model Context Protocol)
 </div>
-<div class="card card-green parallax-card fragment" style="padding: 0.8rem 1.2rem; margin-bottom: 0.6rem;">
+<div class="card card-green parallax-card" style="padding: 0.8rem 1.2rem; margin-bottom: 0.6rem;">
 <span style="font-size: 1.3em;">✅</span> <b>Entender padrões multi-agente</b> e quando usá-los
 </div>
 </div>
@@ -33,7 +33,7 @@
 <h1>💭 Onde paramos…</h1>
 <p class="text-sm typewriter-js" data-text="Seu agente já pensa (CoT, Planning) e age com precisão (Function Calling).">Seu agente já pensa (CoT, Planning) e age com precisão (Function Calling).</p>
 <div class="card card-red text-center scale-in mt-2"><div class="card-title">Mas tem um problema grave:</div><div class="big-date">Ele é amnésico.</div></div>
-<div class="insight-box fragment">Não lembra da conversa de ontem. Não sabe quem você é. Não tem acesso aos seus documentos.<br>Hoje vamos dar <b>memória</b>, <b>conhecimento</b> e <b>habilidades reutilizáveis</b> ao agente.</div>
+<div class="insight-box">Não lembra da conversa de ontem. Não sabe quem você é. Não tem acesso aos seus documentos.<br>Hoje vamos dar <b>memória</b>, <b>conhecimento</b> e <b>habilidades reutilizáveis</b> ao agente.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e293b 100%)">
@@ -88,9 +88,9 @@ O agente do Encontro 2 já raciocina e usa tools. Hoje ele aprende a <b>lembrar<
 <h1>🚨 O problema: seu agente é amnésico e limitado</h1>
 <p class="text-sm">No Encontro 2, construímos agentes que pensam e agem. Mas eles têm <b>3 limitações fatais</b>:</p>
 <div class="grid-3 mt-2 stagger-in">
-<div class="card card-red fragment"><div class="card-title">🧠 Esquece tudo</div><div class="card-desc">Cada chamada começa do zero. O usuário repete contexto toda vez. <b>ChatGPT sem Memory</b> era exatamente isso.</div></div>
-<div class="card card-red fragment"><div class="card-title">📄 Não sabe nada seu</div><div class="card-desc">Conhece o mundo até o treino, mas não conhece <b>seus documentos, seu código, sua empresa</b>.</div></div>
-<div class="card card-red fragment"><div class="card-title">💸 Fica caro rápido</div><div class="card-desc">Mandar todo o histórico toda vez = custo crescente + latência + perda de qualidade (lost-in-the-middle).</div></div>
+<div class="card card-red"><div class="card-title">🧠 Esquece tudo</div><div class="card-desc">Cada chamada começa do zero. O usuário repete contexto toda vez. <b>ChatGPT sem Memory</b> era exatamente isso.</div></div>
+<div class="card card-red"><div class="card-title">📄 Não sabe nada seu</div><div class="card-desc">Conhece o mundo até o treino, mas não conhece <b>seus documentos, seu código, sua empresa</b>.</div></div>
+<div class="card card-red"><div class="card-title">💸 Fica caro rápido</div><div class="card-desc">Mandar todo o histórico toda vez = custo crescente + latência + perda de qualidade (lost-in-the-middle).</div></div>
 </div>
 <div class="insight-box mt-2 text-xs">Este encontro resolve exatamente isso: <b>contexto inteligente + memória + RAG + protocolos de conexão</b>.</div>
 </section>
@@ -550,12 +550,12 @@ print(resultado[&quot;answer&quot;])</code></pre>
 <h1>RAG_TECHNIQUES · o mapa mental</h1>
 <p class="text-xs" style="opacity:0.8; margin-bottom:0.6rem;">Baseado em <a href="https://github.com/NirDiamant/RAG_TECHNIQUES" style="color:#8b5cf6;">NirDiamant/RAG_TECHNIQUES</a>: coleção pública com 42+ notebooks de RAG, do básico a arquiteturas avançadas.</p>
 <div class="grid-3 stagger-in text-xs" style="gap:0.5rem;">
-<div class="card card-green fragment"><b>🌱 Fundamentos</b><br>Simple RAG, CSV RAG, chunk size, proposition chunking.</div>
-<div class="card card-cyan fragment"><b>🔍 Query enhancement</b><br>Query transformations, HyDE, HyPE.</div>
-<div class="card card-purple fragment"><b>📚 Context enrichment</b><br>Headers, semantic chunking, compression, augmentation.</div>
-<div class="card card-amber fragment"><b>🚀 Retrieval avançado</b><br>Fusion retrieval, reranking, filtros, índices hierárquicos, multimodal.</div>
-<div class="card card-red fragment"><b>🔁 Iterativo/adaptativo</b><br>Feedback loop, adaptive retrieval, Self-RAG, CRAG.</div>
-<div class="card fragment" style="border-color: rgba(96,165,250,0.4);"><b>📊 Avaliação</b><br>RAGAS, DeepEval, GroUSE, Open-RAG-Eval, end-to-end eval.</div>
+<div class="card card-green"><b>🌱 Fundamentos</b><br>Simple RAG, CSV RAG, chunk size, proposition chunking.</div>
+<div class="card card-cyan"><b>🔍 Query enhancement</b><br>Query transformations, HyDE, HyPE.</div>
+<div class="card card-purple"><b>📚 Context enrichment</b><br>Headers, semantic chunking, compression, augmentation.</div>
+<div class="card card-amber"><b>🚀 Retrieval avançado</b><br>Fusion retrieval, reranking, filtros, índices hierárquicos, multimodal.</div>
+<div class="card card-red"><b>🔁 Iterativo/adaptativo</b><br>Feedback loop, adaptive retrieval, Self-RAG, CRAG.</div>
+<div class="card" style="border-color: rgba(96,165,250,0.4);"><b>📊 Avaliação</b><br>RAGAS, DeepEval, GroUSE, Open-RAG-Eval, end-to-end eval.</div>
 </div>
 <div class="tip-box mt-2 text-xs">💡 A ideia pedagógica: cada técnica existe porque uma parte do pipeline falha. Não memorize nomes; diagnostique a falha.</div>
 </section>
@@ -563,12 +563,12 @@ print(resultado[&quot;answer&quot;])</code></pre>
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #064e3b 100%)">
 <h1>Advanced RAG · diagnosticar antes de escolher</h1>
 <div class="grid-3 text-xs mt-3" style="gap:0.5rem;">
-<div class="card card-purple fragment"><b>Query ruim</b><br>Rewriting · Multi-query · HyDE</div>
-<div class="card card-cyan fragment"><b>Chunk ruim</b><br>Semantic chunking · Headers · Parent-child</div>
-<div class="card card-green fragment"><b>Busca incompleta</b><br>Hybrid search · Fusion · Filtering</div>
-<div class="card card-amber fragment"><b>Ranking ruim</b><br>Reranking · Cross-encoder</div>
-<div class="card card-red fragment"><b>Contexto inchado</b><br>Compression · Segment extraction</div>
-<div class="card fragment" style="border-color: rgba(96,165,250,0.4);"><b>Resposta sem evidência</b><br>RAGAS · Grounding check · Citations</div>
+<div class="card card-purple"><b>Query ruim</b><br>Rewriting · Multi-query · HyDE</div>
+<div class="card card-cyan"><b>Chunk ruim</b><br>Semantic chunking · Headers · Parent-child</div>
+<div class="card card-green"><b>Busca incompleta</b><br>Hybrid search · Fusion · Filtering</div>
+<div class="card card-amber"><b>Ranking ruim</b><br>Reranking · Cross-encoder</div>
+<div class="card card-red"><b>Contexto inchado</b><br>Compression · Segment extraction</div>
+<div class="card" style="border-color: rgba(96,165,250,0.4);"><b>Resposta sem evidência</b><br>RAGAS · Grounding check · Citations</div>
 </div>
 <div class="grid-2 mt-3 text-xs">
 <div class="card card-purple"><b>Como ensinar</b><br>Mostre uma pergunta que falha, identifique o gargalo no diagrama e só então introduza a técnica.</div>
@@ -579,15 +579,15 @@ print(resultado[&quot;answer&quot;])</code></pre>
 <section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
 <h1>Visual 1 · fan-out de queries</h1>
 <div class="flow-diagram mt-2">
-  <div class="flow-node node-purple fragment">Pergunta ambígua</div>
-  <div class="flow-arrow fragment">→</div>
-  <div class="flow-node node-cyan fragment">Query rewriting</div>
-  <div class="flow-arrow fragment">→</div>
-  <div class="flow-node node-green fragment">3-5 queries</div>
-  <div class="flow-arrow fragment">→</div>
-  <div class="flow-node node-amber fragment">Vector DB</div>
-  <div class="flow-arrow fragment">→</div>
-  <div class="flow-node node-purple fragment">Reranker</div>
+  <div class="flow-node node-purple">Pergunta ambígua</div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-node node-cyan">Query rewriting</div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-node node-green">3-5 queries</div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-node node-amber">Vector DB</div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-node node-purple">Reranker</div>
 </div>
 <div class="grid-2 mt-3 text-xs">
 <div class="card card-green"><b>Multi-query</b><br>Aumenta recall quando a pergunta pode ser expressa de várias formas.</div>
@@ -598,10 +598,10 @@ print(resultado[&quot;answer&quot;])</code></pre>
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #172554 100%)">
 <h1>Visual 2 · chunk não é só tamanho</h1>
 <div class="grid-4 text-xs mt-3">
-  <div class="card card-red fragment"><b>Chunk fixo</b><br>barato, mas corta ideias</div>
-  <div class="card card-cyan fragment"><b>Semantic chunking</b><br>respeita tópicos</div>
-  <div class="card card-purple fragment"><b>Proposition chunking</b><br>uma afirmação por unidade</div>
-  <div class="card card-green fragment"><b>Parent-child</b><br>busca pequena, contexto grande</div>
+  <div class="card card-red"><b>Chunk fixo</b><br>barato, mas corta ideias</div>
+  <div class="card card-cyan"><b>Semantic chunking</b><br>respeita tópicos</div>
+  <div class="card card-purple"><b>Proposition chunking</b><br>uma afirmação por unidade</div>
+  <div class="card card-green"><b>Parent-child</b><br>busca pequena, contexto grande</div>
 </div>
 <div class="card card-purple mt-3 text-xs">🎨 <b>Elemento visual sugerido em aula:</b> desenhe um PDF como uma régua. Primeiro corte em blocos iguais; depois corte por seções semânticas; por fim mostre o “parent” como uma moldura maior ao redor do chunk encontrado.</div>
 </section>
@@ -609,17 +609,17 @@ print(resultado[&quot;answer&quot;])</code></pre>
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
 <h1>Visual 3 · funil de recuperação</h1>
 <div class="flow-diagram mt-2">
-  <div class="flow-node node-purple fragment">Pergunta</div>
-  <div class="flow-arrow fragment">→</div>
-  <div class="flow-node node-cyan fragment">Busca barata<br>top 100</div>
-  <div class="flow-arrow fragment">→</div>
-  <div class="flow-node node-green fragment">Filtros</div>
-  <div class="flow-arrow fragment">→</div>
-  <div class="flow-node node-purple fragment">Hybrid/fusion<br>top 40</div>
-  <div class="flow-arrow fragment">→</div>
-  <div class="flow-node node-amber fragment">Reranker<br>top 8</div>
-  <div class="flow-arrow fragment">→</div>
-  <div class="flow-node node-cyan fragment">Compression</div>
+  <div class="flow-node node-purple">Pergunta</div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-node node-cyan">Busca barata<br>top 100</div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-node node-green">Filtros</div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-node node-purple">Hybrid/fusion<br>top 40</div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-node node-amber">Reranker<br>top 8</div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-node node-cyan">Compression</div>
 </div>
 <div class="grid-3 mt-3 text-xs">
 <div class="card card-cyan"><b>Recall</b><br>não perder o documento certo.</div>
@@ -631,10 +631,10 @@ print(resultado[&quot;answer&quot;])</code></pre>
 <section data-background-gradient="linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)">
 <h1>Visual 4 · arquiteturas avançadas</h1>
 <div class="grid-2 text-xs mt-3">
-<div class="card card-purple fragment"><b>🕸️ GraphRAG</b><br>Transforma documentos em entidades e relações. Bom para perguntas multi-hop: “quem influencia quem?”</div>
-<div class="card card-green fragment"><b>🌳 RAPTOR</b><br>Cria árvore de resumos. Busca pode subir/descer níveis: detalhe local ou visão global.</div>
-<div class="card card-cyan fragment"><b>🧠 MemoRAG</b><br>Usa memória para recuperar contexto relevante de interações e documentos anteriores.</div>
-<div class="card card-red fragment"><b>🩺 Self-RAG / CRAG</b><br>O sistema critica a própria recuperação: “preciso buscar?”, “o que veio é suficiente?”, “devo corrigir?”</div>
+<div class="card card-purple"><b>🕸️ GraphRAG</b><br>Transforma documentos em entidades e relações. Bom para perguntas multi-hop: “quem influencia quem?”</div>
+<div class="card card-green"><b>🌳 RAPTOR</b><br>Cria árvore de resumos. Busca pode subir/descer níveis: detalhe local ou visão global.</div>
+<div class="card card-cyan"><b>🧠 MemoRAG</b><br>Usa memória para recuperar contexto relevante de interações e documentos anteriores.</div>
+<div class="card card-red"><b>🩺 Self-RAG / CRAG</b><br>O sistema critica a própria recuperação: “preciso buscar?”, “o que veio é suficiente?”, “devo corrigir?”</div>
 </div>
 <div class="card card-amber mt-3 text-xs">⚠️ Arquitetura avançada não é prêmio por sofisticação. Use quando o diagnóstico mostrar que o RAG simples não resolve.</div>
 </section>
@@ -713,13 +713,13 @@ docs = vectordb.search(hipo, k=5)</code></pre>
 <div class="card card-purple text-sm"><b>👨‍👦 Parent-Child Chunks</b><br>Indexe pedaços <b>pequenos</b> para busca precisa, mas devolva ao LLM o pedaço <b>grande</b> para manter contexto rico.</div>
 
 <div class="flow-diagram mt-2">
-  <div class="flow-node node-purple fragment">Pergunta</div>
-  <div class="flow-arrow fragment">→</div>
-  <div class="flow-node node-cyan fragment">chunks 200 tokens</div>
-  <div class="flow-arrow fragment">→</div>
-  <div class="flow-node node-green fragment">parent 2000 tokens</div>
-  <div class="flow-arrow fragment">→</div>
-  <div class="flow-node node-purple fragment">LLM</div>
+  <div class="flow-node node-purple">Pergunta</div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-node node-cyan">chunks 200 tokens</div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-node node-green">parent 2000 tokens</div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-node node-purple">LLM</div>
 </div>
 <div class="card card-cyan mt-3 text-xs">🎯 O índice trabalha com alta precisão; a resposta final recebe contexto suficiente para sintetizar.</div>
 </section>
@@ -738,13 +738,13 @@ docs = vectordb.search(hipo, k=5)</code></pre>
     <div class="trace-line trace-result">Resposta final com evidências</div>
   </div>
   <div class="flow-diagram">
-    <div class="flow-node node-purple fragment">Agent</div>
-    <div class="flow-arrow fragment">↘</div>
-    <div class="flow-node node-cyan fragment">search docs</div>
-    <div class="flow-arrow fragment">↗</div>
-    <div class="flow-node node-green fragment">search code</div>
-    <div class="flow-arrow fragment">↘</div>
-    <div class="flow-node node-amber fragment">search web</div>
+    <div class="flow-node node-purple">Agent</div>
+    <div class="flow-arrow">↘</div>
+    <div class="flow-node node-cyan">search docs</div>
+    <div class="flow-arrow">↗</div>
+    <div class="flow-node node-green">search code</div>
+    <div class="flow-arrow">↘</div>
+    <div class="flow-node node-amber">search web</div>
   </div>
 </div>
 <div class="card card-amber mt-3 text-xs">🎯 É o padrão por trás de <b>Perplexity</b>, <b>ChatGPT Search</b> e <b>Cursor @docs</b>.</div>
@@ -817,15 +817,15 @@ docs = vectordb.search(hipo, k=5)</code></pre>
 <p class="text-sm" style="opacity:0.8;">Busca semântica é boa com conceitos, mas falha em termos exatos: IDs, datas, códigos, siglas. A solução: <b>combinar semântico + lexical</b>.</p>
 
 <div class="flow-diagram mt-2">
-  <div class="flow-node node-purple fragment">Pergunta</div>
-  <div class="flow-arrow fragment">→</div>
-  <div class="flow-node node-cyan fragment">Busca semântica</div>
-  <div class="flow-arrow fragment">+</div>
-  <div class="flow-node node-green fragment">Busca lexical<br>BM25 / full-text</div>
-  <div class="flow-arrow fragment">→</div>
-  <div class="flow-node node-purple fragment">Merge + rerank</div>
-  <div class="flow-arrow fragment">→</div>
-  <div class="flow-node node-amber fragment">Top-K final</div>
+  <div class="flow-node node-purple">Pergunta</div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-node node-cyan">Busca semântica</div>
+  <div class="flow-arrow">+</div>
+  <div class="flow-node node-green">Busca lexical<br>BM25 / full-text</div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-node node-purple">Merge + rerank</div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-node node-amber">Top-K final</div>
 </div>
 <div class="grid-2 mt-3 text-xs">
 <div class="card"><b>Semântico</b><br>Entende conceitos e sinônimos; falha em termos exatos, números e códigos.</div>
@@ -838,21 +838,21 @@ docs = vectordb.search(hipo, k=5)</code></pre>
 <h1>📊 RAG vs Fine-tuning vs Prompt — quando usar</h1>
 
 <div class="grid-2 mt-2">
-  <div class="card card-cyan fragment"><b>RAG</b><br><span class="text-xs">Dados dinâmicos + tarefa relativamente genérica<br>Ex: FAQ empresa, news agent</span></div>
-  <div class="card card-purple fragment"><b>Fine-tuning</b><br><span class="text-xs">Tarefa específica + comportamento repetitivo<br>Ex: classificação de emails</span></div>
-  <div class="card card-green fragment"><b>Prompt engineering</b><br><span class="text-xs">Poucos dados, problema simples, baixo custo</span></div>
-  <div class="card card-amber fragment"><b>RAG + Fine-tune</b><br><span class="text-xs">Busca dinâmica + estilo/decisão muito especializada<br>Ex: pesquisa docs legais</span></div>
+  <div class="card card-cyan"><b>RAG</b><br><span class="text-xs">Dados dinâmicos + tarefa relativamente genérica<br>Ex: FAQ empresa, news agent</span></div>
+  <div class="card card-purple"><b>Fine-tuning</b><br><span class="text-xs">Tarefa específica + comportamento repetitivo<br>Ex: classificação de emails</span></div>
+  <div class="card card-green"><b>Prompt engineering</b><br><span class="text-xs">Poucos dados, problema simples, baixo custo</span></div>
+  <div class="card card-amber"><b>RAG + Fine-tune</b><br><span class="text-xs">Busca dinâmica + estilo/decisão muito especializada<br>Ex: pesquisa docs legais</span></div>
 </div>
-<div class="insight-box fragment">Casos do slide original: FAQ empresa, Chatbot geral, Classificação emails, Pesquisa docs legais, Resumo genérico, News agent.</div>
+<div class="insight-box">Casos do slide original: FAQ empresa, Chatbot geral, Classificação emails, Pesquisa docs legais, Resumo genérico, News agent.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e293b 100%)">
 <h1>🔗 Recuperar não basta — precisamos de atribuição</h1>
 <div class="grid-2 mt-3 text-sm">
-  <div class="card card-cyan fragment"><b>Retrieval responde:</b><br>“quais trechos parecem relevantes para a pergunta?”</div>
-  <div class="card card-red fragment"><b>Atribuição responde:</b><br>“qual trecho sustenta cada afirmação da resposta?”</div>
+  <div class="card card-cyan"><b>Retrieval responde:</b><br>“quais trechos parecem relevantes para a pergunta?”</div>
+  <div class="card card-red"><b>Atribuição responde:</b><br>“qual trecho sustenta cada afirmação da resposta?”</div>
 </div>
-<div class="card card-amber mt-3 text-sm fragment">📌 RAG sem atribuição é como uma redação com bibliografia no fim, mas sem nota de rodapé: parece acadêmico, mas você não sabe qual frase veio de qual fonte.</div>
+<div class="card card-amber mt-3 text-sm">📌 RAG sem atribuição é como uma redação com bibliografia no fim, mas sem nota de rodapé: parece acadêmico, mas você não sabe qual frase veio de qual fonte.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
@@ -876,9 +876,9 @@ docs = vectordb.search(hipo, k=5)</code></pre>
 <section data-background-gradient="linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)">
 <h1>Grounding, attribution e citation — não são a mesma coisa</h1>
 <div class="grid-3 mt-4 text-xs">
-  <div class="card card-purple fragment"><b>🎯 Grounding</b><br>A resposta usa apenas evidências disponíveis no contexto recuperado.</div>
-  <div class="card card-cyan fragment"><b>🧾 Attribution</b><br>Cada afirmação importante é ligada a uma evidência específica.</div>
-  <div class="card card-green fragment"><b>🔖 Citation</b><br>A evidência aparece para o usuário como fonte, link, trecho, página ou chunk.</div>
+  <div class="card card-purple"><b>🎯 Grounding</b><br>A resposta usa apenas evidências disponíveis no contexto recuperado.</div>
+  <div class="card card-cyan"><b>🧾 Attribution</b><br>Cada afirmação importante é ligada a uma evidência específica.</div>
+  <div class="card card-green"><b>🔖 Citation</b><br>A evidência aparece para o usuário como fonte, link, trecho, página ou chunk.</div>
 </div>
 <div class="card card-amber mt-4 text-sm">Uma resposta pode ter <b>citação falsa</b>, pode citar um documento real mas <b>não suportar a frase</b>, ou pode estar fiel ao documento errado. Por isso precisamos medir, não só “pedir para citar”.</div>
 </section>
@@ -886,11 +886,11 @@ docs = vectordb.search(hipo, k=5)</code></pre>
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #064e3b 100%)">
 <h1>Pipeline de atribuição — do chunk à afirmação</h1>
 <div class="flow-diagram mt-2">
-  <div class="flow-node node-purple fragment">Pergunta</div><div class="flow-arrow fragment">→</div>
-  <div class="flow-node node-cyan fragment">Retrieve top-k</div><div class="flow-arrow fragment">→</div>
-  <div class="flow-node node-green fragment">IDs<br>doc/página/chunk</div><div class="flow-arrow fragment">→</div>
-  <div class="flow-node node-purple fragment">Resposta<br>com citações</div><div class="flow-arrow fragment">→</div>
-  <div class="flow-node node-amber fragment">Claims + verifier</div>
+  <div class="flow-node node-purple">Pergunta</div><div class="flow-arrow">→</div>
+  <div class="flow-node node-cyan">Retrieve top-k</div><div class="flow-arrow">→</div>
+  <div class="flow-node node-green">IDs<br>doc/página/chunk</div><div class="flow-arrow">→</div>
+  <div class="flow-node node-purple">Resposta<br>com citações</div><div class="flow-arrow">→</div>
+  <div class="flow-node node-amber">Claims + verifier</div>
 </div>
 <div class="grid-2 mt-3 text-xs">
   <div class="card card-green"><b>Boa UX</b><br>Mostrar a frase, a fonte e o trecho exato que sustenta a frase.</div>
@@ -1030,13 +1030,13 @@ Synthesis ≠ Retrieval. É um <b>passo de raciocínio</b> que requer: dedup, re
 <p class="text-sm">Para muitos docs ou docs grandes — não cabem todos no contexto.</p>
 
 <div class="flow-diagram mt-2">
-  <div class="flow-node node-cyan fragment">Doc 1</div>
-  <div class="flow-node node-cyan fragment">Doc 2</div>
-  <div class="flow-node node-cyan fragment">Doc N</div>
-  <div class="flow-arrow fragment">↓</div>
-  <div class="flow-node node-green fragment">Map: extrai info relevante</div>
-  <div class="flow-arrow fragment">→</div>
-  <div class="flow-node node-purple fragment">Reduce: combina, resolve conflitos, responde</div>
+  <div class="flow-node node-cyan">Doc 1</div>
+  <div class="flow-node node-cyan">Doc 2</div>
+  <div class="flow-node node-cyan">Doc N</div>
+  <div class="flow-arrow">↓</div>
+  <div class="flow-node node-green">Map: extrai info relevante</div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-node node-purple">Reduce: combina, resolve conflitos, responde</div>
 </div>
 <div class="mt-3 text-sm">
 <b>Map:</b> rodar em paralelo, barato (modelo menor). <b>Reduce:</b> modelo maior, com instruções de citação.<br>
@@ -1076,13 +1076,13 @@ Pergunta: {pergunta}
 <p class="text-sm">Para corpora gigantes (livros, repositórios, milhares de tickets):</p>
 
 <div class="flow-diagram mt-2">
-  <div class="flow-node node-cyan fragment">Chunks</div>
-  <div class="flow-arrow fragment">→</div>
-  <div class="flow-node node-green fragment">Sumário lvl 1</div>
-  <div class="flow-arrow fragment">→</div>
-  <div class="flow-node node-amber fragment">Sumário lvl 2</div>
-  <div class="flow-arrow fragment">→</div>
-  <div class="flow-node node-purple fragment">Resposta final<br>citando origens</div>
+  <div class="flow-node node-cyan">Chunks</div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-node node-green">Sumário lvl 1</div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-node node-amber">Sumário lvl 2</div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-node node-purple">Resposta final<br>citando origens</div>
 </div>
 <div class="mt-3 text-sm">
 Cada nível mantém <b>ponteiros</b> para o nível anterior — assim a resposta final ainda pode citar chunks específicos.<br>
@@ -1151,20 +1151,20 @@ chain_stuff = load_summarize_chain(llm, chain_type=&quot;stuff&quot;)</code></pr
 <h1>3.5 Memória — curto vs longo prazo</h1>
 
 <div class="flow-diagram mt-2">
-  <div class="flow-node node-purple fragment">🤖 Agente</div>
-  <div class="flow-arrow fragment">→</div>
-  <div class="flow-node node-cyan fragment">💬 Short-term<br>histórico da sessão</div>
-  <div class="flow-arrow fragment">↘</div>
-  <div class="flow-node node-green fragment">💾 Long-term<br>entre sessões</div>
-  <div class="flow-arrow fragment">→</div>
-  <div class="flow-node node-amber fragment">Episódica / Semântica / Procedural</div>
+  <div class="flow-node node-purple">🤖 Agente</div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-node node-cyan">💬 Short-term<br>histórico da sessão</div>
+  <div class="flow-arrow">↘</div>
+  <div class="flow-node node-green">💾 Long-term<br>entre sessões</div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-node node-amber">Episódica / Semântica / Procedural</div>
 </div>
 <div class="grid-3 mt-2 stagger-in">
   <div class="card card-cyan">Vector DB<br><span class="text-xs">resumos de sessões</span></div>
   <div class="card card-green">Knowledge graph<br><span class="text-xs">ou vector DB</span></div>
   <div class="card card-purple">Skills / Tools<br><span class="text-xs">código reutilizável</span></div>
 </div>
-<div class="card card-cyan mt-2 text-xs fragment"><b>🏢 Em produção:</b> ChatGPT Memory (20M+ usuários), Claude Projects (contexto persistente por projeto), Cursor (indexa repo inteiro como memória de trabalho), Microsoft Copilot (Graph como memória enterprise). Memória é o que transforma chatbot em <b>assistente pessoal</b>.</div>
+<div class="card card-cyan mt-2 text-xs"><b>🏢 Em produção:</b> ChatGPT Memory (20M+ usuários), Claude Projects (contexto persistente por projeto), Cursor (indexa repo inteiro como memória de trabalho), Microsoft Copilot (Graph como memória enterprise). Memória é o que transforma chatbot em <b>assistente pessoal</b>.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
@@ -1327,13 +1327,13 @@ print(chat(&quot;Me ajude a escrever uma função&quot;))</code></pre>
 <h1>🧠 MemGPT — LLMs como sistemas operacionais</h1>
 <p class="text-sm"><b>MemGPT</b> (Packer et al., 2023) propõe olhar para o agente como um <b>OS</b>:<br><b>contexto principal = RAM</b> · <b>memória externa = HD</b>.</p>
 <div class="flow-diagram mt-2">
-  <div class="flow-node node-purple fragment">Usuário fala</div>
-  <div class="flow-arrow fragment">→</div>
-  <div class="flow-node node-cyan fragment">Contexto ativo<br>“RAM”</div>
-  <div class="flow-arrow fragment">↔</div>
-  <div class="flow-node node-green fragment">Memória arquivada<br>“HD / disco”</div>
-  <div class="flow-arrow fragment">→</div>
-  <div class="flow-node node-amber fragment">Resposta</div>
+  <div class="flow-node node-purple">Usuário fala</div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-node node-cyan">Contexto ativo<br>“RAM”</div>
+  <div class="flow-arrow">↔</div>
+  <div class="flow-node node-green">Memória arquivada<br>“HD / disco”</div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-node node-amber">Resposta</div>
 </div>
 <div class="grid-3 mt-3 text-xs stagger-in">
   <div class="card card-cyan expandable">
@@ -1368,15 +1368,15 @@ print(chat(&quot;Me ajude a escrever uma função&quot;))</code></pre>
 <h1>⚡ CacheBlend &amp; Efficient RAG</h1>
 <p class="text-sm">Para RAG funcionar em produção, não basta recuperar bem — precisa ser <b>rápido</b>, <b>barato</b> e <b>repetível</b>.</p>
 <div class="flow-diagram mt-2">
-  <div class="flow-node node-purple fragment">Pergunta</div>
-  <div class="flow-arrow fragment">→</div>
-  <div class="flow-node node-cyan fragment">Retrieval</div>
-  <div class="flow-arrow fragment">→</div>
-  <div class="flow-node node-green fragment">Cache de contexto<br>/ KV / chunks</div>
-  <div class="flow-arrow fragment">→</div>
-  <div class="flow-node node-amber fragment">Fusão rápida</div>
-  <div class="flow-arrow fragment">→</div>
-  <div class="flow-node node-purple fragment">LLM</div>
+  <div class="flow-node node-purple">Pergunta</div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-node node-cyan">Retrieval</div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-node node-green">Cache de contexto<br>/ KV / chunks</div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-node node-amber">Fusão rápida</div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-node node-purple">LLM</div>
 </div>
 <div class="grid-3 mt-3 text-xs stagger-in">
   <div class="card card-purple expandable">
@@ -1483,13 +1483,13 @@ print(chat(&quot;Me ajude a escrever uma função&quot;))</code></pre>
   </div>
 </div>
 <div class="flow-diagram mt-3">
-  <div class="flow-node node-red fragment">Zero memória</div>
-  <div class="flow-arrow fragment">→</div>
-  <div class="flow-node node-amber fragment">Histórico local</div>
-  <div class="flow-arrow fragment">→</div>
-  <div class="flow-node node-green fragment">Memória persistente</div>
-  <div class="flow-arrow fragment">→</div>
-  <div class="flow-node node-purple fragment">Memória hierárquica</div>
+  <div class="flow-node node-red">Zero memória</div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-node node-amber">Histórico local</div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-node node-green">Memória persistente</div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-node node-purple">Memória hierárquica</div>
 </div>
 <div class="tip-box mt-3">🎯 Regra prática para iniciantes: comece com <b>curto prazo + RAG</b>; evolua para <b>memória hierárquica</b> quando o agente precisar durar muito e decidir melhor o que lembrar.</div>
 </section>
@@ -1497,14 +1497,14 @@ print(chat(&quot;Me ajude a escrever uma função&quot;))</code></pre>
 <section data-background-gradient="linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%)" class="text-center">
 <h1>🔧 Parte 2: Habilidades e colaboração</h1>
 <p class="text-sm">O agente já tem <b>memória</b> e <b>conhecimento externo</b> (RAG).<br>Agora vamos dar a ele <b>habilidades permanentes</b> — e a capacidade de <b>trabalhar em equipe</b>.</p>
-<div class="insight-box fragment">Skills, MCP, e padrões multi-agente.</div>
+<div class="insight-box">Skills, MCP, e padrões multi-agente.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
 <h1>3.6 Skills — capacidades reutilizáveis</h1>
 <p class="text-sm">📅 Lançado pela Anthropic em <b>outubro/2025</b>.</p>
 <p class="text-sm"><b>Conceito:</b> uma "skill" é uma <b>pasta</b> com:</p>
-<ul><li class="fragment">Um <code>SKILL.md</code> descrevendo o que faz e quando usar</li><li class="fragment">Scripts auxiliares (Python, bash)</li><li class="fragment">Templates, dados, recursos</li></ul>
+<ul><li>Um <code>SKILL.md</code> descrevendo o que faz e quando usar</li><li>Scripts auxiliares (Python, bash)</li><li>Templates, dados, recursos</li></ul>
 <p class="text-sm">O agente <b>descobre</b> skills disponíveis e <b>carrega só o necessário</b> quando relevante.</p>
 <pre><code class="language-text">~/.claude/skills/
 ├── pdf-extractor/
@@ -1553,7 +1553,7 @@ Hoje: Claude, ChatGPT, VS Code, Cursor, Cline, Continue…
 </div>
 
 </div>
-<div class="card card-green mt-2 text-xs fragment"><b>🏢 Adoção:</b> além de Claude, o ecossistema inclui ChatGPT, VS Code, Cursor e muitos servidores comunitários. É o "USB-C dos agentes" — conecte uma vez, funcione em muitos clientes MCP.</div>
+<div class="card card-green mt-2 text-xs"><b>🏢 Adoção:</b> além de Claude, o ecossistema inclui ChatGPT, VS Code, Cursor e muitos servidores comunitários. É o "USB-C dos agentes" — conecte uma vez, funcione em muitos clientes MCP.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #0f766e 100%)">
@@ -1563,11 +1563,11 @@ Hoje: Claude, ChatGPT, VS Code, Cursor, Cline, Continue…
   <div class="flow-node node-purple" style="display:inline-block; margin-bottom:0.4rem;">🖥️ Claude Desktop / Cursor / Seu app</div>
   <div class="text-xs" style="margin:0.3rem 0;">↙ &nbsp; ↓ &nbsp; ↓ &nbsp; ↓ &nbsp; ↘</div>
   <div style="display:grid; grid-template-columns:repeat(5,1fr); gap:0.4rem;">
-    <div class="card card-cyan fragment" style="padding:0.4rem; text-align:center; font-size:0.65em;">📁 Filesystem</div>
-    <div class="card card-cyan fragment" style="padding:0.4rem; text-align:center; font-size:0.65em;">🐙 GitHub</div>
-    <div class="card card-cyan fragment" style="padding:0.4rem; text-align:center; font-size:0.65em;">🐘 Postgres</div>
-    <div class="card card-cyan fragment" style="padding:0.4rem; text-align:center; font-size:0.65em;">💬 Slack</div>
-    <div class="card card-amber fragment" style="padding:0.4rem; text-align:center; font-size:0.65em;">🔧 Custom</div>
+    <div class="card card-cyan" style="padding:0.4rem; text-align:center; font-size:0.65em;">📁 Filesystem</div>
+    <div class="card card-cyan" style="padding:0.4rem; text-align:center; font-size:0.65em;">🐙 GitHub</div>
+    <div class="card card-cyan" style="padding:0.4rem; text-align:center; font-size:0.65em;">🐘 Postgres</div>
+    <div class="card card-cyan" style="padding:0.4rem; text-align:center; font-size:0.65em;">💬 Slack</div>
+    <div class="card card-amber" style="padding:0.4rem; text-align:center; font-size:0.65em;">🔧 Custom</div>
   </div>
   <div class="text-xs mt-2 opacity-70">Cada servidor é independente — o host conecta a quantos quiser</div>
 </div>
@@ -1656,22 +1656,22 @@ Lista oficial: <a href="https://github.com/modelcontextprotocol/servers">github.
 
 <section data-background-gradient="linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)">
 <h1>3.8 Padrões multi-agente</h1>
-<div class="card card-red text-xs mb-2 fragment"><b>🚨 Quando um agente não basta:</b> Cursor tentou um único agente para "review + edit + test + deploy". Resultado: contexto estourava, qualidade caía após 10 passos. Solução: supervisor + workers especializados. Cada worker foca em 1 skill com contexto limpo.</div>
+<div class="card card-red text-xs mb-2"><b>🚨 Quando um agente não basta:</b> Cursor tentou um único agente para "review + edit + test + deploy". Resultado: contexto estourava, qualidade caía após 10 passos. Solução: supervisor + workers especializados. Cada worker foca em 1 skill com contexto limpo.</div>
 
 <div class="grid-3 mt-2">
-  <div class="card card-purple fragment">
+  <div class="card card-purple">
     <b>1. Supervisor / Orchestrator</b>
     <div class="flow-diagram mt-1"><div class="flow-node node-purple">Supervisor</div><div class="flow-arrow">→</div><div class="flow-node node-cyan">A / B / C</div></div>
     <div class="text-xs mt-1" style="line-height:1.5;">Um agente central <b>decide</b> qual especialista chamar e <b>agrega</b> os resultados. Os workers não se falam diretamente.</div>
     <div class="text-xs mt-1 opacity-70">🎯 <b>Quando:</b> tarefas com sub-domínios claros<br>📦 <b>Ex:</b> customer support (router → billing/tech/sales)</div>
   </div>
-  <div class="card card-cyan fragment">
+  <div class="card card-cyan">
     <b>2. Handoff / Swarm</b>
     <div class="flow-diagram mt-1"><div class="flow-node node-cyan">Agente 1</div><div class="flow-arrow">→</div><div class="flow-node node-green">Agente 2</div><div class="flow-arrow">→</div><div class="flow-node node-amber">Agente 3</div></div>
     <div class="text-xs mt-1" style="line-height:1.5;">Cada agente <b>passa o bastão</b> ao próximo quando termina sua parte. Fluxo sequencial, como uma linha de produção.</div>
     <div class="text-xs mt-1 opacity-70">🎯 <b>Quando:</b> pipeline com etapas ordenadas<br>📦 <b>Ex:</b> pesquisar → escrever → revisar (OpenAI Swarm)</div>
   </div>
-  <div class="card card-green fragment">
+  <div class="card card-green">
     <b>3. Hierárquico</b>
     <div class="flow-diagram mt-1"><div class="flow-node node-purple">CEO</div><div class="flow-arrow">→</div><div class="flow-node node-cyan">Managers</div><div class="flow-arrow">→</div><div class="flow-node node-green">Workers</div></div>
     <div class="text-xs mt-1" style="line-height:1.5;">Múltiplos níveis: um agente coordena <b>gerentes</b>, que coordenam <b>workers</b>. Escala para tarefas grandes e complexas.</div>
@@ -1954,8 +1954,8 @@ print(run_rag_agent(&quot;Como funciona memória persistente?&quot;))</code></pr
 Hoje saímos de “agente com tools” para “agente com <b>conhecimento recuperável, memória e conectores</b>”.
 </div>
 <div class="grid-2 stagger-in text-xs" style="gap:0.7rem;">
-<div class="card card-purple fragment"><b>Repertório técnico</b><br>Context window, lost-in-the-middle, RAG, grounding, synthesis, memória, skills, MCP e multi-agentes.</div>
-<div class="card card-green fragment"><b>Critério de engenharia</b><br>Escolher quando colocar algo no prompt, recuperar de uma base, salvar como memória, encapsular como skill ou expor via MCP.</div>
+<div class="card card-purple"><b>Repertório técnico</b><br>Context window, lost-in-the-middle, RAG, grounding, synthesis, memória, skills, MCP e multi-agentes.</div>
+<div class="card card-green"><b>Critério de engenharia</b><br>Escolher quando colocar algo no prompt, recuperar de uma base, salvar como memória, encapsular como skill ou expor via MCP.</div>
 </div>
 <div class="insight-box mt-2 text-sm"><b>Frase para levar:</b> contexto não é “mais tokens”; é <b>selecionar a evidência certa, na hora certa, com a fonte certa</b>.</div>
 <div class="card card-cyan mt-2 text-center"><div class="card-title">Próximo: Encontro 4 — Problemas Comuns &amp; State-of-the-Art</div><div class="card-desc">Onde tudo isso encontra a <i>realidade</i>: falhas, custos, avaliação e produtos vencedores.</div></div>
