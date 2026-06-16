@@ -118,8 +118,9 @@
       { keyCode: 80, key: 'P', description: 'Recolher ferramentas', handler: () => toolbar.classList.toggle('is-collapsed') },
     ];
 
+    const registeredWithReveal = deck && typeof deck.addKeyBinding === 'function';
     mappings.forEach(({ keyCode, key, description, handler }) => {
-      if (deck && typeof deck.addKeyBinding === 'function') {
+      if (registeredWithReveal) {
         deck.addKeyBinding({ keyCode, key, description }, () => {
           if (!isEditableElement(document.activeElement)) handler();
         });
@@ -135,6 +136,10 @@
       if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'z') {
         event.preventDefault();
         undo();
+      }
+      if (!registeredWithReveal && !event.ctrlKey && !event.metaKey && !event.altKey) {
+        const shortcut = mappings.find((item) => item.key.toLowerCase() === event.key.toLowerCase());
+        if (shortcut) shortcut.handler();
       }
     });
   }
@@ -268,7 +273,7 @@
     ctx.strokeStyle = stroke.color;
     ctx.lineWidth = scaleWidth(stroke.width, rect);
     ctx.globalAlpha = stroke.mode === 'highlight' ? 0.34 : 0.95;
-    ctx.globalCompositeOperation = stroke.mode === 'highlight' ? 'multiply' : 'source-over';
+    ctx.globalCompositeOperation = 'source-over';
     ctx.beginPath();
     stroke.points.forEach((point, index) => {
       const x = (point.x / LOGICAL_WIDTH) * rect.width;
