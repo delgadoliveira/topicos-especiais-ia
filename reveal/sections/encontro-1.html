@@ -872,7 +872,7 @@ Gera o que é <b>estatisticamente plausível</b>, não o que é <b>verdadeiro</b
 <h1 class="typewriter-js" data-text="🔬 Deep dive: entendendo o motor">🔬 Deep dive: entendendo o motor</h1>
 <div style="font-size: 0.85em; opacity: 0.9; margin-top: 0.8rem;">
 Você já sabe <b>o que</b> um LLM faz e <b>por que</b> precisa de um agente ao redor.<br>
-Agora vamos abrir o capô e entender <b>3 conceitos técnicos</b> que controlam <b>custo, velocidade e qualidade</b>:
+Agora vamos abrir o capô e entender os <b>fatores técnicos que determinam</b> se um produto agentic <b>funciona ou falha</b>:
 </div>
 
 <div class="flow-diagram mt-2" style="font-size: 0.9em;">
@@ -883,14 +883,23 @@ Agora vamos abrir o capô e entender <b>3 conceitos técnicos</b> que controlam 
 <div class="flow-node node-amber" style="border: 2px solid rgba(251,191,36,0.6);">🌡️ Temperatura<br><span class="text-xs">criativo vs determinístico</span></div>
 </div>
 
-<div class="card card-cyan mt-3 text-xs fragment" style="text-align: left;">
-<b>Por que isso importa para agentes?</b><br>
-• Tokens → quanto custa cada passo do agente<br>
-• Context window → quantos passos cabem antes de "esquecer"<br>
-• Temperatura → o agente inventa ou segue instruções à risca
+<div class="grid-2 mt-2 stagger-in text-xs" style="gap:0.5rem;">
+<div class="card card-cyan fragment" style="text-align:left;">
+<b>⚙️ Impacto direto em produtos agentic:</b><br>
+• <b>Tokens</b> → Um agente com 10 tool calls gasta 10× mais que um chatbot. Cursor gasta ~$0.05/interação vs $0.001 de um chat simples.<br>
+• <b>Context Window</b> → Agente "esquece" instruções após muitos passos. É por isso que Devin falha em tarefas com 20+ ações.<br>
+• <b>Temperatura</b> → temp>0 = agente inventa nomes de funções que não existem (alucinação de tools).
+</div>
+<div class="card card-red fragment" style="text-align:left;">
+<b>🚨 Problemas que surgem daqui:</b><br>
+• <b>RAG degradado</b> → context cheio = chunks recuperados competem com histórico → qualidade cai<br>
+• <b>Custo exponencial</b> → cada passo carrega TODO o histórico anterior (paga de novo)<br>
+• <b>Lost-in-the-middle</b> → info crucial enterrada no meio do contexto é ignorada pelo modelo<br>
+• <b>Latência</b> → mais tokens = mais tempo de inferência; usuário abandona após 10s
+</div>
 </div>
 
-<div class="text-xs opacity-60 mt-2">Dominar esses 3 números = saber otimizar qualquer agente em produção.</div>
+<div class="tip-box mt-2 text-xs">Dominar esses parâmetros = entender por que <b>Perplexity é rápido</b> (contexto enxuto), <b>ChatGPT Memory existe</b> (context overflow) e <b>Claude usa 200K tokens</b> (mais espaço para agentes complexos).</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #1f2937 100%)">
