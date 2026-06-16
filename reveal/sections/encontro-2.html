@@ -312,17 +312,63 @@ R:"""</code></pre>
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #064e3b 100%)">
 <h1>2.3 Self-Consistency</h1>
 <p class="slide-in-left">📄 <b>Wang et al., 2022</b><br>A ideia: gere <b>N respostas</b> com temperatura > 0 e use <b>votação majoritária</b>.</p>
-<div class="flow-diagram"><div class="flow-node node-purple">Mesma pergunta</div><div class="flow-arrow">→</div><div class="flow-node node-purple">Run 1</div><div class="flow-arrow">→</div><div class="flow-node node-purple">Run 2</div><div class="flow-arrow">→</div><div class="flow-node node-purple">Run 3</div><div class="flow-arrow">→</div><div class="flow-node node-purple">Run 4</div><div class="flow-arrow">→</div><div class="flow-node node-purple">Run 5</div><div class="flow-arrow">→</div><div class="flow-node node-amber">🗳️ Voto majoritário</div><div class="flow-arrow">→</div><div class="flow-node node-green">✅ Resposta final</div></div>
-<div class="mt-3 text-xs"><b>Trade-off:</b> 5× mais caro e lento, mas pode subir acurácia em ~10–20% em problemas complexos.<br><b>Quando usar:</b> tarefas com resposta "certa" (matemática, código).</div>
+
+<div style="margin-top:1rem; text-align:center;">
+<div class="flow-node node-purple" style="display:inline-block; margin-bottom:0.5rem;">📝 Mesma pergunta</div>
+<div class="text-xs" style="margin:0.3rem 0;">↙ ↓ ↘</div>
+<div style="display:grid; grid-template-columns:repeat(5,1fr); gap:0.4rem; margin:0.5rem 0;">
+<div class="card card-purple" style="padding:0.4rem; text-align:center; font-size:0.65em;"><b>Run 1</b><br>R: 9</div>
+<div class="card card-purple" style="padding:0.4rem; text-align:center; font-size:0.65em;"><b>Run 2</b><br>R: 9</div>
+<div class="card card-purple" style="padding:0.4rem; text-align:center; font-size:0.65em;"><b>Run 3</b><br>R: 11</div>
+<div class="card card-purple" style="padding:0.4rem; text-align:center; font-size:0.65em;"><b>Run 4</b><br>R: 9</div>
+<div class="card card-purple" style="padding:0.4rem; text-align:center; font-size:0.65em;"><b>Run 5</b><br>R: 9</div>
+</div>
+<div class="text-xs" style="margin:0.3rem 0;">↘ ↓ ↙</div>
+<div class="flow-node node-amber" style="display:inline-block; margin:0.3rem;">🗳️ Voto: 4× "9" vs 1× "11"</div>
+<div class="text-xs" style="margin:0.2rem 0;">↓</div>
+<div class="flow-node node-green" style="display:inline-block;">✅ Resposta: 9</div>
+</div>
+
+<div class="grid-2 text-xs" style="gap:0.5rem; margin-top:0.8rem;">
+<div class="card card-amber" style="padding:0.5rem;"><b>Trade-off:</b> 5× mais caro e lento, mas sobe acurácia em ~10-20% em problemas com resposta única.</div>
+<div class="card card-cyan" style="padding:0.5rem;"><b>Quando usar:</b> matemática, código, classificação — tarefas onde há uma resposta "certa" verificável.</div>
+</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)">
 <h1>2.4 Tree-of-Thoughts (ToT)</h1>
-<p class="slide-in-left">📄 <b>Yao et al., 2023</b><br>Em vez de uma única cadeia, <b>explore múltiplas</b> em árvore, avalie e poda.</p>
-<div class="flow-diagram"><div class="flow-node node-purple">Problema</div><div class="flow-arrow">→</div><div class="flow-node node-purple">Thought A</div><div class="flow-arrow">→</div><div class="flow-node node-purple">Thought B</div><div class="flow-arrow">→</div><div class="flow-node node-purple">Thought C</div><div class="flow-arrow">→</div><div class="flow-node node-green">A.1 ✅</div><div class="flow-arrow">→</div><div class="flow-node node-purple">A.2</div><div class="flow-arrow">→</div><div class="flow-node node-red">B.1 ❌</div><div class="flow-arrow">→</div><div class="flow-node node-purple">B.2</div><div class="flow-arrow">→</div><div class="flow-node node-purple">C.1</div><div class="flow-arrow">→</div><div class="flow-node node-red">descarta</div></div>
-<div class="mt-3 text-xs">Inspirado em busca clássica (BFS/DFS). Útil quando há múltiplos caminhos válidos.<br><b>Trade-off:</b> exponencialmente mais caro; use só quando CoT/Self-Consistency não bastam.</div>
-<div class="card card-amber mt-2 text-xs fragment">
-💡 <b>Analogia de negócio:</b> É como quando um executivo pede ao time que apresente 3 propostas diferentes, avalia cada uma, e escolhe a melhor — em vez de ir com a primeira ideia que apareceu.
+<p class="slide-in-left">📄 <b>Yao et al., 2023</b><br>Em vez de uma única cadeia, <b>explore múltiplas ramificações</b>, avalie e poda as ruins.</p>
+
+<div style="margin-top:0.8rem; text-align:center; font-size:0.7em;">
+<div class="flow-node node-purple" style="display:inline-block; margin-bottom:0.3rem;">🎯 Problema</div>
+<div style="margin:0.3rem 0;">↙ &nbsp;&nbsp;&nbsp; ↓ &nbsp;&nbsp;&nbsp; ↘</div>
+<div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:0.5rem;">
+<div>
+<div class="card card-green" style="padding:0.4rem; text-align:center;"><b>Thought A</b></div>
+<div style="margin:0.2rem 0;">↙ &nbsp; ↘</div>
+<div style="display:grid; grid-template-columns:1fr 1fr; gap:0.3rem;">
+<div class="card card-green" style="padding:0.3rem; text-align:center; font-size:0.85em;">A.1 ✅<br><span style="opacity:0.7;">score: 8/10</span></div>
+<div class="card" style="padding:0.3rem; text-align:center; font-size:0.85em; opacity:0.5;">A.2<br><span>score: 5/10</span></div>
+</div>
+</div>
+<div>
+<div class="card" style="padding:0.4rem; text-align:center; background:rgba(248,113,113,0.1); border:1px solid rgba(248,113,113,0.3);"><b>Thought B</b></div>
+<div style="margin:0.2rem 0;">↓</div>
+<div class="card" style="padding:0.3rem; text-align:center; font-size:0.85em; background:rgba(248,113,113,0.1); border:1px solid rgba(248,113,113,0.3);">B.1 ❌ podado<br><span style="opacity:0.7;">score: 2/10</span></div>
+</div>
+<div>
+<div class="card card-cyan" style="padding:0.4rem; text-align:center;"><b>Thought C</b></div>
+<div style="margin:0.2rem 0;">↓</div>
+<div class="card card-cyan" style="padding:0.3rem; text-align:center; font-size:0.85em;">C.1<br><span style="opacity:0.7;">score: 7/10</span></div>
+</div>
+</div>
+<div style="margin-top:0.4rem;">↓ melhor caminho</div>
+<div class="flow-node node-green" style="display:inline-block; margin-top:0.2rem;">🏆 A.1 vence (score 8/10)</div>
+</div>
+
+<div class="grid-2 text-xs" style="gap:0.5rem; margin-top:0.7rem;">
+<div class="card card-amber" style="padding:0.5rem;"><b>Trade-off:</b> exponencialmente mais caro (cada nível multiplica chamadas). Use só quando CoT/Self-Consistency não bastam.</div>
+<div class="card card-cyan" style="padding:0.5rem;"><b>Analogia:</b> Um executivo pede 3 propostas ao time, avalia cada uma com score, e aprofunda só as melhores — descarta o resto.</div>
 </div>
 </section>
 
