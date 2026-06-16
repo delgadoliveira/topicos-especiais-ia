@@ -1006,12 +1006,12 @@ O agente **descobre** skills disponíveis e **carrega só o necessário** quando
 
 # 3.7 MCP — Model Context Protocol
 
-📅 Lançado pela **Anthropic em novembro/2024**. Adotado por OpenAI, Google e a maioria dos frameworks em 2025.
+📅 Lançado pela **Anthropic em novembro/2024**. A documentação oficial define MCP como um padrão open-source para conectar aplicações de IA a **sistemas externos**.
 
 <div class="mt-6 p-5 rounded-xl bg-cyan-500/10 border-2 border-cyan-500/40 text-center">
 <div class="text-xl">
 MCP é o <b>"USB-C"</b> dos agentes:<br>
-um protocolo padrão para conectar LLMs a <b>qualquer</b> fonte de dados ou ferramenta.
+um protocolo padrão para conectar LLMs a <b>dados</b>, <b>ferramentas</b> e <b>workflows</b>.
 </div>
 </div>
 
@@ -1026,7 +1026,7 @@ Integrar com Slack? 5 implementações diferentes.
 <div class="p-3 rounded bg-green-500/10 border border-green-500/30">
 <b>Com MCP:</b><br>
 1 servidor MCP do Slack → funciona em <b>todos</b> os agentes/clientes que falam MCP.<br>
-Hoje: Claude Desktop, Cursor, VS Code, Cline, Continue…
+Hoje: Claude, ChatGPT, VS Code, Cursor, Cline, Continue…
 </div>
 
 </div>
@@ -1048,7 +1048,37 @@ flowchart LR
   style S4 fill:#2dd4bf,color:#000
   style S5 fill:#f59e0b,color:#000
 ```
-<div class="mt-3 text-xs">Comunicação por <b>JSON-RPC</b> (stdio local ou HTTP/SSE remoto). Cada servidor expõe <b>tools</b>, <b>resources</b> e <b>prompts</b>.</div>
+<div class="mt-3 text-xs">Comunicação por <b>JSON-RPC</b> (stdio local ou HTTP/SSE remoto). O host/cliente descobre capacidades expostas por servidores MCP e decide quando usá-las.</div>
+
+---
+
+# MCP — o que ele expõe
+
+<div class="grid grid-cols-3 gap-3 text-xs mt-4">
+<div class="p-3 rounded-xl bg-cyan-500/10 border border-cyan-500/30"><b>📚 Resources</b><br>Dados que o agente pode ler: arquivos locais, bases SQL, Notion, Google Drive, calendários, documentação interna.</div>
+<div class="p-3 rounded-xl bg-purple-500/10 border border-purple-500/30"><b>🛠️ Tools</b><br>Ações executáveis: buscar na web, criar issue, consultar API, rodar cálculo, abrir PR, manipular Blender ou Figma.</div>
+<div class="p-3 rounded-xl bg-green-500/10 border border-green-500/30"><b>🧩 Prompts / workflows</b><br>Templates especializados e fluxos reutilizáveis: triagem, análise de dados, revisão de código, atendimento, pesquisa.</div>
+</div>
+
+<div class="mt-4 p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 text-xs">
+<b>Modelo mental oficial:</b> MCP não é “mais uma tool”. É a camada de compatibilidade entre <b>clientes de IA</b> e <b>servidores que expõem contexto e ações</b>. O mesmo servidor pode servir muitos clientes.
+</div>
+
+---
+
+# MCP — o que isso habilita na prática
+
+<div class="grid grid-cols-2 gap-3 text-xs mt-3">
+<div class="p-3 rounded-xl bg-cyan-500/10 border border-cyan-500/30"><b>Assistente pessoal contextual</b><br>Conectar Google Calendar + Notion + arquivos para responder “o que preciso preparar para a reunião de amanhã?” com contexto real.</div>
+<div class="p-3 rounded-xl bg-purple-500/10 border border-purple-500/30"><b>Coding agent com design</b><br>Claude Code/Cursor podem ler um design no Figma, editar o repo, rodar testes e propor PR sem integração custom para cada app.</div>
+<div class="p-3 rounded-xl bg-green-500/10 border border-green-500/30"><b>Chatbot enterprise</b><br>Um agente consulta múltiplos bancos e sistemas internos com controle de identidade, permissões e auditoria.</div>
+<div class="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30"><b>Ferramentas criativas</b><br>Modelos podem controlar Blender ou pipelines 3D via servidor MCP, transformando linguagem natural em ação em software especializado.</div>
+</div>
+
+<div class="mt-3 p-2 rounded-lg bg-blue-500/10 border border-blue-500/30 text-xs text-center">
+<b>Por que importa:</b> reduz tempo de integração para devs, amplia capacidades dos agentes e dá aos usuários apps que acessam dados e executam ações reais.
+</div>
+
 ---
 
 # MCP em ação — servidor mínimo (Python)
@@ -1368,7 +1398,7 @@ class: text-center
 
 # 📚 Referências públicas — Encontro 3 (2/2)
 <div class="grid grid-cols-2 gap-3 text-xs mt-3">
-<div class="p-3 rounded bg-green-500/10 border border-green-500/30"><b>Memória & Skills</b><ul class="mt-1"><li>Packer et al. (2023) — <i>MemGPT</i> · <a href="https://arxiv.org/abs/2310.08560">arXiv:2310.08560</a></li><li>Park et al. (2023) — <i>Generative Agents</i> · <a href="https://arxiv.org/abs/2304.03442">arXiv:2304.03442</a></li><li>Anthropic (2024) — <i>Prompt Caching</i> · <a href="https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching">docs.anthropic.com</a></li><li>Anthropic (2024) — <i>MCP Specification</i> · <a href="https://modelcontextprotocol.io/">modelcontextprotocol.io</a></li></ul></div>
+<div class="p-3 rounded bg-green-500/10 border border-green-500/30"><b>Memória & Skills</b><ul class="mt-1"><li>Packer et al. (2023) — <i>MemGPT</i> · <a href="https://arxiv.org/abs/2310.08560">arXiv:2310.08560</a></li><li>Park et al. (2023) — <i>Generative Agents</i> · <a href="https://arxiv.org/abs/2304.03442">arXiv:2304.03442</a></li><li>Anthropic (2024) — <i>Prompt Caching</i> · <a href="https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching">docs.anthropic.com</a></li><li>Model Context Protocol — <i>Introduction</i> · <a href="https://modelcontextprotocol.io/docs/getting-started/intro">modelcontextprotocol.io/docs</a></li></ul></div>
 <div class="p-3 rounded bg-amber-500/10 border border-amber-500/30"><b>Multi-agente & Frameworks</b><ul class="mt-1"><li>Wu et al. (2023) — <i>AutoGen</i> · <a href="https://arxiv.org/abs/2308.08155">arXiv:2308.08155</a></li><li>CrewAI Docs · <a href="https://docs.crewai.com/">docs.crewai.com</a></li><li>Chroma · <a href="https://docs.trychroma.com/">docs.trychroma.com</a> · Qdrant · <a href="https://qdrant.tech/documentation/">qdrant.tech</a> · pgvector · <a href="https://github.com/pgvector/pgvector">github.com/pgvector</a></li></ul></div>
 </div>
 <div class="mt-2 text-xs opacity-70">Todo conteúdo deste encontro é de domínio público. Marcas mencionadas pertencem aos respectivos donos; uso exclusivamente educacional.</div>

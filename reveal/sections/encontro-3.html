@@ -1385,11 +1385,11 @@ print(chat(&quot;Me ajude a escrever uma função&quot;))</code></pre>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
 <h1>3.7 MCP — Model Context Protocol</h1>
-<p class="text-sm">📅 Lançado pela <b>Anthropic em novembro/2024</b>. Adotado por OpenAI, Google e a maioria dos frameworks em 2025.</p>
+<p class="text-sm">📅 Lançado pela <b>Anthropic em novembro/2024</b>. A documentação oficial define MCP como um padrão open-source para conectar aplicações de IA a <b>sistemas externos</b>.</p>
 <div class="card card-cyan mt-3 text-center">
 <div >
 MCP é o <b>"USB-C"</b> dos agentes:<br>
-um protocolo padrão para conectar LLMs a <b>qualquer</b> fonte de dados ou ferramenta.
+um protocolo padrão para conectar LLMs a <b>dados</b>, <b>ferramentas</b> e <b>workflows</b>.
 </div>
 </div>
 <div class="grid-2 mt-3 text-sm">
@@ -1403,11 +1403,11 @@ Integrar com Slack? 5 implementações diferentes.
 <div class="tip-box">
 <b>Com MCP:</b><br>
 1 servidor MCP do Slack → funciona em <b>todos</b> os agentes/clientes que falam MCP.<br>
-Hoje: Claude Desktop, Cursor, VS Code, Cline, Continue…
+Hoje: Claude, ChatGPT, VS Code, Cursor, Cline, Continue…
 </div>
 
 </div>
-<div class="card card-green mt-2 text-xs fragment"><b>🏢 Adoção 2025:</b> Anthropic lançou MCP em Nov/2024. Em 6 meses: 1000+ servers open-source, adotado por Cursor, Windsurf, Zed, Sourcegraph. É o "USB-C dos agentes" — conecte uma vez, funciona em qualquer cliente MCP.</div>
+<div class="card card-green mt-2 text-xs fragment"><b>🏢 Adoção:</b> além de Claude, o ecossistema inclui ChatGPT, VS Code, Cursor e muitos servidores comunitários. É o "USB-C dos agentes" — conecte uma vez, funcione em muitos clientes MCP.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #0f766e 100%)">
@@ -1425,8 +1425,28 @@ Hoje: Claude Desktop, Cursor, VS Code, Cline, Continue…
   </div>
   <div class="text-xs mt-2 opacity-70">Cada servidor é independente — o host conecta a quantos quiser</div>
 </div>
-<div class="mt-3 text-xs">Comunicação por <b>JSON-RPC</b> (stdio local ou HTTP/SSE remoto). Cada servidor expõe <b>tools</b>, <b>resources</b> e <b>prompts</b>.</div>
-<div class="tip-box mt-2 text-xs">🔑 <b>Três primitivas MCP:</b> (1) <b>Tools</b> — funções executáveis, (2) <b>Resources</b> — dados que o agente pode ler, (3) <b>Prompts</b> — templates de instrução reutilizáveis. Juntas, cobrem qualquer integração.</div>
+<div class="mt-3 text-xs">Comunicação por <b>JSON-RPC</b> (stdio local ou HTTP/SSE remoto). O host/cliente descobre capacidades expostas por servidores MCP e decide quando usá-las.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #172554 100%)">
+<h1>MCP — o que ele expõe</h1>
+<div class="grid-3 mt-3 text-xs">
+<div class="card card-cyan"><div class="card-title">📚 Resources</div><div class="card-desc">Dados que o agente pode ler: arquivos locais, bases SQL, Notion, Google Drive, calendários, documentação interna.</div></div>
+<div class="card card-purple"><div class="card-title">🛠️ Tools</div><div class="card-desc">Ações executáveis: buscar na web, criar issue, consultar API, rodar cálculo, abrir PR, manipular Blender ou Figma.</div></div>
+<div class="card card-green"><div class="card-title">🧩 Prompts / workflows</div><div class="card-desc">Templates especializados e fluxos reutilizáveis: triagem, análise de dados, revisão de código, atendimento, pesquisa.</div></div>
+</div>
+<div class="tip-box mt-3 text-xs"><b>Modelo mental oficial:</b> MCP não é “mais uma tool”. É a camada de compatibilidade entre <b>clientes de IA</b> e <b>servidores que expõem contexto e ações</b>. O mesmo servidor pode servir muitos clientes.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
+<h1>MCP — o que isso habilita na prática</h1>
+<div class="grid-2 mt-2 text-xs">
+<div class="card card-cyan"><b>Assistente pessoal contextual</b><br>Conectar Google Calendar + Notion + arquivos para responder “o que preciso preparar para a reunião de amanhã?” com contexto real.</div>
+<div class="card card-purple"><b>Coding agent com design</b><br>Claude Code/Cursor podem ler um design no Figma, editar o repo, rodar testes e propor PR sem integração custom para cada app.</div>
+<div class="card card-green"><b>Chatbot enterprise</b><br>Um agente consulta múltiplos bancos e sistemas internos com controle de identidade, permissões e auditoria.</div>
+<div class="card card-amber"><b>Ferramentas criativas</b><br>Modelos podem controlar Blender ou pipelines 3D via servidor MCP, transformando linguagem natural em ação em software especializado.</div>
+</div>
+<div class="insight-box mt-2 text-xs"><b>Por que importa:</b> reduz tempo de integração para devs, amplia capacidades dos agentes e dá aos usuários apps que acessam dados e executam ações reais.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #172554 100%)">

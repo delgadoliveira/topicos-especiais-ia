@@ -95,7 +95,7 @@
     <div class="card fragment"><div class="card-title">⚖️ LLM-as-judge</div><div class="card-desc">usar um LLM <b>como juiz</b> para avaliar a saída de outro LLM. Acurácia ~80-85% comparado a humanos — barato e escalável.</div></div>
     <div class="card fragment"><div class="card-title">🔭 Observabilidade</div><div class="card-desc">conseguir <b>ver o que o agente fez</b> turno a turno: qual prompt, qual tool, qual resultado. Sem isso, você está debugando às cegas.</div></div>
     <div class="card fragment"><div class="card-title">📏 Eval (avaliação)</div><div class="card-desc">conjunto de testes que mede se o agente está performando. Como <b>CI/CD</b> para IA: roda a cada mudança, alerta se piorou.</div></div>
-    <div class="card fragment"><div class="card-title">🤝 MCP / A2A</div><div class="card-desc">padrões abertos pelos quais agentes se conectam a <b>ferramentas (MCP)</b> ou a <b>outros agentes (A2A)</b>. Como USB-C para o mundo dos agentes.</div></div>
+    <div class="card fragment"><div class="card-title">🤝 MCP / A2A</div><div class="card-desc">MCP conecta apps de IA a <b>dados, tools e workflows</b>; A2A conecta <b>agentes entre si</b>. MCP é o “USB-C” para sistemas externos.</div></div>
     <div class="card fragment"><div class="card-title">🖥️ Computer use</div><div class="card-desc">agente que controla <b>mouse, teclado, tela</b> como um humano. <i>Ex: Claude Computer Use (out/2024), OpenAI Operator (jan/2025).</i></div></div>
   </div>
 </section>
@@ -107,7 +107,7 @@
     <div class="card fragment"><div class="card-title">💉 Prompt injection real</div><div class="card-desc">Bing Chat já vazou instruções secretas; currículo com texto branco invisível enganou filtros automatizados.</div></div>
     <div class="card fragment"><div class="card-title">⚖️ LLM-as-judge em produto</div><div class="card-desc">Braintrust, Promptfoo e Ragas automatizam evals; OpenAI e Anthropic publicam model cards com esse padrão.</div></div>
     <div class="card fragment"><div class="card-title">🔭 Observabilidade em produto</div><div class="card-desc">LangSmith, Langfuse e Arize mostram turno a turno; sem trace, você não sabe por que o agente errou.</div></div>
-    <div class="card fragment"><div class="card-title">🤝 MCP em ação</div><div class="card-desc">Claude Desktop acessa Drive/GitHub/Slack; Cursor conecta MCPs de terceiros como Linear, Notion e Figma.</div></div>
+    <div class="card fragment"><div class="card-title">🤝 MCP em ação</div><div class="card-desc">Claude/ChatGPT/VS Code/Cursor podem plugar servidores para Calendar, Notion, GitHub, bancos SQL, Figma ou sistemas internos.</div></div>
     <div class="card fragment"><div class="card-title">🖥️ Computer use</div><div class="card-desc">OpenAI Operator reserva e compra; Claude controla um Linux virtual para tarefas de pesquisa.</div></div>
   </div>
   <div class="text-xs opacity-70 text-center mt-2">Esses tópicos diferenciam quem <b>brinca</b> com agentes de quem <b>opera</b> em produção.</div>
@@ -524,14 +524,14 @@ Qual responde melhor? A / B / Empate"""</code></pre>
   <h1>MCP × A2A — complementares, não concorrentes</h1>
   <table>
     <tr><th>Aspecto</th><th><b>MCP</b> (Anthropic, 2024)</th><th><b>A2A</b> (Google, 2025)</th></tr>
-    <tr><td>Conecta</td><td>Agente ↔ <b>tool/recurso</b></td><td>Agente ↔ <b>outro agente</b></td></tr>
-    <tr><td>Modelo mental</td><td>"USB-C para tools"</td><td>"HTTP para agentes"</td></tr>
+    <tr><td>Conecta</td><td>App/agente ↔ <b>dados, tools e workflows</b></td><td>Agente ↔ <b>outro agente</b></td></tr>
+    <tr><td>Modelo mental</td><td>"USB-C para sistemas externos"</td><td>"HTTP para agentes"</td></tr>
     <tr><td>Transporte</td><td>JSON-RPC sobre stdio/HTTP</td><td>HTTP + JSON-RPC + SSE</td></tr>
-    <tr><td>Discovery</td><td>Server expõe lista de tools</td><td>Agent Card (JSON)</td></tr>
+    <tr><td>Discovery</td><td>Server expõe capabilities: resources, tools, prompts</td><td>Agent Card (JSON)</td></tr>
     <tr><td>Status</td><td>Adoção massiva 2025</td><td>Cresceu rápido pós-LinuxFoundation</td></tr>
-    <tr><td>Use case</td><td>"Cursor lê meu Postgres"</td><td>"Meu agente HR delega para agente Background-Check da SAP"</td></tr>
+    <tr><td>Use case</td><td>"VS Code lê repo + Postgres + Figma via servidores MCP"</td><td>"Meu agente HR delega para agente Background-Check da SAP"</td></tr>
   </table>
-  <div class="insight-box">🎯 Em produção, agente moderno fala <b>os dois</b>: A2A "para fora" (orquestrar outros agentes), MCP "para baixo" (acessar tools/dados).</div>
+  <div class="insight-box">🎯 Em produção, agente moderno fala <b>os dois</b>: MCP "para baixo" (contexto e ações em sistemas externos), A2A "para fora" (colaborar com outros agentes).</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #172554 100%)">

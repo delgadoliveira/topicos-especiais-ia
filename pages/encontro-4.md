@@ -112,7 +112,7 @@ Nos encontros anteriores, o agente ganhou raciocínio, tools, contexto, RAG e me
 </div>
 
 <div class="p-3 rounded-lg bg-amber-500/10 border border-amber-500/30">
-<b>🤝 MCP / A2A</b> — padrões abertos pelos quais agentes se conectam a <b>ferramentas (MCP)</b> ou a <b>outros agentes (A2A)</b>. Como USB-C para o mundo dos agentes.
+<b>🤝 MCP / A2A</b> — MCP conecta apps de IA a <b>dados, tools e workflows</b>; A2A conecta <b>agentes entre si</b>. MCP é o “USB-C” para sistemas externos.
 </div>
 
 <div class="p-3 rounded-lg bg-pink-500/10 border border-pink-500/30">
@@ -129,7 +129,7 @@ Nos encontros anteriores, o agente ganhou raciocínio, tools, contexto, RAG e me
 <div class="p-2 rounded-lg bg-orange-500/10 border border-orange-500/30"><b>💉 Prompt injection real</b><br>Bing Chat já vazou instruções secretas; currículo com texto branco invisível enganou filtros automatizados.</div>
 <div class="p-2 rounded-lg bg-purple-500/10 border border-purple-500/30"><b>⚖️ LLM-as-judge em produto</b><br>Braintrust, Promptfoo e Ragas automatizam evals; OpenAI e Anthropic publicam model cards com esse padrão.</div>
 <div class="p-2 rounded-lg bg-cyan-500/10 border border-cyan-500/30"><b>🔭 Observabilidade em produto</b><br>LangSmith, Langfuse e Arize mostram turno a turno; sem trace, você não sabe por que o agente errou.</div>
-<div class="p-2 rounded-lg bg-amber-500/10 border border-amber-500/30"><b>🤝 MCP em ação</b><br>Claude Desktop acessa Drive/GitHub/Slack; Cursor conecta MCPs de terceiros como Linear, Notion e Figma.</div>
+<div class="p-2 rounded-lg bg-amber-500/10 border border-amber-500/30"><b>🤝 MCP em ação</b><br>Claude/ChatGPT/VS Code/Cursor podem plugar servidores para Calendar, Notion, GitHub, bancos SQL, Figma ou sistemas internos.</div>
 <div class="p-2 rounded-lg bg-pink-500/10 border border-pink-500/30"><b>🖥️ Computer use</b><br>OpenAI Operator reserva e compra; Claude controla um Linux virtual para tarefas de pesquisa.</div>
 </div>
 <div class="mt-3 text-xs opacity-70 text-center">Esses tópicos diferenciam quem <b>brinca</b> com agentes de quem <b>opera</b> em produção.</div>
@@ -589,15 +589,15 @@ flowchart LR
 
 | Aspecto | **MCP** (Anthropic, 2024) | **A2A** (Google, 2025) |
 |---|---|---|
-| Conecta | Agente ↔ <b>tool/recurso</b> | Agente ↔ <b>outro agente</b> |
-| Modelo mental | "USB-C para tools" | "HTTP para agentes" |
+| Conecta | App/agente ↔ <b>dados, tools e workflows</b> | Agente ↔ <b>outro agente</b> |
+| Modelo mental | "USB-C para sistemas externos" | "HTTP para agentes" |
 | Transporte | JSON-RPC sobre stdio/HTTP | HTTP + JSON-RPC + SSE |
-| Discovery | Server expõe lista de tools | Agent Card (JSON) |
+| Discovery | Server expõe capabilities: resources, tools, prompts | Agent Card (JSON) |
 | Status | Adoção massiva 2025 | Cresceu rápido pós-LinuxFoundation |
-| Use case | "Cursor lê meu Postgres" | "Meu agente HR delega para agente Background-Check da SAP" |
+| Use case | "VS Code lê repo + Postgres + Figma via servidores MCP" | "Meu agente HR delega para agente Background-Check da SAP" |
 
 <div class="mt-4 p-3 rounded bg-cyan-500/10 border border-cyan-500/30 text-sm">
-🎯 Em produção, agente moderno fala <b>os dois</b>: A2A "para fora" (orquestrar outros agentes), MCP "para baixo" (acessar tools/dados).
+🎯 Em produção, agente moderno fala <b>os dois</b>: MCP "para baixo" (contexto e ações em sistemas externos), A2A "para fora" (colaborar com outros agentes).
 </div>
 
 ---
