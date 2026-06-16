@@ -945,7 +945,7 @@ NUNCA invente URL, número, data ou citação."""</code></pre>
     for step in range(max_steps):
         if time.time() - t0 &gt; timeout: return "⛔ Timeout — retornando melhor esforço."
         resp = client.chat.completions.create(
-            model="mistralai/Mistral-Small-24B-Instruct-2501",
+            model="Qwen/Qwen2.5-7B-Instruct",
             messages=msgs, max_tokens=400,
         )
         content = resp.choices[0].message.content

@@ -2160,7 +2160,7 @@ client = InferenceClient(token=HF_TOKEN)
 
 # Teste rápido
 resposta = client.chat.completions.create(
-    model=&quot;mistralai/Mistral-Small-24B-Instruct-2501&quot;,
+    model=&quot;Qwen/Qwen2.5-7B-Instruct&quot;,
     messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Diga oi em 3 palavras&quot;}],
     max_tokens=50,
 )
@@ -2170,7 +2170,7 @@ print(&quot;✅ Setup completo — HuggingFace gratuito funcionando!&quot;)
 
 <div class="grid-2 text-xs mt-2" style="gap:0.5rem;">
 <div class="card card-green"><b>✅ 100% gratuito</b><br>HuggingFace Inference API oferece modelos gratuitos sem limite de billing. Basta criar conta + gerar token.</div>
-<div class="card card-amber"><b>💡 Modelo chat usado</b><br><code>mistralai/Mistral-Small-24B-Instruct-2501</code> — gratuito, rápido e suportado no endpoint <code>/v1/chat/completions</code> da HuggingFace. Nem todos os modelos são suportados como chat; verifique na <a href="https://huggingface.co/models?inference=warm&pipeline_tag=text-generation" style="color:#4da6ff;">página de modelos</a>.</div>
+<div class="card card-amber"><b>💡 Modelo chat usado</b><br><code>Qwen/Qwen2.5-7B-Instruct</code> — gratuito, rápido e suportado no endpoint <code>/v1/chat/completions</code> da HuggingFace. Nem todos os modelos são suportados como chat; verifique na <a href="https://huggingface.co/models?inference=warm&pipeline_tag=text-generation" style="color:#4da6ff;">página de modelos</a>.</div>
 </div>
 </section>
 
@@ -2405,7 +2405,7 @@ Ferramentas disponíveis:
     ]
     for step in range(max_steps):
         resp = client.chat.completions.create(
-            model=&quot;mistralai/Mistral-Small-24B-Instruct-2501&quot;,
+            model=&quot;Qwen/Qwen2.5-7B-Instruct&quot;,
             messages=msgs,
             max_tokens=200,
             temperature=0.1,
