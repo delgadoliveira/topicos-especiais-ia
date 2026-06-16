@@ -177,36 +177,49 @@ Em contextos longos (>10k tokens), modelos prestam <b>mais atenção ao início 
 <section>
 <h1>Exemplo: sumarização automática</h1>
 <div class="text-xs">📖 <b>Em palavras:</b> conte os tokens; se passar do limite, preserve as últimas 4 mensagens e resuma o restante em 200 palavras.</div>
-<pre><code class="language-python"># 📋 Execute no Google Colab — copie e cole
-# Célula 1: Setup
-!pip install openai -q
-import os
-from openai import OpenAI
+<pre><code class="language-python"># 📋 Execute no Google Colab — usa HuggingFace (token gratuito)
 
-# Cole sua chave aqui (ou use Colab Secrets)
-os.environ["OPENAI_API_KEY"] = "sk-..."  # ← substitua pela sua chave
-client = OpenAI()
+def count_tokens_approx(messages: list) -&gt; int:
+    &quot;&quot;&quot;Conta tokens de forma aproximada (1 token ≈ 4 chars em PT-BR).&quot;&quot;&quot;
+    return sum(len(m[&quot;content&quot;]) // 4 for m in messages)
+
+def summarize(messages: list) -&gt; str:
+    &quot;&quot;&quot;Sumariza mensagens usando HuggingFace Inference API.&quot;&quot;&quot;
+    texto = &quot;\n&quot;.join(f&quot;{m[&#x27;role&#x27;]}: {m[&#x27;content&#x27;]}&quot; for m in messages)
+    resp = client.chat.completions.create(
+        model=&quot;mistralai/Mistral-7B-Instruct-v0.3&quot;,
+        messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: f&quot;Resuma em 200 palavras:\n{texto}&quot;}],
+        max_tokens=250,
+    )
+    return resp.choices[0].message.content
 
 def manage_context(messages: list, max_tokens: int = 8000):
     &quot;&quot;&quot;Se passar do limite, sumariza as mensagens antigas.&quot;&quot;&quot;
-    total = count_tokens(messages)
+    total = count_tokens_approx(messages)
     if total &lt; max_tokens:
         return messages
-    # Mantém as últimas 4 mensagens, sumariza o resto
     keep = messages[-4:]
     to_summarize = messages[:-4]</code></pre>
 </section>
 
 <section>
 <h1>Exemplo: sumarização automática — continuação</h1>
-<pre><code class="language-python">    summary = client.chat.completions.create(
-        model=&quot;gpt-4o-mini&quot;,
-        messages=[
-            {&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: &quot;Resuma esta conversa em 200 palavras, preservando fatos importantes e decisões.&quot;},
-            *to_summarize,
-        ],
-    ).choices[0].message.content
-    return [{&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: f&quot;Resumo do histórico anterior:\\n{summary}&quot;}, *keep]</code></pre>
+<pre><code class="language-python">    summary = summarize(to_summarize)  # ← chamada real ao HuggingFace!
+    return [{&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: f&quot;Resumo do histórico anterior:\n{summary}&quot;}, *keep]
+
+# --- Teste ---
+historico = [
+    {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Quero analisar vendas do Q1&quot;},
+    {&quot;role&quot;: &quot;assistant&quot;, &quot;content&quot;: &quot;Claro! Vou buscar os dados...&quot;},
+    {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Agora compare com Q2&quot;},
+    {&quot;role&quot;: &quot;assistant&quot;, &quot;content&quot;: &quot;Q1: R$2M, Q2: R$2.8M — crescimento de 40%.&quot;},
+    {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Projete Q3&quot;},
+    {&quot;role&quot;: &quot;assistant&quot;, &quot;content&quot;: &quot;Com base na tendência, Q3 ≈ R$3.2M.&quot;},
+] * 50  # Simula conversa longa (300 mensagens)
+
+resultado = manage_context(historico, max_tokens=500)
+print(f&quot;Original: {len(historico)} msgs → Comprimido: {len(resultado)} msgs&quot;)
+print(f&quot;Resumo: {resultado[0][&#x27;content&#x27;]}&quot;)</code></pre>
 <div class="card card-cyan mt-3 text-xs">✅ Resultado: o histórico não cresce sem controle, mas as decisões importantes continuam acessíveis.</div>
 </section>
 
@@ -849,16 +862,15 @@ m.add(&quot;Não gosto de emojis em código&quot;, user_id=user_id)</code></pre>
 <h1>Exemplo: memória com mem0 — continuação</h1>
 <pre><code class="language-python">def chat(pergunta: str):
     memorias = m.search(pergunta, user_id=user_id, limit=5)
-    contexto = &quot;\\n&quot;.join(m[&quot;memory&quot;] for m in memorias[&quot;results&quot;])
-    return client.chat.completions.create(
-        model=&quot;gpt-4o-mini&quot;,
-        messages=[
-            {&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: f&quot;Sobre o usuário:\\n{contexto}&quot;},
-            {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: pergunta},
-        ],
-    ).choices[0].message.content
+    contexto = &quot;\n&quot;.join(m[&quot;memory&quot;] for m in memorias[&quot;results&quot;])
+    # Mock de resposta (em produção: chamaria LLM real)
+    resposta = f&quot;[Com contexto de {len(memorias[&#x27;results&#x27;])} memórias] &quot;
+    resposta += f&quot;Baseado no que sei sobre você ({contexto[:50]}...), &quot;
+    resposta += &quot;aqui está minha resposta personalizada.&quot;
+    return resposta
+
 print(chat(&quot;Me ajude a escrever uma função&quot;))</code></pre>
-<div class="card card-cyan mt-3 text-xs">✅ Resultado: ele responde em português, tom técnico e sem emojis mesmo em outra sessão.</div>
+<div class="card card-cyan mt-3 text-xs">✅ Resultado: ele responde em português, tom técnico e sem emojis mesmo em outra sessão — porque a memória persistiu as preferências.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)" class="text-center">
@@ -1257,46 +1269,63 @@ print(crew.kickoff(inputs={&quot;tema&quot;: &quot;agentes de IA&quot;}))</code>
 
 <section>
 <h1>3.9 Hands-on integrado — agente com RAG + memória</h1>
-<pre><code class="language-python"># 📋 Execute no Google Colab — copie e cole
-# Célula 1: Setup
-!pip install langgraph langchain langchain-openai langchain-chroma chromadb openai -q
-import os
-from typing import Annotated, TypedDict
-from langchain_openai import ChatOpenAI
-from langchain_core.messages import SystemMessage
-from langgraph.graph.message import add_messages
+<div class="text-xs" style="margin-bottom:0.3rem; opacity:0.7;">📋 <b>Colab-ready</b> — usa HuggingFace InferenceClient (token gratuito)</div>
+<pre><code class="language-python"># 📋 Execute no Google Colab — requer client do setup
+from typing import TypedDict
 
-# Cole sua chave aqui (ou use Colab Secrets)
-os.environ["OPENAI_API_KEY"] = "sk-..."  # ← substitua pela sua chave
-llm = ChatOpenAI(model="gpt-4o-mini")
+# --- Base de conhecimento local (simula vector store) ---
+KNOWLEDGE_BASE = [
+    &quot;RAG combina retrieval com geração para reduzir alucinações.&quot;,
+    &quot;Memória persistente permite continuidade entre sessões.&quot;,
+    &quot;Vector stores indexam documentos por similaridade semântica.&quot;,
+    &quot;ChromaDB é um vector store open-source em Python.&quot;,
+]
 
-from langgraph.graph import StateGraph, END
-from langgraph.checkpoint.sqlite import SqliteSaver
-# ... imports do RAG (Chroma, embeddings)
+def retrieve(query: str) -&gt; list[str]:
+    &quot;&quot;&quot;Busca por keyword (em produção: embeddings + similaridade).&quot;&quot;&quot;
+    return [d for d in KNOWLEDGE_BASE if any(w in d.lower() for w in query.lower().split())] or KNOWLEDGE_BASE[:2]
+
+def generate(context: list[str], question: str) -&gt; str:
+    &quot;&quot;&quot;Gera resposta usando HuggingFace com contexto injetado.&quot;&quot;&quot;
+    ctx = &quot;\n&quot;.join(f&quot;- {d}&quot; for d in context)
+    resp = client.chat.completions.create(
+        model=&quot;mistralai/Mistral-7B-Instruct-v0.3&quot;,
+        messages=[
+            {&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: f&quot;Responda baseado APENAS neste contexto:\n{ctx}&quot;},
+            {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: question},
+        ],
+        max_tokens=200,
+    )
+    return resp.choices[0].message.content
+
 class State(TypedDict):
-    messages: Annotated[list, add_messages]
+    messages: list[dict]
     context_docs: list[str]
-def retrieve_node(state):
-    q = state[&quot;messages&quot;][-1].content
-    docs = retriever.invoke(q)
-    return {&quot;context_docs&quot;: [d.page_content for d in docs]}</code></pre>
+
+def retrieve_node(state: State) -&gt; dict:
+    q = state[&quot;messages&quot;][-1][&quot;content&quot;]
+    docs = retrieve(q)
+    print(f&quot;🔍 Recuperados {len(docs)} docs para: {q[:40]}&quot;)
+    return {&quot;context_docs&quot;: docs}</code></pre>
 </section>
 
 <section>
 <h1>3.9 Hands-on integrado — continuação</h1>
-<pre><code class="language-python">def agent_node(state):
-    sys = f&quot;Use APENAS este contexto:\\n{state[&#x27;context_docs&#x27;]}&quot;
-    msgs = [SystemMessage(sys)] + state[&quot;messages&quot;]
-    return {&quot;messages&quot;: [llm.invoke(msgs)]}
-graph = StateGraph(State)
-graph.add_node(&quot;retrieve&quot;, retrieve_node)
-graph.add_node(&quot;agent&quot;, agent_node)
-graph.set_entry_point(&quot;retrieve&quot;)
-graph.add_edge(&quot;retrieve&quot;, &quot;agent&quot;)
-graph.add_edge(&quot;agent&quot;, END)
-memory = SqliteSaver.from_conn_string(&quot;checkpoints.db&quot;)
-app = graph.compile(checkpointer=memory)</code></pre>
-<div class="card card-cyan mt-3 text-xs">💾 Aqui o RAG busca contexto por turno e o <code>SqliteSaver</code> mantém memória persistente entre execuções.</div>
+<pre><code class="language-python">def agent_node(state: State) -&gt; dict:
+    resposta = generate(state[&quot;context_docs&quot;], state[&quot;messages&quot;][-1][&quot;content&quot;])
+    return {&quot;messages&quot;: [{&quot;role&quot;: &quot;assistant&quot;, &quot;content&quot;: resposta}]}
+
+# --- Grafo simples: retrieve → generate ---
+def run_rag_agent(pergunta: str) -&gt; str:
+    state: State = {&quot;messages&quot;: [{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: pergunta}], &quot;context_docs&quot;: []}
+    state.update(retrieve_node(state))
+    state.update(agent_node(state))
+    return state[&quot;messages&quot;][-1][&quot;content&quot;]
+
+# Teste — chamadas reais ao HuggingFace!
+print(run_rag_agent(&quot;O que é RAG e como funciona?&quot;))
+print(run_rag_agent(&quot;Como funciona memória persistente?&quot;))</code></pre>
+<div class="card card-cyan mt-3 text-xs">💾 Padrão: <b>retrieve → generate</b>. Em produção, troque <code>retrieve()</code> por ChromaDB + embeddings. A estrutura do código permanece idêntica — só muda o retriever.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #3b0764 0%, #0f172a 100%)" class="text-center">

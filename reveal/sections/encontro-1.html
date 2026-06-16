@@ -1439,30 +1439,32 @@ JSON: {"decisao": "aprovado|rejeitado", "valor": float,
 <div class="text-xs" style="opacity:0.7; margin-top:0.4rem;">📚 Aprofundamos cada falha com exercícios práticos no <b>Encontro 4</b>. Aqui o objetivo é <b>reconhecer o vocabulário</b>.</div>
 </section>
 
-<section class="text-center" data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
-<div class="text-center">
-<h1 class="typewriter-js" data-text="⏸️ Checkpoint — consolidando">⏸️ Checkpoint — consolidando</h1>
-<div style="font-size:0.75em; opacity:0.9; margin-top:0.8rem;">
-<div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.6rem; text-align:left;">
-<div class="card" style="background:rgba(74,222,128,0.06); border:1px solid rgba(74,222,128,0.3);">
-<b>✅ O que você já domina:</b><br>
-• O que é um agente (e o que não é)<br>
-• 5 componentes e o que cada um desbloqueia<br>
-• Como o LLM funciona (tokens, contexto, temp)<br>
-• Como tools funcionam (JSON → execução → observação)<br>
-• Onde agentes quebram (5 falhas clássicas)
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
+<h1>⏸️ Checkpoint — consolidando</h1>
+<p class="text-sm" style="opacity:0.85;">Metade do encontro concluída. Vamos verificar onde estamos.</p>
+<div style="display:grid; grid-template-columns: 1fr 1fr; gap:1rem; margin-top:1rem;">
+<div class="card card-green" style="padding:1rem;">
+<b>✅ O que você já domina:</b>
+<ul class="text-sm" style="margin-top:0.5rem; padding-left:1.2em; line-height:1.8;">
+<li>O que é um agente (e o que não é)</li>
+<li>5 componentes e o que cada um desbloqueia</li>
+<li>Como o LLM funciona (tokens, contexto, temperatura)</li>
+<li>Como tools funcionam (JSON → execução → observação)</li>
+<li>Onde agentes quebram (5 falhas clássicas)</li>
+</ul>
 </div>
-<div class="card" style="background:rgba(96,165,250,0.06); border:1px solid rgba(96,165,250,0.3);">
-<b>➡️ O que vem agora:</b><br>
-• Quem está construindo agentes no mercado<br>
-• Labs de fronteira e modelos disponíveis<br>
-• <b>Hands-on:</b> construir seu primeiro agente<br>
-• Loop ReAct em Python puro (~20 linhas)<br>
-• Function Calling real com API
+<div class="card card-cyan" style="padding:1rem;">
+<b>➡️ O que vem agora:</b>
+<ul class="text-sm" style="margin-top:0.5rem; padding-left:1.2em; line-height:1.8;">
+<li>Panorama de mercado — quem está construindo agentes</li>
+<li>Labs de fronteira e modelos disponíveis</li>
+<li><b>Hands-on:</b> construir seu primeiro agente</li>
+<li>Loop ReAct em Python puro (~20 linhas)</li>
+<li>Function Calling real com API</li>
+</ul>
 </div>
 </div>
-</div>
-</div>
+<div class="tip-box" style="margin-top:0.8rem;">🎯 Conceitos → Mercado → Código. Essa é a sequência da segunda metade.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #1f2937 100%)">
@@ -1477,29 +1479,18 @@ JSON: {"decisao": "aprovado|rejeitado", "valor": float,
 <div  class="mt-3 text-xs opacity-70 text-center" style="opacity:0.7;">Fontes: anúncios oficiais + relatórios públicos de funding (Crunchbase, TechCrunch).</div>
 </section>
 
-<section class="text-center" data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
-<div class="text-center"><h1 class="typewriter-js" data-text="💡 Pergunta importante">💡 Pergunta importante</h1>
-<div  style="font-size:1.15em; opacity:0.9;">
-Se há tantos produtos, <b>quem fabrica os cérebros</b> por trás deles?
-</div></div>
-</section>
-
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #0f766e 100%)">
-<h1>🏢 Labs de fronteira — parte 1</h1>
-<div  class="grid-3 stagger-in text-xs">
-<div  class="card card-green parallax-card scale-in"><b>🟢 OpenAI</b> <span class="opacity-60">(2015, SF)</span><br><i>Modelos:</i> GPT-4.1, o3-pro, o4-mini, GPT-4o<br><i>Aposta:</i> AGI via escala + reasoning models; o1/o3 foram substituídos por o3-pro/o4-mini<br><i>Parcerias:</i> Microsoft (US$ 13B+) e Apple Intelligence<br><i>Valuation:</i> ~US$ 500B (2025)</div>
-<div  class="card card-amber parallax-card scale-in"><b>🟠 Anthropic</b> <span class="opacity-60">(2021, SF)</span><br><i>Modelos:</i> Claude Haiku/Sonnet/Opus<br><i>Aposta:</i> Constitutional AI + liderança em devs, MCP e Computer Use<br><i>Parcerias:</i> Amazon (US$ 8B) e Google (US$ 2B)<br><i>Valuation:</i> ~US$ 60B (2025)</div>
-<div  class="card card-cyan parallax-card scale-in"><b>🔵 Google DeepMind</b> <span class="opacity-60">(unificada em 2023)</span><br><i>Modelos:</i> Gemini 1.5/2.0/2.5 Pro/Flash<br><i>Aposta:</i> multimodal nativo + 1M–2M tokens<br><i>Trunfo:</i> operar chip → modelo → produto → distribuição</div>
+<h1>🏢 Labs de fronteira — quem fabrica os "cérebros"</h1>
+<p class="text-xs" style="opacity:0.8;">Se há tantos produtos de agentes, quem fabrica os modelos por trás? Estes são os principais fornecedores:</p>
+<div class="grid-3 stagger-in text-xs" style="gap:0.6rem; margin-top:0.6rem;">
+<div class="card card-green parallax-card"><b>🟢 OpenAI</b> <span class="opacity-60">(2015)</span><br>GPT-4.1, o3-pro, o4-mini<br><i>Aposta:</i> AGI via escala + reasoning<br><i>Valuation:</i> ~US$ 500B<br><i>Parceiro:</i> Microsoft ($13B+)</div>
+<div class="card card-amber parallax-card"><b>🟠 Anthropic</b> <span class="opacity-60">(2021)</span><br>Claude Haiku/Sonnet/Opus<br><i>Aposta:</i> Constitutional AI + MCP<br><i>Valuation:</i> ~US$ 60B<br><i>Parceiros:</i> Amazon + Google</div>
+<div class="card card-cyan parallax-card"><b>🔵 Google DeepMind</b><br>Gemini 1.5/2.0/2.5<br><i>Aposta:</i> multimodal + 2M tokens<br><i>Trunfo:</i> chip → modelo → produto</div>
+<div class="card card-purple parallax-card"><b>🪟 Microsoft</b><br>Phi + GPT via Azure<br><i>Aposta:</i> distribuição (1.4B users)<br><i>Trunfo:</i> Windows, Office, GitHub</div>
+<div class="card parallax-card" style="background:rgba(255,255,255,0.04);border-color:rgba(255,255,255,0.12);"><b>🦙 Meta (FAIR)</b><br>Llama 3.x / 4 (open weights)<br><i>Aposta:</i> commoditizar modelos<br><i>Impacto:</i> Ollama, Groq, Together</div>
+<div class="card parallax-card" style="background:rgba(248,113,113,0.08);border-color:rgba(248,113,113,0.28);"><b>🇨🇳 DeepSeek + Qwen</b><br>DeepSeek-V3/R1, Qwen 2.5/3<br><i>Aposta:</i> custo baixo (~$6M treino)<br><i>Impacto:</i> democratização global</div>
 </div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
-<h1>Labs de fronteira — parte 2</h1>
-<div  class="grid-3 stagger-in text-xs">
-<div  class="card card-cyan parallax-card scale-in"><b>🪟 Microsoft</b> <span class="opacity-60">(via OpenAI + interno)</span><br><i>Modelo:</i> Phi + GPT via Azure<br><i>Aposta:</i> distribuição em Windows, Office, GitHub e Azure<br><i>Trunfo:</i> 1.4B de usuários corporativos</div>
-<div  class="card card-purple parallax-card scale-in"><b>🦙 Meta</b> <span class="opacity-60">(FAIR)</span><br><i>Modelo:</i> Llama 3.x / 4<br><i>Aposta:</i> open weights para commoditizar o modelo<br><i>Impacto:</i> ecossistemas como Ollama, Groq e Together</div>
-<div  class="card parallax-card scale-in" style="background:rgba(255,255,255,0.04);border-color:rgba(255,255,255,0.12);"><b>⚫ xAI</b> <span class="opacity-60">(2023)</span><br><i>Modelo:</i> Grok 2 / 3 / 4<br><i>Aposta:</i> velocidade de escala + dados do X<br><i>Posição:</i> cluster Colossus com 100k+ H100s</div>
-</div>
+<div class="text-xs" style="margin-top:0.6rem; opacity:0.75;">Outros: xAI (Grok), Mistral 🇫🇷 (soberania europeia), Cohere 🇨🇦, AI21 🇮🇱. Com LiteLLM/LangChain, trocar modelo = poucas linhas de código.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
@@ -1530,86 +1521,132 @@ Houve <b>três saltos qualitativos</b>.
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
-<h1>🚀 Os 3 grandes saltos</h1>
-<div  class="grid-3 stagger-in text-xs">
-<div  class="card card-purple parallax-card scale-in"><div  class="text-center" style="font-size:1.15em;">📈</div><b>1. Escala (2020)</b><div  class="mt-2" style="opacity:0.8;">De 1.5B (GPT-2) para 175B (GPT-3): surgem tradução, código e raciocínio sem treino específico.</div><div  class="mt-2 text-purple">Insight: escalar cria novas capacidades</div></div>
-<div  class="card card-cyan parallax-card scale-in"><div  class="text-center" style="font-size:1.15em;">🎯</div><b>2. Alinhamento (2022)</b><div  class="mt-2" style="opacity:0.8;">RLHF transformou "completar texto" em "seguir instruções"; ChatGPT = GPT-3.5 + RLHF.</div><div  class="mt-2 text-cyan">Insight: alinhar > só escalar</div></div>
-<div  class="card card-green parallax-card scale-in"><div  class="text-center" style="font-size:1.15em;">🧠</div><b>3. Raciocínio (2024)</b><div  class="mt-2" style="opacity:0.8;">Reasoning models passaram a "pensar antes de responder" e avançaram em PhD/math/código.</div><div  class="mt-2 text-green">Insight: pensar mais = acertar mais</div></div>
+<h1>🚀 Os 3 grandes saltos — e por que importam para agentes</h1>
+<div class="grid-3 stagger-in" style="gap:0.8rem; margin-top:0.8rem;">
+<div class="card card-purple parallax-card" style="padding:0.8rem;">
+<div class="text-center" style="font-size:1.15em;">📈</div>
+<b>1. Escala (2020)</b>
+<p class="text-xs" style="margin:0.4rem 0;">De 1.5B (GPT-2) para 175B parâmetros (GPT-3). Com a escala, surgiram <b>capacidades emergentes</b>: tradução, código, raciocínio lógico — sem treino específico para cada tarefa.</p>
+<p class="text-xs" style="margin:0.3rem 0; opacity:0.85;"><b>🏢 Por que importa:</b> Pela primeira vez, UM modelo resolve múltiplas tarefas de negócio. Antes, era 1 modelo por tarefa (spam, fraude, recomendação). Agora, 1 LLM substitui dezenas de modelos especializados.</p>
+<p class="text-xs text-purple" style="margin-top:0.3rem;"><i>Ref: "Scaling Laws for Neural Language Models" (Kaplan et al., 2020)</i></p>
+</div>
+<div class="card card-cyan parallax-card" style="padding:0.8rem;">
+<div class="text-center" style="font-size:1.15em;">🎯</div>
+<b>2. Alinhamento (2022)</b>
+<p class="text-xs" style="margin:0.4rem 0;">RLHF (Reinforcement Learning from Human Feedback) transformou modelos que "completam texto" em assistentes que <b>seguem instruções</b>. ChatGPT = GPT-3.5 + RLHF.</p>
+<p class="text-xs" style="margin:0.3rem 0; opacity:0.85;"><b>🏢 Por que importa:</b> Sem alinhamento, não há agentes confiáveis. Um LLM bruto completa texto; um LLM alinhado executa tarefas. Isso é o que permite dar ferramentas perigosas (APIs, DBs) ao modelo sem caos.</p>
+<p class="text-xs text-cyan" style="margin-top:0.3rem;"><i>Ref: "Training language models to follow instructions" (Ouyang et al., 2022)</i></p>
+</div>
+<div class="card card-green parallax-card" style="padding:0.8rem;">
+<div class="text-center" style="font-size:1.15em;">🧠</div>
+<b>3. Raciocínio (2024)</b>
+<p class="text-xs" style="margin:0.4rem 0;">Reasoning models (o1, o3, DeepSeek R1) "pensam antes de responder" — gastam mais compute em runtime para problemas complexos. Resultados: +30-50% em math/PhD/código.</p>
+<p class="text-xs" style="margin:0.3rem 0; opacity:0.85;"><b>🏢 Por que importa:</b> Agentes que fazem análise financeira, due diligence ou auditoria precisam de raciocínio multi-step. Sem este salto, agentes erram em tarefas quantitativas — o que pode custar milhões em decisões erradas.</p>
+<p class="text-xs text-green" style="margin-top:0.3rem;"><i>Ref: OpenAI o1 System Card (2024); DeepSeek-R1 Technical Report (2025)</i></p>
+</div>
+</div>
+<div class="insight-box" style="margin-top:0.6rem;">
+<b>Conexão:</b> Escala deu capacidade → Alinhamento deu obediência → Raciocínio deu precisão. <b>Agentes só são viáveis quando os três existem juntos.</b>
 </div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #0f766e 100%)">
-<h1>📊 Visualizando a evolução — de GPT-2 a o4-mini</h1>
-<table>
+<h1>📊 A evolução dos modelos — e o impacto no negócio</h1>
+<p class="text-xs" style="opacity:0.8;">Cada geração desbloqueou novos casos de uso corporativos. Não é só "ficou melhor" — mudou o que é possível automatizar.</p>
+<table class="text-xs" style="margin-top:0.6rem;">
 <thead>
 <tr>
 <th>Modelo</th>
 <th>Ano</th>
-<th>Parâmetros</th>
-<th>Breakthrough</th>
-<th>O que mudou na prática</th>
+<th>Breakthrough técnico</th>
+<th>O que desbloqueou para negócios</th>
+<th>Custo aprox.</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>GPT-2</td>
+<td><b>GPT-2</b></td>
 <td>2019</td>
-<td>1.5B</td>
-<td>Escala inicial</td>
-<td>Gera texto coerente, mas divaga</td>
+<td>Escala inicial (1.5B params)</td>
+<td>Geração de texto coerente — chatbots simples, autocompletar</td>
+<td>—</td>
 </tr>
 <tr>
-<td>GPT-3</td>
+<td><b>GPT-3</b></td>
 <td>2020</td>
-<td>175B</td>
-<td>Few-shot learning</td>
-<td>Faz tarefas com exemplos no prompt</td>
+<td>Few-shot learning (175B)</td>
+<td>1 modelo para múltiplas tarefas via prompt — substitui modelos específicos</td>
+<td>$60/1M tokens</td>
 </tr>
 <tr>
-<td>ChatGPT</td>
+<td><b>ChatGPT</b></td>
 <td>2022</td>
-<td>~175B + RLHF</td>
-<td>Alinhamento</td>
-<td>Primeiro assistente conversacional útil</td>
+<td>RLHF → segue instruções</td>
+<td>Assistentes confiáveis; surge o mercado de atendimento por IA (Klarna, Nubank)</td>
+<td>$2/1M tokens</td>
 </tr>
 <tr>
-<td>GPT-4</td>
+<td><b>GPT-4</b></td>
 <td>2023</td>
-<td>~1.8T (MoE)</td>
-<td>Multimodal + MoE</td>
-<td>Vê imagens, raciocina melhor</td>
+<td>Multimodal + MoE (~1.8T)</td>
+<td>Vê imagens, raciocina sobre documentos; agentes passam a ser viáveis em produção</td>
+<td>$10/1M out</td>
 </tr>
 <tr>
-<td>o3-pro</td>
+<td><b>o3-pro</b></td>
 <td>2025</td>
-<td>? + CoT interno</td>
-<td>Raciocínio profundo</td>
-<td>Resolve problemas bem mais difíceis</td>
+<td>Raciocínio profundo (CoT interno)</td>
+<td>Due diligence, análise financeira, auditoria — tarefas de alto valor e risco</td>
+<td>$40/1M out</td>
 </tr>
 <tr>
-<td>o4-mini</td>
+<td><b>o4-mini</b></td>
 <td>2025</td>
-<td>Compacto + reasoning</td>
 <td>Reasoning barato</td>
-<td>Leva raciocínio a custo menor</td>
+<td>Democratiza raciocínio: agentes de volume (suporte, triagem) com qualidade alta</td>
+<td>$4/1M out</td>
 </tr>
 </tbody>
 </table>
-<div  class="mt-3 text-xs card card-amber parallax-card scale-in"><b>🧩 Analogia:</b> GPT-2 continuava frases; GPT-4 já age como profissional sênior; o3-pro parece especialista que para, testa hipóteses e revisa.</div>
+<div class="insight-box" style="margin-top:0.6rem;">
+<b>📐 Leitura executiva:</b> Em 5 anos, o custo caiu ~15× enquanto a capacidade cresceu ~100×. Isso significa que tarefas antes inviáveis (caras demais por interação) agora têm ROI positivo. O papel do PM é saber <b>em qual geração</b> cada processo da empresa se torna automatizável.
+</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
-<h1>🔬 O que é RLHF? (Reinforcement Learning from Human Feedback)</h1>
-<div  class="text-sm">O "segredo" do ChatGPT não foi só escala — foi ensinar o modelo a <b>se comportar como humanos esperam</b>.</div>
+<h1>🔬 O que é RLHF? — o ingrediente que viabilizou agentes</h1>
+<p class="text-sm">Sem RLHF, não existiriam agentes confiáveis. Este é o processo que transformou modelos que "completam texto" em assistentes que <b>seguem instruções com segurança</b>.</p>
 
-<div  class="text-xs">A sigla significa: <b>Reinforcement Learning</b> (aprendizado por reforço) <b>from Human Feedback</b> (a partir de feedback humano). É uma técnica onde o modelo <b>melhora iterativamente</b> recebendo "notas" baseadas na preferência de avaliadores humanos.</div>
+<div class="flow-diagram mt-2">
+<div class="flow-node node-purple">LLM gera<br>2+ respostas</div>
+<div class="flow-arrow">→</div>
+<div class="flow-node node-amber">👤 Humanos<br>escolhem a melhor</div>
+<div class="flow-arrow">→</div>
+<div class="flow-node node-green">Reward Model<br>aprende preferências</div>
+<div class="flow-arrow">→</div>
+<div class="flow-node node-cyan">PPO otimiza<br>pesos do LLM</div>
+</div>
 
-<div  class="flow-diagram mt-2"><div  class="flow-node node-purple">LLM gera<br>2 respostas</div><div  class="flow-arrow">→</div><div  class="flow-node node-amber">👤 Humano escolhe</div><div  class="flow-arrow">→</div><div  class="flow-node node-green">Reward Model</div><div  class="flow-arrow">→</div><div  class="flow-node node-cyan">PPO otimiza</div></div>
+<div class="grid-3 stagger-in text-xs" style="gap:0.6rem; margin-top:1rem;">
+<div class="card card-purple parallax-card" style="padding:0.7rem;">
+<b>1. SFT</b> (Supervised Fine-Tuning)
+<p style="margin:0.3rem 0 0;">Humanos escrevem respostas-modelo. O LLM aprende o <i>formato</i>: ser educado, estruturar, recusar pedidos perigosos.</p>
+<p style="margin:0.2rem 0 0; opacity:0.7;">📊 Tipicamente ~10-50K exemplos curados.</p>
+</div>
+<div class="card card-cyan parallax-card" style="padding:0.7rem;">
+<b>2. Reward Model</b>
+<p style="margin:0.3rem 0 0;">Treinado com ~100-500K comparações humanas ("A é melhor que B"). Aprende a pontuar qualquer resposta automaticamente.</p>
+<p style="margin:0.2rem 0 0; opacity:0.7;">📊 Custo: ~$500K-2M em anotadores.</p>
+</div>
+<div class="card card-green parallax-card" style="padding:0.7rem;">
+<b>3. PPO</b> (Proximal Policy Optimization)
+<p style="margin:0.3rem 0 0;">Algoritmo de RL que ajusta os pesos do LLM para maximizar o score do Reward Model — sem divergir demais do modelo original.</p>
+<p style="margin:0.2rem 0 0; opacity:0.7;">📊 Alternativas: DPO, GRPO (DeepSeek).</p>
+</div>
+</div>
 
-<div  class="grid-3 stagger-in" style="font-size:0.39em;">
-<div  class="card card-purple parallax-card scale-in"><b>1. SFT</b> (Supervised Fine-Tuning)<br>Humanos escrevem respostas-modelo. O LLM aprende o <i>formato</i> desejado (diálogo, instruções).</div>
-<div  class="card card-cyan parallax-card scale-in"><b>2. Reward Model</b><br>Treinado com milhares de comparações humanas ("A é melhor que B"). Aprende a dar "nota" a qualquer resposta.</div>
-<div  class="card card-green parallax-card scale-in"><b>3. PPO</b> (Proximal Policy Optimization)<br>Algoritmo de RL que ajusta os pesos do LLM para maximizar a nota do Reward Model.</div>
+<div class="insight-box" style="margin-top:0.8rem;">
+<b>🏢 Por que o PM precisa saber isso:</b> Empresas que fazem fine-tuning precisam decidir se investem em RLHF próprio (custo alto, controle total) ou usam modelos pré-alinhados via API (mais barato, menos controle). A maioria das empresas escolhe a API — e aplica guardrails na camada de prompt.
 </div>
 </section>
 
@@ -1665,9 +1702,37 @@ Houve <b>três saltos qualitativos</b>.
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
 <h1>🧠 Reasoning Models: o salto de 2024-2025</h1>
-<div  class="grid-2 stagger-in mt-3 text-xs">
-<div  class="card parallax-card scale-in"><b>Modelo tradicional</b><div  class="mt-2 agent-trace" style="font-family:var(--font-mono);">Pergunta → [1 passo] → Resposta</div><div  class="mt-2 opacity-70" style="opacity:0.7;">Mais rápido, mas erra em problemas complexos.</div></div>
-<div  class="card card-cyan parallax-card scale-in"><b>Reasoning model</b><div  class="mt-2 agent-trace" style="font-family:var(--font-mono);">Pergunta → [pensa] → [testa] → [verifica] → Resposta</div><div  class="mt-2 opacity-70" style="opacity:0.7;">Mais lento, porém muito mais forte em tarefas difíceis.</div></div>
+<p class="text-sm">Até 2024, LLMs respondiam "de primeira" — uma passada, sem rascunho. Reasoning models introduzem <b>pensamento interno</b>: o modelo gera uma cadeia de raciocínio antes de responder.</p>
+
+<div class="grid-2 stagger-in" style="gap:1rem; margin-top:1rem;">
+<div class="card parallax-card" style="padding:0.8rem;">
+<h3 style="margin:0 0 0.4rem; font-size:0.85em;">📝 Modelo Tradicional (GPT-4o, Claude 3.5)</h3>
+<div class="agent-trace text-xs" style="font-family:var(--font-mono);">
+Pergunta → [gera resposta diretamente] → Resposta
+</div>
+<ul class="text-xs" style="margin-top:0.5rem; padding-left:1.2em;">
+<li>⚡ Rápido (1-5 segundos)</li>
+<li>💰 Barato ($2.5-10/1M tokens)</li>
+<li>⚠️ Erra em problemas multi-step (math, lógica, código complexo)</li>
+</ul>
+<p class="text-xs" style="opacity:0.7; margin-top:0.3rem;"><b>Analogia:</b> Responde no ato, como quem faz conta de cabeça.</p>
+</div>
+<div class="card card-cyan parallax-card" style="padding:0.8rem;">
+<h3 style="margin:0 0 0.4rem; font-size:0.85em;">🧠 Reasoning Model (o3, DeepSeek R1)</h3>
+<div class="agent-trace text-xs" style="font-family:var(--font-mono);">
+Pergunta → [pensa] → [testa hipótese] → [verifica] → [revisa] → Resposta
+</div>
+<ul class="text-xs" style="margin-top:0.5rem; padding-left:1.2em;">
+<li>🐢 Mais lento (10-120 segundos)</li>
+<li>💰 Mais caro ($15-40/1M tokens de output)</li>
+<li>✅ Acerta tarefas complexas (PhD-level math, bugs reais)</li>
+</ul>
+<p class="text-xs" style="opacity:0.7; margin-top:0.3rem;"><b>Analogia:</b> Pega papel e caneta, faz rascunho, confere antes de entregar.</p>
+</div>
+</div>
+
+<div class="tip-box" style="margin-top:0.8rem;">
+<b>O conceito-chave:</b> "Test-Time Compute" — gastar mais computação <b>na hora de responder</b> (não no treino) para melhorar a qualidade. É como dar mais tempo de prova a um aluno que já estudou.
 </div>
 </section>
 
@@ -1683,76 +1748,196 @@ Houve <b>três saltos qualitativos</b>.
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
 <h1>🧭 Como cada empresa se posiciona — parte 1</h1>
-<div  class="grid-3 stagger-in text-xs mt-3">
-<div  class="card parallax-card scale-in"><b>🟢 OpenAI</b><br>"Chegar primeiro à AGI" + ChatGPT como produto-mãe.<br><span class="opacity-70">Receita: Plus/Pro + API.</span></div>
-<div  class="card parallax-card scale-in"><b>🟠 Anthropic</b><br>"Modelo mais confiável" para empresas e devs.<br><span class="opacity-70">Receita: API + Claude.ai + Bedrock.</span></div>
-<div  class="card parallax-card scale-in"><b>🔵 Google</b><br>IA em Search, Android e Workspace para defender distribuição.<br><span class="opacity-70">Receita: ads + Workspace + Cloud.</span></div>
+<p class="text-sm">Cada player tem uma <b>tese estratégica diferente</b> sobre como IA gera valor. Entender isso ajuda a escolher fornecedores e antecipar movimentos do mercado.</p>
+<div class="grid-3 stagger-in text-xs" style="gap:0.8rem; margin-top:0.8rem;">
+<div class="card parallax-card" style="padding:0.7rem;">
+<b>🟢 OpenAI</b>
+<p style="margin:0.3rem 0;"><b>Tese:</b> "Chegar primeiro à AGI" — dominar o consumidor (ChatGPT) e a plataforma (API).</p>
+<ul style="padding-left:1em; margin:0.2rem 0;">
+<li>ChatGPT: 300M+ usuários semanais (2025)</li>
+<li>API: pricing agressivo para lock-in de devs</li>
+<li>Modelos: GPT-4o, o3, o4-mini (reasoning)</li>
+</ul>
+<p style="margin-top:0.3rem; opacity:0.7;"><b>Risco:</b> dependência de Microsoft, queima de caixa (~$5B+/ano em compute).</p>
 </div>
+<div class="card parallax-card" style="padding:0.7rem;">
+<b>🟠 Anthropic</b>
+<p style="margin:0.3rem 0;"><b>Tese:</b> "O modelo mais seguro e confiável" — vencer no enterprise por trust e compliance.</p>
+<ul style="padding-left:1em; margin:0.2rem 0;">
+<li>Claude: Constitutional AI, safety-first</li>
+<li>MCP: protocolo aberto de integração</li>
+<li>Distribuição: AWS Bedrock + Google Cloud</li>
+</ul>
+<p style="margin-top:0.3rem; opacity:0.7;"><b>Risco:</b> sem produto de consumo forte, depende de cloud partners.</p>
+</div>
+<div class="card parallax-card" style="padding:0.7rem;">
+<b>🔵 Google DeepMind</b>
+<p style="margin:0.3rem 0;"><b>Tese:</b> "IA em todo produto existente" — defender Search, dominar mobile (Android) e vender Cloud.</p>
+<ul style="padding-left:1em; margin:0.2rem 0;">
+<li>Gemini 2.5: multimodal nativo (1M+ tokens)</li>
+<li>Distribuição: 2B+ devices Android</li>
+<li>Vantagem: TPU infra própria, menor custo</li>
+</ul>
+<p style="margin-top:0.3rem; opacity:0.7;"><b>Risco:</b> burocracia interna, canibalizar receita de Search ads.</p>
+</div>
+</div>
+<div class="tip-box text-xs" style="margin-top:0.6rem;">📖 <b>Referência:</b> Sequoia Capital, "Generative AI's Act Two" (2024) — análise de modelos de negócio das AI labs.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #0f766e 100%)">
-<h1>Como cada empresa se posiciona — parte 2</h1>
-<div  class="grid-3 stagger-in text-xs mt-3">
-<div  class="card parallax-card scale-in"><b>🪟 Microsoft</b><br>Copilot em todo software — virar o "SO do trabalho".<br><span class="opacity-70">Receita: licenças + Azure.</span></div>
-<div  class="card parallax-card scale-in"><b>🦙 Meta</b><br>Open-source para evitar gatekeepers e turbinar ads/feed.<br><span class="opacity-70">Receita: ads potencializados por IA.</span></div>
-<div  class="card parallax-card scale-in"><b>🇨🇳 China (DeepSeek/Qwen)</b><br>Open-source agressivo + eficiência para driblar bloqueios de chips.<br><span class="opacity-70">Receita: B2B/B2G e exportação tecnológica.</span></div>
+<h1>🧭 Como cada empresa se posiciona — parte 2</h1>
+<div class="grid-3 stagger-in text-xs" style="gap:0.8rem; margin-top:0.6rem;">
+<div class="card parallax-card" style="padding:0.7rem;">
+<b>🪟 Microsoft</b>
+<p style="margin:0.3rem 0;"><b>Tese:</b> "Copilot em todo software" — transformar Office, GitHub, Azure e Windows num ecossistema AI-first.</p>
+<ul style="padding-left:1em; margin:0.2rem 0;">
+<li>Investiu $13B+ na OpenAI (exclusividade Azure)</li>
+<li>GitHub Copilot: 15M+ devs (coding agents)</li>
+<li>M365 Copilot: $30/mês/usuário enterprise</li>
+</ul>
+<p style="margin-top:0.3rem; opacity:0.7;"><b>Risco:</b> ROI de Copilot ainda questionado; dependência de OpenAI.</p>
 </div>
-
-<div  class="text-sm card card-amber parallax-card scale-in">🎓 <b>Mensagem para você:</b> o mais valioso não é casar com uma API; é saber desenhar agentes que trocam de modelo quando necessário.</div>
+<div class="card parallax-card" style="padding:0.7rem;">
+<b>🦙 Meta (FAIR)</b>
+<p style="margin:0.3rem 0;"><b>Tese:</b> "Open-source para commoditizar o modelo" — valor fica na distribuição (3.7B users).</p>
+<ul style="padding-left:1em; margin:0.2rem 0;">
+<li>Llama 3/4: modelos abertos state-of-art</li>
+<li>IA gera $10B+/ano internamente em ads targeting</li>
+<li>Estratégia: se modelo é commodity, quem ganha é quem tem users</li>
+</ul>
+<p style="margin-top:0.3rem; opacity:0.7;"><b>Risco:</b> regulação (EU AI Act), custo sem receita direta.</p>
+</div>
+<div class="card parallax-card" style="padding:0.7rem;">
+<b>🇨🇳 China (DeepSeek / Qwen)</b>
+<p style="margin:0.3rem 0;"><b>Tese:</b> "Eficiência extrema" — contornar embargo de chips (H100) com inovação arquitetural.</p>
+<ul style="padding-left:1em; margin:0.2rem 0;">
+<li>DeepSeek R1: reasoning ~5% do custo de o3</li>
+<li>Qwen (Alibaba): 100+ modelos open-source</li>
+<li>MoE + quantização = "fazer mais com menos"</li>
+</ul>
+<p style="margin-top:0.3rem; opacity:0.7;"><b>Risco:</b> geopolítica, acesso limitado a dados ocidentais.</p>
+</div>
+</div>
+<div class="insight-box text-xs" style="margin-top:0.6rem;">🎓 <b>Lição:</b> não case com uma API. Use camadas de abstração (LiteLLM, router patterns) para trocar de modelo quando o mercado se move — e ele se move toda semana.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
 <h1>💰 O business case: por que agora?</h1>
-<div  class="grid-2 stagger-in text-sm">
-<div  class="card parallax-card scale-in"><b>📉 Custo despencou</b><br>GPT-3.5 (2022): US$ 20 / 1M tokens<br>GPT-4o-mini (2024): US$ 0,15 / 1M tokens<br><b>~130× mais barato</b> em 2 anos.</div>
-<div  class="card parallax-card scale-in"><b>📈 Capacidade subiu</b><br>SWE-bench saiu de ~2% (2023) para ~50% (2024) e ~70%+ (2025) com agentes modernos.</div>
+<p class="text-sm">Dois fatores convergiram em 2024-2025 que tornaram agentes <b>economicamente viáveis</b> pela primeira vez:</p>
+<div class="grid-2 stagger-in" style="gap:1rem; margin-top:0.8rem;">
+<div class="card parallax-card" style="padding:0.8rem;">
+<h3 style="margin:0 0 0.4rem; font-size:0.9em;">📉 Custo despencou ~130× em 2 anos</h3>
+<table class="text-xs" style="width:100%; border-collapse:collapse;">
+<tr style="border-bottom:1px solid rgba(255,255,255,0.15);"><td><b>Modelo</b></td><td><b>Ano</b></td><td><b>Custo / 1M tokens</b></td></tr>
+<tr style="border-bottom:1px solid rgba(255,255,255,0.1);"><td>GPT-3.5 Turbo</td><td>2022</td><td>US$ 20,00</td></tr>
+<tr style="border-bottom:1px solid rgba(255,255,255,0.1);"><td>GPT-4 Turbo</td><td>2023</td><td>US$ 10,00</td></tr>
+<tr style="border-bottom:1px solid rgba(255,255,255,0.1);"><td>GPT-4o</td><td>2024</td><td>US$ 2,50</td></tr>
+<tr><td>GPT-4o-mini</td><td>2024</td><td><b>US$ 0,15</b></td></tr>
+</table>
+<p class="text-xs" style="margin-top:0.4rem; opacity:0.8;">Um agente ReAct com 5 iterações que custava ~$1 em 2022 agora custa &lt;$0.01. Isso viabiliza automações que antes não tinham ROI positivo.</p>
 </div>
+<div class="card parallax-card" style="padding:0.8rem;">
+<h3 style="margin:0 0 0.4rem; font-size:0.9em;">📈 Capacidade dos agentes explodiu</h3>
+<table class="text-xs" style="width:100%; border-collapse:collapse;">
+<tr style="border-bottom:1px solid rgba(255,255,255,0.15);"><td><b>Benchmark</b></td><td><b>2023</b></td><td><b>2025</b></td></tr>
+<tr style="border-bottom:1px solid rgba(255,255,255,0.1);"><td>SWE-bench (bugs reais)</td><td>~2%</td><td>~72%</td></tr>
+<tr style="border-bottom:1px solid rgba(255,255,255,0.1);"><td>GAIA (tasks multi-tool)</td><td>~15%</td><td>~55%</td></tr>
+<tr><td>HumanEval (código)</td><td>~67%</td><td>~96%</td></tr>
+</table>
+<p class="text-xs" style="margin-top:0.4rem; opacity:0.8;">SWE-bench mede se o agente resolve bugs reais de repositórios open-source. Saltar de 2% para 72% em 18 meses é sem precedente em CS.</p>
+</div>
+</div>
+<div class="tip-box text-xs" style="margin-top:0.6rem;">📖 <b>Fontes:</b> OpenAI Pricing History (2022-2025); SWE-bench Leaderboard (swebench.com); GAIA Benchmark, Mialon et al. 2023.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
-<h1>O business case, na prática</h1>
-<div  class="grid-2 stagger-in text-sm">
-<div  class="card card-purple parallax-card scale-in"><b>🎯 ROI já medido</b><br>Klarna · Cosine · Harvey mostram ganho econômico em atendimento, código e jurídico.</div>
-<div  class="card card-cyan parallax-card scale-in"><b>🛠️ Tooling maduro</b><br>LangGraph, LlamaIndex, observabilidade, padrões abertos como MCP e frameworks de avaliação.</div>
+<h1>💰 O business case, na prática — casos reais</h1>
+<p class="text-sm">Não é teoria — empresas já medem ROI concreto de agentes em produção:</p>
+<div class="grid-2 stagger-in" style="gap:1rem; margin-top:0.6rem;">
+<div class="card card-purple parallax-card" style="padding:0.8rem;">
+<h3 style="margin:0 0 0.4rem; font-size:0.85em;">🎯 ROI medido em produção (2024-2025)</h3>
+<ul class="text-xs" style="padding-left:1.2em; line-height:1.6;">
+<li><b>Klarna</b> (fintech): agente resolveu 2/3 dos tickets — equivalente a 700 atendentes. Tempo médio: 11min → 2min. Projeção: +$40M/ano.</li>
+<li><b>Harvey AI</b> (jurídico): due diligence de 3 semanas → 3 horas com agente + revisão humana.</li>
+<li><b>GitHub Copilot</b>: 55% de aumento em velocidade de conclusão de tasks de código (estudo interno).</li>
+<li><b>Mercado Livre</b>: agentes de moderação reduziram fraudes em 30% com 1/10 do custo de moderadores humanos.</li>
+</ul>
 </div>
-
-<div  class="mt-3 text-xs opacity-70 text-center" style="opacity:0.7;">Gartner (out/2024): até 2028, 33% do software empresarial deve incluir IA agêntica, partindo de menos de 1% em 2024.</div>
+<div class="card card-cyan parallax-card" style="padding:0.8rem;">
+<h3 style="margin:0 0 0.4rem; font-size:0.85em;">🛠️ Tooling maduro — o ecossistema está pronto</h3>
+<ul class="text-xs" style="padding-left:1.2em; line-height:1.6;">
+<li><b>Orquestração:</b> LangGraph, CrewAI, AutoGen, OpenAI Agents SDK</li>
+<li><b>Observabilidade:</b> LangSmith, Braintrust, Phoenix (Arize)</li>
+<li><b>Avaliação:</b> SWE-bench, GAIA, AgentBench, custom evals</li>
+<li><b>Padrões abertos:</b> MCP (Anthropic), A2A (Google), OpenAPI</li>
+<li><b>Infra:</b> modal.com, fly.io, Replit Agent — deploy em minutos</li>
+</ul>
+<p class="text-xs" style="margin-top:0.4rem; opacity:0.8;">Em 2023, montar um agente exigia 2000+ linhas custom. Hoje, frameworks resolvem 80% do boilerplate.</p>
+</div>
+</div>
+<div class="insight-box text-xs" style="margin-top:0.6rem;">📊 <b>Gartner (Oct 2024):</b> até 2028, 33% do software empresarial incluirá IA agêntica (&lt;1% em 2024). Mercado projetado em $65B até 2030 (MarketsAndMarkets).</div>
 </section>
 
-<section class="text-center" data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
-<div class="text-center"><h1 class="typewriter-js" data-text="📊 Custo por 1M tokens — evolução">📊 Custo por 1M tokens — evolução</h1>
-<div class="stagger-in mt-2" style="display:grid;gap:0.45rem;"><div class="card card-amber"><div class="text-xs">GPT-3.5 2022 — US$ 20</div><div style="height:8px;width:92%;background:linear-gradient(90deg,#fbbf24,#fb7185);border-radius:999px;margin-top:6px"></div></div><div class="card card-purple"><div class="text-xs">GPT-4 2023 — US$ 30</div><div style="height:8px;width:100%;background:linear-gradient(90deg,#a78bfa,#60a5fa);border-radius:999px;margin-top:6px"></div></div><div class="card card-cyan"><div class="text-xs">GPT-4o 2024 — US$ 5</div><div style="height:8px;width:38%;background:linear-gradient(90deg,#22d3ee,#60a5fa);border-radius:999px;margin-top:6px"></div></div><div class="card card-green"><div class="text-xs">GPT-4o-mini — US$ 0,15</div><div style="height:8px;width:10%;background:linear-gradient(90deg,#4ade80,#22d3ee);border-radius:999px;margin-top:6px"></div></div><div class="card card-cyan"><div class="text-xs">DeepSeek-V3 — US$ 0,27 (qualidade ~GPT-4o)</div><div style="height:8px;width:12%;background:linear-gradient(90deg,#22d3ee,#4ade80);border-radius:999px;margin-top:6px"></div></div></div>
-
-<div class="grid-2 text-xs" style="gap:0.4rem; margin-top:0.6rem;">
-<div class="card card-green">
-💡 <b>Em 2 anos, custo caiu ~130×.</b> Isso tornou agentes economicamente viáveis para produção.
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
+<h1>🇨🇳 Case study: como DeepSeek mudou o jogo</h1>
+<p class="text-sm">Em janeiro de 2025, a DeepSeek (startup chinesa) lançou modelos que rivalizavam com GPT-4o a uma fração do custo. Como?</p>
+<div class="grid-2 stagger-in" style="gap:0.8rem; margin-top:0.6rem;">
+<div class="card parallax-card" style="padding:0.7rem;">
+<h3 style="margin:0 0 0.4rem; font-size:0.85em;">🏗️ Inovações arquiteturais</h3>
+<ul class="text-xs" style="padding-left:1em; line-height:1.5;">
+<li><b>Mixture of Experts (MoE):</b> 671B parâmetros totais, mas só ~37B ativados por token — 90% do modelo "dorme"</li>
+<li><b>Multi-head Latent Attention:</b> comprime cache de atenção em 93% → contextos longos com fração da GPU</li>
+<li><b>FP8 mixed-precision:</b> treino em 8 bits sem perda de qualidade → hardware ~50% mais barato</li>
+<li><b>Distilação em cascata:</b> modelos menores (R1-distill) treinados com outputs do modelo grande</li>
+</ul>
 </div>
-<div class="card expandable" style="background:rgba(96,165,250,0.06); border:1px solid rgba(96,165,250,0.3);">
-<b>🇨🇳 Como o DeepSeek conseguiu custo tão baixo?</b>
-<div class="card-detail">
-<p><b>1. Mixture of Experts (MoE):</b> DeepSeek-V3 tem 671B parâmetros totais, mas ativa apenas ~37B por token. Só os "especialistas" relevantes processam cada input — 90% do modelo fica dormindo.</p>
-<p><b>2. Multi-head Latent Attention (MLA):</b> comprime o cache de atenção em 93%, permitindo contextos longos com fração da memória GPU.</p>
-<p><b>3. FP8 mixed-precision training:</b> treinou em precisão reduzida (8 bits) sem perda de qualidade — reduz custo de hardware em ~50%.</p>
-<p><b>4. Custo de treino total:</b> ~US$ 5.6M (2048 GPUs H800 × 2 meses) vs estimados US$ 100M+ do GPT-4. Fator 18× mais barato.</p>
-<p><b>5. Distilação + dados sintéticos:</b> modelos menores (R1-distill) treinados com outputs do modelo grande, propagando qualidade a custo mínimo.</p>
-<p><b>Resultado:</b> qualidade de GPT-4o a 1/18 do preço por token. Mudou a percepção do mercado sobre "é preciso bilhões para competir".</p>
+<div class="card card-amber parallax-card" style="padding:0.7rem;">
+<h3 style="margin:0 0 0.4rem; font-size:0.85em;">📊 Os números</h3>
+<table class="text-xs" style="width:100%; border-collapse:collapse;">
+<tr style="border-bottom:1px solid rgba(255,255,255,0.15);"><td></td><td><b>GPT-4</b></td><td><b>DeepSeek-V3</b></td></tr>
+<tr style="border-bottom:1px solid rgba(255,255,255,0.1);"><td>Custo de treino</td><td>~$100M+</td><td>~$5.6M</td></tr>
+<tr style="border-bottom:1px solid rgba(255,255,255,0.1);"><td>GPUs × tempo</td><td>25K A100×3mo</td><td>2K H800×2mo</td></tr>
+<tr style="border-bottom:1px solid rgba(255,255,255,0.1);"><td>Preço/1M tokens</td><td>$30 (2023)</td><td>$0.27</td></tr>
+<tr><td>Qualidade (MMLU)</td><td>~87%</td><td>~88%</td></tr>
+</table>
+<p class="text-xs" style="margin-top:0.4rem; opacity:0.8;"><b>18× mais barato de treinar, 100× mais barato de usar</b> — com qualidade equivalente.</p>
 </div>
 </div>
-</div>
-</div>
+<div class="tip-box text-xs" style="margin-top:0.5rem;">💡 <b>Implicação para o mercado:</b> "é preciso bilhões para competir" deixou de ser verdade. Startups com boas ideias arquiteturais podem rivalizar com labs de $10B. Isso acelera a commoditização do modelo base — o valor migra para orquestração, dados e tooling.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #1f2937 100%)">
 <h1>🧪 A jornada de um agente — Nível 1: LLM puro</h1>
-<div  class="text-xs agent-trace" style="font-family:var(--font-mono); background:rgba(255,255,255,0.04);border-color:rgba(255,255,255,0.12);">
+<p class="text-sm">Para entender por que agentes existem, vejamos o que acontece quando pedimos algo complexo a um LLM <b>sem ferramentas</b>:</p>
+<div class="text-xs agent-trace" style="font-family:var(--font-mono); background:rgba(255,255,255,0.04);border-color:rgba(255,255,255,0.12); margin-top:0.6rem;">
 <span class="text-green">user:</span> Planeja uma viagem de 3 dias para Porto Alegre com R$2000<br>
-<span class="text-purple">assistant:</span> Claro! Aqui vai um roteiro...<br>• Dia 1: Mercado Público + Redenção<br>• Hotel: Hotel X (R$150/noite) ← <span class="text-red">⚠️ inventou o preço</span><br>• Restaurante: Churrascaria Y ← <span class="text-red">⚠️ pode nem existir mais</span>
+<span class="text-purple">assistant:</span> Claro! Aqui vai um roteiro...<br>
+• Dia 1: Mercado Público + Redenção<br>
+• Hotel: Hotel X (R$150/noite) ← <span class="text-red">⚠️ inventou o preço (treinado em dados de 2022)</span><br>
+• Restaurante: Churrascaria Y ← <span class="text-red">⚠️ pode nem existir mais</span><br>
+• Total estimado: R$1.800 ← <span class="text-red">⚠️ conta errada (150×3 + 200×3 ≠ 1800)</span>
 </div>
-<div  class="grid-2 stagger-in text-xs">
-<div  class="card parallax-card scale-in" style="background:rgba(248,113,113,0.08);border-color:rgba(248,113,113,0.28);"><b>❌ Problemas</b><ul class="mt-1"><li>Preços inventados</li><li>Sem dados reais/atuais</li><li>Nenhuma verificação</li><li>Sem personalização</li></ul></div>
-<div  class="card card-cyan parallax-card scale-in"><b>🧠 O que faltou</b><ul class="mt-1"><li>Ferramentas</li><li>Raciocínio estruturado</li><li>Verificação de fatos</li><li>Memória</li></ul></div>
+<div class="grid-2 stagger-in text-xs" style="gap:0.8rem; margin-top:0.6rem;">
+<div class="card parallax-card" style="background:rgba(248,113,113,0.08);border-color:rgba(248,113,113,0.28); padding:0.7rem;">
+<b>❌ Por que falha?</b>
+<ul style="margin-top:0.3rem; padding-left:1.2em;">
+<li><b>Sem grounding:</b> não acessa dados em tempo real (preços, disponibilidade)</li>
+<li><b>Sem verificação:</b> gera resposta "de primeira" sem checar fatos</li>
+<li><b>Sem cálculo real:</b> faz aritmética "mental" (propensa a erros)</li>
+<li><b>Sem memória:</b> não sabe suas preferências de viagens anteriores</li>
+</ul>
 </div>
-<div  class="mt-2 text-xs text-center opacity-70" style="opacity:0.7;">🔜 Nos próximos encontros, vamos evoluir esta mesma query.</div>
+<div class="card card-cyan parallax-card" style="padding:0.7rem;">
+<b>🧠 O que um agente adicionaria</b>
+<ul style="margin-top:0.3rem; padding-left:1.2em;">
+<li><b>🔍 Tool: busca</b> → consulta Booking.com/Google em tempo real</li>
+<li><b>🧮 Tool: calculadora</b> → garante contas corretas</li>
+<li><b>💭 Reasoning:</b> planeja antes de agir (ReAct)</li>
+<li><b>💾 Memória:</b> "última vez preferiu hostels e comida japonesa"</li>
+</ul>
+</div>
+</div>
+<div class="insight-box text-xs" style="margin-top:0.5rem;">🎯 <b>A lição:</b> LLMs são excelentes em linguagem mas péssimos em <b>fatos atuais</b>, <b>cálculos</b> e <b>ações no mundo real</b>. Agentes existem para compensar exatamente essas fraquezas — delegando para ferramentas o que o modelo não sabe fazer sozinho.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
@@ -1869,34 +2054,34 @@ Ao final: um agente funcional que busca na web, faz cálculos e responde com fon
 
 <section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
 <h1>1.6 Setup — Google Colab (zero config)</h1>
-<div class="text-sm" style="margin-bottom: 0.6rem;">Nenhuma instalação local. Abra o Colab, copie e execute:</div>
+<div class="text-sm" style="margin-bottom: 0.6rem;">Nenhuma instalação local. Token gratuito do HuggingFace (sem cartão de crédito). Abra o Colab, copie e execute:</div>
 
 <pre><code class="language-python"># Célula 1 — rode isso primeiro (1x por sessão)
-!pip install openai -q
+!pip install huggingface_hub -q
 
-import os
-from openai import OpenAI
+from huggingface_hub import InferenceClient
 
-# Opção A: cole sua chave diretamente
-os.environ["OPENAI_API_KEY"] = "sk-..."  # ← sua chave aqui
+# Token gratuito: crie em https://huggingface.co/settings/tokens (Read)
+# Depois coloque em Colab Secrets (🔑) como HF_TOKEN
+from google.colab import userdata
+HF_TOKEN = userdata.get(&quot;HF_TOKEN&quot;)
 
-# Opção B: use Colab Secrets (menu 🔑 à esquerda)
-# from google.colab import userdata
-# os.environ["OPENAI_API_KEY"] = userdata.get("OPENAI_API_KEY")
-
-client = OpenAI()
+# Cliente conectado a modelo gratuito (sem custo, sem cartão)
+client = InferenceClient(token=HF_TOKEN)
 
 # Teste rápido
-r = client.chat.completions.create(
-    model="gpt-4o-mini",
-    messages=[{"role": "user", "content": "Diga 'oi' em 3 palavras"}],
+resposta = client.chat.completions.create(
+    model=&quot;mistralai/Mistral-7B-Instruct-v0.3&quot;,
+    messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Diga oi em 3 palavras&quot;}],
+    max_tokens=50,
 )
-print(r.choices[0].message.content)
+print(resposta.choices[0].message.content)
+print(&quot;✅ Setup completo — HuggingFace gratuito funcionando!&quot;)
 </code></pre>
 
 <div class="grid-2 text-xs mt-2" style="gap:0.5rem;">
-<div class="card card-green"><b>✅ Pronto em 30 segundos</b><br>Sem venv, sem .env, sem terminal. Funciona em qualquer navegador.</div>
-<div class="card card-amber"><b>💡 Chave gratuita</b><br>OpenAI dá $5 de crédito para novas contas. Para o curso inteiro, ~$2 são suficientes.</div>
+<div class="card card-green"><b>✅ 100% gratuito</b><br>HuggingFace Inference API oferece modelos gratuitos sem limite de billing. Basta criar conta + gerar token.</div>
+<div class="card card-amber"><b>💡 Modelos disponíveis</b><br>Mistral-7B, Llama-3, Qwen-2.5, Phi-3 — todos acessíveis via mesma API.</div>
 </div>
 </section>
 
@@ -1995,11 +2180,9 @@ Estudos da Anthropic sugerem que <b>muitas falhas vêm de tools mal descritas</b
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #0f766e 100%)">
 <div class="slide-in-left"><h1>Parte 1: ferramentas em Python puro</h1>
-<pre><code class="language-python">import os, re, json
-from openai import OpenAI
-client = OpenAI()
+<pre><code class="language-python">import re, json
 
-# ---- Ferramentas (Python puro) ----
+# ---- Ferramentas (Python puro, sem dependência) ----
 def calculadora(expr: str) -&gt; str:
     &quot;&quot;&quot;Avalia expressão matemática simples.&quot;&quot;&quot;
     try:
@@ -2008,11 +2191,12 @@ def calculadora(expr: str) -&gt; str:
         return f&quot;erro: {e}&quot;
 
 def busca(query: str) -&gt; str:
-    &quot;&quot;&quot;Mock de base de conhecimento.&quot;&quot;&quot;
+    &quot;&quot;&quot;Base de conhecimento local (simula retrieval).&quot;&quot;&quot;
     fake_db = {
         &quot;população do brasil&quot;: &quot;Aproximadamente 215 milhões (IBGE, 2024).&quot;,
         &quot;capital da austrália&quot;: &quot;Canberra.&quot;,
         &quot;velocidade da luz&quot;: &quot;299.792.458 m/s no vácuo.&quot;,
+        &quot;pib do brasil&quot;: &quot;R$ 10,9 trilhões (2023, IBGE).&quot;,
     }
     return fake_db.get(query.lower(), &quot;Nenhum resultado encontrado.&quot;)
 
@@ -2046,31 +2230,34 @@ Ferramentas disponíveis:
 
 <section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
 <div class="slide-in-left"><h1>Parte 3: o loop do agente</h1>
-<div class="text-xs" style="margin-bottom:0.3rem; opacity:0.7;">📋 <b>Colab-ready</b> — requer o <code>client</code> da Célula 1</div>
+<div class="text-xs" style="margin-bottom:0.3rem; opacity:0.7;">📋 <b>Colab-ready</b> — usa o <code>client</code> HuggingFace do Setup</div>
 <pre><code class="language-python">def run_agent(pergunta: str, max_steps: int = 6):
     msgs = [
-        {"role": "system", "content": SYSTEM},
-        {"role": "user",   "content": pergunta},
+        {&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: SYSTEM},
+        {&quot;role&quot;: &quot;user&quot;,   &quot;content&quot;: pergunta},
     ]
-    
     for step in range(max_steps):
         resp = client.chat.completions.create(
-            model="gpt-4o-mini", messages=msgs, temperature=0
+            model=&quot;mistralai/Mistral-7B-Instruct-v0.3&quot;,
+            messages=msgs,
+            max_tokens=200,
+            temperature=0.1,
         )
         out = resp.choices[0].message.content
-        msgs.append({"role": "assistant", "content": out})
+        msgs.append({&quot;role&quot;: &quot;assistant&quot;, &quot;content&quot;: out})
+        print(f&quot;[Step {step+1}] {out[:80]}...&quot;)
         
-        if "Final Answer:" in out:
-            return out.split("Final Answer:")[-1].strip()
+        if &quot;Final Answer:&quot; in out:
+            return out.split(&quot;Final Answer:&quot;)[-1].strip()
         
-        m = re.search(r"Action:\s*(\w+)\s*\nAction Input:\s*(.+)", out)
-        if not m:  return "Agente não produziu ação válida."
+        m = re.search(r&quot;Action:\s*(\w+)\s*\nAction Input:\s*(.+)&quot;, out)
+        if not m: return &quot;Agente não produziu ação válida.&quot;
         
         tool, arg = m.group(1).strip(), m.group(2).strip()
-        obs = TOOLS.get(tool, lambda x: f"tool '{tool}' inexistente")(arg)
-        msgs.append({"role": "user", "content": f"Observation: {obs}"})
-    
-    return "Máximo de passos atingido."</code></pre></div>
+        obs = TOOLS.get(tool, lambda x: f&quot;tool &#x27;{tool}&#x27; inexistente&quot;)(arg)
+        print(f&quot;    → Observation: {obs}&quot;)
+        msgs.append({&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: f&quot;Observation: {obs}&quot;})
+    return &quot;Máximo de passos atingido.&quot;</code></pre></div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">

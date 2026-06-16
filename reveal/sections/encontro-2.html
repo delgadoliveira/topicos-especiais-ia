@@ -500,21 +500,29 @@ replanning_trigger = "Se qualquer passo falhar 2x, re-planejar"</code></pre>
 
 <section>
 <h1>💻 Implementando planning agentic em Python</h1>
-<div class="text-xs" style="margin-bottom:0.3rem; opacity:0.7;">📋 <b>Colab-ready</b> — copie e execute (ajuste sua autenticação OpenAI no setup inicial)</div>
+<div class="text-xs" style="margin-bottom:0.3rem; opacity:0.7;">📋 <b>Colab-ready</b> — usa HuggingFace InferenceClient (token gratuito)</div>
 <pre class="scale-in"><code class="language-python">import json
-import openai
 
 def create_plan(objective: str) -&gt; list[dict]:
-    response = openai.chat.completions.create(
-        model="gpt-4.1",
+    &quot;&quot;&quot;Pede ao LLM para decompor objetivo em passos ordenados.&quot;&quot;&quot;
+    resp = client.chat.completions.create(
+        model=&quot;mistralai/Mistral-7B-Instruct-v0.3&quot;,
         messages=[
-            {"role": "system", "content": "Decomponha o objetivo em passos ordenados. Retorne JSON: {\"passos\": [{id, acao, tool, depende_de}]}"},
-            {"role": "user", "content": objective},
+            {&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: &quot;Decomponha o objetivo em 3-5 passos. Responda APENAS JSON: {\\&quot;passos\\&quot;: [{\\&quot;id\\&quot;: 1, \\&quot;acao\\&quot;: \\&quot;...\\&quot;, \\&quot;tool\\&quot;: \\&quot;busca|calculadora|escrita\\&quot;, \\&quot;depende_de\\&quot;: []}]}&quot;},
+            {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: objective},
         ],
-        response_format={"type": "json_object"},
-        temperature=0,
+        max_tokens=300,
+        temperature=0.1,
     )
-    return json.loads(response.choices[0].message.content)["passos"]</code></pre>
+    plan = json.loads(resp.choices[0].message.content)[&quot;passos&quot;]
+    print(f&quot;📋 Plano gerado para: {objective}&quot;)
+    for step in plan:
+        deps = f&quot; (depende de {step[&#x27;depende_de&#x27;]})&quot; if step[&quot;depende_de&quot;] else &quot;&quot;
+        print(f&quot;   {step[&#x27;id&#x27;]}. {step[&#x27;acao&#x27;]} → tool: {step[&#x27;tool&#x27;]}{deps}&quot;)
+    return plan
+
+# Teste
+create_plan(&quot;Analisar o mercado de IA no Brasil&quot;)</code></pre>
 </section>
 
 <section>
@@ -687,16 +695,25 @@ def create_plan(objective: str) -&gt; list[dict]:
 
 <section>
 <h1>Function Calling — exemplo de chamada</h1>
-<div class="text-xs" style="margin-bottom:0.3rem; opacity:0.7;">📋 <b>Colab-ready</b> — copie e execute (requer <code>client</code> do setup inicial)</div>
-<pre class="scale-in"><code class="language-python">resp = client.chat.completions.create(
-    model="gpt-4o-mini",
-    messages=[{"role": "user", "content": "Quanto é (17 * 23) + 41?"}],
-    tools=tools,
+<div class="text-xs" style="margin-bottom:0.3rem; opacity:0.7;">📋 <b>Colab-ready</b> — usa HuggingFace InferenceClient (token gratuito)</div>
+<pre class="scale-in"><code class="language-python"># Requer: client = InferenceClient(token=HF_TOKEN) do setup
+# Nota: nem todos os modelos do HF suportam function calling nativo.
+# Alternativa didática: forçamos o modelo a responder em JSON.
+
+import json
+
+resp = client.chat.completions.create(
+    model=&quot;mistralai/Mistral-7B-Instruct-v0.3&quot;,
+    messages=[
+        {&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: &quot;&quot;&quot;Você tem acesso a ferramentas. Responda APENAS em JSON:
+{&quot;tool&quot;: &quot;nome&quot;, &quot;args&quot;: {&quot;param&quot;: &quot;valor&quot;}} ou {&quot;answer&quot;: &quot;resposta final&quot;}
+Ferramentas: calculadora(expr), busca(query)&quot;&quot;&quot;},
+        {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Quanto é (17 * 23) + 41?&quot;}
+    ],
+    max_tokens=100,
 )
-msg = resp.choices[0].message
-tc = msg.tool_calls[0]
-print(tc.function.name)       # calculadora
-print(tc.function.arguments)  # {"expr":"(17 * 23) + 41"}</code></pre>
+resultado = json.loads(resp.choices[0].message.content)
+print(resultado)  # {&quot;tool&quot;: &quot;calculadora&quot;, &quot;args&quot;: {&quot;expr&quot;: &quot;(17*23)+41&quot;}}</code></pre>
 </section>
 
 <section>
@@ -705,16 +722,20 @@ print(tc.function.arguments)  # {"expr":"(17 * 23) + 41"}</code></pre>
 <p class="slide-in-left">📖 <b>Em palavras:</b> é o <b>mesmo loop do Encontro 1</b>, mas agora o LLM responde com um campo estruturado <code>tool_calls</code> em vez de texto bagunçado. Você (1) chama o modelo, (2) se ele não pediu ferramenta, é resposta final, (3) se pediu, você executa a função real, anexa o resultado e volta. Sem regex, sem parsing frágil.</p>
 </div>
 <pre class="scale-in"><code class="language-python">def run_agent_fc(pergunta: str, max_steps: int = 6):
-    msgs = [{"role": "user", "content": pergunta}]
-    for _ in range(max_steps):
+    msgs = [
+        {"role": "system", "content": SYSTEM_FC},  # prompt com instruções JSON
+        {"role": "user", "content": pergunta}
+    ]
+    for step in range(max_steps):
         resp = client.chat.completions.create(
-            model="gpt-4o-mini",
-            messages=msgs, tools=tools
+            model="mistralai/Mistral-7B-Instruct-v0.3",
+            messages=msgs, max_tokens=150,
         )
-        msg = resp.choices[0].message
-        if not msg.tool_calls:
-            return msg.content
-        msgs.append(msg)</code></pre>
+        out = json.loads(resp.choices[0].message.content)
+        if "answer" in out:
+            return out["answer"]
+        # Modelo pediu uma ferramenta
+        msgs.append({"role": "assistant", "content": json.dumps(out)})</code></pre>
 </section>
 
 <section>
