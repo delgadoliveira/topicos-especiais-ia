@@ -527,59 +527,124 @@ print(ticket.prioridade, ticket.requer_resposta_imediata)  # 5 True</code></pre>
 </div>
 </section>
 
-<section data-background-gradient="linear-gradient(135deg, #111827 0%, #1f2937 100%)">
-<h1>Padrão 1 · Prompt Chaining</h1>
-<div class="flow-diagram"><div class="flow-node node-purple">Entrada</div><div class="flow-arrow">→</div><div class="flow-node node-purple">Extrair</div><div class="flow-arrow">→</div><div class="flow-node node-cyan">Transformar</div><div class="flow-arrow">→</div><div class="flow-node node-green">Formatar</div></div>
-<div class="grid-3 mt-2 stagger-in text-xs" style="gap:0.55rem;">
-<div class="card card-purple parallax-card fragment"><b>Quando usar</b><br>Passos conhecidos e estáveis.</div>
-<div class="card card-cyan parallax-card fragment"><b>Exemplo</b><br>Extrair campos → traduzir → resumir.</div>
-<div class="card card-amber parallax-card fragment"><b>Trade-off</b><br>Mais latência, menos improviso.</div>
-</div>
-<div class="insight-box mt-2 text-xs">É o padrão certo quando o problema já tem “receita”.</div>
-<div class="card card-green mt-2 text-xs fragment"><b>🏢 Quem usa:</b> Notion AI (extrair → resumir → formatar), GitHub Copilot Workspace (plan → implement → test), Jasper AI (research → draft → edit).</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #064e3b 100%)">
-<h1>Padrão 2 · Routing</h1>
-<div class="flow-diagram"><div class="flow-node node-purple">Entrada</div><div class="flow-arrow">→</div><div class="flow-node node-cyan">Classificador</div><div class="flow-arrow">→</div><div class="flow-node node-cyan">Rota barata</div><div class="flow-arrow">→</div><div class="flow-node node-purple">Rota especializada</div><div class="flow-arrow">→</div><div class="flow-node node-green">Resposta</div></div>
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #312e81 100%)">
+<h1>Padrão 1 · Prompt Chaining — a linha de montagem</h1>
+<div class="card card-purple parallax-card text-xs fragment"><b>Origem teórica</b><br>Vem da lógica de <b>pipelines</b> da engenharia de software: dividir um trabalho complexo em etapas determinísticas. Em agentes, foi explicitado em <b>Anthropic, “Building Effective Agents” (2024)</b> e aparece na decomposição sequencial do <b>AutoGen (Wu et al., 2023)</b>.</div>
+<div class="flow-diagram mt-2"><div class="flow-node node-purple">Entrada</div><div class="flow-arrow">→</div><div class="flow-node node-purple">Etapa 1<br><span class="text-xs">extrair</span></div><div class="flow-arrow">→</div><div class="flow-node node-green">Gate ✓</div><div class="flow-arrow">→</div><div class="flow-node node-cyan">Etapa 2<br><span class="text-xs">transformar</span></div><div class="flow-arrow">→</div><div class="flow-node node-green">Gate ✓</div><div class="flow-arrow">→</div><div class="flow-node node-amber">Etapa 3<br><span class="text-xs">formatar</span></div><div class="flow-arrow">→</div><div class="flow-node node-green">Saída</div></div>
 <div class="grid-2 mt-2 stagger-in text-xs" style="gap:0.7rem;">
-<div class="card card-green parallax-card fragment"><b>Use quando</b><br>Entradas diferentes merecem prompts, modelos ou tools diferentes.</div>
-<div class="card card-amber parallax-card fragment"><b>Exemplo</b><br>E-mail curto vai para modelo barato; contrato jurídico vai para modelo maior.</div>
+<div class="card card-cyan parallax-card fragment"><b>Problema que resolve</b><br>Quando <b>um único prompt tenta fazer tudo</b>, a qualidade cai: o modelo mistura objetivos, esquece restrições e produz saídas difíceis de validar. O chaining introduz <b>focos locais</b> e pontos de checagem intermediários.</div>
+<div class="card card-amber parallax-card fragment"><b>Fundamento</b><br>Cada etapa reduz a incerteza da próxima. Em vez de pedir “entenda, traduza, resuma e formate”, o sistema transforma uma tarefa ampla em uma sequência com <b>estado explícito</b>.</div>
 </div>
-<div class="tip-box mt-2 text-xs">Routing não é só performance: é também <b>especialização</b>.</div>
-<div class="card card-purple mt-2 text-xs fragment"><b>🏢 Quem usa:</b> Intercom (triage: billing→bot barato, churn risk→humano), Stripe Radar (tx simples→regra, complexa→ML), Claude (haiku para fácil, opus para difícil).</div>
+<div class="insight-box mt-2 text-xs">Ideia-chave: cada passo pode usar <b>prompt diferente</b>, <b>modelo diferente</b> ou até <b>código tradicional</b>. Os <b>gates</b> capturam erro cedo, antes que ele contamine toda a pipeline.</div>
 </section>
 
-<section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
-<h1>Padrão 3 · Parallelization</h1>
-<div class="grid-2 stagger-in text-xs" style="gap:0.7rem;">
-<div class="card card-purple parallax-card fragment"><b>Sectioning</b><br>Uma tarefa vira subtarefas independentes.<div class="mt-1 opacity-80">Ex.: classificar tom, extrair entidades e detectar urgência no mesmo e-mail.</div></div>
-<div class="card card-cyan parallax-card fragment"><b>Voting</b><br>Várias tentativas para a mesma pergunta.<div class="mt-1 opacity-80">Ex.: 3 soluções de código; fica a que passa mais testes.</div></div>
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%)">
+<h1>Padrão 1 · Prompt Chaining — aplicação e arquitetura</h1>
+<div class="grid-3 stagger-in text-xs" style="gap:0.65rem;">
+<div class="card card-green parallax-card fragment"><b>Quando usar</b><br>Processo <b>fixo</b> e bem compreendido; a saída de uma etapa vira a entrada da próxima; você quer <b>auditabilidade</b>, logs e reexecução parcial.</div>
+<div class="card card-cyan parallax-card fragment"><b>Exemplos reais</b><br><b>Notion AI:</b> destacar → traduzir → resumir → formatar.<br><b>Copilot Workspace:</b> analisar issue → planejar mudanças → implementar → verificar testes.</div>
+<div class="card card-amber parallax-card fragment"><b>Cenário forte</b><br><b>Jurídico:</b> OCR → extração de entidades → classificação de cláusulas → score de risco. Cada fase pode ser validada com regras ou schemas.</div>
 </div>
-<div class="flow-diagram mt-2"><div class="flow-node node-purple">Tarefa</div><div class="flow-arrow">→</div><div class="flow-node node-cyan">A / B / C em paralelo</div><div class="flow-arrow">→</div><div class="flow-node node-amber">Agregador</div><div class="flow-arrow">→</div><div class="flow-node node-green">Saída</div></div>
-<div class="card mt-2 text-xs card-amber parallax-card fragment"><b>Quando vale:</b> quando os ramos não dependem entre si. O ganho vem de <b>latência</b>, <b>cobertura</b> ou ambos.</div>
-<div class="card card-green mt-2 text-xs fragment"><b>🏢 Quem usa:</b> Perplexity (busca 5 fontes em paralelo + sintetiza), Cursor (analisa múltiplos arquivos simultaneamente), Devin (roda testes em paralelo enquanto corrige código).</div>
+<div class="grid-2 mt-2 stagger-in text-xs" style="gap:0.7rem;">
+<div class="card card-purple parallax-card fragment"><b>Trade-off</b><br>Há <b>mais latência</b> porque são <b>N chamadas</b> em vez de 1, mas o ganho é confiabilidade, depuração mais fácil e <b>mix de modelos</b>: barato nas etapas simples, caro apenas nas difíceis.</div>
+<div class="card card-red parallax-card fragment"><b>Anti-pattern</b><br>Não use quando as etapas são <b>fortemente interdependentes</b> e precisam renegociar contexto o tempo todo. Nesse caso, a decomposição rígida atrapalha — prefira <b>orchestrator</b>.</div>
+</div>
+<div class="tip-box mt-2 text-xs"><b>Dica de implementação:</b> trate cada etapa como <b>função pura</b>: input estruturado, output estruturado, validação e retry local. Isso deixa a pipeline observável e reprodutível.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #052e16 0%, #0f172a 100%)">
+<h1>Padrão 2 · Routing — o despachante inteligente</h1>
+<div class="card card-cyan parallax-card text-xs fragment"><b>Origem teórica</b><br>É a adaptação do padrão <b>classificador + especialista</b> do ML. No contexto LLM, ganhou tração com <b>function calling da OpenAI (2023)</b>, com o padrão de <b>routing</b> da Anthropic e com a intuição de <b>Mixture of Experts</b>.</div>
+<div class="flow-diagram mt-2"><div class="flow-node node-purple">Entrada</div><div class="flow-arrow">→</div><div class="flow-node node-cyan">Classificador</div><div class="flow-arrow">→</div><div class="flow-node node-green">Rota A<br><span class="text-xs">simples / barata</span></div><div class="flow-arrow">→</div><div class="flow-node node-amber">Rota B<br><span class="text-xs">complexa / cara</span></div><div class="flow-arrow">→</div><div class="flow-node node-purple">Rota C<br><span class="text-xs">especialista</span></div><div class="flow-arrow">→</div><div class="flow-node node-green">Saída</div></div>
+<div class="grid-2 mt-2 stagger-in text-xs" style="gap:0.7rem;">
+<div class="card card-green parallax-card fragment"><b>Problema que resolve</b><br>Nem toda entrada merece o mesmo tratamento. Mandar tudo para o modelo mais forte <b>desperdiça custo</b>; mandar tudo para o mais barato <b>derruba qualidade</b> nos casos difíceis.</div>
+<div class="card card-purple parallax-card fragment"><b>Insight central</b><br>O roteador não precisa ser “inteligentíssimo”: pode ser um <b>modelo pequeno</b>, um classificador treinado, embeddings com similaridade ou até <b>regras determinísticas</b>.</div>
+</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #065f46 100%)">
+<h1>Padrão 2 · Routing — aplicação e arquitetura</h1>
+<div class="grid-3 stagger-in text-xs" style="gap:0.65rem;">
+<div class="card card-green parallax-card fragment"><b>Critérios de decisão</b><br><b>Complexidade</b>, <b>domínio</b>, <b>urgência</b>, <b>sensibilidade a custo</b> e <b>nível de risco</b>. O bom routing é, na prática, uma política de alocação de recursos.</div>
+<div class="card card-cyan parallax-card fragment"><b>Exemplo 1</b><br><b>Intercom/Zendesk:</b> dúvida de cobrança → bot; risco de churn → escalonamento humano; pergunta técnica → bot especialista com KB.</div>
+<div class="card card-amber parallax-card fragment"><b>Exemplo 2</b><br><b>Anthropic:</b> Haiku para consultas simples, Sonnet para média complexidade, Opus para raciocínio pesado.<br><b>Stripe Radar:</b> transação simples → regra; suspeita → ML; alto risco → revisão humana.</div>
+</div>
+<div class="grid-2 mt-2 stagger-in text-xs" style="gap:0.7rem;">
+<div class="card card-purple parallax-card fragment"><b>Hint de implementação</b><br>Use <b>prompt classificador</b> com labels explícitos ou <b>embeddings</b> comparando a entrada com categorias protótipo. O resultado da rota deve ser logado para análise posterior.</div>
+<div class="card card-red parallax-card fragment"><b>Trade-off</b><br>O risco é o <b>erro em cascata</b>: rota errada → modelo errado → resposta ruim. Por isso, o classificador também precisa de <b>avaliação própria</b>.</div>
+</div>
+<div class="tip-box mt-2 text-xs">Routing bem feito economiza não só dinheiro, mas também <b>atenção humana</b>: só os casos caros e arriscados sobem de nível.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #4c1d95 100%)">
+<h1>Padrão 3 · Parallelization — dividir para conquistar</h1>
+<div class="card card-purple parallax-card text-xs fragment"><b>Origem teórica</b><br>Nasce da computação distribuída e do raciocínio de <b>MapReduce (2004)</b>: se partes do trabalho são independentes, processe em paralelo. Em LLMs, conecta-se a <b>Self-Consistency (Wang et al., 2022)</b> e a técnicas de decomposição de tarefas.</div>
+<div class="grid-2 mt-2 stagger-in text-xs" style="gap:0.7rem;">
+<div class="card card-cyan parallax-card fragment"><b>Sectioning</b><br>Subtarefas diferentes rodam juntas.<div class="flow-diagram mt-2"><div class="flow-node node-purple">Tarefa</div><div class="flow-arrow">→</div><div class="flow-node node-cyan">A</div><div class="flow-arrow">+</div><div class="flow-node node-cyan">B</div><div class="flow-arrow">+</div><div class="flow-node node-cyan">C</div></div></div>
+<div class="card card-green parallax-card fragment"><b>Voting</b><br>A mesma tarefa é tentada várias vezes e agregada.<div class="flow-diagram mt-2"><div class="flow-node node-purple">Pergunta</div><div class="flow-arrow">→</div><div class="flow-node node-amber">Tent. 1</div><div class="flow-arrow">+</div><div class="flow-node node-amber">Tent. 2</div><div class="flow-arrow">+</div><div class="flow-node node-amber">Tent. 3</div></div></div>
+</div>
+<div class="card card-amber mt-2 text-xs fragment"><b>Problema que resolve</b><br>Execução sequencial é lenta e, às vezes, míope: ela não explora diversidade de hipóteses. Paralelizar reduz a latência total e pode aumentar robustez via <b>consenso</b>.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #3b0764 100%)">
+<h1>Padrão 3 · Parallelization — aplicação e arquitetura</h1>
+<div class="grid-2 stagger-in text-xs" style="gap:0.7rem;">
+<div class="card card-cyan parallax-card fragment"><b>Sectioning na prática</b><br><b>E-mail triage:</b> sentimento + prioridade + PII em paralelo.<br><b>Code review:</b> estilo + bugs + segurança como análises independentes.<br><b>Perplexity:</b> busca múltiplas fontes simultaneamente antes da síntese.</div>
+<div class="card card-green parallax-card fragment"><b>Voting na prática</b><br><b>Self-Consistency:</b> 5 trilhas de raciocínio, voto majoritário; melhora matemática em ~10–20%.<br><b>AlphaCode:</b> gera muitas soluções, testa e agrupa.<br><b>Código:</b> 3 tentativas, fica a que passa todos os testes.</div>
+</div>
+<div class="grid-2 mt-2 stagger-in text-xs" style="gap:0.7rem;">
+<div class="card card-purple parallax-card fragment"><b>Arquitetura</b><br>O agregador precisa ser explícito: <b>merge</b> para sectioning, <b>votação / rankeamento</b> para voting. A latência final é <b>max(tarefas)</b>, não a soma.</div>
+<div class="card card-amber parallax-card fragment"><b>Trade-off</b><br>Custo tende a ser <b>N×</b>. No voting, prefira <b>N ímpar</b> e um bom mecanismo de agregação; sem isso, você paga por diversidade sem convertê-la em qualidade.</div>
+</div>
+<div class="insight-box mt-2 text-xs">Heurística: paralelize quando os ramos <b>não dependem</b> entre si ou quando quer explorar <b>múltiplas hipóteses</b> antes de decidir.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
-<h1>Padrão 4 · Orchestrator-Workers</h1>
-<div class="flow-diagram"><div class="flow-node node-purple">Tarefa aberta</div><div class="flow-arrow">→</div><div class="flow-node node-purple">Orquestrador</div><div class="flow-arrow">→</div><div class="flow-node node-cyan">Worker 1</div><div class="flow-arrow">→</div><div class="flow-node node-cyan">Worker 2</div><div class="flow-arrow">→</div><div class="flow-node node-cyan">Worker N</div><div class="flow-arrow">→</div><div class="flow-node node-green">Síntese</div></div>
+<h1>Padrão 4 · Orchestrator-Workers — o gerente de projeto</h1>
+<div class="card card-amber parallax-card text-xs fragment"><b>Origem teórica</b><br>É a versão agentic do padrão <b>master-worker</b> dos sistemas distribuídos. Em IA, aparece em <b>Plan-and-Execute (Wang et al., 2023)</b>, <b>AutoGPT (2023)</b>, frameworks multiagente como <b>CrewAI</b> e <b>AutoGen</b>, e se relaciona com o uso de ferramentas em <b>Toolformer (Schick et al., 2023)</b>.</div>
+<div class="flow-diagram mt-2"><div class="flow-node node-purple">Tarefa aberta</div><div class="flow-arrow">→</div><div class="flow-node node-purple">Orquestrador</div><div class="flow-arrow">→</div><div class="flow-node node-cyan">Worker A</div><div class="flow-arrow">→</div><div class="flow-node node-cyan">Worker B</div><div class="flow-arrow">→</div><div class="flow-node node-cyan">Worker N</div><div class="flow-arrow">→</div><div class="flow-node node-amber">Síntese parcial</div><div class="flow-arrow">↺</div><div class="flow-node node-purple">Replanejar</div></div>
 <div class="grid-2 mt-2 stagger-in text-xs" style="gap:0.7rem;">
-<div class="card card-purple parallax-card fragment"><b>Diferença vs paralelo</b><br>Aqui o sistema decide <b>quantos workers criar</b> e <b>o que cada um fará</b>.</div>
-<div class="card card-green parallax-card fragment"><b>Exemplo típico</b><br>Agente de código escolhe quais arquivos ler, quais testes rodar e quando parar.</div>
+<div class="card card-purple parallax-card fragment"><b>Diferença para parallelization</b><br>Aqui o sistema decide <b>dinamicamente</b> quantos workers criar, o que cada um fará e se precisa <b>redelegar</b> após ver os resultados.</div>
+<div class="card card-green parallax-card fragment"><b>Problema que resolve</b><br>Serve para tarefas abertas e complexas, em que a decomposição <b>não é conhecida de antemão</b>. O orquestrador planeja, delega, monitora e sintetiza.</div>
 </div>
-<div class="card card-amber mt-2 text-xs fragment"><b>🏢 Quem usa:</b> Claude Code/Copilot Coding Agent (decompõe PR em subtarefas, delega para workers especializados), AutoGPT/CrewAI (orchestrator distribui research tasks), Adept (orquestra cliques em apps diferentes).</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #2563eb 100%)">
+<h1>Padrão 4 · Orchestrator-Workers — aplicação e arquitetura</h1>
+<div class="grid-3 stagger-in text-xs" style="gap:0.65rem;">
+<div class="card card-cyan parallax-card fragment"><b>Exemplo 1</b><br><b>Claude Code / Copilot Coding Agent:</b> recebe uma issue, planeja arquivos, delega leitura/edição, roda testes e redistribui falhas para novos workers.</div>
+<div class="card card-green parallax-card fragment"><b>Exemplo 2</b><br><b>Deep Research:</b> quebra a pergunta em subperguntas, delega buscas, sintetiza achados, identifica lacunas e manda pesquisar novamente.</div>
+<div class="card card-amber parallax-card fragment"><b>Exemplo 3</b><br><b>Devin:</b> orquestra escrita de código, comandos de terminal e ações de navegador como workers distintos sob um plano comum.</div>
+</div>
+<div class="grid-2 mt-2 stagger-in text-xs" style="gap:0.7rem;">
+<div class="card card-purple parallax-card fragment"><b>Quando escolher vs. parallelization</b><br>Quando as subtarefas <b>não são conhecidas upfront</b>, quando workers podem falhar e exigir retry, ou quando a síntese depende de ver <b>todos os resultados</b> antes de seguir.</div>
+<div class="card card-red parallax-card fragment"><b>Decisões de design</b><br>Quanta autonomia cada worker recebe? Como tratar falhas? Qual é o <b>critério de parada</b>? Sem essas políticas, o sistema vira um loop caro e difícil de controlar.</div>
+</div>
+<div class="tip-box mt-2 text-xs"><b>Hint de arquitetura:</b> separe <b>planner</b>, <b>executor</b> e <b>synthesizer</b>. Mesmo quando tudo usa LLM, esses papéis ajudam a limitar contexto e responsabilidade.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
-<h1>Padrão 5 · Evaluator-Optimizer</h1>
-<div class="flow-diagram"><div class="flow-node node-purple">Generator</div><div class="flow-arrow">→</div><div class="flow-node node-amber">Evaluator</div><div class="flow-arrow">→</div><div class="flow-node node-purple">Refina</div><div class="flow-arrow">→</div><div class="flow-node node-green">Entrega</div></div>
-<div class="grid-3 mt-2 stagger-in text-xs" style="gap:0.55rem;">
-<div class="card card-purple parallax-card fragment"><b>O que resolve</b><br>Primeira resposta boa, mas não boa o suficiente.</div>
-<div class="card card-cyan parallax-card fragment"><b>Quando usar</b><br>Código, escrita técnica, tradução e decisões auditáveis.</div>
-<div class="card card-amber parallax-card fragment"><b>Lembrete</b><br>É a versão sistêmica da self-reflection.</div>
+<h1>Padrão 5 · Evaluator-Optimizer — o ciclo de melhoria</h1>
+<div class="card card-red parallax-card text-xs fragment"><b>Origem teórica</b><br>É a releitura agentic do padrão <b>generate-and-test</b> da teoria de otimização. Em IA moderna, aparece em <b>Reflexion (Shinn et al., 2023)</b>, <b>Self-Refine (Madaan et al., 2023)</b> e <b>Constitutional AI (Bai et al., 2022)</b>.</div>
+<div class="flow-diagram mt-2"><div class="flow-node node-purple">Gerar</div><div class="flow-arrow">→</div><div class="flow-node node-amber">Avaliar<br><span class="text-xs">score + feedback</span></div><div class="flow-arrow">→</div><div class="flow-node node-purple">Refinar</div><div class="flow-arrow">→</div><div class="flow-node node-amber">Avaliar de novo</div><div class="flow-arrow">→</div><div class="flow-node node-green">Threshold / max iterações</div></div>
+<div class="grid-2 mt-2 stagger-in text-xs" style="gap:0.7rem;">
+<div class="card card-cyan parallax-card fragment"><b>Problema que resolve</b><br>A primeira saída costuma ser <b>boa o suficiente para demo</b>, mas não para produção. O avaliador encontra problemas que o gerador não percebeu.</div>
+<div class="card card-green parallax-card fragment"><b>Insight central</b><br><b>Gerador</b> e <b>avaliador</b> podem ser modelos diferentes. O avaliador também pode ser <b>código determinístico</b>: testes, linters, validadores, schemas.</div>
 </div>
-<div class="card card-green mt-2 text-xs fragment"><b>🏢 Quem usa:</b> Cursor Tab (gera código → lint verifica → refina), AlphaCode (gera milhares → avalia com testes → seleciona), Grammarly (sugere → avalia tom → refina).</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #991b1b 100%)">
+<h1>Padrão 5 · Evaluator-Optimizer — aplicação e arquitetura</h1>
+<div class="grid-3 stagger-in text-xs" style="gap:0.65rem;">
+<div class="card card-purple parallax-card fragment"><b>Exemplos reais</b><br><b>Cursor Tab:</b> gera código → roda linter/testes → refina até ficar verde.<br><b>Writing assistants:</b> rascunho → checagem de tom/clareza/gramática → melhoria.</div>
+<div class="card card-cyan parallax-card fragment"><b>Mais exemplos</b><br><b>AlphaCode/AlphaEvolve:</b> gera, avalia com testes, seleciona e muta melhores candidatos.<br><b>Constitutional AI:</b> gera → checa contra princípios → revisa.</div>
+<div class="card card-amber parallax-card fragment"><b>Variantes</b><br><b>LLM-as-judge</b> (barato), <b>code-as-judge</b> (determinístico) e <b>human-in-the-loop</b> (caro, mas verdade de chão).</div>
+</div>
+<div class="grid-2 mt-2 stagger-in text-xs" style="gap:0.7rem;">
+<div class="card card-green parallax-card fragment"><b>Trade-off</b><br>O custo cresce como <b>O(N×K)</b>, com <b>N</b> iterações e <b>K</b> tokens. Defina <b>max_iterations</b>, métricas de aceitação e uma condição de parada clara.</div>
+<div class="card card-red parallax-card fragment"><b>Risco</b><br>O avaliador também pode errar ou alucinar: “parece bom” não significa “está correto”. Sempre que possível, combine juiz probabilístico com <b>sinais determinísticos</b>.</div>
+</div>
+<div class="tip-box mt-2 text-xs"><b>Heurística prática:</b> use esse padrão quando qualidade final importa mais que latência bruta — especialmente em <b>código</b>, <b>escrita técnica</b> e decisões auditáveis.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">

@@ -47,6 +47,8 @@ function initReveal() {
   });
 
   deck.initialize();
+  window.revealDeck = deck;
+  window.dispatchEvent(new CustomEvent('reveal-ready', { detail: { deck } }));
 
   // ─── Bottom Navigation ───
   const navPrev = document.getElementById('nav-prev');
