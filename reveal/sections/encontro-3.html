@@ -36,7 +36,7 @@
 <div class="insight-box fragment">Não lembra da conversa de ontem. Não sabe quem você é. Não tem acesso aos seus documentos.<br>Hoje vamos dar <b>memória</b>, <b>conhecimento</b> e <b>habilidades reutilizáveis</b> ao agente.</div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e293b 100%)">
 <h1>🧪 A jornada — Nível 3: com Memória + RAG</h1>
 <div class="agent-trace mt-2">
   <div class="trace-line trace-user">user: Planeja uma viagem de 3 dias para Porto Alegre com R$2000</div>
@@ -54,7 +54,7 @@
 <div class="tip-box">Memória + RAG = agente que te conhece e busca fatos reais.</div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #1f2937 100%)">
 <h1>🗺️ Agenda do Encontro 3</h1>
 <div class="grid-2 mt-2">
   <div class="card card-cyan parallax-card">
@@ -81,7 +81,7 @@
 <div class="tip-box mt-2 text-xs">📌 Link direto para este slide agora mostra todo o conteúdo sem depender de clicar nos fragmentos.</div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)">
 <h1>🧭 Vocabulário do dia — em 1 frase cada</h1>
 <div class="stagger-in mt-2">
 <div class="card card-purple"><div class="card-title">🎯 Grounding</div><div class="card-desc">cada afirmação aponta para uma fonte real; sem isso vira “confia em mim”.</div></div>
@@ -94,7 +94,7 @@
 </div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #064e3b 100%)">
 <h1>🧩 Onde você já viu isso</h1>
 <div class="grid-2 mt-2 stagger-in">
   <div class="card card-purple"><div class="card-title">🎯 Grounding em produto</div><div class="card-desc">Perplexity mostra links de fonte sob cada parágrafo • Bing Chat e Google AI Overviews citam as páginas usadas</div></div>
@@ -116,7 +116,7 @@
 <div class="tip-box">Vamos entender por quê — e as soluções que o mercado usa.</div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
 <h1>3.1 O problema da context window</h1>
 <p class="text-sm">A janela é grande, mas <b>não é infinita</b> — e cada token custa.</p>
 
@@ -142,7 +142,7 @@
 </div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
 <h1>Lost in the Middle — o efeito U</h1>
 
 <div class="stats-row mt-2">
@@ -164,7 +164,7 @@ Em contextos longos (>10k tokens), modelos prestam <b>mais atenção ao início 
 <div class="mt-2 text-xs opacity-70">📚 Liu et al. (2023) — <i>"Lost in the Middle: How Language Models Use Long Contexts"</i></div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
 <h1>3.2 Estratégias de context management</h1>
 <div class="grid-2 mt-3 text-xs">
 <div class="card card-purple"><b>✂️ Truncamento (sliding window)</b><br>Mantém só as últimas N mensagens. <b>Prós:</b> simples. <b>Contras:</b> perde contexto antigo importante.</div>
@@ -175,7 +175,7 @@ Em contextos longos (>10k tokens), modelos prestam <b>mais atenção ao início 
 <div class="card card-cyan mt-3 text-xs">🎯 <b>Padrão moderno:</b> combinar <b>sumarização automática</b> + <b>file system como memória externa</b> + <b>sub-agentes</b> para tarefas isoladas.</div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
 <h1>Exemplo: sumarização automática</h1>
 <div class="text-xs">📖 <b>Em palavras:</b> conte os tokens; se passar do limite, preserve as últimas 4 mensagens e resuma o restante em 200 palavras.</div>
 <pre><code class="language-python"># 📋 Execute no Google Colab — usa HuggingFace (token gratuito)
@@ -203,7 +203,7 @@ def manage_context(messages: list, max_tokens: int = 8000):
     to_summarize = messages[:-4]</code></pre>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #0f766e 100%)">
 <h1>Exemplo: sumarização automática — continuação</h1>
 <pre><code class="language-python">    summary = summarize(to_summarize)  # ← chamada real ao HuggingFace!
     return [{&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: f&quot;Resumo do histórico anterior:\n{summary}&quot;}, *keep]
@@ -224,7 +224,7 @@ print(f&quot;Resumo: {resultado[0][&#x27;content&#x27;]}&quot;)</code></pre>
 <div class="card card-cyan mt-3 text-xs">✅ Resultado: o histórico não cresce sem controle, mas as decisões importantes continuam acessíveis.</div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #172554 100%)">
 <h1>3.3 RAG — Retrieval-Augmented Generation</h1>
 <p class="text-sm">A ideia: <b>busque</b> trechos relevantes de uma base externa e <b>injete</b> no prompt.</p>
 
@@ -245,7 +245,7 @@ print(f&quot;Resumo: {resultado[0][&#x27;content&#x27;]}&quot;)</code></pre>
 </div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e293b 100%)">
 <h1>RAG — anatomia da indexação (offline)</h1>
 
 <div class="flow-diagram mt-2">
@@ -277,7 +277,7 @@ OpenAI <code>text-embedding-3</code>, Cohere, BGE, ou local (sentence-transforme
 </div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #1f2937 100%)">
 <h1>Hands-on: RAG completo com Chroma</h1>
 <div class="card card-cyan text-xs">☁️ <b>Roda no Google Colab:</b> instale as bibliotecas, faça upload de um arquivo <code>manual.txt</code> e execute em duas células. Ao final, você terá um mini-RAG pronto para responder perguntas com base no documento.</div>
 <pre><code class="language-python">from langchain_community.document_loaders import TextLoader
@@ -292,7 +292,7 @@ chunks = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50).split_
 vstore = Chroma.from_documents(chunks, OpenAIEmbeddings(model=&quot;text-embedding-3-small&quot;))</code></pre>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)">
 <h1>Hands-on: RAG completo com Chroma — continuação</h1>
 <pre><code class="language-python">retriever = vstore.as_retriever(search_kwargs={&quot;k&quot;: 4})
 prompt = ChatPromptTemplate.from_template(
@@ -304,7 +304,7 @@ print(chain.invoke({&quot;input&quot;: &quot;Como configuro o produto?&quot;})[&
 <div class="card card-amber mt-3 text-xs">✅ <b>O que esperar:</b> a resposta final deve citar e usar o conteúdo do <code>manual.txt</code>; se a informação não estiver no arquivo, o ideal é adaptar o prompt para o agente admitir que não sabe.</div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #064e3b 100%)">
 <h1>Advanced RAG — quando o básico não basta</h1>
 <p class="text-sm">RAG ingênuo (embeddings + top-K) tem <b>muitos pontos de falha</b>. Em produção, usa-se um pipeline:</p>
 
@@ -328,7 +328,7 @@ Cada estágio recupera <b>+5-15% de qualidade</b> em benchmarks como BEIR, MS MA
 </div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
 <h1>Padrão 1 · Query Rewriting</h1>
 <p class="text-sm">A pergunta do usuário <b>raramente</b> é uma boa query de busca.</p>
 <div class="grid-2 mt-3 text-sm">
@@ -354,7 +354,7 @@ Cada estágio recupera <b>+5-15% de qualidade</b> em benchmarks como BEIR, MS MA
     &quot;&quot;&quot;)</code></pre>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
 <h1>Padrão 2 · Multi-Query &amp; HyDE</h1>
 <div class="card card-purple text-sm"><b>🔁 Multi-Query</b><br>Gere <b>N reformulações</b> da pergunta e busque com todas para aumentar <b>recall</b>.</div>
 <pre><code class="language-python">queries = llm.invoke(f&quot;&quot;&quot;
@@ -369,7 +369,7 @@ docs = dedupe(docs)</code></pre>
 <div class="card card-cyan mt-3 text-xs">📈 Na prática, costuma melhorar o <b>recall</b> em 20–40%.</div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
 <h1>Padrão 2 · Multi-Query &amp; HyDE — continuação</h1>
 <div class="card card-cyan text-sm"><b>🎭 HyDE</b> (<i>Hypothetical Document Embeddings</i>) cria uma <b>resposta hipotética</b> e usa o embedding dela para buscar.</div>
 <pre><code class="language-python">hipo = llm.invoke(f&quot;&quot;&quot;
@@ -381,7 +381,7 @@ docs = vectordb.search(hipo, k=5)</code></pre>
 <div class="card card-amber mt-3 text-xs">💡 Funciona porque “resposta → resposta” costuma ficar mais perto no espaço vetorial que “pergunta → resposta”.</div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
 <h1>Padrão 3 · Parent-Child Chunks &amp; Agentic RAG</h1>
 <div class="card card-purple text-sm"><b>👨‍👦 Parent-Child Chunks</b><br>Indexe pedaços <b>pequenos</b> para busca precisa, mas devolva ao LLM o pedaço <b>grande</b> para manter contexto rico.</div>
 
@@ -397,7 +397,7 @@ docs = vectordb.search(hipo, k=5)</code></pre>
 <div class="card card-cyan mt-3 text-xs">🎯 O índice trabalha com alta precisão; a resposta final recebe contexto suficiente para sintetizar.</div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #0f766e 100%)">
 <h1>Padrão 3 · Parent-Child Chunks &amp; Agentic RAG — continuação</h1>
 <div class="card card-cyan text-sm"><b>🤖 Agentic RAG</b><br>O LLM decide <b>se precisa buscar</b>, <b>onde buscar</b> e <b>quando refinar</b> a busca.</div>
 
@@ -423,7 +423,7 @@ docs = vectordb.search(hipo, k=5)</code></pre>
 <div class="card card-amber mt-3 text-xs">🎯 É o padrão por trás de <b>Perplexity</b>, <b>ChatGPT Search</b> e <b>Cursor @docs</b>.</div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #172554 100%)">
 <h1>3.4 Vector DBs comparativo</h1>
 <table>
 <thead><tr>
@@ -447,7 +447,7 @@ docs = vectordb.search(hipo, k=5)</code></pre>
 </div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e293b 100%)">
 <h1>Search híbrido — porque puro vetor não basta</h1>
 
 <div class="flow-diagram mt-2">
@@ -468,7 +468,7 @@ docs = vectordb.search(hipo, k=5)</code></pre>
 <div class="card card-amber mt-3 text-xs">🥇 <b>Reranker:</b> reordena os top-20 com um cross-encoder (Cohere Rerank, BGE-reranker) e costuma melhorar a resposta final.</div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #1f2937 100%)">
 <h1>📊 RAG vs Fine-tuning vs Prompt — quando usar</h1>
 
 <div class="grid-2 mt-2">
@@ -491,7 +491,7 @@ docs = vectordb.search(hipo, k=5)</code></pre>
 <div class="tip-box mt-2 text-xs fragment">🏢 <b>Por que importa:</b> em 2024, Air Canada perdeu processo judicial porque seu chatbot inventou uma política de reembolso. Grounding teria evitado — exigindo que cada afirmação citasse o documento-fonte.</div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)">
 <h1>O que é Grounding?</h1>
 <div class="card card-cyan mt-3">
 <div class="text-center">
@@ -519,7 +519,7 @@ Toda resposta precisa responder: <b>"de onde isso veio?"</b>
 </div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #064e3b 100%)">
 <h1>Por que grounding falha</h1>
 
 <div class="flow-diagram mt-2">
@@ -543,7 +543,7 @@ Mesmo com RAG, a <b>"grounding rate"</b> (% de afirmações ancoradas) raramente
 <div class="card card-amber mt-2 text-xs">⚖️ <b>Exemplo real:</b> Em 2023, um chatbot jurídico nos EUA citou casos inventados (<i>Mata v. Avianca</i>). O advogado foi multado por submeter citações fabricadas por IA ao tribunal.</div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
 <h1>Técnicas de grounding (1/2)</h1>
 <div class="text-sm mt-3">
 
@@ -570,7 +570,7 @@ Após gerar, um <b>segundo LLM</b> verifica: "Cada afirmação é suportada pelo
 </div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
 <h1>Técnicas de grounding (2/2) — em código</h1>
 <div class="text-xs">📖 <b>Camada 1:</b> force o LLM a responder só com base nos documentos e a citar a fonte de cada afirmação.</div>
 <pre><code class="language-python">SYSTEM = &quot;&quot;&quot;Responda APENAS com base nos documentos abaixo.
@@ -587,7 +587,7 @@ resposta = llm.invoke(f&quot;{SYSTEM}
 Pergunta: {q}&quot;)</code></pre>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
 <h1>Técnicas de grounding (2/2) — continuação</h1>
 <div class="text-xs">📖 <b>Camada 2:</b> rode uma verificação automática que classifica cada frase como suportada, parcial ou não suportada.</div>
 <pre><code class="language-python">verificacao = llm.invoke(f&quot;&quot;&quot;
@@ -602,7 +602,7 @@ JSON: {{&quot;afirmacoes&quot;: [{{&quot;texto&quot;: ..., &quot;status&quot;: .
 <div class="card card-cyan mt-3 text-xs">🎯 Monitore <b>Groundedness</b>, <b>Citation accuracy</b> e <b>Answer relevance</b>.</div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
 <h1>Frameworks que ajudam com grounding</h1>
 <table>
 <thead><tr>
@@ -634,7 +634,7 @@ JSON: {{&quot;afirmacoes&quot;: [{{&quot;texto&quot;: ..., &quot;status&quot;: .
 <div class="tip-box">Boa synthesis não copia chunks: ela <b>integra, compara e contextualiza</b> a informação recuperada.</div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #0f766e 100%)">
 <h1>O problema da Synthesis</h1>
 <p class="text-sm">Recuperei 20 chunks de 5 fontes. <b>E agora?</b></p>
 
@@ -651,7 +651,7 @@ Synthesis ≠ Retrieval. É um <b>passo de raciocínio</b> que requer: dedup, re
 </div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #172554 100%)">
 <h1>Padrão 1 · Map-Reduce sobre documentos</h1>
 <p class="text-sm">Para muitos docs ou docs grandes — não cabem todos no contexto.</p>
 
@@ -670,7 +670,7 @@ Variante: <b>Refine</b> — atualiza resposta incrementalmente conforme lê cada
 </div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e293b 100%)">
 <h1>Padrão 2 · Resolução de conflitos</h1>
 <p class="text-sm">Quando fontes discordam, o agente <b>não pode</b> simplesmente escolher uma.</p>
 <pre><code class="language-python">SYNTH_PROMPT = &quot;&quot;&quot;Sintetize a resposta usando os trechos abaixo.
@@ -683,7 +683,7 @@ REGRAS:
 &quot;&quot;&quot;</code></pre>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #1f2937 100%)">
 <h1>Padrão 2 · Resolução de conflitos — continuação</h1>
 <pre><code class="language-python">SYNTH_PROMPT = &quot;&quot;&quot;
 4. NUNCA invente uma &#x27;média&#x27; entre fontes contraditórias.
@@ -697,7 +697,7 @@ Pergunta: {pergunta}
 </div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)">
 <h1>Padrão 3 · Hierarchical Summarization</h1>
 <p class="text-sm">Para corpora gigantes (livros, repositórios, milhares de tickets):</p>
 
@@ -716,7 +716,7 @@ Usado em: <b>Claude Projects</b>, <b>NotebookLM</b>, <b>Cursor codebase indexing
 </div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #064e3b 100%)">
 <h1>Synthesis na prática · LangChain</h1>
 <pre><code class="language-python">from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain.chains import create_retrieval_chain
@@ -745,7 +745,7 @@ chain_stuff = load_summarize_chain(llm, chain_type=&quot;stuff&quot;)</code></pr
 </table>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
 <h1>🧪 Context Engineering — o novo nome do jogo</h1>
 <div class="card card-cyan mt-3 text-center text-sm"><b>Prompt engineering</b> → <b>Context engineering</b></div>
 <div class="grid-2 mt-3 text-xs">
@@ -757,7 +757,7 @@ chain_stuff = load_summarize_chain(llm, chain_type=&quot;stuff&quot;)</code></pr
 <div class="card card-amber mt-3 text-xs">📚 Termos atuais: <b>Context engineering</b> (Karpathy), <b>Context rot</b> (Anthropic) e <b>Context economy</b>.</div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
 <h1>💰 Prompt Caching — 90% de economia</h1>
 <div class="tip-box mt-3 text-sm"><b>Como funciona:</b> partes <b>estáveis</b> do prompt (system, docs, exemplos) ficam cacheadas no servidor; as próximas chamadas pagam ~10% desse trecho.</div>
 <pre><code class="language-python">response = client.messages.create(
@@ -773,7 +773,7 @@ chain_stuff = load_summarize_chain(llm, chain_type=&quot;stuff&quot;)</code></pr
 <div class="card card-amber mt-3 text-xs">🎯 <b>Padrão:</b> conteúdo <b>estável no início</b> e <b>dinâmico no fim</b>; inverter a ordem quebra o cache.</div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
 <h1>3.5 Memória — curto vs longo prazo</h1>
 
 <div class="flow-diagram mt-2">
@@ -792,7 +792,7 @@ chain_stuff = load_summarize_chain(llm, chain_type=&quot;stuff&quot;)</code></pr
 </div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
 <h1>Tipos de memória de longo prazo</h1>
 <div class="grid-3 mt-3">
 
@@ -820,7 +820,7 @@ chain_stuff = load_summarize_chain(llm, chain_type=&quot;stuff&quot;)</code></pr
 </div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #0f766e 100%)">
 <h1>Frameworks de memória persistente</h1>
 <div class="grid-2 mt-3">
 
@@ -849,7 +849,7 @@ chain_stuff = load_summarize_chain(llm, chain_type=&quot;stuff&quot;)</code></pr
 </div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #172554 100%)">
 <h1>Exemplo: memória com mem0</h1>
 <div class="text-xs">📖 <b>Em palavras:</b> o mem0 funciona como um caderno do usuário: você grava fatos com <code>add()</code> e recupera só as memórias relevantes com <code>search()</code>.</div>
 <pre><code class="language-python">from mem0 import Memory
@@ -860,7 +860,7 @@ m.add(&quot;Trabalho com Python e TypeScript&quot;, user_id=user_id)
 m.add(&quot;Não gosto de emojis em código&quot;, user_id=user_id)</code></pre>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e293b 100%)">
 <h1>Exemplo: memória com mem0 — continuação</h1>
 <pre><code class="language-python">def chat(pergunta: str):
     memorias = m.search(pergunta, user_id=user_id, limit=5)
@@ -907,7 +907,7 @@ print(chat(&quot;Me ajude a escrever uma função&quot;))</code></pre>
 <div class="insight-box mt-3">📚 Fonte-guia: Stanford CS329A — memória, context management e agentes que escolhem como usar contexto.</div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #1f2937 100%)">
 <h1>🧠 MemGPT — LLMs como sistemas operacionais</h1>
 <p class="text-sm"><b>MemGPT</b> (Packer et al., 2023) propõe olhar para o agente como um <b>OS</b>:<br><b>contexto principal = RAM</b> · <b>memória externa = HD</b>.</p>
 <div class="flow-diagram mt-2">
@@ -948,7 +948,7 @@ print(chat(&quot;Me ajude a escrever uma função&quot;))</code></pre>
 <div class="tip-box mt-3">🖥️ Analogia simples: seu computador não coloca todos os arquivos na RAM; o agente bom também não.</div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)">
 <h1>⚡ CacheBlend &amp; Efficient RAG</h1>
 <p class="text-sm">Para RAG funcionar em produção, não basta recuperar bem — precisa ser <b>rápido</b>, <b>barato</b> e <b>repetível</b>.</p>
 <div class="flow-diagram mt-2">
@@ -991,7 +991,7 @@ print(chat(&quot;Me ajude a escrever uma função&quot;))</code></pre>
 <div class="insight-box mt-3">📚 Stanford CS329A enfatiza isso: retrieval útil precisa virar <b>knowledge fusion prática</b>, não só demo bonita.</div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #064e3b 100%)">
 <h1>🧩 Cartridges — conhecimento portátil</h1>
 <p class="text-sm"><b>Cartridges</b> são representações leves de contexto longo: o agente “estuda” um domínio antes e guarda um pacote reutilizável para carregar sob demanda.</p>
 <div class="grid-3 mt-2 stagger-in text-xs">
@@ -1030,7 +1030,7 @@ print(chat(&quot;Me ajude a escrever uma função&quot;))</code></pre>
 </div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
 <h1>📊 Comparando arquiteturas de memória</h1>
 <div class="grid-4 mt-2 text-xs stagger-in">
   <div class="card card-red expandable">
@@ -1084,7 +1084,7 @@ print(chat(&quot;Me ajude a escrever uma função&quot;))</code></pre>
 <div class="insight-box fragment">Skills, MCP, e padrões multi-agente.</div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
 <h1>3.6 Skills — capacidades reutilizáveis</h1>
 <p class="text-sm">📅 Lançado pela Anthropic em <b>outubro/2025</b>.</p>
 <p class="text-sm"><b>Conceito:</b> uma "skill" é uma <b>pasta</b> com:</p>
@@ -1103,7 +1103,7 @@ print(chat(&quot;Me ajude a escrever uma função&quot;))</code></pre>
 <div class="insight-box mt-2 text-xs">🧠 <b>Por que importa:</b> sem skills, você teria que incluir TODA a documentação de TODAS as ferramentas no system prompt — estourando a janela de contexto e o orçamento. Skills resolvem isso com <b>carregamento preguiçoso</b>.</div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
 <h1>Skills vs Tools — qual a diferença?</h1>
 <div class="grid-2 mt-3 text-xs">
 <div class="card card-cyan"><div >🛠️ Tool</div><b>Sempre disponível</b><br>Schema JSON fixo<br>1 função = 1 tool<br>Ocupa contexto mesmo parada</div>
@@ -1113,7 +1113,7 @@ print(chat(&quot;Me ajude a escrever uma função&quot;))</code></pre>
 <div class="tip-box mt-2 text-xs">🎯 <b>Impacto prático:</b> com 5 tools registradas, ~500 tokens de overhead. Com 50 skills possíveis mas só 3 carregadas, ~300 tokens. Skills <b>escalam melhor</b> para agentes com muitas capacidades.</div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
 <h1>3.7 MCP — Model Context Protocol</h1>
 <p class="text-sm">📅 Lançado pela <b>Anthropic em novembro/2024</b>. Adotado por OpenAI, Google e a maioria dos frameworks em 2025.</p>
 <div class="card card-cyan mt-3 text-center">
@@ -1139,23 +1139,26 @@ Hoje: Claude Desktop, Cursor, VS Code, Cline, Continue…
 </div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #0f766e 100%)">
 <h1>MCP — arquitetura</h1>
 
-<div class="flow-diagram mt-2">
-  <div class="flow-node node-purple fragment">Claude Desktop / Cursor / Seu app</div>
-  <div class="flow-arrow fragment">→</div>
-  <div class="flow-node node-cyan fragment">Filesystem</div>
-  <div class="flow-node node-cyan fragment">GitHub</div>
-  <div class="flow-node node-cyan fragment">Postgres</div>
-  <div class="flow-node node-cyan fragment">Slack</div>
-  <div class="flow-node node-amber fragment">Custom seu</div>
+<div style="text-align:center; margin-top:1rem;">
+  <div class="flow-node node-purple" style="display:inline-block; margin-bottom:0.4rem;">🖥️ Claude Desktop / Cursor / Seu app</div>
+  <div class="text-xs" style="margin:0.3rem 0;">↙ &nbsp; ↓ &nbsp; ↓ &nbsp; ↓ &nbsp; ↘</div>
+  <div style="display:grid; grid-template-columns:repeat(5,1fr); gap:0.4rem;">
+    <div class="card card-cyan fragment" style="padding:0.4rem; text-align:center; font-size:0.65em;">📁 Filesystem</div>
+    <div class="card card-cyan fragment" style="padding:0.4rem; text-align:center; font-size:0.65em;">🐙 GitHub</div>
+    <div class="card card-cyan fragment" style="padding:0.4rem; text-align:center; font-size:0.65em;">🐘 Postgres</div>
+    <div class="card card-cyan fragment" style="padding:0.4rem; text-align:center; font-size:0.65em;">💬 Slack</div>
+    <div class="card card-amber fragment" style="padding:0.4rem; text-align:center; font-size:0.65em;">🔧 Custom</div>
+  </div>
+  <div class="text-xs mt-2 opacity-70">Cada servidor é independente — o host conecta a quantos quiser</div>
 </div>
 <div class="mt-3 text-xs">Comunicação por <b>JSON-RPC</b> (stdio local ou HTTP/SSE remoto). Cada servidor expõe <b>tools</b>, <b>resources</b> e <b>prompts</b>.</div>
 <div class="tip-box mt-2 text-xs">🔑 <b>Três primitivas MCP:</b> (1) <b>Tools</b> — funções executáveis, (2) <b>Resources</b> — dados que o agente pode ler, (3) <b>Prompts</b> — templates de instrução reutilizáveis. Juntas, cobrem qualquer integração.</div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #172554 100%)">
 <h1>MCP em ação — servidor mínimo (Python)</h1>
 <pre><code class="language-python">from mcp.server.fastmcp import FastMCP
 mcp = FastMCP(&quot;minha-calculadora&quot;)
@@ -1165,7 +1168,7 @@ def somar(a: int, b: int) -&gt; int:
     return a + b</code></pre>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e293b 100%)">
 <h1>MCP em ação — servidor mínimo (Python) — continuação</h1>
 <pre><code class="language-python">@mcp.tool()
 def multiplicar(a: int, b: int) -&gt; int:
@@ -1179,7 +1182,7 @@ Pronto. Esse servidor funciona em <b>Claude Desktop</b>, <b>Cursor</b>, <b>VS Co
 <div class="insight-box mt-2 text-xs">🚀 <b>Impacto empresarial:</b> antes do MCP, cada integração custava semanas de dev. Com MCP, uma empresa pode expor seus sistemas internos (ERP, CRM, DB) UMA vez e qualquer agente os acessa. É a diferença entre N² integrações e N.</div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #1f2937 100%)">
 <h1>Ecossistema MCP — alguns servidores prontos</h1>
 <div class="grid-3 text-sm">
 
@@ -1199,7 +1202,7 @@ Lista oficial: <a href="https://github.com/modelcontextprotocol/servers">github.
 </div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)">
 <h1>3.8 Padrões multi-agente</h1>
 
 <div class="grid-3 mt-2">
@@ -1209,7 +1212,7 @@ Lista oficial: <a href="https://github.com/modelcontextprotocol/servers">github.
 </div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #064e3b 100%)">
 <h1>Quando usar multi-agente?</h1>
 <div class="grid-2 mt-3 text-xs">
 <div class="tip-box"><div >✅ Use quando</div>Fases bem diferentes<br>Prompts/contextos distintos<br>Especialistas com tools próprias<br>Paralelismo gera ganho real</div>
@@ -1219,7 +1222,7 @@ Lista oficial: <a href="https://github.com/modelcontextprotocol/servers">github.
 <div class="insight-box mt-2 text-xs">🏢 <b>Realidade do mercado (2025):</b> segundo a Anthropic, <b>~90% dos agentes em produção são single-agent</b>. Multi-agent brilha em: coding assistants (planner + coder + reviewer), research (pesquisador + escritor), e customer support (router + especialistas).</div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
 <h1>Frameworks multi-agente</h1>
 <div class="grid-2 mt-3">
 
@@ -1246,7 +1249,7 @@ Lista oficial: <a href="https://github.com/modelcontextprotocol/servers">github.
 </div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
 <h1>Exemplo: Crew com CrewAI</h1>
 <div class="text-sm">
 📖 <b>Em palavras:</b> imagine uma <b>equipe de funcionários</b>. Cada <code>Agent</code> tem um cargo (role), um objetivo e um "currículo" (backstory) — isso vira parte do prompt dele. Cada <code>Task</code> é uma entrega esperada, atribuída a um agente. O <code>Crew</code> orquestra: o pesquisador entrega, o escritor pega o resultado dele como contexto e produz o artigo. <b>Divisão de trabalho automatizada.</b>
@@ -1265,7 +1268,7 @@ escritor = Agent(
 )</code></pre>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
 <h1>Exemplo: Crew com CrewAI — continuação</h1>
 <pre><code class="language-python">t1 = Task(description=&quot;Pesquise tudo sobre {tema}&quot;, agent=pesquisador)
 t2 = Task(description=&quot;Escreva artigo de 500 palavras baseado na pesquisa&quot;,
@@ -1274,7 +1277,7 @@ crew = Crew(agents=[pesquisador, escritor], tasks=[t1, t2])
 print(crew.kickoff(inputs={&quot;tema&quot;: &quot;agentes de IA&quot;}))</code></pre>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
 <h1>3.9 Hands-on integrado — agente com RAG + memória</h1>
 <div class="text-xs" style="margin-bottom:0.3rem; opacity:0.7;">📋 <b>Colab-ready</b> — usa HuggingFace InferenceClient (token gratuito)</div>
 <pre><code class="language-python"># 📋 Execute no Google Colab — requer client do setup
@@ -1316,7 +1319,7 @@ def retrieve_node(state: State) -&gt; dict:
     return {&quot;context_docs&quot;: docs}</code></pre>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #0f766e 100%)">
 <h1>3.9 Hands-on integrado — continuação</h1>
 <pre><code class="language-python">def agent_node(state: State) -&gt; dict:
     resposta = generate(state[&quot;context_docs&quot;], state[&quot;messages&quot;][-1][&quot;content&quot;])
@@ -1340,7 +1343,7 @@ print(run_rag_agent(&quot;Como funciona memória persistente?&quot;))</code></pr
 <div class="meta-info"><span class="badge">5 atividades</span><span class="badge">Memória</span><span class="badge">RAG</span><span class="badge">Skills</span><span class="badge">Multi-agente</span></div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #172554 100%)">
 <h1>Exercício 3.1 · RAG sobre seus próprios docs</h1>
 <div class="card card-purple">
 
@@ -1364,7 +1367,7 @@ print(run_rag_agent(&quot;Como funciona memória persistente?&quot;))</code></pr
 </div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e293b 100%)">
 <h1>Exercício 3.2 · Memória entre sessões</h1>
 <div class="card card-purple">
 
@@ -1382,7 +1385,7 @@ O agente deve responder corretamente <b>sem</b> receber a info novamente.
 </div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #1f2937 100%)">
 <h1>Exercício 3.3 · Crie um MCP server</h1>
 <div class="card card-purple">
 
@@ -1402,7 +1405,7 @@ O agente deve responder corretamente <b>sem</b> receber a info novamente.
 </div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)">
 <h1>Exercício 3.4 · Crew de 2 agentes</h1>
 <div class="card card-purple">
 
@@ -1420,7 +1423,7 @@ O agente deve responder corretamente <b>sem</b> receber a info novamente.
 </div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #064e3b 100%)">
 <h1>Exercício 3.5 · Análise de context window</h1>
 <div class="card card-cyan">
 
@@ -1441,7 +1444,7 @@ Escreva 1 página. Será discutido no Encontro 4.
 </div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
 <h1>🌐 Mercado: RAG, grounding &amp; memória</h1>
 <div class="grid-2 text-xs">
 <div class="card card-purple"><b>🗄️ Vector DBs líderes</b><br>Pinecone · Weaviate · Qdrant · Chroma · pgvector (Supabase/Neon) · Turbopuffer · LanceDB · Elasticsearch/OpenSearch</div>
@@ -1452,7 +1455,7 @@ Escreva 1 página. Será discutido no Encontro 4.
 <div class="card card-blue mt-3 text-xs">🧩 <b>Analogia:</b> a <b>Glean</b> é o “Google interno da empresa” — grounding sobre Slack, Drive, Jira e Confluence. Esse é o produto-tipo de 2025.</div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
 <h1>📚 Referências públicas — Encontro 3 (1/2)</h1>
 <div class="grid-2 text-xs mt-3">
 <div class="card card-purple"><b>RAG & Context</b><ul class="mt-1"><li>Lewis et al. (2020) — <i>RAG for Knowledge-Intensive NLP</i> · <a href="https://arxiv.org/abs/2005.11401">arXiv:2005.11401</a></li><li>Gao et al. (2022) — <i>HyDE</i> · <a href="https://arxiv.org/abs/2212.10496">arXiv:2212.10496</a></li><li>Liu et al. (2023) — <i>Lost in the Middle</i> · <a href="https://arxiv.org/abs/2307.03172">arXiv:2307.03172</a></li><li>Gao et al. (2024) — <i>RAG Survey</i> · <a href="https://arxiv.org/abs/2312.10997">arXiv:2312.10997</a></li></ul></div>
@@ -1460,7 +1463,7 @@ Escreva 1 página. Será discutido no Encontro 4.
 </div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
 <h1>📚 Referências públicas — Encontro 3 (2/2)</h1>
 <div class="grid-2 text-xs mt-3">
 <div class="tip-box"><b>Memória & Skills</b><ul class="mt-1"><li>Stanford CS329A — <i>Self-Improving AI Agents</i> · <a href="https://stanford-cs329a.github.io/">stanford-cs329a.github.io</a></li><li>Packer et al. (2023) — <i>MemGPT</i> · <a href="https://arxiv.org/abs/2310.08560">arXiv:2310.08560</a></li><li>Park et al. (2023) — <i>Generative Agents</i> · <a href="https://arxiv.org/abs/2304.03442">arXiv:2304.03442</a></li><li>Anthropic (2024) — <i>Prompt Caching</i> · <a href="https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching">docs.anthropic.com</a></li><li>Anthropic (2024) — <i>MCP Specification</i> · <a href="https://modelcontextprotocol.io/">modelcontextprotocol.io</a></li></ul></div>
@@ -1469,7 +1472,7 @@ Escreva 1 página. Será discutido no Encontro 4.
 <div class="mt-2 text-xs opacity-70">Todo conteúdo deste encontro é de domínio público. Marcas mencionadas pertencem aos respectivos donos; uso exclusivamente educacional.</div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
 <h1>🔄 Recap — O que construímos no Encontro 3</h1>
 <div class="grid-2 text-xs">
 <div class="card card-purple"><b>📜 Evolução</b><br>2020: paper RAG · 2023: vector DBs explodem · 2024: MCP · 2025: multi-agentes em produção.</div>
