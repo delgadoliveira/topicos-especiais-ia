@@ -857,15 +857,19 @@ Os produtos líderes são variações desses mesmos componentes. Entender o merc
 
 # 🌐 Panorama de mercado — agentes em 2026
 
+<div class="mb-3 p-3 rounded-lg bg-blue-500/10 border border-blue-500/30 text-sm">
+<b>A história de 2026:</b> agentes deixaram de ser “chatbots com tool” e viraram uma disputa por <b>quem controla o trabalho digital</b>: código, pesquisa, processos empresariais e interfaces legadas.
+</div>
+
 <div class="grid grid-cols-2 gap-3 text-xs">
-<div class="p-3 rounded-lg bg-purple-500/10 border border-purple-500/30"><b>💻 Coding agents viraram categoria</b><br>GitHub Copilot Agent/Coding Agent, Cursor, Claude Code, Devin, Replit Agent, Aider/Cline/Continue. O diferencial saiu de autocomplete e foi para <b>editar repo, rodar teste, abrir PR</b>.</div>
-<div class="p-3 rounded-lg bg-cyan-500/10 border border-cyan-500/30"><b>🔎 Research / browser agents</b><br>OpenAI Deep Research, Gemini Deep Research, Perplexity, Comet, You.com e Phind competem em <b>buscar, ler, citar e sintetizar</b> com rastreabilidade.</div>
-<div class="p-3 rounded-lg bg-green-500/10 border border-green-500/30"><b>🏢 Enterprise / vertical</b><br>Copilot Studio, Salesforce Agentforce, ServiceNow, SAP Joule, Google Agentspace e AWS Bedrock Agents vendem integração com sistemas, identidade, políticas e governança.</div>
-<div class="p-3 rounded-lg bg-amber-500/10 border border-amber-500/30"><b>🖥️ Computer use / general agents</b><br>Operator, Claude Computer Use, Manus, Mariner e Adept mostram a promessa: usar software sem API. Ainda exige sandbox, supervisão e rollback.</div>
+<div class="p-3 rounded-lg bg-purple-500/10 border border-purple-500/30"><b>1. Primeiro wedge: software</b><br>GitHub Copilot Agent/Coding Agent, Cursor, Claude Code, Devin, Replit Agent e Aider/Cline/Continue provaram o novo padrão: não é sugerir código, é <b>editar repo, rodar teste, corrigir erro e abrir PR</b>.</div>
+<div class="p-3 rounded-lg bg-cyan-500/10 border border-cyan-500/30"><b>2. Depois: conhecimento verificável</b><br>OpenAI Deep Research, Gemini Deep Research, Perplexity, Comet, You.com e Phind competem para transformar navegação em workflow: <b>buscar → ler → comparar → citar → sintetizar</b>.</div>
+<div class="p-3 rounded-lg bg-green-500/10 border border-green-500/30"><b>3. O comprador enterprise pediu controle</b><br>Copilot Studio, Salesforce Agentforce, ServiceNow, SAP Joule, Google Agentspace e AWS Bedrock Agents vendem menos “inteligência” e mais <b>integração, identidade, permissão, auditoria e governança</b>.</div>
+<div class="p-3 rounded-lg bg-amber-500/10 border border-amber-500/30"><b>4. A fronteira: usar qualquer software</b><br>Operator, Claude Computer Use, Manus, Mariner e Adept atacam o problema mais ambicioso: operar UI sem API. É poderoso, mas ainda precisa de <b>sandbox, supervisão, rollback e limites de autonomia</b>.</div>
 </div>
 
 <div class="mt-3 p-3 rounded bg-blue-500/10 border border-blue-500/30 text-xs">
-📌 <b>Leitura 2026:</b> agentes deixam de ser demo isolada e viram <b>camada operacional</b>: identidade + tools + observabilidade + avaliação + HITL. Quem não mede falha em produção.
+📌 <b>Moral da história:</b> o mercado não está convergindo para “um agente universal”. Está convergindo para uma <b>camada operacional</b> com identidade + tools + observabilidade + avaliação + HITL. O produto vencedor não é o que parece mais mágico; é o que falha de modo mensurável e recuperável.
 </div>
 
 ---
