@@ -855,21 +855,21 @@ Os produtos líderes são variações desses mesmos componentes. Entender o merc
 
 ---
 
-# 🌐 Panorama de mercado — agentes em 2026
+# 🌐 Mercado 2026 — quando componentes viram categorias
 
 <div class="mb-3 p-3 rounded-lg bg-blue-500/10 border border-blue-500/30 text-sm">
-<b>A história de 2026:</b> agentes deixaram de ser “chatbots com tool” e viraram uma disputa por <b>quem controla o trabalho digital</b>: código, pesquisa, processos empresariais e interfaces legadas.
+<b>Por que este slide entra agora?</b> Acabamos de aprender os blocos de um agente — <b>LLM + tools + memória + loop + objetivo</b>. O mercado é a prova prática: cada categoria abaixo vende uma combinação diferente desses blocos para controlar uma parte do trabalho digital.
 </div>
 
 <div class="grid grid-cols-2 gap-3 text-xs">
-<div class="p-3 rounded-lg bg-purple-500/10 border border-purple-500/30"><b>1. Primeiro wedge: software</b><br>GitHub Copilot Agent/Coding Agent, Cursor, Claude Code, Devin, Replit Agent e Aider/Cline/Continue provaram o novo padrão: não é sugerir código, é <b>editar repo, rodar teste, corrigir erro e abrir PR</b>.</div>
-<div class="p-3 rounded-lg bg-cyan-500/10 border border-cyan-500/30"><b>2. Depois: conhecimento verificável</b><br>OpenAI Deep Research, Gemini Deep Research, Perplexity, Comet, You.com e Phind competem para transformar navegação em workflow: <b>buscar → ler → comparar → citar → sintetizar</b>.</div>
-<div class="p-3 rounded-lg bg-green-500/10 border border-green-500/30"><b>3. O comprador enterprise pediu controle</b><br>Copilot Studio, Salesforce Agentforce, ServiceNow, SAP Joule, Google Agentspace e AWS Bedrock Agents vendem menos “inteligência” e mais <b>integração, identidade, permissão, auditoria e governança</b>.</div>
-<div class="p-3 rounded-lg bg-amber-500/10 border border-amber-500/30"><b>4. A fronteira: usar qualquer software</b><br>Operator, Claude Computer Use, Manus, Mariner e Adept atacam o problema mais ambicioso: operar UI sem API. É poderoso, mas ainda precisa de <b>sandbox, supervisão, rollback e limites de autonomia</b>.</div>
+<div class="p-3 rounded-lg bg-purple-500/10 border border-purple-500/30"><b>1. Código: tool use com feedback rápido</b><br>Copilot Coding Agent, Cursor, Claude Code, Devin, Replit Agent, Aider/Cline/Continue. O valor não é autocomplete: é <b>editar repo → rodar teste → ler erro → corrigir → abrir PR</b>. Aqui o loop é curto e verificável.</div>
+<div class="p-3 rounded-lg bg-cyan-500/10 border border-cyan-500/30"><b>2. Pesquisa: navegação com rastreabilidade</b><br>Deep Research, Gemini Deep Research, Perplexity, Comet, You.com e Phind transformam browser em pipeline: <b>buscar → comparar fontes → citar → sintetizar</b>. A pergunta central é: dá para auditar de onde veio a resposta?</div>
+<div class="p-3 rounded-lg bg-green-500/10 border border-green-500/30"><b>3. Enterprise: agente dentro da governança</b><br>Copilot Studio, Agentforce, ServiceNow, SAP Joule, Agentspace e Bedrock Agents vendem menos magia e mais <b>identidade, permissões, conectores, logs e política</b>. Sem isso, agente não entra em produção.</div>
+<div class="p-3 rounded-lg bg-amber-500/10 border border-amber-500/30"><b>4. Computer use: autonomia sem API</b><br>Operator, Claude Computer Use, Manus, Mariner e Adept miram software legado: usar tela, mouse e teclado. É a fronteira mais ambiciosa — e a mais perigosa sem <b>sandbox, supervisão e rollback</b>.</div>
 </div>
 
 <div class="mt-3 p-3 rounded bg-blue-500/10 border border-blue-500/30 text-xs">
-📌 <b>Moral da história:</b> o mercado não está convergindo para “um agente universal”. Está convergindo para uma <b>camada operacional</b> com identidade + tools + observabilidade + avaliação + HITL. O produto vencedor não é o que parece mais mágico; é o que falha de modo mensurável e recuperável.
+📌 <b>Lente para ler qualquer produto:</b> qual trabalho ele promete automatizar? Quais tools usa? Onde guarda contexto? Quem aprova ações caras? Como mede erro e recupera falhas? No próximo bloco, vamos ver quem fornece os “cérebros” por trás dessas categorias.
 </div>
 
 ---
