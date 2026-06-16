@@ -1,5 +1,1 @@
-/* Esconde apenas controles visuais de navegação */
-.slidev-controls,
-.slidev-navigation {
-  display: none !important;
-}
+/* Nenhum estilo customizado — navegação controlada por frontmatter (navigation: false) */

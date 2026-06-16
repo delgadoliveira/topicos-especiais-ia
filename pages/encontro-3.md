@@ -170,18 +170,6 @@ Em contextos longos (>10k tokens), modelos prestam <b>mais atenção ao início 
 
 ---
 
-# 📊 Impacto do tamanho do contexto na qualidade
-```mermaid {scale: 0.55}
-xychart-beta
-    title "Recall vs posição no contexto (Lost in the Middle)"
-    x-axis ["Início", "25%", "50%", "75%", "Final"]
-    y-axis "Recall %" 0 --> 100
-    line [92, 65, 48, 55, 85]
-```
-<div class="mt-3 p-3 rounded bg-red-500/10 border border-red-500/30 text-sm">⚠️ <b>"Lost in the Middle"</b> (Liu et al., 2023): LLMs lembram bem do início e fim do contexto, mas "esquecem" o meio. Isso impacta diretamente o design de RAG e memória.</div>
-
----
-
 # 3.2 Estratégias de context management
 <div class="grid grid-cols-2 gap-3 mt-3 text-xs">
 <div class="p-3 rounded-xl bg-purple-500/10 border border-purple-500/30"><b>✂️ Truncamento (sliding window)</b><br>Mantém só as últimas N mensagens. <b>Prós:</b> simples. <b>Contras:</b> perde contexto antigo importante.</div>
@@ -815,9 +803,9 @@ flowchart TB
   A[🤖 Agente] --> S[💬 Short-term<br/>histórico da sessão<br/>na context window]
   A --> L[💾 Long-term<br/>persistente entre sessões]
   
-  L --> L1[Episódica<br/>"o que aconteceu"]
-  L --> L2[Semântica<br/>"o que sei"]
-  L --> L3[Procedural<br/>"como faço"]
+  L --> L1[Episódica - o que aconteceu]
+  L --> L2[Semântica - o que sei]
+  L --> L3[Procedural - como faço]
   
   L1 --> VDB[(Vector DB<br/>resumos de sessões)]
   L2 --> KG[(Knowledge graph<br/>ou vector DB)]
