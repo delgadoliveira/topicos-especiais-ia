@@ -49,7 +49,7 @@ Esse é o problema que vamos resolver hoje: transformar um LLM que <b>conversa</
 **Bloco 2 — Prática (~90 min)**
 - 1.6 Setup do ambiente Python
 - 1.7 Hands-on: agente do zero, sem framework
-- 1.8 Exercícios (4 atividades)
+- 1.8 Exercícios (5 atividades)
 
 </div>
 
@@ -1093,6 +1093,8 @@ xychart-beta
 
 ---
 
+<div class="mb-3 text-xs uppercase tracking-widest opacity-60">Sessão 2 do Encontro 1 · mão na massa · slides 58–80+</div>
+
 # 🧪 A jornada de um agente — Nível 1: LLM puro
 <div class="p-3 rounded bg-zinc-800 border border-zinc-700 text-xs font-mono mb-3">
 <span class="text-green-400">user:</span> Planeja uma viagem de 3 dias para Porto Alegre com R$2000<br>
@@ -1106,15 +1108,21 @@ xychart-beta
 
 ---
 
-# 🎬 Da teoria à prática
+# 🎬 Sessão 2 — da teoria à prática
 
-<div class="text-xl mt-6 opacity-90">
-Chega de slides.<br>
-Vamos entender como o LLM funciona <b>por dentro</b> — e depois construir nosso primeiro agente.
+<div class="text-xl mt-4 opacity-90">
+Agora começa uma nova sessão dentro do Encontro 1:<br>
+vamos sair do panorama de mercado e entrar no <b>hands-on técnico</b>.
 </div>
 
-<div class="mt-6 text-sm opacity-60">
-🧰 A partir daqui: prepare seu terminal.
+<div class="grid grid-cols-3 gap-3 mt-6 text-xs">
+<div class="p-3 rounded-xl bg-purple-500/10 border border-purple-500/30"><b>1. Entender</b><br>Tokens, contexto, temperature e por que o LLM sozinho falha.</div>
+<div class="p-3 rounded-xl bg-cyan-500/10 border border-cyan-500/30"><b>2. Construir</b><br>ReAct loop + tools em Python + setup Colab com HF_TOKEN.</div>
+<div class="p-3 rounded-xl bg-green-500/10 border border-green-500/30"><b>3. Testar</b><br>Exercícios para observar erros, loops e limites do agente.</div>
+</div>
+
+<div class="mt-4 text-sm opacity-70">
+🧰 A partir daqui: prepare Colab/terminal. O objetivo é terminar com um agente mínimo funcionando.
 </div>
 
 ---
@@ -1550,9 +1558,21 @@ Em <code>gpt-4o-mini</code> custa frações de centavo. Em <code>gpt-4o</code>, 
 layout: section
 ---
 
-# 🏋️ 1.8 Exercícios — Encontro 1
+# 🏋️ 1.8 Exercícios — fechamento da sessão prática
 
-4 atividades · Faça antes de partir para o Encontro 2
+<div class="mt-3 text-lg opacity-90">
+Estes exercícios consolidam a <b>Sessão 2 do Encontro 1</b>: transformar o conceito de agente em código executável.
+</div>
+
+<div class="grid grid-cols-3 gap-3 mt-5 text-xs">
+<div class="p-3 rounded-xl bg-purple-500/10 border border-purple-500/30"><b>O que entregar</b><br>O agente rodando + anotações sobre comportamento estranho.</div>
+<div class="p-3 rounded-xl bg-cyan-500/10 border border-cyan-500/30"><b>Sequência</b><br>1.1 roda base · 1.2 adiciona tools · 1.3 quebra de propósito.</div>
+<div class="p-3 rounded-xl bg-green-500/10 border border-green-500/30"><b>Fechamento</b><br>1.4 reflexão · 1.5 prompt CO-STAR para um agente mais rígido.</div>
+</div>
+
+<div class="mt-4 p-3 rounded bg-amber-500/10 border border-amber-500/30 text-sm">
+📌 <b>São 5 atividades</b>. A ideia não é “acertar tudo”, mas observar onde o agente falha para preparar os temas do Encontro 2.
+</div>
 
 ---
 
