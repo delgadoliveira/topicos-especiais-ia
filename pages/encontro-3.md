@@ -371,6 +371,137 @@ Cada estágio recupera <b>+5-15% de qualidade</b> em benchmarks como BEIR, MS MA
 
 ---
 
+# RAG_TECHNIQUES · o mapa mental
+
+<div class="text-xs opacity-80 mb-3">
+Baseado em <a href="https://github.com/NirDiamant/RAG_TECHNIQUES">NirDiamant/RAG_TECHNIQUES</a>: coleção pública com 42+ notebooks de RAG, do básico a arquiteturas avançadas.
+</div>
+
+<div class="grid grid-cols-3 gap-2 text-xs">
+<div class="p-3 rounded-xl bg-green-500/10 border border-green-500/30"><b>🌱 Fundamentos</b><br>Simple RAG, CSV RAG, chunk size, proposition chunking.</div>
+<div class="p-3 rounded-xl bg-cyan-500/10 border border-cyan-500/30"><b>🔍 Query enhancement</b><br>Query transformations, HyDE, HyPE.</div>
+<div class="p-3 rounded-xl bg-purple-500/10 border border-purple-500/30"><b>📚 Context enrichment</b><br>Headers, semantic chunking, compression, augmentation.</div>
+<div class="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30"><b>🚀 Retrieval avançado</b><br>Fusion retrieval, reranking, filtros, índices hierárquicos, multimodal.</div>
+<div class="p-3 rounded-xl bg-red-500/10 border border-red-500/30"><b>🔁 Iterativo/adaptativo</b><br>Feedback loop, adaptive retrieval, Self-RAG, CRAG.</div>
+<div class="p-3 rounded-xl bg-blue-500/10 border border-blue-500/30"><b>📊 Avaliação</b><br>RAGAS, DeepEval, GroUSE, Open-RAG-Eval, end-to-end eval.</div>
+</div>
+
+<div class="mt-3 p-2 rounded bg-cyan-500/10 border border-cyan-500/30 text-xs">💡 A ideia pedagógica: cada técnica existe porque uma parte do pipeline falha. Não memorize nomes; diagnostique a falha.</div>
+
+---
+
+# Advanced RAG · diagnosticar antes de escolher
+
+```mermaid {scale: 0.52}
+flowchart LR
+  F1[Query ruim] --> T1[Rewriting<br/>Multi-query<br/>HyDE]
+  F2[Chunk ruim] --> T2[Semantic chunking<br/>Headers<br/>Parent-child]
+  F3[Busca incompleta] --> T3[Hybrid search<br/>Fusion<br/>Filtering]
+  F4[Ranking ruim] --> T4[Reranking<br/>Cross-encoder]
+  F5[Contexto inchado] --> T5[Compression<br/>Segment extraction]
+  F6[Resposta sem evidência] --> T6[RAGAS<br/>Grounding check<br/>Citations]
+```
+
+<div class="grid grid-cols-2 gap-3 text-xs mt-3">
+<div class="p-3 rounded-xl bg-purple-500/10 border border-purple-500/30"><b>Como ensinar</b><br>Mostre uma pergunta que falha, identifique o gargalo no diagrama e só então introduza a técnica.</div>
+<div class="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30"><b>Como projetar</b><br>Comece simples. Adicione uma técnica por vez e mantenha eval para saber se realmente melhorou.</div>
+</div>
+
+---
+
+# Visual 1 · fan-out de queries
+
+```mermaid {scale: 0.55}
+flowchart LR
+  Q[Pergunta ambígua] --> R[Query rewriting]
+  R --> Q1[query técnica]
+  R --> Q2[query com sinônimos]
+  R --> Q3[query por entidade]
+  Q1 & Q2 & Q3 --> V[(Vector DB)]
+  V --> D[Docs candidatos]
+  D --> RR[Reranker]
+  RR --> K[Top-k final]
+```
+
+<div class="grid grid-cols-2 gap-3 text-xs mt-3">
+<div class="p-3 rounded-xl bg-green-500/10 border border-green-500/30"><b>Multi-query</b><br>Aumenta recall quando a pergunta pode ser expressa de várias formas.</div>
+<div class="p-3 rounded-xl bg-cyan-500/10 border border-cyan-500/30"><b>HyDE</b><br>Gera uma resposta hipotética e busca por “documentos parecidos com a resposta”. Útil quando a pergunta é curta ou vaga.</div>
+</div>
+
+---
+
+# Visual 2 · chunk não é só tamanho
+
+```mermaid {scale: 0.52}
+flowchart TB
+  D[Documento] --> C1[Chunk fixo]
+  D --> C2[Semantic chunking]
+  D --> C3[Proposition chunking]
+  D --> C4[Parent-child]
+  C1 --> R1[barato, mas corta ideias]
+  C2 --> R2[respeita tópicos]
+  C3 --> R3[uma afirmação por unidade]
+  C4 --> R4[busca pequena, devolve contexto grande]
+```
+
+<div class="mt-3 p-2 rounded bg-purple-500/10 border border-purple-500/30 text-xs">
+🎨 <b>Elemento visual sugerido em aula:</b> desenhe um PDF como uma régua. Primeiro corte em blocos iguais; depois corte por seções semânticas; por fim mostre o “parent” como uma moldura maior ao redor do chunk encontrado.
+</div>
+
+---
+
+# Visual 3 · funil de recuperação
+
+```mermaid {scale: 0.52}
+flowchart LR
+  Q[Pergunta] --> A[Busca barata<br/>top 100]
+  A --> B[Filtros<br/>metadata]
+  B --> C[Hybrid/fusion<br/>top 40]
+  C --> D[Reranker<br/>top 8]
+  D --> E[Compression<br/>contexto limpo]
+  E --> LLM[LLM responde]
+```
+
+<div class="grid grid-cols-3 gap-2 text-xs mt-3">
+<div class="p-2 rounded bg-cyan-500/10 border border-cyan-500/30"><b>Recall</b><br>não perder o documento certo.</div>
+<div class="p-2 rounded bg-amber-500/10 border border-amber-500/30"><b>Precision</b><br>não mandar lixo para o LLM.</div>
+<div class="p-2 rounded bg-green-500/10 border border-green-500/30"><b>Compression</b><br>reduzir ruído sem remover evidência.</div>
+</div>
+
+---
+
+# Visual 4 · arquiteturas avançadas
+
+<div class="grid grid-cols-2 gap-3 text-xs mt-3">
+<div class="p-3 rounded-xl bg-purple-500/10 border border-purple-500/30"><b>🕸️ GraphRAG</b><br>Transforma documentos em entidades e relações. Bom para perguntas multi-hop: “quem influencia quem?”</div>
+<div class="p-3 rounded-xl bg-green-500/10 border border-green-500/30"><b>🌳 RAPTOR</b><br>Cria árvore de resumos. Busca pode subir/descer níveis: detalhe local ou visão global.</div>
+<div class="p-3 rounded-xl bg-cyan-500/10 border border-cyan-500/30"><b>🧠 MemoRAG</b><br>Usa memória para recuperar contexto relevante de interações e documentos anteriores.</div>
+<div class="p-3 rounded-xl bg-red-500/10 border border-red-500/30"><b>🩺 Self-RAG / CRAG</b><br>O sistema critica a própria recuperação: “preciso buscar?”, “o que veio é suficiente?”, “devo corrigir?”</div>
+</div>
+
+<div class="mt-3 p-2 rounded bg-amber-500/10 border border-amber-500/30 text-xs">⚠️ Arquitetura avançada não é prêmio por sofisticação. Use quando o diagnóstico mostrar que o RAG simples não resolve.</div>
+
+---
+
+# Matriz prática · qual técnica usar?
+
+<div class="text-xs mt-2">
+
+| Sintoma observado | Técnica candidata | Visual didático | Cuidado |
+|---|---|---|---|
+| Pergunta vaga ou dependente do histórico | Query rewriting / HyDE | fan-out de queries | pode inventar intenção |
+| Chunk certo aparece incompleto | Parent-child / context window | zoom em documento | aumenta tokens |
+| Muitos chunks irrelevantes | Reranking / compression | funil | adiciona latência |
+| Termos exatos não aparecem | Hybrid search / BM25 | duas estradas convergindo | precisa normalizar IDs |
+| Pergunta exige relações | GraphRAG | grafo entidade-relação | alto custo de ingestão |
+| Sistema não sabe se recuperou bem | RAGAS / DeepEval | painel de métricas | juiz também precisa calibração |
+
+</div>
+
+<div class="mt-2 p-2 rounded bg-cyan-500/10 border border-cyan-500/30 text-xs">📌 Regra para projeto final: escolha no máximo <b>duas</b> técnicas avançadas e explique qual falha elas mitigam.</div>
+
+---
+
 # Padrão 1 · Query Rewriting
 
 A pergunta do usuário **raramente** é uma boa query de busca.

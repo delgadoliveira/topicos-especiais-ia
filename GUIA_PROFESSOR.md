@@ -398,6 +398,7 @@ Para cada um:
 - **Multi-query**: gere N variações da query, retrieve para cada, una resultados.
 - **Re-ranking** (Cohere Rerank, BGE-reranker): retrieva 50, reranqueia top-5 com modelo cross-encoder.
 - 🧩 **Analogia**: re-ranking = passar o "filtro fino" depois do "filtro grosso" do vector search.
+- Use a sequência inspirada em **NirDiamant/RAG_TECHNIQUES** como mapa visual: primeiro diagnostique a falha (query, chunk, busca, ranking, contexto ou evidência), depois escolha a técnica. Evite apresentar como catálogo de nomes.
 
 ### Bloco 6 — Context engineering & caching (20 min)
 

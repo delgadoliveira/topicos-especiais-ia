@@ -476,6 +476,115 @@ Cada estágio recupera <b>+5-15% de qualidade</b> em benchmarks como BEIR, MS MA
 </div>
 </section>
 
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
+<h1>RAG_TECHNIQUES · o mapa mental</h1>
+<p class="text-xs" style="opacity:0.8; margin-bottom:0.6rem;">Baseado em <a href="https://github.com/NirDiamant/RAG_TECHNIQUES" style="color:#8b5cf6;">NirDiamant/RAG_TECHNIQUES</a>: coleção pública com 42+ notebooks de RAG, do básico a arquiteturas avançadas.</p>
+<div class="grid-3 stagger-in text-xs" style="gap:0.5rem;">
+<div class="card card-green fragment"><b>🌱 Fundamentos</b><br>Simple RAG, CSV RAG, chunk size, proposition chunking.</div>
+<div class="card card-cyan fragment"><b>🔍 Query enhancement</b><br>Query transformations, HyDE, HyPE.</div>
+<div class="card card-purple fragment"><b>📚 Context enrichment</b><br>Headers, semantic chunking, compression, augmentation.</div>
+<div class="card card-amber fragment"><b>🚀 Retrieval avançado</b><br>Fusion retrieval, reranking, filtros, índices hierárquicos, multimodal.</div>
+<div class="card card-red fragment"><b>🔁 Iterativo/adaptativo</b><br>Feedback loop, adaptive retrieval, Self-RAG, CRAG.</div>
+<div class="card fragment" style="border-color: rgba(96,165,250,0.4);"><b>📊 Avaliação</b><br>RAGAS, DeepEval, GroUSE, Open-RAG-Eval, end-to-end eval.</div>
+</div>
+<div class="tip-box mt-2 text-xs">💡 A ideia pedagógica: cada técnica existe porque uma parte do pipeline falha. Não memorize nomes; diagnostique a falha.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #064e3b 100%)">
+<h1>Advanced RAG · diagnosticar antes de escolher</h1>
+<div class="grid-3 text-xs mt-3" style="gap:0.5rem;">
+<div class="card card-purple fragment"><b>Query ruim</b><br>Rewriting · Multi-query · HyDE</div>
+<div class="card card-cyan fragment"><b>Chunk ruim</b><br>Semantic chunking · Headers · Parent-child</div>
+<div class="card card-green fragment"><b>Busca incompleta</b><br>Hybrid search · Fusion · Filtering</div>
+<div class="card card-amber fragment"><b>Ranking ruim</b><br>Reranking · Cross-encoder</div>
+<div class="card card-red fragment"><b>Contexto inchado</b><br>Compression · Segment extraction</div>
+<div class="card fragment" style="border-color: rgba(96,165,250,0.4);"><b>Resposta sem evidência</b><br>RAGAS · Grounding check · Citations</div>
+</div>
+<div class="grid-2 mt-3 text-xs">
+<div class="card card-purple"><b>Como ensinar</b><br>Mostre uma pergunta que falha, identifique o gargalo no diagrama e só então introduza a técnica.</div>
+<div class="card card-amber"><b>Como projetar</b><br>Comece simples. Adicione uma técnica por vez e mantenha eval para saber se realmente melhorou.</div>
+</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
+<h1>Visual 1 · fan-out de queries</h1>
+<div class="flow-diagram mt-2">
+  <div class="flow-node node-purple fragment">Pergunta ambígua</div>
+  <div class="flow-arrow fragment">→</div>
+  <div class="flow-node node-cyan fragment">Query rewriting</div>
+  <div class="flow-arrow fragment">→</div>
+  <div class="flow-node node-green fragment">3-5 queries</div>
+  <div class="flow-arrow fragment">→</div>
+  <div class="flow-node node-amber fragment">Vector DB</div>
+  <div class="flow-arrow fragment">→</div>
+  <div class="flow-node node-purple fragment">Reranker</div>
+</div>
+<div class="grid-2 mt-3 text-xs">
+<div class="card card-green"><b>Multi-query</b><br>Aumenta recall quando a pergunta pode ser expressa de várias formas.</div>
+<div class="card card-cyan"><b>HyDE</b><br>Gera uma resposta hipotética e busca por “documentos parecidos com a resposta”. Útil quando a pergunta é curta ou vaga.</div>
+</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #172554 100%)">
+<h1>Visual 2 · chunk não é só tamanho</h1>
+<div class="grid-4 text-xs mt-3">
+  <div class="card card-red fragment"><b>Chunk fixo</b><br>barato, mas corta ideias</div>
+  <div class="card card-cyan fragment"><b>Semantic chunking</b><br>respeita tópicos</div>
+  <div class="card card-purple fragment"><b>Proposition chunking</b><br>uma afirmação por unidade</div>
+  <div class="card card-green fragment"><b>Parent-child</b><br>busca pequena, contexto grande</div>
+</div>
+<div class="card card-purple mt-3 text-xs">🎨 <b>Elemento visual sugerido em aula:</b> desenhe um PDF como uma régua. Primeiro corte em blocos iguais; depois corte por seções semânticas; por fim mostre o “parent” como uma moldura maior ao redor do chunk encontrado.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
+<h1>Visual 3 · funil de recuperação</h1>
+<div class="flow-diagram mt-2">
+  <div class="flow-node node-purple fragment">Pergunta</div>
+  <div class="flow-arrow fragment">→</div>
+  <div class="flow-node node-cyan fragment">Busca barata<br>top 100</div>
+  <div class="flow-arrow fragment">→</div>
+  <div class="flow-node node-green fragment">Filtros</div>
+  <div class="flow-arrow fragment">→</div>
+  <div class="flow-node node-purple fragment">Hybrid/fusion<br>top 40</div>
+  <div class="flow-arrow fragment">→</div>
+  <div class="flow-node node-amber fragment">Reranker<br>top 8</div>
+  <div class="flow-arrow fragment">→</div>
+  <div class="flow-node node-cyan fragment">Compression</div>
+</div>
+<div class="grid-3 mt-3 text-xs">
+<div class="card card-cyan"><b>Recall</b><br>não perder o documento certo.</div>
+<div class="card card-amber"><b>Precision</b><br>não mandar lixo para o LLM.</div>
+<div class="card card-green"><b>Compression</b><br>reduzir ruído sem remover evidência.</div>
+</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)">
+<h1>Visual 4 · arquiteturas avançadas</h1>
+<div class="grid-2 text-xs mt-3">
+<div class="card card-purple fragment"><b>🕸️ GraphRAG</b><br>Transforma documentos em entidades e relações. Bom para perguntas multi-hop: “quem influencia quem?”</div>
+<div class="card card-green fragment"><b>🌳 RAPTOR</b><br>Cria árvore de resumos. Busca pode subir/descer níveis: detalhe local ou visão global.</div>
+<div class="card card-cyan fragment"><b>🧠 MemoRAG</b><br>Usa memória para recuperar contexto relevante de interações e documentos anteriores.</div>
+<div class="card card-red fragment"><b>🩺 Self-RAG / CRAG</b><br>O sistema critica a própria recuperação: “preciso buscar?”, “o que veio é suficiente?”, “devo corrigir?”</div>
+</div>
+<div class="card card-amber mt-3 text-xs">⚠️ Arquitetura avançada não é prêmio por sofisticação. Use quando o diagnóstico mostrar que o RAG simples não resolve.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e293b 100%)">
+<h1>Matriz prática · qual técnica usar?</h1>
+<table class="text-xs">
+<thead><tr><th>Sintoma observado</th><th>Técnica candidata</th><th>Visual didático</th><th>Cuidado</th></tr></thead>
+<tbody>
+<tr><td>Pergunta vaga</td><td>Query rewriting / HyDE</td><td>fan-out de queries</td><td>pode inventar intenção</td></tr>
+<tr><td>Chunk incompleto</td><td>Parent-child / context window</td><td>zoom em documento</td><td>aumenta tokens</td></tr>
+<tr><td>Muitos chunks irrelevantes</td><td>Reranking / compression</td><td>funil</td><td>adiciona latência</td></tr>
+<tr><td>Termos exatos falham</td><td>Hybrid search / BM25</td><td>duas estradas convergindo</td><td>normalizar IDs</td></tr>
+<tr><td>Relações multi-hop</td><td>GraphRAG</td><td>grafo entidade-relação</td><td>ingestão cara</td></tr>
+<tr><td>Sem evidência</td><td>RAGAS / DeepEval</td><td>painel de métricas</td><td>calibrar juiz</td></tr>
+</tbody>
+</table>
+<div class="tip-box mt-2 text-xs">📌 Regra para projeto final: escolha no máximo <b>duas</b> técnicas avançadas e explique qual falha elas mitigam.</div>
+</section>
+
 <section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
 <h1>Padrão 1 · Query Rewriting</h1>
 <p class="text-sm">A pergunta do usuário <b>raramente</b> é uma boa query de busca.</p>
@@ -569,80 +678,6 @@ docs = vectordb.search(hipo, k=5)</code></pre>
   </div>
 </div>
 <div class="card card-amber mt-3 text-xs">🎯 É o padrão por trás de <b>Perplexity</b>, <b>ChatGPT Search</b> e <b>Cursor @docs</b>.</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
-<h1>🗺️ Taxonomia de técnicas RAG — 42+ técnicas documentadas</h1>
-<p class="text-xs" style="opacity:0.8; margin-bottom:0.4rem;">Baseado em <a href="https://github.com/NirDiamant/RAG_TECHNIQUES" style="color:#8b5cf6;">NirDiamant/RAG_TECHNIQUES</a> — 42+ notebooks executáveis cobrindo do básico ao estado da arte.</p>
-<div class="grid-3 stagger-in text-xs" style="gap:0.45rem;">
-<div class="card card-green parallax-card fragment">
-<b>🌱 Foundational</b><br>
-Simple RAG, RAG com CSV, Reliable RAG, Otimização de chunk size, Proposition Chunking
-</div>
-<div class="card card-cyan parallax-card fragment">
-<b>🔍 Query Enhancement</b><br>
-Query Transformations, HyDE (Hypothetical Doc Embedding), HyPE (Hypothetical Prompt Embedding)
-</div>
-<div class="card card-purple parallax-card fragment">
-<b>📚 Context Enrichment</b><br>
-Contextual Chunk Headers, Relevant Segment Extraction, Semantic Chunking, Contextual Compression, Document Augmentation
-</div>
-<div class="card card-amber parallax-card fragment">
-<b>🚀 Advanced Retrieval</b><br>
-Fusion Retrieval, Reranking, Multi-faceted Filtering, Hierarchical Indices, Multi-modal RAG
-</div>
-<div class="card card-red parallax-card fragment">
-<b>🏗️ Advanced Architecture</b><br>
-GraphRAG (Microsoft), RAPTOR, Self-RAG, Corrective RAG (CRAG), Agentic RAG, MemoRAG
-</div>
-<div class="card parallax-card fragment" style="border-color: rgba(96,165,250,0.4);">
-<b>📊 Evaluation</b><br>
-RAGAS, DeepEval, GroUSE, Open-RAG-Eval, End-to-End RAG Evaluation
-</div>
-</div>
-<div class="tip-box mt-2 text-xs">💡 <b>Progresso recomendado:</b> Foundational → Query Enhancement → Context Enrichment → Advanced Retrieval → Evaluation → Advanced Architecture. Cada categoria resolve uma classe de falha diferente.</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #111827 0%, #064e3b 100%)">
-<h1>📖 Ecossistema RAG — frameworks e recursos</h1>
-<div class="grid-2 stagger-in text-xs" style="gap:0.6rem;">
-<div class="card card-purple parallax-card fragment">
-<b>🛠️ Frameworks de pipeline</b>
-<div class="mt-1" style="line-height:1.5;">
-• <b>LangChain</b> — composição modular: loaders, splitters, retrievers, chains<br>
-• <b>LlamaIndex</b> — foco em ingestão, indexação e query engines sobre dados reais<br>
-• <b>Haystack</b> (deepset) — pipelines production-ready com search e RAG<br>
-• <b>DSPy</b> (Stanford) — otimiza prompts e RAG automaticamente com compiladores
-</div>
-</div>
-<div class="card card-cyan parallax-card fragment">
-<b>📊 Avaliação de RAG</b>
-<div class="mt-1" style="line-height:1.5;">
-• <b>RAGAS</b> — métricas: faithfulness, answer relevancy, context recall, context precision<br>
-• <b>DeepEval</b> — 14+ métricas, integração CI/CD, red-teaming automático<br>
-• <b>LangSmith</b> — tracing + evaluation + datasets de teste<br>
-• Sem avaliação → <i>"funciona nos meus exemplos"</i> ≠ funciona em produção
-</div>
-</div>
-<div class="card card-green parallax-card fragment">
-<b>🏗️ Arquiteturas avançadas</b>
-<div class="mt-1" style="line-height:1.5;">
-• <b>GraphRAG</b> (Microsoft) — knowledge graphs para queries que exigem raciocínio multi-hop<br>
-• <b>RAGFlow</b> — document understanding + chunking inteligente por estrutura<br>
-• <b>Verba</b> (Weaviate) — RAG end-to-end com UI + multi-modal<br>
-• <b>Self-RAG / CRAG</b> — o modelo decide se precisa buscar e se o que buscou é relevante
-</div>
-</div>
-<div class="card card-amber parallax-card fragment">
-<b>📚 Para ir além</b>
-<div class="mt-1" style="line-height:1.5;">
-• <a href="https://github.com/NirDiamant/RAG_TECHNIQUES" style="color:#fbbf24;">NirDiamant/RAG_TECHNIQUES</a> — 42+ notebooks com código executável<br>
-• <a href="https://github.com/NirDiamant/Agent_Memory_Techniques" style="color:#fbbf24;">NirDiamant/Agent_Memory_Techniques</a> — 30 notebooks sobre memória de agentes<br>
-• <a href="https://python.langchain.com/" style="color:#fbbf24;">python.langchain.com</a> — docs oficiais LangChain + tutoriais RAG<br>
-• <a href="https://docs.llamaindex.ai/" style="color:#fbbf24;">docs.llamaindex.ai</a> — docs LlamaIndex com exemplos reais
-</div>
-</div>
-</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #172554 100%)">
