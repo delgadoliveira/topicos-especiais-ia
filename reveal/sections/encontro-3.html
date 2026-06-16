@@ -158,6 +158,9 @@
 <div class="mt-3 text-sm">
 Em contextos longos (>10k tokens), modelos prestam <b>mais atenção ao início e fim</b>, e tendem a "esquecer" o meio. Por isso colocar instruções importantes <b>no começo</b> e a pergunta <b>no fim</b> ajuda.
 </div>
+<div class="card card-amber mt-2 text-xs">🧠 <b>Explicação rápida:</b> Modelos tendem a ignorar informação no meio de contextos longos. As primeiras e últimas posições recebem mais atenção.</div>
+<div class="tip-box mt-2 text-xs">📌 <b>Na prática:</b> coloque informação importante no <b>INÍCIO</b> ou no <b>FIM</b> do contexto, nunca no meio.</div>
+<div class="mt-2 text-xs opacity-70">📚 Liu et al. (2023) — <i>"Lost in the Middle: How Language Models Use Long Contexts"</i></div>
 </section>
 
 <section>
@@ -174,7 +177,17 @@ Em contextos longos (>10k tokens), modelos prestam <b>mais atenção ao início 
 <section>
 <h1>Exemplo: sumarização automática</h1>
 <div class="text-xs">📖 <b>Em palavras:</b> conte os tokens; se passar do limite, preserve as últimas 4 mensagens e resuma o restante em 200 palavras.</div>
-<pre><code class="language-python">def manage_context(messages: list, max_tokens: int = 8000):
+<pre><code class="language-python"># 📋 Execute no Google Colab — copie e cole
+# Célula 1: Setup
+!pip install openai -q
+import os
+from openai import OpenAI
+
+# Cole sua chave aqui (ou use Colab Secrets)
+os.environ["OPENAI_API_KEY"] = "sk-..."  # ← substitua pela sua chave
+client = OpenAI()
+
+def manage_context(messages: list, max_tokens: int = 8000):
     &quot;&quot;&quot;Se passar do limite, sumariza as mensagens antigas.&quot;&quot;&quot;
     total = count_tokens(messages)
     if total &lt; max_tokens:
@@ -252,6 +265,7 @@ OpenAI <code>text-embedding-3</code>, Cohere, BGE, ou local (sentence-transforme
 
 <section>
 <h1>Hands-on: RAG completo com Chroma</h1>
+<div class="card card-cyan text-xs">☁️ <b>Roda no Google Colab:</b> instale as bibliotecas, faça upload de um arquivo <code>manual.txt</code> e execute em duas células. Ao final, você terá um mini-RAG pronto para responder perguntas com base no documento.</div>
 <pre><code class="language-python">from langchain_community.document_loaders import TextLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_openai import OpenAIEmbeddings, ChatOpenAI
@@ -273,6 +287,7 @@ prompt = ChatPromptTemplate.from_template(
 combine = create_stuff_documents_chain(ChatOpenAI(model=&quot;gpt-4o-mini&quot;), prompt)
 chain = create_retrieval_chain(retriever, combine)
 print(chain.invoke({&quot;input&quot;: &quot;Como configuro o produto?&quot;})[&quot;answer&quot;])</code></pre>
+<div class="card card-amber mt-3 text-xs">✅ <b>O que esperar:</b> a resposta final deve citar e usar o conteúdo do <code>manual.txt</code>; se a informação não estiver no arquivo, o ideal é adaptar o prompt para o agente admitir que não sabe.</div>
 </section>
 
 <section>
@@ -510,6 +525,7 @@ Toda resposta precisa responder: <b>"de onde isso veio?"</b>
 <div class="mt-3 text-sm">
 Mesmo com RAG, a <b>"grounding rate"</b> (% de afirmações ancoradas) raramente passa de 70-80% sem técnicas dedicadas.
 </div>
+<div class="card card-amber mt-2 text-xs">⚖️ <b>Exemplo real:</b> Em 2023, um chatbot jurídico nos EUA citou casos inventados (<i>Mata v. Avianca</i>). O advogado foi multado por submeter citações fabricadas por IA ao tribunal.</div>
 </section>
 
 <section>
@@ -796,7 +812,7 @@ chain_stuff = load_summarize_chain(llm, chain_type=&quot;stuff&quot;)</code></pr
 <div class="card card-purple">
 <b>mem0</b><br>
 <span class="text-sm">Layer de memória plug-and-play. Detecta automaticamente o que vale a pena lembrar.</span><br>
-<code class="text-xs mt-2">pip install mem0ai</code>
+<code class="text-xs mt-2">!pip install mem0ai openai -q</code>
 </div>
 
 <div class="card card-purple">
@@ -1241,7 +1257,20 @@ print(crew.kickoff(inputs={&quot;tema&quot;: &quot;agentes de IA&quot;}))</code>
 
 <section>
 <h1>3.9 Hands-on integrado — agente com RAG + memória</h1>
-<pre><code class="language-python">from langgraph.graph import StateGraph, END
+<pre><code class="language-python"># 📋 Execute no Google Colab — copie e cole
+# Célula 1: Setup
+!pip install langgraph langchain langchain-openai langchain-chroma chromadb openai -q
+import os
+from typing import Annotated, TypedDict
+from langchain_openai import ChatOpenAI
+from langchain_core.messages import SystemMessage
+from langgraph.graph.message import add_messages
+
+# Cole sua chave aqui (ou use Colab Secrets)
+os.environ["OPENAI_API_KEY"] = "sk-..."  # ← substitua pela sua chave
+llm = ChatOpenAI(model="gpt-4o-mini")
+
+from langgraph.graph import StateGraph, END
 from langgraph.checkpoint.sqlite import SqliteSaver
 # ... imports do RAG (Chroma, embeddings)
 class State(TypedDict):
@@ -1414,68 +1443,14 @@ Escreva 1 página. Será discutido no Encontro 4.
 </div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #0a2e1f 0%, #0f172a 100%)" class="text-center">
 <h1>✅ Fim do Encontro 3</h1>
-<div class="insight-box">Você agora sabe:</div>
-</section>
-
-<section>
-<h1>🔌 MCP — Conectando agentes ao ecossistema digital</h1>
-<p class="text-xs"><b>Model Context Protocol</b> (Anthropic, 2024) — padrão aberto para conectar agentes a ferramentas.</p>
-<div class="compare-cols">
-  <div class="compare-col good slide-in-left">
-    <h3>Como funciona</h3>
-    <ol>
-      <li class="fragment"><b>Server</b> expõe tools via JSON-RPC</li>
-      <li class="fragment"><b>Client</b> (agente) descobre tools disponíveis</li>
-      <li class="fragment">Agente chama tool → Server executa → retorna resultado</li>
-      <li class="fragment">Padrão universal (como HTTP para web)</li>
-    </ol>
-  </div>
-  <div class="compare-col bad slide-in-right">
-    <h3>Exemplos reais</h3>
-    <ul>
-      <li class="fragment"><b>Spotify MCP</b> — busca músicas, cria playlists</li>
-      <li class="fragment"><b>GitHub MCP</b> — cria PRs, lê issues</li>
-      <li class="fragment"><b>Slack MCP</b> — envia mensagens, busca canais</li>
-      <li class="fragment"><b>Database MCP</b> — query SQL seguro</li>
-    </ul>
-  </div>
+<div class="stagger-in mt-2" style="text-align: left; max-width: 700px; margin: 0 auto;">
+<div class="card card-green fragment" style="padding: 0.6rem 1rem; margin-bottom: 0.4rem;">✅ Gerenciar context window (truncate, summarize, RAG)</div>
+<div class="card card-green fragment" style="padding: 0.6rem 1rem; margin-bottom: 0.4rem;">✅ Construir um pipeline RAG completo</div>
+<div class="card card-green fragment" style="padding: 0.6rem 1rem; margin-bottom: 0.4rem;">✅ Implementar memória de longo prazo</div>
+<div class="card card-green fragment" style="padding: 0.6rem 1rem; margin-bottom: 0.4rem;">✅ Conceituar e criar Skills + MCP</div>
+<div class="card card-green fragment" style="padding: 0.6rem 1rem; margin-bottom: 0.4rem;">✅ Orquestrar multi-agentes (e quando NÃO usar)</div>
 </div>
-<div class="insight-box">📌 <b>MIT Mod 3:</b> "A integração com sistemas existentes é onde 80% dos pilotos falham." O MCP resolve a fragmentação.</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #134e4a 100%)" class="text-center">
-<h1>🧪 Exercícios Interativos — Encontro 3</h1>
-<div class="insight-box">Pratique memória, RAG e context management</div>
-</section>
-
-<section>
-<h1>🧪 Exercício 3.1 — Sliding Window de contexto</h1>
-<div class="text-xs opacity-70">Implemente truncamento inteligente de histórico de mensagens.</div>
-<div class="pyrunner-container" data-src="exercises/e3_1_sliding_window.py"><textarea></textarea><button class="run-btn">▶ Executar</button><div class="pyrunner-output"></div></div>
-</section>
-
-<section>
-<h1>🧪 Exercício 3.2 — Mini RAG com busca por similaridade</h1>
-<div class="text-xs opacity-70">Implemente retrieval básico usando similaridade de palavras (sem embeddings).</div>
-<div class="pyrunner-container" data-src="exercises/e3_2_mini_rag.py"><textarea></textarea><button class="run-btn">▶ Executar</button><div class="pyrunner-output"></div></div>
-</section>
-
-<section>
-<h1>🧪 Exercício 3.3 — Memória de longo prazo</h1>
-<div class="text-xs opacity-70">Implemente um store de memória com save/recall.</div>
-<div class="pyrunner-container" data-src="exercises/e3_3_memoria.py"><textarea></textarea><button class="run-btn">▶ Executar</button><div class="pyrunner-output"></div></div>
-</section>
-
-<section>
-<h2>Você agora sabe:</h2>
-<ul>
-  <li class="fragment">Gerenciar context window (truncate, summarize, RAG)</li>
-  <li class="fragment">Construir um pipeline RAG completo</li>
-  <li class="fragment">Implementar memória de longo prazo</li>
-  <li class="fragment">Conceituar e criar Skills + MCP</li>
-  <li class="fragment">Orquestrar multi-agentes (e quando NÃO usar)</li>
-</ul>
 <div class="card card-cyan mt-3 text-center"><div class="card-title">Próximo: Encontro 4 — Problemas Comuns &amp; State-of-the-Art</div><div class="card-desc">Onde tudo isso encontra a <i>realidade</i>: falhas, custos, e os produtos que estão ganhando o mercado.</div></div>
 </section>

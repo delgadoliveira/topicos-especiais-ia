@@ -86,7 +86,7 @@
 <section>
   <h1>🧭 Vocabulário do dia — em 1 frase cada</h1>
   <div class="stagger-in mt-2" style="grid-template-columns: 1fr;">
-    <div class="card fragment"><div class="card-title">👻 Alucinação</div><div class="card-desc">o LLM responde com confiança <b>algo que é falso</b>. Não é "mentir" (não há intenção); é a natureza estatística do modelo gerando o que <i>parece</i> certo.</div></div>
+    <div class="card fragment"><div class="card-title">👻 Alucinação</div><div class="card-desc">o LLM responde com confiança <b>algo que é falso</b>. Não é "mentir" (não há intenção); é a natureza estatística do modelo gerando o que <i>parece</i> certo. <i>Ex: um chatbot jurídico citou casos que não existiam (Mata v. Avianca, 2023).</i></div></div>
     <div class="card fragment"><div class="card-title">💉 Prompt injection</div><div class="card-desc">alguém esconde uma instrução maliciosa em um dado que o agente vai ler (ex: comentário em HTML), e o agente <b>obedece</b>. O equivalente moderno do SQL injection.</div></div>
     <div class="card fragment"><div class="card-title">⚖️ LLM-as-judge</div><div class="card-desc">usar um LLM <b>como juiz</b> para avaliar a saída de outro LLM. Acurácia ~80-85% comparado a humanos — barato e escalável.</div></div>
     <div class="card fragment"><div class="card-title">🔭 Observabilidade</div><div class="card-desc">conseguir <b>ver o que o agente fez</b> turno a turno: qual prompt, qual tool, qual resultado. Sem isso, você está debugando às cegas.</div></div>
@@ -890,13 +890,16 @@ Qual responde melhor? A / B / Empate"""</code></pre>
 
 <section>
   <h1>💡 Solução de referência (1/3) · estrutura e tools (1/2)</h1>
-  <pre><code class="language-python">import json, os, time, requests
+  <div class="text-xs" style="margin-bottom:0.3rem; opacity:0.7;">📋 <b>Execute no Google Colab</b> — instale dependências primeiro: <code>!pip install openai tavily-python requests beautifulsoup4 -q</code></div>
+  <pre><code class="language-python">import json, time, requests
 from openai import OpenAI
 from tavily import TavilyClient
-from readability import Document
 from bs4 import BeautifulSoup
-client = OpenAI()
-tavily = TavilyClient(api_key=os.environ["TAVILY_API_KEY"])
+# Chaves de API (use Colab Secrets ou cole aqui)
+OPENAI_API_KEY = "sk-..."      # ← sua chave OpenAI
+TAVILY_API_KEY = "tvly-..."    # ← sua chave Tavily (tavily.com — grátis)
+client = OpenAI(api_key=OPENAI_API_KEY)
+tavily = TavilyClient(api_key=TAVILY_API_KEY)
 NOTES: list[dict] = []
 def search_web(query: str, k: int = 5) -> list[dict]:
     try:
@@ -911,9 +914,10 @@ def search_web(query: str, k: int = 5) -> list[dict]:
   <pre><code class="language-python">def fetch_url(url: str, max_chars: int = 6000) -&gt; dict:
     try:
         html = requests.get(url, timeout=15, headers={"User-Agent": "ResearchAgent/1.0"}).text
-        doc = Document(html)
-        text = BeautifulSoup(doc.summary(), "html.parser").get_text(" ", strip=True)
-        return {"url": url, "title": doc.title(), "content": text[:max_chars]}
+        soup = BeautifulSoup(html, "html.parser")
+        title = soup.title.get_text(strip=True) if soup.title else url
+        text = soup.get_text(" ", strip=True)
+        return {"url": url, "title": title, "content": text[:max_chars]}
     except Exception as e:
         return {"url": url, "error": str(e)}
 def save_note(source_id: int, claim: str, quote: str) -&gt; dict:
@@ -925,6 +929,7 @@ TOOL_FNS = {"search_web": search_web, "fetch_url": fetch_url, "save_note": save_
 
 <section>
   <h1>💡 Solução de referência (2/3) · loop ReAct + guardrails (1/2)</h1>
+  <div class="text-xs" style="margin-bottom:0.3rem; opacity:0.7;">📋 <b>Colab-ready</b> — requer as variáveis do slide anterior</div>
   <pre><code class="language-python">SYSTEM = """Você é um agente de pesquisa em PT-BR.
 1) PLANEJE: liste 3-5 sub-perguntas antes de buscar.
 2) BUSQUE: use search_web por sub-pergunta e escolha 3+ fontes confiáveis.
@@ -1038,6 +1043,11 @@ print(json.dumps(results, indent=2, ensure_ascii=False))</code></pre>
     <div class="card card-amber"><div class="card-title">📰 Onde acompanhar a área</div><div class="card-desc">Latent Space · Simon Willison · changelogs da Anthropic/OpenAI · Papers with Code · @karpathy · @hwchase17 · @swyx.</div></div>
   </div>
   <div class="insight-box">📌 Estratégia prática: estude fundamentos estáveis e acompanhe tendências pelos changelogs e benchmarks.</div>
+  <div class="grid-3 text-xs mt-2 fragment" style="gap:0.4rem;">
+    <div class="card card-green"><b>🧑‍💼 Se você é de Gestão</b><br>• Identifique 1 processo manual repetitivo<br>• Faça PoC com agente single-task<br>• Meça ROI em 30 dias</div>
+    <div class="card card-purple"><b>🧑‍💻 Se você é de Produto/Tech</b><br>• Aprenda LangGraph ou OpenAI Agents SDK<br>• Implemente observabilidade desde o dia 1<br>• Contribua para MCP servers</div>
+    <div class="card card-amber"><b>📊 Se você é de Dados/Analytics</b><br>• Construa RAG sobre seus relatórios<br>• Crie eval pipelines para qualidade<br>• Explore text-to-SQL com agentes</div>
+  </div>
 </section>
 
 <section>
@@ -1158,12 +1168,6 @@ print(json.dumps(results, indent=2, ensure_ascii=False))</code></pre>
   </div>
 </section>
 
-<section data-background-gradient="linear-gradient(135deg, #1e293b 0%, #0f172a 100%)" class="text-center">
-  <h1>🎓 Fim do Encontro 4</h1>
-  <h2>E da disciplina!</h2>
-  <div class="text-sm opacity-70 mt-3">Em 12 horas você saiu de <b>"o que é um agente?"</b> para construir, avaliar e debugar agentes de IA em produção.</div>
-</section>
-
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #3f3f46 100%)">
   <h1>📏 Da prova de conceito à produção — Last Mile</h1>
   <div class="text-xs mt-1"><b>MIT Module 6:</b> "Por que pilotos funcionam mas deploys falham?"</div>
@@ -1189,6 +1193,9 @@ print(json.dumps(results, indent=2, ensure_ascii=False))</code></pre>
       </ul>
     </div>
   </div>
+  <div class="card text-xs mt-2 fragment" style="background:rgba(96,165,250,0.06); border:1px solid rgba(96,165,250,0.25);">
+🏢 <b>Caso real:</b> A Klarna (fintech sueca) colocou um agente de atendimento em produção para 700 funcionários. Resultado: resolveu 2.3M conversas em 1 mês, equivalente a 700 atendentes. Mas levou 6 meses de "last mile" para chegar lá — guardrails, fallbacks, monitoramento.
+  </div>
 </section>
 
 <section>
@@ -1206,6 +1213,9 @@ print(json.dumps(results, indent=2, ensure_ascii=False))</code></pre>
     <div class="card card-purple text-center"><div class="card-desc">⚙️ Execução<br>Sandboxing + limits</div></div>
     <div class="card card-amber text-center"><div class="card-desc">📤 Output<br>Toxicity + fact-check</div></div>
   </div>
+  <div class="card text-xs mt-2 fragment" style="background:rgba(251,191,36,0.06); border:1px solid rgba(251,191,36,0.25);">
+⚠️ <b>Regra prática:</b> Se o agente processa dados de clientes → LGPD se aplica. Se toma decisões que afetam pessoas → precisa de explicabilidade. Se opera em saúde/finanças → regulação setorial adicional. Quando em dúvida: <b>human-in-the-loop</b>.
+  </div>
 </section>
 
 <section>
@@ -1217,6 +1227,12 @@ print(json.dumps(results, indent=2, ensure_ascii=False))</code></pre>
     <div class="card card-purple slide-in-right"><div class="card-title">📅 6–12 meses</div><div class="card-desc"><ul><li>Multi-agent orquestrado</li><li>Governance framework</li><li>Self-improving (feedback loops)</li><li>Escalar para toda a equipe</li></ul></div></div>
   </div>
   <div class="insight-box">🎓 <b>MIT Capstone:</b> Seu projeto final: desenhe um plano de integração de agentes para uma função de negócio real.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #1e293b 0%, #0f172a 100%)" class="text-center">
+  <h1>🎓 Fim do Encontro 4</h1>
+  <h2>E da disciplina!</h2>
+  <div class="text-sm opacity-70 mt-3">Em 12 horas você saiu de <b>"o que é um agente?"</b> para construir, avaliar e debugar agentes de IA em produção.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1f2937 100%)" class="text-center">

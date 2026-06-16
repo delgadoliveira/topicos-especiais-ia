@@ -205,6 +205,9 @@ R:"""</code></pre>
 <p class="slide-in-left">📄 <b>Yao et al., 2023</b><br>Em vez de uma única cadeia, <b>explore múltiplas</b> em árvore, avalie e poda.</p>
 <div class="flow-diagram"><div class="flow-node node-purple">Problema</div><div class="flow-arrow">→</div><div class="flow-node node-purple">Thought A</div><div class="flow-arrow">→</div><div class="flow-node node-purple">Thought B</div><div class="flow-arrow">→</div><div class="flow-node node-purple">Thought C</div><div class="flow-arrow">→</div><div class="flow-node node-green">A.1 ✅</div><div class="flow-arrow">→</div><div class="flow-node node-purple">A.2</div><div class="flow-arrow">→</div><div class="flow-node node-red">B.1 ❌</div><div class="flow-arrow">→</div><div class="flow-node node-purple">B.2</div><div class="flow-arrow">→</div><div class="flow-node node-purple">C.1</div><div class="flow-arrow">→</div><div class="flow-node node-red">descarta</div></div>
 <div class="mt-3 text-xs">Inspirado em busca clássica (BFS/DFS). Útil quando há múltiplos caminhos válidos.<br><b>Trade-off:</b> exponencialmente mais caro; use só quando CoT/Self-Consistency não bastam.</div>
+<div class="card card-amber mt-2 text-xs fragment">
+💡 <b>Analogia de negócio:</b> É como quando um executivo pede ao time que apresente 3 propostas diferentes, avalia cada uma, e escolhe a melhor — em vez de ir com a primeira ideia que apareceu.
+</div>
 </section>
 
 <section>
@@ -497,6 +500,7 @@ replanning_trigger = "Se qualquer passo falhar 2x, re-planejar"</code></pre>
 
 <section>
 <h1>💻 Implementando planning agentic em Python</h1>
+<div class="text-xs" style="margin-bottom:0.3rem; opacity:0.7;">📋 <b>Colab-ready</b> — copie e execute (ajuste sua autenticação OpenAI no setup inicial)</div>
 <pre class="scale-in"><code class="language-python">import json
 import openai
 
@@ -515,6 +519,7 @@ def create_plan(objective: str) -&gt; list[dict]:
 
 <section>
 <h1>💻 Implementando planning agentic em Python — execução</h1>
+<div class="text-xs" style="margin-bottom:0.3rem; opacity:0.7;">📋 <b>Colab-ready</b> — copie e execute junto com a célula anterior</div>
 <pre class="scale-in"><code class="language-python">def execute_with_replanning(objective: str, max_retries: int = 2):
     plan = create_plan(objective)
     for step in plan:
@@ -553,6 +558,9 @@ def create_plan(objective: str) -&gt; list[dict]:
 <div class="trace-line trace-obs">verifier: run 2 ignora escalabilidade; run 1 e 3 são válidos</div>
 <div class="trace-line trace-action">selector: escolhe run 3 por cobrir escala + fallback</div>
 </div>
+<div class="card text-xs fragment" style="background:rgba(96,165,250,0.06); border:1px solid rgba(96,165,250,0.25); margin-top:0.5rem;">
+🏢 <b>Em português:</b> Gastar mais tempo pensando em problemas difíceis — como um aluno que relê a prova antes de entregar.
+</div>
 </section>
 
 <section>
@@ -571,6 +579,9 @@ def create_plan(objective: str) -&gt; list[dict]:
 <div class="trace-line trace-obs">avaliação: B economiza mais, mas aumenta deslocamento; A tem melhor equilíbrio geral</div>
 <div class="trace-line trace-action">expansão: no ramo A, agora compara restaurantes e transporte</div>
 </div>
+<div class="card text-xs fragment" style="background:rgba(96,165,250,0.06); border:1px solid rgba(96,165,250,0.25); margin-top:0.5rem;">
+🏢 <b>Em português:</b> O agente testa vários caminhos (como um GPS que calcula rotas alternativas) e escolhe o que deu certo.
+</div>
 </section>
 
 <section>
@@ -588,6 +599,9 @@ def create_plan(objective: str) -&gt; list[dict]:
 <div class="trace-line trace-action">modelo corrige: 2000 - 567 = 1433</div>
 </div>
 <div class="mt-3 text-sm text-center opacity-70"><b>Resumo:</b> ORM julga o placar final; PRM acompanha o jogo lance a lance.</div>
+<div class="card text-xs fragment" style="background:rgba(96,165,250,0.06); border:1px solid rgba(96,165,250,0.25); margin-top:0.5rem;">
+🏢 <b>Em português:</b> Verificar só a resposta final (ORM) vs verificar cada passo do raciocínio (PRM). PRM pega erros antes.
+</div>
 </section>
 
 <section>
@@ -601,6 +615,9 @@ def create_plan(objective: str) -&gt; list[dict]:
 </div>
 <div class="card card-amber expandable parallax-card fragment text-sm" style="margin-top: 1rem;"><b>🍽️ Analogia:</b> um restaurante não espera a sobremesa ficar pronta para começar o prato principal. A cozinha coordena várias estações em paralelo e ajusta conforme os pedidos andam.
 <div class="card-detail"><p><b>Quando brilha:</b> tarefas longas com subtarefas independentes, como pesquisa na web, coleta de documentos, análise de logs e agentes de browser.</p></div></div>
+<div class="card text-xs fragment" style="background:rgba(96,165,250,0.06); border:1px solid rgba(96,165,250,0.25); margin-top:0.5rem;">
+🏢 <b>Em português:</b> Em vez de planejar tudo antes, o agente planeja e executa ao mesmo tempo — como dirigir com o Waze recalculando em tempo real.
+</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #4c1d95 100%)">
@@ -670,6 +687,7 @@ def create_plan(objective: str) -&gt; list[dict]:
 
 <section>
 <h1>Function Calling — exemplo de chamada</h1>
+<div class="text-xs" style="margin-bottom:0.3rem; opacity:0.7;">📋 <b>Colab-ready</b> — copie e execute (requer <code>client</code> do setup inicial)</div>
 <pre class="scale-in"><code class="language-python">resp = client.chat.completions.create(
     model="gpt-4o-mini",
     messages=[{"role": "user", "content": "Quanto é (17 * 23) + 41?"}],
@@ -992,27 +1010,6 @@ def plan_and_execute(pergunta: str):
 </section>
 
 <section>
-<h1>🔄 Recap — O que construímos no Encontro 2</h1>
-<div class="stagger-in grid-2 text-xs" style="gap: 0.8rem;">
-<div class="card card-purple parallax-card fragment"><b>📜 Evolução que acompanhamos</b><div class="mt-1" style="line-height: 1.5;">• <b>2022:</b> CoT — "pense passo a passo"<br>• <b>2023:</b> Function Calling e ReWOO<br>• <b>2024:</b> Test-time compute e LATS ganham força<br>• <b>2025:</b> SPRINT e verificação robusta entram no toolkit agentic</div></div>
-<div class="card card-cyan parallax-card fragment"><b>🔧 O que você agora sabe fazer</b><div class="mt-1" style="line-height: 1.5;">• Aplicar CoT, Self-Consistency, ToT e LATS<br>• Comparar planning clássico com execução intercalada (SPRINT)<br>• Entender ORM vs PRM e verificação passo a passo<br>• Usar Function Calling com schemas JSON</div></div>
-</div>
-</section>
-
-<section>
-<h1>🔄 Recap — O que construímos no Encontro 2 — cont.</h1>
-<div class="stagger-in grid-2 text-xs" style="gap: 0.8rem;">
-<div class="card card-green parallax-card fragment"><b>🏢 Produtos que usam isso</b><div class="mt-1" style="line-height: 1.5;">• ChatGPT — function calling + plugins<br>• Cursor — planning antes de editar código<br>• Devin — plan-and-execute multi-step</div></div>
-<div class="card card-amber parallax-card fragment"><b>❓ Perguntas que ficaram abertas</b><div class="mt-1" style="line-height: 1.5;">• E quando o histórico fica grande demais? (→ E3: Context)<br>• Como dar "conhecimento" ao agente? (→ E3: RAG)<br>• Como agentes colaboram? (→ E3: Multi-agentes)</div></div>
-</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)">
-<h1>✅ Fim do Encontro 2</h1>
-<div class="typewriter-js text-center mt-2" data-text="Você agora sabe:"></div>
-</section>
-
-<section>
 <h1>🔓 Open-Source vs Closed-Source</h1>
 <div class="compare-cols text-xs mt-2" style="gap: 1rem;">
 <div class="compare-col good">
@@ -1041,6 +1038,33 @@ def plan_and_execute(pergunta: str):
 </div>
 </section>
 
+<section>
+<h1>🔄 Recap — O que construímos no Encontro 2</h1>
+<div class="stagger-in grid-2 text-xs" style="gap: 0.8rem;">
+<div class="card card-purple parallax-card fragment"><b>📜 Evolução que acompanhamos</b><div class="mt-1" style="line-height: 1.5;">• <b>2022:</b> CoT — "pense passo a passo"<br>• <b>2023:</b> Function Calling e ReWOO<br>• <b>2024:</b> Test-time compute e LATS ganham força<br>• <b>2025:</b> SPRINT e verificação robusta entram no toolkit agentic</div></div>
+<div class="card card-cyan parallax-card fragment"><b>🔧 O que você agora sabe fazer</b><div class="mt-1" style="line-height: 1.5;">• Aplicar CoT, Self-Consistency, ToT e LATS<br>• Comparar planning clássico com execução intercalada (SPRINT)<br>• Entender ORM vs PRM e verificação passo a passo<br>• Usar Function Calling com schemas JSON</div></div>
+</div>
+</section>
+
+<section>
+<h1>🔄 Recap — O que construímos no Encontro 2 — cont.</h1>
+<div class="stagger-in grid-2 text-xs" style="gap: 0.8rem;">
+<div class="card card-green parallax-card fragment"><b>🏢 Produtos que usam isso</b><div class="mt-1" style="line-height: 1.5;">• ChatGPT — function calling + plugins<br>• Cursor — planning antes de editar código<br>• Devin — plan-and-execute multi-step</div></div>
+<div class="card card-amber parallax-card fragment"><b>❓ Perguntas que ficaram abertas</b><div class="mt-1" style="line-height: 1.5;">• E quando o histórico fica grande demais? (→ E3: Context)<br>• Como dar "conhecimento" ao agente? (→ E3: RAG)<br>• Como agentes colaboram? (→ E3: Multi-agentes)</div></div>
+</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)">
+<h1>✅ Fim do Encontro 2</h1>
+<div class="stagger-in mt-2" style="text-align: left; max-width: 700px; margin: 0 auto;">
+<div class="card card-green fragment" style="padding: 0.6rem 1rem; margin-bottom: 0.4rem;">✅ Chain-of-Thought — fazer o agente "pensar em voz alta"</div>
+<div class="card card-green fragment" style="padding: 0.6rem 1rem; margin-bottom: 0.4rem;">✅ Planning — planejar antes de executar</div>
+<div class="card card-green fragment" style="padding: 0.6rem 1rem; margin-bottom: 0.4rem;">✅ Function Calling — ferramentas estruturadas e tipadas</div>
+<div class="card card-green fragment" style="padding: 0.6rem 1rem; margin-bottom: 0.4rem;">✅ Frameworks — quando usar LangChain vs LangGraph vs SDK puro</div>
+</div>
+<div class="card card-cyan mt-3"><div class="card-title">Próximo: Encontro 3 — Skills, Memória &amp; Contexto</div><div class="card-desc">Onde o agente <i>aprende</i>, <i>lembra</i>, e <i>colabora</i>.</div></div>
+</section>
+
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #1e1b4b 100%)">
 <h1>🧪 Exercícios Interativos — Encontro 2</h1>
 <div class="text-sm" style="opacity: 0.6; margin-top: 1.5rem;">Pratique reasoning, planning e tool execution</div>
@@ -1062,14 +1086,4 @@ def plan_and_execute(pergunta: str):
 <h1>🧪 Exercício 2.3 — Planner simples</h1>
 <div class="text-xs opacity-70" style="margin-bottom: 0.75rem;">Implemente um planejador que decompõe tarefas em sub-tarefas.</div>
 <div class="pyrunner-container" data-src="exercises/e2_3_planner.py"><textarea></textarea><button class="run-btn">▶ Executar</button><div class="pyrunner-output"></div></div>
-</section>
-
-<section>
-<ul class="mt-2"><li class="fragment" data-fragment-index="1">Como melhorar reasoning (CoT, Self-Consistency, ToT)</li><li class="fragment" data-fragment-index="2">Estratégias de planning (Plan-and-Execute, ReWOO)</li><li class="fragment" data-fragment-index="3">Function calling robusto</li><li class="fragment" data-fragment-index="4">Quando usar LangChain vs LangGraph vs SDK puro</li></ul>
-<div style="font-size: 0.95em;">
-<p class="slide-in-left">Próximo: <b>Encontro 3 — Skills, Memória & Contexto</b></p>
-</div>
-<div class="text-sm" style="margin-top: 1.5rem; opacity: 0.6;">
-<p class="slide-in-left">Onde o agente <i>aprende</i>, <i>lembra</i>, e <i>colabora</i>.</p>
-</div>
 </section>
