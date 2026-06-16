@@ -247,25 +247,24 @@
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
 <h1>2.2 Chain-of-Thought (CoT)</h1>
-<p class="slide-in-left">📄 <b>Wei et al., 2022</b> — <i>"Chain-of-Thought Prompting Elicits Reasoning in LLMs"</i></p>
-<p class="slide-in-left">A descoberta: pedir ao modelo para <b>mostrar os passos</b> melhora performance em <b>20–40%</b> em tarefas de raciocínio.</p>
-<div class="compare-cols" style="gap: 1.4rem; margin-top: 2rem;">
-<div class="compare-col bad" style="background: rgba(248, 113, 113, 0.08); border: 1px solid rgba(248, 113, 113, 0.28);">
-<div style="margin-bottom: 0.75rem;">❌ Sem CoT</div>
-<div class="agent-trace text-sm">
-<p class="slide-in-left">P: Se Maria tem 5 maçãs e dá 2 para João, e depois compra mais 6, quantas tem?<br><br><br>R: <b>11</b> ❌</p>
+<div style="display:grid; grid-template-columns:repeat(3,1fr); gap:0.55rem; margin-bottom:0.8rem;" class="text-xs">
+<div style="opacity:1; transform:none; padding:0.55rem; border-radius:0.6rem; background:rgba(167,139,250,0.10); border:1px solid rgba(167,139,250,0.30);"><b>📄 Origem</b><br>Wei et al. (2022): passos intermediários melhoram raciocínio.</div>
+<div style="opacity:1; transform:none; padding:0.55rem; border-radius:0.6rem; background:rgba(34,211,238,0.10); border:1px solid rgba(34,211,238,0.30);"><b>🪄 Zero-shot</b><br>Kojima et al. (2022): “Let's think step by step”.</div>
+<div style="opacity:1; transform:none; padding:0.55rem; border-radius:0.6rem; background:rgba(251,191,36,0.10); border:1px solid rgba(251,191,36,0.30);"><b>⚠️ Cuidado</b><br>Mais tokens; use para cálculo, lógica e decisão multi-etapa.</div>
+</div>
+<div style="display:grid; grid-template-columns:1fr 1fr; gap:0.75rem;" class="text-xs">
+<div style="opacity:1; transform:none; padding:0.8rem; border-radius:0.8rem; background:rgba(248,113,113,0.10); border:1px solid rgba(248,113,113,0.30);">
+<div style="font-weight:700; color:#fecaca; margin-bottom:0.45rem;">❌ Resposta direta</div>
+<div style="font-family:'JetBrains Mono', monospace; line-height:1.55;">P: Maria tem 5 maçãs, dá 2 e compra 6. Quantas tem?<br><br>R: <b>11</b></div>
+<div style="margin-top:0.5rem; opacity:0.8;">O modelo pulou o estado intermediário: 5 - 2.</div>
+</div>
+<div style="opacity:1; transform:none; padding:0.8rem; border-radius:0.8rem; background:rgba(74,222,128,0.10); border:1px solid rgba(74,222,128,0.30);">
+<div style="font-weight:700; color:#bbf7d0; margin-bottom:0.45rem;">✅ Com Chain-of-Thought</div>
+<div style="font-family:'JetBrains Mono', monospace; line-height:1.55;">1. Começa com 5<br>2. Dá 2 → fica com 3<br>3. Compra 6 → 3 + 6 = <b>9</b></div>
+<div style="margin-top:0.5rem; opacity:0.8;">O raciocínio cria checkpoints verificáveis.</div>
 </div>
 </div>
-<div class="compare-col good">
-<div style="margin-bottom: 0.75rem;">✅ Com CoT</div>
-<div class="agent-trace text-sm">
-<p class="slide-in-left">P: ... <b>Pense passo a passo.</b><br><br><br>R: Maria começa com 5. Dá 2 → fica com 3. Compra 6 → 3+6 = 9. <b>Resposta: 9</b> ✅</p>
-</div>
-</div>
-</div>
-<div class="card card-cyan parallax-card fragment" style="margin-top: 2rem;">
-<p class="slide-in-left">🪄 <b>A frase mágica:</b> <i>"Let's think step by step"</i> (Kojima et al., 2022) — funciona em quase qualquer modelo, sem nenhum exemplo.</p>
-</div>
+<div class="text-xs" style="opacity:1; transform:none; margin-top:0.75rem; padding:0.55rem; text-align:center; border-radius:0.6rem; background:rgba(59,130,246,0.10); border:1px solid rgba(59,130,246,0.28);"><b>Regra prática:</b> CoT não é “pensar bonito”; é criar uma trilha que o humano, o teste ou outro modelo consegue auditar.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #1e1b4b 100%)">

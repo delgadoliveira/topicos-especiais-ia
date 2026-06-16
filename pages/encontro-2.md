@@ -180,33 +180,26 @@ Vamos ver 4 técnicas, da mais simples à mais sofisticada.
 
 # 2.2 Chain-of-Thought (CoT)
 
-📄 **Wei et al., 2022** — *"Chain-of-Thought Prompting Elicits Reasoning in LLMs"*
+<div class="grid grid-cols-3 gap-2 text-xs mb-3">
+<div class="p-2 rounded bg-purple-500/10 border border-purple-500/30"><b>📄 Origem</b><br>Wei et al. (2022): prompts com passos intermediários melhoram tarefas de raciocínio.</div>
+<div class="p-2 rounded bg-cyan-500/10 border border-cyan-500/30"><b>🪄 Zero-shot</b><br>Kojima et al. (2022): “Let's think step by step” já ajuda sem exemplos.</div>
+<div class="p-2 rounded bg-amber-500/10 border border-amber-500/30"><b>⚠️ Cuidado</b><br>Mais tokens e nem sempre mais verdade. Use quando há cálculo, lógica ou decisão multi-etapa.</div>
+</div>
 
-A descoberta: pedir ao modelo para **mostrar os passos** melhora performance em **20–40%** em tarefas de raciocínio.
-
-<div class="grid grid-cols-2 gap-6 mt-6">
-
-<div class="p-4 rounded-xl bg-red-500/10 border border-red-500/30">
-<div class="font-bold mb-2">❌ Sem CoT</div>
-<div class="text-sm font-mono">
-P: Se Maria tem 5 maçãs e dá 2 para João, e depois compra mais 6, quantas tem?<br><br>
-R: <b>11</b> ❌
+<div class="grid grid-cols-2 gap-3 text-xs">
+<div class="p-3 rounded-xl bg-red-500/10 border border-red-500/30">
+<div class="font-bold text-red-200 mb-2">❌ Resposta direta</div>
+<div class="font-mono leading-snug">P: Maria tem 5 maçãs, dá 2 e compra 6. Quantas tem?<br><br>R: <b>11</b></div>
+<div class="mt-2 opacity-80">O modelo pulou o estado intermediário: 5 - 2.</div>
+</div>
+<div class="p-3 rounded-xl bg-green-500/10 border border-green-500/30">
+<div class="font-bold text-green-200 mb-2">✅ Com Chain-of-Thought</div>
+<div class="font-mono leading-snug">1. Começa com 5<br>2. Dá 2 → fica com 3<br>3. Compra 6 → 3 + 6 = <b>9</b></div>
+<div class="mt-2 opacity-80">O raciocínio cria checkpoints verificáveis.</div>
 </div>
 </div>
 
-<div class="p-4 rounded-xl bg-green-500/10 border border-green-500/30">
-<div class="font-bold mb-2">✅ Com CoT</div>
-<div class="text-sm font-mono">
-P: ... <b>Pense passo a passo.</b><br><br>
-R: Maria começa com 5. Dá 2 → fica com 3. Compra 6 → 3+6 = 9. <b>Resposta: 9</b> ✅
-</div>
-</div>
-
-</div>
-
-<div class="mt-6 p-4 rounded-xl bg-cyan-500/10 border border-cyan-500/30">
-🪄 <b>A frase mágica:</b> <i>"Let's think step by step"</i> (Kojima et al., 2022) — funciona em quase qualquer modelo, sem nenhum exemplo.
-</div>
+<div class="mt-3 p-2 rounded-lg bg-blue-500/10 border border-blue-500/30 text-xs text-center"><b>Regra prática:</b> CoT não é “pensar bonito”; é criar uma trilha que o humano, o teste ou outro modelo consegue auditar.</div>
 
 ---
 
