@@ -649,149 +649,172 @@ quadrantChart
 layout: section
 ---
 
-# 🎯 Grounding
+# 🔗 Recuperar não basta — precisamos de atribuição
 
-<div class="mt-8 text-center">
-<div class="text-4xl mb-4">🎯</div>
-<div class="text-xl font-bold mb-4">Grounding = Ancorar o agente na realidade</div>
-</div>
-<div class="grid grid-cols-2 gap-4 text-sm mt-4">
-<div class="p-4 rounded-xl bg-red-500/10 border border-red-500/30"><b>Sem grounding:</b><br>o agente inventa fatos, cita fontes falsas e responde com confiança errada.</div>
-<div class="p-4 rounded-xl bg-green-500/10 border border-green-500/30"><b>Com grounding:</b><br>ele busca informação real antes de responder e cita fontes verificáveis.</div>
-</div>
-<div class="mt-4 p-3 rounded bg-amber-500/10 border border-amber-500/30 text-sm">💡 RAG, busca web e bancos de dados são técnicas de grounding: conectam o LLM ao mundo real.</div>
-
----
-
-# O que é Grounding?
-
-<div class="mt-4 p-5 rounded-xl bg-cyan-500/10 border-2 border-cyan-500/40">
-<div class="text-lg text-center">
-<b>Grounding</b> = ancorar cada afirmação do modelo em uma <b>fonte verificável</b>.<br>
-Toda resposta precisa responder: <b>"de onde isso veio?"</b>
-</div>
+<div class="grid grid-cols-2 gap-3 text-sm mt-3">
+<div class="p-4 rounded-xl bg-cyan-500/10 border border-cyan-500/30"><b>Retrieval responde:</b><br>“quais trechos parecem relevantes para a pergunta?”</div>
+<div class="p-4 rounded-xl bg-red-500/10 border border-red-500/30"><b>Atribuição responde:</b><br>“qual trecho sustenta cada afirmação da resposta?”</div>
 </div>
 
-<div class="mt-6 grid grid-cols-2 gap-4 text-sm">
-
-<div class="p-4 rounded bg-red-500/10 border border-red-500/30">
-<b>❌ Sem grounding</b><br>
-<i>"O contrato exige aviso prévio de 60 dias."</i><br>
-→ Verdade? Inventado? Impossível auditar.
-</div>
-
-<div class="p-4 rounded bg-green-500/10 border border-green-500/30">
-<b>✅ Com grounding</b><br>
-<i>"O contrato exige 60 dias de aviso prévio <b>[Cláusula 14.3, contrato_v3.pdf]</b>."</i><br>
-→ Auditável, rastreável, defensável.
-</div>
-
-</div>
-
-<div class="mt-4 p-3 rounded bg-purple-500/10 border border-purple-500/30 text-xs">
-📚 <b>Leitura essencial:</b> Rashkin et al. (2023) — <i>"Measuring Attribution in NLG Models"</i> formaliza o conceito <b>AIS</b> (<i>Attributable to Identified Sources</i>). Bohnet et al. (2022) — <i>"Attributed Question Answering"</i> propõe o benchmark AQA. Em jurídico, médico e financeiro, grounding deixou de ser opcional — virou <b>compliance</b>.
+<div class="mt-4 p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 text-sm">
+📌 RAG sem atribuição é como uma redação com bibliografia no fim, mas sem nota de rodapé: parece acadêmico, mas você não sabe qual frase veio de qual fonte.
 </div>
 
 ---
 
-# Por que grounding falha
+# Caso concreto · resposta bonita, evidência fraca
 
-```mermaid {scale: 0.55}
-flowchart TB
-  P[Pergunta] --> R[Retrieval]
-  R --> C[Contexto<br/>100 chunks]
-  C --> L[LLM gera resposta]
-  L --> F1[❌ Cita chunk errado]
-  L --> F2[❌ Mistura fatos<br/>de fontes diferentes]
-  L --> F3[❌ Inventa citação]
-  L --> F4[❌ Ignora contexto<br/>usa conhecimento interno]
-  
-  style F1 fill:#ef4444,color:#fff
-  style F2 fill:#ef4444,color:#fff
-  style F3 fill:#ef4444,color:#fff
-  style F4 fill:#ef4444,color:#fff
+<div class="grid grid-cols-2 gap-3 text-xs mt-3">
+<div class="p-3 rounded-xl bg-slate-500/10 border border-slate-500/30"><b>Contexto recuperado</b><br><code>[doc_1]</code> Contrato v2: aviso prévio de 30 dias.<br><br><code>[doc_2]</code> Contrato v3: aviso prévio de 60 dias para fornecedores críticos.<br><br><code>[doc_3]</code> E-mail antigo: “podemos tentar 45 dias”.</div>
+<div class="p-3 rounded-xl bg-red-500/10 border border-red-500/30"><b>Resposta ruim</b><br>“O contrato exige aviso prévio de 45 dias.”<br><br>Problemas:<br>• misturou versões<br>• usou e-mail como contrato<br>• não indicou cláusula<br>• parece confiante, mas não é auditável</div>
+</div>
+
+<div class="mt-3 p-2 rounded bg-cyan-500/10 border border-cyan-500/30 text-xs">🎯 Pergunta que o aluno deve fazer: “eu consigo clicar na evidência e verificar a frase?” Se não, ainda não há grounding suficiente.</div>
+
+---
+
+# Grounding, attribution e citation — não são a mesma coisa
+
+<div class="grid grid-cols-3 gap-3 text-xs mt-4">
+<div class="p-3 rounded-xl bg-purple-500/10 border border-purple-500/30"><b>🎯 Grounding</b><br>A resposta usa apenas evidências disponíveis no contexto recuperado.</div>
+<div class="p-3 rounded-xl bg-cyan-500/10 border border-cyan-500/30"><b>🧾 Attribution</b><br>Cada afirmação importante é ligada a uma evidência específica.</div>
+<div class="p-3 rounded-xl bg-green-500/10 border border-green-500/30"><b>🔖 Citation</b><br>A evidência aparece para o usuário como fonte, link, trecho, página ou chunk.</div>
+</div>
+
+<div class="mt-4 p-3 rounded bg-amber-500/10 border border-amber-500/30 text-sm">
+Uma resposta pode ter <b>citação falsa</b>, pode citar um documento real mas <b>não suportar a frase</b>, ou pode estar fiel ao documento errado. Por isso precisamos medir, não só “pedir para citar”.
+</div>
+
+---
+
+# Pipeline de atribuição — do chunk à afirmação
+
+```mermaid {scale: 0.54}
+flowchart LR
+  Q[Pergunta] --> R[Retrieve top-k]
+  R --> IDs[Adicionar IDs<br/>doc, pagina, chunk]
+  IDs --> A[Generate answer<br/>com citações inline]
+  A --> C[Extrair claims]
+  C --> V[Verificar claim ↔ fonte]
+  V --> O[Resposta + evidências<br/>+ flags de risco]
 ```
 
-<div class="mt-3 text-sm">
-Mesmo com RAG, a <b>"grounding rate"</b> (% de afirmações ancoradas) raramente passa de 70-80% sem técnicas dedicadas.
+<div class="grid grid-cols-2 gap-3 text-xs mt-3">
+<div class="p-3 rounded-xl bg-green-500/10 border border-green-500/30"><b>Boa UX</b><br>Mostrar a frase, a fonte e o trecho exato que sustenta a frase.</div>
+<div class="p-3 rounded-xl bg-red-500/10 border border-red-500/30"><b>Má UX</b><br>Mostrar apenas “Fontes: doc_1, doc_2” no final. Isso não prova qual afirmação veio de onde.</div>
 </div>
 
 ---
 
-# Técnicas de grounding (1/2)
+# Exemplo · de resposta frágil para resposta auditável
 
-<div class="grid grid-cols-1 gap-3 text-sm mt-3">
-
-<div class="p-3 rounded bg-purple-500/10 border border-purple-500/30">
-<b>1. 🆔 Inline citations com IDs únicos</b><br>
-Cada chunk recebe <code>[doc_id:chunk_id]</code>. Prompt pede citação após cada frase.
+<div class="grid grid-cols-2 gap-3 text-xs mt-3">
+<div class="p-3 rounded-xl bg-red-500/10 border border-red-500/30"><b>❌ Frágil</b><br>“O contrato exige 60 dias de aviso prévio para cancelamento.”<br><br>O que falta?<br>• qual contrato?<br>• qual versão?<br>• qual cláusula?<br>• vale para todos ou só fornecedores críticos?</div>
+<div class="p-3 rounded-xl bg-green-500/10 border border-green-500/30"><b>✅ Auditável</b><br>“Para <b>fornecedores críticos</b>, o contrato v3 exige aviso prévio de <b>60 dias</b> para cancelamento [contrato_v3.pdf, cláusula 14.3]. Para fornecedores não críticos, o contexto recuperado não traz regra equivalente.”</div>
 </div>
 
-<div class="p-3 rounded bg-purple-500/10 border border-purple-500/30">
-<b>2. 📋 "According to X" prompting</b><br>
-Forçar prefixo "Segundo [fonte X]…" reduz alucinação em 20% (Weller et al., 2023).
+<table class="mt-3 text-xs">
+<thead><tr><th>Claim</th><th>Fonte</th><th>Status</th></tr></thead>
+<tbody>
+<tr><td>fornecedores críticos exigem 60 dias</td><td>contrato_v3.pdf §14.3</td><td>suportada</td></tr>
+<tr><td>regra vale para todos os fornecedores</td><td>—</td><td>não suportada</td></tr>
+</tbody>
+</table>
+
+---
+
+# Por que grounding falha mesmo com RAG?
+
+<div class="grid grid-cols-2 gap-3 text-xs mt-3">
+<div class="p-3 rounded-xl bg-red-500/10 border border-red-500/30"><b>1. Fonte recuperada errada</b><br>Retriever achou versão antiga, e-mail tangencial ou chunk com termo parecido.</div>
+<div class="p-3 rounded-xl bg-red-500/10 border border-red-500/30"><b>2. Fonte certa, leitura errada</b><br>LLM ignora qualificadores como “apenas”, “exceto”, “fornecedores críticos”.</div>
+<div class="p-3 rounded-xl bg-red-500/10 border border-red-500/30"><b>3. Citação decorativa</b><br>O modelo coloca [doc_2] no fim da frase, mas doc_2 não sustenta aquela afirmação.</div>
+<div class="p-3 rounded-xl bg-red-500/10 border border-red-500/30"><b>4. Síntese mistura fontes</b><br>Combina número de uma fonte, escopo de outra e conclusão inventada.</div>
 </div>
 
-<div class="p-3 rounded bg-purple-500/10 border border-purple-500/30">
-<b>3. 🚪 Refusal explícito</b><br>
-Prompt: <i>"Se o contexto não contém a resposta, responda 'Não encontrei nos documentos fornecidos.'"</i>
-</div>
+<div class="mt-3 p-2 rounded bg-amber-500/10 border border-amber-500/30 text-xs">⚖️ Casos reais como <i>Mata v. Avianca</i> mostram o risco: citações plausíveis, mas inexistentes ou não verificáveis, podem gerar dano jurídico.</div>
 
-<div class="p-3 rounded bg-purple-500/10 border border-purple-500/30">
-<b>4. 🔍 Contextual grounding check</b><br>
-Após gerar, um <b>segundo LLM</b> verifica: "Cada afirmação é suportada pelo contexto?"
-</div>
+---
 
+# Técnicas de grounding — quatro camadas
+
+<div class="grid grid-cols-2 gap-3 text-xs mt-3">
+<div class="p-3 rounded-xl bg-purple-500/10 border border-purple-500/30"><b>1. IDs estruturados</b><br>Cada chunk entra no prompt com <code>doc_id</code>, página, seção, data e versão.</div>
+<div class="p-3 rounded-xl bg-cyan-500/10 border border-cyan-500/30"><b>2. Citação inline</b><br>Peça fonte após cada afirmação verificável, não apenas uma lista no final.</div>
+<div class="p-3 rounded-xl bg-green-500/10 border border-green-500/30"><b>3. Recusa explícita</b><br>Se o contexto não suporta a resposta, o agente deve dizer “não encontrei nos documentos”.</div>
+<div class="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30"><b>4. Verificador externo</b><br>Segundo passo classifica claims como suportadas, parciais ou não suportadas.</div>
 </div>
 
 ---
 
-# Técnicas de grounding (2/2) — em código
-<div class="mb-3 p-2 rounded bg-sky-500/10 border border-sky-500/30 text-xs">📖 <b>Camada 1:</b> force o LLM a responder só com base nos documentos e a citar a fonte de cada afirmação.</div>
+# Camada 1 · prompt com evidências rastreáveis
+
 ```python
-SYSTEM = """Responda APENAS com base nos documentos abaixo.
-Para CADA afirmação, adicione [doc_id] da fonte.
-Se não souber, responda exatamente: "Não encontrei nos documentos."
-NÃO use conhecimento externo."""
+SYSTEM = """Responda APENAS com base no contexto.
+Regras:
+1. Cite a fonte após cada afirmação verificável: [doc_id, pagina, secao].
+2. Se a fonte tiver escopo limitado, mencione o escopo.
+3. Se a resposta não estiver no contexto, diga: "Não encontrei nos documentos."
+4. Não use conhecimento externo para preencher lacunas."""
+
 contexto = "\n\n".join(
-    f"[doc_{i}] {doc.page_content}"
-    for i, doc in enumerate(docs_retrieved, start=1)
+    f"[{d.id}, p.{d.page}, {d.section}] {d.text}"
+    for d in docs_retrieved
 )
 resposta = llm.invoke(f"{SYSTEM}\n\n{contexto}\n\nPergunta: {q}")
 ```
 
 ---
 
-# Técnicas de grounding (2/2) — continuação
-<div class="mb-3 p-2 rounded bg-sky-500/10 border border-sky-500/30 text-xs">📖 <b>Camada 2:</b> rode uma verificação automática que classifica cada frase como suportada, parcial ou não suportada.</div>
+# Camada 2 · verificador de claims
+
 ```python
-verificacao = llm.invoke(f"""
+verificacao = judge.invoke(f"""
+Você é auditor de grounding.
+Contexto: {contexto}
 Resposta: {resposta}
-Contexto disponível: {contexto}
-Para cada afirmação na resposta, marque:
-- SUPORTADA (existe no contexto)
-- NÃO_SUPORTADA (alucinação)
-- PARCIAL (parcialmente apoiada)
-JSON: {{"afirmacoes": [{{"texto": ..., "status": ...}}]}}
+
+Extraia cada afirmação factual e classifique:
+- SUPORTADA: existe evidência direta no contexto
+- PARCIAL: contexto apoia só parte da afirmação
+- NAO_SUPORTADA: não há evidência suficiente
+
+Retorne JSON com claim, fonte_usada, status e explicação curta.
 """)
 ```
-<div class="mt-3 p-2 rounded bg-cyan-500/10 border border-cyan-500/30 text-xs">🎯 Monitore <b>Groundedness</b>, <b>Citation accuracy</b> e <b>Answer relevance</b>.</div>
+
+<div class="mt-3 p-2 rounded bg-cyan-500/10 border border-cyan-500/30 text-xs">💡 O verificador não substitui humano em domínio crítico; ele cria uma fila priorizada do que revisar.</div>
+
 ---
 
-# Frameworks que ajudam com grounding
+# Métricas · o que monitorar
 
-| Ferramenta | O que faz |
+<table class="text-xs mt-2">
+<thead><tr><th>Métrica</th><th>Pergunta que responde</th><th>Exemplo de falha</th></tr></thead>
+<tbody>
+<tr><td><b>Faithfulness / groundedness</b></td><td>a resposta é suportada pelo contexto?</td><td>afirmação correta no mundo, mas ausente no doc</td></tr>
+<tr><td><b>Citation accuracy</b></td><td>a citação aponta para o trecho certo?</td><td>fonte real, mas trecho errado</td></tr>
+<tr><td><b>Context precision</b></td><td>os chunks enviados eram relevantes?</td><td>top-k cheio de ruído</td></tr>
+<tr><td><b>Context recall</b></td><td>recuperamos o trecho necessário?</td><td>resposta impossível porque faltou fonte</td></tr>
+<tr><td><b>Answer relevance</b></td><td>respondeu a pergunta do usuário?</td><td>resposta fiel, mas fora do escopo</td></tr>
+</tbody>
+</table>
+
+<div class="mt-3 p-2 rounded bg-amber-500/10 border border-amber-500/30 text-xs">⚠️ <b>Faithfulness ≠ correctness.</b> O modelo pode ser fiel a um documento desatualizado. Grounding exige também versionamento, data e qualidade da fonte.</div>
+
+---
+
+# Ferramentas que ajudam com grounding
+
+| Ferramenta | Onde entra |
 |---|---|
-| **RAGAS** | Métricas automáticas: faithfulness, answer_relevancy, context_precision |
-| **TruLens** | Tracing + avaliação de grounding em produção |
-| **Vertex AI Grounding** | Google força citações em URL real |
-| **Bing Grounding (Azure)** | Tool nativo para citar web |
-| **Anthropic Citations API** | Citações estruturadas garantidas pelo modelo (2024) |
-| **DeepEval** | Suite de testes incluindo hallucination + faithfulness |
+| **RAGAS** | faithfulness, answer relevancy, context precision/recall |
+| **DeepEval** | testes de hallucination, faithfulness e regressão |
+| **TruLens / LangSmith / Phoenix** | tracing de prompt, chunks, resposta e avaliação |
+| **Anthropic Citations API** | citações estruturadas sobre documentos fornecidos |
+| **Vertex AI / Azure grounding** | grounding com busca/web e citações gerenciadas |
 
-<div class="mt-4 p-3 rounded bg-amber-500/10 border border-amber-500/30 text-sm">
-⚠️ <b>"Faithfulness"</b> ≠ <b>"Correctness"</b>. Resposta pode ser <b>fiel</b> ao contexto mas o <b>contexto</b> estar errado. Garantir grounding é necessário, não suficiente.
-</div>
+<div class="mt-3 p-3 rounded bg-cyan-500/10 border border-cyan-500/30 text-xs">📌 Para o projeto final: mostre pelo menos uma resposta com claims, fontes e um caso em que o agente recusa responder por falta de evidência.</div>
 
 ---
 layout: section
