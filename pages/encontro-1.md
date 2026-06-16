@@ -349,6 +349,144 @@ Cada iteração custa <b>uma chamada à API</b>. Agentes típicos rodam de 3 a 3
 
 ---
 
+# 🤖 Mas afinal, o que é um LLM?
+
+<div class="text-sm">
+
+**LLM = Large Language Model** (Modelo de Linguagem de Grande Escala)
+
+</div>
+
+<div class="grid grid-cols-2 gap-4 mt-4">
+<div class="p-3 rounded-xl bg-blue-500/10 border border-blue-500/30 text-sm">
+<b>Definição simples:</b><br>
+Um programa de computador que aprendeu a <b>prever a próxima palavra</b> lendo bilhões de textos da internet.
+</div>
+<div class="p-3 rounded-xl bg-green-500/10 border border-green-500/30 text-sm">
+<b>🧩 Analogia:</b><br>
+Imagine alguém que leu <b>toda a Wikipédia, Stack Overflow, livros e Reddit</b>. Não memorizou — mas aprendeu <i>padrões</i> de como texto funciona.
+</div>
+</div>
+
+<div class="mt-4 p-3 rounded-lg bg-amber-500/10 border border-amber-500/30 text-sm">
+⚠️ <b>LLM ≠ base de dados.</b> Ele não "guarda" frases; ele aprendeu <b>estatísticas de como palavras se relacionam</b>. Por isso pode inventar (alucinar).
+</div>
+
+<v-click>
+<div class="mt-3 text-sm opacity-80">
+Exemplos: GPT-4, Claude, Gemini, Llama, Qwen — todos são LLMs com arquiteturas similares.
+</div>
+</v-click>
+
+---
+
+# 🏗️ Como um LLM é treinado?
+
+<div class="text-sm">O treinamento tem <b>3 fases</b> — cada uma adiciona uma camada de capacidade.</div>
+
+```mermaid {scale: 0.5}
+flowchart LR
+    A["📚 Pré-treino<br/>(internet inteira)"] --> B["🎯 Fine-tuning<br/>(dados curados)"]
+    B --> C["👍 RLHF<br/>(feedback humano)"]
+    style A fill:#1e40af,color:#fff
+    style B fill:#047857,color:#fff
+    style C fill:#7c3aed,color:#fff
+```
+
+<div class="grid grid-cols-3 gap-2 mt-2 text-[11px] leading-tight">
+<div class="p-1.5 rounded-lg bg-blue-500/10 border border-blue-500/30">
+<b>1. Pré-treino</b><br>
+Lê trilhões de tokens da web; aprende gramática, fatos e raciocínio. Objetivo: prever o próximo token. Custo: milhões de USD e meses de GPU.
+</div>
+<div class="p-1.5 rounded-lg bg-green-500/10 border border-green-500/30">
+<b>2. Fine-tuning (SFT)</b><br>
+Treina em exemplos de "pergunta → resposta ideal". Ensina formato de diálogo e como seguir instruções.
+</div>
+<div class="p-1.5 rounded-lg bg-purple-500/10 border border-purple-500/30">
+<b>3. RLHF</b> (Reinforcement Learning from Human Feedback)<br>
+Humanos comparam pares de respostas e escolhem a melhor. Um "modelo de recompensa" aprende esse ranking, e o LLM é otimizado para maximizar essa recompensa. Resultado: respostas úteis, seguras e naturais.
+</div>
+</div>
+
+---
+
+# 🧱 A arquitetura: Transformer (simplificado)
+
+<div class="text-sm mb-2">Desde 2017, <b>todos</b> os LLMs usam a mesma base: a arquitetura <b>Transformer</b>.</div>
+
+```mermaid {scale: 0.45}
+flowchart LR
+    Input["Texto de entrada"] --> Tok["Tokenização<br/>texto → números"]
+    Tok --> Emb["Embeddings<br/>números → vetores"]
+    Emb --> Attn["Self-Attention<br/>(qual palavra olha<br/>para qual?)"]
+    Attn --> FF["Feed-Forward<br/>(raciocínio)"]
+    FF --> Rep["Repetir N vezes<br/>(camadas)"]
+    Rep --> Out["Próximo token<br/>(probabilidade)"]
+    style Attn fill:#f59e0b,color:#000
+```
+
+<div class="grid grid-cols-2 gap-2 mt-2 text-[11px] leading-tight">
+<div class="p-1.5 rounded-lg bg-amber-500/10 border border-amber-500/30">
+<b>🔑 Self-Attention</b> (o segredo)<br>
+Cada palavra "decide" quais outras são relevantes. Ex.: em "O gato que eu vi <b>dormia</b>", "dormia" olha para "gato" — não para "eu".
+</div>
+<div class="p-1.5 rounded-lg bg-white/5 border border-white/10">
+<b>📐 Escala importa</b><br>
+GPT-2: 12 camadas, 1.5B params<br>
+GPT-4: ~120 camadas, ~1.8T params<br>
+Mais camadas = raciocínio mais profundo.
+</div>
+</div>
+
+---
+
+# 🎯 O que o LLM realmente faz: prever o próximo token
+
+<div class="text-center mt-4">
+
+```
+Entrada: "O céu é"  →  Saída mais provável: "azul" (87%)
+```
+
+</div>
+
+<div class="mt-3 text-sm">Ele gera texto <b>um token por vez</b>, escolhendo o mais provável a cada passo:</div>
+
+<div class="mt-3 p-3 rounded-lg bg-white/5 text-sm font-mono">
+"O" → "céu" → "é" → "azul" → "durante" → "o" → "dia" → "."
+</div>
+
+---
+
+# 🎯 O que o LLM realmente faz: prever o próximo token
+
+<div class="text-xs opacity-75">Consequência prática: esse mecanismo é poderoso — mas tem limites claros.</div>
+
+<div class="grid grid-cols-2 gap-3 mt-4 text-xs">
+<div class="p-3 rounded-lg bg-green-500/10 border border-green-500/30">
+<b>✅ O que ele faz bem:</b><br>
+• Completar padrões conhecidos<br>
+• Seguir instruções<br>
+• Raciocinar sobre texto<br>
+• Gerar código, resumos, traduções
+</div>
+<div class="p-3 rounded-lg bg-red-500/10 border border-red-500/30">
+<b>❌ O que ele NÃO faz:</b><br>
+• Acessar a internet (sem tools)<br>
+• Lembrar conversas anteriores<br>
+• Executar código<br>
+• Garantir fatos (pode alucinar)
+</div>
+</div>
+
+<v-click>
+<div class="mt-3 p-2 rounded-lg bg-cyan-500/10 border border-cyan-500/30 text-xs">
+💡 <b>E é exatamente por isso que precisamos de AGENTES</b> — para dar ao LLM mãos (tools), memória e a capacidade de agir no mundo real.
+</div>
+</v-click>
+
+---
+
 # 🧠 Deep dive: o LLM (cérebro)
 
 <div class="grid grid-cols-2 gap-4 text-sm">
@@ -794,26 +932,50 @@ Houve <b>três saltos qualitativos</b>.
 
 ---
 
-# 🔬 O que é RLHF?
+# 🔬 O que é RLHF? (Reinforcement Learning from Human Feedback)
 
-<div class="text-sm mb-3">O "segredo" do ChatGPT não foi só crescer; foi ensinar o modelo a <b>se comportar como humanos esperam</b>.</div>
+<div class="text-sm mb-2">O "segredo" do ChatGPT não foi só escala — foi ensinar o modelo a <b>se comportar como humanos esperam</b>.</div>
 
-<div class="grid grid-cols-3 gap-3 text-xs">
-<div class="p-3 rounded-lg bg-purple-500/10 border border-purple-500/30"><b>1. SFT</b><br>Humanos escrevem respostas ideais; o modelo aprende a imitá-las.</div>
-<div class="p-3 rounded-lg bg-cyan-500/10 border border-cyan-500/30"><b>2. Reward Model</b><br>Humanos comparam respostas; o modelo aprende o que "parece melhor".</div>
-<div class="p-3 rounded-lg bg-green-500/10 border border-green-500/30"><b>3. PPO / RLHF</b><br>O modelo gera, recebe nota e é otimizado para maximizar essa nota.</div>
+<div class="text-xs mb-2">A sigla significa: <b>Reinforcement Learning</b> (aprendizado por reforço) <b>from Human Feedback</b> (a partir de feedback humano). É uma técnica onde o modelo <b>melhora iterativamente</b> recebendo "notas" baseadas na preferência de avaliadores humanos.</div>
+
+```mermaid {scale: 0.45}
+flowchart LR
+    A["LLM gera<br/>2 respostas"] --> B["👤 Humano escolhe<br/>a melhor"]
+    B --> C["Reward Model<br/>aprende ranking"]
+    C --> D["PPO otimiza<br/>o LLM"]
+    D --> A
+    style B fill:#7c3aed,color:#fff
+    style C fill:#047857,color:#fff
+```
+
+<div class="grid grid-cols-3 gap-2 text-[11px]">
+<div class="p-2 rounded-lg bg-purple-500/10 border border-purple-500/30"><b>1. SFT</b> (Supervised Fine-Tuning)<br>Humanos escrevem respostas-modelo. O LLM aprende o <i>formato</i> desejado (diálogo, instruções).</div>
+<div class="p-2 rounded-lg bg-cyan-500/10 border border-cyan-500/30"><b>2. Reward Model</b><br>Treinado com milhares de comparações humanas ("A é melhor que B"). Aprende a dar "nota" a qualquer resposta.</div>
+<div class="p-2 rounded-lg bg-green-500/10 border border-green-500/30"><b>3. PPO</b> (Proximal Policy Optimization)<br>Algoritmo de RL que ajusta os pesos do LLM para maximizar a nota do Reward Model.</div>
 </div>
 
 ---
 
-# RLHF: antes e depois
+# RLHF: antes e depois — exemplo concreto
 
-<div class="grid grid-cols-2 gap-4 text-xs">
-<div class="p-4 rounded-xl bg-red-500/10 border border-red-500/30"><b>❌ Sem RLHF</b><br><i>"Escreva um email profissional"</i><br>→ texto genérico, robótico e pouco útil.</div>
-<div class="p-4 rounded-xl bg-green-500/10 border border-green-500/30"><b>✅ Com RLHF</b><br><i>"Escreva um email profissional"</i><br>→ resposta natural, contextual e acionável.</div>
+<div class="grid grid-cols-2 gap-3 text-xs">
+<div class="p-3 rounded-xl bg-red-500/10 border border-red-500/30">
+<b>❌ GPT-3 (sem RLHF)</b><br>
+<i>Prompt: "Escreva um email profissional recusando uma reunião"</i><br><br>
+<div class="font-mono text-[10px] bg-black/20 p-2 rounded">Dear Sir, I am writing to inform you that the meeting scheduled for Tuesday will not be attended by me. The reasons are varied and complex...</div>
+<div class="mt-1 opacity-70">Genérico, verboso, não-natural.</div>
+</div>
+<div class="p-3 rounded-xl bg-green-500/10 border border-green-500/30">
+<b>✅ ChatGPT (com RLHF)</b><br>
+<i>Mesmo prompt:</i><br><br>
+<div class="font-mono text-[10px] bg-black/20 p-2 rounded">Olá João, obrigado pelo convite! Infelizmente não consigo participar terça. Podemos reagendar para quinta? Abraço, Alan</div>
+<div class="mt-1 opacity-70">Natural, contextual, acionável.</div>
+</div>
 </div>
 
-<div class="mt-4 p-3 rounded-lg bg-white/5 text-xs">O modelo base <b>já sabia</b> muita coisa; o RLHF ensinou <b>como usar</b> esse conhecimento de um jeito útil.</div>
+<div class="mt-3 p-2 rounded-lg bg-amber-500/10 border border-amber-500/30 text-xs">
+💡 <b>Insight:</b> O modelo base já <b>sabia</b> escrever emails — o RLHF ensinou <b>qual estilo</b> os humanos preferem. É como um estagiário que sabe tudo mas precisa aprender as "normas sociais" do escritório.
+</div>
 
 ---
 
@@ -1440,41 +1602,41 @@ Todo o material apresentado é de **domínio público / publicações abertas**.
 
 # 🔄 Recap — O que construímos no Encontro 1
 
-<div class="grid grid-cols-2 gap-4 text-sm">
+<div class="grid grid-cols-2 gap-2 text-xs leading-tight">
 
-<div class="p-4 rounded-xl bg-purple-500/10 border border-purple-500/30">
+<div class="p-2.5 rounded-xl bg-purple-500/10 border border-purple-500/30">
 <b>📜 A história que conecta tudo:</b>
-<ul class="text-xs mt-2">
+<ul class="mt-1 space-y-0.5">
 <li><b>1950-2017:</b> Regras → ML → Deep Learning</li>
 <li><b>2020:</b> GPT-3 mostra que escala gera habilidades emergentes</li>
-<li><b>2022:</b> RLHF transforma completador de texto em assistente (ChatGPT)</li>
-<li><b>2024-25:</b> Reasoning models (o3-pro, o4-mini) — pensar antes de agir</li>
+<li><b>2022:</b> RLHF transforma completador de texto em assistente</li>
+<li><b>2024-25:</b> Reasoning models (o3-pro, o4-mini) pensam antes de agir</li>
 </ul>
 </div>
 
-<div class="p-4 rounded-xl bg-cyan-500/10 border border-cyan-500/30">
+<div class="p-2.5 rounded-xl bg-cyan-500/10 border border-cyan-500/30">
 <b>🔧 O que você agora sabe fazer:</b>
-<ul class="text-xs mt-2">
-<li>Explicar token, context window, temperature</li>
+<ul class="mt-1 space-y-0.5">
+<li>Explicar token, context window e temperature</li>
 <li>Descrever a anatomia: LLM + tools + memória + loop</li>
 <li>Implementar o padrão ReAct do zero em Python</li>
 <li>Construir um agente funcional sem framework</li>
 </ul>
 </div>
 
-<div class="p-4 rounded-xl bg-green-500/10 border border-green-500/30">
+<div class="p-2.5 rounded-xl bg-green-500/10 border border-green-500/30">
 <b>🏢 Produtos que usam isso hoje:</b>
-<ul class="text-xs mt-2">
+<ul class="mt-1 space-y-0.5">
 <li>ChatGPT (OpenAI) — loop ReAct + tools</li>
 <li>GitHub Copilot — agente de código</li>
 <li>Perplexity — agente de busca com fontes</li>
 </ul>
 </div>
 
-<div class="p-4 rounded-xl bg-amber-500/10 border border-amber-500/30">
+<div class="p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/30">
 <b>❓ Perguntas que ficaram abertas:</b>
-<ul class="text-xs mt-2">
-<li>Como fazer o agente pensar <i>melhor</i>? (→ E2: CoT, Planning)</li>
+<ul class="mt-1 space-y-0.5">
+<li>Como fazer o agente pensar <i>melhor</i>? (→ E2: CoT e Planning)</li>
 <li>Como chamar ferramentas de forma <i>estruturada</i>? (→ E2: Function Calling)</li>
 <li>E se o contexto estourar? (→ E3: Memória)</li>
 </ul>

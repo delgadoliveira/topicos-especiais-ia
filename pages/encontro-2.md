@@ -95,73 +95,24 @@ Antes de mergulhar, os termos novos que você vai ouvir hoje:
 
 # 🧩 Onde você já viu isso
 
-<div class="grid grid-cols-2 gap-3 text-sm">
-
-<div class="p-3 rounded-lg bg-purple-500/10 border border-purple-500/30">
-<b>🧠 Reasoning models em produto</b><br>
-• Quando você usa <b>ChatGPT</b> e escolhe "o1" ou "o3" — a respostinha "thinking..." é literalmente o modelo gerando raciocínio antes de responder<br>
-• <b>Cursor</b> oferece "Reasoning mode" para refatorações grandes
+<div class="grid grid-cols-2 gap-2 text-xs">
+<div class="p-2 rounded-lg bg-purple-500/10 border border-purple-500/30"><b>🧠 Reasoning models em produto</b><br>• ChatGPT com <b>o1/o3</b> mostra "thinking..." antes da resposta<br>• <b>Cursor</b> ativa "Reasoning mode" em refatorações grandes</div>
+<div class="p-2 rounded-lg bg-cyan-500/10 border border-cyan-500/30"><b>🪜 CoT no cotidiano</b><br>• Adicionar <i>"explique passo a passo"</i> ao prompt já é CoT<br>• Wolfram Alpha exibe os passos pela mesma lógica</div>
+<div class="p-2 rounded-lg bg-green-500/10 border border-green-500/30"><b>📋 Planning em produto</b><br>• <b>Devin / Cognition</b> mostra um plano com checkboxes antes de codar<br>• <b>Manus / OpenAI Operator</b> planeja a sequência de ações antes de executar</div>
+<div class="p-2 rounded-lg bg-amber-500/10 border border-amber-500/30"><b>🔁 Reflexion em produto</b><br>• <b>Cursor</b> gera código, roda testes e ajusta se falhar<br>• <b>Perplexity Pro Search</b> refina a busca se a 1ª tentativa vier ruim</div>
 </div>
-
-<div class="p-3 rounded-lg bg-cyan-500/10 border border-cyan-500/30">
-<b>🪜 CoT no cotidiano</b><br>
-• Toda vez que você adiciona <i>"explique passo a passo"</i> ao prompt, está usando CoT<br>
-• Calculadoras avançadas como Wolfram Alpha exibem os passos da mesma forma
-</div>
-
-<div class="p-3 rounded-lg bg-green-500/10 border border-green-500/30">
-<b>📋 Planning em produto</b><br>
-• <b>Devin / Cognition</b>: mostra um plano com checkboxes antes de codar<br>
-• <b>Manus, OpenAI Operator</b>: planeja a sequência de cliques antes de executar
-</div>
-
-<div class="p-3 rounded-lg bg-amber-500/10 border border-amber-500/30">
-<b>🔁 Reflexion em produto</b><br>
-• <b>Cursor</b>: gera código → roda os testes → se falham, ajusta sozinho<br>
-• <b>Perplexity Pro Search</b>: refina busca se a primeira leva resultados ruins
-</div>
-
-</div>
-
-<div class="mt-3 text-xs opacity-70 text-center">
-Praticamente todo produto agentic em 2025 combina <b>2 ou 3</b> dessas técnicas.
-</div>
+<div class="mt-2 text-xs opacity-70 text-center">Em 2025, quase todo produto agentic combina <b>2 ou 3</b> dessas técnicas.</div>
 
 ---
 
 # 2.1 Recap: por que o ReAct manual falha?
 
-No Encontro 1 fizemos um agente "na unha" com `re.search`. Funciona, mas…
-
-<div class="grid grid-cols-2 gap-4 mt-6">
-
-<div class="p-4 rounded-xl bg-red-500/10 border border-red-500/30">
-<div class="font-bold text-red-300 mb-2">😖 Problemas</div>
-<ul class="text-sm">
-<li>Parsing frágil (regex quebra fácil)</li>
-<li>LLM alucina nomes de ferramentas</li>
-<li>Argumentos viram strings mal formadas</li>
-<li>Sem tipagem, sem validação</li>
-<li>Difícil debugar quando dá errado</li>
-</ul>
+<div class="text-sm mb-3">No Encontro 1 fizemos um agente "na unha" com <code>re.search</code>. Funciona, mas escala mal.</div>
+<div class="grid grid-cols-2 gap-3 text-sm">
+<div class="p-3 rounded-xl bg-red-500/10 border border-red-500/30"><div class="font-bold text-red-300 mb-1">😖 Problemas</div><ul class="text-xs leading-snug"><li>Parsing frágil: regex quebra fácil</li><li>LLM alucina nomes de ferramentas</li><li>Argumentos viram strings mal formadas</li><li>Sem tipagem nem validação</li><li>Debug difícil quando algo falha</li></ul></div>
+<div class="p-3 rounded-xl bg-green-500/10 border border-green-500/30"><div class="font-bold text-green-300 mb-1">😎 Solução: Function Calling</div><ul class="text-xs leading-snug"><li>OpenAI, Anthropic e Gemini suportam nativamente</li><li>JSON Schema valida argumentos</li><li>Modelo retorna estrutura, não texto livre</li><li>Permite múltiplas chamadas em paralelo</li><li>Virou padrão da indústria desde 2023</li></ul></div>
 </div>
-
-<div class="p-4 rounded-xl bg-green-500/10 border border-green-500/30">
-<div class="font-bold text-green-300 mb-2">😎 Solução: Function Calling</div>
-<ul class="text-sm">
-<li>OpenAI, Anthropic, Gemini suportam nativamente</li>
-<li>JSON schema valida argumentos</li>
-<li>Modelo retorna estrutura, não texto livre</li>
-<li>Suporte a múltiplas chamadas em paralelo</li>
-<li>Padrão da indústria desde 2023</li>
-</ul>
-</div>
-
-</div>
-
-<div class="mt-6 text-center text-sm opacity-70">
-Mas antes de chegar nas tools robustas, vamos entender <b>como melhorar o reasoning</b>.
-</div>
+<div class="mt-3 text-center text-xs opacity-70">Antes das tools robustas, vamos entender <b>como melhorar o reasoning</b>.</div>
 
 ---
 layout: center
@@ -404,38 +355,43 @@ Melhora performance em <b>20-30%</b> em benchmarks como HumanEval e ALFWorld, se
 
 # Self-Reflection em código
 
-<div class="mb-3 p-3 rounded bg-sky-500/10 border border-sky-500/30 text-sm">
+<div class="mb-2 p-2 rounded bg-sky-500/10 border border-sky-500/30 text-xs">
 📖 <b>Em palavras (sem ler código):</b> o agente <b>tenta resolver</b>, depois <b>se critica</b> ("isso de fato responde a pergunta?"), e se a crítica disser que não, ele <b>tenta de novo</b> levando a crítica em consideração. Repete até dar certo ou bater o limite de tentativas.
 </div>
 
 ```python
 def agent_with_reflection(tarefa: str, max_tries: int = 3):
     historico = []
-    for tentativa in range(max_tries):
-        # 1) Tenta resolver
+    for _ in range(max_tries):
         contexto = f"Tarefa: {tarefa}\n"
         if historico:
             contexto += f"Tentativas anteriores e críticas:\n{historico}\n"
         resposta = llm.invoke(contexto + "Sua resposta:")
-        
-        # 2) Critica o próprio output
-        critica = llm.invoke(f"""
+        critica_raw = llm.invoke(f"""
         Tarefa original: {tarefa}
         Resposta proposta: {resposta}
-        
         A resposta resolve a tarefa? Aponte erros específicos.
         Responda em JSON: {{"ok": bool, "criticas": [str]}}
         """)
-        critica = json.loads(critica)
-        
+```
+
+---
+
+# Self-Reflection em código — continuação
+
+```python
+        critica = json.loads(critica_raw)
         if critica["ok"]:
             return resposta
-        historico.append({"tentativa": resposta, "criticas": critica["criticas"]})
-    
+        historico.append({
+            "tentativa": resposta,
+            "criticas": critica["criticas"],
+        })
+
     return resposta  # devolve melhor esforço
 ```
 
-<div class="mt-3 p-3 rounded bg-amber-500/10 border border-amber-500/30 text-sm">
+<div class="mt-2 p-2 rounded bg-amber-500/10 border border-amber-500/30 text-xs">
 ⚠️ <b>Cuidado:</b> usar o <b>mesmo modelo</b> pra gerar e criticar tem viés (overconfidence). Idealmente, use um modelo diferente — ou um <b>maior</b> — como crítico.
 </div>
 
@@ -600,13 +556,19 @@ flowchart TB
 
 # Padrão 3 · Parallelization
 
-<div class="grid grid-cols-2 gap-4 mt-4">
+<div class="grid grid-cols-2 gap-3 mt-3 text-xs">
+<div class="p-2 rounded-lg bg-purple-500/10 border border-purple-500/30"><b>3a. Sectioning</b><br>Divide a tarefa em partes independentes.<br><span class="opacity-80">Ex: classificar e-mail + checar tom + extrair entidades.</span></div>
+<div class="p-2 rounded-lg bg-cyan-500/10 border border-cyan-500/30"><b>3b. Voting</b><br>Gera várias respostas e escolhe por voto.<br><span class="opacity-80">Ex: 3 code reviews; só commita se 2/3 aprovam.</span></div>
+</div>
+<div class="mt-3 p-2 rounded bg-amber-500/10 border border-amber-500/30 text-xs"><b>Quando usar:</b> subtarefas que não dependem umas das outras. Ganho principal: <b>latência menor</b>; trade-off: precisa agregar os resultados no final.</div>
 
-<div>
+---
 
-**3a. Sectioning** — dividir tarefa em partes independentes
+# Padrão 3 · Parallelization — sectioning
 
-```mermaid {scale: 0.55}
+<div class="text-xs mb-2">Mesma tarefa, partes independentes, merge no final.</div>
+
+```mermaid {scale: 0.5}
 flowchart TB
   T[Tarefa] --> A[Parte A]
   T --> B[Parte B]
@@ -615,13 +577,14 @@ flowchart TB
   B --> M
   C --> M
 ```
-</div>
 
-<div>
+---
 
-**3b. Voting** — várias respostas, votação
+# Padrão 3 · Parallelization — voting
 
-```mermaid {scale: 0.55}
+<div class="text-xs mb-2">Mesma pergunta, várias respostas, decisão por maioria.</div>
+
+```mermaid {scale: 0.5}
 flowchart TB
   T[Pergunta] --> A[LLM run 1]
   T --> B[LLM run 2]
@@ -630,14 +593,6 @@ flowchart TB
   B --> V
   C --> V
 ```
-</div>
-
-</div>
-
-<div class="mt-4 text-sm">
-<b>Sectioning:</b> classificar email + checar tom + extrair entidades em paralelo.<br>
-<b>Voting:</b> code review por 3 instâncias — só commita se 2/3 aprovam.
-</div>
 
 ---
 
@@ -773,34 +728,10 @@ flowchart TB
 
 # 🧠 Agentic Planning — como agentes criam e gerenciam planos
 
-<div class="text-sm mb-3">
-O segredo dos agentes mais capazes (Devin, Manus, Claude Code) não é o raciocínio — é a <b>criação e manutenção ativa de um plano</b>.
-</div>
-
-<div class="grid grid-cols-2 gap-4 text-xs">
-
-<div class="p-4 rounded-xl bg-purple-500/10 border border-purple-500/30">
-<b>O que é "Agentic Planning"?</b>
-<div class="mt-2 opacity-80">
-O agente não apenas decide o próximo passo — ele:
-<ol class="mt-1">
-<li><b>Decompõe</b> o objetivo em sub-tarefas</li>
-<li><b>Ordena</b> por dependências</li>
-<li><b>Estima</b> complexidade de cada passo</li>
-<li><b>Executa</b> passo a passo monitorando progresso</li>
-<li><b>Adapta</b> o plano quando algo falha ou muda</li>
-</ol>
-</div>
-</div>
-
-<div class="p-4 rounded-xl bg-cyan-500/10 border border-cyan-500/30">
-<b>🧩 Analogia: GPS vs andar a pé</b>
-<div class="mt-2 opacity-80">
-<b>Sem planning (ReAct):</b> você está numa cidade desconhecida e decide a cada esquina "vou virar aqui". Funciona para distâncias curtas.<br><br>
-<b>Com planning:</b> você abre o GPS, vê a rota inteira, sabe que são 12 passos, e se uma rua estiver fechada, recalcula a rota — não volta ao ponto zero.
-</div>
-</div>
-
+<div class="text-xs mb-2">O diferencial de agentes como Devin, Manus e Claude Code não é só raciocinar: é <b>criar, acompanhar e revisar um plano</b>.</div>
+<div class="grid grid-cols-2 gap-3 text-xs">
+<div class="p-2 rounded-xl bg-purple-500/10 border border-purple-500/30"><b>O que o agente faz</b><ol class="mt-1 leading-snug"><li><b>Decompõe</b> o objetivo</li><li><b>Ordena</b> por dependências</li><li><b>Estima</b> custo/complexidade</li><li><b>Executa</b> monitorando progresso</li><li><b>Adapta</b> se algo falha ou muda</li></ol></div>
+<div class="p-2 rounded-xl bg-cyan-500/10 border border-cyan-500/30"><b>🧩 Analogia: GPS</b><div class="mt-1 opacity-80"><b>Sem planning:</b> você decide esquina por esquina.<br><b>Com planning:</b> vê a rota inteira, sabe quantos passos faltam e recalcula se uma rua fechar.</div></div>
 </div>
 
 ---
@@ -840,88 +771,60 @@ plan = {
 
 # 🔄 Replanning — quando o plano precisa mudar
 
-<div class="text-sm mb-3">
-Planos rígidos quebram. Agentes inteligentes <b>re-planejam dinamicamente</b>:
+<div class="text-xs mb-2">Planos rígidos quebram. Agentes úteis <b>re-planejam dinamicamente</b>.</div>
+<div class="grid grid-cols-2 gap-3 text-xs">
+<div class="p-2 rounded-lg bg-red-500/10 border border-red-500/30"><b>❌ Gatilhos</b><ul class="mt-1 leading-snug"><li>Tool retornou erro</li><li>Resultado inesperado</li><li>Usuário mudou o objetivo</li><li>Custo/tempo excedeu limite</li><li>Novo contexto invalida um passo</li></ul></div>
+<div class="p-2 rounded-lg bg-green-500/10 border border-green-500/30"><b>✅ Estratégias</b><ul class="mt-1 leading-snug"><li><b>Local:</b> refaz só o passo que falhou</li><li><b>Parcial:</b> replaneja do passo atual em diante</li><li><b>Total:</b> descarta tudo e recomeça</li><li><b>Delegação:</b> pede ajuda a outro agente</li></ul></div>
 </div>
 
-<div class="grid grid-cols-3 gap-3 text-xs">
+---
 
-<div class="p-3 rounded-lg bg-red-500/10 border border-red-500/30">
-<b>❌ Gatilhos de replanning:</b>
-<ul class="mt-1">
-<li>Tool retornou erro</li>
-<li>Resultado inesperado</li>
-<li>Usuário mudou o objetivo</li>
-<li>Custo/tempo excedeu limite</li>
-<li>Novo contexto invalida um passo</li>
-</ul>
-</div>
+# 🔄 Replanning — exemplos em produto
 
-<div class="p-3 rounded-lg bg-green-500/10 border border-green-500/30">
-<b>✅ Estratégias de replanning:</b>
-<ul class="mt-1">
-<li><b>Local:</b> refaz só o passo que falhou</li>
-<li><b>Parcial:</b> replaneja do passo atual em diante</li>
-<li><b>Total:</b> descarta tudo e recomeça (último recurso)</li>
-<li><b>Delegação:</b> "não sei fazer X, peço a outro agente"</li>
-</ul>
+<div class="grid grid-cols-3 gap-2 text-xs">
+<div class="p-2 rounded-lg bg-purple-500/10 border border-purple-500/30"><b>Devin</b><br>Mostra plano com checkboxes, risca o que concluiu e adiciona novos passos se necessário.</div>
+<div class="p-2 rounded-lg bg-cyan-500/10 border border-cyan-500/30"><b>Manus</b><br>Cria um plano visual antes de qualquer ação no browser e recalcula a rota ao longo da execução.</div>
+<div class="p-2 rounded-lg bg-sky-500/10 border border-sky-500/30"><b>Claude Code</b><br>Verbaliza "meu plano é..." antes de editar arquivos e ajusta o plano quando encontra bloqueios.</div>
 </div>
-
-<div class="p-3 rounded-lg bg-purple-500/10 border border-purple-500/30">
-<b>🏢 No mercado:</b>
-<ul class="mt-1">
-<li><b>Devin:</b> mostra plano com checkboxes, risca conforme avança, adiciona novos se necessário</li>
-<li><b>Manus:</b> cria plano visual antes de qualquer ação no browser</li>
-<li><b>Claude Code:</b> verbaliza "meu plano é..." antes de editar arquivos</li>
-</ul>
-</div>
-
-</div>
-
-<div class="mt-3 p-3 rounded-lg bg-amber-500/10 border border-amber-500/30 text-xs">
-<b>🎯 Regra prática:</b> para tarefas com mais de 3 passos, sempre peça ao agente para criar um plano explícito antes de executar. Isso reduz loops infinitos em ~60%.
-</div>
+<div class="mt-2 p-2 rounded-lg bg-amber-500/10 border border-amber-500/30 text-xs"><b>🎯 Regra prática:</b> em tarefas com mais de 3 passos, peça um plano explícito antes de executar. Isso reduz loops infinitos em ~60%.</div>
 
 ---
 
 # 💻 Implementando planning agentic em Python
 
-<div class="text-xs font-mono">
-
 ```python
+import json
 import openai
 
 def create_plan(objective: str) -> list[dict]:
-    """Pede ao LLM para decompor o objetivo em passos."""
     response = openai.chat.completions.create(
         model="gpt-4.1",
-        messages=[{
-            "role": "system",
-            "content": "Decomponha o objetivo em passos ordenados. "
-                       "Retorne JSON: [{id, acao, tool, depende_de}]"
-        }, {
-            "role": "user", "content": objective
-        }],
+        messages=[
+            {"role": "system", "content": "Decomponha o objetivo em passos ordenados. Retorne JSON: {\"passos\": [{id, acao, tool, depende_de}]}"},
+            {"role": "user", "content": objective},
+        ],
         response_format={"type": "json_object"},
-        temperature=0
+        temperature=0,
     )
     return json.loads(response.choices[0].message.content)["passos"]
+```
 
-def execute_with_replanning(objective: str, max_retries=2):
+---
+
+# 💻 Implementando planning agentic em Python — execução
+
+```python
+def execute_with_replanning(objective: str, max_retries: int = 2):
     plan = create_plan(objective)
     for step in plan:
         result = execute_step(step)
         if result.failed and step["retries"] < max_retries:
             plan = replan(objective, plan, step, result.error)
-            continue  # recomeça do novo passo atual
+            continue
     return synthesize(plan)
 ```
 
-</div>
-
-<div class="mt-3 text-xs opacity-70">
-O padrão é simples: <b>planejar → executar → monitorar → re-planejar se necessário</b>. A sofisticação está nos detalhes de quando e como re-planejar.
-</div>
+<div class="mt-2 text-xs opacity-70">Fluxo: <b>planejar → executar → monitorar → re-planejar</b>. A sofisticação está em decidir <i>quando</i> e <i>como</i> recalcular.</div>
 
 ---
 layout: center
@@ -961,70 +864,70 @@ Agora precisa de <b>mãos firmes</b> — ferramentas estruturadas e confiáveis.
 
 # Function Calling — definindo tools
 
-<div class="mb-3 p-3 rounded bg-sky-500/10 border border-sky-500/30 text-sm">
-📖 <b>Em palavras:</b> essa lista é um <b>"cardápio"</b> que você entrega ao LLM. Cada item descreve <i>uma função Python sua</i> em formato JSON: o <b>nome</b>, uma <b>descrição</b> (importantíssima — é o que o LLM usa pra decidir quando chamar) e os <b>parâmetros</b> que ela aceita. O LLM lê o cardápio, vê o que precisa pra resolver a tarefa, e pede o prato.
+<div class="mb-2 p-2 rounded bg-sky-500/10 border border-sky-500/30 text-xs">
+📖 <b>Em palavras:</b> essa lista é o <b>"cardápio"</b> do LLM: nome da função, descrição e parâmetros aceitos. É essa descrição que o modelo usa para decidir <i>quando</i> chamar cada tool.
 </div>
 
 ```python
-tools = [
-    {
-        "type": "function",
-        "function": {
-            "name": "calculadora",
-            "description": "Avalia uma expressão matemática Python.",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "expr": {"type": "string", "description": "Ex: '2 + 3 * 4'"}
-                },
-                "required": ["expr"]
-            }
-        }
+tools = [{
+    "type": "function",
+    "function": {
+        "name": "calculadora",
+        "description": "Avalia uma expressão matemática Python.",
+        "parameters": {
+            "type": "object",
+            "properties": {"expr": {"type": "string", "description": "Ex: '2 + 3 * 4'"}},
+            "required": ["expr"],
+        },
     },
-    {
-        "type": "function",
-        "function": {
-            "name": "busca",
-            "description": "Busca informação em base interna.",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "query": {"type": "string"}
-                },
-                "required": ["query"]
-            }
-        }
-    },
-]
+}]
+```
+
+<div class="mt-2 text-xs opacity-70">Para adicionar <code>busca(query: str)</code> ou outras tools, repita o mesmo schema como novos itens no array <code>tools</code>.</div>
+
+---
+
+# Function Calling — exemplo de chamada
+
+```python
+resp = client.chat.completions.create(
+    model="gpt-4o-mini",
+    messages=[{"role": "user", "content": "Quanto é (17 * 23) + 41?"}],
+    tools=tools,
+)
+msg = resp.choices[0].message
+tc = msg.tool_calls[0]
+print(tc.function.name)       # calculadora
+print(tc.function.arguments)  # {"expr":"(17 * 23) + 41"}
 ```
 
 ---
 
 # Function Calling — o loop
 
-<div class="mb-3 p-3 rounded bg-sky-500/10 border border-sky-500/30 text-sm">
+<div class="mb-2 p-2 rounded bg-sky-500/10 border border-sky-500/30 text-xs">
 📖 <b>Em palavras:</b> é o <b>mesmo loop do Encontro 1</b>, mas agora o LLM responde com um campo estruturado <code>tool_calls</code> em vez de texto bagunçado. Você (1) chama o modelo, (2) se ele não pediu ferramenta, é resposta final, (3) se pediu, você executa a função real, anexa o resultado e volta. Sem regex, sem parsing frágil.
 </div>
 
-```python {all|1-9|11-15|17-25|all}
+```python {all|1-8|all}
 def run_agent_fc(pergunta: str, max_steps: int = 6):
     msgs = [{"role": "user", "content": pergunta}]
-    
-    for step in range(max_steps):
+    for _ in range(max_steps):
         resp = client.chat.completions.create(
             model="gpt-4o-mini",
-            messages=msgs,
-            tools=tools,        # 👈 schema das funções
+            messages=msgs, tools=tools
         )
         msg = resp.choices[0].message
-        
-        # Sem tool_calls = resposta final
         if not msg.tool_calls:
             return msg.content
-        
-        msgs.append(msg)  # registra a chamada do modelo
-        
-        # Executa CADA tool chamada (pode ser várias em paralelo!)
+        msgs.append(msg)
+```
+
+---
+
+# Function Calling — fluxo completo
+
+```python
         for tc in msg.tool_calls:
             fn = TOOLS[tc.function.name]
             args = json.loads(tc.function.arguments)
@@ -1032,10 +935,12 @@ def run_agent_fc(pergunta: str, max_steps: int = 6):
             msgs.append({
                 "role": "tool",
                 "tool_call_id": tc.id,
-                "content": str(result)
+                "content": str(result),
             })
     return "Max steps atingido."
 ```
+
+<div class="mt-2 text-xs opacity-70">Se vierem 2 <code>tool_calls</code>, você pode executar ambas em paralelo e só depois devolver os resultados ao modelo.</div>
 
 ---
 

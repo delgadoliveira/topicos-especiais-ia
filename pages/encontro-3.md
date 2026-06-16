@@ -97,41 +97,13 @@ Hoje vamos dar <b>memória</b>, <b>conhecimento</b> e <b>habilidades reutilizáv
 ---
 
 # 🧩 Onde você já viu isso
-
-<div class="grid grid-cols-2 gap-3 text-sm">
-
-<div class="p-3 rounded-lg bg-purple-500/10 border border-purple-500/30">
-<b>🎯 Grounding em produto</b><br>
-• <b>Perplexity</b> mostra os links das fontes embaixo de cada parágrafo — esse é o "grounding visível"<br>
-• <b>Bing Chat</b> e <b>Google AI Overviews</b> citam as páginas usadas
+<div class="grid grid-cols-2 gap-3 text-xs">
+<div class="p-2 rounded-lg bg-purple-500/10 border border-purple-500/30"><b>🎯 Grounding em produto</b><br>• <b>Perplexity</b> mostra links de fonte sob cada parágrafo • <b>Bing Chat</b> e <b>Google AI Overviews</b> citam as páginas usadas</div>
+<div class="p-2 rounded-lg bg-cyan-500/10 border border-cyan-500/30"><b>📚 RAG em produto</b><br>• <b>Notion AI Q&A</b> responde sobre seus docs • <b>Glean</b> busca em Slack/Drive/Jira • <b>NotebookLM</b> conversa com PDFs</div>
+<div class="p-2 rounded-lg bg-green-500/10 border border-green-500/30"><b>💾 Memória em produto</b><br>• <b>ChatGPT Memory</b> lembra preferências • <b>Claude Projects</b> mantém contexto • <b>Cursor</b> indexa o repositório</div>
+<div class="p-2 rounded-lg bg-amber-500/10 border border-amber-500/30"><b>🪟 Context window — implicação prática</b><br>• Quando o chat “esquece” 50 mensagens atrás, o contexto saturou • Por isso <b>Claude 200k</b> e <b>Gemini 1M</b> viraram diferencial</div>
 </div>
-
-<div class="p-3 rounded-lg bg-cyan-500/10 border border-cyan-500/30">
-<b>📚 RAG em produto</b><br>
-• <b>Notion AI Q&A</b> responde sobre <i>seus</i> documentos<br>
-• <b>Glean</b> faz "Google" dentro da empresa (Slack, Drive, Jira)<br>
-• <b>NotebookLM</b> do Google conversa com PDFs que você sobe
-</div>
-
-<div class="p-3 rounded-lg bg-green-500/10 border border-green-500/30">
-<b>💾 Memória em produto</b><br>
-• <b>ChatGPT</b> "Memory" lembra preferências entre sessões<br>
-• <b>Claude Projects</b> mantém contexto compartilhado<br>
-• <b>Cursor</b> indexa seu repositório e lembra a arquitetura
-</div>
-
-<div class="p-3 rounded-lg bg-amber-500/10 border border-amber-500/30">
-<b>🪟 Context window — implicação prática</b><br>
-• Quando o ChatGPT "esquece" o que você falou 50 mensagens atrás → contexto saturou<br>
-• Por isso <b>Claude 200k</b> e <b>Gemini 1M</b> viraram diferencial competitivo
-</div>
-
-</div>
-
-<div class="mt-3 p-3 rounded-lg bg-cyan-500/10 border border-cyan-500/30 text-xs">
-🎯 <b>Insight</b>: todo agente que parece "inteligente sobre o seu negócio" está fazendo <b>RAG + grounding</b> por baixo. Não há mágica.
-</div>
-
+<div class="mt-3 p-2 rounded-lg bg-cyan-500/10 border border-cyan-500/30 text-xs">🎯 <b>Insight</b>: todo agente que parece “inteligente sobre o seu negócio” está fazendo <b>RAG + grounding</b> por baixo. Não há mágica.</div>
 ---
 
 ---
@@ -162,7 +134,7 @@ Vamos entender por quê — e as soluções que o mercado usa.
 
 A janela é grande, mas **não é infinita** — e cada token custa.
 
-```mermaid {scale: 0.8}
+```mermaid {scale: 0.55}
 flowchart LR
   subgraph CW["Context window (ex: 128k tokens)"]
     S[System prompt<br/>500]
@@ -188,7 +160,7 @@ flowchart LR
 
 # Lost in the Middle — o efeito U
 
-```mermaid {scale: 0.7}
+```mermaid {scale: 0.55}
 xychart-beta
   title "Acurácia vs posição da informação relevante no contexto"
   x-axis ["Início", "25%", "Meio", "75%", "Fim"]
@@ -203,80 +175,49 @@ Em contextos longos (>10k tokens), modelos prestam <b>mais atenção ao início 
 ---
 
 # 3.2 Estratégias de context management
-
-<div class="grid grid-cols-2 gap-4 mt-4">
-
-<div class="p-4 rounded-xl bg-purple-500/10 border border-purple-500/30">
-<div class="font-bold mb-2">✂️ Truncamento (sliding window)</div>
-<div class="text-sm">Mantém só as últimas N mensagens.<br>
-<b>Prós:</b> simples. <b>Contras:</b> perde contexto antigo importante.</div>
+<div class="grid grid-cols-2 gap-3 mt-3 text-xs">
+<div class="p-3 rounded-xl bg-purple-500/10 border border-purple-500/30"><b>✂️ Truncamento (sliding window)</b><br>Mantém só as últimas N mensagens. <b>Prós:</b> simples. <b>Contras:</b> perde contexto antigo importante.</div>
+<div class="p-3 rounded-xl bg-purple-500/10 border border-purple-500/30"><b>📝 Sumarização</b><br>Comprime histórico antigo em resumo. <b>Prós:</b> mantém essência. <b>Contras:</b> +1 chamada LLM, perde detalhes.</div>
+<div class="p-3 rounded-xl bg-purple-500/10 border border-purple-500/30"><b>🔍 RAG (retrieval)</b><br>Busca só os trechos relevantes. <b>Prós:</b> escala para milhões de docs. <b>Contras:</b> depende do retriever.</div>
+<div class="p-3 rounded-xl bg-purple-500/10 border border-purple-500/30"><b>🗄️ Sub-agentes / handoffs</b><br>Sub-agente processa contexto pesado e devolve síntese. <b>Prós:</b> isola contextos. <b>Contras:</b> orquestração complexa.</div>
 </div>
-
-<div class="p-4 rounded-xl bg-purple-500/10 border border-purple-500/30">
-<div class="font-bold mb-2">📝 Sumarização</div>
-<div class="text-sm">Periodicamente, comprime histórico antigo em resumo.<br>
-<b>Prós:</b> mantém essência. <b>Contras:</b> +1 chamada LLM, perde detalhes.</div>
-</div>
-
-<div class="p-4 rounded-xl bg-purple-500/10 border border-purple-500/30">
-<div class="font-bold mb-2">🔍 RAG (retrieval)</div>
-<div class="text-sm">Busca só os trechos relevantes no contexto.<br>
-<b>Prós:</b> escala para milhões de docs. <b>Contras:</b> qualidade depende do retriever.</div>
-</div>
-
-<div class="p-4 rounded-xl bg-purple-500/10 border border-purple-500/30">
-<div class="font-bold mb-2">🗄️ Sub-agentes / handoffs</div>
-<div class="text-sm">Sub-agente processa o contexto pesado e retorna síntese.<br>
-<b>Prós:</b> isola contextos. <b>Contras:</b> orquestração complexa.</div>
-</div>
-
-</div>
-
-<div class="mt-4 p-3 rounded bg-cyan-500/10 border border-cyan-500/30 text-sm">
-🎯 <b>Padrão moderno (Claude/Cursor):</b> combinação de <b>sumarização automática</b> + <b>file system como memória externa</b> + <b>sub-agentes</b> para tarefas isoladas.
-</div>
-
+<div class="mt-3 p-2 rounded bg-cyan-500/10 border border-cyan-500/30 text-xs">🎯 <b>Padrão moderno:</b> combinar <b>sumarização automática</b> + <b>file system como memória externa</b> + <b>sub-agentes</b> para tarefas isoladas.</div>
 ---
 
 # Exemplo: sumarização automática
-
-<div class="mb-3 p-3 rounded bg-sky-500/10 border border-sky-500/30 text-sm">
-📖 <b>Em palavras:</b> antes de cada chamada ao LLM, você conta os tokens. Se passou do limite, <b>mantém as últimas 4 mensagens intactas</b> (contexto recente, mais importante) e <b>pede para o próprio LLM resumir o resto</b> em 200 palavras. Resultado: o histórico nunca cresce sem controle, mas as decisões importantes ficam preservadas no resumo.
-</div>
-
+<div class="mb-3 p-2 rounded bg-sky-500/10 border border-sky-500/30 text-xs">📖 <b>Em palavras:</b> conte os tokens; se passar do limite, preserve as últimas 4 mensagens e resuma o restante em 200 palavras.</div>
 ```python
 def manage_context(messages: list, max_tokens: int = 8000):
     """Se passar do limite, sumariza as mensagens antigas."""
     total = count_tokens(messages)
     if total < max_tokens:
         return messages
-    
     # Mantém as últimas 4 mensagens, sumariza o resto
     keep = messages[-4:]
     to_summarize = messages[:-4]
-    
+```
+
+---
+
+# Exemplo: sumarização automática — continuação
+```python
     summary = client.chat.completions.create(
         model="gpt-4o-mini",
         messages=[
-            {"role": "system", "content": "Resuma esta conversa em 200 palavras, "
-                                           "preservando fatos importantes e decisões."},
-            *to_summarize
-        ]
+            {"role": "system", "content": "Resuma esta conversa em 200 palavras, preservando fatos importantes e decisões."},
+            *to_summarize,
+        ],
     ).choices[0].message.content
-    
-    return [
-        {"role": "system", "content": f"Resumo do histórico anterior:\n{summary}"},
-        *keep
-    ]
+    return [{"role": "system", "content": f"Resumo do histórico anterior:\\n{summary}"}, *keep]
 ```
-
+<div class="mt-3 p-2 rounded bg-cyan-500/10 border border-cyan-500/30 text-xs">✅ Resultado: o histórico não cresce sem controle, mas as decisões importantes continuam acessíveis.</div>
 ---
 
 # 3.3 RAG — Retrieval-Augmented Generation
 
 A ideia: **busque** trechos relevantes de uma base externa e **injete** no prompt.
 
-```mermaid {scale: 0.7}
+```mermaid {scale: 0.55}
 flowchart LR
   Q[Pergunta do usuário] --> E1[Embed pergunta]
   E1 --> S[🔍 Busca semântica<br/>no Vector DB]
@@ -302,7 +243,7 @@ flowchart LR
 
 # RAG — anatomia da indexação (offline)
 
-```mermaid {scale: 0.7}
+```mermaid {scale: 0.55}
 flowchart LR
   D[📄 Documentos<br/>PDFs, MD, HTML] --> C[🔪 Chunking<br/>~500 tokens]
   C --> E[🧮 Embedding<br/>text-embedding-3-small]
@@ -342,23 +283,22 @@ from langchain_chroma import Chroma
 from langchain.chains import create_retrieval_chain
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain_core.prompts import ChatPromptTemplate
-
-# 1) Indexação (offline)
 docs = TextLoader("manual.txt").load()
 chunks = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50).split_documents(docs)
 vstore = Chroma.from_documents(chunks, OpenAIEmbeddings(model="text-embedding-3-small"))
+```
 
-# 2) Retriever
+---
+
+# Hands-on: RAG completo com Chroma — continuação
+
+```python
 retriever = vstore.as_retriever(search_kwargs={"k": 4})
-
-# 3) Chain de QA
 prompt = ChatPromptTemplate.from_template(
     "Responda baseado APENAS no contexto:\n\n{context}\n\nPergunta: {input}"
 )
 combine = create_stuff_documents_chain(ChatOpenAI(model="gpt-4o-mini"), prompt)
 chain = create_retrieval_chain(retriever, combine)
-
-# 4) Query
 print(chain.invoke({"input": "Como configuro o produto?"})["answer"])
 ```
 
@@ -368,7 +308,7 @@ print(chain.invoke({"input": "Como configuro o produto?"})["answer"])
 
 RAG ingênuo (embeddings + top-K) tem **muitos pontos de falha**. Em produção, usa-se um pipeline:
 
-```mermaid {scale: 0.65}
+```mermaid {scale: 0.55}
 flowchart LR
   Q[Pergunta] --> QR[1. Query Rewriting]
   QR --> MQ[2. Multi-Query]
@@ -423,67 +363,47 @@ def reescrever_query(historico, pergunta):
 ---
 
 # Padrão 2 · Multi-Query & HyDE
-
-<div class="grid grid-cols-2 gap-4 mt-4">
-
-<div class="p-4 rounded-xl bg-purple-500/10 border border-purple-500/30">
-<b>🔁 Multi-Query</b><br>
-Gere <b>N variações</b> da pergunta e busque com todas.
-
+<div class="p-3 rounded-xl bg-purple-500/10 border border-purple-500/30 text-sm"><b>🔁 Multi-Query</b><br>Gere <b>N reformulações</b> da pergunta e busque com todas para aumentar <b>recall</b>.</div>
 ```python
 queries = llm.invoke(f"""
 Gere 4 reformulações da pergunta:
 {pergunta}
-""").split("\n")
-
+"""
+).split("\\n")
 docs = []
 for q in queries:
     docs += vectordb.search(q, k=5)
 docs = dedupe(docs)
 ```
-<br>
-Melhora <b>recall</b> 20-40%.
-</div>
-
-<div class="p-4 rounded-xl bg-cyan-500/10 border border-cyan-500/30">
-<b>🎭 HyDE</b> — <i>Hypothetical Document Embeddings</i>
-
-```python
-# 1) Pede ao LLM uma resposta hipotética
-hipo = llm.invoke(f"""
-Escreva um trecho que responderia:
-{pergunta}
-""")
-
-# 2) Usa o embedding DA RESPOSTA
-docs = vectordb.search(hipo, k=5)
-```
-<br>
-Funciona porque "resposta-pra-resposta" está mais perto no espaço vetorial que "pergunta-pra-resposta".
-</div>
-
-</div>
+<div class="mt-3 p-2 rounded bg-cyan-500/10 border border-cyan-500/30 text-xs">📈 Na prática, costuma melhorar o <b>recall</b> em 20–40%.</div>
 
 ---
 
+# Padrão 2 · Multi-Query & HyDE — continuação
+<div class="p-3 rounded-xl bg-cyan-500/10 border border-cyan-500/30 text-sm"><b>🎭 HyDE</b> (<i>Hypothetical Document Embeddings</i>) cria uma <b>resposta hipotética</b> e usa o embedding dela para buscar.</div>
+```python
+hipo = llm.invoke(f"""
+Escreva um trecho que responderia:
+{pergunta}
+"""
+)
+docs = vectordb.search(hipo, k=5)
+```
+<div class="mt-3 p-2 rounded bg-amber-500/10 border border-amber-500/30 text-xs">💡 Funciona porque “resposta → resposta” costuma ficar mais perto no espaço vetorial que “pergunta → resposta”.</div>
+---
+
 # Padrão 3 · Parent-Child Chunks & Agentic RAG
-
-<div class="grid grid-cols-2 gap-4 mt-4">
-
-<div class="p-4 rounded-xl bg-purple-500/10 border border-purple-500/30">
-<b>👨‍👦 Parent-Child Chunks</b><br>
-Indexe pedaços <b>pequenos</b> (alta precisão), mas devolva o pedaço <b>grande</b> ao LLM (contexto rico).
-
+<div class="p-3 rounded-xl bg-purple-500/10 border border-purple-500/30 text-sm"><b>👨‍👦 Parent-Child Chunks</b><br>Indexe pedaços <b>pequenos</b> para busca precisa, mas devolva ao LLM o pedaço <b>grande</b> para manter contexto rico.</div>
 ```mermaid {scale: 0.55}
 flowchart LR
   Q --> S[chunks 200 tokens] --> P[parent 2000 tokens] --> LLM
 ```
-</div>
+<div class="mt-3 p-2 rounded bg-cyan-500/10 border border-cyan-500/30 text-xs">🎯 O índice trabalha com alta precisão; a resposta final recebe contexto suficiente para sintetizar.</div>
 
-<div class="p-4 rounded-xl bg-cyan-500/10 border border-cyan-500/30">
-<b>🤖 Agentic RAG</b><br>
-O LLM <b>decide</b> se precisa buscar, em qual fonte, e refina a busca iterativamente.
+---
 
+# Padrão 3 · Parent-Child Chunks & Agentic RAG — continuação
+<div class="p-3 rounded-xl bg-cyan-500/10 border border-cyan-500/30 text-sm"><b>🤖 Agentic RAG</b><br>O LLM decide <b>se precisa buscar</b>, <b>onde buscar</b> e <b>quando refinar</b> a busca.</div>
 ```mermaid {scale: 0.55}
 flowchart LR
   Q --> A[Agent]
@@ -495,14 +415,7 @@ flowchart LR
   T3 --> A
   A --> R[Resposta]
 ```
-</div>
-
-</div>
-
-<div class="mt-3 p-3 rounded bg-amber-500/10 border border-amber-500/30 text-sm">
-🎯 Agentic RAG é o que <b>Perplexity</b>, <b>ChatGPT Search</b>, <b>Cursor @docs</b> usam por baixo.
-</div>
-
+<div class="mt-3 p-2 rounded bg-amber-500/10 border border-amber-500/30 text-xs">🎯 É o padrão por trás de <b>Perplexity</b>, <b>ChatGPT Search</b> e <b>Cursor @docs</b>.</div>
 ---
 
 # 3.4 Vector DBs comparativo
@@ -525,7 +438,7 @@ flowchart LR
 
 # Search híbrido — porque puro vetor não basta
 
-```mermaid {scale: 0.75}
+```mermaid {scale: 0.55}
 flowchart LR
   Q[Pergunta] --> A[🧮 Busca semântica<br/>embeddings]
   Q --> B[🔤 Busca lexical<br/>BM25 / full-text]
@@ -597,7 +510,7 @@ Toda resposta precisa responder: <b>"de onde isso veio?"</b>
 
 # Por que grounding falha
 
-```mermaid {scale: 0.7}
+```mermaid {scale: 0.55}
 flowchart TB
   P[Pergunta] --> R[Retrieval]
   R --> C[Contexto<br/>100 chunks]
@@ -648,41 +561,38 @@ Após gerar, um <b>segundo LLM</b> verifica: "Cada afirmação é suportada pelo
 ---
 
 # Técnicas de grounding (2/2) — em código
-
-<div class="mb-3 p-3 rounded bg-sky-500/10 border border-sky-500/30 text-sm">
-📖 <b>Em palavras:</b> duas camadas. <b>(1)</b> No prompt, você manda o LLM responder <i>só</i> com base nos documentos, citar a fonte de cada afirmação e admitir quando não sabe. <b>(2)</b> Depois, um <b>segundo passo de verificação</b> pega a resposta e checa frase por frase se está apoiada no contexto — separando o que é fato citado do que é "alucinação".
-</div>
-
+<div class="mb-3 p-2 rounded bg-sky-500/10 border border-sky-500/30 text-xs">📖 <b>Camada 1:</b> force o LLM a responder só com base nos documentos e a citar a fonte de cada afirmação.</div>
 ```python
 SYSTEM = """Responda APENAS com base nos documentos abaixo.
 Para CADA afirmação, adicione [doc_id] da fonte.
 Se não souber, responda exatamente: "Não encontrei nos documentos."
 NÃO use conhecimento externo."""
+contexto = "
 
-contexto = "\n\n".join([
-    f"[doc_{d.id}] {d.content}" for d in docs_retrieved
-])
+".join([f"[doc_{d.id}] {d.content}" for d in docs_retrieved])
+resposta = llm.invoke(f"{SYSTEM}
 
-resposta = llm.invoke(f"{SYSTEM}\n\n{contexto}\n\nPergunta: {q}")
+{contexto}
 
-# Verificação automática
+Pergunta: {q}")
+```
+
+---
+
+# Técnicas de grounding (2/2) — continuação
+<div class="mb-3 p-2 rounded bg-sky-500/10 border border-sky-500/30 text-xs">📖 <b>Camada 2:</b> rode uma verificação automática que classifica cada frase como suportada, parcial ou não suportada.</div>
+```python
 verificacao = llm.invoke(f"""
 Resposta: {resposta}
 Contexto disponível: {contexto}
-
 Para cada afirmação na resposta, marque:
 - SUPORTADA (existe no contexto)
 - NÃO_SUPORTADA (alucinação)
 - PARCIAL (parcialmente apoiada)
-
 JSON: {{"afirmacoes": [{{"texto": ..., "status": ...}}]}}
 """)
 ```
-
-<div class="mt-3 p-3 rounded bg-cyan-500/10 border border-cyan-500/30 text-sm">
-🎯 Métricas a monitorar: <b>Groundedness</b> (% afirmações apoiadas), <b>Citation accuracy</b> (citações apontam pra chunk certo), <b>Answer relevance</b>.
-</div>
-
+<div class="mt-3 p-2 rounded bg-cyan-500/10 border border-cyan-500/30 text-xs">🎯 Monitore <b>Groundedness</b>, <b>Citation accuracy</b> e <b>Answer relevance</b>.</div>
 ---
 
 # Frameworks que ajudam com grounding
@@ -714,7 +624,7 @@ Combinar múltiplas fontes com coerência. O passo que separa um chatbot de um a
 
 Recuperei 20 chunks de 5 fontes. **E agora?**
 
-```mermaid {scale: 0.7}
+```mermaid {scale: 0.55}
 flowchart TB
   D1[📄 Doc A diz: 'X é 30%']
   D2[📄 Doc B diz: 'X é 40%']
@@ -738,7 +648,7 @@ Synthesis ≠ Retrieval. É um <b>passo de raciocínio</b> que requer: dedup, re
 
 Para muitos docs ou docs grandes — não cabem todos no contexto.
 
-```mermaid {scale: 0.7}
+```mermaid {scale: 0.55}
 flowchart TB
   Q[Pergunta] --> D1[Doc 1] & D2[Doc 2] & D3[Doc N]
   D1 --> M1[🔎 Map: extrai info relevante]
@@ -762,19 +672,25 @@ Quando fontes discordam, o agente **não pode** simplesmente escolher uma.
 
 ```python
 SYNTH_PROMPT = """Sintetize a resposta usando os trechos abaixo.
-
 REGRAS:
 1. Se fontes CONCORDAM, afirme com confiança e cite todas.
 2. Se fontes DISCORDAM, apresente as visões DIVERGENTES explicitamente:
    "Segundo [A], X = 30%. Já [B] reporta X = 40%."
 3. Se a divergência tem causa identificável (data, escopo), explique:
    "A diferença pode se dever a [A] ser de 2023 e [B] de 2024."
+"""
+```
+
+---
+
+# Padrão 2 · Resolução de conflitos — continuação
+
+```python
+SYNTH_PROMPT = """
 4. NUNCA invente uma 'média' entre fontes contraditórias.
 5. Cite com [doc_id] após cada afirmação.
-
 Trechos:
 {contexto}
-
 Pergunta: {pergunta}
 """
 ```
@@ -789,7 +705,7 @@ Pergunta: {pergunta}
 
 Para corpora gigantes (livros, repositórios, milhares de tickets):
 
-```mermaid {scale: 0.6}
+```mermaid {scale: 0.55}
 flowchart TB
   C1[📄] & C2[📄] & C3[📄] & C4[📄] & C5[📄] & C6[📄] & C7[📄] & C8[📄] --> S1[Sumário lvl 1]
   C9[📄] & C10[📄] & C11[📄] & C12[📄] --> S2[Sumário lvl 1]
@@ -833,84 +749,36 @@ chain_stuff = load_summarize_chain(llm, chain_type="stuff")
 ---
 
 # 🧪 Context Engineering — o novo nome do jogo
-
-<div class="mt-4 p-5 rounded-xl bg-cyan-500/10 border-2 border-cyan-500/40 text-center">
-<b>Prompt engineering</b> → <b>Context engineering</b>
+<div class="mt-3 p-3 rounded-xl bg-cyan-500/10 border-2 border-cyan-500/40 text-center text-sm"><b>Prompt engineering</b> → <b>Context engineering</b></div>
+<div class="mt-3 grid grid-cols-2 gap-3 text-xs">
+<div class="p-2 rounded bg-purple-500/10 border border-purple-500/30"><b>📦 O que entra</b><br>System, exemplos, retrievals, memória, tool results, histórico — em qual ordem?</div>
+<div class="p-2 rounded bg-purple-500/10 border border-purple-500/30"><b>🗑️ O que sai</b><br>Compressão, summarization, eviction policies e mitigação de “lost in the middle”.</div>
+<div class="p-2 rounded bg-purple-500/10 border border-purple-500/30"><b>🎚️ Quanto e quando</b><br>Dynamic context: recuperar só quando precisa e gastar tokens onde importa.</div>
+<div class="p-2 rounded bg-purple-500/10 border border-purple-500/30"><b>🔁 Como evolui</b><br>O contexto muda turn a turn; ele não é estático.</div>
 </div>
-
-<div class="mt-4 text-sm">
-Em 2025, a discussão amadureceu. Não é só "escreva o prompt mágico". É <b>desenhar todo o contexto</b> que o LLM vê:
-</div>
-
-<div class="mt-3 grid grid-cols-2 gap-3 text-sm">
-
-<div class="p-3 rounded bg-purple-500/10 border border-purple-500/30">
-<b>📦 O que entra na janela</b><br>
-System, exemplos, retrievals, memória, tool results, histórico — em qual ordem?
-</div>
-
-<div class="p-3 rounded bg-purple-500/10 border border-purple-500/30">
-<b>🗑️ O que sai</b><br>
-Compressão, summarization, eviction policies, "lost in the middle" mitigation
-</div>
-
-<div class="p-3 rounded bg-purple-500/10 border border-purple-500/30">
-<b>🎚️ Quanto e quando</b><br>
-Dynamic context: só recupera quando precisa, gasta tokens onde importa
-</div>
-
-<div class="p-3 rounded bg-purple-500/10 border border-purple-500/30">
-<b>🔁 Como evolui</b><br>
-Como contexto muda turn-a-turn — não é estático
-</div>
-
-</div>
-
-<div class="mt-3 p-3 rounded bg-amber-500/10 border border-amber-500/30 text-sm">
-📚 Termos atuais: <b>Context engineering</b> (Karpathy), <b>Context rot</b> (Anthropic), <b>Context economy</b>.
-</div>
-
+<div class="mt-3 p-2 rounded bg-amber-500/10 border border-amber-500/30 text-xs">📚 Termos atuais: <b>Context engineering</b> (Karpathy), <b>Context rot</b> (Anthropic) e <b>Context economy</b>.</div>
 ---
 
 # 💰 Prompt Caching — 90% de economia
-
-Anthropic (ago/2024), OpenAI (out/2024), Gemini (mai/2024) — todos lançaram cache de prompt.
-
-<div class="mt-4 p-4 rounded-xl bg-green-500/10 border-2 border-green-500/40">
-<b>Como funciona:</b> partes <b>estáveis</b> do prompt (system, docs, exemplos) são "congeladas" no servidor. Próximas chamadas reusam, pagando ~10% do custo desses tokens.
-</div>
-
+<div class="mt-3 p-3 rounded-xl bg-green-500/10 border-2 border-green-500/40 text-sm"><b>Como funciona:</b> partes <b>estáveis</b> do prompt (system, docs, exemplos) ficam cacheadas no servidor; as próximas chamadas pagam ~10% desse trecho.</div>
 ```python
-# Anthropic — usando cache_control
 response = client.messages.create(
     model="claude-sonnet-4-5",
     system=[
         {"type": "text", "text": "Você é um assistente legal..."},
-        {
-            "type": "text",
-            "text": MEGA_DOCUMENTO_50K_TOKENS,  # ← caching
-            "cache_control": {"type": "ephemeral"}
-        }
+        {"type": "text", "text": MEGA_DOCUMENTO_50K_TOKENS,
+         "cache_control": {"type": "ephemeral"}},
     ],
-    messages=[{"role": "user", "content": pergunta}]
+    messages=[{"role": "user", "content": pergunta}],
 )
 ```
-
-<div class="mt-3 grid grid-cols-3 gap-2 text-sm">
-<div class="p-2 rounded bg-white/5"><b>1ª chamada</b><br>100% do custo (escreve cache)</div>
-<div class="p-2 rounded bg-white/5"><b>Subsequentes</b><br>10% do custo do trecho cacheado</div>
-<div class="p-2 rounded bg-white/5"><b>TTL típico</b><br>5 min (ephemeral) — basta um chat ativo</div>
-</div>
-
-<div class="mt-3 p-3 rounded bg-amber-500/10 border border-amber-500/30 text-sm">
-🎯 <b>Padrão:</b> coloque conteúdo <b>estável no início</b> (system + docs), <b>dinâmico no fim</b> (mensagem do user). Inverter quebra o cache.
-</div>
-
+<div class="mt-3 grid grid-cols-3 gap-2 text-xs"><div class="p-2 rounded bg-white/5"><b>1ª chamada</b><br>100% do custo</div><div class="p-2 rounded bg-white/5"><b>Subsequentes</b><br>~10% do trecho cacheado</div><div class="p-2 rounded bg-white/5"><b>TTL típico</b><br>5 min (ephemeral)</div></div>
+<div class="mt-3 p-2 rounded bg-amber-500/10 border border-amber-500/30 text-xs">🎯 <b>Padrão:</b> conteúdo <b>estável no início</b> e <b>dinâmico no fim</b>; inverter a ordem quebra o cache.</div>
 ---
 
 # 3.5 Memória — curto vs longo prazo
 
-```mermaid {scale: 0.7}
+```mermaid {scale: 0.55}
 flowchart TB
   A[🤖 Agente] --> S[💬 Short-term<br/>histórico da sessão<br/>na context window]
   A --> L[💾 Long-term<br/>persistente entre sessões]
@@ -991,39 +859,33 @@ flowchart TB
 ---
 
 # Exemplo: memória com mem0
-
-<div class="mb-3 p-3 rounded bg-sky-500/10 border border-sky-500/30 text-sm">
-📖 <b>Em palavras:</b> o mem0 funciona como um <b>caderno do usuário</b>. Você <code>add()</code> fatos que o agente aprende ("prefere PT-BR", "trabalha com Python"). Na próxima conversa — mesmo dias depois — você faz <code>search()</code> com a pergunta atual e ele te devolve só as memórias <i>relevantes</i> pra injetar no prompt. É como um CRM, mas pra LLM.
-</div>
-
+<div class="mb-3 p-2 rounded bg-sky-500/10 border border-sky-500/30 text-xs">📖 <b>Em palavras:</b> o mem0 funciona como um caderno do usuário: você grava fatos com <code>add()</code> e recupera só as memórias relevantes com <code>search()</code>.</div>
 ```python
 from mem0 import Memory
-
 m = Memory()
 user_id = "alan"
-
-# Salva durante interações
 m.add("Prefiro respostas em português, tom técnico", user_id=user_id)
 m.add("Trabalho com Python e TypeScript", user_id=user_id)
 m.add("Não gosto de emojis em código", user_id=user_id)
+```
 
-# Em outra sessão, recupera relevantes
+---
+
+# Exemplo: memória com mem0 — continuação
+```python
 def chat(pergunta: str):
     memorias = m.search(pergunta, user_id=user_id, limit=5)
-    contexto = "\n".join(m["memory"] for m in memorias["results"])
-    
+    contexto = "\\n".join(m["memory"] for m in memorias["results"])
     return client.chat.completions.create(
         model="gpt-4o-mini",
         messages=[
-            {"role": "system", "content": f"Sobre o usuário:\n{contexto}"},
-            {"role": "user", "content": pergunta}
-        ]
+            {"role": "system", "content": f"Sobre o usuário:\\n{contexto}"},
+            {"role": "user", "content": pergunta},
+        ],
     ).choices[0].message.content
-
 print(chat("Me ajude a escrever uma função"))
-# → vai responder em português, técnico, sem emojis
 ```
-
+<div class="mt-3 p-2 rounded bg-cyan-500/10 border border-cyan-500/30 text-xs">✅ Resultado: ele responde em português, tom técnico e sem emojis mesmo em outra sessão.</div>
 ---
 
 ---
@@ -1132,27 +994,13 @@ Hoje: Claude Desktop, Cursor, VS Code, Cline, Continue…
 ---
 
 # MCP — arquitetura
-
-```mermaid {scale: 0.7}
+```mermaid {scale: 0.55}
 flowchart LR
-  subgraph Client["🤖 MCP Client (host)"]
-    AG[Claude Desktop / Cursor / Seu app]
-  end
-  
-  subgraph Servers["🔌 MCP Servers"]
-    S1[Filesystem]
-    S2[GitHub]
-    S3[Postgres]
-    S4[Slack]
-    S5[Custom seu]
-  end
-  
-  AG <--> S1
-  AG <--> S2
-  AG <--> S3
-  AG <--> S4
-  AG <--> S5
-  
+  AG[Claude Desktop / Cursor / Seu app] --> S1[Filesystem]
+  AG --> S2[GitHub]
+  AG --> S3[Postgres]
+  AG --> S4[Slack]
+  AG --> S5[Custom seu]
   style AG fill:#7c5cff,color:#fff
   style S1 fill:#2dd4bf,color:#000
   style S2 fill:#2dd4bf,color:#000
@@ -1160,32 +1008,29 @@ flowchart LR
   style S4 fill:#2dd4bf,color:#000
   style S5 fill:#f59e0b,color:#000
 ```
-
-<div class="mt-4 text-sm">
-Comunicação por <b>JSON-RPC</b> (stdio local ou HTTP/SSE remoto). Cada servidor expõe:
-<b>tools</b> (ações), <b>resources</b> (dados), <b>prompts</b> (templates).
-</div>
-
+<div class="mt-3 text-xs">Comunicação por <b>JSON-RPC</b> (stdio local ou HTTP/SSE remoto). Cada servidor expõe <b>tools</b>, <b>resources</b> e <b>prompts</b>.</div>
 ---
 
 # MCP em ação — servidor mínimo (Python)
 
 ```python
-# servidor MCP que expõe uma tool "soma"
 from mcp.server.fastmcp import FastMCP
-
 mcp = FastMCP("minha-calculadora")
-
 @mcp.tool()
 def somar(a: int, b: int) -> int:
     """Soma dois números inteiros."""
     return a + b
+```
 
+---
+
+# MCP em ação — servidor mínimo (Python) — continuação
+
+```python
 @mcp.tool()
 def multiplicar(a: int, b: int) -> int:
     """Multiplica dois números inteiros."""
     return a * b
-
 if __name__ == "__main__":
     mcp.run()
 ```
@@ -1220,7 +1065,7 @@ Lista oficial: <a href="https://github.com/modelcontextprotocol/servers">github.
 
 # 3.8 Padrões multi-agente
 
-```mermaid {scale: 0.65}
+```mermaid {scale: 0.55}
 flowchart TB
   subgraph SUP["1. Supervisor / Orchestrator"]
     O[Supervisor] --> A1[Agente A]
@@ -1314,24 +1159,27 @@ flowchart TB
 
 ```python
 from crewai import Agent, Task, Crew
-
 pesquisador = Agent(
     role="Pesquisador",
     goal="Encontrar informações precisas sobre o tema",
     backstory="Você é um analista meticuloso.",
     tools=[busca_web, leitor_pdf],
 )
-
 escritor = Agent(
     role="Escritor técnico",
     goal="Transformar pesquisa em artigo claro",
     backstory="Você escreve para devs juniores.",
 )
+```
 
+---
+
+# Exemplo: Crew com CrewAI — continuação
+
+```python
 t1 = Task(description="Pesquise tudo sobre {tema}", agent=pesquisador)
 t2 = Task(description="Escreva artigo de 500 palavras baseado na pesquisa",
           agent=escritor, context=[t1])
-
 crew = Crew(agents=[pesquisador, escritor], tasks=[t1, t2])
 print(crew.kickoff(inputs={"tema": "agentes de IA"}))
 ```
@@ -1339,40 +1187,37 @@ print(crew.kickoff(inputs={"tema": "agentes de IA"}))
 ---
 
 # 3.9 Hands-on integrado — agente com RAG + memória
-
 ```python
 from langgraph.graph import StateGraph, END
 from langgraph.checkpoint.sqlite import SqliteSaver
 # ... imports do RAG (Chroma, embeddings)
-
 class State(TypedDict):
     messages: Annotated[list, add_messages]
     context_docs: list[str]
-
 def retrieve_node(state):
-    """Busca docs relevantes no Chroma."""
     q = state["messages"][-1].content
     docs = retriever.invoke(q)
     return {"context_docs": [d.page_content for d in docs]}
+```
 
+---
+
+# 3.9 Hands-on integrado — continuação
+```python
 def agent_node(state):
-    """LLM responde usando os docs como contexto."""
-    sys = f"Use APENAS este contexto:\n{state['context_docs']}"
+    sys = f"Use APENAS este contexto:\\n{state['context_docs']}"
     msgs = [SystemMessage(sys)] + state["messages"]
     return {"messages": [llm.invoke(msgs)]}
-
 graph = StateGraph(State)
 graph.add_node("retrieve", retrieve_node)
 graph.add_node("agent", agent_node)
 graph.set_entry_point("retrieve")
 graph.add_edge("retrieve", "agent")
 graph.add_edge("agent", END)
-
-# Memória persistente entre execuções
 memory = SqliteSaver.from_conn_string("checkpoints.db")
 app = graph.compile(checkpointer=memory)
 ```
-
+<div class="mt-3 p-2 rounded bg-cyan-500/10 border border-cyan-500/30 text-xs">💾 Aqui o RAG busca contexto por turno e o <code>SqliteSaver</code> mantém memória persistente entre execuções.</div>
 ---
 layout: section
 ---
@@ -1485,151 +1330,40 @@ class: text-center
 ---
 
 # 🌐 Mercado: RAG, grounding & memória
-
 <div class="grid grid-cols-2 gap-3 text-xs">
-
-<div class="p-3 rounded-lg bg-purple-500/10 border border-purple-500/30">
-<b>🗄️ Vector DBs líderes</b><br>
-• <b>Pinecone</b> (US$ 750M valuation)<br>
-• <b>Weaviate</b>, <b>Qdrant</b>, <b>Chroma</b><br>
-• <b>pgvector</b> (Postgres) — adotado por Supabase, Neon<br>
-• <b>Turbopuffer</b>, <b>LanceDB</b> (serverless)<br>
-• <b>Elasticsearch / OpenSearch</b> com vetores
+<div class="p-2 rounded-lg bg-purple-500/10 border border-purple-500/30"><b>🗄️ Vector DBs líderes</b><br>Pinecone · Weaviate · Qdrant · Chroma · pgvector (Supabase/Neon) · Turbopuffer · LanceDB · Elasticsearch/OpenSearch</div>
+<div class="p-2 rounded-lg bg-cyan-500/10 border border-cyan-500/30"><b>🔎 RAG-as-a-service / search</b><br>Exa · Tavily · Perplexity API · You.com API · Brave Search API · Azure AI Search · Vertex AI Search</div>
+<div class="p-2 rounded-lg bg-green-500/10 border border-green-500/30"><b>🧠 Memória para agentes</b><br>Mem0 · Letta (ex-MemGPT) · Zep · ChatGPT Memory · Claude Projects · Cursor codebase indexing</div>
+<div class="p-2 rounded-lg bg-amber-500/10 border border-amber-500/30"><b>📦 Casos reais</b><br>Notion AI Q&A · Glean (US$ 4,6B) · Harvey · Perplexity · Klarna usando RAG sobre políticas</div>
 </div>
+<div class="mt-3 p-2 rounded-lg bg-blue-500/10 border border-blue-500/30 text-xs">🧩 <b>Analogia:</b> a <b>Glean</b> é o “Google interno da empresa” — grounding sobre Slack, Drive, Jira e Confluence. Esse é o produto-tipo de 2025.</div>
+---
 
-<div class="p-3 rounded-lg bg-cyan-500/10 border border-cyan-500/30">
-<b>🔎 RAG-as-a-service / search</b><br>
-• <b>Exa</b> (busca neural para agentes)<br>
-• <b>Tavily</b> (search API focada em LLM)<br>
-• <b>Perplexity API</b>, <b>You.com API</b><br>
-• <b>Brave Search API</b><br>
-• <b>Azure AI Search</b>, <b>Vertex AI Search</b>
-</div>
-
-<div class="p-3 rounded-lg bg-green-500/10 border border-green-500/30">
-<b>🧠 Memória para agentes</b><br>
-• <b>Mem0</b> (open source, fork de embedchain)<br>
-• <b>Letta</b> (ex-MemGPT, papers de Berkeley)<br>
-• <b>Zep</b> (memory + temporal KG)<br>
-• <b>ChatGPT Memory</b>, <b>Claude Projects</b><br>
-• <b>Cursor codebase indexing</b>
-</div>
-
-<div class="p-3 rounded-lg bg-amber-500/10 border border-amber-500/30">
-<b>📦 Casos reais</b><br>
-• <b>Notion AI Q&A</b> (busca no workspace)<br>
-• <b>Glean</b> (US$ 4,6B) — enterprise search<br>
-• <b>Harvey</b> — RAG jurídico em 235 firmas<br>
-• <b>Perplexity</b> — RAG + web em tempo real<br>
-• <b>Klarna</b> — RAG sobre políticas de atendimento
-</div>
-
-</div>
-
-<div class="mt-3 p-2 rounded-lg bg-blue-500/10 border border-blue-500/30 text-xs">
-🧩 <b>Analogia de mercado</b>: pense em <b>Glean</b> como o "Google interno da empresa" — agente que faz grounding sobre Slack, Drive, Jira, Confluence. Esse é o produto-tipo que toda empresa Fortune 500 está construindo (ou comprando) em 2025.
+# 📚 Referências públicas — Encontro 3 (1/2)
+<div class="grid grid-cols-2 gap-3 text-xs mt-3">
+<div class="p-3 rounded bg-purple-500/10 border border-purple-500/30"><b>RAG & Context</b><ul class="mt-1"><li>Lewis et al. (2020) — <i>RAG for Knowledge-Intensive NLP</i> · <a href="https://arxiv.org/abs/2005.11401">arXiv:2005.11401</a></li><li>Gao et al. (2022) — <i>HyDE</i> · <a href="https://arxiv.org/abs/2212.10496">arXiv:2212.10496</a></li><li>Liu et al. (2023) — <i>Lost in the Middle</i> · <a href="https://arxiv.org/abs/2307.03172">arXiv:2307.03172</a></li><li>Gao et al. (2024) — <i>RAG Survey</i> · <a href="https://arxiv.org/abs/2312.10997">arXiv:2312.10997</a></li></ul></div>
+<div class="p-3 rounded bg-cyan-500/10 border border-cyan-500/30"><b>Grounding & Attribution</b><ul class="mt-1"><li>Rashkin et al. (2023) — <i>Measuring Attribution in NLG</i> · <a href="https://aclanthology.org/2023.cl-4.2/">aclanthology.org/2023.cl-4.2</a></li><li>Bohnet et al. (2022) — <i>Attributed QA</i> · <a href="https://arxiv.org/abs/2212.08037">arXiv:2212.08037</a></li><li>Anthropic (2024) — <i>Citations API</i> · <a href="https://docs.anthropic.com/en/docs/build-with-claude/citations">docs.anthropic.com</a></li></ul></div>
 </div>
 
 ---
 
-# 📚 Referências públicas — Encontro 3
-
+# 📚 Referências públicas — Encontro 3 (2/2)
 <div class="grid grid-cols-2 gap-3 text-xs mt-3">
-
-<div class="p-3 rounded bg-purple-500/10 border border-purple-500/30">
-<b>RAG & Context</b>
-<ul class="mt-1">
-<li>Lewis et al. (2020) — <i>RAG for Knowledge-Intensive NLP</i> · <a href="https://arxiv.org/abs/2005.11401">arXiv:2005.11401</a></li>
-<li>Gao et al. (2022) — <i>HyDE</i> · <a href="https://arxiv.org/abs/2212.10496">arXiv:2212.10496</a></li>
-<li>Liu et al. (2023) — <i>Lost in the Middle</i> · <a href="https://arxiv.org/abs/2307.03172">arXiv:2307.03172</a></li>
-<li>Gao et al. (2024) — <i>RAG Survey</i> · <a href="https://arxiv.org/abs/2312.10997">arXiv:2312.10997</a></li>
-</ul>
+<div class="p-3 rounded bg-green-500/10 border border-green-500/30"><b>Memória & Skills</b><ul class="mt-1"><li>Packer et al. (2023) — <i>MemGPT</i> · <a href="https://arxiv.org/abs/2310.08560">arXiv:2310.08560</a></li><li>Park et al. (2023) — <i>Generative Agents</i> · <a href="https://arxiv.org/abs/2304.03442">arXiv:2304.03442</a></li><li>Anthropic (2024) — <i>Prompt Caching</i> · <a href="https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching">docs.anthropic.com</a></li><li>Anthropic (2024) — <i>MCP Specification</i> · <a href="https://modelcontextprotocol.io/">modelcontextprotocol.io</a></li></ul></div>
+<div class="p-3 rounded bg-amber-500/10 border border-amber-500/30"><b>Multi-agente & Frameworks</b><ul class="mt-1"><li>Wu et al. (2023) — <i>AutoGen</i> · <a href="https://arxiv.org/abs/2308.08155">arXiv:2308.08155</a></li><li>CrewAI Docs · <a href="https://docs.crewai.com/">docs.crewai.com</a></li><li>Chroma · <a href="https://docs.trychroma.com/">docs.trychroma.com</a> · Qdrant · <a href="https://qdrant.tech/documentation/">qdrant.tech</a> · pgvector · <a href="https://github.com/pgvector/pgvector">github.com/pgvector</a></li></ul></div>
 </div>
-
-<div class="p-3 rounded bg-cyan-500/10 border border-cyan-500/30">
-<b>Grounding & Attribution</b>
-<ul class="mt-1">
-<li>Rashkin et al. (2023) — <i>Measuring Attribution in NLG</i> (AIS) · <a href="https://aclanthology.org/2023.cl-4.2/">aclanthology.org/2023.cl-4.2</a></li>
-<li>Bohnet et al. (2022) — <i>Attributed QA</i> · <a href="https://arxiv.org/abs/2212.08037">arXiv:2212.08037</a></li>
-<li>Anthropic (2024) — <i>Citations API</i> · <a href="https://docs.anthropic.com/en/docs/build-with-claude/citations">docs.anthropic.com</a></li>
-</ul>
-</div>
-
-<div class="p-3 rounded bg-green-500/10 border border-green-500/30">
-<b>Memória & Skills</b>
-<ul class="mt-1">
-<li>Packer et al. (2023) — <i>MemGPT</i> · <a href="https://arxiv.org/abs/2310.08560">arXiv:2310.08560</a></li>
-<li>Park et al. (2023) — <i>Generative Agents</i> · <a href="https://arxiv.org/abs/2304.03442">arXiv:2304.03442</a></li>
-<li>Anthropic (2024) — <i>Prompt Caching</i> · <a href="https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching">docs.anthropic.com</a></li>
-<li>Anthropic (2024) — <i>MCP Specification</i> · <a href="https://modelcontextprotocol.io/">modelcontextprotocol.io</a></li>
-</ul>
-</div>
-
-<div class="p-3 rounded bg-amber-500/10 border border-amber-500/30">
-<b>Multi-agente & Frameworks</b>
-<ul class="mt-1">
-<li>Wu et al. (2023) — <i>AutoGen</i> · <a href="https://arxiv.org/abs/2308.08155">arXiv:2308.08155</a></li>
-<li>CrewAI Docs · <a href="https://docs.crewai.com/">docs.crewai.com</a></li>
-<li>Chroma · <a href="https://docs.trychroma.com/">docs.trychroma.com</a> · Qdrant · <a href="https://qdrant.tech/documentation/">qdrant.tech</a> · pgvector · <a href="https://github.com/pgvector/pgvector">github.com/pgvector</a></li>
-</ul>
-</div>
-
-</div>
-
-<div class="mt-2 text-xs opacity-70">
-Todo conteúdo deste encontro é de domínio público. Marcas mencionadas pertencem aos respectivos donos; uso exclusivamente educacional.
-</div>
-
+<div class="mt-2 text-xs opacity-70">Todo conteúdo deste encontro é de domínio público. Marcas mencionadas pertencem aos respectivos donos; uso exclusivamente educacional.</div>
 ---
 
 ---
 
 # 🔄 Recap — O que construímos no Encontro 3
-
-<div class="grid grid-cols-2 gap-4 text-sm">
-
-<div class="p-4 rounded-xl bg-purple-500/10 border border-purple-500/30">
-<b>📜 Evolução que acompanhamos:</b>
-<ul class="text-xs mt-2">
-<li><b>2020:</b> Paper RAG (Lewis et al.) — buscar antes de responder</li>
-<li><b>2023:</b> Vector DBs explodem (Pinecone, Chroma, Weaviate)</li>
-<li><b>2024:</b> MCP (Anthropic) — protocolo universal de tools</li>
-<li><b>2025:</b> Multi-agentes em produção (OpenAI Swarm, CrewAI)</li>
-</ul>
+<div class="grid grid-cols-2 gap-3 text-xs">
+<div class="p-3 rounded-xl bg-purple-500/10 border border-purple-500/30"><b>📜 Evolução</b><br>2020: paper RAG · 2023: vector DBs explodem · 2024: MCP · 2025: multi-agentes em produção.</div>
+<div class="p-3 rounded-xl bg-cyan-500/10 border border-cyan-500/30"><b>🔧 O que você sabe fazer</b><br>Gerenciar contexto, construir RAG, implementar memória, criar Skills/MCP e orquestrar multi-agentes.</div>
+<div class="p-3 rounded-xl bg-green-500/10 border border-green-500/30"><b>🏢 Produtos que usam isso</b><br>Perplexity, NotebookLM, Claude Projects e GitHub Copilot mostram RAG, grounding, memória e extensibilidade em ação.</div>
+<div class="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30"><b>❓ Perguntas abertas</b><br>Como agentes falham em produção, como medi-los e quais produtos estão vencendo — tudo isso entra no Encontro 4.</div>
 </div>
-
-<div class="p-4 rounded-xl bg-cyan-500/10 border border-cyan-500/30">
-<b>🔧 O que você agora sabe fazer:</b>
-<ul class="text-xs mt-2">
-<li>Gerenciar context window (truncar, resumir, RAG)</li>
-<li>Construir pipeline RAG completo com embeddings</li>
-<li>Implementar memória de longo prazo</li>
-<li>Criar Skills + usar MCP</li>
-<li>Orquestrar multi-agentes (e quando NÃO usar)</li>
-</ul>
-</div>
-
-<div class="p-4 rounded-xl bg-green-500/10 border border-green-500/30">
-<b>🏢 Produtos que usam isso:</b>
-<ul class="text-xs mt-2">
-<li>Perplexity — RAG em escala (busca + citação)</li>
-<li>NotebookLM — grounding em documentos do usuário</li>
-<li>Claude Projects — memória persistente por projeto</li>
-<li>GitHub Copilot — MCP para extensões</li>
-</ul>
-</div>
-
-<div class="p-4 rounded-xl bg-amber-500/10 border border-amber-500/30">
-<b>❓ Perguntas que ficaram abertas:</b>
-<ul class="text-xs mt-2">
-<li>E quando o agente falha em produção? (→ E4: Falhas)</li>
-<li>Como medir se o agente é bom? (→ E4: Avaliação)</li>
-<li>Quais produtos estão ganhando? (→ E4: State-of-art)</li>
-</ul>
-</div>
-
-</div>
-
 ---
 
 # ✅ Fim do Encontro 3
