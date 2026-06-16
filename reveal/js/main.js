@@ -132,4 +132,22 @@ function initReveal() {
       sidebarNav.classList.remove('open');
     }
   });
+
+  // ─── Expandable Cards ───
+  // Universal: any .card.expandable toggles .expanded on click
+  // This also prevents Reveal from advancing slides on card clicks
+  document.querySelectorAll('.card.expandable').forEach(card => {
+    card.addEventListener('click', (e) => {
+      e.stopPropagation();
+      card.classList.toggle('expanded');
+    });
+  });
+
+  // Vocab cards (encontro-1 vocabulary slide)
+  document.querySelectorAll('.vocab-card').forEach(card => {
+    card.addEventListener('click', (e) => {
+      e.stopPropagation();
+      card.classList.toggle('expanded');
+    });
+  });
 }

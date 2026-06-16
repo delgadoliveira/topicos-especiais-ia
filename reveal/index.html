@@ -91,37 +91,165 @@ echo "OPENAI_API_KEY=sk-..." > .env</code></pre>
           <p class="subtitle-animate">70 anos em 10 minutos</p>
         </section>
 
+        <!-- ERA 1: 1950-1970 -->
+        <section data-background-gradient="linear-gradient(135deg, #1a1a2e 0%, #1e293b 100%)">
+          <h2>🏛️ 1950–1970 — Os Pioneiros</h2>
+          <div class="grid-2 stagger-in" style="gap:1rem;">
+            <div class="card parallax-card">
+              <h3 style="color:var(--amber)">1950 · Teste de Turing</h3>
+              <p class="text-sm">Alan Turing publica <i>"Computing Machinery and Intelligence"</i> — propõe que se uma máquina conversa e não dá pra distinguir de um humano, ela "pensa". Até hoje é referência filosófica.</p>
+            </div>
+            <div class="card parallax-card">
+              <h3 style="color:var(--amber)">1956 · Conferência de Dartmouth</h3>
+              <p class="text-sm">John McCarthy cunha o termo <b>"Inteligência Artificial"</b>. 10 pesquisadores se reúnem por 2 meses com a ambição de resolver IA num verão. Spoiler: não conseguiram.</p>
+            </div>
+            <div class="card parallax-card">
+              <h3 style="color:var(--cyan)">1958 · Perceptron</h3>
+              <p class="text-sm">Frank Rosenblatt cria o primeiro neurônio artificial que aprende. A mídia declara: "a marinha criou um computador que pensa". Funcionava para classificações lineares simples.</p>
+            </div>
+            <div class="card parallax-card">
+              <h3 style="color:var(--cyan)">1966 · ELIZA</h3>
+              <p class="text-sm">Joseph Weizenbaum cria ELIZA no MIT — um chatbot que simulava um psicólogo usando pattern matching. Pessoas se abriram emocionalmente com ela, mesmo sabendo que era um programa. <b>Primeiro "chatbot" da história.</b></p>
+            </div>
+          </div>
+          <div class="insight-box fragment" style="margin-top:0.8rem;">
+            ❄️ <b>1969 — 1º Inverno da IA:</b> Minsky publica livro provando limitações do Perceptron → funding secou, pesquisa parou.
+          </div>
+        </section>
+
+        <!-- ERA 2: 1980-2000 -->
+        <section data-background-gradient="linear-gradient(135deg, #1a1a2e 0%, #312e81 100%)">
+          <h2>⚙️ 1980–2000 — Sistemas Especialistas e Redes Neurais</h2>
+          <div class="grid-2 stagger-in" style="gap:1rem;">
+            <div class="card parallax-card">
+              <h3 style="color:var(--purple)">1980s · Expert Systems</h3>
+              <p class="text-sm">Empresas gastam bilhões em sistemas baseados em regras IF-THEN escritas por humanos. <b>MYCIN</b> diagnosticava infecções, <b>XCON</b> configurava computadores. Funcionavam, mas eram frágeis e caros de manter.</p>
+            </div>
+            <div class="card parallax-card">
+              <h3 style="color:var(--purple)">1986 · Backpropagation</h3>
+              <p class="text-sm">Rumelhart, Hinton & Williams formalizam o algoritmo que permite treinar redes neurais profundas. <b>É a base de TUDO que veio depois</b> — até hoje o GPT é treinado com variantes de backprop.</p>
+            </div>
+            <div class="card parallax-card">
+              <h3 style="color:var(--green)">1997 · Deep Blue vence Kasparov</h3>
+              <p class="text-sm">IBM constrói um supercomputador que avalia 200 milhões de posições/segundo. Vence o campeão mundial de xadrez. Manchete mundial. Mas era "força bruta" — não aprendia, não generalizava.</p>
+            </div>
+            <div class="card parallax-card">
+              <h3 style="color:var(--green)">1990s · N-grams e ML clássico</h3>
+              <p class="text-sm">Estatística domina NLP: modelos prevêem a próxima palavra contando co-ocorrências. SVM, Random Forest, boosting resolvem problemas práticos. Mas <b>cada tarefa precisa de features manuais</b>.</p>
+            </div>
+          </div>
+          <div class="insight-box fragment" style="margin-top:0.8rem;">
+            ❄️ <b>2º Inverno (late 80s–90s):</b> Expert Systems falham em escalar → novo corte de funding. Redes neurais "morrem" até os anos 2000.
+          </div>
+        </section>
+
+        <!-- ERA 3: 2010-2019 -->
+        <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1d4ed8 100%)">
+          <h2>🔥 2010–2019 — Deep Learning Explode</h2>
+          <div class="grid-2 stagger-in" style="gap:1rem;">
+            <div class="card parallax-card">
+              <h3 style="color:var(--blue)">2012 · AlexNet / ImageNet</h3>
+              <p class="text-sm">Rede neural profunda (CNN) esmaga a competição de visão computacional por 10+ pontos percentuais. Marca o renascimento do deep learning. <b>GPUs + dados + profundidade = mágica.</b></p>
+            </div>
+            <div class="card parallax-card">
+              <h3 style="color:var(--blue)">2013 · Word2Vec</h3>
+              <p class="text-sm">Google descobre que palavras podem virar vetores numéricos com relações semânticas: <code>rei - homem + mulher = rainha</code>. Revoluciona NLP — de regras para representações aprendidas.</p>
+            </div>
+            <div class="card parallax-card">
+              <h3 style="color:var(--cyan)">2017 · Transformer — "Attention Is All You Need"</h3>
+              <p class="text-sm">Google publica a arquitetura que mudou tudo. Processa texto em paralelo (não sequencial como RNNs), escala melhor, e o mecanismo de <b>atenção</b> permite capturar dependências longas. <b>Base de GPT, BERT, Claude, Gemini — tudo.</b></p>
+            </div>
+            <div class="card parallax-card">
+              <h3 style="color:var(--cyan)">2018–2019 · GPT-1, BERT, GPT-2</h3>
+              <p class="text-sm">OpenAI e Google mostram que pré-treinar em texto massivo + fine-tuning funciona absurdamente bem. GPT-2 (1.5B params) gera texto tão bom que eles "têm medo" de publicar. <b>Scaling laws começam a se confirmar.</b></p>
+            </div>
+          </div>
+          <div class="insight-box fragment" style="margin-top:0.8rem;">
+            💡 <b>Lição:</b> Não houve "eureka" — a mesma ideia (redes neurais) + mais dados + mais compute + melhores arquiteturas = revolução.
+          </div>
+        </section>
+
+        <!-- ERA 4: 2020-2023 -->
+        <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #7c3aed 100%)">
+          <h2>🚀 2020–2023 — A Explosão Generativa</h2>
+          <div class="grid-2 stagger-in" style="gap:1rem;">
+            <div class="card parallax-card">
+              <h3 style="color:var(--purple)">2020 · GPT-3 (175B parâmetros)</h3>
+              <p class="text-sm">OpenAI escala 100x e descobre "emergent abilities" — o modelo sabe fazer coisas que ninguém ensinou explicitamente. Few-shot prompting funciona. <b>A API abre acesso a startups.</b></p>
+            </div>
+            <div class="card parallax-card">
+              <h3 style="color:var(--purple)">Nov/2022 · ChatGPT</h3>
+              <p class="text-sm">GPT-3.5 + RLHF + interface de chat = <b>1M usuários em 5 dias</b>. Não era um modelo novo — era a mesma IA agora <i>acessível</i>. O mundo descobre que pode conversar com IA. Tudo muda.</p>
+            </div>
+            <div class="card parallax-card">
+              <h3 style="color:var(--green)">2022 · ReAct + Chain-of-Thought</h3>
+              <p class="text-sm">Pesquisadores descobrem que LLMs raciocinam melhor se você pedir "pense passo a passo". ReAct combina <b>raciocínio + ação</b> em loop — nasce o padrão que define agentes modernos.</p>
+            </div>
+            <div class="card parallax-card">
+              <h3 style="color:var(--green)">Jun/2023 · Function Calling (OpenAI)</h3>
+              <p class="text-sm">OpenAI lança tool use nativo: o modelo retorna JSON estruturado dizendo qual função chamar e com quais parâmetros. <b>Agentes deixam de ser hack → viram produto de primeira classe.</b></p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ERA 5: 2024-2025 -->
+        <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #059669 100%)">
+          <h2>🌟 2024–2025 — A Era dos Agentes</h2>
+          <div class="grid-2 stagger-in" style="gap:1rem;">
+            <div class="card parallax-card">
+              <h3 style="color:var(--green)">2024 · Claude + MCP (Anthropic)</h3>
+              <p class="text-sm">Anthropic lança o <b>Model Context Protocol</b> — padrão aberto para agentes se conectarem a qualquer ferramenta (banco, APIs, arquivos). Agentes ganham um "USB universal". Microsoft, Google, OpenAI adotam.</p>
+            </div>
+            <div class="card parallax-card">
+              <h3 style="color:var(--green)">2024 · Cursor / Windsurf / Devin</h3>
+              <p class="text-sm">IDEs com agentes que escrevem código, rodam testes, fazem PRs. Devin (Cognition) é o primeiro "engenheiro de software AI" autônomo. <b>Programadores passam de escrever código para supervisionar agentes.</b></p>
+            </div>
+            <div class="card parallax-card">
+              <h3 style="color:var(--cyan)">2024 · Computer Use (Claude)</h3>
+              <p class="text-sm">Agentes que controlam mouse e teclado, navegam sites, preenchem formulários. Não precisam de API — usam interfaces como humanos. <b>Qualquer software vira "ferramenta" do agente.</b></p>
+            </div>
+            <div class="card parallax-card">
+              <h3 style="color:var(--cyan)">2025 · Multi-agentes em produção</h3>
+              <p class="text-sm">Empresas rodando times de agentes especializados: um pesquisa, outro analisa, outro escreve, outro revisa. <b>Orquestradores como CrewAI, AutoGen, LangGraph coordenam "equipes de IAs".</b></p>
+            </div>
+          </div>
+          <div class="insight-box fragment" style="margin-top:0.8rem;">
+            💡 De 1950 a 2020: modelos que <b>entendem</b>. De 2020 em diante: modelos que <b>AGEM</b>.
+          </div>
+        </section>
+
+        <!-- Timeline visual summary -->
         <section>
-          <h2>A linha do tempo</h2>
+          <h2>📊 A linha do tempo — visão geral</h2>
           <div class="timeline-track">
             <div class="timeline-era fragment" data-fragment-index="1">
               <div class="era-dot" style="--color: #6b7280"></div>
               <div class="era-label">1950–1970</div>
-              <div class="era-content">Perceptron<br>Turing Test<br>ELIZA<br>1º AI Winter</div>
+              <div class="era-content">Turing · Dartmouth<br>Perceptron · ELIZA<br><span style="color:var(--red)">1º Inverno</span></div>
             </div>
             <div class="timeline-era fragment" data-fragment-index="2">
               <div class="era-dot" style="--color: #6b7280"></div>
               <div class="era-label">1980–2000</div>
-              <div class="era-content">Expert Systems<br>Backprop<br>Deep Blue<br>N-grams</div>
+              <div class="era-content">Expert Systems<br>Backprop · Deep Blue<br><span style="color:var(--red)">2º Inverno</span></div>
             </div>
             <div class="timeline-era fragment" data-fragment-index="3">
               <div class="era-dot" style="--color: #3b82f6"></div>
               <div class="era-label">2010–2019</div>
-              <div class="era-content">Deep Learning<br>Word2Vec<br>Transformer<br>GPT-1 + BERT</div>
+              <div class="era-content">AlexNet · Word2Vec<br>Transformer<br>GPT-1 + BERT</div>
             </div>
             <div class="timeline-era fragment" data-fragment-index="4">
               <div class="era-dot" style="--color: #a855f7"></div>
               <div class="era-label">2020–2023</div>
-              <div class="era-content">GPT-3 (175B)<br>ChatGPT<br>ReAct + CoT<br>Function Calling</div>
+              <div class="era-content">GPT-3 · ChatGPT<br>ReAct + CoT<br>Function Calling</div>
             </div>
             <div class="timeline-era fragment" data-fragment-index="5">
               <div class="era-dot" style="--color: #22c55e"></div>
               <div class="era-label">2024–2025</div>
-              <div class="era-content">Claude + MCP<br>Cursor / Devin<br>Computer Use<br><b>Era dos Agentes</b></div>
+              <div class="era-content">MCP · Cursor · Devin<br>Computer Use<br><b>Era dos Agentes</b></div>
             </div>
           </div>
           <div class="insight-box fragment" data-fragment-index="6">
-            💡 De 1950 a 2020: modelos que <b>entendem</b>. De 2020 em diante: modelos que <b>AGEM</b>.
+            🔑 <b>Padrão:</b> cada "era" não invalida a anterior — empilha. Agentes = Transformer + Scaling + RLHF + Tool Use + Loop.
           </div>
         </section>
 
@@ -135,11 +263,11 @@ echo "OPENAI_API_KEY=sk-..." > .env</code></pre>
           <div class="explanation-box fragment">
             <h3>O que era, exatamente?</h3>
             <ul>
-              <li><b>GPT-3.5</b> — LLM de ~175B parâmetros (já existia como API)</li>
-              <li><b>RLHF</b> — humanos classificaram respostas boas vs ruins</li>
-              <li><b>Interface de chat</b> — qualquer pessoa podia conversar com a IA</li>
+              <li><b>GPT-3.5</b> — LLM de ~175B parâmetros (já existia como API desde 2020)</li>
+              <li><b>RLHF</b> — humanos avaliaram 100k+ respostas para ensinar "o que é útil"</li>
+              <li><b>Interface de chat</b> — qualquer pessoa podia conversar com a IA, sem saber programar</li>
             </ul>
-            <div class="highlight-text">A revolução foi de <u>acesso</u>, não de modelo.</div>
+            <div class="highlight-text">A revolução foi de <u>acesso</u>, não de modelo. A tecnologia já existia — faltava a UX.</div>
           </div>
         </section>
       </section>

@@ -139,6 +139,181 @@
 .card-purple { border-color: rgba(167, 139, 250, 0.3); }
 .card-green { border-color: rgba(74, 222, 128, 0.3); }
 .card-amber { border-color: rgba(251, 191, 36, 0.3); }
+.card-red { border-color: rgba(248, 113, 113, 0.3); }
+
+/* ═══════════════════════════════════════════════════════
+   EXPANDABLE CARDS — Universal click-to-expand system
+   Any .card with .expandable class gets click-to-expand behavior.
+   ═══════════════════════════════════════════════════════ */
+.card.expandable {
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.card.expandable::after {
+  content: '▾ clique para detalhes';
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.55rem;
+  color: var(--text-muted);
+  opacity: 0.6;
+  transition: all 0.3s ease;
+}
+
+.card.expandable.expanded::after {
+  content: '▴ recolher';
+  color: var(--cyan);
+}
+
+.card.expandable:hover::after {
+  opacity: 1;
+  color: var(--cyan);
+}
+
+.card-detail {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.3s ease 0.1s,
+              margin-top 0.3s ease;
+  margin-top: 0;
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+  border-top: 1px solid transparent;
+}
+
+.card.expandable.expanded .card-detail {
+  max-height: 800px;
+  opacity: 1;
+  margin-top: 0.8rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.card-detail ul {
+  padding-left: 1.2rem;
+  margin: 0.4rem 0;
+}
+
+.card-detail li {
+  margin-bottom: 0.3rem;
+  font-size: 0.92em;
+}
+
+.card-detail p {
+  margin: 0.35rem 0;
+}
+
+.card-detail .detail-analogy {
+  background: rgba(34, 211, 238, 0.06);
+  border-left: 3px solid var(--cyan);
+  padding: 0.5rem 0.8rem;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  margin-top: 0.5rem;
+  font-style: italic;
+}
+
+.card-detail .detail-example {
+  background: rgba(74, 222, 128, 0.06);
+  border-left: 3px solid var(--green);
+  padding: 0.5rem 0.8rem;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  margin-top: 0.5rem;
+}
+
+.card-detail .detail-warning {
+  background: rgba(251, 191, 36, 0.06);
+  border-left: 3px solid var(--amber);
+  padding: 0.5rem 0.8rem;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  margin-top: 0.5rem;
+}
+
+.card-detail code {
+  background: rgba(255, 255, 255, 0.08);
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+  font-size: 0.88em;
+}
+
+/* Vocab-specific cards (legacy support from encontro-1 vocab slide) */
+.vocab-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.8rem;
+  max-height: 75vh;
+  overflow-y: auto;
+}
+
+.vocab-card {
+  cursor: pointer;
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.vocab-card .vocab-front {
+  padding: 0.6rem 1rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-card);
+  transition: all 0.2s;
+}
+
+.vocab-card .vocab-hint {
+  font-size: 0.7em;
+  color: var(--text-muted);
+  margin-left: 0.3rem;
+}
+
+.vocab-card .vocab-detail {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  padding: 0 1rem;
+  font-size: 0.65rem;
+  line-height: 1.5;
+  color: var(--text-secondary);
+  transition: max-height 0.5s cubic-bezier(0.16, 1, 0.3, 1), 
+              opacity 0.3s ease 0.1s, 
+              padding 0.3s ease;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid transparent;
+  border-top: none;
+  border-radius: 0 0 var(--radius) var(--radius);
+}
+
+.vocab-card.expanded .vocab-detail {
+  max-height: 600px;
+  opacity: 1;
+  padding: 0.8rem 1rem;
+  border-color: var(--border-subtle);
+}
+
+.vocab-card.expanded .vocab-front {
+  border-radius: var(--radius) var(--radius) 0 0;
+  background: var(--bg-card-hover);
+}
+
+.vocab-card .vocab-detail ul {
+  padding-left: 1.2rem;
+  margin: 0.3rem 0;
+}
+
+.vocab-card .vocab-detail li { margin-bottom: 0.2rem; }
+.vocab-card .vocab-detail p { margin: 0.3rem 0; }
+
+.vocab-analogy {
+  background: rgba(34, 211, 238, 0.06);
+  border-left: 3px solid var(--cyan);
+  padding: 0.4rem 0.7rem;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  margin-top: 0.4rem;
+}
 
 /* ─── Terminal ─── */
 .terminal {

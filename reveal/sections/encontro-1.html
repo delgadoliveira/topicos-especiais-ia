@@ -76,33 +76,111 @@ Esse é o problema que vamos resolver hoje: transformar um LLM que <b>conversa</
 
 <section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
 <h1>🧭 Antes de começar — vocabulário essencial</h1>
-<p>Você vai ouvir 5 palavras o tempo todo. Vamos defini-las em <strong>uma frase cada</strong>:</p>
-<div  class="stagger-in text-sm">
+<p>Clique em cada card para ver detalhes 👇</p>
+<div class="vocab-grid">
 
-<div  class="card card-purple parallax-card scale-in">
-<b>🤖 IA (Inteligência Artificial)</b> — software que faz coisas que normalmente exigiriam pessoas: entender texto, ver imagens, conversar, decidir.
+<div class="vocab-card">
+  <div class="vocab-front card-purple">
+    <b>🤖 IA (Inteligência Artificial)</b>
+    <span class="vocab-hint">— software que faz coisas que normalmente exigiriam pessoas</span>
+  </div>
+  <div class="vocab-detail">
+    <p><b>Definição formal:</b> Campo da ciência da computação dedicado a criar sistemas que realizam tarefas que requerem inteligência humana.</p>
+    <p><b>Na prática hoje:</b> IA não é uma coisa só — é um guarda-chuva. Inclui desde o filtro de spam do seu email (ML clássico dos anos 2000) até o ChatGPT (LLM generativo de 2022).</p>
+    <p><b>Tipos que você vai encontrar:</b></p>
+    <ul>
+      <li><b>IA Narrow/Fraca</b> — resolve UMA tarefa (ex: detectar fraude)</li>
+      <li><b>IA Generativa</b> — cria conteúdo novo (texto, imagem, código)</li>
+      <li><b>AGI (General)</b> — resolve QUALQUER tarefa como humano (ainda não existe)</li>
+    </ul>
+    <p class="vocab-analogy">🎯 <b>Analogia:</b> "IA" é como "veículo" — pode ser bicicleta, carro, ou foguete. Quando alguém fala "IA", pergunte: <i>que tipo?</i></p>
+  </div>
 </div>
 
-<div  class="card card-cyan parallax-card scale-in">
-<b>🧠 LLM (Large Language Model)</b> — o "cérebro" do ChatGPT/Claude/Gemini. Treinado em bilhões de páginas para <b>prever a próxima palavra</b> — e isso surpreendentemente o torna capaz de raciocinar.
+<div class="vocab-card">
+  <div class="vocab-front card-cyan">
+    <b>🧠 LLM (Large Language Model)</b>
+    <span class="vocab-hint">— o "cérebro" por trás do ChatGPT, Claude, Gemini</span>
+  </div>
+  <div class="vocab-detail">
+    <p><b>O que é:</b> Uma rede neural com bilhões de parâmetros, treinada em trilhões de palavras da internet, livros e código. Seu único objetivo durante o treino: <b>prever a próxima palavra</b>.</p>
+    <p><b>Por que funciona:</b> Para prever bem a próxima palavra, o modelo precisa "entender" gramática, lógica, fatos, humor, código — tudo. É como um estudante que, de tanto ler, desenvolve raciocínio.</p>
+    <p><b>Escala importa:</b></p>
+    <ul>
+      <li>GPT-2 (2019): 1.5 bilhão de parâmetros → texto OK</li>
+      <li>GPT-3 (2020): 175 bilhões → emergent abilities aparecem</li>
+      <li>GPT-4 (2023): ~1 trilhão (estimado) → raciocínio avançado</li>
+    </ul>
+    <p class="vocab-analogy">🎯 <b>Analogia:</b> Um LLM é como alguém que leu TODOS os livros da biblioteca — sabe muito, mas não pode sair da biblioteca pra verificar nada. <b>Agentes</b> dão "pernas" a esse cérebro.</p>
+  </div>
 </div>
 
-<div  class="card card-green parallax-card scale-in">
-<b>💬 Prompt</b> — o texto que você manda para o LLM. <i>"Resume esse artigo em 3 linhas"</i> é um prompt. Melhor input → melhor output.
+<div class="vocab-card">
+  <div class="vocab-front card-green">
+    <b>💬 Prompt</b>
+    <span class="vocab-hint">— o texto/instrução que você envia para o LLM</span>
+  </div>
+  <div class="vocab-detail">
+    <p><b>Simples assim:</b> O prompt é a sua mensagem. Pode ser uma pergunta, um comando, ou um contexto inteiro com exemplos.</p>
+    <p><b>Por que importa tanto:</b> O mesmo modelo dá respostas radicalmente diferentes dependendo de COMO você pergunta. Prompt engineering é a arte de comunicar bem com IAs.</p>
+    <p><b>Tipos de prompt:</b></p>
+    <ul>
+      <li><b>Zero-shot:</b> "Traduza: Hello → " (sem exemplos)</li>
+      <li><b>Few-shot:</b> "Hello→Olá, Good→Bom, World→" (com exemplos)</li>
+      <li><b>System prompt:</b> Define a personalidade/regras do assistente</li>
+      <li><b>Chain-of-Thought:</b> "Pense passo a passo antes de responder"</li>
+    </ul>
+    <p class="vocab-analogy">🎯 <b>Analogia:</b> O prompt é como o briefing que você dá a um estagiário brilhante mas literal. Quanto mais claro e específico, melhor o resultado.</p>
+  </div>
 </div>
 
-<div  class="card card-amber parallax-card scale-in">
-<b>🔌 API</b> — uma "tomada" pela qual seu programa fala com outro serviço pela internet. <b>API da OpenAI</b> = jeito de chamar o ChatGPT a partir do seu código, sem abrir o site.
+<div class="vocab-card">
+  <div class="vocab-front card-amber">
+    <b>🔌 API (Application Programming Interface)</b>
+    <span class="vocab-hint">— a "tomada" para conectar seu código a serviços externos</span>
+  </div>
+  <div class="vocab-detail">
+    <p><b>Em termos simples:</b> API é um contrato: "me mande X neste formato, e eu te devolvo Y". É como um cardápio de restaurante — você pede, a cozinha entrega.</p>
+    <p><b>No contexto de IA:</b> Em vez de abrir o site do ChatGPT e digitar, seu código Python manda uma requisição HTTP para a API da OpenAI e recebe a resposta em JSON.</p>
+    <p><b>Por que agentes precisam de APIs:</b></p>
+    <ul>
+      <li>Chamar o LLM programaticamente (OpenAI, Anthropic, Google)</li>
+      <li>Acessar ferramentas (clima, busca, banco de dados, email)</li>
+      <li>Conectar sistemas entre si sem intervenção humana</li>
+    </ul>
+    <p><b>Custo:</b> APIs de LLM cobram por token (~$0.01–$0.06 por 1K tokens de saída). Um agente pode fazer 5–50 chamadas por tarefa.</p>
+    <p class="vocab-analogy">🎯 <b>Analogia:</b> Se o LLM é o cérebro e as ferramentas são as mãos, a API é o sistema nervoso que conecta tudo.</p>
+  </div>
 </div>
 
-<div  class="card card-purple parallax-card scale-in">
-<b>🦾 Agente</b> — um LLM com <b>permissão para agir</b>: buscar na web, escrever em uma planilha, mandar email, executar código… Em vez de só conversar, ele <i>faz coisas</i>.
+<div class="vocab-card">
+  <div class="vocab-front card-purple">
+    <b>🦾 Agente de IA</b>
+    <span class="vocab-hint">— um LLM com permissão e capacidade de AGIR no mundo</span>
+  </div>
+  <div class="vocab-detail">
+    <p><b>A diferença crucial:</b> Um chatbot CONVERSA. Um agente EXECUTA. O agente decide sozinho o que fazer, faz, observa o resultado, e decide o próximo passo.</p>
+    <p><b>Componentes de um agente:</b></p>
+    <ul>
+      <li><b>LLM (cérebro)</b> — raciocina e decide</li>
+      <li><b>Ferramentas</b> — busca web, calculadora, APIs, banco de dados</li>
+      <li><b>Loop</b> — pensa → age → observa → repete até resolver</li>
+      <li><b>Memória</b> — lembra do contexto e de interações passadas</li>
+    </ul>
+    <p><b>Exemplos reais agora:</b></p>
+    <ul>
+      <li><b>Cursor/Copilot:</b> lê seu código, edita, roda testes, corrige erros</li>
+      <li><b>Perplexity:</b> busca na web, lê sites, sintetiza resposta com fontes</li>
+      <li><b>Customer service bots:</b> consulta pedido, processa reembolso, atualiza sistema</li>
+    </ul>
+    <p class="vocab-analogy">🎯 <b>Analogia:</b> ChatGPT = Google Maps que te mostra o caminho. Agente = motorista do Uber que te LEVA até lá.</p>
+  </div>
 </div>
 
 </div>
 
-<div  class="mt-3 text-xs opacity-70 text-center" style="opacity:0.7;">
-Vamos abrir cada um desses termos com calma. Por enquanto, basta o reconhecimento.
+<div class="mt-2 text-xs text-center" style="opacity:0.7;">
+👆 Clique nos cards para expandir. Esses 5 conceitos são o alicerce de TUDO que vem a seguir.
 </div>
 </section>
 
@@ -122,15 +200,62 @@ Vamos abrir cada um desses termos com calma. Por enquanto, basta o reconheciment
 </section>
 
 <section class="text-center" data-background-gradient="linear-gradient(135deg, #111827 0%, #1f2937 100%)">
-<div class="text-center"><h1 class="typewriter-js" data-text="🧵 Percebeu o padrão?">🧵 Percebeu o padrão?</h1>
-<div  style="font-size:0.95em; opacity:0.9;">
-Todos esses produtos fazem <b>a mesma coisa</b>:
-<div class="flow-diagram mt-2"><div class="flow-node node-purple">LLM pensa</div><div class="flow-arrow">→</div><div class="flow-node node-cyan">ferramenta executa</div><div class="flow-arrow">→</div><div class="flow-node node-green">resultado volta</div><div class="flow-arrow">→</div><div class="flow-node node-purple">LLM pensa de novo</div></div>
+<h1>🧵 Percebeu o padrão?</h1>
+<p style="font-size:0.85em; opacity:0.9;">Todos esses produtos fazem <b>a mesma coisa</b> por baixo do capô:</p>
+<div class="flow-diagram" style="margin:0.8rem 0;"><div class="flow-node node-purple">LLM pensa</div><div class="flow-arrow">→</div><div class="flow-node node-cyan">ferramenta executa</div><div class="flow-arrow">→</div><div class="flow-node node-green">resultado volta</div><div class="flow-arrow">→</div><div class="flow-node node-purple">LLM pensa de novo</div></div>
+
+<div class="grid-2 stagger-in text-xs" style="gap:0.6rem; margin-top:0.8rem; text-align:left;">
+
+<div class="card expandable parallax-card">
+<b>📱 Siri: "Que tempo faz amanhã em SP?"</b>
+<div class="card-detail">
+<p>① <b>LLM pensa:</b> "Preciso da previsão → vou usar a API de clima"</p>
+<p>② <b>Ferramenta:</b> chama WeatherKit com lat/long de São Paulo</p>
+<p>③ <b>Resultado:</b> JSON → {temp: 24°C, chuva: 60%}</p>
+<p>④ <b>LLM de novo:</b> "Amanhã faz 24° em SP com 60% de chance de chuva. Leve um guarda-chuva!"</p>
+<div class="detail-analogy">O loop aconteceu em ~1 segundo, invisível pra você.</div>
+</div>
 </div>
 
-<div  class="text-sm opacity-70" style="opacity:0.7;">
-Nas próximas seções, vamos <b>abrir o capô</b> e ver cada peça.
-</div></div>
+<div class="card expandable parallax-card">
+<b>💻 Copilot no Excel: "Crie um gráfico de vendas por mês"</b>
+<div class="card-detail">
+<p>① <b>LLM pensa:</b> "Preciso identificar a coluna de vendas e a de datas"</p>
+<p>② <b>Ferramenta:</b> lê as células da planilha, identifica colunas B (mês) e D (vendas)</p>
+<p>③ <b>Resultado:</b> tabela com 12 linhas de dados estruturados</p>
+<p>④ <b>LLM de novo:</b> gera o comando de chart e insere um gráfico de barras formatado</p>
+<div class="detail-analogy">O "ferramenta" aqui é acesso direto à planilha — o agente lê E escreve nela.</div>
+</div>
+</div>
+
+<div class="card expandable parallax-card">
+<b>🛒 Nubank: "Quero contestar essa cobrança"</b>
+<div class="card-detail">
+<p>① <b>LLM pensa:</b> "Preciso identificar a transação e verificar política de contestação"</p>
+<p>② <b>Ferramenta:</b> consulta API interna → transação #4892, R$149.90, loja X, 3 dias atrás</p>
+<p>③ <b>Resultado:</b> transação válida, dentro do prazo de contestação, sem fraude detectada</p>
+<p>④ <b>LLM de novo:</b> "Encontrei a cobrança de R$149.90 na loja X. Quer que eu abra uma contestação formal? O prazo é de 7 dias úteis."</p>
+<div class="detail-analogy">Múltiplas ferramentas: banco de dados, motor de regras, sistema de tickets — tudo orquestrado pelo LLM.</div>
+</div>
+</div>
+
+<div class="card expandable parallax-card">
+<b>👨‍💻 Cursor: "Adicione validação nesse form"</b>
+<div class="card-detail">
+<p>① <b>LLM pensa:</b> "Preciso ler o código do form, entender os campos, decidir validações"</p>
+<p>② <b>Ferramenta:</b> lê <code>form.tsx</code>, identifica 4 campos (email, nome, tel, CEP)</p>
+<p>③ <b>Resultado:</b> entende os tipos e regras de negócio do contexto</p>
+<p>④ <b>LLM de novo:</b> escreve código de validação com regex pra email, máscara pra tel, consulta CEP via API dos Correios</p>
+<p>⑤ <b>Loop extra:</b> roda <code>npm test</code> → 1 teste falha → lê o erro → corrige → testes passam ✅</p>
+<div class="detail-analogy">Agentes de código fazem VÁRIOS loops — escrevem, testam, corrigem, até funcionar.</div>
+</div>
+</div>
+
+</div>
+
+<div class="mt-2 text-xs" style="opacity:0.8;">
+👆 Clique em cada exemplo para ver o loop completo. <b>O padrão é sempre o mesmo — só mudam as ferramentas.</b>
+</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
@@ -142,10 +267,27 @@ Nas próximas seções, vamos <b>abrir o capô</b> e ver cada peça.
 
 <div  class="grid-2 stagger-in text-sm">
 
-<div  class="card parallax-card scale-in" style="background:rgba(248,113,113,0.08);border-color:rgba(248,113,113,0.28);">
+<div  class="card expandable parallax-card scale-in" style="background:rgba(248,113,113,0.08);border-color:rgba(248,113,113,0.28);">
 <b>🚫 LLM puro (sem ser agente)</b><br>
-"Não tenho informações sobre eventos posteriores a janeiro de 2024..."<br><br>
-<i>Ou pior: inventa uma resposta plausível mas errada.</i>
+"Não tenho informações sobre eventos posteriores a janeiro de 2024..."<br>
+<i>Ou pior: inventa uma resposta plausível mas errada (alucinação).</i>
+<div class="card-detail">
+<p><b>Por que ele não sabe?</b> O LLM é um arquivo estático — uma "foto" do conhecimento do mundo no momento em que foi treinado. Depois do treino, ele nunca mais aprende nada novo.</p>
+<p><b>O processo:</b></p>
+<ul>
+<li><b>Treino</b> (meses, milhões de $): lê bilhões de textos até uma data de corte (ex: jan/2024)</li>
+<li><b>Deploy:</b> o modelo "congela" — os pesos nunca mais mudam</li>
+<li><b>Inferência:</b> quando você pergunta algo, ele combina estatisticamente o que já sabe</li>
+</ul>
+<p><b>Consequências práticas:</b></p>
+<ul>
+<li>❌ Não sabe o resultado do Brasileirão 2024 (aconteceu depois do corte)</li>
+<li>❌ Não sabe o preço do dólar HOJE (muda a cada segundo)</li>
+<li>❌ Não pode verificar se uma informação ainda é verdade</li>
+</ul>
+<p><b>E a "alucinação"?</b> Quando não sabe, o LLM não diz "não sei" — ele gera texto que <i>parece</i> correto porque é estatisticamente plausível. Ex: pode dizer "Palmeiras foi campeão" com confiança total, simplesmente porque Palmeiras é frequente em contextos de título.</p>
+<div class="detail-warning">⚠️ <b>Regra de ouro:</b> LLM sem ferramentas = enciclopédia desatualizada que nunca admite ignorância. Por isso precisamos de agentes.</div>
+</div>
 </div>
 
 <div  class="card card-green parallax-card scale-in">
