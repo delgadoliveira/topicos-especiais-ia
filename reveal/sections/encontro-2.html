@@ -398,13 +398,19 @@ R:"""</code></pre>
 <div class="card mt-3 text-xs card-amber parallax-card fragment">⚠️ <b>Trade-offs:</b> 5–10× mais caro e 10–100× mais lento. Use para matemática, prova de teoremas, código complexo e planning multi-step — não para chat casual.</div>
 </section>
 
+<!-- ═══════════════════════════════════════════════════════════════
+     BLOCO A: REASONING AVANÇADO — do pensamento básico ao sofisticado
+     ═══════════════════════════════════════════════════════════════ -->
+
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #0f766e 100%)">
-<h1>Reasoning models — como mudam o design do agente</h1>
-<div class="flow-diagram"><div class="flow-node node-purple">LLM rápido</div><div class="flow-arrow">→</div><div class="flow-node node-cyan">Tool</div><div class="flow-arrow">→</div><div class="flow-node node-green">Resposta</div><div class="flow-arrow">→</div><div class="flow-node node-amber">💭 Reasoning model<br>pensa 30s<br>planeja tudo</div></div>
-<div class="text-sm" style="margin-top: 1.5rem;">
-<b>Padrão emergente:</b> use o1/R1 como <b>planner</b> (1 chamada cara, pensa muito), depois delegue execução para modelos rápidos/baratos (Haiku, GPT-4o-mini).<br>
-<p class="slide-in-left">→ Custo total <b>menor</b> e acurácia <b>maior</b>.</p>
+<h1>🧠 Reasoning Avançado — além do CoT</h1>
+<p class="slide-in-left" style="opacity:0.8; margin-bottom:1rem;">Até aqui: CoT, Self-Consistency e ToT ensinam o agente a <b>pensar melhor</b>.<br>Agora: 3 técnicas que levam o raciocínio ao próximo nível.</p>
+<div class="grid-3 stagger-in text-sm" style="gap:0.7rem;">
+<div class="card card-purple parallax-card fragment"><b>🪞 Self-Reflection</b><br><span class="text-xs">O agente critica seu próprio output e corrige antes de entregar.</span></div>
+<div class="card card-cyan parallax-card fragment"><b>💭 Reasoning Models</b><br><span class="text-xs">Modelos que "pensam" internamente antes de responder (o1, R1).</span></div>
+<div class="card card-green parallax-card fragment"><b>📐 Structured Outputs</b><br><span class="text-xs">Garantir que a resposta saia num formato que código consiga usar.</span></div>
 </div>
+<div class="tip-box mt-2 text-xs">🎯 <b>O fio condutor:</b> cada técnica resolve uma falha real — respostas erradas na primeira tentativa, raciocínio raso, ou outputs que quebram parsers.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
@@ -488,661 +494,594 @@ print(ticket.prioridade, ticket.requer_resposta_imediata)  # 5 True</code></pre>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)">
-<h1>🏗️ Os 5 padrões agentic da Anthropic</h1>
-<div class="text-sm" style="opacity: 0.6; margin-top: 1.5rem;">A referência da indústria · <i>"Building Effective Agents"</i> (Anthropic, 2024)</div>
-<div class="text-sm" style="margin-top: 2rem; opacity: 0.8;">
-<p class="slide-in-left">Até agora vimos como o LLM <b>pensa</b>. Agora vamos ver como <b>organizar a execução</b> — os padrões que as melhores equipes usam.</p>
+<h1>🏗️ Pensamos bem — agora, como organizar a execução?</h1>
+<p class="slide-in-left" style="opacity:0.8; margin-bottom:1rem;">Até aqui, o foco foi <b>qualidade do raciocínio</b>. O próximo passo é decidir <b>como o trabalho circula</b> entre prompts, tools e verificadores.</p>
+<div class="grid-3 stagger-in text-sm" style="gap:0.7rem;">
+<div class="card card-purple parallax-card fragment"><b>Pergunta nova</b><br><span class="text-xs">Quem faz o quê? Em que ordem? Em paralelo ou não?</span></div>
+<div class="card card-cyan parallax-card fragment"><b>Ponto central</b><br><span class="text-xs">A maior parte dos agentes úteis é só boa <b>orquestração</b>.</span></div>
+<div class="card card-green parallax-card fragment"><b>Mapa da seção</b><br><span class="text-xs">5 padrões → árvore de decisão → planning.</span></div>
 </div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)">
-<h1>Os 5 padrões — visão geral</h1>
-<div class="stagger-in text-sm" style="grid-template-columns: 1fr; gap: 0.8rem; margin-top: 1.5rem;">
-<div class="card card-purple parallax-card fragment">
-<b>1. ⛓️ Prompt Chaining</b> — passos fixos, output de um vira input do próximo. Simples e previsível.
-</div>
-<div class="card card-purple parallax-card fragment">
-<b>2. 🔀 Routing</b> — um classificador decide qual prompt/modelo especializado usar.
-</div>
-<div class="card card-purple parallax-card fragment">
-<b>3. ⚡ Parallelization</b> — tarefas independentes rodam em paralelo, depois agrega.
-</div>
-<div class="card card-purple parallax-card fragment">
-<b>4. 🧑‍💼 Orchestrator-Workers</b> — orquestrador dinâmico decompõe e delega para workers.
-</div>
-<div class="card card-purple parallax-card fragment">
-<b>5. 🪞 Evaluator-Optimizer</b> — gerador propõe, avaliador critica, em loop.
-</div>
-<div class="card mt-3 text-sm card-cyan parallax-card fragment">
-<p class="slide-in-left">🎯 <b>Lição central:</b> a maioria dos "agentes" de sucesso são <b>combinações</b> desses 5 padrões — não loops autônomos puros.</p>
-</div>
-</div>
+<div class="tip-box mt-2 text-xs">Ideia-chave: antes de “autonomia”, vem <b>arquitetura de execução</b>.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e293b 100%)">
-<h1>Padrão 1 · Prompt Chaining</h1>
-<div class="flow-diagram"><div class="flow-node node-purple">Input</div><div class="flow-arrow">→</div><div class="flow-node node-purple">LLM 1<br>extrai dados</div><div class="flow-arrow">→</div><div class="flow-node node-purple">validação<br>opcional</div><div class="flow-arrow">→</div><div class="flow-node node-purple">LLM 2<br>transforma</div><div class="flow-arrow">→</div><div class="flow-node node-purple">LLM 3<br>formata</div><div class="flow-arrow">→</div><div class="flow-node node-green">Output</div></div>
-<div class="text-sm" style="margin-top: 1.5rem;">
-<b>Quando usar:</b> tarefas com decomposição natural e <b>passos fixos</b>.<br>
-<b>Exemplo:</b> "extrair dados → traduzir → resumir em bullet points"<br>
-<b>Trade-off:</b> mais latência (sequencial), mas qualidade muito maior que 1 prompt monolítico.
+<h1>Os 5 padrões agentic — visão geral</h1>
+<div class="grid-2 stagger-in text-sm" style="gap:0.7rem;">
+<div class="card card-purple parallax-card fragment"><b>1. ⛓️ Prompt Chaining</b><br><span class="text-xs">Passos fixos e sequenciais.</span></div>
+<div class="card card-cyan parallax-card fragment"><b>2. 🔀 Routing</b><br><span class="text-xs">Escolhe a rota certa para cada tipo de entrada.</span></div>
+<div class="card card-green parallax-card fragment"><b>3. ⚡ Parallelization</b><br><span class="text-xs">Explora independência para ganhar tempo ou robustez.</span></div>
+<div class="card card-amber parallax-card fragment"><b>4. 🧑‍💼 Orchestrator-Workers</b><br><span class="text-xs">Decompõe dinamicamente e delega.</span></div>
+<div class="card card-red parallax-card fragment"><b>5. 🪞 Evaluator-Optimizer</b><br><span class="text-xs">Gera, critica e melhora em loop.</span></div>
+<div class="card card-cyan parallax-card fragment"><b>Regra prática</b><br><span class="text-xs">Quase todo agente real combina <b>2 ou 3</b> desses padrões.</span></div>
 </div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #1f2937 100%)">
+<h1>Padrão 1 · Prompt Chaining</h1>
+<div class="flow-diagram"><div class="flow-node node-purple">Entrada</div><div class="flow-arrow">→</div><div class="flow-node node-purple">Extrair</div><div class="flow-arrow">→</div><div class="flow-node node-cyan">Transformar</div><div class="flow-arrow">→</div><div class="flow-node node-green">Formatar</div></div>
+<div class="grid-3 mt-2 stagger-in text-xs" style="gap:0.55rem;">
+<div class="card card-purple parallax-card fragment"><b>Quando usar</b><br>Passos conhecidos e estáveis.</div>
+<div class="card card-cyan parallax-card fragment"><b>Exemplo</b><br>Extrair campos → traduzir → resumir.</div>
+<div class="card card-amber parallax-card fragment"><b>Trade-off</b><br>Mais latência, menos improviso.</div>
+</div>
+<div class="insight-box mt-2 text-xs">É o padrão certo quando o problema já tem “receita”.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #064e3b 100%)">
 <h1>Padrão 2 · Routing</h1>
-<div class="flow-diagram"><div class="flow-node node-purple">Input</div><div class="flow-arrow">→</div><div class="flow-node node-cyan">🔀 Classificador<br>LLM pequeno/barato</div><div class="flow-arrow">→</div><div class="flow-node node-cyan">Modelo rápido<br>Haiku/4o-mini</div><div class="flow-arrow">→</div><div class="flow-node node-purple">Modelo grande<br>Sonnet/4o</div><div class="flow-arrow">→</div><div class="flow-node node-purple">Reasoning model<br>o1/R1</div></div>
-<div class="text-sm" style="margin-top: 1.5rem;">
-<b>Quando usar:</b> diferentes tipos de input merecem diferentes tratamentos.<br>
-<b>Vantagem prática:</b> economia gigante. 80% das queries vão pro modelo barato.
+<div class="flow-diagram"><div class="flow-node node-purple">Entrada</div><div class="flow-arrow">→</div><div class="flow-node node-cyan">Classificador</div><div class="flow-arrow">→</div><div class="flow-node node-cyan">Rota barata</div><div class="flow-arrow">→</div><div class="flow-node node-purple">Rota especializada</div><div class="flow-arrow">→</div><div class="flow-node node-green">Resposta</div></div>
+<div class="grid-2 mt-2 stagger-in text-xs" style="gap:0.7rem;">
+<div class="card card-green parallax-card fragment"><b>Use quando</b><br>Entradas diferentes merecem prompts, modelos ou tools diferentes.</div>
+<div class="card card-amber parallax-card fragment"><b>Exemplo</b><br>E-mail curto vai para modelo barato; contrato jurídico vai para modelo maior.</div>
 </div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
-<h1>Padrão 3 · Parallelization</h1>
-<div class="compare-cols mt-3 text-xs" style="gap: 0.8rem;">
-<div class="card card-purple parallax-card fragment"><b>3a. Sectioning</b><br>Divide a tarefa em partes independentes.<br><span style="opacity: 0.8;">Ex: classificar e-mail + checar tom + extrair entidades.</span></div>
-<div class="card card-cyan parallax-card fragment"><b>3b. Voting</b><br>Gera várias respostas e escolhe por voto.<br><span style="opacity: 0.8;">Ex: 3 code reviews; só commita se 2/3 aprovam.</span></div>
-</div>
-<div class="card mt-3 text-xs card-amber parallax-card fragment"><b>Quando usar:</b> subtarefas que não dependem umas das outras. Ganho principal: <b>latência menor</b>; trade-off: precisa agregar os resultados no final.</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #111827 0%, #0f766e 100%)">
-<h1>Padrão 3 · Parallelization — sectioning</h1>
-<div class="text-xs" style="margin-bottom: 0.75rem;">Mesma tarefa, partes independentes, merge no final.</div>
-<div class="flow-diagram"><div class="flow-node node-purple">Tarefa</div><div class="flow-arrow">→</div><div class="flow-node node-purple">Parte A</div><div class="flow-arrow">→</div><div class="flow-node node-purple">Parte B</div><div class="flow-arrow">→</div><div class="flow-node node-purple">Parte C</div><div class="flow-arrow">→</div><div class="flow-node node-green">Merge</div></div>
+<div class="tip-box mt-2 text-xs">Routing não é só performance: é também <b>especialização</b>.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
-<h1>Padrão 3 · Parallelization — voting</h1>
-<div class="text-xs" style="margin-bottom: 0.75rem;">Mesma pergunta, várias respostas, decisão por maioria.</div>
-<div class="flow-diagram"><div class="flow-node node-purple">Pergunta</div><div class="flow-arrow">→</div><div class="flow-node node-purple">LLM run 1</div><div class="flow-arrow">→</div><div class="flow-node node-purple">LLM run 2</div><div class="flow-arrow">→</div><div class="flow-node node-purple">LLM run 3</div><div class="flow-arrow">→</div><div class="flow-node node-amber">🗳️ Voto</div></div>
+<h1>Padrão 3 · Parallelization</h1>
+<div class="grid-2 stagger-in text-xs" style="gap:0.7rem;">
+<div class="card card-purple parallax-card fragment"><b>Sectioning</b><br>Uma tarefa vira subtarefas independentes.<div class="mt-1 opacity-80">Ex.: classificar tom, extrair entidades e detectar urgência no mesmo e-mail.</div></div>
+<div class="card card-cyan parallax-card fragment"><b>Voting</b><br>Várias tentativas para a mesma pergunta.<div class="mt-1 opacity-80">Ex.: 3 soluções de código; fica a que passa mais testes.</div></div>
+</div>
+<div class="flow-diagram mt-2"><div class="flow-node node-purple">Tarefa</div><div class="flow-arrow">→</div><div class="flow-node node-cyan">A / B / C em paralelo</div><div class="flow-arrow">→</div><div class="flow-node node-amber">Agregador</div><div class="flow-arrow">→</div><div class="flow-node node-green">Saída</div></div>
+<div class="card mt-2 text-xs card-amber parallax-card fragment"><b>Quando vale:</b> quando os ramos não dependem entre si. O ganho vem de <b>latência</b>, <b>cobertura</b> ou ambos.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
 <h1>Padrão 4 · Orchestrator-Workers</h1>
-<div class="flow-diagram"><div class="flow-node node-purple">Tarefa complexa</div><div class="flow-arrow">→</div><div class="flow-node node-purple">🧠 Orchestrator<br>decide passos<br>dinamicamente</div><div class="flow-arrow">→</div><div class="flow-node node-cyan">Worker 1</div><div class="flow-arrow">→</div><div class="flow-node node-cyan">Worker 2</div><div class="flow-arrow">→</div><div class="flow-node node-cyan">Worker N</div><div class="flow-arrow">→</div><div class="flow-node node-purple">🧬 Synthesizer</div><div class="flow-arrow">→</div><div class="flow-node node-green">Resposta</div></div>
-<div class="text-sm" style="margin-top: 1.5rem;">
-<b>Diferença vs Parallelization:</b> aqui o orquestrador <b>decide quantos e quais workers</b> usar baseado na tarefa. É dinâmico.<br>
-<b>Exemplo:</b> Claude Code lendo um repo gigante — orquestrador decide ler 3 arquivos, depois 5, depois 1.
+<div class="flow-diagram"><div class="flow-node node-purple">Tarefa aberta</div><div class="flow-arrow">→</div><div class="flow-node node-purple">Orquestrador</div><div class="flow-arrow">→</div><div class="flow-node node-cyan">Worker 1</div><div class="flow-arrow">→</div><div class="flow-node node-cyan">Worker 2</div><div class="flow-arrow">→</div><div class="flow-node node-cyan">Worker N</div><div class="flow-arrow">→</div><div class="flow-node node-green">Síntese</div></div>
+<div class="grid-2 mt-2 stagger-in text-xs" style="gap:0.7rem;">
+<div class="card card-purple parallax-card fragment"><b>Diferença vs paralelo</b><br>Aqui o sistema decide <b>quantos workers criar</b> e <b>o que cada um fará</b>.</div>
+<div class="card card-green parallax-card fragment"><b>Exemplo típico</b><br>Agente de código escolhe quais arquivos ler, quais testes rodar e quando parar.</div>
 </div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
 <h1>Padrão 5 · Evaluator-Optimizer</h1>
-<div class="flow-diagram"><div class="flow-node node-purple">Tarefa</div><div class="flow-arrow">→</div><div class="flow-node node-purple">Generator</div><div class="flow-arrow">→</div><div class="flow-node node-amber">Evaluator</div><div class="flow-arrow">→</div><div class="flow-node node-green">✅ Output</div></div>
-<div class="text-sm" style="margin-top: 1.5rem;">
-<p class="slide-in-left">Variante avançada do <b>Self-Reflection</b>, mas com agentes/prompts <b>separados</b> para gerar e avaliar.<br></p>
-<b>Casos clássicos:</b> tradução literária (gerar → revisar → refinar), redação técnica, geração de código com testes.
+<div class="flow-diagram"><div class="flow-node node-purple">Generator</div><div class="flow-arrow">→</div><div class="flow-node node-amber">Evaluator</div><div class="flow-arrow">→</div><div class="flow-node node-purple">Refina</div><div class="flow-arrow">→</div><div class="flow-node node-green">Entrega</div></div>
+<div class="grid-3 mt-2 stagger-in text-xs" style="gap:0.55rem;">
+<div class="card card-purple parallax-card fragment"><b>O que resolve</b><br>Primeira resposta boa, mas não boa o suficiente.</div>
+<div class="card card-cyan parallax-card fragment"><b>Quando usar</b><br>Código, escrita técnica, tradução e decisões auditáveis.</div>
+<div class="card card-amber parallax-card fragment"><b>Lembrete</b><br>É a versão sistêmica da self-reflection.</div>
 </div>
 </section>
 
-<section data-background-gradient="linear-gradient(135deg, #111827 0%, #1e1b4b 100%)">
-<h1>Decision tree: qual padrão usar?</h1>
-<div class="flow-diagram"><div class="flow-node node-purple">Tenho uma tarefa LLM</div><div class="flow-arrow">→</div><div class="flow-node node-purple">Passos<br>conhecidos?</div><div class="flow-arrow">→</div><div class="flow-node node-purple">⛓️ Prompt Chaining</div><div class="flow-arrow">→</div><div class="flow-node node-purple">🔀 Routing</div><div class="flow-arrow">→</div><div class="flow-node node-green">Subtarefas<br>independentes?</div><div class="flow-arrow">→</div><div class="flow-node node-purple">⚡ Parallelization</div><div class="flow-arrow">→</div><div class="flow-node node-cyan">🧑‍💼 Orchestrator-Workers</div><div class="flow-arrow">→</div><div class="flow-node node-amber">🪞 Evaluator-Optimizer</div></div>
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
+<h1>Qual padrão usar primeiro?</h1>
+<div style="text-align:center;" class="text-xs">
+<div class="flow-node node-purple" style="display:inline-block;">Os passos já são conhecidos?</div>
+<div style="margin:0.4rem 0;">Sim ↙ &nbsp;&nbsp;&nbsp; ↘ Não</div>
+<div style="display:grid; grid-template-columns:1fr 1fr; gap:0.7rem;">
+<div class="card card-green parallax-card fragment"><b>⛓️ Prompt Chaining</b><br>Receita fixa.</div>
+<div class="card card-cyan parallax-card fragment"><b>Há tipos distintos de entrada?</b><br>Se sim, considere <b>Routing</b>.</div>
+</div>
+<div style="margin:0.5rem 0;">Se não houver rotas claras, pergunte:</div>
+<div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:0.7rem;">
+<div class="card card-purple parallax-card fragment"><b>Subtarefas independentes?</b><br>⚡ Parallelization</div>
+<div class="card card-amber parallax-card fragment"><b>Decomposição dinâmica?</b><br>🧑‍💼 Orchestrator-Workers</div>
+<div class="card card-red parallax-card fragment"><b>Precisa iterar qualidade?</b><br>🪞 Evaluator-Optimizer</div>
+</div>
+</div>
+<div class="tip-box mt-2 text-xs">Primeiro organize a execução; depois pense em planning mais sofisticado.</div>
 </section>
 
-<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #064e3b 100%)">
-<h1>2.5 Planning — pensar antes de agir</h1>
-<p class="slide-in-left">ReAct decide <b>passo a passo</b>. Planning decide a <b>rota inteira</b> antes de começar.</p>
-<div class="flow-diagram"><div class="flow-node node-purple">Pensa 1 passo</div><div class="flow-arrow">→</div><div class="flow-node node-purple">Age</div><div class="flow-arrow">→</div><div class="flow-node node-purple">Observa</div><div class="flow-arrow">→</div><div class="flow-node node-purple">🧠 Cria plano completo<br>1. fazer X<br>2. fazer Y<br>3. fazer Z</div><div class="flow-arrow">→</div><div class="flow-node node-cyan">Executor faz passo 1</div><div class="flow-arrow">→</div><div class="flow-node node-cyan">Executor faz passo 2</div><div class="flow-arrow">→</div><div class="flow-node node-cyan">Executor faz passo 3</div><div class="flow-arrow">→</div><div class="flow-node node-green">✅ Resposta</div></div>
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #0f766e 100%)">
+<h1>🗺️ Do próximo passo à rota completa</h1>
+<p class="slide-in-left" style="opacity:0.8; margin-bottom:1rem;">Os padrões acima organizam o <b>trabalho</b>. Agora vem outra pergunta: o agente deve decidir <b>um passo por vez</b> ou desenhar um <b>plano inteiro</b> antes de agir?</p>
+<div class="grid-3 stagger-in text-sm" style="gap:0.7rem;">
+<div class="card card-purple parallax-card fragment"><b>ReAct</b><br><span class="text-xs">Improvisa com feedback contínuo.</span></div>
+<div class="card card-cyan parallax-card fragment"><b>Planning</b><br><span class="text-xs">Traça a rota antes da execução.</span></div>
+<div class="card card-green parallax-card fragment"><b>Pergunta pedagógica</b><br><span class="text-xs">Quando vale pagar pelo plano?</span></div>
+</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #1e293b 100%)">
+<h1>Planning — pensar antes de agir</h1>
+<div class="grid-2 stagger-in text-sm" style="gap:0.8rem;">
+<div class="card card-amber parallax-card fragment">
+<b>ReAct</b>
+<div class="mt-1 text-xs">Pensar → agir → observar → decidir o próximo passo.</div>
+<div class="agent-trace mt-2 text-xs">
+<div class="trace-line trace-thought">“Vou buscar opções.”</div>
+<div class="trace-line trace-action">tool: buscar_hotéis()</div>
+<div class="trace-line trace-obs">observação: 12 resultados</div>
+</div>
+</div>
+<div class="card card-green parallax-card fragment">
+<b>Planning</b>
+<div class="mt-1 text-xs">Planejar → executar → monitorar → replanejar se necessário.</div>
+<div class="agent-trace mt-2 text-xs">
+<div class="trace-line trace-thought">1) buscar 2) filtrar 3) comparar 4) justificar</div>
+<div class="trace-line trace-action">executor roda cada etapa</div>
+<div class="trace-line trace-obs">desvio? volta ao planejador</div>
+</div>
+</div>
+</div>
+<div class="insight-box mt-2 text-xs">Planning brilha quando a tarefa tem <b>múltiplos passos, custo relevante ou risco de retrabalho</b>.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)">
 <h1>Plan-and-Execute vs ReWOO</h1>
-<div class="text-xs" style="margin-bottom:0.7rem; opacity:0.8;">O dilema pedagógico: <b>pensar a rota inteira</b> reduz improviso, mas pode ficar caro e rígido. Dois padrões aparecem na literatura e nos frameworks.</div>
 <div class="grid-2 stagger-in text-xs" style="gap:0.8rem;">
-<div class="card card-purple parallax-card fragment"><b>🗺️ Plan-and-Execute</b><br><span class="opacity-70">Planeja → executa → observa → replaneja.</span><div class="mt-2">Bom quando o ambiente muda: navegar web, debugar código, investigar dados. O executor aprende com cada observação antes de seguir.</div></div>
-<div class="card card-cyan parallax-card fragment"><b>🔀 ReWOO</b> <span class="opacity-70">(Reasoning Without Observation)</span><br><span class="opacity-70">Planeja todas as evidências antes de chamar tools.</span><div class="mt-2">Bom quando as consultas são independentes: coletar cotações, buscar fatos paralelos, comparar documentos.</div></div>
+<div class="card card-purple parallax-card fragment"><b>🗺️ Plan-and-Execute</b><br><span class="opacity-80">Planeja, executa, observa e corrige a rota.</span><div class="mt-2">Melhor quando o ambiente muda ou a etapa seguinte depende da anterior.</div></div>
+<div class="card card-cyan parallax-card fragment"><b>🔀 ReWOO</b><br><span class="opacity-80">Planeja as evidências antes de chamar tools.</span><div class="mt-2">Melhor quando várias consultas podem ser preparadas e rodadas em paralelo.</div></div>
 </div>
-<div class="card mt-2 text-xs card-amber parallax-card fragment">Referências: ReAct (Yao et al., 2023), Plan-and-Solve prompting (Wang et al., 2023), ReWOO (Xu et al., 2023).</div>
+<div class="tip-box mt-2 text-xs">Em uma frase: Plan-and-Execute lida melhor com <b>dependência</b>; ReWOO, com <b>coleta paralela</b>.</div>
 </section>
 
-<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e293b 100%)">
-<h1>Plan-and-Execute vs ReWOO — cont.</h1>
-<pre class="scale-in"><code class="language-text">Pergunta: "Compare laptops para ML até R$ 8k"
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #064e3b 100%)">
+<h1>Mesmo problema, dois estilos de plano</h1>
+<pre class="scale-in"><code class="language-text">Pergunta: "Compare laptops para ML até R$ 8 mil"
 
-Plan-and-Execute:
-  1. buscar opções → observar resultados
-  2. filtrar GPUs → observar disponibilidade
-  3. comparar preço/VRAM → responder
+Plan-and-Execute
+1. Buscar opções
+2. Filtrar GPU disponível
+3. Verificar preço real
+4. Replanejar se faltar dado
 
-ReWOO:
-  E1 = buscar("laptops RTX até 8k")
-  E2 = buscar("benchmarks RTX 4060 laptop ML")
-  E3 = buscar("preços varejo Brasil")
-  Solver(E1, E2, E3) → recomendação</code></pre>
-<div class="grid-3 stagger-in text-xs" style="gap:0.55rem;">
-<div class="card card-green parallax-card fragment"><b>Use Plan-and-Execute</b><br>quando há dependência, erro provável ou decisão sensível.</div>
-<div class="card card-cyan parallax-card fragment"><b>Use ReWOO</b><br>quando evidências podem ser coletadas em paralelo.</div>
-<div class="card card-red parallax-card fragment"><b>Evite ambos</b><br>quando uma única chamada direta resolve.</div>
-</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #111827 0%, #1f2937 100%)">
-<h1>🧠 Agentic Planning — como agentes criam e gerenciam planos</h1>
-<div class="text-xs" style="margin-bottom: 0.75rem;">A ideia não nasceu com LLMs. Ela vem de <b>planejamento em IA clássica</b>: estado, ações, pré-condições, efeitos e objetivo.</div>
-<div class="stagger-in grid-2 text-xs" style="gap: 0.8rem;">
-<div class="card card-purple parallax-card fragment"><b>🧱 Teoria clássica</b><div class="mt-1" style="line-height:1.5;">STRIPS (Fikes & Nilsson, 1971) modelava o mundo como <i>estado inicial → ações válidas → estado objetivo</i>. HTN Planning quebrava metas em subtarefas hierárquicas.</div></div>
-<div class="card card-cyan parallax-card fragment"><b>🤖 O que muda com LLMs</b><div class="mt-1" style="line-height:1.5;">O modelo não tem um simulador perfeito do mundo. Ele propõe um plano plausível, executa tools, observa evidências e corrige a rota.</div></div>
-</div>
-<div class="card mt-2 text-xs card-green parallax-card fragment"><b>Intuição:</b> planning é a ponte entre “responder uma pergunta” e “gerenciar uma tarefa”.</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
-<h1>📋 Anatomia de um plano de agente</h1>
-<div class="text-sm" style="margin-bottom: 0.75rem;">Um bom plano é mais parecido com um <b>contrato de execução</b> do que com uma lista de tarefas.</div>
-<pre class="scale-in"><code class="language-python"># começo do plano
-plan = {
-  "objetivo": "Escolher hotel para viagem corporativa em SP",
-  "criterio_sucesso": "3 opções justificadas com preço, localização e risco",
-  "restricoes": ["até R$ 900/noite", "perto da Av. Paulista"],
-  "passos": [
-    {"id": "S1", "acao": "buscar candidatos", "tool": "search_web",
-     "depende_de": [], "status": "done"},
-    {"id": "S2", "acao": "extrair preço e avaliação", "tool": "browser",
-     "depende_de": ["S1"], "status": "running"},
-  ]
-}</code></pre>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #111827 0%, #0f766e 100%)">
-<h1>📋 Anatomia de um plano de agente — cont.</h1>
-<pre class="scale-in"><code class="language-python">plan["passos"] += [
-  {"id": "S3", "acao": "comparar trade-offs", "tool": "reasoning",
-   "depende_de": ["S2"], "status": "pending"},
-  {"id": "S4", "acao": "gerar recomendação auditável", "tool": "writer",
-   "depende_de": ["S3"], "status": "pending"},
-]
-
-plan["guardrails"] = {
-  "budget_max_tool_calls": 8,
-  "replan_if": ["tool_error", "evidencia_conflitante", "restricao_violada"],
-  "human_approval_if": ["compra", "cancelamento", "envio_externo"],
-}</code></pre>
-<div class="grid-3 stagger-in text-xs" style="gap:0.55rem;">
-<div class="card card-purple parallax-card fragment"><b>Observável</b><br>status e evidências por passo.</div>
-<div class="card card-cyan parallax-card fragment"><b>Controlável</b><br>limites de custo, risco e aprovação.</div>
-<div class="card card-green parallax-card fragment"><b>Avaliável</b><br>sucesso definido antes da resposta.</div>
+ReWOO
+E1 = buscar("laptops RTX até 8k")
+E2 = buscar("benchmarks RTX 4060 laptop")
+E3 = buscar("preços no varejo")
+Solver(E1, E2, E3) -> recomendação</code></pre>
+<div class="grid-3 mt-2 stagger-in text-xs" style="gap:0.55rem;">
+<div class="card card-green parallax-card fragment"><b>Escolha Plan-and-Execute</b><br>Quando há dependência ou erro provável.</div>
+<div class="card card-cyan parallax-card fragment"><b>Escolha ReWOO</b><br>Quando a coleta de evidências pode ser paralela.</div>
+<div class="card card-red parallax-card fragment"><b>Escolha nenhum</b><br>Quando uma chamada simples já resolve.</div>
 </div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
-<h1>🔄 Replanning — quando o plano precisa mudar</h1>
-<div class="text-xs" style="margin-bottom: 0.75rem;">Replanning é um <b>loop de controle</b>: monitorar o mundo, detectar desvio e ajustar a rota. É próximo do ciclo MAPE-K da IBM Autonomic Computing.</div>
-<div class="stagger-in grid-4 text-xs" style="gap:0.55rem;">
-<div class="card card-cyan parallax-card fragment"><b>Monitor</b><br>tool falhou? evidência chegou? custo subiu?</div>
-<div class="card card-red parallax-card fragment"><b>Analyze</b><br>falha local ou premissa do plano errada?</div>
-<div class="card card-purple parallax-card fragment"><b>Plan</b><br>patch pequeno, subplano novo ou reinício total?</div>
-<div class="card card-green parallax-card fragment"><b>Execute</b><br>continua com trilha de auditoria.</div>
+<h1>Agentic Planning — contexto</h1>
+<div class="grid-2 stagger-in text-xs" style="gap:0.8rem;">
+<div class="card card-purple parallax-card fragment"><b>IA clássica</b><div class="mt-1">STRIPS e HTN tratavam o mundo como estado, ações válidas e objetivo.</div></div>
+<div class="card card-cyan parallax-card fragment"><b>Com LLMs</b><div class="mt-1">O plano é plausível, não garantido. Por isso ele precisa de tools, observação e revisão.</div></div>
 </div>
-<div class="card mt-2 text-xs card-amber parallax-card fragment"><b>Anti-padrão:</b> replanejar a cada passo sem critério. Isso vira loop caro. Defina gatilhos objetivos.</div>
+<div class="card mt-2 text-xs card-green parallax-card fragment"><b>Resumo pedagógico:</b> planning é a ponte entre <b>responder</b> e <b>gerenciar execução</b>.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
-<h1>🔄 Replanning — exemplos em produto</h1>
-<div class="stagger-in grid-3 text-xs" style="gap: 0.55rem;">
-<div class="card card-purple parallax-card fragment"><b>Devin / coding agents</b><br>Planejam tarefas de engenharia, executam testes, abrem PR e replanejam quando build ou lint falha.</div>
-<div class="card card-cyan parallax-card fragment"><b>Browser agents</b><br>Manus, Operator e afins precisam trocar rota quando UI muda, login bloqueia ou dado não aparece.</div>
-<div class="card card-cyan parallax-card fragment"><b>Claude Code / Copilot agents</b><br>Transformam plano em checklist: editar arquivo, rodar teste, interpretar erro, ajustar hipótese.</div>
-</div>
-<div class="grid-2 stagger-in text-xs" style="gap:0.55rem; margin-top:0.55rem;">
-<div class="card card-green parallax-card fragment"><b>Regra prática</b><br>Peça plano explícito quando há 3+ passos, tools externas, custo alto ou risco de ação irreversível.</div>
-<div class="card card-amber parallax-card fragment"><b>Leitura recomendada</b><br>Anthropic, <i>Building Effective Agents</i> (2024); LangGraph docs sobre persistence/checkpoints; Yao et al., <i>ReAct</i>.</div>
+<h1>📋 Anatomia de um bom plano</h1>
+<pre class="scale-in"><code class="language-python">plan = {
+   "objetivo": "Escolher hotel corporativo em SP",
+   "criterio_sucesso": "3 opções justificadas",
+   "restricoes": ["até R$ 900/noite", "perto da Paulista"],
+   "passos": [
+       {"id": "S1", "acao": "buscar candidatos", "tool": "search_web",
+        "depende_de": [], "status": "done"},
+       {"id": "S2", "acao": "extrair preço e avaliação", "tool": "browser",
+        "depende_de": ["S1"], "status": "running"},
+       {"id": "S3", "acao": "comparar trade-offs", "tool": "reasoning",
+        "depende_de": ["S2"], "status": "pending"},
+   ],
+   "guardrails": {
+       "budget_max_tool_calls": 8,
+       "replan_if": ["tool_error", "evidencia_conflitante"],
+       "human_approval_if": ["compra", "envio_externo"],
+   },
+}</code></pre>
+<div class="grid-3 mt-2 stagger-in text-xs" style="gap:0.55rem;">
+<div class="card card-purple parallax-card fragment"><b>Observável</b><br>Status por passo.</div>
+<div class="card card-cyan parallax-card fragment"><b>Controlável</b><br>Custo, risco e aprovações.</div>
+<div class="card card-green parallax-card fragment"><b>Avaliável</b><br>Sucesso definido antes da resposta.</div>
 </div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
-<h1>💻 Implementando planning agentic em Python</h1>
-<div class="text-xs" style="margin-bottom:0.3rem; opacity:0.7;">📋 <b>Colab-ready</b> — usa HuggingFace InferenceClient (token gratuito)</div>
+<h1>🔄 Replanning — quando mudar a rota</h1>
+<div class="stagger-in grid-4 text-xs" style="gap:0.55rem;">
+<div class="card card-cyan parallax-card fragment"><b>Monitorar</b><br>Tool falhou? custo subiu? dado novo apareceu?</div>
+<div class="card card-red parallax-card fragment"><b>Analisar</b><br>Falha local ou hipótese errada?</div>
+<div class="card card-purple parallax-card fragment"><b>Planejar</b><br>Patch pequeno ou novo subplano?</div>
+<div class="card card-green parallax-card fragment"><b>Executar</b><br>Continua com trilha de auditoria.</div>
+</div>
+<div class="grid-2 mt-2 stagger-in text-xs" style="gap:0.7rem;">
+<div class="card card-amber parallax-card fragment"><b>Anti-padrão</b><br>Replanejar a cada passo sem critério.</div>
+<div class="card card-green parallax-card fragment"><b>Regra prática</b><br>Defina gatilhos objetivos antes de começar.</div>
+</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
+<h1>💻 Implementação — create_plan</h1>
+<div class="text-xs opacity-70" style="margin-bottom:0.3rem;">Colab-ready · o LLM devolve JSON com passos ordenados</div>
 <pre class="scale-in"><code class="language-python">import json
 
 def create_plan(objective: str) -&gt; list[dict]:
-    &quot;&quot;&quot;Pede ao LLM para decompor objetivo em passos ordenados.&quot;&quot;&quot;
-    resp = client.chat.completions.create(
-        model=&quot;Qwen/Qwen2.5-7B-Instruct&quot;,
-        messages=[
-            {&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: &quot;Decomponha o objetivo em 3-5 passos. Responda APENAS JSON: {\\&quot;passos\\&quot;: [{\\&quot;id\\&quot;: 1, \\&quot;acao\\&quot;: \\&quot;...\\&quot;, \\&quot;tool\\&quot;: \\&quot;busca|calculadora|escrita\\&quot;, \\&quot;depende_de\\&quot;: []}]}&quot;},
-            {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: objective},
-        ],
-        max_tokens=300,
-        temperature=0.1,
-    )
-    plan = json.loads(resp.choices[0].message.content)[&quot;passos&quot;]
-    print(f&quot;📋 Plano gerado para: {objective}&quot;)
-    for step in plan:
-        deps = f&quot; (depende de {step[&#x27;depende_de&#x27;]})&quot; if step[&quot;depende_de&quot;] else &quot;&quot;
-        print(f&quot;   {step[&#x27;id&#x27;]}. {step[&#x27;acao&#x27;]} → tool: {step[&#x27;tool&#x27;]}{deps}&quot;)
-    return plan
-
-# Teste
-create_plan(&quot;Analisar o mercado de IA no Brasil&quot;)</code></pre>
+   resp = client.chat.completions.create(
+       model="Qwen/Qwen2.5-7B-Instruct",
+       messages=[
+           {"role": "system", "content": """
+Decomponha o objetivo em 3-5 passos.
+Responda APENAS JSON:
+{"passos": [{"id": 1, "acao": "...", "tool": "busca|calculadora|escrita", "depende_de": []}]}
+"""},
+           {"role": "user", "content": objective},
+       ],
+       max_tokens=300,
+       temperature=0.1,
+   )
+   return json.loads(resp.choices[0].message.content)["passos"]</code></pre>
 </section>
 
-<section data-background-gradient="linear-gradient(135deg, #111827 0%, #1e1b4b 100%)">
-<h1>💻 Implementando planning agentic em Python — execução</h1>
-<div class="text-xs" style="margin-bottom:0.3rem; opacity:0.7;">📋 <b>Colab-ready</b> — copie e execute junto com a célula anterior</div>
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #0f766e 100%)">
+<h1>💻 Implementação — execute com replanning</h1>
+<div class="text-xs opacity-70" style="margin-bottom:0.3rem;">Fluxo mínimo: planejar → executar → detectar desvio → corrigir</div>
 <pre class="scale-in"><code class="language-python">def execute_with_replanning(objective: str, max_retries: int = 2):
-    plan = create_plan(objective)
-    for step in plan:
-        result = execute_step(step)
-        if result.failed and step["retries"] &lt; max_retries:
-            plan = replan(objective, plan, step, result.error)
-            continue
-    return synthesize(plan)</code></pre>
-<div class="mt-2 text-xs opacity-70">Fluxo: <b>planejar → executar → monitorar → re-planejar</b>. A sofisticação está em decidir <i>quando</i> e <i>como</i> recalcular.</div>
+   plan = create_plan(objective)
+   for step in plan:
+       result = execute_step(step)
+       if result.failed and step.get("retries", 0) &lt; max_retries:
+           plan = replan(objective, plan, step, result.error)
+           continue
+   return synthesize(plan)</code></pre>
+<div class="tip-box mt-2 text-xs">A inteligência do sistema está menos em “chamar o modelo” e mais em <b>decidir quando recalcular a rota</b>.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #172554 100%)">
-<h1>🚀 Além do planning: 4 upgrades modernos</h1>
-<p class="slide-in-left">Na trilha do <b>Stanford CS329A</b>, dá para deixar um agente mais forte <b>na hora da execução</b> sem trocar o modelo — só mudando <b>como</b> ele pensa, busca e verifica.</p>
-<div class="grid-2 stagger-in text-sm" style="gap: 0.8rem; margin-top: 1.2rem;">
-<div class="card card-purple expandable parallax-card fragment"><b>⚡ Test-time compute scaling</b><div class="card-detail"><p>Em vez de 1 tentativa, você gasta mais compute na inferência: amostra várias respostas, compara, vota ou escolhe a melhor.</p><div class="detail-analogy">🎯 Analogia: não entregar a primeira redação do ENEM — fazer 5 rascunhos e enviar o melhor.</div></div></div>
-<div class="card card-cyan expandable parallax-card fragment"><b>🌳 LATS</b><div class="card-detail"><p>Usa busca em árvore, como motor de xadrez: explora caminhos alternativos, estima qual ramo parece promissor e segue por ele.</p><div class="detail-analogy">♟️ Não é “chutar o próximo lance”; é olhar algumas jogadas à frente.</div></div></div>
-<div class="card card-green expandable parallax-card fragment"><b>✅ Verificação por passo</b><div class="card-detail"><p>Em vez de checar só a resposta final, o sistema confere <b>cada etapa</b> do raciocínio. Isso reduz erros “bonitos, porém errados”.</p><div class="detail-analogy">🧮 Como um professor de matemática que corrige conta por conta, não só o resultado no fim.</div></div></div>
-<div class="card card-amber expandable parallax-card fragment"><b>🏃 SPRINT</b><div class="card-detail"><p>Planeja um pouco, executa em paralelo, observa o que voltou e planeja de novo. Não espera um plano perfeito para começar.</p><div class="detail-analogy">🍳 Cozinha profissional: alguém corta legumes enquanto outra pessoa já deixa a panela no fogo.</div></div></div>
-</div>
-<div class="mt-3 text-sm text-center opacity-70">Ideia central: <b>mais pensamento útil em tempo de execução</b> = agentes mais robustos em tarefas difíceis.</div>
-</section>
-
-<section>
-<h1>⚡ Test-time Compute Scaling</h1>
-<p class="slide-in-left">📚 <b>Stanford CS329A</b> destaca esta linha com <i>Large Language Monkeys</i> e <i>Scaling LLM Test-Time Compute</i>: gastar mais compute <b>na inferência</b> pode deixar o LLM mais “inteligente”.</p>
-<div class="flow-diagram"><div class="flow-node node-purple">Pergunta difícil</div><div class="flow-arrow">→</div><div class="flow-node node-purple">Amostra 1</div><div class="flow-arrow">→</div><div class="flow-node node-purple">Amostra 2</div><div class="flow-arrow">→</div><div class="flow-node node-purple">Amostra 3...N</div><div class="flow-arrow">→</div><div class="flow-node node-amber">🗳️ voto / reranker / verificador</div><div class="flow-arrow">→</div><div class="flow-node node-green">Melhor resposta</div></div>
-<div class="grid-3 stagger-in text-sm" style="gap: 0.7rem; margin-top: 1rem;">
-<div class="card card-purple expandable parallax-card fragment"><b>Repeated sampling</b><div class="card-detail"><p>Faz várias tentativas com temperatura maior. Cada tentativa pensa de um jeito diferente.</p><p><b>Bom para:</b> matemática, código, planejamento com múltiplos caminhos.</p></div></div>
-<div class="card card-cyan expandable parallax-card fragment"><b>Best-of-N</b><div class="card-detail"><p>Você gera N respostas e escolhe a melhor usando regras, voto, testes ou outro modelo avaliador.</p><p><b>Exemplo:</b> gerar 5 soluções de código e ficar com a que passa mais testes.</p></div></div>
-<div class="card card-amber expandable parallax-card fragment"><b>Trade-off</b><div class="card-detail"><p>Ganha qualidade, mas paga em <b>latência</b> e <b>custo</b>. Vale quando errar é caro.</p><div class="detail-analogy">💼 Fazer 1 orçamento é rápido; comparar 5 fornecedores costuma dar decisão melhor.</div></div></div>
-</div>
-<div class="agent-trace text-sm" style="margin-top: 1rem;">
-<div class="trace-line trace-user">user: Qual arquitetura devo usar para um app com 10 milhões de usuários?</div>
-<div class="trace-line trace-thought">run 1: prioriza custo • run 2: prioriza simplicidade • run 3: prioriza resiliência</div>
-<div class="trace-line trace-obs">verifier: run 2 ignora escalabilidade; run 1 e 3 são válidos</div>
-<div class="trace-line trace-action">selector: escolhe run 3 por cobrir escala + fallback</div>
-</div>
-<div class="card text-xs fragment" style="background:rgba(96,165,250,0.06); border:1px solid rgba(96,165,250,0.25); margin-top:0.5rem;">
-🏢 <b>Em português:</b> Gastar mais tempo pensando em problemas difíceis — como um aluno que relê a prova antes de entregar.
+<h1>🚀 Quatro upgrades modernos</h1>
+<p class="slide-in-left" style="opacity:0.8;">Planejar ajuda muito. Mas, em tarefas difíceis, ainda dá para melhorar <b>durante a execução</b>.</p>
+<div class="grid-2 stagger-in text-sm" style="gap:0.8rem;">
+<div class="card card-purple expandable parallax-card fragment"><b>⚡ Test-time compute</b><div class="card-detail"><p>Mais tentativas ou mais verificação na inferência.</p></div></div>
+<div class="card card-cyan expandable parallax-card fragment"><b>🌳 LATS</b><div class="card-detail"><p>Busca em árvore para explorar caminhos alternativos.</p></div></div>
+<div class="card card-green expandable parallax-card fragment"><b>✅ PRM</b><div class="card-detail"><p>Verificação passo a passo, não só no fim.</p></div></div>
+<div class="card card-amber expandable parallax-card fragment"><b>🏃 SPRINT</b><div class="card-detail"><p>Planeja um pouco, executa em paralelo e replaneja.</p></div></div>
 </div>
 </section>
 
-<section>
-<h1>🌳 LATS — busca em árvore para agentes</h1>
-<p class="slide-in-left">📄 <b>Zhou et al.</b> — <i>Language Agent Tree Search</i>. A ideia é combinar <b>reasoning + acting + planning</b> com busca em árvore, como um motor de xadrez.</p>
-<div class="flow-diagram"><div class="flow-node node-purple">Objetivo</div><div class="flow-arrow">→</div><div class="flow-node node-purple">gera 3 próximos passos</div><div class="flow-arrow">→</div><div class="flow-node node-amber">avalia cada ramo</div><div class="flow-arrow">→</div><div class="flow-node node-purple">expande o melhor</div><div class="flow-arrow">→</div><div class="flow-node node-cyan">executa / observa</div><div class="flow-arrow">→</div><div class="flow-node node-green">melhor plano encontrado</div></div>
-<div class="stagger-in grid-2 text-sm" style="gap: 0.8rem; margin-top: 1rem;">
-<div class="card card-purple expandable parallax-card fragment"><b>ToT vs LATS</b><div class="card-detail"><p><b>ToT</b> explora vários <i>pensamentos</i>. <b>LATS</b> explora pensamentos <b>e ações</b>, usando feedback do ambiente para decidir qual ramo continuar.</p><p>Ou seja: é mais “agentic”.</p></div></div>
-<div class="card card-green expandable parallax-card fragment"><b>Analogia de iniciante</b><div class="card-detail"><p>Imagine planejar férias. Você abre 3 rotas: hotel no centro, perto do evento ou perto do aeroporto. Vai comparando preço, deslocamento e risco antes de escolher.</p></div></div>
-<div class="card card-cyan expandable parallax-card fragment"><b>Quando usar</b><div class="card-detail"><p>Tarefas com muitos caminhos possíveis: debugging difícil, web agents, quebra-cabeças, planejamento de viagem, pesquisa com várias fontes.</p></div></div>
-<div class="card card-amber expandable parallax-card fragment"><b>Quando é exagero</b><div class="card-detail"><p>Responder “qual a capital do RS?” com busca em árvore seria desperdício. LATS é para cenários em que <b>escolher o caminho</b> é a parte difícil.</p></div></div>
-</div>
-<div class="agent-trace text-sm" style="margin-top: 1rem;">
-<div class="trace-line trace-user">user: Monte um roteiro de 3 dias em Porto Alegre com foco em custo-benefício</div>
-<div class="trace-line trace-thought">ramo A: hotel central • ramo B: Airbnb mais afastado • ramo C: hostel premium</div>
-<div class="trace-line trace-obs">avaliação: B economiza mais, mas aumenta deslocamento; A tem melhor equilíbrio geral</div>
-<div class="trace-line trace-action">expansão: no ramo A, agora compara restaurantes e transporte</div>
-</div>
-<div class="card text-xs fragment" style="background:rgba(96,165,250,0.06); border:1px solid rgba(96,165,250,0.25); margin-top:0.5rem;">
-🏢 <b>Em português:</b> O agente testa vários caminhos (como um GPS que calcula rotas alternativas) e escolhe o que deu certo.
-</div>
-</section>
-
-<section>
-<h1>✅ Verificação: ORM vs PRM</h1>
-<p class="slide-in-left">📄 <b>“Let's Verify Step by Step”</b> e a trilha de <b>Robust Verification</b> do Stanford CS329A mostram um ponto importante: às vezes o problema não é gerar mais — é <b>conferir melhor</b>.</p>
-<div class="compare-cols" style="gap: 0.9rem; margin-top: 1rem;">
-<div class="card card-amber expandable parallax-card fragment"><b>ORM — Output Reward Model</b><div class="card-detail"><p>Olha só o <b>resultado final</b> e pergunta: “parece bom?”</p><p><b>Vantagem:</b> simples.</p><p><b>Limitação:</b> pode aprovar uma resposta com passos internos errados.</p><div class="detail-example">📝 Como um professor que vê apenas “Resposta: 42”.</div></div></div>
-<div class="card card-green expandable parallax-card fragment"><b>PRM — Process Reward Model</b><div class="card-detail"><p>Avalia o <b>processo passo a passo</b>: esta soma faz sentido? esta premissa foi usada corretamente?</p><p><b>Vantagem:</b> pega o erro cedo.</p><div class="detail-example">🧮 Como corrigir cada linha da conta antes do resultado final.</div></div></div>
-</div>
-<div class="flow-diagram" style="margin-top: 1rem;"><div class="flow-node node-purple">Passo 1</div><div class="flow-arrow">→</div><div class="flow-node node-green">verifica ✓</div><div class="flow-arrow">→</div><div class="flow-node node-purple">Passo 2</div><div class="flow-arrow">→</div><div class="flow-node node-red">erro detectado ✗</div><div class="flow-arrow">→</div><div class="flow-node node-amber">corrige antes de seguir</div></div>
-<div class="agent-trace text-sm" style="margin-top: 1rem;">
-<div class="trace-line trace-user">user: Se o hotel custa R$189/noite por 3 noites, quanto sobra de R$2000?</div>
-<div class="trace-line trace-thought">modelo: 189 × 3 = 547</div>
-<div class="trace-line trace-obs">PRM/verificador: multiplicação incorreta; o certo é 567</div>
-<div class="trace-line trace-action">modelo corrige: 2000 - 567 = 1433</div>
-</div>
-<div class="mt-3 text-sm text-center opacity-70"><b>Resumo:</b> ORM julga o placar final; PRM acompanha o jogo lance a lance.</div>
-<div class="card text-xs fragment" style="background:rgba(96,165,250,0.06); border:1px solid rgba(96,165,250,0.25); margin-top:0.5rem;">
-🏢 <b>Em português:</b> Verificar só a resposta final (ORM) vs verificar cada passo do raciocínio (PRM). PRM pega erros antes.
-</div>
-</section>
-
-<section>
-<h1>🏃 SPRINT — planejar e executar ao mesmo tempo</h1>
-<p class="slide-in-left">📄 <b>SPRINT</b> = <i>Enabling Interleaved Planning and Parallelized Execution in Reasoning Models</i>. Em vez de “planejar tudo → executar tudo”, o modelo <b>alterna</b> planejamento e execução paralela.</p>
-<div class="flow-diagram"><div class="flow-node node-purple">Objetivo</div><div class="flow-arrow">→</div><div class="flow-node node-purple">plano parcial</div><div class="flow-arrow">→</div><div class="flow-node node-cyan">execução A</div><div class="flow-arrow">→</div><div class="flow-node node-cyan">execução B</div><div class="flow-arrow">→</div><div class="flow-node node-amber">novas observações</div><div class="flow-arrow">→</div><div class="flow-node node-purple">replaneja</div><div class="flow-arrow">→</div><div class="flow-node node-green">próxima onda</div></div>
-<div class="grid-3 stagger-in text-sm" style="gap: 0.7rem; margin-top: 1rem;">
-<div class="card card-purple expandable parallax-card fragment"><b>1. Planeje o suficiente</b><div class="card-detail"><p>Não espere o “plano perfeito”. Planeje só o necessário para disparar as primeiras subtarefas.</p></div></div>
-<div class="card card-cyan expandable parallax-card fragment"><b>2. Execute em paralelo</b><div class="card-detail"><p>Se duas buscas não dependem uma da outra, rode juntas: preços de hotel e previsão do tempo, por exemplo.</p></div></div>
-<div class="card card-green expandable parallax-card fragment"><b>3. Replaneje com o que voltou</b><div class="card-detail"><p>Os resultados parciais mudam o plano. Isso torna o agente mais rápido e mais adaptável.</p></div></div>
-</div>
-<div class="card card-amber expandable parallax-card fragment text-sm" style="margin-top: 1rem;"><b>🍽️ Analogia:</b> um restaurante não espera a sobremesa ficar pronta para começar o prato principal. A cozinha coordena várias estações em paralelo e ajusta conforme os pedidos andam.
-<div class="card-detail"><p><b>Quando brilha:</b> tarefas longas com subtarefas independentes, como pesquisa na web, coleta de documentos, análise de logs e agentes de browser.</p></div></div>
-<div class="card text-xs fragment" style="background:rgba(96,165,250,0.06); border:1px solid rgba(96,165,250,0.25); margin-top:0.5rem;">
-🏢 <b>Em português:</b> Em vez de planejar tudo antes, o agente planeja e executa ao mesmo tempo — como dirigir com o Waze recalculando em tempo real.
-</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #4c1d95 100%)">
-<h1>🧠 Modelos de Raciocínio vs Orquestração por Código</h1>
-<div class="text-sm" style="margin-bottom: 0.5rem;">A consolidação de modelos de raciocínio nativo mudou como construímos agentes.</div>
-<div class="grid-2 stagger-in" style="gap: 0.8rem;">
-<div class="card card-amber expandable parallax-card fragment">
-<b>Antes (2023-2024)</b>
-<div class="card-detail"><p>Forçávamos modelos genéricos (GPT-4o, Claude Sonnet) a fazer ToT ou Plan-and-Execute via <b>prompts complexos</b> ou grafos no LangGraph.</p><p>O raciocínio era <b>orquestrado pelo código</b>: loops, condições, replanning — tudo externo ao modelo.</p></div>
-</div>
-<div class="card card-green expandable parallax-card fragment">
-<b>Agora (2025+)</b>
-<div class="card-detail"><p>Modelos de <b>reasoning nativo</b> (OpenAI o1/o3/o4-mini, DeepSeek R1, Gemini Flash-Thinking) pensam internamente antes de responder.</p><p>Padrão emergente: <b>modelo de raciocínio gera o plano</b> → <b>modelo rápido com Function Calling executa as tools</b>.</p></div>
-</div>
-</div>
-<div class="card mt-3 text-sm card-cyan fragment">
-<b>🎯 Quando gastar Test-time Compute?</b><br>
-<span class="text-xs">Raciocínio interno (tokens de pensamento) é caro mas poderoso. Use para <b>planejamento inicial</b> e <b>decisões complexas</b>. Para execução repetitiva de tools, use modelos rápidos e baratos.</span>
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #1f2937 100%)">
+<h1>⚡ Test-time Compute + 🌳 LATS</h1>
+<div class="grid-2 stagger-in text-xs" style="gap:0.8rem;">
+<div class="card card-purple parallax-card fragment"><b>Test-time compute</b><br>Gera várias respostas e escolhe a melhor.<div class="mt-1 opacity-80">Como fazer rascunhos antes de entregar a prova.</div></div>
+<div class="card card-cyan parallax-card fragment"><b>LATS</b><br>Explora diferentes caminhos e aprofunda o mais promissor.<div class="mt-1 opacity-80">Como um GPS comparando rotas antes de decidir.</div></div>
 </div>
 <div class="agent-trace text-sm mt-2 fragment">
-<div class="trace-line trace-thought">o3 (planner): "Preciso: 1) buscar dados, 2) comparar preços, 3) gerar relatório"</div>
-<div class="trace-line trace-action">gpt-4o-mini (executor): tool_calls: [buscar_hotel("SP"), buscar_hotel("RJ")]</div>
-<div class="trace-line trace-obs">results: [{preço: 350}, {preço: 420}]</div>
-<div class="trace-line trace-result">gpt-4o-mini: "SP é 17% mais barato. Recomendo Hotel X."</div>
+<div class="trace-line trace-user">tarefa: montar roteiro de viagem com orçamento</div>
+<div class="trace-line trace-thought">ramo A: hotel central • ramo B: bairro barato • ramo C: hostel premium</div>
+<div class="trace-line trace-obs">avaliação: B economiza, A equilibra custo e deslocamento</div>
+<div class="trace-line trace-action">expande A e compara restaurantes/transporte</div>
 </div>
+<div class="insight-box mt-2 text-xs">Diferença importante: repeated sampling cria <b>mais respostas</b>; LATS cria <b>mais caminhos de decisão</b>.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)">
+<h1>✅ ORM vs PRM + 🏃 SPRINT</h1>
+<div class="grid-3 stagger-in text-xs" style="gap:0.7rem;">
+<div class="card card-amber parallax-card fragment"><b>ORM</b><br>Julga só o resultado final.<div class="mt-1 opacity-80">“A resposta parece boa?”</div></div>
+<div class="card card-green parallax-card fragment"><b>PRM</b><br>Verifica passo a passo.<div class="mt-1 opacity-80">“A multiplicação está certa?”</div></div>
+<div class="card card-cyan parallax-card fragment"><b>SPRINT</b><br>Planeja o suficiente para disparar ondas paralelas e replanejar com o retorno.</div>
+</div>
+<div class="flow-diagram mt-2"><div class="flow-node node-purple">Plano parcial</div><div class="flow-arrow">→</div><div class="flow-node node-cyan">Execuções paralelas</div><div class="flow-arrow">→</div><div class="flow-node node-amber">Verificação</div><div class="flow-arrow">→</div><div class="flow-node node-green">Nova onda</div></div>
+<div class="tip-box mt-2 text-xs">Se o gargalo é <b>erro lógico</b>, invista em PRM. Se o gargalo é <b>tempo de coleta</b>, pense em SPRINT.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #064e3b 100%)">
+<h1>🧠 Modelos de raciocínio vs orquestração por código</h1>
+<div class="grid-2 stagger-in text-sm" style="gap:0.8rem;">
+<div class="card card-amber parallax-card fragment"><b>Antes</b><div class="mt-1 text-xs">Prompts complexos e grafos para forçar planejamento e reflexão em modelos genéricos.</div></div>
+<div class="card card-green parallax-card fragment"><b>Agora</b><div class="mt-1 text-xs">Modelo de reasoning pensa o plano; modelo rápido com function calling executa tools.</div></div>
+</div>
+<div class="agent-trace text-sm mt-2 fragment">
+<div class="trace-line trace-thought">planner: “Preciso buscar, comparar e justificar.”</div>
+<div class="trace-line trace-action">executor: tool_calls [buscar_sp(), buscar_rj()]</div>
+<div class="trace-line trace-obs">resultados chegam</div>
+<div class="trace-line trace-result">executor sintetiza com baixo custo</div>
+</div>
+<div class="insight-box mt-2 text-xs">Pergunta certa: <b>em que momento vale pagar para pensar mais?</b></div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #172554 100%)">
 <h1>🎯 Parte 2: Agindo com precisão</h1>
-<div style="font-size: 0.78em; margin-top: 2rem; opacity: 0.9;">
-<p class="slide-in-left">O agente já sabe <b>pensar</b> (CoT, ToT, Planning).<br><br>Agora precisa de <b>mãos firmes</b> — ferramentas estruturadas e confiáveis.</p>
-</div>
-<div class="grid-3 mt-3 stagger-in text-xs">
-<div class="card card-purple parallax-card fragment"><b>🧠 Encontro 1</b><br>Regex manual, 1 tool por vez, parsing frágil</div>
-<div class="card card-cyan parallax-card fragment"><b>🔧 Encontro 2</b><br>Function Calling, JSON Schema, multi-tool paralelo</div>
-<div class="card card-green parallax-card fragment"><b>🏗️ Produção</b><br>LangGraph, checkpoints, HITL, observabilidade</div>
-</div>
-<div class="insight-box fragment mt-2">É aqui que o "artesanal" do Encontro 1 vira <b>padrão de indústria</b>. A diferença? <b>Confiabilidade + escala</b>.</div>
-</section>
-
-<section>
-<h1>2.6 Function Calling estruturado</h1>
-<p class="slide-in-left">📅 Lançado pela OpenAI em <b>junho/2023</b>. Mudou o jogo.</p>
-<p class="slide-in-left"><b>Como funciona:</b></p>
-<ol class="mt-2"><li class="fragment" data-fragment-index="1">Você descreve suas tools usando <b>JSON Schema</b></li><li class="fragment" data-fragment-index="2">Manda no parâmetro <code>tools=[...]</code> da API</li><li class="fragment" data-fragment-index="3">O modelo retorna <code>tool_calls</code> com argumentos <b>JSON validado</b></li><li class="fragment" data-fragment-index="4">Você executa as funções e devolve o resultado</li><li class="fragment" data-fragment-index="5">O modelo gera a resposta final (ou pede mais tools)</li></ol>
-<div class="card text-sm card-cyan parallax-card fragment" style="margin-top: 1.5rem;">
-<p class="slide-in-left">💡 É <b>basicamente ReAct</b>, mas o parsing/validação acontecem do lado da API, não na sua regex.</p>
+<p class="slide-in-left" style="opacity:0.85; margin-bottom:1rem;">Até aqui o agente aprendeu a <b>pensar melhor</b> e a <b>se organizar</b>. Agora ele precisa agir sem improviso: chamar a ferramenta certa, com argumentos certos, no momento certo.</p>
+<div class="grid-3 stagger-in text-xs" style="gap:0.7rem;">
+<div class="card card-purple parallax-card fragment"><b>Antes</b><br>Regex manual, parsing frágil.</div>
+<div class="card card-cyan parallax-card fragment"><b>Agora</b><br>Function Calling e schemas.</div>
+<div class="card card-green parallax-card fragment"><b>Depois</b><br>Frameworks de produção.</div>
 </div>
 </section>
 
-<section>
-<h1>Function Calling — definindo tools</h1>
-<div class="card text-xs card-cyan parallax-card fragment" style="margin-bottom: 0.75rem;">
-<p class="slide-in-left">📖 <b>Em palavras:</b> essa lista é o <b>"cardápio"</b> do LLM: nome da função, descrição e parâmetros aceitos. É essa descrição que o modelo usa para decidir <i>quando</i> chamar cada tool.</p>
-</div>
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #1f2937 100%)">
+<h1>Function Calling estruturado</h1>
+<ol class="mt-2 text-sm">
+<li class="fragment">Você descreve as tools com <b>JSON Schema</b>.</li>
+<li class="fragment">O schema vai para a API no campo <code>tools</code>.</li>
+<li class="fragment">O modelo devolve <code>tool_calls</code> já estruturados.</li>
+<li class="fragment">Seu código executa a função real e devolve o resultado.</li>
+<li class="fragment">O modelo sintetiza a resposta final.</li>
+</ol>
+<div class="card mt-2 text-xs card-cyan parallax-card fragment">É o mesmo espírito do ReAct, mas com <b>contrato formal</b> entre modelo e aplicação.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
+<h1>Definindo tools</h1>
+<div class="card text-xs card-cyan parallax-card fragment" style="margin-bottom:0.75rem;">A descrição da tool é o “manual de uso” que o modelo lê para decidir <b>quando</b> e <b>como</b> chamá-la.</div>
 <pre class="scale-in"><code class="language-python">tools = [{
-    "type": "function",
-    "function": {
-        "name": "calculadora",
-        "description": "Avalia uma expressão matemática Python.",
-        "parameters": {
-            "type": "object",
-            "properties": {"expr": {"type": "string", "description": "Ex: '2 + 3 * 4'"}},
-            "required": ["expr"],
-        },
-    },
+   "type": "function",
+   "function": {
+       "name": "calculadora",
+       "description": "Avalia uma expressão matemática Python.",
+       "parameters": {
+           "type": "object",
+           "properties": {
+               "expr": {"type": "string", "description": "Ex: '2 + 3 * 4'"}
+           },
+           "required": ["expr"],
+       },
+   },
 }]</code></pre>
-<div class="mt-2 text-xs opacity-70">Para adicionar <code>busca(query: str)</code> ou outras tools, repita o mesmo schema como novos itens no array <code>tools</code>.</div>
+<div class="tip-box mt-2 text-xs">Tool description ruim gera uso ruim de tool.</div>
 </section>
 
-<section>
-<h1>Function Calling — exemplo de chamada</h1>
-<div class="text-xs" style="margin-bottom:0.3rem; opacity:0.7;">📋 <b>Colab-ready</b> — usa HuggingFace InferenceClient (token gratuito)</div>
-<pre class="scale-in"><code class="language-python"># Requer: client = InferenceClient(token=HF_TOKEN) do setup
-# Nota: nem todos os modelos do HF suportam function calling nativo.
-# Alternativa didática: forçamos o modelo a responder em JSON.
-
-import json
+<section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
+<h1>Exemplo de chamada</h1>
+<div class="text-xs opacity-70" style="margin-bottom:0.3rem;">Didático: em alguns modelos do HF, simulamos function calling via JSON</div>
+<pre class="scale-in"><code class="language-python">import json
 
 resp = client.chat.completions.create(
-    model=&quot;Qwen/Qwen2.5-7B-Instruct&quot;,
-    messages=[
-        {&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: &quot;&quot;&quot;Você tem acesso a ferramentas. Responda APENAS em JSON:
-{&quot;tool&quot;: &quot;nome&quot;, &quot;args&quot;: {&quot;param&quot;: &quot;valor&quot;}} ou {&quot;answer&quot;: &quot;resposta final&quot;}
-Ferramentas: calculadora(expr), busca(query)&quot;&quot;&quot;},
-        {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Quanto é (17 * 23) + 41?&quot;}
-    ],
-    max_tokens=100,
+   model="Qwen/Qwen2.5-7B-Instruct",
+   messages=[
+       {"role": "system", "content": """
+Responda APENAS em JSON:
+{"tool": "nome", "args": {"param": "valor"}} ou {"answer": "resposta final"}
+Ferramentas: calculadora(expr), busca(query)
+"""},
+       {"role": "user", "content": "Quanto é (17 * 23) + 41?"},
+   ],
+   max_tokens=100,
 )
-resultado = json.loads(resp.choices[0].message.content)
-print(resultado)  # {&quot;tool&quot;: &quot;calculadora&quot;, &quot;args&quot;: {&quot;expr&quot;: &quot;(17*23)+41&quot;}}</code></pre>
+print(json.loads(resp.choices[0].message.content))</code></pre>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
 <h1>Function Calling — o loop</h1>
-<div class="card text-xs card-cyan parallax-card fragment" style="margin-bottom: 0.75rem;">
-<p class="slide-in-left">📖 <b>Em palavras:</b> é o <b>mesmo loop do Encontro 1</b>, mas agora o LLM responde com um campo estruturado <code>tool_calls</code> em vez de texto bagunçado. Você (1) chama o modelo, (2) se ele não pediu ferramenta, é resposta final, (3) se pediu, você executa a função real, anexa o resultado e volta. Sem regex, sem parsing frágil.</p>
-</div>
+<div class="card text-xs card-cyan parallax-card fragment" style="margin-bottom:0.75rem;">Em produção, o agente fica nesse ciclo: <b>consultar modelo → executar tool → devolver observação → repetir</b>.</div>
 <pre class="scale-in"><code class="language-python">def run_agent_fc(pergunta: str, max_steps: int = 6):
-    msgs = [
-        {"role": "system", "content": SYSTEM_FC},  # prompt com instruções JSON
-        {"role": "user", "content": pergunta}
-    ]
-    for step in range(max_steps):
-        resp = client.chat.completions.create(
-            model="Qwen/Qwen2.5-7B-Instruct",
-            messages=msgs, max_tokens=150,
-        )
-        out = json.loads(resp.choices[0].message.content)
-        if "answer" in out:
-            return out["answer"]
-        # Modelo pediu uma ferramenta
-        msgs.append({"role": "assistant", "content": json.dumps(out)})</code></pre>
+   msgs = [
+       {"role": "system", "content": SYSTEM_FC},
+       {"role": "user", "content": pergunta},
+   ]
+   for _ in range(max_steps):
+       resp = client.chat.completions.create(
+           model="Qwen/Qwen2.5-7B-Instruct",
+           messages=msgs,
+           max_tokens=150,
+       )
+       out = json.loads(resp.choices[0].message.content)
+       if "answer" in out:
+           return out["answer"]
+       msgs.append({"role": "assistant", "content": json.dumps(out)})</code></pre>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
 <h1>Function Calling — fluxo completo</h1>
-<pre class="scale-in"><code class="language-python">        for tc in msg.tool_calls:
-            fn = TOOLS[tc.function.name]
-            args = json.loads(tc.function.arguments)
-            result = fn(**args)
-            msgs.append({
-                "role": "tool",
-                "tool_call_id": tc.id,
-                "content": str(result),
-            })
-    return "Max steps atingido."</code></pre>
-<div class="tip-box mt-2 text-xs">⚠️ Se vierem 2 <code>tool_calls</code>, você pode executar ambas em <b>paralelo</b> e só depois devolver os resultados ao modelo — latência cai ~50%.</div>
-<div class="insight-box mt-2 text-xs">🏢 <b>Na indústria:</b> Cursor IDE executa ~3-5 tool_calls em paralelo (read_file, grep, list_dir) numa única resposta. É o que dá a sensação de "velocidade mágica".</div>
-</section>
-
-<section>
-<h1>O que mudou em relação ao ReAct manual</h1>
-<div class="stagger-in grid-2 mt-3 text-xs" style="gap: 0.8rem;">
-<div class="compare-col bad" style="background: rgba(248, 113, 113, 0.08); border: 1px solid rgba(248, 113, 113, 0.28);"><b>Antes (ReAct regex)</b><div class="mt-1" style="line-height: 1.5;">❌ Parsing manual de "Action:" / "Action Input:"<br>❌ Argumentos são strings<br>❌ Sem validação<br>❌ Quebra se o modelo "criar" ferramenta<br>❌ 1 tool por turno</div></div>
-<div class="compare-col good"><b>Agora (Function Calling)</b><div class="mt-1" style="line-height: 1.5;">✅ API entrega JSON estruturado<br>✅ Argumentos tipados<br>✅ Schema valida automaticamente<br>✅ Modelo só chama tools registradas<br>✅ <b>Múltiplas tools em paralelo</b></div></div>
+<pre class="scale-in"><code class="language-python">        tool_name = out["tool"]
+       args = out["args"]
+       result = TOOLS[tool_name](**args)
+       msgs.append({
+           "role": "tool",
+           "name": tool_name,
+           "content": str(result),
+       })
+   return "Max steps atingido."</code></pre>
+<div class="grid-2 mt-2 stagger-in text-xs" style="gap:0.7rem;">
+<div class="card card-green parallax-card fragment"><b>Ganho</b><br>Sem regex e com dados estruturados.</div>
+<div class="card card-amber parallax-card fragment"><b>Cuidado</b><br>Seu código ainda precisa validar nome da tool e tratar erro.</div>
 </div>
-<div class="card mt-3 text-xs card-cyan parallax-card fragment">🚀 <b>Multi-tool em paralelo:</b> se o agente precisa do clima de SP e RJ, uma chamada LLM já devolve <b>2 tool_calls</b>; você executa ambas e volta com os resultados. Latência cai quase pela metade.</div>
 </section>
 
-<section>
-<h1>Parallel tool calls — exemplo visual</h1>
-<div class="agent-trace"><div class="trace-line trace-user">Usuário → LLM: Compare clima de SP e RJ</div><div class="trace-line trace-action">LLM → Usuário: tool_calls: [clima(SP), clima(RJ)]</div><div class="trace-line trace-user">Usuário → clima(SP): clima("SP")</div><div class="trace-line trace-obs">clima(SP) → Usuário: 22°C</div><div class="trace-line trace-user">Usuário → clima(RJ): clima("RJ")</div><div class="trace-line trace-obs">clima(RJ) → Usuário: 28°C</div><div class="trace-line trace-user">Usuário → LLM: results: [22°C, 28°C]</div><div class="trace-line trace-result">LLM → Usuário: Resposta: "RJ está 6°C mais quente."</div></div>
-<div class="insight-box fragment">Uma decisão do modelo, duas ferramentas em paralelo, uma síntese final.</div>
-<div class="tip-box mt-2 text-xs">💡 <b>Na prática:</b> parallel tool calls reduz latência em 40-60% quando há 2+ tools independentes. GPT-4o, Claude 3.5+ e Gemini 2.0+ suportam nativamente.</div>
-</section>
-
-<section>
-<h1>2.8 Quando usar LangChain?</h1>
-<p class="slide-in-left">LangChain é o framework mais popular para agentes em Python — com <b>prós e contras</b> claros.</p>
-<div class="compare-cols mt-3" style="gap: 0.8rem;">
-<div class="compare-col good"><b>✅ Use quando</b><div class="mt-1 text-xs" style="line-height: 1.5;">• quer trocar de modelo facilmente<br>• precisa de integrações prontas (vector DBs, loaders)<br>• está prototipando rápido<br>• time grande precisa padronizar</div></div>
-<div class="compare-col bad" style="background: rgba(248, 113, 113, 0.08); border: 1px solid rgba(248, 113, 113, 0.28);"><b>❌ Evite quando</b><div class="mt-1 text-xs" style="line-height: 1.5;">• você só precisa de 2–3 chamadas simples<br>• performance/latência é crítica<br>• quer entender tudo que acontece<br>• quer controle total do prompt</div></div>
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #0f766e 100%)">
+<h1>O que mudou em relação ao ReAct manual?</h1>
+<div class="stagger-in grid-2 text-xs" style="gap:0.8rem;">
+<div class="compare-col bad" style="background: rgba(248, 113, 113, 0.08); border: 1px solid rgba(248, 113, 113, 0.28);"><b>Antes</b><div class="mt-1">❌ parsing de texto<br>❌ argumentos soltos<br>❌ ferramenta inventada quebra fluxo<br>❌ normalmente 1 tool por vez</div></div>
+<div class="compare-col good"><b>Agora</b><div class="mt-1">✅ contrato estruturado<br>✅ argumentos tipados<br>✅ lista explícita de tools<br>✅ múltiplas chamadas na mesma resposta</div></div>
 </div>
-<div class="card mt-3 text-xs card-amber parallax-card fragment">⚠️ Crítica comum: abstrai demais. Em 2024 a própria equipe lançou o <b>LangGraph</b> como opção de menor nível e controle explícito.</div>
+<div class="insight-box mt-2 text-xs">Function Calling troca “convenção textual” por <b>API orientada a contratos</b>.</div>
 </section>
 
-<section>
-<h1>🎯 Quando usar cada framework?</h1>
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #172554 100%)">
+<h1>Parallel tool calls</h1>
+<div class="agent-trace">
+<div class="trace-line trace-user">Usuário: Compare clima de SP e RJ</div>
+<div class="trace-line trace-action">LLM: tool_calls [clima("SP"), clima("RJ")]</div>
+<div class="trace-line trace-obs">tool: SP = 22°C • RJ = 28°C</div>
+<div class="trace-line trace-result">LLM: "RJ está 6°C mais quente."</div>
+</div>
+<div class="grid-2 mt-2 stagger-in text-xs" style="gap:0.7rem;">
+<div class="card card-cyan parallax-card fragment"><b>Quando usar</b><br>Quando as consultas são independentes.</div>
+<div class="card card-green parallax-card fragment"><b>Impacto</b><br>Reduz latência em 40-60% em muitos fluxos reais.</div>
+</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)">
+<h1>🏭 Do artesanal para produção</h1>
+<p class="slide-in-left" style="opacity:0.8; margin-bottom:1rem;">Já temos raciocínio, planning e tool use. O problema agora não é “conseguir fazer uma demo”; é <b>manter o sistema compreensível, observável e confiável</b>.</p>
+<div class="grid-3 stagger-in text-sm" style="gap:0.7rem;">
+<div class="card card-purple parallax-card fragment"><b>Protótipo</b><br><span class="text-xs">Python puro e poucas tools.</span></div>
+<div class="card card-cyan parallax-card fragment"><b>Escala</b><br><span class="text-xs">Mais estados, mais logs, mais exceções.</span></div>
+<div class="card card-green parallax-card fragment"><b>Resposta da indústria</b><br><span class="text-xs">Frameworks e grafos explícitos.</span></div>
+</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e293b 100%)">
+<h1>Quando usar LangChain?</h1>
+<div class="compare-cols mt-3 text-xs" style="gap:0.8rem;">
+<div class="compare-col good"><b>✅ Use quando</b><div class="mt-1">troca de modelo importa<br>integrações prontas ajudam<br>prototipagem rápida é prioridade<br>o time quer padronização</div></div>
+<div class="compare-col bad" style="background: rgba(248, 113, 113, 0.08); border: 1px solid rgba(248, 113, 113, 0.28);"><b>❌ Evite quando</b><div class="mt-1">o fluxo é muito simples<br>latência é crítica<br>você quer ver cada passo<br>controle fino vale mais que conveniência</div></div>
+</div>
+<div class="tip-box mt-2 text-xs">LangChain resolve muito problema de integração; não resolve automaticamente problema de desenho do agente.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #1f2937 100%)">
+<h1>Comparando frameworks</h1>
 <div class="text-xs mt-2">
-<div class="slide-in-right mt-2"><table><thead><tr><th>Framework</th><th>Controle</th><th>Complexidade</th><th>Melhor para</th></tr></thead><tbody><tr><td><b>Python puro</b></td><td>🟢🟢🟢 Total</td><td>🟡 Média</td><td>Agentes simples, aprendizado</td></tr><tr><td><b>OpenAI Agents SDK</b></td><td>🟢🟢 Alto</td><td>🟢 Baixa</td><td>Protótipos rápidos, poucos tools</td></tr><tr><td><b>smolagents</b></td><td>🟢🟢 Alto</td><td>🟢 Baixa</td><td>HuggingFace ecosystem</td></tr><tr><td><b>LangChain</b></td><td>🟡 Médio</td><td>🟡 Média</td><td>RAG, chains complexas</td></tr><tr><td><b>LangGraph</b></td><td>🟢🟢🟢 Total</td><td>🔴 Alta</td><td>Produção, HITL, multi-agent</td></tr><tr><td><b>CrewAI</b></td><td>🟡 Médio</td><td>🟡 Média</td><td>Multi-agent colaborativo</td></tr><tr><td><b>AutoGen</b></td><td>🟡 Médio</td><td>🔴 Alta</td><td>Pesquisa, conversas multi-agent</td></tr></tbody></table></div>
+<table>
+<thead><tr><th>Framework</th><th>Controle</th><th>Complexidade</th><th>Melhor para</th></tr></thead>
+<tbody>
+<tr><td><b>Python puro</b></td><td>🟢🟢🟢</td><td>🟡</td><td>Aprender e fluxos simples</td></tr>
+<tr><td><b>OpenAI Agents SDK</b></td><td>🟢🟢</td><td>🟢</td><td>Protótipo com poucas tools</td></tr>
+<tr><td><b>smolagents</b></td><td>🟢🟢</td><td>🟢</td><td>Ecossistema Hugging Face</td></tr>
+<tr><td><b>LangChain</b></td><td>🟡</td><td>🟡</td><td>Integrações e chains</td></tr>
+<tr><td><b>LangGraph</b></td><td>🟢🟢🟢</td><td>🔴</td><td>Produção, HITL, estado</td></tr>
+<tr><td><b>CrewAI / AutoGen</b></td><td>🟡</td><td>🔴</td><td>Multi-agent conversacional</td></tr>
+</tbody>
+</table>
 </div>
-<div class="card mt-2 text-xs card-cyan parallax-card fragment">
-<p class="slide-in-left">💡 <b>Regra prática:</b> comece com Python puro → migre para LangGraph quando precisar de checkpoints, HITL ou multi-agent.</p>
-</div>
+<div class="insight-box mt-2 text-xs">Regra prática: comece simples; suba de nível quando o problema exigir <b>estado, checkpoints ou auditabilidade</b>.</div>
 </section>
 
-<section>
-<h1>Agente em LangChain — exemplo</h1>
-<div class="card text-xs card-cyan parallax-card fragment" style="margin-bottom: 0.75rem;">📖 <b>Em palavras:</b> o loop, o parsing e o error-handling ficam escondidos. Você declara <code>@tool</code>, monta o agente com <code>create_tool_calling_agent</code> e executa com <code>AgentExecutor</code>.</div>
-<pre class="scale-in"><code class="language-python">from langchain_openai import ChatOpenAI; from langchain.agents import AgentExecutor, create_tool_calling_agent
-from langchain_core.prompts import ChatPromptTemplate; from langchain_core.tools import tool
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #064e3b 100%)">
+<h1>Exemplo em LangChain</h1>
+<div class="card text-xs card-cyan parallax-card fragment" style="margin-bottom:0.75rem;">O framework esconde o loop, o parsing e parte do error handling.</div>
+<pre class="scale-in"><code class="language-python">from langchain_openai import ChatOpenAI
+from langchain.agents import AgentExecutor, create_tool_calling_agent
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.tools import tool
+
 @tool
-def calculadora(expr: str) -&gt; str: return str(eval(expr, {"__builtins__": {}}, {}))
-@tool
-def busca(query: str) -&gt; str: return {"capital do brasil": "Brasília"}.get(query.lower(), "Não encontrado")
+def calculadora(expr: str) -&gt; str:
+   return str(eval(expr, {"__builtins__": {}}, {}))
+
 llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
 prompt = ChatPromptTemplate.from_messages([
-    ("system", "Você é um agente útil. Use as ferramentas quando precisar."), ("user", "{input}"), ("placeholder", "{agent_scratchpad}")])
-agent = create_tool_calling_agent(llm, [calculadora, busca], prompt)
-executor = AgentExecutor(agent=agent, tools=[calculadora, busca], verbose=True)
-print(executor.invoke({"input": "Qual a capital do Brasil e quanto é 47*13?"}))</code></pre>
+   ("system", "Você é um agente útil. Use as ferramentas quando precisar."),
+   ("user", "{input}"),
+   ("placeholder", "{agent_scratchpad}"),
+])
+agent = create_tool_calling_agent(llm, [calculadora], prompt)
+executor = AgentExecutor(agent=agent, tools=[calculadora], verbose=True)</code></pre>
 </section>
 
-<section>
-<h1>2.9 LangGraph — controle total com grafos de estado</h1>
-<p class="slide-in-left">LangChain criou o LangGraph em <b>2024</b> como resposta à principal crítica: "abstrai demais, não sei o que está acontecendo".</p>
-<p class="slide-in-left"><b>Conceito:</b> seu agente é um <b>grafo dirigido</b> onde cada nó é uma função Python e cada aresta é uma condição.</p>
-<div class="flow-diagram"><div class="flow-node node-purple">[*] --> agent: entrada do usuário</div><div class="flow-arrow">→</div><div class="flow-node node-cyan">agent --> tools: precisa de tool?</div><div class="flow-arrow">→</div><div class="flow-node node-green">agent --> END: resposta pronta</div><div class="flow-arrow">→</div><div class="flow-node node-cyan">tools --> agent: resultado da tool</div></div>
-<div class="grid-2 mt-2 text-xs stagger-in">
-<div class="card card-cyan parallax-card fragment">💡 Diferente do LangChain (loop implícito), aqui <b>você desenha o fluxo</b> — cada rota é explícita e debugável.</div>
-<div class="card card-green parallax-card fragment">🏢 <b>Adoção:</b> empresas como Elastic, Replit, e bancos como JP Morgan usam LangGraph em produção por conta da auditabilidade.</div>
+<section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
+<h1>LangGraph — por que ele apareceu?</h1>
+<p class="slide-in-left" style="opacity:0.8;">A crítica ao LangChain era simples: <b>“abstrai demais”</b>. LangGraph surge para tornar o fluxo explícito.</p>
+<div class="grid-2 stagger-in text-xs" style="gap:0.8rem;">
+<div class="card card-purple parallax-card fragment"><b>Modelo mental</b><br>Cada nó é uma função; cada aresta, uma decisão.</div>
+<div class="card card-green parallax-card fragment"><b>Valor</b><br>Você enxerga estado, caminhos, pausas e retomadas.</div>
 </div>
+<div class="flow-diagram mt-2"><div class="flow-node node-purple">Entrada</div><div class="flow-arrow">→</div><div class="flow-node node-cyan">Agent</div><div class="flow-arrow">→</div><div class="flow-node node-amber">Tools?</div><div class="flow-arrow">→</div><div class="flow-node node-green">END</div></div>
 </section>
 
-<section>
-<h1>LangGraph — exemplo completo comentado</h1>
-<pre class="scale-in"><code class="language-python">from langgraph.graph import StateGraph
-from langgraph.prebuilt import ToolNode, tools_condition
+<section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
+<h1>LangGraph — código + execução</h1>
+<pre class="scale-in"><code class="language-python">from typing import Annotated, TypedDict
+from langgraph.graph import StateGraph
 from langgraph.graph.message import add_messages
-from langchain_openai import ChatOpenAI
-from typing import Annotated, TypedDict
+from langgraph.prebuilt import ToolNode, tools_condition
 
 class State(TypedDict):
-    messages: Annotated[list, add_messages]
+   messages: Annotated[list, add_messages]
 
 llm = ChatOpenAI(model="gpt-4o-mini").bind_tools([calc, busca])
 
 def agent(state: State):
-    return {"messages": [llm.invoke(state["messages"])]}
+   return {"messages": [llm.invoke(state["messages"])]}
 
-# Monta o grafo
 graph = StateGraph(State)
 graph.add_node("agent", agent)
 graph.add_node("tools", ToolNode([calc, busca]))
 graph.set_entry_point("agent")
 graph.add_conditional_edges("agent", tools_condition)
 graph.add_edge("tools", "agent")
+app = graph.compile()
 
-app = graph.compile()</code></pre>
-</section>
-
-<section>
-<h1>LangGraph — executando e observando</h1>
-<pre class="scale-in"><code class="language-python"># Executa
-result = app.invoke({
-    "messages": [("user", "Quanto custa um hotel em SP?")]
-})
-print(result["messages"][-1].content)
-
-# Streaming (token a token para UI)
-for event in app.stream({"messages": [("user", "...")]}):
-    print(event)  # mostra cada nó executado</code></pre>
-<div class="mt-3 stagger-in grid-2 text-xs" style="gap: 0.8rem;">
-<div class="card card-green parallax-card fragment"><b>✅ Vantagem</b>: veja exatamente qual nó rodou, em que ordem, com que dados.</div>
-<div class="card card-purple parallax-card fragment"><b>🔑 Killer feature</b>: checkpoints — pause, salve estado, retome depois (HITL).</div>
+result = app.invoke({"messages": [("user", "Quanto custa um hotel em SP?")]})</code></pre>
+<div class="grid-2 mt-2 stagger-in text-xs" style="gap:0.7rem;">
+<div class="card card-green parallax-card fragment"><b>Streaming</b><br><code>app.stream(...)</code> mostra cada nó em execução.</div>
+<div class="card card-purple parallax-card fragment"><b>Checkpoints</b><br>Pausar e retomar vira parte nativa da arquitetura.</div>
 </div>
 </section>
 
-<section>
-<h1>Por que LangGraph domina em produção (2025)?</h1>
-<div class="stagger-in grid-3 mt-3 text-xs" style="gap: 0.8rem;">
-<div class="card card-purple parallax-card fragment">
-<b>🔍 Transparência</b><br>Fluxo visível — sem mágica. Cada decisão é uma aresta no grafo.
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
+<h1>Por que LangGraph domina em produção?</h1>
+<div class="stagger-in grid-3 text-xs" style="gap:0.8rem;">
+<div class="card card-purple parallax-card fragment"><b>🔍 Transparência</b><br>Fluxo visível, debugável.</div>
+<div class="card card-cyan parallax-card fragment"><b>⏸️ HITL</b><br>Pausa antes de ações sensíveis.</div>
+<div class="card card-green parallax-card fragment"><b>👥 Multi-agent</b><br>Nós podem ser agentes diferentes.</div>
+<div class="card card-amber parallax-card fragment"><b>🌊 Streaming</b><br>Ótimo para UX e observabilidade.</div>
+<div class="card parallax-card fragment" style="background: rgba(248, 113, 113, 0.08); border: 1px solid rgba(248, 113, 113, 0.28);"><b>☁️ Persistência</b><br>Estado durável e retomada.</div>
+<div class="card parallax-card fragment" style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.10);"><b>📊 Auditoria</b><br>Mais fácil medir custo, latência e falhas.</div>
 </div>
-<div class="card card-cyan parallax-card fragment">
-<b>⏸️ Checkpoint + HITL</b><br>Pausa antes de ações sensíveis. Humano aprova e o agente continua.
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
+<h1>Qual abordagem usar?</h1>
+<div style="text-align:center;" class="text-xs">
+<div class="flow-node node-purple" style="display:inline-block;">Os passos são fixos?</div>
+<div style="margin:0.4rem 0;">Sim ↙ &nbsp;&nbsp;&nbsp; ↘ Não</div>
+<div style="display:grid; grid-template-columns:1fr 1fr; gap:0.7rem;">
+<div class="card card-green parallax-card fragment"><b>Workflow simples</b><br>Chamadas LLM diretas ou chaining.</div>
+<div class="card card-cyan parallax-card fragment"><b>Precisa de tools?</b><br>Se sim, use Function Calling.</div>
 </div>
-<div class="card card-green parallax-card fragment">
-<b>👥 Multi-agent nativo</b><br>Cada nó pode ser um agente diferente. Supervisor orquestra.
-</div>
-</div>
-<div class="mt-3 stagger-in grid-3 text-xs" style="gap: 0.8rem;">
-<div class="card card-amber parallax-card fragment">
-<b>🌊 Streaming</b><br>Tokens e eventos em tempo real — essencial para UX.
-</div>
-<div class="card parallax-card fragment" style="background: rgba(248, 113, 113, 0.08); border: 1px solid rgba(248, 113, 113, 0.28);">
-<b>☁️ LangGraph Cloud</b><br>Deploy gerenciado + persistência + cron tasks.
-</div>
-<div class="card parallax-card fragment" style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.10);">
-<b>📊 LangSmith</b><br>Observabilidade integrada — traces, evals, custos.
+<div style="margin:0.5rem 0;">Depois pergunte:</div>
+<div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:0.7rem;">
+<div class="card card-purple parallax-card fragment"><b>Pouco estado</b><br>SDK simples / Python puro</div>
+<div class="card card-amber parallax-card fragment"><b>Muitas integrações</b><br>LangChain</div>
+<div class="card card-red parallax-card fragment"><b>Estado, HITL, multi-agent</b><br>LangGraph</div>
 </div>
 </div>
 </section>
 
-<section>
-<h1>2.10 Decision tree: qual abordagem usar?</h1>
-<div class="flow-diagram"><div class="flow-node node-purple">Tenho um caso de uso</div><div class="flow-arrow">→</div><div class="flow-node node-purple">Os passos<br>são fixos?</div><div class="flow-arrow">→</div><div class="flow-node node-purple">Use workflow simples<br>com chamadas LLM diretas</div><div class="flow-arrow">→</div><div class="flow-node node-cyan">Quantas tools?</div><div class="flow-arrow">→</div><div class="flow-node node-purple">OpenAI Function Calling<br>SDK puro</div><div class="flow-arrow">→</div><div class="flow-node node-purple">Precisa de<br>state, HITL,<br>multi-agent?</div><div class="flow-arrow">→</div><div class="flow-node node-cyan">LangChain<br>AgentExecutor</div><div class="flow-arrow">→</div><div class="flow-node node-purple">LangGraph</div><div class="flow-arrow">→</div><div class="flow-node node-purple">Quer<br>multi-agente?</div><div class="flow-arrow">→</div><div class="flow-node node-purple">CrewAI / AutoGen<br>/ LangGraph multi-agent</div></div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #111827 100%)">
-<h1>🎯 2.10 Boas Práticas — tirando o melhor dos agentes</h1>
-<p class="slide-in-left">Como interagir com agentes para maximizar resultados</p>
-<div class="grid-2 mt-3 stagger-in text-xs">
-<div class="card card-amber parallax-card fragment"><b>📖 Analogia:</b> prompts são como <b>briefings para um estagiário brilhante</b>. Ele é capaz, mas precisa de contexto claro, exemplos e limites.</div>
-<div class="card card-green parallax-card fragment"><b>🎯 Resultado esperado:</b> um agente bem instruído resolve 80% dos casos sem intervenção. Mal instruído? Menos de 30%.</div>
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #0f766e 100%)">
+<h1>🎯 Boas práticas — antes de otimizar</h1>
+<p class="slide-in-left" style="opacity:0.8; margin-bottom:1rem;">Agora já vimos o ciclo completo: pensar, planejar, agir e orquestrar em produção. Falta o que mais diferencia um agente útil de um agente irritante: <b>disciplina de projeto</b>.</p>
+<div class="grid-2 stagger-in text-xs" style="gap:0.8rem;">
+<div class="card card-amber parallax-card fragment"><b>Analogia</b><br>Prompt é briefing para um estagiário brilhante.</div>
+<div class="card card-green parallax-card fragment"><b>Meta</b><br>Reduzir ambiguidade, custo e retrabalho.</div>
 </div>
 </section>
 
-<section>
-<h1>🎯 Boas práticas — prompts e contexto</h1>
-<div class="compare-cols text-xs mt-2" style="gap: 0.8rem;">
-<div class="compare-col good"><b>✅ Faça</b><div class="mt-1" style="line-height: 1.5;">• seja específico<br>• dê contexto (stack, constraints, estilo)<br>• decomponha tarefas grandes<br>• itere em múltiplos turnos<br>• forneça exemplos few-shot</div></div>
-<div class="compare-col bad" style="background: rgba(248, 113, 113, 0.08); border: 1px solid rgba(248, 113, 113, 0.28);"><b>❌ Evite</b><div class="mt-1" style="line-height: 1.5;">• prompts vagos<br>• contexto implícito<br>• pedir tudo de uma vez<br>• ignorar erros do agente<br>• confiar cegamente no output</div></div>
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #172554 100%)">
+<h1>Boas práticas — prompts + tools</h1>
+<div class="grid-2 stagger-in text-xs" style="gap:0.8rem;">
+<div class="compare-col good"><b>✅ Faça</b><div class="mt-1">seja específico<br>dê contexto e restrições<br>quebre tarefas grandes<br>descreva tools com when/what/format<br>versione prompts como código</div></div>
+<div class="compare-col bad" style="background: rgba(248, 113, 113, 0.08); border: 1px solid rgba(248, 113, 113, 0.28);"><b>❌ Evite</b><div class="mt-1">prompt vago<br>contexto implícito<br>pedir tudo de uma vez<br>tool description genérica<br>confiar cegamente no output</div></div>
 </div>
+<div class="tip-box mt-2 text-xs">Ferramenta boa tem escopo claro, parâmetros claros e erro tratável.</div>
 </section>
 
-<section>
-<h1>🛠️ Boas práticas — ferramentas e workflow</h1>
-<div class="stagger-in grid-2 text-xs mt-2" style="gap: 0.8rem;">
-<div class="card card-cyan parallax-card fragment"><b>🔧 Ferramentas</b><div class="mt-1" style="line-height: 1.5;">• limite o escopo das tools<br>• nomeie bem<br>• documente params e ranges<br>• trate erros sem stack trace<br>• teste cada tool isoladamente</div></div>
-<div class="card card-green parallax-card fragment"><b>🔄 Workflow</b><div class="mt-1" style="line-height: 1.5;">• comece simples<br>• observe logs<br>• limite iterações<br>• monitore custo<br>• versione prompts como código</div></div>
-</div>
-</section>
-
-<section>
-<h1>⚠️ Erros mais comuns (e como evitar)</h1>
+<section data-background-gradient="linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)">
+<h1>⚠️ Erros mais comuns</h1>
 <div class="text-xs mt-2">
-<div class="card parallax-card fragment" style="display: flex; gap: 0.55rem; background: rgba(248, 113, 113, 0.08); border: 1px solid rgba(248, 113, 113, 0.28);"><span>🔴</span><div><b>Loop infinito:</b> agente repete a mesma ação. <i>Fix:</i> max_steps + detecção de repetição.</div></div>
-<div class="card parallax-card fragment" style="display: flex; gap: 0.55rem; background: rgba(248, 113, 113, 0.08); border: 1px solid rgba(248, 113, 113, 0.28);"><span>🔴</span><div><b>Alucinação de tool:</b> inventa ferramenta que não existe. <i>Fix:</i> validação estrita do nome antes de executar.</div></div>
-<div class="card parallax-card fragment" style="display: flex; gap: 0.55rem; background: rgba(248, 113, 113, 0.08); border: 1px solid rgba(248, 113, 113, 0.28);"><span>🔴</span><div><b>Context overflow:</b> conversa longa estoura a janela. <i>Fix:</i> summarize + sliding window.</div></div>
-<div class="card card-amber parallax-card fragment" style="display: flex; gap: 0.55rem;"><span>🟡</span><div><b>Custo explosivo:</b> agente usa modelo caro em loop. <i>Fix:</i> budget cap + modelo menor para subtarefas.</div></div>
-<div class="card card-amber parallax-card fragment" style="display: flex; gap: 0.55rem;"><span>🟡</span><div><b>Resposta genérica:</b> ignora contexto. <i>Fix:</i> melhore o system prompt com exemplos.</div></div>
-<div class="card card-amber parallax-card fragment" style="display: flex; gap: 0.55rem;"><span>🟡</span><div><b>Tool description ruim:</b> modelo não entende quando usar. <i>Fix:</i> reescreva com when/what/format.</div></div>
+<div class="card parallax-card fragment" style="display:flex; gap:0.55rem; background: rgba(248, 113, 113, 0.08); border: 1px solid rgba(248, 113, 113, 0.28);"><span>🔴</span><div><b>Loop infinito:</b> repete a mesma ação. <i>Fix:</i> max_steps e detecção de repetição.</div></div>
+<div class="card parallax-card fragment" style="display:flex; gap:0.55rem; background: rgba(248, 113, 113, 0.08); border: 1px solid rgba(248, 113, 113, 0.28);"><span>🔴</span><div><b>Tool alucinada:</b> inventa ferramenta. <i>Fix:</i> validar nome antes de executar.</div></div>
+<div class="card parallax-card fragment" style="display:flex; gap:0.55rem; background: rgba(248, 113, 113, 0.08); border: 1px solid rgba(248, 113, 113, 0.28);"><span>🔴</span><div><b>Overflow de contexto:</b> conversa longa quebra. <i>Fix:</i> resumo e janela deslizante.</div></div>
+<div class="card card-amber parallax-card fragment" style="display:flex; gap:0.55rem;"><span>🟡</span><div><b>Custo explosivo:</b> modelo caro em loop. <i>Fix:</i> budget cap e roteamento.</div></div>
+<div class="card card-amber parallax-card fragment" style="display:flex; gap:0.55rem;"><span>🟡</span><div><b>Resposta genérica:</b> falta contexto. <i>Fix:</i> melhorar system prompt e exemplos.</div></div>
 </div>
-<div class="card mt-3 text-xs card-green parallax-card fragment">
-<p class="slide-in-left">💡 <b>Regra de ouro:</b> se o agente falha repetidamente, o problema quase nunca é o modelo — é o <b>design do sistema</b> (prompt, tools, ou orquestração).</p>
+<div class="insight-box mt-2 text-xs">Se o agente falha sempre, normalmente o defeito está no <b>desenho do sistema</b>, não no “QI do modelo”.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #172554 100%)">
+<h1>🏋️ Exercícios — Encontro 2</h1>
+<div class="typewriter-js text-center mt-2" data-text="5 atividades · reasoning, planning e tool execution"></div>
+<div class="grid-3 mt-3 stagger-in text-xs">
+<div class="card card-purple parallax-card fragment"><b>🧠 Raciocínio</b><br>CoT, reflexão e verificação</div>
+<div class="card card-cyan parallax-card fragment"><b>🔧 Ferramentas</b><br>Function calling e loop de execução</div>
+<div class="card card-green parallax-card fragment"><b>📋 Planejamento</b><br>Planos, replanning e orquestração</div>
 </div>
-<div class="insight-box mt-2 text-xs">📊 <b>Dado real:</b> segundo a equipe do LangSmith, ~70% dos tickets de suporte de agentes são resolvidos melhorando tool descriptions ou system prompts — sem trocar o modelo.</div>
+<div class="tip-box mt-2 text-xs">A ideia agora é transformar os padrões em prática: comparar abordagens, medir trade-offs e sentir onde cada uma brilha.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%)">
-<h1>🏋️ 2.11 Exercícios — Encontro 2</h1>
-<div class="typewriter-js text-center mt-2" data-text="5 atividades · Aplique os conceitos de reasoning, planning e tool execution"></div>
-<div class="grid-3 mt-3 stagger-in text-xs">
-<div class="card card-purple parallax-card fragment"><b>🧠 Raciocínio</b><br>Ex 2.1 e 2.5</div>
-<div class="card card-cyan parallax-card fragment"><b>🔧 Ferramentas</b><br>Ex 2.2 e 2.3</div>
-<div class="card card-green parallax-card fragment"><b>📋 Planejamento</b><br>Ex 2.4</div>
-</div>
-<div class="tip-box mt-2 text-xs">💡 Todos os exercícios rodam no <b>Google Colab</b> — sem setup local. Tempo estimado: 60-90 min total.</div>
-</section>
-
-<section>
 <h1>Exercício 2.1 · CoT vs Direct</h1>
 <div class="card card-purple parallax-card fragment">
 <p class="slide-in-left"><b>Tarefa:</b> com <b>gpt-4o-mini</b> (modelo pequeno, propenso a errar), teste 10 problemas de matemática de palavra (word problems).</p>
@@ -1154,7 +1093,7 @@ for event in app.stream({"messages": [("user", "...")]}):
 </div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)">
 <h1>Exercício 2.2 · Migre seu agente do Encontro 1</h1>
 <div class="card card-purple parallax-card fragment">
 <p class="slide-in-left"><b>Tarefa:</b> reescreva o agente do Encontro 1 usando <b>Function Calling estruturado</b> (sem regex).</p>
@@ -1165,7 +1104,7 @@ for event in app.stream({"messages": [("user", "...")]}):
 </div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
 <h1>Exercício 2.3 · LangGraph básico</h1>
 <div class="card card-purple parallax-card fragment">
 <p class="slide-in-left"><b>Tarefa:</b> monte o mesmo agente em <b>LangGraph</b>, seguindo o exemplo dos slides.</p>
@@ -1175,7 +1114,7 @@ for event in app.stream({"messages": [("user", "...")]}):
 </div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #0f766e 100%)">
 <h1>Exercício 2.4 · Plan-and-Execute na unha</h1>
 <div class="card card-purple parallax-card fragment">
 <p class="slide-in-left"><b>Tarefa:</b> implemente <b>Plan-and-Execute</b> sem framework. Estrutura:</p>
@@ -1197,7 +1136,7 @@ def plan_and_execute(pergunta: str):
 </div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
 <h1>Exercício 2.5 · Reflexão</h1>
 <div class="card card-cyan parallax-card fragment">
 <p class="slide-in-left">Em <b>um parágrafo cada</b>:</p>
@@ -1207,7 +1146,7 @@ def plan_and_execute(pergunta: str):
 </div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
 <h1>🌐 Mercado de reasoning & frameworks (2024-2025)</h1>
 <div class="stagger-in grid-2 text-xs" style="gap: 0.8rem;">
 <div class="card card-purple parallax-card fragment"><b>🧠 Reasoning models</b><div class="mt-1" style="line-height: 1.5;">• <b>OpenAI o1, o3, o3-mini</b> (set/2024–jan/2025)<br>• <b>DeepSeek R1</b> (jan/2025) — open weights, abalou o mercado<br>• <b>Claude Sonnet 4 Thinking</b> (mai/2025)<br>• <b>Gemini 2.5 Pro Thinking</b><br>• <b>Qwen QwQ</b>, <b>Kimi k1.5</b> (Moonshot)</div></div>
@@ -1215,7 +1154,7 @@ def plan_and_execute(pergunta: str):
 </div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
 <h1>🌐 Mercado de reasoning & frameworks (2024-2025) — cont.</h1>
 <div class="stagger-in grid-2 text-xs" style="gap: 0.8rem;">
 <div class="card card-green parallax-card fragment"><b>🧩 Padrões emergentes em produção</b><div class="mt-1" style="line-height: 1.5;">• Anthropic <b>Building Effective Agents</b> (dez/2024) consolidou 5 padrões<br>• <b>OpenAI Swarm → Agents SDK</b> popularizou handoffs<br>• <b>LangGraph Supervisor</b> virou padrão de coordenação<br>• <b>MCP</b> (nov/2024) tornou-se padrão de tool calling</div></div>
@@ -1224,7 +1163,7 @@ def plan_and_execute(pergunta: str):
 <div class="mt-3 text-xs opacity-70 text-center">Fontes: documentação oficial dos modelos, blogs Anthropic/OpenAI e repositórios públicos no GitHub.</div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #064e3b 100%)">
 <h1>📚 Referências públicas — Encontro 2</h1>
 <div class="stagger-in grid-2 text-xs mt-2" style="gap: 0.8rem;">
 <div class="card card-purple parallax-card fragment"><b>Reasoning, planning & verification</b><div class="mt-1" style="line-height: 1.5;">• Wei et al. (2022) — <i>Chain-of-Thought Prompting</i> · <a href="https://arxiv.org/abs/2201.11903">arXiv:2201.11903</a><br>• Wang et al. (2022) — <i>Self-Consistency Improves CoT</i> · <a href="https://arxiv.org/abs/2203.11171">arXiv:2203.11171</a><br>• Yao et al. (2023) — <i>Tree of Thoughts</i> · <a href="https://arxiv.org/abs/2305.10601">arXiv:2305.10601</a><br>• Zhou et al. (2024) — <i>Language Agent Tree Search</i> · <a href="https://arxiv.org/abs/2310.04406">arXiv:2310.04406</a><br>• Lightman et al. (2023) — <i>Let's Verify Step by Step</i> · <a href="https://arxiv.org/abs/2305.20050">arXiv:2305.20050</a><br>• Xu et al. (2023) — <i>ReWOO</i> · <a href="https://arxiv.org/abs/2305.18323">arXiv:2305.18323</a><br>• Shinn et al. (2023) — <i>Reflexion</i> · <a href="https://arxiv.org/abs/2303.11366">arXiv:2303.11366</a></div></div>
@@ -1232,7 +1171,7 @@ def plan_and_execute(pergunta: str):
 </div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e293b 100%)">
 <h1>📚 Referências públicas — Encontro 2 — cont.</h1>
 <div class="stagger-in grid-2 text-xs mt-2" style="gap: 0.8rem;">
 <div class="card card-green parallax-card fragment"><b>Padrões agentic</b><div class="mt-1" style="line-height: 1.5;">• Anthropic (2024) — <i>Building Effective Agents</i> · <a href="https://www.anthropic.com/research/building-effective-agents">anthropic.com/research</a> (fonte dos 5 padrões)<br>• OpenAI (2024) — <i>Structured Outputs Guide</i> · <a href="https://platform.openai.com/docs/guides/structured-outputs">platform.openai.com</a><br>• Pydantic AI Docs · <a href="https://ai.pydantic.dev/">ai.pydantic.dev</a></div></div>
@@ -1241,7 +1180,7 @@ def plan_and_execute(pergunta: str):
 <div class="mt-2 text-xs opacity-70">Todo conteúdo deste encontro é de domínio público. Marcas citadas pertencem aos respectivos donos; uso exclusivamente educacional.</div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%)">
 <h1>🔓 Open-Source vs Closed-Source</h1>
 <div class="compare-cols text-xs mt-2" style="gap: 1rem;">
 <div class="compare-col good">
@@ -1260,7 +1199,7 @@ def plan_and_execute(pergunta: str):
 </div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)">
 <h1>🛡️ Riscos de agentes — MIT Module 4</h1>
 <div class="text-xs mt-2">
 <div class="slide-in-right mt-2"><table><thead><tr><th>Risco</th><th>Descrição</th><th>Mitigação</th></tr></thead><tbody><tr><td><b>Prompt injection</b></td><td>Atacante injeta instrução maliciosa</td><td>Input validation, guardrails</td></tr><tr><td><b>Data exfiltration</b></td><td>Agente vaza dados via tool call</td><td>Sandboxing, allowlist de tools</td></tr><tr><td><b>Hallucination cascade</b></td><td>Erro se propaga entre agentes</td><td>Verificação cruzada, HITL</td></tr><tr><td><b>Runaway costs</b></td><td>Loop infinito consome $$$$</td><td>Max iterations, budget caps</td></tr><tr><td><b>Over-autonomy</b></td><td>Agente toma decisão sem aprovação</td><td>Approval gates, audit trail</td></tr></tbody></table></div>
@@ -1270,7 +1209,7 @@ def plan_and_execute(pergunta: str):
 </div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
 <h1>🔄 Recap — O que construímos no Encontro 2</h1>
 <div class="stagger-in grid-2 text-xs" style="gap: 0.8rem;">
 <div class="card card-purple parallax-card fragment"><b>📜 Evolução que acompanhamos</b><div class="mt-1" style="line-height: 1.5;">• <b>2022:</b> CoT — "pense passo a passo"<br>• <b>2023:</b> Function Calling e ReWOO<br>• <b>2024:</b> Test-time compute e LATS ganham força<br>• <b>2025:</b> SPRINT e verificação robusta entram no toolkit agentic</div></div>
@@ -1278,7 +1217,7 @@ def plan_and_execute(pergunta: str):
 </div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #0f766e 100%)">
 <h1>🔄 Recap — O que construímos no Encontro 2 — cont.</h1>
 <div class="stagger-in grid-2 text-xs" style="gap: 0.8rem;">
 <div class="card card-green parallax-card fragment"><b>🏢 Produtos que usam isso</b><div class="mt-1" style="line-height: 1.5;">• ChatGPT — function calling + plugins<br>• Cursor — planning antes de editar código<br>• Devin — plan-and-execute multi-step</div></div>
@@ -1302,19 +1241,19 @@ def plan_and_execute(pergunta: str):
 <div class="text-sm" style="opacity: 0.6; margin-top: 1.5rem;">Pratique reasoning, planning e tool execution</div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
 <h1>🧪 Exercício 2.1 — Chain-of-Thought manual</h1>
 <div class="text-xs opacity-70" style="margin-bottom: 0.75rem;">Implemente um prompt CoT e veja como a estruturação melhora a resposta.</div>
 <div class="pyrunner-container" data-src="exercises/e2_1_cot.py"><textarea></textarea><button class="run-btn">▶ Executar</button><div class="pyrunner-output"></div></div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
 <h1>🧪 Exercício 2.2 — Function Calling (JSON schema)</h1>
 <div class="text-xs opacity-70" style="margin-bottom: 0.75rem;">Simule o parsing de uma resposta do LLM em formato function_call.</div>
 <div class="pyrunner-container" data-src="exercises/e2_2_function_calling.py"><textarea></textarea><button class="run-btn">▶ Executar</button><div class="pyrunner-output"></div></div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
 <h1>🧪 Exercício 2.3 — Planner simples</h1>
 <div class="text-xs opacity-70" style="margin-bottom: 0.75rem;">Implemente um planejador que decompõe tarefas em sub-tarefas.</div>
 <div class="pyrunner-container" data-src="exercises/e2_3_planner.py"><textarea></textarea><button class="run-btn">▶ Executar</button><div class="pyrunner-output"></div></div>
