@@ -1454,21 +1454,36 @@ Pronto. Esse servidor funciona em <b>Claude Desktop</b>, <b>Cursor</b>, <b>VS Co
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #1f2937 100%)">
-<h1>Ecossistema MCP — alguns servidores prontos</h1>
-<div class="grid-3 text-sm">
-
-<div class="card"><b>filesystem</b> · ler/escrever arquivos</div>
-<div class="card"><b>github</b> · issues, PRs, código</div>
-<div class="card"><b>postgres / sqlite</b> · queries SQL</div>
-<div class="card"><b>slack</b> · mensagens, canais</div>
-<div class="card"><b>brave-search</b> · busca web</div>
-<div class="card"><b>puppeteer</b> · navegação automatizada</div>
-<div class="card"><b>memory</b> · KV store persistente</div>
-<div class="card"><b>fetch</b> · HTTP requests</div>
-<div class="card"><b>google-drive</b> · arquivos GDrive</div>
-
+<h1>Ecossistema MCP — servidores prontos</h1>
+<p class="text-sm">Você raramente escreve um MCP server do zero — a comunidade já mantém <b>centenas</b>. Basta plugar:</p>
+<div class="grid-3 mt-2 text-xs">
+<div class="card card-purple">
+<div class="card-title">📁 Arquivos &amp; Código</div>
+<ul style="line-height:1.7;">
+  <li><b>filesystem</b> · ler/escrever arquivos locais</li>
+  <li><b>github</b> · issues, PRs, código</li>
+  <li><b>google-drive</b> · arquivos no GDrive</li>
+</ul>
 </div>
-<div class="mt-3 text-center text-sm opacity-70">
+<div class="card card-cyan">
+<div class="card-title">🗄️ Dados &amp; Mensagens</div>
+<ul style="line-height:1.7;">
+  <li><b>postgres / sqlite</b> · queries SQL</li>
+  <li><b>slack</b> · mensagens e canais</li>
+  <li><b>memory</b> · KV store persistente</li>
+</ul>
+</div>
+<div class="card card-green">
+<div class="card-title">🌐 Web &amp; Automação</div>
+<ul style="line-height:1.7;">
+  <li><b>brave-search</b> · busca na web</li>
+  <li><b>fetch</b> · requisições HTTP</li>
+  <li><b>puppeteer</b> · navegação automatizada</li>
+</ul>
+</div>
+</div>
+<div class="insight-box mt-2 text-xs">💡 <b>O poder do padrão:</b> conecte o server <code>github</code> uma vez e ele funciona no Claude Desktop, Cursor, VS Code e qualquer cliente MCP — sem reescrever nada.</div>
+<div class="mt-2 text-center text-xs opacity-70">
 Lista oficial: <a href="https://github.com/modelcontextprotocol/servers">github.com/modelcontextprotocol/servers</a> — centenas de servidores comunitários.
 </div>
 </section>
@@ -1478,10 +1493,26 @@ Lista oficial: <a href="https://github.com/modelcontextprotocol/servers">github.
 <div class="card card-red text-xs mb-2 fragment"><b>🚨 Quando um agente não basta:</b> Cursor tentou um único agente para "review + edit + test + deploy". Resultado: contexto estourava, qualidade caía após 10 passos. Solução: supervisor + workers especializados. Cada worker foca em 1 skill com contexto limpo.</div>
 
 <div class="grid-3 mt-2">
-  <div class="card card-purple fragment"><b>1. Supervisor / Orchestrator</b><div class="flow-diagram mt-1"><div class="flow-node node-purple">Supervisor</div><div class="flow-arrow">→</div><div class="flow-node node-cyan">A / B / C</div></div></div>
-  <div class="card card-cyan fragment"><b>2. Handoff / Swarm</b><div class="flow-diagram mt-1"><div class="flow-node node-cyan">Agente 1</div><div class="flow-arrow">→</div><div class="flow-node node-green">Agente 2</div><div class="flow-arrow">→</div><div class="flow-node node-amber">Agente 3</div></div></div>
-  <div class="card card-green fragment"><b>3. Hierárquico</b><div class="flow-diagram mt-1"><div class="flow-node node-purple">CEO</div><div class="flow-arrow">→</div><div class="flow-node node-cyan">Managers</div><div class="flow-arrow">→</div><div class="flow-node node-green">Workers</div></div></div>
+  <div class="card card-purple fragment">
+    <b>1. Supervisor / Orchestrator</b>
+    <div class="flow-diagram mt-1"><div class="flow-node node-purple">Supervisor</div><div class="flow-arrow">→</div><div class="flow-node node-cyan">A / B / C</div></div>
+    <div class="text-xs mt-1" style="line-height:1.5;">Um agente central <b>decide</b> qual especialista chamar e <b>agrega</b> os resultados. Os workers não se falam diretamente.</div>
+    <div class="text-xs mt-1 opacity-70">🎯 <b>Quando:</b> tarefas com sub-domínios claros<br>📦 <b>Ex:</b> customer support (router → billing/tech/sales)</div>
+  </div>
+  <div class="card card-cyan fragment">
+    <b>2. Handoff / Swarm</b>
+    <div class="flow-diagram mt-1"><div class="flow-node node-cyan">Agente 1</div><div class="flow-arrow">→</div><div class="flow-node node-green">Agente 2</div><div class="flow-arrow">→</div><div class="flow-node node-amber">Agente 3</div></div>
+    <div class="text-xs mt-1" style="line-height:1.5;">Cada agente <b>passa o bastão</b> ao próximo quando termina sua parte. Fluxo sequencial, como uma linha de produção.</div>
+    <div class="text-xs mt-1 opacity-70">🎯 <b>Quando:</b> pipeline com etapas ordenadas<br>📦 <b>Ex:</b> pesquisar → escrever → revisar (OpenAI Swarm)</div>
+  </div>
+  <div class="card card-green fragment">
+    <b>3. Hierárquico</b>
+    <div class="flow-diagram mt-1"><div class="flow-node node-purple">CEO</div><div class="flow-arrow">→</div><div class="flow-node node-cyan">Managers</div><div class="flow-arrow">→</div><div class="flow-node node-green">Workers</div></div>
+    <div class="text-xs mt-1" style="line-height:1.5;">Múltiplos níveis: um agente coordena <b>gerentes</b>, que coordenam <b>workers</b>. Escala para tarefas grandes e complexas.</div>
+    <div class="text-xs mt-1 opacity-70">🎯 <b>Quando:</b> projetos grandes, muitos sub-objetivos<br>📦 <b>Ex:</b> "empresa de agentes" gerando um relatório completo</div>
+  </div>
 </div>
+<div class="tip-box mt-2 text-xs">🔑 Todos compartilham a mesma ideia: <b>dividir para conquistar</b> — cada agente tem contexto e ferramentas próprios, evitando o "agente faz-tudo" que satura.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #064e3b 100%)">
@@ -1496,29 +1527,51 @@ Lista oficial: <a href="https://github.com/modelcontextprotocol/servers">github.
 
 <section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
 <h1>Frameworks multi-agente</h1>
-<div class="grid-2 mt-3">
+<p class="text-sm">Cada framework implementa os padrões anteriores com filosofias diferentes:</p>
+<div class="grid-2 mt-2">
 
 <div class="card card-purple">
-<b>CrewAI</b><br>
-<span class="text-sm">"Crew" de agentes com roles (researcher, writer, reviewer). Sintaxe declarativa.</span>
+<div class="card-title">👥 CrewAI</div>
+<div class="card-desc">"Crew" de agentes com <b>roles</b> (researcher, writer, reviewer). Sintaxe declarativa.</div>
+<ul class="text-xs mt-1" style="line-height:1.6;">
+  <li><b>Filosofia:</b> modela uma equipe humana — cada agente tem cargo, objetivo e backstory</li>
+  <li><b>Padrão típico:</b> sequencial (handoff) ou hierárquico</li>
+  <li><b>Ideal para:</b> protótipos rápidos, fluxos role-based intuitivos</li>
+</ul>
 </div>
 
-<div class="card card-purple">
-<b>AutoGen (Microsoft)</b><br>
-<span class="text-sm">Agentes conversam entre si. Forte em geração de código colaborativa.</span>
+<div class="card card-cyan">
+<div class="card-title">💬 AutoGen (Microsoft)</div>
+<div class="card-desc">Agentes <b>conversam entre si</b> em loop até resolver. Forte em código colaborativo.</div>
+<ul class="text-xs mt-1" style="line-height:1.6;">
+  <li><b>Filosofia:</b> diálogo entre agentes (ex: coder ↔ executor de testes)</li>
+  <li><b>Padrão típico:</b> conversação em grupo (group chat)</li>
+  <li><b>Ideal para:</b> geração de código, debate/refinamento iterativo</li>
+</ul>
 </div>
 
-<div class="card card-purple">
-<b>LangGraph (multi-agent)</b><br>
-<span class="text-sm">Cada nó do grafo = 1 agente. Controle total, padrão moderno.</span>
+<div class="card card-green">
+<div class="card-title">🔄 LangGraph (multi-agent)</div>
+<div class="card-desc">Cada <b>nó do grafo</b> = 1 agente. Controle total sobre o fluxo. Padrão moderno.</div>
+<ul class="text-xs mt-1" style="line-height:1.6;">
+  <li><b>Filosofia:</b> grafo explícito de estados e transições — você desenha o fluxo</li>
+  <li><b>Padrão típico:</b> qualquer um (supervisor, handoff, hierárquico)</li>
+  <li><b>Ideal para:</b> produção, fluxos complexos com loops e condicionais</li>
+</ul>
 </div>
 
-<div class="card card-purple">
-<b>OpenAI Swarm / Agents SDK</b><br>
-<span class="text-sm">Handoffs leves entre agentes. Lançado em 2024.</span>
+<div class="card card-amber">
+<div class="card-title">⚡ OpenAI Agents SDK (ex-Swarm)</div>
+<div class="card-desc"><b>Handoffs leves</b> entre agentes. Minimalista, baixo overhead.</div>
+<ul class="text-xs mt-1" style="line-height:1.6;">
+  <li><b>Filosofia:</b> simplicidade — agentes "transferem" a conversa via function calls</li>
+  <li><b>Padrão típico:</b> handoff/swarm sequencial</li>
+  <li><b>Ideal para:</b> roteamento simples, quando você quer pouco "framework"</li>
+</ul>
 </div>
 
 </div>
+<div class="tip-box mt-2 text-xs">📌 <b>Como escolher?</b> Protótipo role-based → CrewAI · Código colaborativo → AutoGen · Produção/controle total → LangGraph · Roteamento mínimo → OpenAI Agents SDK</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
