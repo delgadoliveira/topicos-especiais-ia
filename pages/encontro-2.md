@@ -124,6 +124,33 @@ Antes de mergulhar, os termos novos que você vai ouvir hoje:
 
 ---
 
+# 🧭 Mapa mental — Encontro 2 em perspectiva
+
+<div class="text-sm mb-3">A aula fica mais fácil quando você separa <b>pensar melhor</b> de <b>agir com precisão</b>. O agente moderno precisa dos dois.</div>
+
+<div class="grid grid-cols-2 gap-3 text-xs">
+<div class="p-3 rounded-xl bg-purple-500/10 border border-purple-500/30">
+<div class="font-bold text-purple-200 mb-2">🧠 Pilar 1 — Reasoning & Planning</div>
+<div class="leading-snug"><b>CoT</b>: explicitar passos<br><b>Self-Consistency</b>: várias tentativas + voto<br><b>ToT</b>: explorar alternativas<br><b>Reflexion</b>: criticar e tentar de novo<br><b>Planning</b>: plano antes de agir</div>
+<div class="mt-2 pt-2 border-t border-white/10 opacity-80"><b>Objetivo:</b> decidir melhor antes de gastar tool/custo.</div>
+</div>
+<div class="p-3 rounded-xl bg-cyan-500/10 border border-cyan-500/30">
+<div class="font-bold text-cyan-200 mb-2">🛠️ Pilar 2 — Tool Execution</div>
+<div class="leading-snug"><b>Function Calling</b>: ferramentas com schema<br><b>Structured Output</b>: resposta tipada<br><b>Anthropic patterns</b>: chaining, routing, workers<br><b>LangChain</b>: abstração rápida<br><b>LangGraph</b>: estado explícito</div>
+<div class="mt-2 pt-2 border-t border-white/10 opacity-80"><b>Objetivo:</b> agir de forma validável e recuperável.</div>
+</div>
+</div>
+
+<div class="grid grid-cols-3 gap-2 text-xs mt-3">
+<div class="p-2 rounded bg-green-500/10 border border-green-500/30 text-center"><b>Comece aqui</b><br>CoT + Function Calling</div>
+<div class="p-2 rounded bg-amber-500/10 border border-amber-500/30 text-center"><b>Quando crescer</b><br>Planning + Structured Output</div>
+<div class="p-2 rounded bg-red-500/10 border border-red-500/30 text-center"><b>Produção</b><br>LangGraph + avaliação + HITL</div>
+</div>
+
+<div class="mt-3 p-2 rounded-lg bg-blue-500/10 border border-blue-500/30 text-xs text-center"><b>Fio condutor:</b> reasoning sem tools vira resposta bonita; tools sem reasoning viram automação cega.</div>
+
+---
+
 # 2.1 Recap: por que o ReAct manual falha?
 
 <div class="text-sm mb-3">No Encontro 1 fizemos um agente "na unha" com <code>re.search</code>. Funciona, mas escala mal.</div>
