@@ -646,11 +646,21 @@ Pense em montar um robô: vamos adicionar peça por peça.
 
 <section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
 <h1>Ciclo de vida de UM turno do agente</h1>
-<p>O "loop" parece simples, mas internamente cada iteração tem 7 etapas:</p>
+<p class="text-sm">O "loop" parece simples, mas internamente cada iteração tem 7 etapas:</p>
 <div  class="flow-diagram mt-2"><div  class="flow-node node-green">1. Input</div><div  class="flow-arrow">→</div><div  class="flow-node node-purple">2. Contexto</div><div  class="flow-arrow">→</div><div  class="flow-node node-purple">3. Chamada LLM</div><div  class="flow-arrow">→</div><div  class="flow-node node-amber">4. Saída</div><div  class="flow-arrow">→</div><div  class="flow-node node-cyan">5. Validação</div><div  class="flow-arrow">→</div><div  class="flow-node node-cyan">6. Execução</div><div  class="flow-arrow">→</div><div  class="flow-node node-green">7. Observação</div></div>
 
-<div  class="text-sm" style="opacity:0.8;">
-Cada iteração custa <b>uma chamada à API</b>. Agentes típicos rodam de 3 a 30 iterações por tarefa.
+<div class="grid-2 stagger-in text-xs" style="gap: 0.5rem; margin-top: 0.8rem;">
+<div class="card fragment"><b>1. Input:</b> pergunta do usuário ou observação do passo anterior chega ao sistema.</div>
+<div class="card fragment"><b>2. Contexto:</b> monta o "prompt completo" — system + histórico + tools schema + input. Aqui se decide o que cabe na janela.</div>
+<div class="card fragment"><b>3. Chamada LLM:</b> envia tudo à API. O modelo processa e gera uma resposta (texto ou tool_call).</div>
+<div class="card fragment"><b>4. Saída:</b> o modelo retorna: "quero chamar a tool X com args Y" ou "aqui está a resposta final".</div>
+<div class="card fragment"><b>5. Validação:</b> o sistema verifica: a tool existe? Os args estão no formato certo? Há permissão?</div>
+<div class="card fragment"><b>6. Execução:</b> se validou, roda a função real (API call, DB query, cálculo). Se não, retorna erro ao LLM.</div>
+<div class="card fragment"><b>7. Observação:</b> resultado da tool é injetado no histórico como "observation" → volta ao passo 2.</div>
+</div>
+
+<div class="card card-amber mt-2 text-xs fragment">
+💰 Cada iteração custa <b>uma chamada à API</b>. Com 10 passos e contexto crescente, o custo pode multiplicar 10×. Agentes típicos rodam de 3 a 30 iterações por tarefa.
 </div>
 </section>
 
@@ -663,106 +673,174 @@ Cada iteração custa <b>uma chamada à API</b>. Agentes típicos rodam de 3 a 3
 <div  class="grid-2 stagger-in">
 <div  class="text-sm card card-cyan parallax-card scale-in">
 <b>Definição simples:</b><br>
-Um programa de computador que aprendeu a <b>prever a próxima palavra</b> lendo bilhões de textos da internet.
+Um programa de computador que aprendeu a <b>prever a próxima palavra</b> lendo bilhões de textos da internet. Ele não "entende" como humanos — mas identifica <b>padrões estatísticos</b> tão sofisticados que parecem compreensão.
 </div>
 <div  class="text-sm card card-green parallax-card scale-in">
 <b>🧩 Analogia:</b><br>
-Imagine alguém que leu <b>toda a Wikipédia, Stack Overflow, livros e Reddit</b>. Não memorizou — mas aprendeu <i>padrões</i> de como texto funciona.
+Imagine alguém que leu <b>toda a Wikipédia, Stack Overflow, livros e Reddit</b>. Não memorizou frases — mas aprendeu <i>padrões</i> de como texto funciona. Quando você pergunta algo, ele gera a continuação mais "plausível" baseada nesses padrões.
 </div>
 </div>
 
-<div  class="text-sm card card-amber parallax-card scale-in">
-⚠️ <b>LLM ≠ base de dados.</b> Ele não "guarda" frases; ele aprendeu <b>estatísticas de como palavras se relacionam</b>. Por isso pode inventar (alucinar).
+<div class="grid-3 stagger-in text-xs" style="gap: 0.5rem; margin-top: 0.6rem;">
+<div class="card fragment"><b>📊 Escala:</b><br>GPT-4 leu ~13 trilhões de tokens no pré-treino. É como ler 10 milhões de livros.</div>
+<div class="card fragment"><b>💡 Emergência:</b><br>Capacidades como raciocínio, humor e código surgiram "espontaneamente" com escala — ninguém as programou explicitamente.</div>
+<div class="card fragment"><b>⚠️ Limite:</b><br>Conhecimento congelado na data do treino. Não acessa internet, não atualiza sozinho, pode inventar fatos com confiança.</div>
 </div>
 
-<div  class="mt-3 text-sm fragment" data-fragment-index="1" style="opacity:0.8;">
-Exemplos: GPT-4, Claude, Gemini, Llama, Qwen — todos são LLMs com arquiteturas similares.
+<div  class="text-sm card card-amber parallax-card scale-in mt-2">
+⚠️ <b>LLM ≠ base de dados.</b> Ele não "guarda" frases; ele aprendeu <b>estatísticas de como palavras se relacionam</b>. Por isso pode inventar (alucinar) — ele gera o que é <i>estatisticamente plausível</i>, não necessariamente verdadeiro.
+</div>
+
+<div  class="mt-2 text-xs opacity-70" style="opacity:0.7;">
+Exemplos: GPT-4o, Claude Sonnet, Gemini 2.5 Pro, Llama 4, Qwen 3 — todos são LLMs com arquiteturas similares (Transformer).
 </div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #1f2937 100%)">
 <h1>🏗️ Como um LLM é treinado?</h1>
-<div  class="text-sm">O treinamento tem <b>3 fases</b> — cada uma adiciona uma camada de capacidade.</div>
+<div  class="text-sm">O treinamento tem <b>3 fases</b> — cada uma adiciona uma camada de capacidade diferente.</div>
 
 <div  class="flow-diagram mt-2"><div  class="flow-node node-cyan parallax-card">📚 Pré-treino</div><div  class="flow-arrow">→</div><div  class="flow-node node-green parallax-card">🎯 Fine-tuning</div><div  class="flow-arrow">→</div><div  class="flow-node node-purple parallax-card">👍 RLHF</div></div>
 
-<div  class="grid-3 stagger-in mt-2" style="font-size:0.39em;">
-<div  class="card card-cyan parallax-card scale-in">
-<b>1. Pré-treino</b><br>
-Lê trilhões de tokens da web; aprende gramática, fatos e raciocínio. Objetivo: prever o próximo token. Custo: milhões de USD e meses de GPU.
+<div  class="stagger-in mt-2 text-xs" style="display: grid; gap: 0.5rem;">
+<div class="card card-cyan expandable parallax-card scale-in">
+<b>1. Pré-treino (meses, milhões de USD)</b>
+<div class="card-detail">
+<p>O modelo lê <b>trilhões de tokens</b> da web: livros, código, Wikipedia, fóruns, papers, notícias.</p>
+<p><b>Objetivo:</b> prever o próximo token. Esse objetivo simples faz o modelo aprender gramática, fatos, lógica e até raciocínio.</p>
+<p><b>Resultado:</b> um "fundation model" — sabe muito, mas não segue instruções (é um "autocomplete" gigante).</p>
+<p><b>Custo:</b> GPT-4 custou ~$100M em compute. Llama 3.1 usou 16.000 GPUs por meses.</p>
 </div>
-<div  class="card card-green parallax-card scale-in">
-<b>2. Fine-tuning (SFT)</b><br>
-Treina em exemplos de "pergunta → resposta ideal". Ensina formato de diálogo e como seguir instruções.
 </div>
-<div  class="card card-purple parallax-card scale-in">
-<b>3. RLHF</b> (Reinforcement Learning from Human Feedback)<br>
-Humanos comparam pares de respostas e escolhem a melhor. Um "modelo de recompensa" aprende esse ranking, e o LLM é otimizado para maximizar essa recompensa. Resultado: respostas úteis, seguras e naturais.
+<div class="card card-green expandable parallax-card scale-in">
+<b>2. Fine-tuning supervisionado (SFT)</b>
+<div class="card-detail">
+<p>Treina o modelo em exemplos curados de "pergunta → resposta ideal", escritos por humanos.</p>
+<p><b>Objetivo:</b> ensinar o <i>formato</i> de diálogo — como seguir instruções, responder perguntas, recusar pedidos perigosos.</p>
+<p><b>Resultado:</b> o modelo agora conversa. Antes: completava texto. Agora: responde perguntas.</p>
+<p><b>Escala:</b> tipicamente 10K-100K exemplos curados (muito menos que pré-treino).</p>
 </div>
+</div>
+<div class="card card-purple expandable parallax-card scale-in">
+<b>3. RLHF (Reinforcement Learning from Human Feedback)</b>
+<div class="card-detail">
+<p>Humanos comparam pares de respostas e escolhem a melhor. Um "reward model" aprende esse ranking.</p>
+<p><b>Objetivo:</b> alinhar o modelo com preferências humanas — respostas mais úteis, seguras, honestas e naturais.</p>
+<p><b>Resultado:</b> o modelo melhora em nuance: não é só correto, é <i>agradável</i> de usar.</p>
+<p><b>Variantes modernas:</b> DPO (Direct Preference Optimization), RLAIF (feedback de outro AI), Constitutional AI.</p>
+</div>
+</div>
+</div>
+
+<div class="card card-amber mt-2 text-xs fragment">
+🎯 <b>Para agentes:</b> o fine-tuning e RLHF são onde modelos aprendem a usar tools, seguir formatos JSON e "pensar antes de agir" (CoT). Modelos agentic são treinados com exemplos de tool use.
 </div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
 <h1>🧱 A arquitetura: Transformer (simplificado)</h1>
-<div  class="text-sm">Desde 2017, <b>todos</b> os LLMs usam a mesma base: a arquitetura <b>Transformer</b>.</div>
+<div  class="text-sm">Desde 2017 (<i>"Attention is All You Need"</i> — Google Brain), <b>todos</b> os LLMs usam a mesma base: a arquitetura <b>Transformer</b>.</div>
 
 <div  class="flow-diagram mt-2"><div  class="flow-node node-cyan">Texto</div><div  class="flow-arrow">→</div><div  class="flow-node node-purple">Tokenização</div><div  class="flow-arrow">→</div><div  class="flow-node node-purple">Embeddings</div><div  class="flow-arrow">→</div><div  class="flow-node node-amber parallax-card">Self-Attention</div><div  class="flow-arrow">→</div><div  class="flow-node node-green">Feed-Forward</div><div  class="flow-arrow">→</div><div  class="flow-node node-cyan">Próximo token</div></div>
 
-<div  class="grid-2 stagger-in mt-2" style="font-size:0.39em;">
-<div  class="card card-amber parallax-card scale-in">
-<b>🔑 Self-Attention</b> (o segredo)<br>
-Cada palavra "decide" quais outras são relevantes. Ex.: em "O gato que eu vi <b>dormia</b>", "dormia" olha para "gato" — não para "eu".
+<div class="stagger-in mt-2 text-xs" style="display: grid; gap: 0.5rem;">
+<div class="card card-purple expandable parallax-card fragment">
+<b>1. Tokenização</b> — texto vira números
+<div class="card-detail">
+<p>O texto é partido em pedaços (tokens). "Inteligência" → ["Int", "elig", "ência"]. Cada token vira um ID numérico (ex: 15496).</p>
+<p><b>Por que não usar palavras inteiras?</b> Vocabulário finito. Tokens permitem lidar com qualquer idioma, neologismo ou código.</p>
 </div>
-<div  class="card parallax-card scale-in">
-<b>📐 Escala importa</b><br>
-GPT-2: 12 camadas, 1.5B params<br>
-GPT-4: ~120 camadas, ~1.8T params<br>
-Mais camadas = raciocínio mais profundo.
 </div>
+<div class="card card-cyan expandable parallax-card fragment">
+<b>2. Embeddings</b> — números viram vetores com significado
+<div class="card-detail">
+<p>Cada token ID é mapeado para um vetor de alta dimensão (ex: 4096 números). Palavras similares ficam próximas nesse espaço.</p>
+<p><b>Exemplo:</b> "rei" - "homem" + "mulher" ≈ "rainha". O modelo aprendeu relações semânticas como geometria.</p>
+</div>
+</div>
+<div class="card card-amber expandable parallax-card fragment">
+<b>3. Self-Attention</b> — cada palavra olha para todas as outras
+<div class="card-detail">
+<p>O mecanismo que tornou Transformers revolucionários. Cada token calcula "quanto atenção devo dar" a cada outro token na sequência.</p>
+<p><b>Exemplo:</b> em "O gato que eu vi ontem <b>dormia</b>", "dormia" presta muita atenção a "gato" (o sujeito) e ignora "eu" e "ontem".</p>
+<p><b>Multi-head:</b> vários "cabeças" de atenção em paralelo capturam relações diferentes (sintaxe, semântica, coreference).</p>
+</div>
+</div>
+<div class="card card-green expandable parallax-card fragment">
+<b>4. Feed-Forward</b> — processamento profundo
+<div class="card-detail">
+<p>Após a atenção, cada token passa por redes neurais densas que transformam a representação. É aqui que "conhecimento factual" é armazenado nos pesos.</p>
+<p>Esse bloco (Attention + FFN) é repetido dezenas/centenas de vezes em camadas. Mais camadas = raciocínio mais profundo.</p>
+</div>
+</div>
+</div>
+
+<div class="grid-2 stagger-in text-xs mt-2">
+<div class="card fragment"><b>📐 Escala importa</b><br>GPT-2: 12 camadas, 1.5B parâmetros<br>GPT-4: ~120 camadas, ~1.8T parâmetros<br>Llama 4 Maverick: 128 experts, 400B ativo</div>
+<div class="card card-cyan fragment"><b>🧩 Analogia</b><br>Cada camada é como uma "rodada de discussão" num time. 12 rodadas = opinião superficial. 120 rodadas = análise profunda com múltiplas perspectivas.</div>
 </div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #0f766e 100%)">
 <h1>🎯 O que o LLM realmente faz: prever o próximo token</h1>
-<div  class="text-center">
+<div class="text-sm">Essa é a ideia mais importante para entender LLMs:</div>
 
-
-<pre><code>Entrada: &quot;O céu é&quot;  →  Saída mais provável: &quot;azul&quot; (87%)
-</code></pre>
-
-
+<div class="card card-cyan mt-2 text-sm">
+<b>O LLM faz UMA coisa:</b> dado um texto de entrada, calcula a probabilidade de cada possível próximo token e escolhe um.
 </div>
 
-<div  class="mt-3 text-sm">Ele gera texto <b>um token por vez</b>, escolhendo o mais provável a cada passo:</div>
+<pre class="mt-2"><code>Entrada: "O céu é"  →  Saída mais provável: "azul" (87%), "bonito" (5%), "claro" (3%)
+</code></pre>
 
-<div  class="mt-3 text-sm agent-trace" style="font-family:var(--font-mono);">
+<div  class="mt-2 text-sm">Ele gera texto <b>um token por vez</b>, escolhendo o mais provável a cada passo:</div>
+
+<div  class="mt-2 text-sm agent-trace" style="font-family:var(--font-mono);">
 "O" → "céu" → "é" → "azul" → "durante" → "o" → "dia" → "."
+</div>
+
+<div class="grid-2 stagger-in text-xs mt-3">
+<div class="card card-green fragment">
+<b>🎯 Por que isso produz inteligência?</b><br>
+Para prever bem a próxima palavra em bilhões de contextos, o modelo precisa aprender: gramática, lógica, fatos, humor, código, raciocínio matemático... Tudo "emerge" do objetivo de predição.
+</div>
+<div class="card card-amber fragment">
+<b>⚠️ Consequência perigosa:</b><br>
+Ele gera o que é <b>estatisticamente plausível</b>, não o que é <b>verdadeiro</b>. "O Brasil tem 28 estados" soa plausível — mas é falso. Daí vêm as alucinações.
+</div>
 </div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
-<h1>🎯 O que o LLM realmente faz: prever o próximo token</h1>
-<div  class="text-xs" style="opacity:0.75;">Consequência prática: esse mecanismo é poderoso — mas tem limites claros.</div>
+<h1>Capacidades vs Limitações — e por que precisamos de agentes</h1>
+<div  class="text-xs" style="opacity:0.75;">Esse mecanismo de predição é poderoso — mas tem limites fundamentais que agentes resolvem.</div>
 
 <div  class="grid-2 stagger-in text-xs">
 <div  class="card card-green parallax-card scale-in">
 <b>✅ O que ele faz bem:</b><br>
 • Completar padrões conhecidos<br>
-• Seguir instruções<br>
-• Raciocinar sobre texto<br>
-• Gerar código, resumos, traduções
+• Seguir instruções complexas<br>
+• Raciocinar sobre texto (multi-step)<br>
+• Gerar código, resumos, traduções<br>
+• Adaptar tom, estilo, formato<br>
+• Sintetizar informação de contexto
 </div>
 <div  class="card parallax-card scale-in" style="background:rgba(248,113,113,0.08);border-color:rgba(248,113,113,0.28);">
-<b>❌ O que ele NÃO faz:</b><br>
-• Acessar a internet (sem tools)<br>
+<b>❌ O que ele NÃO faz (sozinho):</b><br>
+• Acessar a internet em tempo real<br>
 • Lembrar conversas anteriores<br>
-• Executar código<br>
-• Garantir fatos (pode alucinar)
+• Executar código ou ações<br>
+• Garantir fatos (pode alucinar)<br>
+• Atualizar seu conhecimento<br>
+• Interagir com sistemas externos
 </div>
 </div>
 
-<div  class="mt-3 text-xs fragment card card-cyan parallax-card" data-fragment-index="1">
-💡 <b>E é exatamente por isso que precisamos de AGENTES</b> — para dar ao LLM mãos (tools), memória e a capacidade de agir no mundo real.
+<div class="card card-cyan mt-2 text-xs fragment">
+💡 <b>E é exatamente por isso que precisamos de AGENTES</b> — para dar ao LLM: <b>mãos</b> (tools), <b>memória</b> (persistence), <b>olhos</b> (retrieval) e <b>autonomia</b> (loop de controle). Cada limitação vira uma oportunidade de composição.
+</div>
+
+<div class="card text-xs mt-2 fragment" style="background: rgba(167,139,250,0.08); border: 1px solid rgba(167,139,250,0.28);">
+📊 <b>Em números:</b> ChatGPT padrão resolve ~60% de tarefas complexas. Com agente + tools + RAG, o mesmo modelo sobe para ~85-95% (benchmark GAIA, 2024).
 </div>
 </section>
 
