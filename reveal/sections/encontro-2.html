@@ -770,15 +770,45 @@ Solver(E1, E2, E3) -> recomendação</code></pre>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
 <h1>🔄 Replanning — quando mudar a rota</h1>
+<p class="text-xs" style="opacity:0.8; margin-bottom:0.6rem;">Nenhum plano sobrevive ao primeiro contato com dados reais. Replanning é o ciclo <b>Monitorar → Analisar → Planejar → Executar</b> que transforma falhas em adaptação inteligente.</p>
 <div class="stagger-in grid-4 text-xs" style="gap:0.55rem;">
-<div class="card card-cyan parallax-card fragment"><b>Monitorar</b><br>Tool falhou? custo subiu? dado novo apareceu?</div>
-<div class="card card-red parallax-card fragment"><b>Analisar</b><br>Falha local ou hipótese errada?</div>
-<div class="card card-purple parallax-card fragment"><b>Planejar</b><br>Patch pequeno ou novo subplano?</div>
-<div class="card card-green parallax-card fragment"><b>Executar</b><br>Continua com trilha de auditoria.</div>
+
+<div class="card card-cyan parallax-card fragment">
+<b>1. Monitorar</b><br>
+Após cada passo, o agente verifica: <b>tool retornou erro?</b> (timeout, 429, schema inválido), <b>custo acumulado subiu</b> além do budget? <b>dados novos</b> contradizem premissas iniciais?<br>
+<span style="opacity:0.7;">Ex.: API de voos retorna 0 resultados → gatilho de replan.</span>
+</div>
+
+<div class="card card-red parallax-card fragment">
+<b>2. Analisar</b><br>
+Distinguir <b>falha local</b> (um tool caiu, basta retry/fallback) de <b>hipótese errada</b> (a abordagem inteira não faz sentido). O agente usa o contexto acumulado para classificar: se 2+ passos seguidos falham no mesmo ponto, provavelmente a premissa está errada.<br>
+<span style="opacity:0.7;">Técnica: self-reflection — "por que este passo falhou?"</span>
+</div>
+
+<div class="card card-purple parallax-card fragment">
+<b>3. Planejar</b><br>
+Duas estratégias: <b>patch</b> (trocar 1 passo — ex.: usar outra API) ou <b>subplano novo</b> (reescrever os passos restantes com nova abordagem). O custo de replanejar é real — cada replan consome tokens e aumenta latência.<br>
+<span style="opacity:0.7;">Regra: patch se &lt;30% dos passos afetados; subplano se &gt;50%.</span>
+</div>
+
+<div class="card card-green parallax-card fragment">
+<b>4. Executar</b><br>
+Retoma a execução mantendo <b>trilha de auditoria</b>: qual era o plano original, o que mudou, por quê. Isso é crítico para debugging e para o usuário entender o que aconteceu. Sem logs, replanning vira caixa-preta.<br>
+<span style="opacity:0.7;">Formato: [replan #2] motivo: API timeout → ação: fallback para cache.</span>
+</div>
+
 </div>
 <div class="grid-2 mt-2 stagger-in text-xs" style="gap:0.7rem;">
-<div class="card card-amber parallax-card fragment"><b>Anti-padrão</b><br>Replanejar a cada passo sem critério.</div>
-<div class="card card-green parallax-card fragment"><b>Regra prática</b><br>Defina gatilhos objetivos antes de começar.</div>
+<div class="card card-amber parallax-card fragment">
+<b>⚠️ Anti-padrão: Replan Loop</b><br>
+Replanejar a cada passo sem critério definido. O agente entra em loop infinito gastando tokens sem convergir. Solução: definir <b>max_replans</b> (ex.: 3) e <b>gatilhos objetivos</b> (ex.: só replaneja se erro ≥ 2x consecutivo ou custo &gt; 80% do budget).<br>
+<span style="opacity:0.7;">Caso real: agentes sem limite fizeram 15+ replans numa única query, custando $2+ sem resultado.</span>
+</div>
+<div class="card card-green parallax-card fragment">
+<b>✅ Regra prática: Gatilhos antes, não depois</b><br>
+Defina critérios de replanning <b>no momento do plano</b>, não quando a falha acontece. Isso evita decisões ad-hoc sob pressão. Inclua no plano: <code>replan_if: ["tool_error_2x", "budget_80pct", "conflicting_evidence"]</code> e <code>max_replans: 3</code>.<br>
+<span style="opacity:0.7;">Frameworks como LangGraph permitem definir esses gatilhos como edges condicionais no grafo.</span>
+</div>
 </div>
 </section>
 
