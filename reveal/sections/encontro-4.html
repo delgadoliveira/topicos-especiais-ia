@@ -155,6 +155,15 @@
   <div class="insight-box">🎯 Boas práticas: <code>max_steps</code>, <code>max_same_tool</code>, <code>timeout</code> global e <b>orçamento de tokens</b>.</div>
 </section>
 
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e293b 100%)">
+  <h1>🔗 De falhas internas → ataques externos</h1>
+  <div class="card card-amber parallax-card">
+  <p class="text-sm">Os loops e alucinações são falhas do <b>próprio agente</b>. Mas existe outra classe de risco:</p>
+  <p class="text-sm mt-1 fragment"><b>Ataques deliberados via dados de entrada</b> — o agente processa texto que contém instruções maliciosas disfarçadas.</p>
+  <p class="text-sm mt-1 fragment">→ Isso nos leva a <b>Prompt Injection</b>: o problema de segurança #1 em agentes que leem dados externos.</p>
+  </div>
+</section>
+
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
   <h1>Falha #6 · Prompt Injection — o problema</h1>
   <div class="flow-diagram">
@@ -651,14 +660,15 @@ Qual responde melhor? A / B / Empate"""</code></pre>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
-  <h1>4.9 Anti-patterns observados em produção</h1>
+  <h1>4.9 Anti-patterns → Princípios</h1>
+  <p class="text-sm" style="opacity:0.8;">As 7 falhas que vimos são <b>sintomas</b>. Agora: quais <b>decisões de design</b> causam esses problemas — e quais princípios os evitam?</p>
   <div class="grid-2 stagger-in">
-    <div class="card fragment"><div class="card-title">❌ Multi-agente prematuro</div><div class="card-desc">Orquestração vira pesadelo, custo 5x, debug impossível.</div></div>
-    <div class="card fragment"><div class="card-title">❌ Tools demais</div><div class="card-desc">+50 tools no contexto confundem o modelo e elevam latência.</div></div>
-    <div class="card fragment"><div class="card-title">❌ Sem orçamento de tokens</div><div class="card-desc">Loop noturno vira fatura absurda sem kill switch.</div></div>
-    <div class="card fragment"><div class="card-title">❌ RAG como bala de prata</div><div class="card-desc">Top-K ruim faz o modelo alucinar com confiança.</div></div>
-    <div class="card fragment"><div class="card-title">❌ LLM-as-judge sem calibrar</div><div class="card-desc">Há viés; sempre revise amostras com humano.</div></div>
-    <div class="card fragment"><div class="card-title">❌ Não logar tudo</div><div class="card-desc">Bug em produção sem trace vira adivinhação.</div></div>
+    <div class="card card-red fragment"><div class="card-title">❌ Multi-agente prematuro</div><div class="card-desc">Orquestração vira pesadelo, custo 5x, debug impossível.</div></div>
+    <div class="card card-red fragment"><div class="card-title">❌ Tools demais</div><div class="card-desc">+50 tools no contexto confundem o modelo e elevam latência.</div></div>
+    <div class="card card-red fragment"><div class="card-title">❌ Sem orçamento de tokens</div><div class="card-desc">Loop noturno vira fatura absurda sem kill switch.</div></div>
+    <div class="card card-red fragment"><div class="card-title">❌ RAG como bala de prata</div><div class="card-desc">Top-K ruim faz o modelo alucinar com confiança.</div></div>
+    <div class="card card-red fragment"><div class="card-title">❌ LLM-as-judge sem calibrar</div><div class="card-desc">Há viés; sempre revise amostras com humano.</div></div>
+    <div class="card card-red fragment"><div class="card-title">❌ Não logar tudo</div><div class="card-desc">Bug em produção sem trace vira adivinhação.</div></div>
   </div>
 </section>
 
@@ -942,8 +952,10 @@ def executar_agente(entrada: str, max_steps=10, timeout=60):
             model=MODEL, messages=msgs,
             temperature=0, max_tokens=500)
         content = resp.choices[0].message.content
-        # TODO: detecte tool_calls e execute (E2)
+        # TODO: detecte tool_calls no content e execute (E2)
+        # if "tool_call" in content: execute e continue
         # TODO: adicione tratamento de erro (E4)
+        # Se não há tool_call, é resposta final:
         return content
     return "⛔ max_steps"</code></pre>
 </section>
@@ -1276,4 +1288,3 @@ print(f"   ({acertos/len(CASOS)*100:.0f}% de acerto)")
     <div class="pyrunner-output"></div>
   </div>
 </section>
-

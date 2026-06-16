@@ -445,26 +445,29 @@ docs = vectordb.search(hipo, k=5)</code></pre>
 <thead><tr>
 <th>DB</th>
 <th>Quando usar</th>
-<th>Open source</th>
+<th>OSS</th>
 <th>Notas</th>
 </tr></thead>
 <tbody>
 <tr><td><b>Chroma</b></td><td>Dev local, protótipos</td><td>✅</td><td>Mais fácil de começar</td></tr>
-<tr><td><b>Qdrant</b></td><td>Produção, escala média</td><td>✅</td><td>Rust, rápido, ótimo filtro híbrido</td></tr>
-<tr><td><b>pgvector</b></td><td>Já uso Postgres</td><td>✅</td><td>Extensão PG — uma coisa a menos pra operar</td></tr>
+<tr><td><b>Qdrant</b></td><td>Produção, escala média</td><td>✅</td><td>Rust, rápido, filtro híbrido</td></tr>
+<tr><td><b>pgvector</b></td><td>Já uso Postgres</td><td>✅</td><td>Extensão PG — zero infra extra</td></tr>
 <tr><td><b>Pinecone</b></td><td>SaaS gerenciado</td><td>❌</td><td>Caro mas zero ops</td></tr>
-<tr><td><b>Weaviate</b></td><td>Multi-modal, GraphQL</td><td>✅</td><td>Bom para casos complexos</td></tr>
-<tr><td><b>Milvus / Zilliz</b></td><td>Bilhões de vetores</td><td>✅/❌</td><td>Casos extremos</td></tr>
-<tr><td><b>LanceDB</b></td><td>Embedded + cloud</td><td>✅</td><td>Formato em disco, S3-friendly</td></tr>
 </tbody>
 </table>
-<div class="card card-cyan mt-3 text-sm">
-💡 <b>Recomendação 2025:</b> comece com Chroma local. Quando for pra produção, considere <b>pgvector</b> (se já usa Postgres) ou <b>Qdrant</b>.
+<div class="grid-2 mt-2 text-xs" style="gap:0.5rem;">
+<div class="card card-cyan">
+💡 <b>Recomendação:</b> comece com <b>Chroma</b> local. Em produção: <b>pgvector</b> (se já usa Postgres) ou <b>Qdrant</b>.
+</div>
+<div class="card" style="opacity:0.7;">
+📝 <b>Outros:</b> Weaviate (multi-modal), Milvus (bilhões de vetores), LanceDB (embedded + S3).
+</div>
 </div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e293b 100%)">
 <h1>Search híbrido — porque puro vetor não basta</h1>
+<p class="text-sm" style="opacity:0.8;">Busca semântica é boa com conceitos, mas falha em termos exatos: IDs, datas, códigos, siglas. A solução: <b>combinar semântico + lexical</b>.</p>
 
 <div class="flow-diagram mt-2">
   <div class="flow-node node-purple fragment">Pergunta</div>
@@ -496,15 +499,23 @@ docs = vectordb.search(hipo, k=5)</code></pre>
 <div class="insight-box fragment">Casos do slide original: FAQ empresa, Chatbot geral, Classificação emails, Pesquisa docs legais, Resumo genérico, News agent.</div>
 </section>
 
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e293b 100%)">
+<h1>🔗 Recuperar não basta — precisamos de atribuição</h1>
+<div class="card card-amber parallax-card">
+<p class="text-sm">RAG trouxe informação externa para o contexto do LLM. Mas um problema permanece:</p>
+<p class="text-sm mt-1 fragment"><b>Como saber se a resposta veio dos documentos ou foi inventada?</b></p>
+<p class="text-sm mt-1 fragment">→ É aqui que entra o <b>Grounding</b>: a técnica de <em>ancorar cada afirmação a uma fonte verificável</em>.</p>
+</div>
+<div class="tip-box mt-2 text-xs fragment">🏢 Caso real: Air Canada (2024) perdeu processo porque chatbot inventou política de reembolso inexistente. Grounding teria exigido citação do documento-fonte.</div>
+</section>
+
 <section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #0f766e 100%)" class="text-center">
-<h1>🎯 Grounding</h1>
-<div class="big-date animate-float">🎯</div>
+<h1>🎯 Grounding — o conceito</h1>
 <div class="compare-cols">
   <div class="compare-col bad fragment"><h3>Sem grounding</h3><p>o agente inventa fatos, cita fontes falsas e responde com confiança errada.</p></div>
   <div class="compare-col good fragment"><h3>Com grounding</h3><p>ele busca informação real antes de responder e cita fontes verificáveis.</p></div>
 </div>
 <div class="insight-box fragment">💡 RAG, busca web e bancos de dados são técnicas de grounding: conectam o LLM ao mundo real.</div>
-<div class="tip-box mt-2 text-xs fragment">🏢 <b>Por que importa:</b> em 2024, Air Canada perdeu processo judicial porque seu chatbot inventou uma política de reembolso. Grounding teria evitado — exigindo que cada afirmação citasse o documento-fonte.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)">
@@ -593,14 +604,9 @@ Após gerar, um <b>segundo LLM</b> verifica: "Cada afirmação é suportada pelo
 Para CADA afirmação, adicione [doc_id] da fonte.
 Se não souber, responda exatamente: &quot;Não encontrei nos documentos.&quot;
 NÃO use conhecimento externo.&quot;&quot;&quot;
-contexto = &quot;
 
-&quot;.join([f&quot;[doc_{d.id}] {d.content}&quot; for d in docs_retrieved])
-resposta = llm.invoke(f&quot;{SYSTEM}
-
-{contexto}
-
-Pergunta: {q}&quot;)</code></pre>
+contexto = &quot;\n&quot;.join([f&quot;[doc_{d.id}] {d.content}&quot; for d in docs_retrieved])
+resposta = llm.invoke(f&quot;{SYSTEM}\n\n{contexto}\n\nPergunta: {q}&quot;)</code></pre>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">

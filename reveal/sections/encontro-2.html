@@ -966,7 +966,7 @@ print(json.loads(resp.choices[0].message.content))</code></pre>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #064e3b 100%)">
 <h1>Exemplo em LangChain</h1>
-<div class="card text-xs card-cyan parallax-card fragment" style="margin-bottom:0.75rem;">O framework esconde o loop, o parsing e parte do error handling.</div>
+<div class="card text-xs card-cyan parallax-card fragment" style="margin-bottom:0.75rem;">O framework esconde o loop, o parsing e parte do error handling. <span style="opacity:0.7;">(langchain ≥ 0.3, langchain-openai ≥ 0.2)</span></div>
 <pre class="scale-in"><code class="language-python">from langchain_openai import ChatOpenAI
 from langchain.agents import AgentExecutor, create_tool_calling_agent
 from langchain_core.prompts import ChatPromptTemplate
@@ -1117,6 +1117,19 @@ result = app.invoke({"messages": [("user", "Quanto custa um hotel em SP?")]})</c
 <ul class="mt-2"><li class="fragment" data-fragment-index="1">3 tools (calculadora, busca, hora_atual)</li><li class="fragment" data-fragment-index="2">Use JSON Schema apropriado para cada uma</li><li class="fragment" data-fragment-index="3">Loop com <code>max_steps</code></li><li class="fragment" data-fragment-index="4">Imprima cada chamada de tool com seus argumentos</li></ul>
 <p class="slide-in-left"><b>Teste:</b> <i>"Que horas são, qual a capital da Austrália, e quanto é 99*99?"</i></p>
 <p class="slide-in-left"><b>Bônus:</b> ative paralelismo nativo — o agente deve resolver as 3 perguntas em <b>1 só turno</b> com 3 tool_calls.</p>
+</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e293b 100%)">
+<h1>🔗 De loops manuais → grafos explícitos</h1>
+<div class="card card-cyan parallax-card">
+<p class="text-sm">No exercício anterior você viu que o <b>loop manual funciona</b> — mas e se você precisar de:</p>
+<ul class="text-sm mt-1">
+<li class="fragment">Um validador entre o agente e a resposta final?</li>
+<li class="fragment">Pausar a execução e retomar depois?</li>
+<li class="fragment">Depurar visualmente cada decisão do fluxo?</li>
+</ul>
+<p class="text-sm mt-1 fragment"><b>→ É aqui que o LangGraph entra:</b> cada nó é uma função, cada aresta é uma decisão explícita. Você ganha <em>controle cirúrgico</em> sem perder a flexibilidade.</p>
 </div>
 </section>
 
