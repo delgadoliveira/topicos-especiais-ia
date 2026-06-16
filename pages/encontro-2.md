@@ -392,25 +392,26 @@ def agent_with_reflection(tarefa: str, max_tries: int = 3):
 
 # 📐 Structured Outputs
 
-Em produção, você quase nunca quer **texto livre** do LLM; você quer **dados tipados**.
-<div class="mt-3 grid grid-cols-2 gap-3 text-xs">
-<div class="p-2 rounded-xl bg-red-500/10 border border-red-500/30"><b>❌ Sem structured output</b>
-```python
-out = llm.invoke("Extraia nome e idade")  # "O nome é João, tem 30 anos"
-# parsing manual frágil 😖
-```
+<div class="mb-3 p-3 rounded-lg bg-blue-500/10 border border-blue-500/30 text-sm">
+O problema não é “o modelo escrever bonito”. O problema é: <b>outro sistema precisa consumir a resposta sem adivinhar formato</b>.
 </div>
-<div class="p-2 rounded-xl bg-green-500/10 border border-green-500/30"><b>✅ Com structured output</b>
+
+<div class="grid grid-cols-3 gap-3 text-xs">
+<div class="p-3 rounded-xl bg-red-500/10 border border-red-500/30"><b>1. Texto livre quebra automação</b><br>“João tem 30 anos” parece correto para humanos, mas para código vira regex frágil: acento, ordem, campo faltando e frase extra quebram o parser.</div>
+<div class="p-3 rounded-xl bg-purple-500/10 border border-purple-500/30"><b>2. Schema vira contrato</b><br>Você define <code>nome: str</code>, <code>idade: int</code>, <code>prioridade: 1..5</code>. O LLM precisa preencher exatamente esse contrato.</div>
+<div class="p-3 rounded-xl bg-green-500/10 border border-green-500/30"><b>3. Falha fica tratável</b><br>Se vier inválido, a aplicação sabe: rejeita, pede retry, manda para humano ou registra erro. Isso é produção.</div>
+</div>
+
 ```python
 class Pessoa(BaseModel):
     nome: str
     idade: int
-p = llm.with_structured_output(Pessoa).invoke(...)
-# Pessoa(nome='João', idade=30) ✨
+
+pessoa = llm.with_structured_output(Pessoa).invoke("Extraia nome e idade")
+# Pessoa(nome="João", idade=30)  → pronto para DB, API ou fila
 ```
-</div>
-</div>
-<div class="mt-3 text-xs">Nativo em <b>OpenAI</b> (Structured Outputs, ago/2024), <b>Anthropic</b> (tool use) e <b>Gemini</b>; no ecossistema, destaque para <b>Pydantic AI</b> e <b>Instructor</b>.</div>
+
+<div class="mt-2 text-xs opacity-80">Nativo em <b>OpenAI Structured Outputs</b>, <b>Anthropic tool use</b> e <b>Gemini</b>. No Python, <b>Pydantic AI</b> e <b>Instructor</b> popularizaram esse padrão.</div>
 
 ---
 

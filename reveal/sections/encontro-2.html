@@ -300,21 +300,19 @@ R:"""</code></pre>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #1e1b4b 100%)">
 <h1>📐 Structured Outputs</h1>
-<p class="slide-in-left">Em produção, você quase nunca quer <b>texto livre</b> do LLM; você quer <b>dados tipados</b>.</p>
-<div class="compare-cols mt-3 text-xs" style="gap: 0.8rem;">
-<div class="compare-col bad" style="background: rgba(248, 113, 113, 0.08); border: 1px solid rgba(248, 113, 113, 0.28);"><b>❌ Sem structured output</b>
-<pre class="scale-in"><code class="language-python">out = llm.invoke("Extraia nome e idade")  # "O nome é João, tem 30 anos"
-# parsing manual frágil 😖</code></pre>
+<div class="card card-blue text-sm" style="margin-bottom:0.8rem;">O problema não é “o modelo escrever bonito”. O problema é: <b>outro sistema precisa consumir a resposta sem adivinhar formato</b>.</div>
+<div class="grid-3 stagger-in text-xs" style="gap:0.75rem;">
+<div class="card card-red parallax-card"><b>1. Texto livre quebra automação</b><br>“João tem 30 anos” parece correto para humanos, mas para código vira regex frágil: acento, ordem, campo faltando e frase extra quebram o parser.</div>
+<div class="card card-purple parallax-card"><b>2. Schema vira contrato</b><br>Você define <code>nome: str</code>, <code>idade: int</code>, <code>prioridade: 1..5</code>. O LLM precisa preencher exatamente esse contrato.</div>
+<div class="card card-green parallax-card"><b>3. Falha fica tratável</b><br>Se vier inválido, a aplicação sabe: rejeita, pede retry, manda para humano ou registra erro. Isso é produção.</div>
 </div>
-<div class="compare-col good"><b>✅ Com structured output</b>
-<pre class="scale-in"><code class="language-python">class Pessoa(BaseModel):
+<pre class="scale-in" style="margin-top:0.8rem;"><code class="language-python">class Pessoa(BaseModel):
     nome: str
     idade: int
-p = llm.with_structured_output(Pessoa).invoke(...)
-# Pessoa(nome='João', idade=30) ✨</code></pre>
-</div>
-</div>
-<div class="mt-3 text-xs">Nativo em <b>OpenAI</b> (Structured Outputs, ago/2024), <b>Anthropic</b> (tool use) e <b>Gemini</b>; no ecossistema, destaque para <b>Pydantic AI</b> e <b>Instructor</b>.</div>
+
+pessoa = llm.with_structured_output(Pessoa).invoke("Extraia nome e idade")
+# Pessoa(nome="João", idade=30)  → pronto para DB, API ou fila</code></pre>
+<div class="mt-2 text-xs opacity-80">Nativo em <b>OpenAI Structured Outputs</b>, <b>Anthropic tool use</b> e <b>Gemini</b>. No Python, <b>Pydantic AI</b> e <b>Instructor</b> popularizaram esse padrão.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #064e3b 100%)">
@@ -1132,4 +1130,3 @@ def plan_and_execute(pergunta: str):
 <div class="text-xs opacity-70" style="margin-bottom: 0.75rem;">Implemente um planejador que decompõe tarefas em sub-tarefas.</div>
 <div class="pyrunner-container" data-src="exercises/e2_3_planner.py"><textarea></textarea><button class="run-btn">▶ Executar</button><div class="pyrunner-output"></div></div>
 </section>
-
