@@ -268,7 +268,7 @@ print(f&quot;Resumo: {resultado[0][&#x27;content&#x27;]}&quot;)</code></pre>
   <div class="flow-arrow fragment">→</div>
   <div class="flow-node node-cyan fragment">🔪 Chunking<br>~500 tokens</div>
   <div class="flow-arrow fragment">→</div>
-  <div class="flow-node node-green fragment">🧮 Embedding<br>text-embedding-3-small</div>
+  <div class="flow-node node-green fragment">🧮 Embedding<br>sentence-transformers</div>
   <div class="flow-arrow fragment">→</div>
   <div class="flow-node node-purple fragment">💾 Vector DB<br>Chroma / Qdrant / pgvector</div>
 </div>
@@ -286,7 +286,7 @@ RecursiveCharacterTextSplitter, SemanticChunker, by-header (para Markdown).
 
 <div class="card">
 <b>3. Embeddings</b><br>
-OpenAI <code>text-embedding-3</code>, Cohere, BGE, ou local (sentence-transformers).
+HuggingFace <code>sentence-transformers</code> (gratuito, local), Cohere, BGE, ou OpenAI (pago).
 </div>
 
 </div>
@@ -294,29 +294,51 @@ OpenAI <code>text-embedding-3</code>, Cohere, BGE, ou local (sentence-transforme
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #1f2937 100%)">
 <h1>Hands-on: RAG completo com Chroma</h1>
-<div class="card card-cyan text-xs">☁️ <b>Roda no Google Colab:</b> instale as bibliotecas, faça upload de um arquivo <code>manual.txt</code> e execute em duas células. Ao final, você terá um mini-RAG pronto para responder perguntas com base no documento.</div>
+<div class="card card-cyan text-xs">☁️ <b>100% gratuito:</b> usa embeddings locais (<code>sentence-transformers</code>) e o modelo <b>Qwen 2.5</b> via HuggingFace Inference API (grátis). Sem chave paga!</div>
 <pre><code class="language-python">from langchain_community.document_loaders import TextLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_openai import OpenAIEmbeddings, ChatOpenAI
+from langchain_huggingface import HuggingFaceEmbeddings, HuggingFaceEndpoint
 from langchain_chroma import Chroma
 from langchain.chains import create_retrieval_chain
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain_core.prompts import ChatPromptTemplate
+
+# 1. Carregar e dividir o documento
 docs = TextLoader(&quot;manual.txt&quot;).load()
-chunks = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50).split_documents(docs)
-vstore = Chroma.from_documents(chunks, OpenAIEmbeddings(model=&quot;text-embedding-3-small&quot;))</code></pre>
+chunks = RecursiveCharacterTextSplitter(
+    chunk_size=500, chunk_overlap=50
+).split_documents(docs)
+
+# 2. Criar embeddings LOCAIS (gratuito, roda na sua máquina)
+embeddings = HuggingFaceEmbeddings(model_name=&quot;sentence-transformers/all-MiniLM-L6-v2&quot;)
+vstore = Chroma.from_documents(chunks, embeddings)</code></pre>
+<div class="card card-amber mt-2 text-xs">💡 <b>all-MiniLM-L6-v2:</b> modelo de 80MB, rápido, bom para português. Alternativa: <code>intfloat/multilingual-e5-small</code> para melhor cobertura multilíngue.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)">
 <h1>Hands-on: RAG completo com Chroma — continuação</h1>
-<pre><code class="language-python">retriever = vstore.as_retriever(search_kwargs={&quot;k&quot;: 4})
+<pre><code class="language-python"># 3. Configurar retriever (busca os 4 chunks mais similares)
+retriever = vstore.as_retriever(search_kwargs={&quot;k&quot;: 4})
+
+# 4. Criar o prompt com contexto injetado
 prompt = ChatPromptTemplate.from_template(
     &quot;Responda baseado APENAS no contexto:\n\n{context}\n\nPergunta: {input}&quot;
 )
-combine = create_stuff_documents_chain(ChatOpenAI(model=&quot;gpt-4o-mini&quot;), prompt)
+
+# 5. Usar Qwen via HuggingFace (gratuito)
+llm = HuggingFaceEndpoint(
+    repo_id=&quot;Qwen/Qwen2.5-7B-Instruct&quot;,
+    huggingfacehub_api_token=&quot;hf_SEU_TOKEN_GRATUITO&quot;,  # huggingface.co/settings/tokens
+)
+combine = create_stuff_documents_chain(llm, prompt)
 chain = create_retrieval_chain(retriever, combine)
-print(chain.invoke({&quot;input&quot;: &quot;Como configuro o produto?&quot;})[&quot;answer&quot;])</code></pre>
-<div class="card card-amber mt-3 text-xs">✅ <b>O que esperar:</b> a resposta final deve citar e usar o conteúdo do <code>manual.txt</code>; se a informação não estiver no arquivo, o ideal é adaptar o prompt para o agente admitir que não sabe.</div>
+
+resultado = chain.invoke({&quot;input&quot;: &quot;Como configuro o produto?&quot;})
+print(resultado[&quot;answer&quot;])</code></pre>
+<div class="grid-2 mt-2 text-xs" style="gap:0.5rem;">
+<div class="card card-green">✅ <b>O que esperar:</b> a resposta cita e usa o conteúdo do <code>manual.txt</code>. Se a info não está no arquivo, o prompt instrui o agente a admitir que não sabe.</div>
+<div class="card card-amber">⚠️ <b>Limitações do modelo gratuito:</b> rate limit (~5 req/min), contexto menor (~4K tokens). Para produção: use modelo local com Ollama ou API paga.</div>
+</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #064e3b 100%)">
@@ -437,6 +459,80 @@ docs = vectordb.search(hipo, k=5)</code></pre>
   </div>
 </div>
 <div class="card card-amber mt-3 text-xs">🎯 É o padrão por trás de <b>Perplexity</b>, <b>ChatGPT Search</b> e <b>Cursor @docs</b>.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
+<h1>🗺️ Taxonomia de técnicas RAG — 42+ técnicas documentadas</h1>
+<p class="text-xs" style="opacity:0.8; margin-bottom:0.4rem;">Baseado em <a href="https://github.com/NirDiamant/RAG_TECHNIQUES" style="color:#8b5cf6;">NirDiamant/RAG_TECHNIQUES</a> — 42+ notebooks executáveis cobrindo do básico ao estado da arte.</p>
+<div class="grid-3 stagger-in text-xs" style="gap:0.45rem;">
+<div class="card card-green parallax-card fragment">
+<b>🌱 Foundational</b><br>
+Simple RAG, RAG com CSV, Reliable RAG, Otimização de chunk size, Proposition Chunking
+</div>
+<div class="card card-cyan parallax-card fragment">
+<b>🔍 Query Enhancement</b><br>
+Query Transformations, HyDE (Hypothetical Doc Embedding), HyPE (Hypothetical Prompt Embedding)
+</div>
+<div class="card card-purple parallax-card fragment">
+<b>📚 Context Enrichment</b><br>
+Contextual Chunk Headers, Relevant Segment Extraction, Semantic Chunking, Contextual Compression, Document Augmentation
+</div>
+<div class="card card-amber parallax-card fragment">
+<b>🚀 Advanced Retrieval</b><br>
+Fusion Retrieval, Reranking, Multi-faceted Filtering, Hierarchical Indices, Multi-modal RAG
+</div>
+<div class="card card-red parallax-card fragment">
+<b>🏗️ Advanced Architecture</b><br>
+GraphRAG (Microsoft), RAPTOR, Self-RAG, Corrective RAG (CRAG), Agentic RAG, MemoRAG
+</div>
+<div class="card parallax-card fragment" style="border-color: rgba(96,165,250,0.4);">
+<b>📊 Evaluation</b><br>
+RAGAS, DeepEval, GroUSE, Open-RAG-Eval, End-to-End RAG Evaluation
+</div>
+</div>
+<div class="tip-box mt-2 text-xs">💡 <b>Progresso recomendado:</b> Foundational → Query Enhancement → Context Enrichment → Advanced Retrieval → Evaluation → Advanced Architecture. Cada categoria resolve uma classe de falha diferente.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #064e3b 100%)">
+<h1>📖 Ecossistema RAG — frameworks e recursos</h1>
+<div class="grid-2 stagger-in text-xs" style="gap:0.6rem;">
+<div class="card card-purple parallax-card fragment">
+<b>🛠️ Frameworks de pipeline</b>
+<div class="mt-1" style="line-height:1.5;">
+• <b>LangChain</b> — composição modular: loaders, splitters, retrievers, chains<br>
+• <b>LlamaIndex</b> — foco em ingestão, indexação e query engines sobre dados reais<br>
+• <b>Haystack</b> (deepset) — pipelines production-ready com search e RAG<br>
+• <b>DSPy</b> (Stanford) — otimiza prompts e RAG automaticamente com compiladores
+</div>
+</div>
+<div class="card card-cyan parallax-card fragment">
+<b>📊 Avaliação de RAG</b>
+<div class="mt-1" style="line-height:1.5;">
+• <b>RAGAS</b> — métricas: faithfulness, answer relevancy, context recall, context precision<br>
+• <b>DeepEval</b> — 14+ métricas, integração CI/CD, red-teaming automático<br>
+• <b>LangSmith</b> — tracing + evaluation + datasets de teste<br>
+• Sem avaliação → <i>"funciona nos meus exemplos"</i> ≠ funciona em produção
+</div>
+</div>
+<div class="card card-green parallax-card fragment">
+<b>🏗️ Arquiteturas avançadas</b>
+<div class="mt-1" style="line-height:1.5;">
+• <b>GraphRAG</b> (Microsoft) — knowledge graphs para queries que exigem raciocínio multi-hop<br>
+• <b>RAGFlow</b> — document understanding + chunking inteligente por estrutura<br>
+• <b>Verba</b> (Weaviate) — RAG end-to-end com UI + multi-modal<br>
+• <b>Self-RAG / CRAG</b> — o modelo decide se precisa buscar e se o que buscou é relevante
+</div>
+</div>
+<div class="card card-amber parallax-card fragment">
+<b>📚 Para ir além</b>
+<div class="mt-1" style="line-height:1.5;">
+• <a href="https://github.com/NirDiamant/RAG_TECHNIQUES" style="color:#fbbf24;">NirDiamant/RAG_TECHNIQUES</a> — 42+ notebooks com código executável<br>
+• <a href="https://github.com/NirDiamant/Agent_Memory_Techniques" style="color:#fbbf24;">NirDiamant/Agent_Memory_Techniques</a> — 30 notebooks sobre memória de agentes<br>
+• <a href="https://python.langchain.com/" style="color:#fbbf24;">python.langchain.com</a> — docs oficiais LangChain + tutoriais RAG<br>
+• <a href="https://docs.llamaindex.ai/" style="color:#fbbf24;">docs.llamaindex.ai</a> — docs LlamaIndex com exemplos reais
+</div>
+</div>
+</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #172554 100%)">
@@ -850,7 +946,7 @@ chain_stuff = load_summarize_chain(llm, chain_type=&quot;stuff&quot;)</code></pr
 <div class="card card-purple">
 <b>mem0</b><br>
 <span class="text-sm">Layer de memória plug-and-play. Detecta automaticamente o que vale a pena lembrar.</span><br>
-<code class="text-xs mt-2">!pip install mem0ai openai -q</code>
+<code class="text-xs mt-2">!pip install mem0ai -q</code>
 </div>
 
 <div class="card card-purple">
