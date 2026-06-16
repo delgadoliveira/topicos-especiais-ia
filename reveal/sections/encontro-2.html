@@ -1,107 +1,157 @@
 <section data-background-gradient="linear-gradient(135deg, #1a0533 0%, #0f172a 100%)">
 <h1 class="glow-text">🧠 Encontro 2</h1>
 <h2 class="subtitle-animate">Reasoning, Planning & Tool Execution</h2>
-<div class="typewriter-js text-center text-sm mt-2" data-text="3 horas · CoT, ToT, Planning, Function Calling, LangChain/LangGraph"></div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #1a0533 0%, #1e3a5f 100%)">
-<h1>🎯 O que você será capaz de fazer ao final desta aula</h1>
-<div class="stagger-in" style="margin-top: 1.5rem;">
-<div class="card card-green parallax-card fragment" style="padding: 0.8rem 1.2rem; margin-bottom: 0.6rem;">
-<span style="font-size: 1.3em;">✅</span> <b>Fazer o agente raciocinar melhor</b> usando Chain-of-Thought
-</div>
-<div class="card card-green parallax-card fragment" style="padding: 0.8rem 1.2rem; margin-bottom: 0.6rem;">
-<span style="font-size: 1.3em;">✅</span> <b>Planejar tarefas complexas</b> antes de executá-las
-</div>
-<div class="card card-green parallax-card fragment" style="padding: 0.8rem 1.2rem; margin-bottom: 0.6rem;">
-<span style="font-size: 1.3em;">✅</span> <b>Usar ferramentas de forma estruturada</b> (Function Calling)
-</div>
-<div class="card card-green parallax-card fragment" style="padding: 0.8rem 1.2rem; margin-bottom: 0.6rem;">
-<span style="font-size: 1.3em;">✅</span> <b>Entender quando usar frameworks</b> como LangChain/LangGraph
-</div>
-</div>
-<div class="text-xs opacity-70 text-center" style="margin-top: 1rem;">Ao final, seu agente não será mais "impulsivo" — ele pensa antes de agir.</div>
+<div class="typewriter-js text-center text-sm mt-2" data-text="De agente impulsivo a agente estratégico — pensando antes de agir"></div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%)">
-<h1>💭 Onde paramos…</h1>
-<div class="typewriter-js text-center mt-3" data-text="No Encontro 1, você construiu um agente funcional. Mas ele tinha um problema: era impulsivo."></div>
-<div class="card card-amber parallax-card fragment mt-3 text-center">Agia sem pensar. Escolhia ferramentas erradas. Não planejava.</div>
-<div class="text-sm text-center mt-3" style="opacity: 0.6;">Hoje vamos ensiná-lo a <b>raciocinar</b> antes de agir — e a usar ferramentas de forma <b>robusta</b>.</div>
+<h1>💭 Recap — onde paramos no Encontro 1</h1>
+<p class="text-sm">Você construiu um agente funcional com ReAct. Ele percebe, decide e age. <b>Mas...</b></p>
+
+<div class="agent-trace text-xs" style="margin:1rem 0;">
+<div class="trace-line trace-user">user: Qual hotel mais barato em Porto Alegre para 3 noites?</div>
+<div class="trace-line trace-thought">thought: Vou buscar hotel</div>
+<div class="trace-line trace-action">action: buscar("hotel Porto Alegre")</div>
+<div class="trace-line trace-obs">observation: Ibis R$189/noite, Laghetto R$280/noite</div>
+<div class="trace-line trace-thought">thought: O Ibis é mais barato. Respondo.</div>
+<div class="trace-line trace-action" style="color:#f87171;">⚠️ Não calculou total (3×189=567), não comparou com orçamento, não verificou disponibilidade</div>
+</div>
+
+<div class="grid-3 text-xs stagger-in" style="gap:0.5rem;">
+<div class="card" style="background:rgba(248,113,113,0.08); border:1px solid rgba(248,113,113,0.25); padding:0.5rem; text-align:center;">
+<b>❌ Impulsivo</b><br>Age no primeiro instinto
+</div>
+<div class="card" style="background:rgba(248,113,113,0.08); border:1px solid rgba(248,113,113,0.25); padding:0.5rem; text-align:center;">
+<b>❌ Sem plano</b><br>Decide passo a passo sem visão geral
+</div>
+<div class="card" style="background:rgba(248,113,113,0.08); border:1px solid rgba(248,113,113,0.25); padding:0.5rem; text-align:center;">
+<b>❌ Tools frágeis</b><br>Regex quebra, sem validação
+</div>
+</div>
+
+<div class="tip-box" style="margin-top:0.8rem;">
+💡 <b>A pergunta de hoje:</b> como transformar esse agente impulsivo em um que <b>pensa estrategicamente</b> e <b>usa ferramentas com precisão</b>?
+</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e293b 100%)">
-<h1>🧪 A jornada — Nível 2: com Reasoning + Tools</h1>
-<div class="agent-trace text-xs" style="margin-bottom: 0.75rem;">
+<h1>🧪 O mesmo problema — agente Nível 2</h1>
+<p class="text-sm">Mesmo cenário, mas agora com reasoning + tools estruturadas:</p>
+
+<div class="agent-trace text-xs" style="margin:0.8rem 0;">
 <div class="trace-line trace-user">user: Planeja uma viagem de 3 dias para Porto Alegre com R$2000</div>
-<div class="trace-line trace-thought">thought: Preciso decompor e buscar preços reais.</div>
+<div class="trace-line trace-thought">thought: Preciso decompor: (1) hospedagem ≤30% do budget, (2) alimentação, (3) passeios. Vou buscar preços reais e calcular.</div>
 <div class="trace-line trace-action">action: buscar_hoteis("Porto Alegre", checkin="2025-03-01", budget=600)</div>
 <div class="trace-line trace-obs">observation: Ibis Styles Centro: R$189/noite ✓ | Laghetto: R$280/noite</div>
-<div class="trace-line trace-thought">thought: 3×189=567. Sobram R$1433 para comida e passeios.</div>
-<div class="trace-line trace-action">action: buscar_restaurantes("Porto Alegre", tipo="gaúcho")</div>
-<div class="trace-line trace-obs">observation: Barranco ($$), CTG Farroupilha ($), Na Brasa ($$$)</div>
+<div class="trace-line trace-thought">thought: 3×189=567. Sobram R$1433 para comida e passeios. Próximo: restaurantes.</div>
+<div class="trace-line trace-action">action: buscar_restaurantes("Porto Alegre", tipo="gaúcho", budget_refeicao=80)</div>
+<div class="trace-line trace-obs">observation: Barranco ($$, ~R$65/pessoa), CTG Farroupilha ($, ~R$45)</div>
 </div>
-<div class="stagger-in grid-3 text-xs" style="gap: 0.55rem;">
-<div class="card text-center card-green parallax-card fragment"><b>✅ Preços reais</b></div>
-<div class="card text-center card-green parallax-card fragment"><b>✅ Raciocínio visível</b></div>
-<div class="card text-center card-amber parallax-card fragment"><b>⚠️ Sem memória</b></div>
+
+<div class="grid-3 text-xs stagger-in" style="gap:0.5rem;">
+<div class="card card-green" style="padding:0.5rem; text-align:center;"><b>✅ Decompôs</b><br>Planejou antes de agir</div>
+<div class="card card-green" style="padding:0.5rem; text-align:center;"><b>✅ Calculou</b><br>Raciocínio visível e correto</div>
+<div class="card card-green" style="padding:0.5rem; text-align:center;"><b>✅ Estruturado</b><br>Args tipados, sem regex</div>
 </div>
-<div class="mt-2 text-xs text-center opacity-70">Agora o agente pensa e usa ferramentas — mas ainda não lembra suas preferências.</div>
+
+<div class="insight-box" style="margin-top:0.6rem;">
+<b>🎯 A diferença:</b> mesmo modelo, mesma tarefa — a diferença é <b>como organizamos o raciocínio e as ferramentas</b>. Isso é o que você aprende hoje.
+</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #1f2937 100%)">
-<h1>🗺️ Agenda do Encontro 2</h1>
-<div class="grid-2 mt-3" style="gap: 1.4rem;">
-<div class="card card-purple slide-in-left">
-<div class="card-title">🧠 Bloco 1 — Reasoning &amp; Planning (~90 min)</div>
-<div class="card-desc">
-<ul><li class="fragment">2.1 Recap: limites do ReAct manual</li><li class="fragment">2.2 Chain-of-Thought (CoT)</li><li class="fragment">2.3 Self-Consistency</li><li class="fragment">2.4 Tree-of-Thoughts (ToT)</li><li class="fragment">2.5 Planning: Plan-and-Execute, ReWOO</li></ul>
+<h1>🗺️ A jornada de hoje — 2 blocos, 1 objetivo</h1>
+
+<div style="display:grid; grid-template-columns:1fr auto 1fr; gap:1rem; align-items:stretch; margin-top:1rem;">
+<div class="card card-purple" style="padding:0.8rem;">
+<div style="font-size:1.2em; text-align:center; margin-bottom:0.5rem;">🧠</div>
+<b>Bloco 1 — Pensando melhor</b><br><span class="text-xs">(~90 min)</span>
+<div class="text-xs" style="margin-top:0.5rem; line-height:1.6;">
+1. Chain-of-Thought (CoT)<br>
+2. Self-Consistency & ToT<br>
+3. Reasoning Models (o1, R1)<br>
+4. Reflexion (auto-crítica)<br>
+5. Planning (plano completo)
 </div>
 </div>
-<div class="card card-cyan slide-in-right">
-<div class="card-title">🔧 Bloco 2 — Tool Execution (~90 min)</div>
-<div class="card-desc">
-<ul><li class="fragment">2.6 Function Calling estruturado</li><li class="fragment">2.7 Hands-on: agente robusto com HuggingFace</li><li class="fragment">2.8 LangChain — quando faz sentido</li><li class="fragment">2.9 LangGraph — state machines explícitas</li><li class="fragment">2.10 Exercícios</li></ul>
+
+<div style="display:flex; align-items:center; font-size:2em;">→</div>
+
+<div class="card card-cyan" style="padding:0.8rem;">
+<div style="font-size:1.2em; text-align:center; margin-bottom:0.5rem;">🔧</div>
+<b>Bloco 2 — Agindo com precisão</b><br><span class="text-xs">(~90 min)</span>
+<div class="text-xs" style="margin-top:0.5rem; line-height:1.6;">
+6. Function Calling estruturado<br>
+7. Hands-on: agente robusto (HF)<br>
+8. Padrões Anthropic (5 patterns)<br>
+9. LangChain & LangGraph<br>
+10. Exercícios práticos
 </div>
 </div>
 </div>
-<div class="tip-box mt-2 text-xs">🎯 <b>Fio condutor:</b> seu agente do E1 funciona, mas é "impulsivo". Hoje ele aprende a <b>pensar antes de agir</b> e a <b>agir com precisão cirúrgica</b>.</div>
+
+<div class="tip-box" style="margin-top:1rem;">
+💡 <b>Fio condutor:</b> seu agente do E1 é "impulsivo". Hoje ele aprende a <b>pensar antes de agir</b> (Bloco 1) e a <b>agir com precisão cirúrgica</b> (Bloco 2).
+</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #1a0533 0%, #1e3a5f 100%)">
+<h1>🎯 Ao final desta aula, você será capaz de:</h1>
+<div class="stagger-in" style="margin-top:1.2rem; display:grid; gap:0.6rem;">
+<div class="card card-green parallax-card fragment" style="padding:0.7rem 1rem;">
+<span style="font-size:1.2em;">1️⃣</span> <b>Fazer o agente raciocinar melhor</b> — usando CoT, Self-Consistency e Reflexion
+</div>
+<div class="card card-green parallax-card fragment" style="padding:0.7rem 1rem;">
+<span style="font-size:1.2em;">2️⃣</span> <b>Planejar tarefas complexas</b> — decomposição, dependências, replanning dinâmico
+</div>
+<div class="card card-green parallax-card fragment" style="padding:0.7rem 1rem;">
+<span style="font-size:1.2em;">3️⃣</span> <b>Usar ferramentas de forma robusta</b> — Function Calling com JSON Schema + validação
+</div>
+<div class="card card-green parallax-card fragment" style="padding:0.7rem 1rem;">
+<span style="font-size:1.2em;">4️⃣</span> <b>Escolher o padrão certo</b> — saber quando usar chaining, routing, parallelization, ou orquestrador
+</div>
+</div>
+<div class="text-xs text-center" style="margin-top:0.8rem; opacity:0.7;">Cada técnica será demonstrada com código executável no Colab.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
-<h1>🧭 Vocabulário do dia — em 1 frase cada</h1>
-<p class="slide-in-left">Antes de mergulhar, os termos novos que você vai ouvir hoje:</p>
-<div class="stagger-in text-sm mt-3" style="grid-template-columns: 1fr; gap: 0.55rem;">
-<div class="card card-purple parallax-card fragment">
-<b>🧠 Reasoning model</b> — modelo que "pensa em voz alta" antes de responder. <i>Ex: o1, o3, DeepSeek R1.</i> Pague mais, espere mais, ganhe respostas melhores em problemas complexos.
+<h1>🧭 Vocabulário do dia — termos-chave</h1>
+<p class="text-sm">Os conceitos novos que você vai encontrar. Uma frase cada — aprofundamos durante a aula:</p>
+<div class="stagger-in text-xs" style="display:grid; gap:0.4rem; margin-top:0.8rem;">
+<div class="card card-purple parallax-card fragment" style="padding:0.5rem 0.8rem;">
+<b>🧠 Reasoning model</b> — modelo treinado para "pensar em voz alta" antes de responder. <i>Ex: o1, o3, DeepSeek R1.</i>
 </div>
-<div class="card card-cyan parallax-card fragment">
-<b>🪜 Chain-of-Thought (CoT)</b> — pedir explicitamente: <i>"explique seu raciocínio passo a passo"</i>. Truque simples, ganho gigante em matemática e lógica.
+<div class="card card-cyan parallax-card fragment" style="padding:0.5rem 0.8rem;">
+<b>🪜 Chain-of-Thought (CoT)</b> — pedir explicitamente "explique passo a passo". Ganho de 20-40% em raciocínio.
 </div>
-<div class="card card-green parallax-card fragment">
-<b>📋 Planning</b> — em vez de decidir um passo de cada vez, o agente faz um <b>plano completo primeiro</b>. Como escrever o roteiro antes de filmar.
+<div class="card card-green parallax-card fragment" style="padding:0.5rem 0.8rem;">
+<b>📋 Planning</b> — plano completo antes de executar. Como escrever o roteiro antes de filmar.
 </div>
-<div class="card card-amber parallax-card fragment">
-<b>🔁 Reflexion</b> — agente <b>critica a própria resposta</b> e tenta de novo se não estiver bom. Como reler seu texto antes de enviar.
+<div class="card card-amber parallax-card fragment" style="padding:0.5rem 0.8rem;">
+<b>🔁 Reflexion</b> — agente critica a própria resposta e tenta de novo. Como reler antes de enviar.
 </div>
-<div class="card parallax-card fragment" style="background: rgba(244, 114, 182, 0.08); border: 1px solid rgba(244, 114, 182, 0.28);">
-<b>📦 Structured output</b> — forçar o LLM a responder em formato fixo (ex: JSON), não em texto livre. Essencial para integração com sistemas.
+<div class="card parallax-card fragment" style="padding:0.5rem 0.8rem; background:rgba(244,114,182,0.08); border:1px solid rgba(244,114,182,0.28);">
+<b>📦 Structured output</b> — forçar resposta em formato fixo (JSON). Essencial para integrar com sistemas.
 </div>
-<div class="card card-cyan parallax-card fragment">
-<b>🛠️ Framework</b> — biblioteca pronta que esconde a "encanação" do agente. <i>Ex: LangGraph, LlamaIndex.</i> Como usar Django em vez de escrever um servidor HTTP do zero.
+<div class="card card-cyan parallax-card fragment" style="padding:0.5rem 0.8rem;">
+<b>🛠️ Function Calling</b> — o modelo retorna qual função chamar + args tipados (não texto livre).
 </div>
 </div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #0f766e 100%)">
-<h1>🧩 Onde você já viu isso</h1>
-<div class="stagger-in grid-2 text-xs" style="gap: 0.55rem;">
-<div class="card card-purple parallax-card fragment"><b>🧠 Reasoning models em produto</b><br>• ChatGPT com <b>o1/o3</b> mostra "thinking..." antes da resposta<br>• <b>Cursor</b> ativa "Reasoning mode" em refatorações grandes</div>
-<div class="card card-cyan parallax-card fragment"><b>🪜 CoT no cotidiano</b><br>• Adicionar <i>"explique passo a passo"</i> ao prompt já é CoT<br>• Wolfram Alpha exibe os passos pela mesma lógica</div>
-<div class="card card-green parallax-card fragment"><b>📋 Planning em produto</b><br>• <b>Devin / Cognition</b> mostra um plano com checkboxes antes de codar<br>• <b>Manus / OpenAI Operator</b> planeja a sequência de ações antes de executar</div>
-<div class="card card-amber parallax-card fragment"><b>🔁 Reflexion em produto</b><br>• <b>Cursor</b> gera código, roda testes e ajusta se falhar<br>• <b>Perplexity Pro Search</b> refina a busca se a 1ª tentativa vier ruim</div>
+<h1>🧩 Você já viu isso em produtos reais</h1>
+<p class="text-sm">Cada técnica que vamos estudar já está em produção:</p>
+<div class="grid-2 stagger-in text-xs" style="gap:0.5rem; margin-top:0.8rem;">
+<div class="card card-purple parallax-card fragment"><b>🧠 Reasoning → ChatGPT o1/o3</b><br>Mostra "thinking..." antes de responder. Cursor usa "Reasoning mode" para refatorações complexas.</div>
+<div class="card card-cyan parallax-card fragment"><b>🪜 CoT → qualquer prompt</b><br>Adicionar "explique passo a passo" já é CoT. Wolfram Alpha exibe passos pela mesma lógica.</div>
+<div class="card card-green parallax-card fragment"><b>📋 Planning → Devin, Manus</b><br>Devin mostra checkboxes antes de codar. Manus planeja toda a navegação antes de clicar.</div>
+<div class="card card-amber parallax-card fragment"><b>🔁 Reflexion → Cursor, Claude Code</b><br>Gera código, roda testes, se falhar: lê o erro, critica, tenta de novo automaticamente.</div>
 </div>
-<div class="mt-2 text-xs opacity-70 text-center">Em 2025, quase todo produto agentic combina <b>2 ou 3</b> dessas técnicas.</div>
+
+<div class="insight-box" style="margin-top:0.8rem;">
+<b>💡 Insight:</b> Em 2025, quase todo produto agentic de sucesso combina <b>2 ou 3</b> dessas técnicas. Não é "escolha uma" — é "quando usar cada uma".
+</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
