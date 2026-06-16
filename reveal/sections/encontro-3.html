@@ -1521,10 +1521,28 @@ print(chat(&quot;Me ajude a escrever uma função&quot;))</code></pre>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
 <h1>Skills vs Tools — qual a diferença?</h1>
-<div class="grid-2 mt-3 text-xs">
-<div class="card card-cyan"><div >🛠️ Tool</div><b>Sempre disponível</b><br>Schema JSON fixo<br>1 função = 1 tool<br>Ocupa contexto mesmo parada</div>
-<div class="card card-purple"><div >🎓 Skill</div><b>Carrega sob demanda</b><br>Pode trazer docs e scripts<br>1 skill = competência inteira<br>Quase zero overhead</div>
+<p class="text-sm">Ambas dão capacidades ao agente, mas operam em <b>níveis diferentes</b>: a tool é uma função pontual; a skill é uma competência completa carregada sob demanda.</p>
+<div class="grid-2 mt-2 text-xs">
+<div class="card card-cyan">
+  <div class="card-title">🛠️ Tool</div>
+  <ul style="line-height:1.7;">
+    <li><b>Sempre disponível</b> — declarada no início da sessão</li>
+    <li>Schema JSON <b>fixo</b> (nome, args, descrição)</li>
+    <li>1 função = 1 tool (granularidade baixa)</li>
+    <li>⚠️ Ocupa contexto <b>mesmo parada</b>: 50 tools = 50 schemas no prompt</li>
+  </ul>
 </div>
+<div class="card card-purple">
+  <div class="card-title">🎓 Skill</div>
+  <ul style="line-height:1.7;">
+    <li><b>Carrega sob demanda</b> — só quando o agente decide usar</li>
+    <li>Pode trazer <b>docs, scripts e templates</b> juntos</li>
+    <li>1 skill = competência inteira ("fazer um relatório financeiro")</li>
+    <li>✅ Quase zero overhead até ser ativada</li>
+  </ul>
+</div>
+</div>
+<div class="tip-box mt-2 text-xs">📌 Use <b>tools</b> para ações atômicas (buscar, calcular, enviar). Use <b>skills</b> para empacotar um fluxo inteiro com seu conhecimento — evitando lotar o contexto com tudo o tempo todo.</div>
 <div class="card card-amber mt-3 text-xs">💡 <b>Analogia:</b> tool é função da biblioteca padrão; skill é um pacote especializado que você só carrega quando precisa.</div>
 <div class="tip-box mt-2 text-xs">🎯 <b>Impacto prático:</b> com 5 tools registradas, ~500 tokens de overhead. Com 50 skills possíveis mas só 3 carregadas, ~300 tokens. Skills <b>escalam melhor</b> para agentes com muitas capacidades.</div>
 </section>
@@ -1533,7 +1551,7 @@ print(chat(&quot;Me ajude a escrever uma função&quot;))</code></pre>
 <h1>3.7 MCP — Model Context Protocol</h1>
 <p class="text-sm">📅 Lançado pela <b>Anthropic em novembro/2024</b>. A documentação oficial define MCP como um padrão open-source para conectar aplicações de IA a <b>sistemas externos</b>.</p>
 <div class="card card-cyan mt-3 text-center">
-<div >
+<div>
 MCP é o <b>"USB-C"</b> dos agentes:<br>
 um protocolo padrão para conectar LLMs a <b>dados</b>, <b>ferramentas</b> e <b>workflows</b>.
 </div>
@@ -1683,11 +1701,28 @@ Lista oficial: <a href="https://github.com/modelcontextprotocol/servers">github.
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #064e3b 100%)">
 <h1>Quando usar multi-agente?</h1>
-<div class="grid-2 mt-3 text-xs">
-<div class="tip-box"><div >✅ Use quando</div>Fases bem diferentes<br>Prompts/contextos distintos<br>Especialistas com tools próprias<br>Paralelismo gera ganho real</div>
-<div class="card card-red"><div >❌ Evite quando</div>Um agente resolve sozinho<br>Latência é crítica<br>Custo precisa ser previsível<br>Você nem mediu o benefício</div>
+<p class="text-sm">Multi-agente <b>adiciona complexidade</b> (mais chamadas, mais custo, mais latência, mais pontos de falha). Só compensa quando a tarefa realmente pede divisão.</p>
+<div class="grid-2 mt-2 text-xs">
+<div class="tip-box">
+  <div class="card-title">✅ Use quando</div>
+  <ul style="line-height:1.7;">
+    <li><b>Fases bem diferentes</b> (pesquisar → escrever → revisar)</li>
+    <li>Cada etapa precisa de <b>prompt/contexto distinto</b></li>
+    <li>Especialistas com <b>ferramentas próprias</b> (um busca, outro calcula)</li>
+    <li><b>Paralelismo</b> gera ganho real de tempo</li>
+  </ul>
 </div>
-<div class="card card-amber mt-3 text-xs">🎯 <b>Regra prática:</b> single-agent com bom contexto costuma vencer; só vá de multi-agent quando a tarefa realmente pedir especialização ou paralelismo.</div>
+<div class="card card-red">
+  <div class="card-title">❌ Evite quando</div>
+  <ul style="line-height:1.7;">
+    <li>Um único agente já resolve com bom contexto</li>
+    <li><b>Latência</b> é crítica (cada agente = +1 round-trip)</li>
+    <li>O <b>custo</b> precisa ser previsível e baixo</li>
+    <li>Você ainda <b>não mediu</b> o benefício real</li>
+  </ul>
+</div>
+</div>
+<div class="card card-amber mt-2 text-xs">🎯 <b>Regra prática:</b> single-agent com bom contexto costuma vencer; só vá de multi-agent quando a tarefa pedir <b>especialização</b> ou <b>paralelismo</b> — e meça antes de adotar.</div>
 <div class="insight-box mt-2 text-xs">🏢 <b>Realidade do mercado (2025):</b> segundo a Anthropic, <b>~90% dos agentes em produção são single-agent</b>. Multi-agent brilha em: coding assistants (planner + coder + reviewer), research (pesquisador + escritor), e customer support (router + especialistas).</div>
 </section>
 
