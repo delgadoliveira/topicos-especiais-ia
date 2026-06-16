@@ -177,13 +177,108 @@ Em contextos longos (>10k tokens), modelos prestam <b>mais atenção ao início 
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
 <h1>3.2 Estratégias de context management</h1>
-<div class="grid-2 mt-3 text-xs">
-<div class="card card-purple"><b>✂️ Truncamento (sliding window)</b><br>Mantém só as últimas N mensagens. <b>Prós:</b> simples. <b>Contras:</b> perde contexto antigo importante.</div>
-<div class="card card-purple"><b>📝 Sumarização</b><br>Comprime histórico antigo em resumo. <b>Prós:</b> mantém essência. <b>Contras:</b> +1 chamada LLM, perde detalhes.</div>
-<div class="card card-purple"><b>🔍 RAG (retrieval)</b><br>Busca só os trechos relevantes. <b>Prós:</b> escala para milhões de docs. <b>Contras:</b> depende do retriever.</div>
-<div class="card card-purple"><b>🗄️ Sub-agentes / handoffs</b><br>Sub-agente processa contexto pesado e devolve síntese. <b>Prós:</b> isola contextos. <b>Contras:</b> orquestração complexa.</div>
+<p class="text-sm">O contexto é o recurso mais precioso do agente — e é <b>finito</b>. Gerenciá-lo bem é a diferença entre um agente que funciona e um que "esquece" ou estoura custos.</p>
+<div class="flow-diagram mt-2">
+  <div class="flow-node node-red">Conversa cresce</div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-node node-amber">Tokens > limite</div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-node node-green">Estratégia de gestão</div>
 </div>
-<div class="card card-cyan mt-3 text-xs">🎯 <b>Padrão moderno:</b> combinar <b>sumarização automática</b> + <b>file system como memória externa</b> + <b>sub-agentes</b> para tarefas isoladas.</div>
+<div class="card card-cyan mt-2 text-xs">💡 <b>Princípio:</b> nunca envie tudo — envie apenas o que o modelo precisa <i>agora</i> para responder bem.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
+<h1>3.2 As 4 estratégias principais</h1>
+<div class="grid-2 mt-2">
+<div class="card card-purple">
+  <div class="card-title">✂️ Truncamento (Sliding Window)</div>
+  <div class="card-desc">Mantém apenas as últimas <b>N mensagens</b> e descarta o resto.</div>
+  <ul class="text-xs mt-1">
+    <li><b>Quando usar:</b> chatbots simples, suporte ao cliente com conversas curtas</li>
+    <li><b>Implementação:</b> <code>messages = messages[-10:]</code></li>
+    <li><b>Risco:</b> perde contexto antigo que pode ser crucial ("lembra que eu disse...")</li>
+  </ul>
+  <div class="text-xs mt-1 opacity-70">📦 Usado por: ChatGPT free (antes do Memory), bots de atendimento</div>
+</div>
+<div class="card card-purple">
+  <div class="card-title">📝 Sumarização progressiva</div>
+  <div class="card-desc">Comprime mensagens antigas em um <b>resumo gerado pelo próprio LLM</b>.</div>
+  <ul class="text-xs mt-1">
+    <li><b>Quando usar:</b> conversas longas onde o contexto histórico importa</li>
+    <li><b>Implementação:</b> a cada N msgs, gera resumo e substitui as antigas</li>
+    <li><b>Risco:</b> +1 chamada LLM (custo extra), pode perder detalhes numéricos</li>
+  </ul>
+  <div class="text-xs mt-1 opacity-70">📦 Usado por: LangChain ConversationSummaryMemory, Claude Projects</div>
+</div>
+<div class="card card-green">
+  <div class="card-title">🔍 RAG (Retrieval-Augmented Generation)</div>
+  <div class="card-desc">Busca apenas os <b>trechos relevantes</b> de uma base de conhecimento externa.</div>
+  <ul class="text-xs mt-1">
+    <li><b>Quando usar:</b> base de documentos grande (manuais, código, wikis)</li>
+    <li><b>Implementação:</b> embed query → busca vetorial → top-k docs → injeta no prompt</li>
+    <li><b>Risco:</b> depende da qualidade do retriever e dos chunks</li>
+  </ul>
+  <div class="text-xs mt-1 opacity-70">📦 Usado por: Perplexity, Notion AI, GitHub Copilot, Glean</div>
+</div>
+<div class="card card-green">
+  <div class="card-title">🗄️ Delegação (Sub-agentes / Handoffs)</div>
+  <div class="card-desc">Sub-agente processa contexto pesado e devolve apenas a <b>síntese</b>.</div>
+  <ul class="text-xs mt-1">
+    <li><b>Quando usar:</b> tarefas que exigem contextos incompatíveis (código + docs + dados)</li>
+    <li><b>Implementação:</b> agente A envia tarefa ao agente B, recebe resposta compacta</li>
+    <li><b>Risco:</b> orquestração mais complexa, latência de múltiplas chamadas</li>
+  </ul>
+  <div class="text-xs mt-1 opacity-70">📦 Usado por: Devin, OpenAI Swarm, CrewAI, AutoGen</div>
+</div>
+</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
+<h1>3.2 Comparação — quando usar cada uma?</h1>
+<table class="text-xs mt-2" style="width:100%; border-collapse:collapse; background:rgba(0,0,0,0.3); border-radius:8px;">
+<thead>
+<tr style="border-bottom:1px solid rgba(255,255,255,0.2);">
+  <th style="padding:0.5rem; text-align:left;">Estratégia</th>
+  <th style="padding:0.5rem; text-align:center;">Custo</th>
+  <th style="padding:0.5rem; text-align:center;">Complexidade</th>
+  <th style="padding:0.5rem; text-align:center;">Preserva contexto?</th>
+  <th style="padding:0.5rem; text-align:left;">Melhor para</th>
+</tr>
+</thead>
+<tbody>
+<tr style="border-bottom:1px solid rgba(255,255,255,0.1);">
+  <td style="padding:0.4rem;">✂️ Truncamento</td>
+  <td style="padding:0.4rem; text-align:center;">💚 Baixo</td>
+  <td style="padding:0.4rem; text-align:center;">⭐</td>
+  <td style="padding:0.4rem; text-align:center;">❌ Não</td>
+  <td style="padding:0.4rem;">Chats curtos, FAQ bots</td>
+</tr>
+<tr style="border-bottom:1px solid rgba(255,255,255,0.1);">
+  <td style="padding:0.4rem;">📝 Sumarização</td>
+  <td style="padding:0.4rem; text-align:center;">💛 Médio</td>
+  <td style="padding:0.4rem; text-align:center;">⭐⭐</td>
+  <td style="padding:0.4rem; text-align:center;">⚠️ Parcial</td>
+  <td style="padding:0.4rem;">Conversas longas com histórico</td>
+</tr>
+<tr style="border-bottom:1px solid rgba(255,255,255,0.1);">
+  <td style="padding:0.4rem;">🔍 RAG</td>
+  <td style="padding:0.4rem; text-align:center;">💛 Médio</td>
+  <td style="padding:0.4rem; text-align:center;">⭐⭐⭐</td>
+  <td style="padding:0.4rem; text-align:center;">✅ Sim (externo)</td>
+  <td style="padding:0.4rem;">Bases de conhecimento, docs</td>
+</tr>
+<tr>
+  <td style="padding:0.4rem;">🗄️ Delegação</td>
+  <td style="padding:0.4rem; text-align:center;">💛 Médio-Alto</td>
+  <td style="padding:0.4rem; text-align:center;">⭐⭐⭐⭐</td>
+  <td style="padding:0.4rem; text-align:center;">✅ Sim (distribuído)</td>
+  <td style="padding:0.4rem;">Tarefas multi-domínio</td>
+</tr>
+</tbody>
+</table>
+<div class="card card-cyan mt-2 text-xs">🎯 <b>Padrão moderno (produção):</b> combinar <b>sumarização automática</b> (histórico recente) + <b>RAG</b> (conhecimento externo) + <b>file system como memória</b> + <b>sub-agentes</b> para tarefas isoladas. Nenhuma estratégia sozinha resolve tudo.</div>
+<div class="tip-box mt-1 text-xs">📌 Em seguida veremos como implementar a sumarização (código) e depois RAG completo.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
