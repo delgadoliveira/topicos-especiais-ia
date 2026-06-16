@@ -2478,12 +2478,39 @@ Ferramentas disponíveis:
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
 <h1>Anatomia de uma chamada à API — visualizando os tokens</h1>
-<div  class="flow-diagram mt-2"><div  class="flow-node node-purple">System<br>~150</div><div  class="flow-arrow">→</div><div  class="flow-node node-green">User<br>~30</div><div  class="flow-arrow">→</div><div  class="flow-node node-cyan">Thought+Action<br>~50</div><div  class="flow-arrow">→</div><div  class="flow-node node-amber">Observation 1<br>~20</div><div  class="flow-arrow">→</div><div  class="flow-node node-cyan">Thought+Action<br>~50</div><div  class="flow-arrow">→</div><div  class="flow-node node-amber">Observation 2<br>~10</div><div  class="flow-arrow">→</div><div  class="flow-node node-purple parallax-card">🧠 LLM</div><div  class="flow-arrow">→</div><div  class="flow-node node-green">Resposta<br>~80</div></div>
+<p class="text-xs opacity-80">Cada chamada ao LLM envia <b>tudo</b> de novo: system + histórico + tools. Veja o custo crescer:</p>
 
-<div  class="text-sm">
-Esse exemplo: <b>~390 tokens enviados</b> + 80 gerados a cada chamada.
-Em <code>gpt-4o-mini</code> custa frações de centavo. Em <code>gpt-4o</code>, ~10× mais. Em agentes longos, vira US$ rapidinho.
+<div style="display:grid; grid-template-columns:1fr auto 1fr; gap:0.4rem; align-items:start; margin-top:0.6rem;">
+  <div>
+    <div class="text-xs opacity-70 mb-1" style="text-align:center;"><b>📥 Input (você paga para enviar)</b></div>
+    <div style="display:flex; flex-wrap:wrap; gap:0.3rem; justify-content:center;">
+      <div class="flow-node node-purple" style="font-size:0.55em; padding:0.3rem 0.5rem;">🎭 System<br>~150 tok</div>
+      <div class="flow-node node-green" style="font-size:0.55em; padding:0.3rem 0.5rem;">👤 User<br>~30 tok</div>
+      <div class="flow-node node-cyan" style="font-size:0.55em; padding:0.3rem 0.5rem;">💭 Thought 1<br>~50 tok</div>
+      <div class="flow-node node-amber" style="font-size:0.55em; padding:0.3rem 0.5rem;">🔧 Tool result 1<br>~20 tok</div>
+      <div class="flow-node node-cyan" style="font-size:0.55em; padding:0.3rem 0.5rem;">💭 Thought 2<br>~50 tok</div>
+      <div class="flow-node node-amber" style="font-size:0.55em; padding:0.3rem 0.5rem;">🔧 Tool result 2<br>~10 tok</div>
+    </div>
+    <div class="text-xs mt-1" style="text-align:center; opacity:0.7;">Total input: <b>~310 tokens</b></div>
+  </div>
+
+  <div style="display:flex; align-items:center; font-size:1.5rem; padding-top:1.5rem;">→</div>
+
+  <div>
+    <div class="text-xs opacity-70 mb-1" style="text-align:center;"><b>📤 Output (você paga para gerar)</b></div>
+    <div style="display:flex; justify-content:center;">
+      <div class="flow-node node-green" style="font-size:0.55em; padding:0.3rem 0.5rem;">✍️ Resposta final<br>~80 tok</div>
+    </div>
+    <div class="text-xs mt-1" style="text-align:center; opacity:0.7;">Total output: <b>~80 tokens</b></div>
+  </div>
 </div>
+
+<div class="grid-3 mt-2 stagger-in text-xs" style="gap:0.5rem;">
+  <div class="card card-green fragment"><b>gpt-4o-mini</b><br>Input: $0.15/1M · Output: $0.60/1M<br>Esta chamada: <b>~$0.00005</b><br>💚 Centavos por dia</div>
+  <div class="card card-amber fragment"><b>gpt-4o</b><br>Input: $2.50/1M · Output: $10/1M<br>Esta chamada: <b>~$0.002</b><br>⚠️ 40× mais caro</div>
+  <div class="card card-red fragment"><b>Agente com 20 passos</b><br>Contexto cresce a cada passo!<br>Passo 20: ~6000 tok input<br>🔥 Total acumulado: <b>~$0.50+</b></div>
+</div>
+<div class="tip-box mt-1 text-xs">O custo de um agente não é linear — é <b>quadrático</b>: cada passo repaga todo o histórico anterior.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%)">
