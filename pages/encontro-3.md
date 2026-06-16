@@ -48,7 +48,11 @@ Hoje vamos dar <b>memória</b>, <b>conhecimento</b> e <b>habilidades reutilizáv
 
 ---
 
-# 🗺️ Agenda do Encontro 3
+# 🗺️ Agenda do Encontro 3 — da memória ao conhecimento operacional
+
+<div class="mb-3 p-3 rounded-lg bg-blue-500/10 border border-blue-500/30 text-sm">
+O agente do Encontro 2 já raciocina e usa tools. Hoje ele aprende a <b>lembrar</b>, <b>buscar evidências</b> e <b>conectar conhecimento externo</b> sem lotar o contexto.
+</div>
 
 <div class="grid grid-cols-2 gap-6 mt-6">
 
@@ -76,6 +80,10 @@ Hoje vamos dar <b>memória</b>, <b>conhecimento</b> e <b>habilidades reutilizáv
 
 </div>
 
+<div class="mt-3 p-3 rounded-lg bg-green-500/10 border border-green-500/30 text-xs text-center">
+<b>Produto da aula:</b> uma arquitetura mental para decidir entre contexto longo, sumarização, RAG, memória, skills, MCP e multi-agentes.
+</div>
+
 ---
 
 # 🧭 Vocabulário do dia — em 1 frase cada
@@ -100,6 +108,23 @@ Hoje vamos dar <b>memória</b>, <b>conhecimento</b> e <b>habilidades reutilizáv
 <div class="p-2 rounded-lg bg-amber-500/10 border border-amber-500/30"><b>🪟 Context window — implicação prática</b><br>• Quando o chat “esquece” 50 mensagens atrás, o contexto saturou • Por isso <b>Claude 200k</b> e <b>Gemini 1M</b> viraram diferencial</div>
 </div>
 <div class="mt-3 p-2 rounded-lg bg-cyan-500/10 border border-cyan-500/30 text-xs">🎯 <b>Insight</b>: todo agente que parece “inteligente sobre o seu negócio” está fazendo <b>RAG + grounding</b> por baixo. Não há mágica.</div>
+---
+
+# 🧪 Caso condutor — assistente acadêmico da disciplina
+
+<div class="mb-3 text-sm">Para conectar os temas, use este caso mental ao longo do encontro:</div>
+
+<div class="grid grid-cols-2 gap-3 text-xs">
+<div class="p-3 rounded-xl bg-purple-500/10 border border-purple-500/30"><b>Pedido do aluno</b><br>“Com base nos slides, artigos e minhas dúvidas anteriores, explique RAG, cite fontes e me sugira exercícios para revisar.”</div>
+<div class="p-3 rounded-xl bg-red-500/10 border border-red-500/30"><b>Por que quebra?</b><br>O histórico cresce, documentos ficam fora do contexto, fontes podem conflitar e preferências do aluno se perdem entre sessões.</div>
+<div class="p-3 rounded-xl bg-cyan-500/10 border border-cyan-500/30"><b>Context/RAG resolve</b><br>Seleciona o que entra no prompt, busca evidências, faz grounding e sintetiza sem jogar tudo no modelo.</div>
+<div class="p-3 rounded-xl bg-green-500/10 border border-green-500/30"><b>Memória/Skills/MCP resolvem</b><br>Guardam preferências, encapsulam capacidades reutilizáveis e conectam o agente a arquivos, repositórios e sistemas.</div>
+</div>
+
+<div class="mt-3 p-2 rounded-lg bg-amber-500/10 border border-amber-500/30 text-xs text-center">
+Cada técnica de hoje responde a uma pergunta: <b>o que lembrar, o que recuperar, o que citar e quando chamar outro sistema?</b>
+</div>
+
 ---
 
 ---
@@ -183,27 +208,38 @@ Em contextos longos (>10k tokens), modelos prestam <b>mais atenção ao início 
 # Exemplo: sumarização automática
 <div class="mb-3 p-2 rounded bg-sky-500/10 border border-sky-500/30 text-xs">📖 <b>Em palavras:</b> conte os tokens; se passar do limite, preserve as últimas 4 mensagens e resuma o restante em 200 palavras.</div>
 ```python
-def manage_context(messages: list, max_tokens: int = 8000):
-    """Se passar do limite, sumariza as mensagens antigas."""
-    total = count_tokens(messages)
-    if total < max_tokens:
-        return messages
-    # Mantém as últimas 4 mensagens, sumariza o resto
-    keep = messages[-4:]
-    to_summarize = messages[:-4]
+from huggingface_hub import InferenceClient
+from google.colab import userdata
+
+client = InferenceClient(token=userdata.get("HF_TOKEN"))
+MODEL = "Qwen/Qwen2.5-7B-Instruct"
+
+def count_tokens_approx(messages: list) -> int:
+    """Aproxima 1 token como 4 caracteres em PT-BR."""
+    return sum(len(m["content"]) // 4 for m in messages)
+
+def summarize(messages: list) -> str:
+    texto = "\n".join(f"{m['role']}: {m['content']}" for m in messages)
+    resp = client.chat.completions.create(
+        model=MODEL,
+        messages=[{"role": "user", "content": f"Resuma em 200 palavras:\n{texto}"}],
+        max_tokens=250,
+    )
+    return resp.choices[0].message.content
 ```
 
 ---
 
 # Exemplo: sumarização automática — continuação
 ```python
-    summary = client.chat.completions.create(
-        model="gpt-4o-mini",
-        messages=[
-            {"role": "system", "content": "Resuma esta conversa em 200 palavras, preservando fatos importantes e decisões."},
-            *to_summarize,
-        ],
-    ).choices[0].message.content
+def manage_context(messages: list, max_tokens: int = 8000):
+    """Se passar do limite, sumariza mensagens antigas e preserva as recentes."""
+    if count_tokens_approx(messages) < max_tokens:
+        return messages
+
+    keep = messages[-4:]
+    to_summarize = messages[:-4]
+    summary = summarize(to_summarize)
     return [{"role": "system", "content": f"Resumo do histórico anterior:\\n{summary}"}, *keep]
 ```
 <div class="mt-3 p-2 rounded bg-cyan-500/10 border border-cyan-500/30 text-xs">✅ Resultado: o histórico não cresce sem controle, mas as decisões importantes continuam acessíveis.</div>
@@ -274,14 +310,17 @@ OpenAI <code>text-embedding-3</code>, Cohere, BGE, ou local (sentence-transforme
 ```python
 from langchain_community.document_loaders import TextLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_openai import OpenAIEmbeddings, ChatOpenAI
+from langchain_huggingface import HuggingFaceEmbeddings, HuggingFaceEndpoint
 from langchain_chroma import Chroma
 from langchain.chains import create_retrieval_chain
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain_core.prompts import ChatPromptTemplate
+
+# Antes: crie um manual.txt no Colab com 5-10 parágrafos de documentação.
 docs = TextLoader("manual.txt").load()
 chunks = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50).split_documents(docs)
-vstore = Chroma.from_documents(chunks, OpenAIEmbeddings(model="text-embedding-3-small"))
+embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
+vstore = Chroma.from_documents(chunks, embeddings)
 ```
 
 ---
@@ -293,7 +332,12 @@ retriever = vstore.as_retriever(search_kwargs={"k": 4})
 prompt = ChatPromptTemplate.from_template(
     "Responda baseado APENAS no contexto:\n\n{context}\n\nPergunta: {input}"
 )
-combine = create_stuff_documents_chain(ChatOpenAI(model="gpt-4o-mini"), prompt)
+llm = HuggingFaceEndpoint(
+    repo_id="Qwen/Qwen2.5-7B-Instruct",
+    task="text-generation",
+    max_new_tokens=300,
+)
+combine = create_stuff_documents_chain(llm, prompt)
 chain = create_retrieval_chain(retriever, combine)
 print(chain.invoke({"input": "Como configuro o produto?"})["answer"])
 ```
@@ -578,14 +622,11 @@ SYSTEM = """Responda APENAS com base nos documentos abaixo.
 Para CADA afirmação, adicione [doc_id] da fonte.
 Se não souber, responda exatamente: "Não encontrei nos documentos."
 NÃO use conhecimento externo."""
-contexto = "
-
-".join([f"[doc_{d.id}] {d.content}" for d in docs_retrieved])
-resposta = llm.invoke(f"{SYSTEM}
-
-{contexto}
-
-Pergunta: {q}")
+contexto = "\n\n".join(
+    f"[doc_{i}] {doc.page_content}"
+    for i, doc in enumerate(docs_retrieved, start=1)
+)
+resposta = llm.invoke(f"{SYSTEM}\n\n{contexto}\n\nPergunta: {q}")
 ```
 
 ---
@@ -1346,82 +1387,18 @@ class: text-center
 
 # ✅ Fim do Encontro 3
 
-Você agora sabe:
-
----
-
-# 🔌 MCP — Conectando agentes ao ecossistema digital
-
-<div class="text-xs mt-2">
-
-**Model Context Protocol** (Anthropic, 2024) — padrão aberto para conectar agentes a ferramentas.
-
+<div class="grid grid-cols-2 gap-3 text-xs">
+<div class="p-3 rounded-xl bg-green-500/10 border border-green-500/30"><b>Você agora tem repertório</b><br>Context window, lost-in-the-middle, RAG, grounding, synthesis, memória, skills, MCP e multi-agentes.</div>
+<div class="p-3 rounded-xl bg-cyan-500/10 border border-cyan-500/30"><b>Você também tem critério</b><br>Escolher quando colocar algo no prompt, recuperar de uma base, salvar como memória, encapsular como skill ou expor via MCP.</div>
 </div>
 
-<div class="grid grid-cols-2 gap-3 text-xs mt-2">
-
-<div class="p-3 rounded-xl border border-cyan-500/30 bg-cyan-500/5">
-
-### Como funciona
-
-1. **Server** expõe tools via JSON-RPC
-2. **Client** (agente) descobre tools disponíveis
-3. Agente chama tool → Server executa → retorna resultado
-4. Padrão universal (como HTTP para web)
-
+<div class="mt-4 p-3 rounded-xl bg-blue-500/10 border border-blue-500/30 text-sm text-center">
+<b>Frase para levar:</b> contexto não é “mais tokens”; é <b>selecionar a evidência certa, na hora certa, com a fonte certa</b>.
 </div>
 
-<div class="p-3 rounded-xl border border-purple-500/30 bg-purple-500/5">
-
-### Exemplos reais
-
-- **Spotify MCP** — busca músicas, cria playlists
-- **GitHub MCP** — cria PRs, lê issues
-- **Slack MCP** — envia mensagens, busca canais
-- **Database MCP** — query SQL seguro
-
+<div class="mt-8 text-xl text-cyan-400">
+Próximo: <b>Encontro 4 — Falhas, avaliação, observabilidade e state-of-the-art</b>
 </div>
-
-</div>
-
-<div class="mt-2 p-2 rounded bg-amber-500/10 border border-amber-500/30 text-xs">
-📌 <b>MIT Mod 3:</b> "A integração com sistemas existentes é onde 80% dos pilotos falham." O MCP resolve a fragmentação.
-</div>
-
----
-
-layout: section
----
-
-# 🧪 Exercícios Interativos — Encontro 3
-
-<div class="text-sm opacity-60 mt-4">Pratique memória, RAG e context management</div>
-
----
-
-# 🧪 Exercício 3.1 — Sliding Window de contexto
-
-<div class="text-xs mb-2 opacity-70">Implemente truncamento inteligente de histórico de mensagens.</div>
-
-<PyRunner src="/topicos-especiais-ia/exercises/e3_1_sliding_window.py" height="300px" />
-
----
-
-# 🧪 Exercício 3.2 — Mini RAG com busca por similaridade
-
-<div class="text-xs mb-2 opacity-70">Implemente retrieval básico usando similaridade de palavras (sem embeddings).</div>
-
-<PyRunner src="/topicos-especiais-ia/exercises/e3_2_mini_rag.py" height="320px" />
-
----
-
-# 🧪 Exercício 3.3 — Memória de longo prazo
-
-<div class="text-xs mb-2 opacity-70">Implemente um store de memória com save/recall.</div>
-
-<PyRunner src="/topicos-especiais-ia/exercises/e3_3_memoria.py" height="320px" />
-
----
 
 - Gerenciar context window (truncate, summarize, RAG)
 - Construir um pipeline RAG completo

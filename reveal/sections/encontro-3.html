@@ -55,7 +55,10 @@
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #1f2937 100%)">
-<h1>🗺️ Agenda do Encontro 3</h1>
+<h1>🗺️ Agenda do Encontro 3 — da memória ao conhecimento operacional</h1>
+<div class="card card-blue text-sm" style="margin-bottom:0.7rem; opacity:1; transform:none;">
+O agente do Encontro 2 já raciocina e usa tools. Hoje ele aprende a <b>lembrar</b>, <b>buscar evidências</b> e <b>conectar conhecimento externo</b> sem lotar o contexto.
+</div>
 <div class="grid-2 mt-2">
   <div class="card card-cyan parallax-card">
     <div class="card-title">Bloco 1 — Contexto e Memória (~90 min)</div>
@@ -78,7 +81,7 @@
     </ul>
   </div>
 </div>
-<div class="tip-box mt-2 text-xs">📌 Link direto para este slide agora mostra todo o conteúdo sem depender de clicar nos fragmentos.</div>
+<div class="tip-box mt-2 text-xs"><b>Produto da aula:</b> uma arquitetura mental para decidir entre contexto longo, sumarização, RAG, memória, skills, MCP e multi-agentes.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #7c2d12 100%)">
@@ -114,6 +117,18 @@
   <div class="card card-amber"><div class="card-title">🪟 Context window — implicação prática</div><div class="card-desc">Quando o chat “esquece” 50 mensagens atrás, o contexto saturou • Por isso Claude 200k e Gemini 1M viraram diferencial</div></div>
 </div>
 <div class="insight-box">🎯 <b>Insight</b>: todo agente que parece “inteligente sobre o seu negócio” está fazendo <b>RAG + grounding</b> por baixo. Não há mágica.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
+<h1>🧪 Caso condutor — assistente acadêmico</h1>
+<p class="text-sm">Para conectar os temas, use este caso mental ao longo do encontro:</p>
+<div class="grid-2 stagger-in text-xs" style="gap:0.7rem; margin-top:0.7rem;">
+<div class="card card-purple" style="opacity:1; transform:none;"><b>Pedido do aluno</b><br>“Com base nos slides, artigos e minhas dúvidas anteriores, explique RAG, cite fontes e me sugira exercícios para revisar.”</div>
+<div class="card card-red" style="opacity:1; transform:none;"><b>Por que quebra?</b><br>O histórico cresce, documentos ficam fora do contexto, fontes podem conflitar e preferências do aluno se perdem entre sessões.</div>
+<div class="card card-cyan" style="opacity:1; transform:none;"><b>Context/RAG resolve</b><br>Seleciona o que entra no prompt, busca evidências, faz grounding e sintetiza sem jogar tudo no modelo.</div>
+<div class="card card-green" style="opacity:1; transform:none;"><b>Memória/Skills/MCP resolvem</b><br>Guardam preferências, encapsulam capacidades reutilizáveis e conectam o agente a arquivos, repositórios e sistemas.</div>
+</div>
+<div class="tip-box mt-2 text-xs">Cada técnica de hoje responde a uma pergunta: <b>o que lembrar, o que recuperar, o que citar e quando chamar outro sistema?</b></div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1d4ed8 100%)" class="text-center">
@@ -299,19 +314,19 @@ def summarize(messages: list) -&gt; str:
         max_tokens=250,
     )
     return resp.choices[0].message.content
-
-def manage_context(messages: list, max_tokens: int = 8000):
-    &quot;&quot;&quot;Se passar do limite, sumariza as mensagens antigas.&quot;&quot;&quot;
-    total = count_tokens_approx(messages)
-    if total &lt; max_tokens:
-        return messages
-    keep = messages[-4:]
-    to_summarize = messages[:-4]</code></pre>
+</code></pre>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #0f766e 100%)">
 <h1>Exemplo: sumarização automática — continuação</h1>
-<pre><code class="language-python">    summary = summarize(to_summarize)  # ← chamada real ao HuggingFace!
+<pre><code class="language-python">def manage_context(messages: list, max_tokens: int = 8000):
+    &quot;&quot;&quot;Se passar do limite, sumariza mensagens antigas e preserva as recentes.&quot;&quot;&quot;
+    if count_tokens_approx(messages) &lt; max_tokens:
+        return messages
+
+    keep = messages[-4:]
+    to_summarize = messages[:-4]
+    summary = summarize(to_summarize)  # ← chamada real ao HuggingFace!
     return [{&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: f&quot;Resumo do histórico anterior:\n{summary}&quot;}, *keep]
 
 # --- Teste ---
@@ -1008,59 +1023,100 @@ chain_stuff = load_summarize_chain(llm, chain_type=&quot;stuff&quot;)</code></pr
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
 <h1>Tipos de memória de longo prazo</h1>
-<div class="grid-3 mt-3">
+<p class="text-sm">Inspirados na psicologia cognitiva, agentes modernos implementam <b>3 tipos</b> de memória persistente — cada um serve um propósito distinto:</p>
+<div class="grid-3 mt-2">
 
-<div class="card">
-<div >📖</div>
-<b>Episódica</b><br>
-<span class="text-sm opacity-70">"O que aconteceu" — eventos, conversas passadas, ações tomadas.</span><br><br>
-<i class="text-xs">Ex: ChatGPT memory, Claude Projects.</i>
+<div class="card card-purple">
+<div class="card-title">📖 Episódica</div>
+<div class="card-desc"><b>"O que aconteceu"</b></div>
+<ul class="text-xs mt-1" style="line-height:1.7;">
+  <li>Eventos, conversas passadas, ações tomadas</li>
+  <li>Permite ao agente dizer: <i>"da última vez que falamos sobre X, você decidiu Y"</i></li>
+  <li>Armazenada como sequência temporal</li>
+</ul>
+<div class="text-xs mt-1 opacity-70">📦 <b>Produto:</b> ChatGPT Memory, Claude Projects, Copilot Memory</div>
+<div class="text-xs opacity-70">🧪 <b>Técnica:</b> log de interações indexado por timestamp + embedding</div>
 </div>
 
-<div class="card">
-<div >🧠</div>
-<b>Semântica</b><br>
-<span class="text-sm opacity-70">"O que sei sobre o mundo" — fatos, preferências do usuário, contexto persistente.</span><br><br>
-<i class="text-xs">Ex: "usuário prefere respostas curtas".</i>
+<div class="card card-cyan">
+<div class="card-title">🧠 Semântica</div>
+<div class="card-desc"><b>"O que sei sobre o mundo/usuário"</b></div>
+<ul class="text-xs mt-1" style="line-height:1.7;">
+  <li>Fatos, preferências, contexto persistente</li>
+  <li>Permite personalização: <i>"usuário é vegano e mora em SP"</i></li>
+  <li>Armazenada como pares chave-valor ou knowledge graph</li>
+</ul>
+<div class="text-xs mt-1 opacity-70">📦 <b>Produto:</b> Mem0, Zep knowledge graphs, perfil do usuário</div>
+<div class="text-xs opacity-70">🧪 <b>Técnica:</b> extração automática de fatos + deduplicação</div>
 </div>
 
-<div class="card">
-<div >⚙️</div>
-<b>Procedural</b><br>
-<span class="text-sm opacity-70">"Como fazer" — habilidades, ferramentas, scripts aprendidos.</span><br><br>
-<i class="text-xs">Ex: Skills do Claude, comandos custom.</i>
+<div class="card card-green">
+<div class="card-title">⚙️ Procedural</div>
+<div class="card-desc"><b>"Como fazer as coisas"</b></div>
+<ul class="text-xs mt-1" style="line-height:1.7;">
+  <li>Habilidades aprendidas, scripts, workflows</li>
+  <li>Permite ao agente melhorar: <i>"aprendi que para deploy uso o script X"</i></li>
+  <li>Armazenada como templates ou regras executáveis</li>
+</ul>
+<div class="text-xs mt-1 opacity-70">📦 <b>Produto:</b> Claude Skills, Cursor Rules, Custom GPTs</div>
+<div class="text-xs opacity-70">🧪 <b>Técnica:</b> prompt templates versionados + retrieval por similaridade</div>
 </div>
 
 </div>
+<div class="insight-box mt-2 text-xs">🧠 <b>Analogia humana:</b> Episódica = seu diário · Semântica = sua enciclopédia pessoal · Procedural = seu caderno de receitas</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #0f766e 100%)">
 <h1>Frameworks de memória persistente</h1>
-<div class="grid-2 mt-3">
+<p class="text-sm">O mercado oferece soluções prontas para dar memória ao seu agente — de plug-and-play a custom:</p>
+<div class="grid-2 mt-2">
 
 <div class="card card-purple">
-<b>mem0</b><br>
-<span class="text-sm">Layer de memória plug-and-play. Detecta automaticamente o que vale a pena lembrar.</span><br>
-<code class="text-xs mt-2">!pip install mem0ai -q</code>
+<div class="card-title">🧠 mem0</div>
+<div class="card-desc">Layer de memória plug-and-play — detecta automaticamente o que vale lembrar.</div>
+<ul class="text-xs mt-1" style="line-height:1.6;">
+  <li><b>Como funciona:</b> extrai fatos das conversas, deduplica, e retorna os relevantes via <code>search()</code></li>
+  <li><b>Setup:</b> <code>pip install mem0ai</code> → 3 linhas para funcionar</li>
+  <li><b>Diferencial:</b> memória automática (não precisa dizer "lembre disso")</li>
+  <li><b>Ideal para:</b> MVPs, protótipos, agentes pessoais</li>
+</ul>
 </div>
 
-<div class="card card-purple">
-<b>Zep</b><br>
-<span class="text-sm">Open source. Knowledge graph temporal + vector. Foco em produção.</span><br>
-<code class="text-xs mt-2">getzep.com</code>
+<div class="card card-cyan">
+<div class="card-title">⚡ Zep</div>
+<div class="card-desc">Open source. Knowledge graph temporal + vector store. Foco em produção.</div>
+<ul class="text-xs mt-1" style="line-height:1.6;">
+  <li><b>Como funciona:</b> constrói grafo de conhecimento temporal sobre o usuário</li>
+  <li><b>Setup:</b> Docker + API REST — <code>getzep.com</code></li>
+  <li><b>Diferencial:</b> relaciona fatos entre si ("João é gerente de Maria")</li>
+  <li><b>Ideal para:</b> aplicações empresariais multi-tenant, compliance</li>
+</ul>
 </div>
 
-<div class="card card-purple">
-<b>LangGraph + checkpoints</b><br>
-<span class="text-sm">Persiste o estado completo do agente em Postgres/Redis. Você controla tudo.</span>
+<div class="card card-green">
+<div class="card-title">🔄 LangGraph + Checkpoints</div>
+<div class="card-desc">Persiste o estado completo do agente (incluindo memórias) em Postgres/Redis.</div>
+<ul class="text-xs mt-1" style="line-height:1.6;">
+  <li><b>Como funciona:</b> cada nó do grafo pode ler/escrever memórias no state</li>
+  <li><b>Setup:</b> <code>MemorySaver()</code> ou <code>PostgresSaver()</code></li>
+  <li><b>Diferencial:</b> controle total — você decide exatamente o que persistir</li>
+  <li><b>Ideal para:</b> agentes complexos com estado custom, workflows longos</li>
+</ul>
 </div>
 
-<div class="card card-purple">
-<b>Letta (ex-MemGPT)</b><br>
-<span class="text-sm">Papers seminais sobre "OS para agentes" com memória hierárquica.</span>
+<div class="card card-amber">
+<div class="card-title">📚 Letta (ex-MemGPT)</div>
+<div class="card-desc">Paper seminal "OS para agentes" — memória hierárquica inspirada em sistemas operacionais.</div>
+<ul class="text-xs mt-1" style="line-height:1.6;">
+  <li><b>Como funciona:</b> context window = "RAM", banco externo = "disco". Agente faz page-in/page-out</li>
+  <li><b>Setup:</b> <code>pip install letta</code> → servidor local com UI</li>
+  <li><b>Diferencial:</b> memória virtualmente infinita, auto-gerenciada</li>
+  <li><b>Ideal para:</b> pesquisa, agentes de longa vida, conversas de meses</li>
+</ul>
 </div>
 
 </div>
+<div class="tip-box mt-2 text-xs">📌 <b>Como escolher?</b> Protótipo rápido → mem0 · Produção com grafos → Zep · Controle total → LangGraph · Pesquisa/memória infinita → Letta</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #172554 100%)">
@@ -1700,12 +1756,13 @@ Escreva 1 página. Será discutido no Encontro 4.
 
 <section data-background-gradient="linear-gradient(135deg, #0a2e1f 0%, #0f172a 100%)" class="text-center">
 <h1>✅ Fim do Encontro 3</h1>
-<div class="stagger-in mt-2" style="text-align: left; max-width: 700px; margin: 0 auto;">
-<div class="card card-green fragment" style="padding: 0.6rem 1rem; margin-bottom: 0.4rem;">✅ Gerenciar context window (truncate, summarize, RAG)</div>
-<div class="card card-green fragment" style="padding: 0.6rem 1rem; margin-bottom: 0.4rem;">✅ Construir um pipeline RAG completo</div>
-<div class="card card-green fragment" style="padding: 0.6rem 1rem; margin-bottom: 0.4rem;">✅ Implementar memória de longo prazo</div>
-<div class="card card-green fragment" style="padding: 0.6rem 1rem; margin-bottom: 0.4rem;">✅ Conceituar e criar Skills + MCP</div>
-<div class="card card-green fragment" style="padding: 0.6rem 1rem; margin-bottom: 0.4rem;">✅ Orquestrar multi-agentes (e quando NÃO usar)</div>
+<div class="card card-blue text-sm" style="opacity:1; transform:none; margin-bottom:0.8rem;">
+Hoje saímos de “agente com tools” para “agente com <b>conhecimento recuperável, memória e conectores</b>”.
 </div>
-<div class="card card-cyan mt-3 text-center"><div class="card-title">Próximo: Encontro 4 — Problemas Comuns &amp; State-of-the-Art</div><div class="card-desc">Onde tudo isso encontra a <i>realidade</i>: falhas, custos, e os produtos que estão ganhando o mercado.</div></div>
+<div class="grid-2 stagger-in text-xs" style="gap:0.7rem;">
+<div class="card card-purple fragment"><b>Repertório técnico</b><br>Context window, lost-in-the-middle, RAG, grounding, synthesis, memória, skills, MCP e multi-agentes.</div>
+<div class="card card-green fragment"><b>Critério de engenharia</b><br>Escolher quando colocar algo no prompt, recuperar de uma base, salvar como memória, encapsular como skill ou expor via MCP.</div>
+</div>
+<div class="insight-box mt-2 text-sm"><b>Frase para levar:</b> contexto não é “mais tokens”; é <b>selecionar a evidência certa, na hora certa, com a fonte certa</b>.</div>
+<div class="card card-cyan mt-2 text-center"><div class="card-title">Próximo: Encontro 4 — Problemas Comuns &amp; State-of-the-Art</div><div class="card-desc">Onde tudo isso encontra a <i>realidade</i>: falhas, custos, avaliação e produtos vencedores.</div></div>
 </section>

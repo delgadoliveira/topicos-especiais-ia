@@ -49,7 +49,11 @@ Hoje vamos aprender a <b>proteger, avaliar e observar</b> agentes — e ver como
 
 ---
 
-# 🗺️ Agenda do Encontro 4
+# 🗺️ Agenda do Encontro 4 — colocando agentes em produção
+
+<div class="mb-3 p-3 rounded-lg bg-red-500/10 border border-red-500/30 text-sm">
+Nos encontros anteriores, o agente ganhou raciocínio, tools, contexto, RAG e memória. Hoje a pergunta muda: <b>o que quebra quando usuários reais começam a depender dele?</b>
+</div>
 
 <div class="grid grid-cols-2 gap-6 mt-6">
 
@@ -75,6 +79,10 @@ Hoje vamos aprender a <b>proteger, avaliar e observar</b> agentes — e ver como
 
 </div>
 
+</div>
+
+<div class="mt-3 p-3 rounded-lg bg-cyan-500/10 border border-cyan-500/30 text-xs text-center">
+<b>Produto da aula:</b> um checklist prático de produção: falhas, segurança, avaliação, observabilidade, governança, mercado e roadmap.
 </div>
 
 ---
@@ -877,20 +885,20 @@ def run_agent(tema: str, max_steps: int = 15, timeout: int = 90) -> str:
 
 # 💡 Solução de referência (3/3) · avaliação automatizada (1/2)
 ```python
-import json, time
+import json, re, time
 from src.agent import run_agent, NOTES
 CASES = [
     {"tema": "O que é o protocolo MCP da Anthropic?", "must_cover": ["model context protocol", "tools", "2024"], "expected_min_citations": 3},
     {"tema": "Compare LangChain e LangGraph", "must_cover": ["grafo", "estado", "controle"], "expected_min_citations": 4},
     {"tema": "Quem ganhou o Prêmio Nobel de Física em 1492?", "must_cover": ["não encontrado"], "expected_min_citations": 0},
 ]
-def llm_judge_groundedness(briefing: str, notes: list[dict]) -> float:
-    prompt = f"Briefing:
-{briefing}
-
-Notas:
-{json.dumps(notes, ensure_ascii=False)}"
-    return supported / max(total, 1)
+def citation_groundedness(briefing: str, notes: list[dict]) -> float:
+    """Percentual de citações [n] que apontam para notas salvas."""
+    cited_ids = {int(x) for x in re.findall(r"\[(\d+)\]", briefing)}
+    note_ids = {int(n["id"]) for n in notes if "id" in n}
+    if not cited_ids:
+        return 0.0
+    return len(cited_ids & note_ids) / len(cited_ids)
 ```
 
 ---
@@ -903,7 +911,7 @@ for c in CASES:
     out = run_agent(c["tema"])
     dur = time.time() - t0
     coverage = sum(1 for k in c["must_cover"] if k.lower() in out.lower()) / len(c["must_cover"])
-    grounded = llm_judge_groundedness(out, NOTES)
+    grounded = citation_groundedness(out, NOTES)
     results.append({"tema": c["tema"], "coverage": coverage, "groundedness": grounded,
                     "citations": len(NOTES), "latency_s": round(dur, 1)})
 print(json.dumps(results, indent=2, ensure_ascii=False))
@@ -1027,7 +1035,7 @@ xychart-beta
 
 ---
 
-# �� Referências públicas — Encontro 4 (2/2)
+# 📚 Referências públicas — Encontro 4 (2/2)
 <div class="grid grid-cols-2 gap-3 text-xs mt-3">
 <div class="p-3 rounded bg-green-500/10 border border-green-500/30"><b>Protocolos & SOTA</b><ul class="mt-1"><li>Google (2025) — <i>Announcing A2A Protocol</i> · <a href="https://developers.googleblog.com/en/a2a-a-new-era-of-agent-interoperability/">developers.googleblog.com</a></li><li>A2A Spec (Linux Foundation) · <a href="https://a2a-protocol.org/">a2a-protocol.org</a> · <a href="https://github.com/a2aproject/A2A">github.com/a2aproject/A2A</a></li><li>Anthropic (2024) — <i>Computer Use</i> · <a href="https://www.anthropic.com/news/3-5-models-and-computer-use">anthropic.com/news</a></li><li>Anthropic — <i>MCP</i> · <a href="https://modelcontextprotocol.io/">modelcontextprotocol.io</a></li></ul></div>
 <div class="p-3 rounded bg-amber-500/10 border border-amber-500/30"><b>Observabilidade & Produtos</b><ul class="mt-1"><li>LangSmith · <a href="https://docs.smith.langchain.com/">docs.smith.langchain.com</a></li><li>Langfuse (OSS) · <a href="https://langfuse.com/docs">langfuse.com/docs</a></li><li>Arize Phoenix (OSS) · <a href="https://docs.arize.com/phoenix">docs.arize.com/phoenix</a></li><li>Cursor · <a href="https://cursor.com/">cursor.com</a> · Claude Code · <a href="https://docs.anthropic.com/en/docs/claude-code">docs.anthropic.com/claude-code</a></li></ul></div>
@@ -1061,31 +1069,6 @@ xychart-beta
 
 </v-clicks>
 
----
-
-# 🔄 Recap — O que construímos no Encontro 4
-<div class="grid grid-cols-2 gap-3 text-xs">
-<div class="p-3 rounded-xl bg-purple-500/10 border border-purple-500/30"><b>📜 Evolução</b><br>Falhas em produção, benchmarks como SWE-bench/GAIA, observabilidade essencial e coding agents virando produto final.</div>
-<div class="p-3 rounded-xl bg-cyan-500/10 border border-cyan-500/30"><b>🔧 O que você sabe fazer</b><br>Mitigar as 7 falhas, avaliar agentes com métricas, usar guardrails e analisar produtos state-of-the-art.</div>
-<div class="p-3 rounded-xl bg-green-500/10 border border-green-500/30"><b>🏢 Mercado em 1 frase</b><br>Agentes deixaram de ser pesquisa; empresas pagam por agentes que funcionam, são confiáveis e iteram rápido.</div>
-<div class="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30"><b>🎯 Próximo passo</b><br>Escolha um problema real, construa, meça com benchmarks e compartilhe o que aprender com a comunidade.</div>
-</div>
----
-layout: center
-class: text-center
----
-
-# 🎓 Fim do Encontro 4
-## E da disciplina!
-
-<div class="text-lg opacity-80 mt-8 max-w-2xl mx-auto">
-
-Em 12 horas você saiu de <b>"o que é um agente?"</b> para construir, avaliar e debugar agentes de IA em produção.
-
-</div>
-
----
-layout: section
 ---
 
 # 📏 Da prova de conceito à produção — Last Mile
@@ -1202,7 +1185,7 @@ layout: section
 
 # 🧪 Exercícios Interativos — Encontro 4
 
-<div class="text-sm opacity-60 mt-4">Pratique guardrails, avaliação e debugging de agentes</div>
+<div class="text-sm opacity-60 mt-4">Pratique guardrails, avaliação e debugging antes de fechar a disciplina.</div>
 
 ---
 
@@ -1229,6 +1212,23 @@ layout: section
 <PyRunner src="/topicos-especiais-ia/exercises/e4_3_tracing.py" height="320px" />
 
 ---
+
+# 🔄 Recap — O que construímos no Encontro 4
+
+<div class="grid grid-cols-2 gap-3 text-xs">
+<div class="p-3 rounded-xl bg-red-500/10 border border-red-500/30"><b>🧯 Falhas reais</b><br>Alucinação, tool misuse, custo, latência, prompt injection, drift e dependência de sistemas externos.</div>
+<div class="p-3 rounded-xl bg-cyan-500/10 border border-cyan-500/30"><b>📏 Disciplina de avaliação</b><br>Eval sets, métricas, LLM-as-judge, benchmarks como SWE-bench/GAIA e regressão contínua.</div>
+<div class="p-3 rounded-xl bg-green-500/10 border border-green-500/30"><b>🔭 Operação</b><br>Tracing, observabilidade, guardrails, fallback humano, rollback e ownership claro.</div>
+<div class="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30"><b>🗺️ Estratégia</b><br>Agentes viraram produto e infraestrutura: escolha um problema real, comece pequeno, meça e escale com governança.</div>
+</div>
+
+---
+layout: center
+class: text-center
+---
+
+# 🎓 Fim do Encontro 4
+## E da disciplina!
 
 <div class="text-xl mt-12 text-cyan-400 font-bold">
 Agora é com você.

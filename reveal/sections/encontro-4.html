@@ -54,7 +54,10 @@
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #1f2937 100%)">
-  <h1>🗺️ Agenda do Encontro 4</h1>
+  <h1>🗺️ Agenda do Encontro 4 — colocando agentes em produção</h1>
+  <div class="card card-red text-sm" style="margin-bottom:0.7rem; opacity:1; transform:none;">
+    Nos encontros anteriores, o agente ganhou raciocínio, tools, contexto, RAG e memória. Hoje a pergunta muda: <b>o que quebra quando usuários reais começam a depender dele?</b>
+  </div>
   <div class="grid-2 mt-3">
     <div class="card card-cyan slide-in-left">
       <div class="card-title">Bloco 1 — Mundo real (~90 min)</div>
@@ -81,6 +84,7 @@
       </div>
     </div>
   </div>
+  <div class="tip-box mt-2 text-xs"><b>Produto da aula:</b> um checklist prático de produção: falhas, segurança, avaliação, observabilidade, governança, mercado e roadmap.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)">
@@ -952,10 +956,11 @@ def executar_agente(entrada: str, max_steps=10, timeout=60):
             model=MODEL, messages=msgs,
             temperature=0, max_tokens=500)
         content = resp.choices[0].message.content
-        # TODO: detecte tool_calls no content e execute (E2)
-        # if "tool_call" in content: execute e continue
-        # TODO: adicione tratamento de erro (E4)
-        # Se não há tool_call, é resposta final:
+        # HF Router nem sempre expõe function calling universal.
+        # Padrão didático: peça JSON {"action": ..., "args": ...}
+        # e execute a tool permitida no seu código.
+        # TODO: parse JSON, validar action em TOOLS e registrar trace.
+        # Se não há ação válida, trate como resposta final:
         return content
     return "⛔ max_steps"</code></pre>
 </section>
@@ -1213,6 +1218,41 @@ print(f"   ({acertos/len(CASOS)*100:.0f}% de acerto)")
   <div class="insight-box">🎓 <b>MIT Capstone:</b> Seu projeto final: desenhe um plano de integração de agentes para uma função de negócio real.</div>
 </section>
 
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1f2937 100%)" class="text-center">
+  <h1>🧪 Exercícios Interativos — Encontro 4</h1>
+  <div class="text-sm opacity-70 mt-2">Pratique guardrails, avaliação e debugging antes de fechar a disciplina.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
+  <h1>🧪 Exercício 4.1 — Guardrails de segurança</h1>
+  <div class="text-xs opacity-70">Implemente validadores de input/output para proteger seu agente.</div>
+  <div class="pyrunner-container" data-src="exercises/e4_1_guardrails.py">
+    <textarea></textarea>
+    <button class="run-btn">▶ Executar</button>
+    <div class="pyrunner-output"></div>
+  </div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
+  <h1>🧪 Exercício 4.2 — Avaliando qualidade do agente</h1>
+  <div class="text-xs opacity-70">Implemente métricas básicas para avaliar as respostas do agente.</div>
+  <div class="pyrunner-container" data-src="exercises/e4_2_avaliacao.py">
+    <textarea></textarea>
+    <button class="run-btn">▶ Executar</button>
+    <div class="pyrunner-output"></div>
+  </div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
+  <h1>🧪 Exercício 4.3 — Debug de agente com trace</h1>
+  <div class="text-xs opacity-70">Implemente um sistema de tracing para debugar execuções do agente.</div>
+  <div class="pyrunner-container" data-src="exercises/e4_3_tracing.py">
+    <textarea></textarea>
+    <button class="run-btn">▶ Executar</button>
+    <div class="pyrunner-output"></div>
+  </div>
+</section>
+
 <section data-background-gradient="linear-gradient(135deg, #1a1a2e 0%, #312e81 100%)">
   <h1>🗺️ A jornada completa — E1 a E4</h1>
   <div class="flow-diagram">
@@ -1252,39 +1292,4 @@ print(f"   ({acertos/len(CASOS)*100:.0f}% de acerto)")
   </div>
   <div class="mt-3" style="font-size:2rem;">🤖 Bem-vindo à era dos agentes.</div>
   <div class="text-xs opacity-50 mt-3">Prof. Alan Delgado de Oliveira — 2025</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1f2937 100%)" class="text-center">
-  <h1>🧪 Exercícios Interativos — Encontro 4</h1>
-  <div class="text-sm opacity-70 mt-2">Pratique guardrails, avaliação e debugging de agentes</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
-  <h1>🧪 Exercício 4.1 — Guardrails de segurança</h1>
-  <div class="text-xs opacity-70">Implemente validadores de input/output para proteger seu agente.</div>
-  <div class="pyrunner-container" data-src="exercises/e4_1_guardrails.py">
-    <textarea></textarea>
-    <button class="run-btn">▶ Executar</button>
-    <div class="pyrunner-output"></div>
-  </div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
-  <h1>🧪 Exercício 4.2 — Avaliando qualidade do agente</h1>
-  <div class="text-xs opacity-70">Implemente métricas básicas para avaliar as respostas do agente.</div>
-  <div class="pyrunner-container" data-src="exercises/e4_2_avaliacao.py">
-    <textarea></textarea>
-    <button class="run-btn">▶ Executar</button>
-    <div class="pyrunner-output"></div>
-  </div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
-  <h1>🧪 Exercício 4.3 — Debug de agente com trace</h1>
-  <div class="text-xs opacity-70">Implemente um sistema de tracing para debugar execuções do agente.</div>
-  <div class="pyrunner-container" data-src="exercises/e4_3_tracing.py">
-    <textarea></textarea>
-    <button class="run-btn">▶ Executar</button>
-    <div class="pyrunner-output"></div>
-  </div>
 </section>
