@@ -144,50 +144,75 @@ O agente do Encontro 2 já raciocina e usa tools. Hoje ele aprende a <b>lembrar<
 
 <section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
 <h1>3.1 O problema da context window</h1>
-<p class="text-sm">A janela é grande, mas <b>não é infinita</b> — e cada token custa.</p>
+<p class="text-sm">A <b>context window</b> é tudo que o modelo "vê" numa única chamada: instruções + histórico + documentos + pergunta. É grande, mas <b>finita</b> — e cada token custa.</p>
 
 <div class="flow-diagram mt-2">
-  <div class="flow-node node-purple fragment">System prompt<br>500</div>
-  <div class="flow-arrow fragment">→</div>
-  <div class="flow-node node-cyan fragment">Histórico longo<br>20.000</div>
-  <div class="flow-arrow fragment">→</div>
-  <div class="flow-node node-amber fragment">Documentos colados<br>50.000</div>
-  <div class="flow-arrow fragment">→</div>
-  <div class="flow-node node-green fragment">Tool definitions<br>3.000</div>
-  <div class="flow-arrow fragment">→</div>
-  <div class="flow-node node-red fragment">Buffer resposta<br>4.000</div>
+  <div class="flow-node node-purple">System<br>500</div>
+  <div class="flow-arrow">+</div>
+  <div class="flow-node node-cyan">Histórico<br>20.000</div>
+  <div class="flow-arrow">+</div>
+  <div class="flow-node node-amber">Documentos<br>50.000</div>
+  <div class="flow-arrow">+</div>
+  <div class="flow-node node-green">Tools<br>3.000</div>
+  <div class="flow-arrow">=</div>
+  <div class="flow-node node-red">73.500</div>
 </div>
-<div class="insight-box fragment">❌ Estouro: 77.500 + nova msg = ?</div>
-<div class="card card-amber mt-3">
-⚠️ <b>Os 3 problemas da context window:</b><br>
-<ol class="text-xs mt-1">
-<li><b>Limite duro</b> — passou, a API rejeita.</li>
-<li><b>Custo</b> — você paga por TODOS os tokens, toda chamada.</li>
-<li><b>"Lost in the middle"</b> — modelos esquecem info no <i>meio</i> do contexto longo (Liu et al., 2023).</li>
-</ol>
+
+<div class="grid-2 mt-2 text-xs">
+  <div class="card card-cyan">
+    <div class="card-title">📏 Janelas reais (aprox., 2024-2025)</div>
+    <ul style="line-height:1.7;">
+      <li>GPT-4o — ~128.000 tokens</li>
+      <li>Claude 3.5 — ~200.000 tokens</li>
+      <li>Gemini 1.5/2 — ~1.000.000+ tokens</li>
+    </ul>
+    <div class="opacity-70">1 token ≈ 4 caracteres (PT-BR). 200k tokens ≈ um livro inteiro.</div>
+  </div>
+  <div class="card card-amber">
+    <div class="card-title">💸 O custo escala rápido</div>
+    <div><code>custo = tokens_entrada × preço_in + tokens_saída × preço_out</code></div>
+    <div class="mt-1">Exemplo: 50k tokens/chamada × 1.000 chamadas/dia = <b>50M tokens/dia</b>. Mesmo barato por chamada, em escala vira orçamento real.</div>
+  </div>
+</div>
+<div class="card card-red mt-2 text-xs">
+⚠️ <b>3 problemas:</b> <b>(1) Limite duro</b> — passou, a API rejeita. <b>(2) Custo</b> — você paga TODOS os tokens, toda chamada. <b>(3) Lost in the middle</b> — o modelo "esquece" o que está no meio de contextos longos (próximo slide).
 </div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
 <h1>Lost in the Middle — o efeito U</h1>
+<p class="text-sm">Pesquisadores colocaram a resposta certa em <b>posições diferentes</b> de um contexto longo e mediram a acurácia. O resultado tem forma de <b>U</b>: o modelo acerta no começo e no fim, mas "esquece" o meio.</p>
 
 <div class="stats-row mt-2">
-  <div class="stat fragment"><span class="stat-number">85%</span><span class="stat-label">Início</span></div>
-  <div class="stat fragment"><span class="stat-number">60%</span><span class="stat-label">25%</span></div>
-  <div class="stat fragment"><span class="stat-number text-red">45%</span><span class="stat-label">Meio</span></div>
-  <div class="stat fragment"><span class="stat-number">55%</span><span class="stat-label">75%</span></div>
-  <div class="stat fragment"><span class="stat-number">80%</span><span class="stat-label">Fim</span></div>
+  <div class="stat"><span class="stat-number">85%</span><span class="stat-label">Início</span></div>
+  <div class="stat"><span class="stat-number">60%</span><span class="stat-label">25%</span></div>
+  <div class="stat"><span class="stat-number text-red">45%</span><span class="stat-label">Meio</span></div>
+  <div class="stat"><span class="stat-number">55%</span><span class="stat-label">75%</span></div>
+  <div class="stat"><span class="stat-number">80%</span><span class="stat-label">Fim</span></div>
 </div>
-<div class="compare-cols">
-  <div class="compare-col good fragment"><h3>Onde o modelo presta atenção</h3><p>Instruções importantes no começo e pergunta final no fim.</p></div>
-  <div class="compare-col bad fragment"><h3>Onde o modelo falha</h3><p>Informação crucial enterrada no meio do contexto longo.</p></div>
+
+<div class="grid-2 mt-2 text-xs">
+  <div class="card card-amber">
+    <div class="card-title">🧠 Por que acontece?</div>
+    <ul style="line-height:1.7;">
+      <li><b>Atenção diluída:</b> entre milhares de tokens, o "foco" se espalha</li>
+      <li><b>Efeitos posicionais:</b> início e fim recebem mais peso</li>
+      <li><b>Treino:</b> modelos viram poucos exemplos de contexto gigante</li>
+      <li><b>Ruído:</b> a info crítica compete com muito texto irrelevante</li>
+    </ul>
+  </div>
+  <div class="card card-green">
+    <div class="card-title">🛠️ Como mitigar</div>
+    <ul style="line-height:1.7;">
+      <li>Recuperar <b>menos e melhor</b> (RAG + reranking)</li>
+      <li>Ordenar o contexto por <b>relevância</b></li>
+      <li>Instruções e evidências críticas <b>perto da pergunta</b></li>
+      <li>Comprimir o que é longo e ruidoso</li>
+    </ul>
+  </div>
 </div>
-<div class="mt-3 text-sm">
-Em contextos longos (>10k tokens), modelos prestam <b>mais atenção ao início e fim</b>, e tendem a "esquecer" o meio. Por isso colocar instruções importantes <b>no começo</b> e a pergunta <b>no fim</b> ajuda.
-</div>
-<div class="card card-amber mt-2 text-xs">🧠 <b>Explicação rápida:</b> Modelos tendem a ignorar informação no meio de contextos longos. As primeiras e últimas posições recebem mais atenção.</div>
-<div class="tip-box mt-2 text-xs">📌 <b>Na prática:</b> coloque informação importante no <b>INÍCIO</b> ou no <b>FIM</b> do contexto, nunca no meio.</div>
-<div class="mt-2 text-xs opacity-70">📚 Liu et al. (2023) — <i>"Lost in the Middle: How Language Models Use Long Contexts"</i></div>
+<div class="tip-box mt-2 text-xs">📌 <b>Conexão com RAG:</b> o objetivo não é "enfiar tudo no contexto" — é <b>selecionar a evidência certa e posicioná-la bem</b>.</div>
+<div class="mt-1 text-xs opacity-70">📚 Liu et al. (2023) — <i>"Lost in the Middle: How Language Models Use Long Contexts"</i></div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
@@ -347,58 +372,105 @@ print(f&quot;Resumo: {resultado[0][&#x27;content&#x27;]}&quot;)</code></pre>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #172554 100%)">
 <h1>3.3 RAG — Retrieval-Augmented Generation</h1>
-<p class="text-sm">A ideia: <b>busque</b> trechos relevantes de uma base externa e <b>injete</b> no prompt.</p>
+<p class="text-sm">A ideia central: em vez de confiar só na "memória" do modelo, <b>busque</b> trechos relevantes de uma base externa e <b>injete</b> no prompt antes de responder.</p>
+
+<div class="grid-2 mt-2 text-xs">
+  <div class="card card-red">
+    <div class="card-title">❌ LLM sozinho</div>
+    <div><i>"Qual o prazo de cancelamento do Plano Premium?"</i></div>
+    <div class="mt-1">→ Responde confiante, mas <b>inventa</b> a regra. Não tem acesso ao seu contrato.</div>
+  </div>
+  <div class="card card-green">
+    <div class="card-title">✅ LLM + RAG</div>
+    <div><i>Mesma pergunta</i></div>
+    <div class="mt-1">→ Busca o trecho <b>real</b> do contrato, injeta no prompt e responde <b>citando a fonte</b>.</div>
+  </div>
+</div>
 
 <div class="flow-diagram mt-2">
-  <div class="flow-node node-purple fragment">Pergunta do usuário</div>
-  <div class="flow-arrow fragment">→</div>
-  <div class="flow-node node-cyan fragment">Embed pergunta</div>
-  <div class="flow-arrow fragment">→</div>
-  <div class="flow-node node-green fragment">Busca semântica<br>no Vector DB</div>
-  <div class="flow-arrow fragment">→</div>
-  <div class="flow-node node-amber fragment">Top-K chunks</div>
-  <div class="flow-arrow fragment">→</div>
-  <div class="flow-node node-purple fragment">Prompt:<br>contexto + pergunta</div>
-  <div class="flow-arrow fragment">→</div>
-  <div class="flow-node node-cyan fragment">LLM</div>
-  <div class="flow-arrow fragment">→</div>
-  <div class="flow-node node-green fragment">Resposta fundamentada</div>
+  <div class="flow-node node-purple">Pergunta</div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-node node-cyan">Busca semântica<br>(Vector DB)</div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-node node-amber">Top-K chunks</div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-node node-green">LLM responde<br>com a fonte</div>
 </div>
-<div class="grid-2 mt-2 stagger-in text-xs">
-<div class="card card-cyan fragment"><b>🏢 Quem faz isso:</b> Perplexity (web RAG em tempo real), Notion AI (RAG sobre seus docs), Cursor (RAG sobre seu codebase), Glean (RAG enterprise sobre Slack/Drive/Jira).</div>
-<div class="card card-amber fragment"><b>📊 Números:</b> RAG reduz alucinação em 40-60% (Meta, 2024). Perplexity processa 100M+ queries/mês com este padrão. Custo: ~$0.002/query com embeddings baratos.</div>
+<div class="card card-cyan mt-2 text-xs"><b>🏢 Quem usa:</b> Perplexity (web, com citações), Notion AI / Copilot / Glean (docs internos), Cursor (codebase), Morgan Stanley (assistente p/ consultores). <b>📊</b> RAG reduz alucinação em 40-60% (Meta, 2024). <b>🎯 A grande sacada:</b> RAG não deixa o modelo "mais inteligente" — dá acesso controlado a conhecimento <b>externo e verificável</b>.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #0e7490 100%)">
+<h1>🧮 Embeddings — texto vira coordenadas de significado</h1>
+<p class="text-sm">Antes de "buscar por significado", precisamos transformar texto em <b>números</b>. Um <b>embedding</b> é um vetor (centenas de números) que representa o <i>sentido</i> de um texto.</p>
+
+<div class="grid-2 mt-2">
+  <div class="card card-cyan">
+    <div class="card-title">📍 Significado vira posição</div>
+    <ul class="text-xs" style="line-height:1.7;">
+      <li>"cancelar assinatura" e "encerrar plano" ficam <b>perto</b></li>
+      <li>"receita de bolo" fica <b>longe</b></li>
+      <li>Frases parecidas → vetores próximos, mesmo sem palavras iguais</li>
+    </ul>
+    <div class="text-xs opacity-70 mt-1">Na prática são 384–1536 dimensões: imagine um mapa, mas com centenas de eixos.</div>
+  </div>
+  <div class="card card-green">
+    <div class="card-title">🔎 Como a busca funciona</div>
+    <ul class="text-xs" style="line-height:1.7;">
+      <li><b>Similaridade</b> = medir o ângulo/distância entre vetores (cosseno)</li>
+      <li><b>Vector DB</b> = índice que acha rapidamente os vetores mais próximos</li>
+      <li><b>Top-k</b> = os k pedaços mais parecidos com a pergunta</li>
+    </ul>
+  </div>
 </div>
+<div class="flow-diagram mt-2">
+  <div class="flow-node node-purple">"Como cancelo?"</div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-node node-cyan">[0.12, -0.4, 0.9, …]</div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-node node-green">vizinhos próximos</div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-node node-amber">chunks relevantes</div>
+</div>
+<div class="tip-box mt-2 text-xs">💡 É isso que diferencia RAG de um Ctrl+F: busca por <b>significado</b>, não por palavra exata. "Carro" encontra "automóvel".</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e293b 100%)">
 <h1>RAG — anatomia da indexação (offline)</h1>
+<p class="text-sm">Antes de responder qualquer pergunta, preparamos a base <b>uma vez</b> (offline): carregar → quebrar em pedaços → transformar em vetores → guardar.</p>
 
 <div class="flow-diagram mt-2">
-  <div class="flow-node node-purple fragment">📄 Documentos</div>
-  <div class="flow-arrow fragment">→</div>
-  <div class="flow-node node-cyan fragment">🔪 Chunking<br>~500 tokens</div>
-  <div class="flow-arrow fragment">→</div>
-  <div class="flow-node node-green fragment">🧮 Embedding<br>sentence-transformers</div>
-  <div class="flow-arrow fragment">→</div>
-  <div class="flow-node node-purple fragment">💾 Vector DB<br>Chroma / Qdrant / pgvector</div>
-</div>
-<div class="grid-3 mt-3 text-sm">
-
-<div class="card">
-<b>1. Loaders</b><br>
-PyPDF, BeautifulSoup, Unstructured, Markdown loader.
+  <div class="flow-node node-purple">📄 Documentos</div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-node node-cyan">🔪 Chunking<br>~500 tokens</div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-node node-green">🧮 Embedding<br>sentence-transformers</div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-node node-amber">💾 Vector DB<br>Chroma / Qdrant</div>
 </div>
 
-<div class="card">
-<b>2. Splitters</b><br>
-RecursiveCharacterTextSplitter, SemanticChunker, by-header (para Markdown).
+<div class="grid-3 mt-2 text-xs">
+  <div class="card card-purple">
+    <div class="card-title">1️⃣ Loaders</div>
+    <div>Lêem o conteúdo bruto: PDF (PyPDF), HTML (BeautifulSoup), Markdown, Word, planilhas (Unstructured).</div>
+  </div>
+  <div class="card card-cyan">
+    <div class="card-title">2️⃣ Splitters (chunking)</div>
+    <div>Quebram o texto em pedaços indexáveis: <code>RecursiveCharacterTextSplitter</code>, <code>SemanticChunker</code>, ou por cabeçalho (Markdown).</div>
+  </div>
+  <div class="card card-green">
+    <div class="card-title">3️⃣ Embeddings</div>
+    <div>Transformam cada chunk em vetor. HF <code>sentence-transformers</code> (grátis, local), BGE, Cohere. Dimensão típica: 384–1024.</div>
+  </div>
 </div>
 
-<div class="card">
-<b>3. Embeddings</b><br>
-HuggingFace <code>sentence-transformers</code> (gratuito, local), Cohere, BGE, ou OpenAI (pago).
-</div>
-
+<div class="card card-amber mt-2 text-xs">
+  <div class="card-title">🔪 O dilema do chunking — tamanho × contexto</div>
+  <div class="grid-3 mt-1" style="gap:0.5rem;">
+    <div>📏 <b>Pequeno</b> (~200 tok): busca precisa, mas perde o contexto ao redor</div>
+    <div>📐 <b>Grande</b> (~1000 tok): preserva contexto, mas traz ruído e dilui o match</div>
+    <div>🔗 <b>Overlap</b> (~50 tok): evita cortar uma ideia no meio entre dois chunks</div>
+  </div>
+  <div class="mt-1">📌 <b>Exemplo:</b> num regulamento acadêmico, se você separar "prazo de matrícula" do parágrafo que explica as <i>exceções</i>, o RAG responde errado. Chunk por <b>seção/parágrafo</b> &gt; cortar texto cegamente.</div>
 </div>
 </section>
 
@@ -453,27 +525,25 @@ print(resultado[&quot;answer&quot;])</code></pre>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #064e3b 100%)">
 <h1>Advanced RAG — quando o básico não basta</h1>
-<div class="card card-red text-xs mb-2 fragment"><b>🚨 Caso real:</b> Uma fintech implementou RAG básico para FAQ. Resultado: 45% das respostas estavam erradas porque (1) a pergunta do usuário era ambígua, (2) chunks relevantes ficavam abaixo do top-5, (3) informação contradizente de versões antigas. <b>Solução:</b> pipeline de Advanced RAG abaixo.</div>
-<p class="text-sm">RAG ingênuo (embeddings + top-K) tem <b>muitos pontos de falha</b>. Em produção, usa-se um pipeline:</p>
+<div class="card card-red text-xs mb-2"><b>🚨 Caso real:</b> Uma fintech implementou RAG básico para FAQ. Resultado: 45% das respostas erradas — (1) pergunta ambígua, (2) o chunk certo ficava abaixo do top-5, (3) info contraditória de versões antigas.</div>
+<p class="text-sm">RAG ingênuo (embeddings + top-K) falha em <b>4 lugares</b>. Advanced RAG <b>não é uma esteira fixa</b> — é uma <b>caixa de ferramentas</b>: para cada falha, uma técnica.</p>
 
-<div class="flow-diagram mt-2">
-  <div class="flow-node node-purple fragment">1. Query Rewriting</div>
-  <div class="flow-arrow fragment">→</div>
-  <div class="flow-node node-purple fragment">2. Multi-Query</div>
-  <div class="flow-arrow fragment">→</div>
-  <div class="flow-node node-purple fragment">3. HyDE</div>
-  <div class="flow-arrow fragment">→</div>
-  <div class="flow-node node-cyan fragment">4. Retrieval híbrido</div>
-  <div class="flow-arrow fragment">→</div>
-  <div class="flow-node node-amber fragment">5. Reranking</div>
-  <div class="flow-arrow fragment">→</div>
-  <div class="flow-node node-green fragment">6. Context compression</div>
-  <div class="flow-arrow fragment">→</div>
-  <div class="flow-node node-purple fragment">LLM</div>
-</div>
-<div class="mt-3 text-sm">
-Cada estágio recupera <b>+5-15% de qualidade</b> em benchmarks como BEIR, MS MARCO.
-</div>
+<table class="text-xs mt-2" style="width:100%; border-collapse:collapse;">
+  <thead>
+    <tr style="border-bottom:2px solid rgba(255,255,255,0.25);">
+      <th style="text-align:left; padding:0.4rem;">🔴 Sintoma da falha</th>
+      <th style="text-align:left; padding:0.4rem;">🛠️ Técnica</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="border-bottom:1px solid rgba(255,255,255,0.1);"><td style="padding:0.4rem;">Pergunta ambígua / sem contexto</td><td style="padding:0.4rem;"><b>Query Rewriting</b> — reescreve a pergunta</td></tr>
+    <tr style="border-bottom:1px solid rgba(255,255,255,0.1);"><td style="padding:0.4rem;">A busca perde os documentos certos</td><td style="padding:0.4rem;"><b>Multi-Query · HyDE · Hybrid search</b></td></tr>
+    <tr style="border-bottom:1px solid rgba(255,255,255,0.1);"><td style="padding:0.4rem;">Top-k vem desordenado</td><td style="padding:0.4rem;"><b>Reranking</b> — reordena por relevância real</td></tr>
+    <tr><td style="padding:0.4rem;">Contexto recuperado longo/ruidoso</td><td style="padding:0.4rem;"><b>Context Compression</b> — corta o irrelevante</td></tr>
+  </tbody>
+</table>
+
+<div class="tip-box mt-2 text-xs">🔎 <b>Hybrid search</b> (detalhado adiante) = vetor (significado) + BM25/full-text (termos exatos: CPF, SKU, código de erro, datas). Cada estágio adiciona +5-15% em benchmarks (BEIR, MS MARCO) — use <b>só os que sua falha pede</b>.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
@@ -678,6 +748,42 @@ docs = vectordb.search(hipo, k=5)</code></pre>
   </div>
 </div>
 <div class="card card-amber mt-3 text-xs">🎯 É o padrão por trás de <b>Perplexity</b>, <b>ChatGPT Search</b> e <b>Cursor @docs</b>.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #4c1d95 100%)">
+<h1>Depois de recuperar — Reranking &amp; Compression</h1>
+<p class="text-sm">Recuperar é só metade. Os dois passos finais decidem <b>o que</b> e <b>quanto</b> chega ao LLM.</p>
+
+<div class="grid-2 mt-2">
+  <div class="card card-purple">
+    <div class="card-title">🎯 Reranking — uma segunda leitura</div>
+    <div class="text-xs mt-1">O retriever rápido traz ~20 candidatos. O <b>reranker</b> (cross-encoder) lê a pergunta + cada trecho com atenção e reordena os 3-5 melhores.</div>
+    <ul class="text-xs mt-1" style="line-height:1.6;">
+      <li>Busca vetorial pergunta: <i>"esses textos são parecidos?"</i></li>
+      <li>Reranker pergunta: <i>"este trecho <b>responde</b> esta pergunta?"</i></li>
+    </ul>
+    <div class="text-xs opacity-70 mt-1">📦 Cohere Rerank, BGE-reranker, cross-encoder (sentence-transformers)</div>
+  </div>
+  <div class="card card-green">
+    <div class="card-title">🗜️ Context Compression — cortar o ruído</div>
+    <div class="text-xs mt-1">Antes de enviar ao LLM, remove sentenças irrelevantes dos chunks recuperados, mantendo só o que responde à pergunta.</div>
+    <ul class="text-xs mt-1" style="line-height:1.6;">
+      <li>Menos tokens → mais barato e rápido</li>
+      <li>Menos ruído → combate o "lost in the middle"</li>
+    </ul>
+    <div class="text-xs opacity-70 mt-1">📦 LLMLingua, LangChain ContextualCompressionRetriever</div>
+  </div>
+</div>
+<div class="flow-diagram mt-2">
+  <div class="flow-node node-cyan">20 candidatos</div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-node node-purple">Rerank → 5 melhores</div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-node node-green">Compress → só o essencial</div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-node node-amber">LLM</div>
+</div>
+<div class="insight-box mt-2 text-xs">🎯 Analogia: a busca inicial é uma <b>peneira grossa</b>; o reranker é o <b>professor</b> escolhendo os trechos que realmente respondem; a compressão é o <b>resumo</b> que cabe na prova.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #172554 100%)">
