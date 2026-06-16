@@ -478,6 +478,26 @@ layout: two-cols
 </div>
 
 ---
+
+# 📊 Impacto nos benchmarks — a escalada
+
+<div class="text-xs mt-2">
+
+| Benchmark | O que mede | 2018 | 2020 | 2022 | 2024 | 2025 |
+|---|---|---|---|---|---|---|
+| **MMLU** | Conhecimento geral (57 áreas) | — | 43% (GPT-3) | 70% (Chinchilla) | 87% (GPT-4) | 90%+ (o3) |
+| **HumanEval** | Geração de código | — | 0% | 28% (Codex) | 87% (GPT-4) | 95%+ (Claude 4) |
+| **SWE-bench** | Resolver issues reais do GitHub | — | — | — | 12→49% (agents) | 72% (Claude Code) |
+| **MATH** | Problemas de olimpíada | — | 6% | 34% (Minerva) | 76% (GPT-4) | 96% (o3) |
+| **ARC-AGI** | Raciocínio abstrato (Chollet) | — | — | — | 5% (GPT-4) | 88% (o3) |
+
+</div>
+
+<div class="mt-3 p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 text-sm">
+💡 <b>Leitura:</b> os maiores saltos não vieram só de escala — vieram de <b>novas técnicas</b> (RLHF, chain-of-thought, tool use, reasoning training).
+</div>
+
+---
 layout: two-cols
 ---
 

@@ -12,6 +12,8 @@ drawings:
   persist: false
 transition: slide-left
 mdc: true
+hideInToc: true
+navigation: false
 fonts:
   sans: 'Inter'
   mono: 'JetBrains Mono'
@@ -37,6 +39,56 @@ colorSchema: dark
 Bem-vindos! Esta disciplina vai te levar de zero ao estado-da-arte em Agentes de IA.
 São 4 encontros de 3h, mais uma sessão histórica opcional.
 -->
+
+---
+
+# 🗺️ Mapa do curso — visão geral
+
+<div class="text-xs mb-2">Use este mapa como referência ao longo dos 4 encontros.</div>
+
+```mermaid {scale: 0.45}
+mindmap
+  root((Agentes de IA))
+    E1: Fundamentos
+      O que é um LLM
+        Tokens, contexto, temperatura
+        RLHF e alinhamento
+      O que é um Agente
+        Percepção → Raciocínio → Ação
+        Loop ReAct
+      Ferramentas (Tools)
+        Function calling
+        Design de tools
+      Primeiro agente em Python
+    E2: Raciocínio & Planejamento
+      Chain-of-Thought
+      Tree-of-Thoughts
+      Reasoning models (o1, R1)
+      Planning
+        Plan-and-Execute
+        Replanning
+      Frameworks
+        LangChain / LangGraph
+      Boas práticas
+    E3: Memória & Contexto
+      Gestão de contexto
+        Sliding window
+        Summarization
+      RAG
+        Embeddings & vetores
+        Chunking & retrieval
+      Memória de longo prazo
+      Multi-agentes
+        Skills vs Tools
+        Orquestração
+    E4: Produção
+      Avaliação & métricas
+      Guardrails & segurança
+      Observabilidade
+      Deploy & escala
+      Estado da arte 2025
+      Projeto final
+```
 
 ---
 layout: two-cols

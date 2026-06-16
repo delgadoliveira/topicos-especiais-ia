@@ -429,6 +429,19 @@ Outro LLM avalia a resposta com critérios.
 </div>
 ---
 
+# 📊 Métricas de avaliação — o que medir
+```mermaid {scale: 0.55}
+pie title "Dimensões de avaliação de agentes"
+    "Corretude da resposta" : 30
+    "Uso correto de tools" : 25
+    "Eficiência (steps/tokens)" : 20
+    "Segurança/guardrails" : 15
+    "Latência" : 10
+```
+<div class="mt-3 p-3 rounded bg-purple-500/10 border border-purple-500/30 text-sm">🎯 Não basta a resposta estar certa — um bom agente também é <b>eficiente, seguro e rápido</b>.</div>
+
+---
+
 # LLM-as-judge · o método dominante (e seus perigos)
 
 📄 Zheng et al. (2023) — *"Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena"* — paper que validou o método e mapeou suas armadilhas.
@@ -963,6 +976,18 @@ meu-agente/
 <div class="p-2 rounded-lg bg-amber-500/10 border border-amber-500/30"><b>⚖️ Governança / regulação</b><br>EU AI Act · NIST AI RMF · ISO/IEC 42001 · Anthropic RSP · OpenAI Preparedness · UK/US AISI.</div>
 </div>
 <div class="mt-3 p-2 rounded-lg bg-blue-500/10 border border-blue-500/30 text-xs">🧩 <b>Analogia:</b> avaliar agente sem eval é como fazer deploy sem CI — funciona até quebrar em produção.</div>
+---
+
+# 📈 Adoção de agentes — projeção de mercado
+```mermaid {scale: 0.55}
+xychart-beta
+    title "Software empresarial com IA agêntica (%)"
+    x-axis ["2023", "2024", "2025", "2026", "2027", "2028"]
+    y-axis "%" 0 --> 40
+    bar [0.5, 2, 8, 15, 25, 33]
+```
+<div class="mt-3 p-3 rounded bg-cyan-500/10 border border-cyan-500/30 text-sm">📊 <b>Gartner (2024):</b> de menos de 1% em 2024 para 33% em 2028. O crescimento exponencial já começou.</div>
+
 ---
 
 # 🚀 Onde os agentes vão chegar — 2025-2027

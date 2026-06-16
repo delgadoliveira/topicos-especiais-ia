@@ -1074,6 +1074,18 @@ layout: center
 class: text-center
 ---
 
+# 📊 Custo por 1M tokens — evolução
+```mermaid {scale: 0.55}
+xychart-beta
+    title "Custo por 1M tokens de input (USD)"
+    x-axis ["GPT-3.5 2022", "GPT-4 2023", "GPT-4o 2024", "GPT-4o-mini", "DeepSeek-V3"]
+    y-axis "USD" 0 --> 25
+    bar [20, 30, 5, 0.15, 0.27]
+```
+<div class="mt-3 p-3 rounded bg-green-500/10 border border-green-500/30 text-sm">💡 <b>Insight:</b> em 2 anos o custo caiu <b>~130×</b>. Isso tornou agentes economicamente viáveis para produção.</div>
+
+---
+
 # 🎬 Da teoria à prática
 
 <div class="text-xl mt-6 opacity-90">
@@ -1288,6 +1300,20 @@ Ele responde perguntas usando 2 ferramentas:
 <div class="mt-8 p-5 rounded-xl bg-cyan-500/10 border-2 border-cyan-500/40 text-center">
 Estudos da Anthropic sugerem que <b>muitas falhas vêm de tools mal descritas</b>, não do modelo.
 </div>
+
+---
+
+# 📊 Onde agentes falham — distribuição de erros
+```mermaid {scale: 0.55}
+pie title "Causas de falha em agentes (Anthropic, 2024)"
+    "Tool description ruim" : 35
+    "Contexto insuficiente" : 25
+    "Loop/repetição" : 15
+    "Alucinação de tool" : 10
+    "Parsing/formato" : 10
+    "Outros" : 5
+```
+<div class="mt-3 p-3 rounded bg-amber-500/10 border border-amber-500/30 text-sm">🎯 <b>35% das falhas</b> vêm de tools mal descritas — o problema mais comum NÃO é o modelo.</div>
 
 ---
 

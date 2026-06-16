@@ -62,36 +62,14 @@ Hoje vamos dar <b>memória</b>, <b>conhecimento</b> e <b>habilidades reutilizáv
 
 # 🧭 Vocabulário do dia — em 1 frase cada
 
-<div class="grid grid-cols-1 gap-2 text-sm mt-3">
-
-<div class="p-3 rounded-lg bg-purple-500/10 border border-purple-500/30">
-<b>🎯 Grounding</b> — toda afirmação do agente é <b>rastreável até uma fonte</b>. É a diferença entre <i>"li no Wikipedia"</i> (grounded) e <i>"alguém me disse"</i> (não grounded).
-</div>
-
-<div class="p-3 rounded-lg bg-cyan-500/10 border border-cyan-500/30">
-<b>🧪 Synthesis</b> — combinar várias fontes em <b>uma resposta coerente</b>, sem contradição. Como escrever a revisão de literatura do TCC a partir de 30 artigos.
-</div>
-
-<div class="p-3 rounded-lg bg-green-500/10 border border-green-500/30">
-<b>📚 RAG (Retrieval-Augmented Generation)</b> — antes de responder, o agente <b>busca</b> documentos relevantes e os <b>passa para o LLM</b> junto com a pergunta. É como dar a um aluno os livros abertos na hora da prova.
-</div>
-
-<div class="p-3 rounded-lg bg-amber-500/10 border border-amber-500/30">
-<b>🧮 Embedding</b> — converter texto em uma lista de números que <b>capturam o significado</b>. Textos parecidos ficam com números parecidos. É a "impressão digital semântica" da frase.
-</div>
-
-<div class="p-3 rounded-lg bg-pink-500/10 border border-pink-500/30">
-<b>🗄️ Vector DB</b> — banco de dados especializado em achar <b>textos com significado parecido</b> (não com palavras iguais). <i>Ex: Pinecone, Chroma, pgvector.</i>
-</div>
-
-<div class="p-3 rounded-lg bg-blue-500/10 border border-blue-500/30">
-<b>🪟 Context window</b> — quantos tokens (~palavras) o LLM consegue "ver" de uma vez. Imagine como o <b>tamanho da mesa</b> onde ele lê seus papéis.
-</div>
-
-<div class="p-3 rounded-lg bg-purple-500/10 border border-purple-500/30">
-<b>💾 Memória de longo prazo</b> — informações que o agente <b>guarda entre conversas</b>. Como o ChatGPT lembrar que você é vegetariano sem você dizer toda vez.
-</div>
-
+<div class="grid grid-cols-1 gap-1 text-xs mt-2">
+<div class="p-2 rounded-lg bg-purple-500/10 border border-purple-500/30"><b>🎯 Grounding</b> — cada afirmação aponta para uma fonte real; sem isso vira “confia em mim”.</div>
+<div class="p-2 rounded-lg bg-cyan-500/10 border border-cyan-500/30"><b>🧪 Synthesis</b> — juntar várias fontes em uma resposta única, coerente e sem contradições.</div>
+<div class="p-2 rounded-lg bg-green-500/10 border border-green-500/30"><b>📚 RAG</b> — buscar documentos relevantes antes de responder e entregá-los ao LLM junto com a pergunta.</div>
+<div class="p-2 rounded-lg bg-amber-500/10 border border-amber-500/30"><b>🧮 Embedding</b> — transformar texto em números que preservam significado; frases parecidas ficam próximas.</div>
+<div class="p-2 rounded-lg bg-pink-500/10 border border-pink-500/30"><b>🗄️ Vector DB</b> — banco otimizado para achar conteúdo semanticamente parecido, não só palavra igual.</div>
+<div class="p-2 rounded-lg bg-blue-500/10 border border-blue-500/30"><b>🪟 Context window</b> — o tanto de texto que o LLM consegue “ver” em uma única chamada.</div>
+<div class="p-2 rounded-lg bg-purple-500/10 border border-purple-500/30"><b>💾 Memória de longo prazo</b> — fatos e preferências que o agente preserva entre conversas.</div>
 </div>
 
 ---
@@ -171,6 +149,18 @@ xychart-beta
 <div class="mt-4 text-sm">
 Em contextos longos (>10k tokens), modelos prestam <b>mais atenção ao início e fim</b>, e tendem a "esquecer" o meio. Por isso colocar instruções importantes <b>no começo</b> e a pergunta <b>no fim</b> ajuda.
 </div>
+
+---
+
+# 📊 Impacto do tamanho do contexto na qualidade
+```mermaid {scale: 0.55}
+xychart-beta
+    title "Recall vs posição no contexto (Lost in the Middle)"
+    x-axis ["Início", "25%", "50%", "75%", "Final"]
+    y-axis "Recall %" 0 --> 100
+    line [92, 65, 48, 55, 85]
+```
+<div class="mt-3 p-3 rounded bg-red-500/10 border border-red-500/30 text-sm">⚠️ <b>"Lost in the Middle"</b> (Liu et al., 2023): LLMs lembram bem do início e fim do contexto, mas "esquecem" o meio. Isso impacta diretamente o design de RAG e memória.</div>
 
 ---
 
@@ -438,34 +428,41 @@ flowchart LR
 
 # Search híbrido — porque puro vetor não basta
 
-```mermaid {scale: 0.55}
+```mermaid {scale: 0.5}
 flowchart LR
   Q[Pergunta] --> A[🧮 Busca semântica<br/>embeddings]
   Q --> B[🔤 Busca lexical<br/>BM25 / full-text]
   A --> M[🔀 Merge + rerank]
-  B --> M
-  M --> R[Top-K final]
-  
+  B --> M --> R[Top-K final]
   style M fill:#7c5cff,color:#fff
 ```
 
-<div class="mt-4 grid grid-cols-2 gap-4 text-sm">
-
-<div class="p-3 rounded bg-white/5">
-<b>Semântico</b> entende sinônimos, conceitos.<br>
-Falha em <b>termos exatos</b>, números, códigos.
+<div class="mt-3 grid grid-cols-2 gap-3 text-xs">
+<div class="p-3 rounded bg-white/5"><b>Semântico</b><br>Entende conceitos e sinônimos; falha em termos exatos, números e códigos.</div>
+<div class="p-3 rounded bg-white/5"><b>Lexical (BM25)</b><br>Acerta termos exatos e IDs; não entende paráfrases.</div>
 </div>
 
-<div class="p-3 rounded bg-white/5">
-<b>Lexical (BM25)</b> acerta <b>termos exatos</b>, IDs.<br>
-Não entende sinônimos.
-</div>
+<div class="mt-3 p-2 rounded bg-amber-500/10 border border-amber-500/30 text-xs">🥇 <b>Reranker:</b> reordena os top-20 com um cross-encoder (Cohere Rerank, BGE-reranker) e costuma melhorar a resposta final.</div>
 
-</div>
+---
 
-<div class="mt-4 p-3 rounded bg-amber-500/10 border border-amber-500/30 text-sm">
-🥇 <b>Reranker:</b> depois do retrieval, passe os top-20 por um modelo cross-encoder (Cohere Rerank, BGE-reranker) que reorganiza por relevância real. Melhora qualidade em 10-30%.
-</div>
+# 📊 RAG vs Fine-tuning vs Prompt — quando usar
+```mermaid {scale: 0.5}
+quadrantChart
+    title Estratégia por caso de uso
+    x-axis "Dados estáticos" --> "Dados dinâmicos"
+    y-axis "Tarefa genérica" --> "Tarefa específica"
+    quadrant-1 "RAG + Fine-tune"
+    quadrant-2 "RAG"
+    quadrant-3 "Prompt engineering"
+    quadrant-4 "Fine-tuning"
+    "FAQ empresa": [0.8, 0.6]
+    "Chatbot geral": [0.3, 0.2]
+    "Classificação emails": [0.2, 0.8]
+    "Pesquisa docs legais": [0.9, 0.7]
+    "Resumo genérico": [0.4, 0.3]
+    "News agent": [0.95, 0.4]
+```
 
 ---
 layout: section
@@ -473,7 +470,15 @@ layout: section
 
 # 🎯 Grounding
 
-A base de tudo. Sem isso, agente é gerador de ficção.
+<div class="mt-8 text-center">
+<div class="text-4xl mb-4">🎯</div>
+<div class="text-xl font-bold mb-4">Grounding = Ancorar o agente na realidade</div>
+</div>
+<div class="grid grid-cols-2 gap-4 text-sm mt-4">
+<div class="p-4 rounded-xl bg-red-500/10 border border-red-500/30"><b>Sem grounding:</b><br>o agente inventa fatos, cita fontes falsas e responde com confiança errada.</div>
+<div class="p-4 rounded-xl bg-green-500/10 border border-green-500/30"><b>Com grounding:</b><br>ele busca informação real antes de responder e cita fontes verificáveis.</div>
+</div>
+<div class="mt-4 p-3 rounded bg-amber-500/10 border border-amber-500/30 text-sm">💡 RAG, busca web e bancos de dados são técnicas de grounding: conectam o LLM ao mundo real.</div>
 
 ---
 
@@ -616,7 +621,16 @@ layout: section
 
 # 🧬 Synthesis
 
-Combinar múltiplas fontes com coerência. O passo que separa um chatbot de um agente analítico.
+<div class="mt-8 text-center">
+<div class="text-4xl mb-4">🧬</div>
+<div class="text-xl font-bold mb-4">Synthesis = Gerar resposta a partir de evidências</div>
+</div>
+<div class="grid grid-cols-3 gap-3 text-xs mt-4">
+<div class="p-3 rounded-xl bg-purple-500/10 border border-purple-500/30 text-center"><b>1. Retrieve</b><br>Buscar chunks relevantes</div>
+<div class="p-3 rounded-xl bg-cyan-500/10 border border-cyan-500/30 text-center"><b>2. Augment</b><br>Montar prompt com contexto</div>
+<div class="p-3 rounded-xl bg-green-500/10 border border-green-500/30 text-center"><b>3. Generate</b><br>LLM sintetiza a resposta final</div>
+</div>
+<div class="mt-4 p-3 rounded bg-amber-500/10 border border-amber-500/30 text-sm">💡 Boa synthesis não copia chunks: ela <b>integra, compara e contextualiza</b> a informação recuperada.</div>
 
 ---
 
@@ -934,33 +948,12 @@ O agente **descobre** skills disponíveis e **carrega só o necessário** quando
 
 # Skills vs Tools — qual a diferença?
 
-<div class="grid grid-cols-2 gap-4 mt-6">
-
-<div class="p-4 rounded-xl bg-cyan-500/10 border border-cyan-500/30">
-<div class="font-bold mb-2">🛠️ Tool (function calling)</div>
-<ul class="text-sm">
-<li>Sempre presente no contexto</li>
-<li>Schema JSON estático</li>
-<li>1 função = 1 tool</li>
-<li>Consome tokens mesmo se não usada</li>
-</ul>
+<div class="grid grid-cols-2 gap-3 mt-4 text-xs">
+<div class="p-3 rounded-xl bg-cyan-500/10 border border-cyan-500/30"><div class="font-bold mb-1">🛠️ Tool</div><b>Sempre disponível</b><br>Schema JSON fixo<br>1 função = 1 tool<br>Ocupa contexto mesmo parada</div>
+<div class="p-3 rounded-xl bg-purple-500/10 border border-purple-500/30"><div class="font-bold mb-1">🎓 Skill</div><b>Carrega sob demanda</b><br>Pode trazer docs e scripts<br>1 skill = competência inteira<br>Quase zero overhead</div>
 </div>
 
-<div class="p-4 rounded-xl bg-purple-500/10 border border-purple-500/30">
-<div class="font-bold mb-2">🎓 Skill</div>
-<ul class="text-sm">
-<li>Carregada <b>sob demanda</b></li>
-<li>Pode incluir docs, exemplos, scripts</li>
-<li>1 skill = competência inteira</li>
-<li><b>Quase zero overhead</b> de contexto</li>
-</ul>
-</div>
-
-</div>
-
-<div class="mt-6 p-4 rounded-xl bg-amber-500/10 border border-amber-500/30">
-💡 <b>Analogia:</b> tools são como funções na biblioteca padrão (sempre lá). Skills são como pacotes <code>pip install</code> que você instala quando precisa.
-</div>
+<div class="mt-4 p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 text-xs">💡 <b>Analogia:</b> tool é função da biblioteca padrão; skill é um pacote especializado que você só carrega quando precisa.</div>
 
 ---
 
@@ -1093,33 +1086,12 @@ flowchart TB
 
 # Quando usar multi-agente?
 
-<div class="grid grid-cols-2 gap-4 mt-6">
-
-<div class="p-4 rounded-xl bg-green-500/10 border border-green-500/30">
-<div class="font-bold mb-2 text-green-300">✅ Use quando</div>
-<ul class="text-sm">
-<li>Tarefa tem fases muito distintas (pesquisa → escrita → revisão)</li>
-<li>Cada fase precisa de prompt/contexto diferente</li>
-<li>Você quer especialistas com tools diferentes</li>
-<li>Você precisa de paralelismo real (vários sub-agentes)</li>
-</ul>
+<div class="grid grid-cols-2 gap-3 mt-4 text-xs">
+<div class="p-3 rounded-xl bg-green-500/10 border border-green-500/30"><div class="font-bold mb-1 text-green-300">✅ Use quando</div>Fases bem diferentes<br>Prompts/contextos distintos<br>Especialistas com tools próprias<br>Paralelismo gera ganho real</div>
+<div class="p-3 rounded-xl bg-red-500/10 border border-red-500/30"><div class="font-bold mb-1 text-red-300">❌ Evite quando</div>Um agente resolve sozinho<br>Latência é crítica<br>Custo precisa ser previsível<br>Você nem mediu o benefício</div>
 </div>
 
-<div class="p-4 rounded-xl bg-red-500/10 border border-red-500/30">
-<div class="font-bold mb-2 text-red-300">❌ Evite quando</div>
-<ul class="text-sm">
-<li>Um único agente bem-prompted resolve</li>
-<li>Latência é crítica (cada handoff custa)</li>
-<li>Custo precisa ser previsível (chamadas se multiplicam)</li>
-<li>Você ainda não mediu se vale</li>
-</ul>
-</div>
-
-</div>
-
-<div class="mt-4 p-3 rounded bg-amber-500/10 border border-amber-500/30 text-sm">
-🎯 <b>Conselho da Anthropic:</b> "Single-agent com bom contexto bate multi-agent ruim 9 vezes em 10." Só vá multi quando a tarefa <i>realmente</i> exigir.
-</div>
+<div class="mt-4 p-3 rounded bg-amber-500/10 border border-amber-500/30 text-xs">🎯 <b>Regra prática:</b> single-agent com bom contexto costuma vencer; só vá de multi-agent quando a tarefa realmente pedir especialização ou paralelismo.</div>
 
 ---
 
