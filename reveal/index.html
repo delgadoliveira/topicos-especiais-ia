@@ -166,7 +166,52 @@ echo "OPENAI_API_KEY=sk-..." > .env</code></pre>
 
     </div>
 
-    <!-- Navigation (custom clean) -->
+    <!-- Left Sidebar Navigation -->
+    <aside class="sidebar-nav" id="sidebar-nav">
+      <div class="sidebar-toggle" id="sidebar-toggle">
+        <span class="sidebar-toggle-icon">☰</span>
+      </div>
+      <div class="sidebar-content">
+        <div class="sidebar-header">📚 Navegação</div>
+        <ul class="sidebar-list">
+          <li class="sidebar-section" data-section="0">
+            <span class="sidebar-icon">🏠</span>
+            <span class="sidebar-label">Introdução</span>
+          </li>
+          <li class="sidebar-section" data-section="1">
+            <span class="sidebar-icon">📜</span>
+            <span class="sidebar-label">História da IA</span>
+          </li>
+          <li class="sidebar-divider"></li>
+          <li class="sidebar-section" data-section="2">
+            <span class="sidebar-icon">🧱</span>
+            <span class="sidebar-label">Encontro 1</span>
+            <span class="sidebar-subtitle">Fundamentos</span>
+          </li>
+          <li class="sidebar-section" data-section="3">
+            <span class="sidebar-icon">🧠</span>
+            <span class="sidebar-label">Encontro 2</span>
+            <span class="sidebar-subtitle">Reasoning & Planning</span>
+          </li>
+          <li class="sidebar-section" data-section="4">
+            <span class="sidebar-icon">💾</span>
+            <span class="sidebar-label">Encontro 3</span>
+            <span class="sidebar-subtitle">Skills & Memória</span>
+          </li>
+          <li class="sidebar-section" data-section="5">
+            <span class="sidebar-icon">🚀</span>
+            <span class="sidebar-label">Encontro 4</span>
+            <span class="sidebar-subtitle">State-of-the-Art</span>
+          </li>
+        </ul>
+        <div class="sidebar-progress">
+          <div class="sidebar-progress-bar" id="sidebar-progress-bar"></div>
+        </div>
+        <div class="sidebar-counter" id="sidebar-counter"></div>
+      </div>
+    </aside>
+
+    <!-- Bottom Navigation (prev/next) -->
     <nav class="custom-nav" id="custom-nav">
       <button id="nav-prev" aria-label="Anterior">‹</button>
       <span id="nav-progress"></span>

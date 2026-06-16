@@ -550,3 +550,209 @@
 /* ─── Hide default Reveal controls ─── */
 .reveal .controls { display: none !important; }
 .reveal .progress { height: 2px !important; }
+
+/* ═══════════════════════════════════════════════════════
+   LEFT SIDEBAR NAVIGATION
+   ═══════════════════════════════════════════════════════ */
+.sidebar-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 52px;
+  z-index: 200;
+  transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+.sidebar-nav:hover,
+.sidebar-nav.open {
+  width: 240px;
+}
+
+.sidebar-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 240px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: rgba(10, 10, 30, 0.92);
+  backdrop-filter: blur(20px);
+  border-right: 1px solid var(--border-subtle);
+  padding: 1rem 0;
+}
+
+.sidebar-toggle {
+  position: absolute;
+  top: 0.8rem;
+  left: 0;
+  width: 52px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 210;
+}
+
+.sidebar-toggle-icon {
+  font-size: 1.2rem;
+  color: var(--text-muted);
+  transition: color 0.2s, transform 0.3s;
+}
+
+.sidebar-nav:hover .sidebar-toggle-icon,
+.sidebar-nav.open .sidebar-toggle-icon {
+  color: var(--cyan);
+  transform: rotate(90deg);
+}
+
+.sidebar-header {
+  padding: 0.6rem 1rem 0.8rem 3.2rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.2s 0.1s;
+}
+
+.sidebar-nav:hover .sidebar-header,
+.sidebar-nav.open .sidebar-header {
+  opacity: 1;
+}
+
+.sidebar-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.sidebar-list::-webkit-scrollbar {
+  width: 3px;
+}
+
+.sidebar-list::-webkit-scrollbar-thumb {
+  background: var(--border-subtle);
+  border-radius: 3px;
+}
+
+.sidebar-section {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.55rem 0.8rem 0.55rem 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  white-space: nowrap;
+}
+
+.sidebar-section::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--cyan);
+  border-radius: 0 3px 3px 0;
+  opacity: 0;
+  transform: scaleY(0);
+  transition: all 0.25s ease;
+}
+
+.sidebar-section.active::before {
+  opacity: 1;
+  transform: scaleY(1);
+}
+
+.sidebar-section:hover {
+  background: rgba(34, 211, 238, 0.06);
+}
+
+.sidebar-section.active {
+  background: rgba(34, 211, 238, 0.1);
+}
+
+.sidebar-icon {
+  font-size: 1.1rem;
+  min-width: 1.6rem;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.sidebar-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  opacity: 0;
+  transition: opacity 0.2s 0.05s;
+}
+
+.sidebar-nav:hover .sidebar-label,
+.sidebar-nav.open .sidebar-label {
+  opacity: 1;
+}
+
+.sidebar-section.active .sidebar-label {
+  color: var(--cyan);
+}
+
+.sidebar-subtitle {
+  font-size: 0.58rem;
+  color: var(--text-muted);
+  position: absolute;
+  left: 3.4rem;
+  bottom: 0.2rem;
+  opacity: 0;
+  transition: opacity 0.2s 0.1s;
+}
+
+.sidebar-nav:hover .sidebar-subtitle,
+.sidebar-nav.open .sidebar-subtitle {
+  opacity: 0.7;
+}
+
+.sidebar-divider {
+  height: 1px;
+  margin: 0.4rem 1rem;
+  background: var(--border-subtle);
+}
+
+.sidebar-progress {
+  margin: 0.6rem 1rem 0.3rem;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.sidebar-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--cyan), var(--purple));
+  border-radius: 3px;
+  width: 0%;
+  transition: width 0.4s ease;
+}
+
+.sidebar-counter {
+  text-align: center;
+  font-size: 0.6rem;
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+  padding-bottom: 0.4rem;
+  opacity: 0;
+  transition: opacity 0.2s 0.1s;
+}
+
+.sidebar-nav:hover .sidebar-counter,
+.sidebar-nav.open .sidebar-counter {
+  opacity: 1;
+}

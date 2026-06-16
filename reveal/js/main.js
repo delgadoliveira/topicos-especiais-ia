@@ -35,7 +35,7 @@ function initReveal() {
     width: 1280,
     height: 720,
     margin: 0.08,
-    controls: false,       // We use custom nav
+    controls: false,
     controlsLayout: 'none',
     progress: true,
     slideNumber: false,
@@ -48,7 +48,7 @@ function initReveal() {
 
   deck.initialize();
 
-  // ─── Custom Navigation ───
+  // ─── Bottom Navigation ───
   const navPrev = document.getElementById('nav-prev');
   const navNext = document.getElementById('nav-next');
   const navProgress = document.getElementById('nav-progress');
@@ -56,20 +56,58 @@ function initReveal() {
   navPrev.addEventListener('click', () => deck.prev());
   navNext.addEventListener('click', () => deck.next());
 
+  // ─── Sidebar Navigation ───
+  const sidebarItems = document.querySelectorAll('.sidebar-section');
+  const sidebarProgressBar = document.getElementById('sidebar-progress-bar');
+  const sidebarCounter = document.getElementById('sidebar-counter');
+  const sidebarToggle = document.getElementById('sidebar-toggle');
+  const sidebarNav = document.getElementById('sidebar-nav');
+
+  // Toggle sidebar on mobile
+  if (sidebarToggle) {
+    sidebarToggle.addEventListener('click', () => {
+      sidebarNav.classList.toggle('open');
+    });
+  }
+
+  // Click to navigate to section
+  sidebarItems.forEach(item => {
+    item.addEventListener('click', () => {
+      const sectionIdx = parseInt(item.dataset.section);
+      deck.slide(sectionIdx, 0);
+      sidebarNav.classList.remove('open');
+    });
+  });
+
   function updateNav() {
     const indices = deck.getIndices();
     const total = deck.getTotalSlides();
     const current = deck.getSlidePastCount() + 1;
+    const pct = Math.round((current / total) * 100);
+
+    // Bottom nav
     navProgress.textContent = `${current} / ${total}`;
+
+    // Sidebar: highlight active section
+    sidebarItems.forEach(item => {
+      const sectionIdx = parseInt(item.dataset.section);
+      item.classList.toggle('active', sectionIdx === indices.h);
+    });
+
+    // Sidebar progress
+    if (sidebarProgressBar) {
+      sidebarProgressBar.style.width = pct + '%';
+    }
+    if (sidebarCounter) {
+      sidebarCounter.textContent = `${current} / ${total} (${pct}%)`;
+    }
   }
 
   deck.on('slidechanged', (event) => {
     updateNav();
-    // Trigger animations on the new slide
     if (window.Animations) {
       window.Animations.onSlideEnter(event.currentSlide);
     }
-    // Init PyRunner if this slide has one
     if (window.PyRunner) {
       window.PyRunner.initAll();
     }
@@ -87,4 +125,11 @@ function initReveal() {
   if (window.PyRunner) {
     window.PyRunner.initAll();
   }
+
+  // Close sidebar when clicking outside on mobile
+  document.addEventListener('click', (e) => {
+    if (sidebarNav && !sidebarNav.contains(e.target)) {
+      sidebarNav.classList.remove('open');
+    }
+  });
 }
