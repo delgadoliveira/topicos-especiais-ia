@@ -571,13 +571,13 @@ print(resultado[&quot;answer&quot;])</code></pre>
 <div class="card" style="border-color: rgba(96,165,250,0.4);"><b>Resposta sem evidência</b><br>RAGAS · Grounding check · Citations</div>
 </div>
 <div class="grid-2 mt-3 text-xs">
-<div class="card card-purple"><b>Como ensinar</b><br>Mostre uma pergunta que falha, identifique o gargalo no diagrama e só então introduza a técnica.</div>
-<div class="card card-amber"><b>Como projetar</b><br>Comece simples. Adicione uma técnica por vez e mantenha eval para saber se realmente melhorou.</div>
+<div class="card card-purple"><b>🔍 Como diagnosticar</b><br>Reproduza uma pergunta que falha, identifique em qual etapa do pipeline está o gargalo (cartões acima) e só então escolha a técnica que ataca <i>aquela</i> etapa.</div>
+<div class="card card-amber"><b>🛠️ Como projetar</b><br>Comece simples. Adicione <b>uma</b> técnica por vez e mantenha uma avaliação (eval) para confirmar se a mudança realmente melhorou — e não só deixou o sistema mais lento.</div>
 </div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
-<h1>Visual 1 · fan-out de queries</h1>
+<h1>🔀 Fan-out de queries — uma pergunta vira várias buscas</h1>
 <div class="flow-diagram mt-2">
   <div class="flow-node node-purple">Pergunta ambígua</div>
   <div class="flow-arrow">→</div>
@@ -596,18 +596,18 @@ print(resultado[&quot;answer&quot;])</code></pre>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #172554 100%)">
-<h1>Visual 2 · chunk não é só tamanho</h1>
+<h1>🔪 Chunking — vai muito além do tamanho</h1>
 <div class="grid-4 text-xs mt-3">
   <div class="card card-red"><b>Chunk fixo</b><br>barato, mas corta ideias</div>
   <div class="card card-cyan"><b>Semantic chunking</b><br>respeita tópicos</div>
   <div class="card card-purple"><b>Proposition chunking</b><br>uma afirmação por unidade</div>
   <div class="card card-green"><b>Parent-child</b><br>busca pequena, contexto grande</div>
 </div>
-<div class="card card-purple mt-3 text-xs">🎨 <b>Elemento visual sugerido em aula:</b> desenhe um PDF como uma régua. Primeiro corte em blocos iguais; depois corte por seções semânticas; por fim mostre o “parent” como uma moldura maior ao redor do chunk encontrado.</div>
+<div class="card card-purple mt-3 text-xs">🎨 <b>Analogia:</b> pense num PDF como uma régua. <b>Chunk fixo</b> corta em blocos iguais (rápido, mas separa ideias). <b>Semantic</b> corta nas junções de tópico. <b>Parent-child</b> mantém uma "moldura" maior ao redor do trecho encontrado — assim o LLM recebe o contexto vizinho e não responde fora de contexto.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
-<h1>Visual 3 · funil de recuperação</h1>
+<h1>🌪️ O funil de recuperação — do barato ao preciso</h1>
 <div class="flow-diagram mt-2">
   <div class="flow-node node-purple">Pergunta</div>
   <div class="flow-arrow">→</div>
@@ -629,7 +629,7 @@ print(resultado[&quot;answer&quot;])</code></pre>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)">
-<h1>Visual 4 · arquiteturas avançadas</h1>
+<h1>🏗️ Arquiteturas avançadas de RAG</h1>
 <div class="grid-2 text-xs mt-3">
 <div class="card card-purple"><b>🕸️ GraphRAG</b><br>Transforma documentos em entidades e relações. Bom para perguntas multi-hop: “quem influencia quem?”</div>
 <div class="card card-green"><b>🌳 RAPTOR</b><br>Cria árvore de resumos. Busca pode subir/descer níveis: detalhe local ou visão global.</div>
@@ -642,7 +642,7 @@ print(resultado[&quot;answer&quot;])</code></pre>
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e293b 100%)">
 <h1>Matriz prática · qual técnica usar?</h1>
 <table class="text-xs">
-<thead><tr><th>Sintoma observado</th><th>Técnica candidata</th><th>Visual didático</th><th>Cuidado</th></tr></thead>
+<thead><tr><th>Sintoma observado</th><th>Técnica candidata</th><th>💡 Intuição</th><th>Cuidado</th></tr></thead>
 <tbody>
 <tr><td>Pergunta vaga</td><td>Query rewriting / HyDE</td><td>fan-out de queries</td><td>pode inventar intenção</td></tr>
 <tr><td>Chunk incompleto</td><td>Parent-child / context window</td><td>zoom em documento</td><td>aumenta tokens</td></tr>
@@ -843,7 +843,7 @@ docs = vectordb.search(hipo, k=5)</code></pre>
   <div class="card card-green"><b>Prompt engineering</b><br><span class="text-xs">Poucos dados, problema simples, baixo custo</span></div>
   <div class="card card-amber"><b>RAG + Fine-tune</b><br><span class="text-xs">Busca dinâmica + estilo/decisão muito especializada<br>Ex: pesquisa docs legais</span></div>
 </div>
-<div class="insight-box">Casos do slide original: FAQ empresa, Chatbot geral, Classificação emails, Pesquisa docs legais, Resumo genérico, News agent.</div>
+<div class="insight-box">🎯 <b>Regra prática:</b> a informação muda toda semana? → <b>RAG</b>. O comportamento/formato é sempre o mesmo? → <b>Fine-tuning</b>. Problema simples e pontual? → <b>Prompt engineering</b>. Precisa de dados frescos <i>e</i> de um estilo muito especializado? → <b>RAG + Fine-tune</b>.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e293b 100%)">
@@ -1127,7 +1127,7 @@ chain_stuff = load_summarize_chain(llm, chain_type=&quot;stuff&quot;)</code></pr
 <div class="card card-green"><b>Coding agents</b><br>Cursor, Copilot e Claude Code tratam o repositório como memória operacional.</div>
 <div class="card card-amber"><b>Enterprise agents</b><br>Copilot, Glean, Notion AI e ServiceNow combinam documentos, identidade e políticas.</div>
 </div>
-<div class="card card-amber mt-3 text-sm">📌 Storyline: memória virou diferencial de produto porque reduz repetição, personaliza respostas e permite continuidade entre sessões.</div>
+<div class="card card-amber mt-3 text-sm">📌 <b>Por que virou diferencial de produto:</b> memória reduz repetição, personaliza respostas e dá continuidade entre sessões — o usuário sente que o agente "lembra" dele.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
