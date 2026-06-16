@@ -1,17 +1,5 @@
-/* ============================================================
-   Estilos globais — navegação desabilitada
-   ============================================================ */
-
-/* -- No transitions (evita flash branco) -- */
-
-/* -- Remove navigation UI only -- */
+/* Esconde apenas controles visuais de navegação */
 .slidev-controls,
-.slidev-navigation,
-[class*="slidev-nav"],
-#app > nav,
-#app > div > nav,
-#app .slidev-icon-btn[title="Go"],
-#app .slidev-icon-btn[title="Next"],
-#app .slidev-icon-btn[title="Prev"] {
+.slidev-navigation {
   display: none !important;
 }
