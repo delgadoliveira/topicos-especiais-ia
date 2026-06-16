@@ -10,7 +10,7 @@ highlighter: shiki
 lineNumbers: true
 drawings:
   persist: false
-transition: slide-left
+transition: none
 mdc: true
 hideInToc: true
 navigation: false

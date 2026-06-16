@@ -2,10 +2,7 @@
    Estilos globais — navegação desabilitada
    ============================================================ */
 
-/* -- Slide transitions -- */
-.slidev-page {
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
-}
+/* -- No transitions (evita flash branco) -- */
 
 /* -- Remove navigation UI only -- */
 .slidev-controls,
