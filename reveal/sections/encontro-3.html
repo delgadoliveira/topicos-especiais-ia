@@ -1,591 +1,1456 @@
-<section data-background-gradient="linear-gradient(135deg, #0a2e1f 0%, #0f172a 100%)">
-  <h1 class="glow-text">💾 Encontro 3 — Governança de Dados, RAG &amp; Integrações</h1>
-  <h2>Dados para agentes — com segurança, custo e padrão enterprise</h2>
-  <div class="text-sm text-center mt-2">3 horas · Privacidade · RBAC · RAG seguro · MCP · Integração com legados</div>
-  <div class="insight-box mt-2">Hook: <b>Seu agente segue processos.</b> Mas como ele acessa dados da empresa <b>sem vazar informação confidencial</b>?</div>
+<section data-background-gradient="linear-gradient(135deg, #0a2e1f 0%, #0f172a 100%)" class="text-center">
+<h1 class="glow-text">💾 Encontro 3</h1>
+<h2 class="subtitle-animate">Skills, Memória &amp; Contexto</h2>
+<div class="meta-info">
+  <span class="badge">3 horas</span>
+  <span class="badge">Context window</span>
+  <span class="badge">RAG + memória</span>
+  <span class="badge">MCP + multi-agentes</span>
+</div>
+<div class="insight-box mt-3">3 horas · Context window, RAG, vector DBs, memória, skills, MCP, multi-agentes</div>
 </section>
 
-<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%)">
-  <h1>🎯 Objetivos de aprendizagem</h1>
-  <div class="stagger-in mt-2">
-    <div class="card card-green parallax-card fragment">✅ Projetar uma arquitetura RAG com <b>controle de acesso</b> e trilha de auditoria</div>
-    <div class="card card-cyan parallax-card fragment">✅ Avaliar <b>RAG vs fine-tuning vs context stuffing</b> com visão de negócio</div>
-    <div class="card card-purple parallax-card fragment">✅ Entender <b>MCP</b> como padrão de integração corporativa</div>
-    <div class="card card-amber parallax-card fragment">✅ Criar um <b>roteador inteligente</b> que minimiza custo de API</div>
+<section data-background-gradient="linear-gradient(135deg, #0a2e1f 0%, #1e3a5f 100%)">
+<h1>🎯 O que você será capaz de fazer ao final desta aula</h1>
+<div class="stagger-in" style="margin-top: 1.5rem;">
+<div class="card card-green parallax-card fragment" style="padding: 0.8rem 1.2rem; margin-bottom: 0.6rem;">
+<span style="font-size: 1.3em;">✅</span> <b>Criar um assistente baseado em documentos</b> (RAG)
+</div>
+<div class="card card-green parallax-card fragment" style="padding: 0.8rem 1.2rem; margin-bottom: 0.6rem;">
+<span style="font-size: 1.3em;">✅</span> <b>Dar memória ao agente</b> — curto e longo prazo
+</div>
+<div class="card card-green parallax-card fragment" style="padding: 0.8rem 1.2rem; margin-bottom: 0.6rem;">
+<span style="font-size: 1.3em;">✅</span> <b>Conectar ferramentas externas</b> via MCP (Model Context Protocol)
+</div>
+<div class="card card-green parallax-card fragment" style="padding: 0.8rem 1.2rem; margin-bottom: 0.6rem;">
+<span style="font-size: 1.3em;">✅</span> <b>Entender padrões multi-agente</b> e quando usá-los
+</div>
+</div>
+<div class="text-xs opacity-70 text-center" style="margin-top: 1rem;">Ao final, seu agente lembra quem você é e busca informação real.</div>
+</section>
+
+<section class="text-center">
+<h1>💭 Onde paramos…</h1>
+<p class="text-sm typewriter-js" data-text="Seu agente já pensa (CoT, Planning) e age com precisão (Function Calling).">Seu agente já pensa (CoT, Planning) e age com precisão (Function Calling).</p>
+<div class="card card-red text-center scale-in mt-2"><div class="card-title">Mas tem um problema grave:</div><div class="big-date">Ele é amnésico.</div></div>
+<div class="insight-box fragment">Não lembra da conversa de ontem. Não sabe quem você é. Não tem acesso aos seus documentos.<br>Hoje vamos dar <b>memória</b>, <b>conhecimento</b> e <b>habilidades reutilizáveis</b> ao agente.</div>
+</section>
+
+<section>
+<h1>🧪 A jornada — Nível 3: com Memória + RAG</h1>
+<div class="agent-trace mt-2">
+  <div class="trace-line trace-user">user: Planeja uma viagem de 3 dias para Porto Alegre com R$2000</div>
+  <div class="trace-line trace-thought">thought: Usuário é vegetariano; na última viagem preferiu hotel boutique.</div>
+  <div class="trace-line trace-action">action: buscar_hoteis("Porto Alegre", estilo="boutique", budget=800)</div>
+  <div class="trace-line trace-action">action: RAG_query("restaurantes vegetarianos Porto Alegre avaliação &gt; 4.5")</div>
+  <div class="trace-line trace-obs">observation [RAG]: Quinoa Real ⭐4.8 | Veggie Way ⭐4.6 | Manjericão ⭐4.7</div>
+  <div class="trace-line trace-result">assistant: Baseado nas suas preferências, montei um roteiro boutique + vegetariano. Orçamento: R$1.847 (sobram R$153).</div>
+</div>
+<div class="grid-3 mt-2 stagger-in">
+  <div class="card card-green text-center">✅ Personalizado</div>
+  <div class="card card-green text-center">✅ Dados verificáveis</div>
+  <div class="card card-green text-center">✅ Orçamento exato</div>
+</div>
+<div class="tip-box">Memória + RAG = agente que te conhece e busca fatos reais.</div>
+</section>
+
+<section>
+<h1>🗺️ Agenda do Encontro 3</h1>
+<div class="grid-2 mt-2">
+  <div class="card card-cyan parallax-card">
+    <div class="card-title">Bloco 1 — Contexto e Memória (~90 min)</div>
+    <ul class="text-xs">
+      <li class="fragment">3.1 O problema da context window</li>
+      <li class="fragment">3.2 Estratégias de context management</li>
+      <li class="fragment">3.3 RAG (Retrieval-Augmented Generation)</li>
+      <li class="fragment">3.4 Vector DBs (Chroma, Qdrant, pgvector)</li>
+      <li class="fragment">3.5 Memória de curto e longo prazo</li>
+    </ul>
   </div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%)">
-  <h1>🪝 Caso de abertura</h1>
-  <div class="agent-trace mt-2">
-    <div class="trace-line"><span class="trace-user">junior:</span> Qual o salário do CEO?</div>
-    <div class="trace-line"><span class="trace-system">contexto:</span> agente de RH conectado ao banco salarial</div>
-    <div class="trace-line"><span class="trace-thought">risco:</span> dado sensível + usuário sem privilégio</div>
-    <div class="trace-line"><span class="trace-action">ação correta:</span> validar identidade, papel e política</div>
-    <div class="trace-line"><span class="trace-result">resposta:</span> ❌ acesso negado + orientação de processo</div>
+  <div class="card card-purple parallax-card">
+    <div class="card-title">Bloco 2 — Skills e Multi-Agent (~90 min)</div>
+    <ul class="text-xs">
+      <li class="fragment">3.6 Skills — capacidades reutilizáveis</li>
+      <li class="fragment">3.7 MCP — Model Context Protocol</li>
+      <li class="fragment">3.8 Padrões multi-agente</li>
+      <li class="fragment">3.9 Hands-on: agente com RAG + memória</li>
+      <li class="fragment">3.10 Exercícios</li>
+    </ul>
   </div>
-  <div class="tip-box mt-2">Analogia: dar acesso bruto ao banco é como entregar a <b>chave do cofre</b> porque alguém pediu o extrato.</div>
+</div>
 </section>
 
-<section data-background-gradient="linear-gradient(135deg, #111827 0%, #0f766e 100%)">
-  <h1>🗺️ Agenda</h1>
-  <div class="grid-2 mt-3">
-    <div class="card card-green parallax-card">
-      <h3>Bloco 1 — Governança de Dados &amp; RAG</h3>
-      <ul class="text-sm">
-        <li>Recap e ponte com E1/E2</li>
-        <li>Context window como budget</li>
-        <li>RAG para executivos</li>
-        <li>RBAC, metadata filtering, multi-tenancy</li>
-        <li>RAG vs fine-tuning vs prompt engineering</li>
-        <li>MCP como ativo estratégico</li>
-      </ul>
+<section>
+<h1>🧭 Vocabulário do dia — em 1 frase cada</h1>
+<div class="stagger-in mt-2">
+<div class="card card-purple"><div class="card-title">🎯 Grounding</div><div class="card-desc">cada afirmação aponta para uma fonte real; sem isso vira “confia em mim”.</div></div>
+<div class="card card-cyan"><div class="card-title">🧪 Synthesis</div><div class="card-desc">juntar várias fontes em uma resposta única, coerente e sem contradições.</div></div>
+<div class="card card-green"><div class="card-title">📚 RAG</div><div class="card-desc">buscar documentos relevantes antes de responder e entregá-los ao LLM junto com a pergunta.</div></div>
+<div class="card card-amber"><div class="card-title">🧮 Embedding</div><div class="card-desc">transformar texto em números que preservam significado; frases parecidas ficam próximas.</div></div>
+<div class="card card-purple"><div class="card-title">🗄️ Vector DB</div><div class="card-desc">banco otimizado para achar conteúdo semanticamente parecido, não só palavra igual.</div></div>
+<div class="card card-cyan"><div class="card-title">🪟 Context window</div><div class="card-desc">o tanto de texto que o LLM consegue “ver” em uma única chamada.</div></div>
+<div class="card card-green"><div class="card-title">💾 Memória de longo prazo</div><div class="card-desc">fatos e preferências que o agente preserva entre conversas.</div></div>
+</div>
+</section>
+
+<section>
+<h1>🧩 Onde você já viu isso</h1>
+<div class="grid-2 mt-2 stagger-in">
+  <div class="card card-purple"><div class="card-title">🎯 Grounding em produto</div><div class="card-desc">Perplexity mostra links de fonte sob cada parágrafo • Bing Chat e Google AI Overviews citam as páginas usadas</div></div>
+  <div class="card card-cyan"><div class="card-title">📚 RAG em produto</div><div class="card-desc">Notion AI Q&amp;A responde sobre seus docs • Glean busca em Slack/Drive/Jira • NotebookLM conversa com PDFs</div></div>
+  <div class="card card-green"><div class="card-title">💾 Memória em produto</div><div class="card-desc">ChatGPT Memory lembra preferências • Claude Projects mantém contexto • Cursor indexa o repositório</div></div>
+  <div class="card card-amber"><div class="card-title">🪟 Context window — implicação prática</div><div class="card-desc">Quando o chat “esquece” 50 mensagens atrás, o contexto saturou • Por isso Claude 200k e Gemini 1M viraram diferencial</div></div>
+</div>
+<div class="insight-box">🎯 <b>Insight</b>: todo agente que parece “inteligente sobre o seu negócio” está fazendo <b>RAG + grounding</b> por baixo. Não há mágica.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1d4ed8 100%)" class="text-center">
+<h1>🧠 Parte 1: O desafio do contexto</h1>
+<p class="text-sm">Um LLM lê <b>tudo</b> a cada chamada — e paga por cada token lido.<br>Quando a conversa cresce, três coisas acontecem:</p>
+<div class="grid-3 mt-2 stagger-in">
+  <div class="card card-red text-center">💸 Custo explode</div>
+  <div class="card card-red text-center">🐢 Latência sobe</div>
+  <div class="card card-red text-center">🧠 Qualidade cai</div>
+</div>
+<div class="tip-box">Vamos entender por quê — e as soluções que o mercado usa.</div>
+</section>
+
+<section>
+<h1>3.1 O problema da context window</h1>
+<p class="text-sm">A janela é grande, mas <b>não é infinita</b> — e cada token custa.</p>
+
+<div class="flow-diagram mt-2">
+  <div class="flow-node node-purple fragment">System prompt<br>500</div>
+  <div class="flow-arrow fragment">→</div>
+  <div class="flow-node node-cyan fragment">Histórico longo<br>20.000</div>
+  <div class="flow-arrow fragment">→</div>
+  <div class="flow-node node-amber fragment">Documentos colados<br>50.000</div>
+  <div class="flow-arrow fragment">→</div>
+  <div class="flow-node node-green fragment">Tool definitions<br>3.000</div>
+  <div class="flow-arrow fragment">→</div>
+  <div class="flow-node node-red fragment">Buffer resposta<br>4.000</div>
+</div>
+<div class="insight-box fragment">❌ Estouro: 77.500 + nova msg = ?</div>
+<div class="card card-amber mt-3">
+⚠️ <b>Os 3 problemas da context window:</b><br>
+<ol class="text-xs mt-1">
+<li><b>Limite duro</b> — passou, a API rejeita.</li>
+<li><b>Custo</b> — você paga por TODOS os tokens, toda chamada.</li>
+<li><b>"Lost in the middle"</b> — modelos esquecem info no <i>meio</i> do contexto longo (Liu et al., 2023).</li>
+</ol>
+</div>
+</section>
+
+<section>
+<h1>Lost in the Middle — o efeito U</h1>
+
+<div class="stats-row mt-2">
+  <div class="stat fragment"><span class="stat-number">85%</span><span class="stat-label">Início</span></div>
+  <div class="stat fragment"><span class="stat-number">60%</span><span class="stat-label">25%</span></div>
+  <div class="stat fragment"><span class="stat-number text-red">45%</span><span class="stat-label">Meio</span></div>
+  <div class="stat fragment"><span class="stat-number">55%</span><span class="stat-label">75%</span></div>
+  <div class="stat fragment"><span class="stat-number">80%</span><span class="stat-label">Fim</span></div>
+</div>
+<div class="compare-cols">
+  <div class="compare-col good fragment"><h3>Onde o modelo presta atenção</h3><p>Instruções importantes no começo e pergunta final no fim.</p></div>
+  <div class="compare-col bad fragment"><h3>Onde o modelo falha</h3><p>Informação crucial enterrada no meio do contexto longo.</p></div>
+</div>
+<div class="mt-3 text-sm">
+Em contextos longos (>10k tokens), modelos prestam <b>mais atenção ao início e fim</b>, e tendem a "esquecer" o meio. Por isso colocar instruções importantes <b>no começo</b> e a pergunta <b>no fim</b> ajuda.
+</div>
+<div class="card card-amber mt-2 text-xs">🧠 <b>Explicação rápida:</b> Modelos tendem a ignorar informação no meio de contextos longos. As primeiras e últimas posições recebem mais atenção.</div>
+<div class="tip-box mt-2 text-xs">📌 <b>Na prática:</b> coloque informação importante no <b>INÍCIO</b> ou no <b>FIM</b> do contexto, nunca no meio.</div>
+<div class="mt-2 text-xs opacity-70">📚 Liu et al. (2023) — <i>"Lost in the Middle: How Language Models Use Long Contexts"</i></div>
+</section>
+
+<section>
+<h1>3.2 Estratégias de context management</h1>
+<div class="grid-2 mt-3 text-xs">
+<div class="card card-purple"><b>✂️ Truncamento (sliding window)</b><br>Mantém só as últimas N mensagens. <b>Prós:</b> simples. <b>Contras:</b> perde contexto antigo importante.</div>
+<div class="card card-purple"><b>📝 Sumarização</b><br>Comprime histórico antigo em resumo. <b>Prós:</b> mantém essência. <b>Contras:</b> +1 chamada LLM, perde detalhes.</div>
+<div class="card card-purple"><b>🔍 RAG (retrieval)</b><br>Busca só os trechos relevantes. <b>Prós:</b> escala para milhões de docs. <b>Contras:</b> depende do retriever.</div>
+<div class="card card-purple"><b>🗄️ Sub-agentes / handoffs</b><br>Sub-agente processa contexto pesado e devolve síntese. <b>Prós:</b> isola contextos. <b>Contras:</b> orquestração complexa.</div>
+</div>
+<div class="card card-cyan mt-3 text-xs">🎯 <b>Padrão moderno:</b> combinar <b>sumarização automática</b> + <b>file system como memória externa</b> + <b>sub-agentes</b> para tarefas isoladas.</div>
+</section>
+
+<section>
+<h1>Exemplo: sumarização automática</h1>
+<div class="text-xs">📖 <b>Em palavras:</b> conte os tokens; se passar do limite, preserve as últimas 4 mensagens e resuma o restante em 200 palavras.</div>
+<pre><code class="language-python"># 📋 Execute no Google Colab — copie e cole
+# Célula 1: Setup
+!pip install openai -q
+import os
+from openai import OpenAI
+
+# Cole sua chave aqui (ou use Colab Secrets)
+os.environ["OPENAI_API_KEY"] = "sk-..."  # ← substitua pela sua chave
+client = OpenAI()
+
+def manage_context(messages: list, max_tokens: int = 8000):
+    &quot;&quot;&quot;Se passar do limite, sumariza as mensagens antigas.&quot;&quot;&quot;
+    total = count_tokens(messages)
+    if total &lt; max_tokens:
+        return messages
+    # Mantém as últimas 4 mensagens, sumariza o resto
+    keep = messages[-4:]
+    to_summarize = messages[:-4]</code></pre>
+</section>
+
+<section>
+<h1>Exemplo: sumarização automática — continuação</h1>
+<pre><code class="language-python">    summary = client.chat.completions.create(
+        model=&quot;gpt-4o-mini&quot;,
+        messages=[
+            {&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: &quot;Resuma esta conversa em 200 palavras, preservando fatos importantes e decisões.&quot;},
+            *to_summarize,
+        ],
+    ).choices[0].message.content
+    return [{&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: f&quot;Resumo do histórico anterior:\\n{summary}&quot;}, *keep]</code></pre>
+<div class="card card-cyan mt-3 text-xs">✅ Resultado: o histórico não cresce sem controle, mas as decisões importantes continuam acessíveis.</div>
+</section>
+
+<section>
+<h1>3.3 RAG — Retrieval-Augmented Generation</h1>
+<p class="text-sm">A ideia: <b>busque</b> trechos relevantes de uma base externa e <b>injete</b> no prompt.</p>
+
+<div class="flow-diagram mt-2">
+  <div class="flow-node node-purple fragment">Pergunta do usuário</div>
+  <div class="flow-arrow fragment">→</div>
+  <div class="flow-node node-cyan fragment">Embed pergunta</div>
+  <div class="flow-arrow fragment">→</div>
+  <div class="flow-node node-green fragment">Busca semântica<br>no Vector DB</div>
+  <div class="flow-arrow fragment">→</div>
+  <div class="flow-node node-amber fragment">Top-K chunks</div>
+  <div class="flow-arrow fragment">→</div>
+  <div class="flow-node node-purple fragment">Prompt:<br>contexto + pergunta</div>
+  <div class="flow-arrow fragment">→</div>
+  <div class="flow-node node-cyan fragment">LLM</div>
+  <div class="flow-arrow fragment">→</div>
+  <div class="flow-node node-green fragment">Resposta fundamentada</div>
+</div>
+</section>
+
+<section>
+<h1>RAG — anatomia da indexação (offline)</h1>
+
+<div class="flow-diagram mt-2">
+  <div class="flow-node node-purple fragment">📄 Documentos</div>
+  <div class="flow-arrow fragment">→</div>
+  <div class="flow-node node-cyan fragment">🔪 Chunking<br>~500 tokens</div>
+  <div class="flow-arrow fragment">→</div>
+  <div class="flow-node node-green fragment">🧮 Embedding<br>text-embedding-3-small</div>
+  <div class="flow-arrow fragment">→</div>
+  <div class="flow-node node-purple fragment">💾 Vector DB<br>Chroma / Qdrant / pgvector</div>
+</div>
+<div class="grid-3 mt-3 text-sm">
+
+<div class="card">
+<b>1. Loaders</b><br>
+PyPDF, BeautifulSoup, Unstructured, Markdown loader.
+</div>
+
+<div class="card">
+<b>2. Splitters</b><br>
+RecursiveCharacterTextSplitter, SemanticChunker, by-header (para Markdown).
+</div>
+
+<div class="card">
+<b>3. Embeddings</b><br>
+OpenAI <code>text-embedding-3</code>, Cohere, BGE, ou local (sentence-transformers).
+</div>
+
+</div>
+</section>
+
+<section>
+<h1>Hands-on: RAG completo com Chroma</h1>
+<div class="card card-cyan text-xs">☁️ <b>Roda no Google Colab:</b> instale as bibliotecas, faça upload de um arquivo <code>manual.txt</code> e execute em duas células. Ao final, você terá um mini-RAG pronto para responder perguntas com base no documento.</div>
+<pre><code class="language-python">from langchain_community.document_loaders import TextLoader
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+from langchain_openai import OpenAIEmbeddings, ChatOpenAI
+from langchain_chroma import Chroma
+from langchain.chains import create_retrieval_chain
+from langchain.chains.combine_documents import create_stuff_documents_chain
+from langchain_core.prompts import ChatPromptTemplate
+docs = TextLoader(&quot;manual.txt&quot;).load()
+chunks = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50).split_documents(docs)
+vstore = Chroma.from_documents(chunks, OpenAIEmbeddings(model=&quot;text-embedding-3-small&quot;))</code></pre>
+</section>
+
+<section>
+<h1>Hands-on: RAG completo com Chroma — continuação</h1>
+<pre><code class="language-python">retriever = vstore.as_retriever(search_kwargs={&quot;k&quot;: 4})
+prompt = ChatPromptTemplate.from_template(
+    &quot;Responda baseado APENAS no contexto:\n\n{context}\n\nPergunta: {input}&quot;
+)
+combine = create_stuff_documents_chain(ChatOpenAI(model=&quot;gpt-4o-mini&quot;), prompt)
+chain = create_retrieval_chain(retriever, combine)
+print(chain.invoke({&quot;input&quot;: &quot;Como configuro o produto?&quot;})[&quot;answer&quot;])</code></pre>
+<div class="card card-amber mt-3 text-xs">✅ <b>O que esperar:</b> a resposta final deve citar e usar o conteúdo do <code>manual.txt</code>; se a informação não estiver no arquivo, o ideal é adaptar o prompt para o agente admitir que não sabe.</div>
+</section>
+
+<section>
+<h1>Advanced RAG — quando o básico não basta</h1>
+<p class="text-sm">RAG ingênuo (embeddings + top-K) tem <b>muitos pontos de falha</b>. Em produção, usa-se um pipeline:</p>
+
+<div class="flow-diagram mt-2">
+  <div class="flow-node node-purple fragment">1. Query Rewriting</div>
+  <div class="flow-arrow fragment">→</div>
+  <div class="flow-node node-purple fragment">2. Multi-Query</div>
+  <div class="flow-arrow fragment">→</div>
+  <div class="flow-node node-purple fragment">3. HyDE</div>
+  <div class="flow-arrow fragment">→</div>
+  <div class="flow-node node-cyan fragment">4. Retrieval híbrido</div>
+  <div class="flow-arrow fragment">→</div>
+  <div class="flow-node node-amber fragment">5. Reranking</div>
+  <div class="flow-arrow fragment">→</div>
+  <div class="flow-node node-green fragment">6. Context compression</div>
+  <div class="flow-arrow fragment">→</div>
+  <div class="flow-node node-purple fragment">LLM</div>
+</div>
+<div class="mt-3 text-sm">
+Cada estágio recupera <b>+5-15% de qualidade</b> em benchmarks como BEIR, MS MARCO.
+</div>
+</section>
+
+<section>
+<h1>Padrão 1 · Query Rewriting</h1>
+<p class="text-sm">A pergunta do usuário <b>raramente</b> é uma boa query de busca.</p>
+<div class="grid-2 mt-3 text-sm">
+
+<div class="card card-red">
+<b>❌ Pergunta do usuário</b><br>
+<i>"e o problema que falei ontem, ainda tá acontecendo?"</i><br>
+→ vetor sem contexto, retrieval inútil
+</div>
+
+<div class="tip-box">
+<b>✅ Query reescrita pelo LLM</b><br>
+<i>"erro 504 timeout no endpoint /api/login mencionado em 03/11/2025"</i><br>
+→ vetor rico, retrieval certeiro
+</div>
+
+</div>
+<pre><code class="language-python">def reescrever_query(historico, pergunta):
+    return llm.invoke(f&quot;&quot;&quot;
+    Histórico: {historico}
+    Pergunta atual: {pergunta}
+    Reescreva como query de busca standalone, com todos os termos técnicos.
+    &quot;&quot;&quot;)</code></pre>
+</section>
+
+<section>
+<h1>Padrão 2 · Multi-Query &amp; HyDE</h1>
+<div class="card card-purple text-sm"><b>🔁 Multi-Query</b><br>Gere <b>N reformulações</b> da pergunta e busque com todas para aumentar <b>recall</b>.</div>
+<pre><code class="language-python">queries = llm.invoke(f&quot;&quot;&quot;
+Gere 4 reformulações da pergunta:
+{pergunta}
+&quot;&quot;&quot;
+).split(&quot;\\n&quot;)
+docs = []
+for q in queries:
+    docs += vectordb.search(q, k=5)
+docs = dedupe(docs)</code></pre>
+<div class="card card-cyan mt-3 text-xs">📈 Na prática, costuma melhorar o <b>recall</b> em 20–40%.</div>
+</section>
+
+<section>
+<h1>Padrão 2 · Multi-Query &amp; HyDE — continuação</h1>
+<div class="card card-cyan text-sm"><b>🎭 HyDE</b> (<i>Hypothetical Document Embeddings</i>) cria uma <b>resposta hipotética</b> e usa o embedding dela para buscar.</div>
+<pre><code class="language-python">hipo = llm.invoke(f&quot;&quot;&quot;
+Escreva um trecho que responderia:
+{pergunta}
+&quot;&quot;&quot;
+)
+docs = vectordb.search(hipo, k=5)</code></pre>
+<div class="card card-amber mt-3 text-xs">💡 Funciona porque “resposta → resposta” costuma ficar mais perto no espaço vetorial que “pergunta → resposta”.</div>
+</section>
+
+<section>
+<h1>Padrão 3 · Parent-Child Chunks &amp; Agentic RAG</h1>
+<div class="card card-purple text-sm"><b>👨‍👦 Parent-Child Chunks</b><br>Indexe pedaços <b>pequenos</b> para busca precisa, mas devolva ao LLM o pedaço <b>grande</b> para manter contexto rico.</div>
+
+<div class="flow-diagram mt-2">
+  <div class="flow-node node-purple fragment">Pergunta</div>
+  <div class="flow-arrow fragment">→</div>
+  <div class="flow-node node-cyan fragment">chunks 200 tokens</div>
+  <div class="flow-arrow fragment">→</div>
+  <div class="flow-node node-green fragment">parent 2000 tokens</div>
+  <div class="flow-arrow fragment">→</div>
+  <div class="flow-node node-purple fragment">LLM</div>
+</div>
+<div class="card card-cyan mt-3 text-xs">🎯 O índice trabalha com alta precisão; a resposta final recebe contexto suficiente para sintetizar.</div>
+</section>
+
+<section>
+<h1>Padrão 3 · Parent-Child Chunks &amp; Agentic RAG — continuação</h1>
+<div class="card card-cyan text-sm"><b>🤖 Agentic RAG</b><br>O LLM decide <b>se precisa buscar</b>, <b>onde buscar</b> e <b>quando refinar</b> a busca.</div>
+
+<div class="grid-2 mt-2">
+  <div class="agent-trace">
+    <div class="trace-line trace-user">Q: "Explique o bug no login"</div>
+    <div class="trace-line trace-thought">Thought: preciso buscar em docs, código e web?</div>
+    <div class="trace-line trace-action">Action: search docs</div>
+    <div class="trace-line trace-action">Action: search code</div>
+    <div class="trace-line trace-action">Action: search web</div>
+    <div class="trace-line trace-result">Resposta final com evidências</div>
+  </div>
+  <div class="flow-diagram">
+    <div class="flow-node node-purple fragment">Agent</div>
+    <div class="flow-arrow fragment">↘</div>
+    <div class="flow-node node-cyan fragment">search docs</div>
+    <div class="flow-arrow fragment">↗</div>
+    <div class="flow-node node-green fragment">search code</div>
+    <div class="flow-arrow fragment">↘</div>
+    <div class="flow-node node-amber fragment">search web</div>
+  </div>
+</div>
+<div class="card card-amber mt-3 text-xs">🎯 É o padrão por trás de <b>Perplexity</b>, <b>ChatGPT Search</b> e <b>Cursor @docs</b>.</div>
+</section>
+
+<section>
+<h1>3.4 Vector DBs comparativo</h1>
+<table>
+<thead><tr>
+<th>DB</th>
+<th>Quando usar</th>
+<th>Open source</th>
+<th>Notas</th>
+</tr></thead>
+<tbody>
+<tr><td><b>Chroma</b></td><td>Dev local, protótipos</td><td>✅</td><td>Mais fácil de começar</td></tr>
+<tr><td><b>Qdrant</b></td><td>Produção, escala média</td><td>✅</td><td>Rust, rápido, ótimo filtro híbrido</td></tr>
+<tr><td><b>pgvector</b></td><td>Já uso Postgres</td><td>✅</td><td>Extensão PG — uma coisa a menos pra operar</td></tr>
+<tr><td><b>Pinecone</b></td><td>SaaS gerenciado</td><td>❌</td><td>Caro mas zero ops</td></tr>
+<tr><td><b>Weaviate</b></td><td>Multi-modal, GraphQL</td><td>✅</td><td>Bom para casos complexos</td></tr>
+<tr><td><b>Milvus / Zilliz</b></td><td>Bilhões de vetores</td><td>✅/❌</td><td>Casos extremos</td></tr>
+<tr><td><b>LanceDB</b></td><td>Embedded + cloud</td><td>✅</td><td>Formato em disco, S3-friendly</td></tr>
+</tbody>
+</table>
+<div class="card card-cyan mt-3 text-sm">
+💡 <b>Recomendação 2025:</b> comece com Chroma local. Quando for pra produção, considere <b>pgvector</b> (se já usa Postgres) ou <b>Qdrant</b>.
+</div>
+</section>
+
+<section>
+<h1>Search híbrido — porque puro vetor não basta</h1>
+
+<div class="flow-diagram mt-2">
+  <div class="flow-node node-purple fragment">Pergunta</div>
+  <div class="flow-arrow fragment">→</div>
+  <div class="flow-node node-cyan fragment">Busca semântica</div>
+  <div class="flow-arrow fragment">+</div>
+  <div class="flow-node node-green fragment">Busca lexical<br>BM25 / full-text</div>
+  <div class="flow-arrow fragment">→</div>
+  <div class="flow-node node-purple fragment">Merge + rerank</div>
+  <div class="flow-arrow fragment">→</div>
+  <div class="flow-node node-amber fragment">Top-K final</div>
+</div>
+<div class="grid-2 mt-3 text-xs">
+<div class="card"><b>Semântico</b><br>Entende conceitos e sinônimos; falha em termos exatos, números e códigos.</div>
+<div class="card"><b>Lexical (BM25)</b><br>Acerta termos exatos e IDs; não entende paráfrases.</div>
+</div>
+<div class="card card-amber mt-3 text-xs">🥇 <b>Reranker:</b> reordena os top-20 com um cross-encoder (Cohere Rerank, BGE-reranker) e costuma melhorar a resposta final.</div>
+</section>
+
+<section>
+<h1>📊 RAG vs Fine-tuning vs Prompt — quando usar</h1>
+
+<div class="grid-2 mt-2">
+  <div class="card card-cyan fragment"><b>RAG</b><br><span class="text-xs">Dados dinâmicos + tarefa relativamente genérica<br>Ex: FAQ empresa, news agent</span></div>
+  <div class="card card-purple fragment"><b>Fine-tuning</b><br><span class="text-xs">Tarefa específica + comportamento repetitivo<br>Ex: classificação de emails</span></div>
+  <div class="card card-green fragment"><b>Prompt engineering</b><br><span class="text-xs">Poucos dados, problema simples, baixo custo</span></div>
+  <div class="card card-amber fragment"><b>RAG + Fine-tune</b><br><span class="text-xs">Busca dinâmica + estilo/decisão muito especializada<br>Ex: pesquisa docs legais</span></div>
+</div>
+<div class="insight-box fragment">Casos do slide original: FAQ empresa, Chatbot geral, Classificação emails, Pesquisa docs legais, Resumo genérico, News agent.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #0f766e 100%)" class="text-center">
+<h1>🎯 Grounding</h1>
+<div class="big-date animate-float">🎯</div>
+<div class="compare-cols">
+  <div class="compare-col bad fragment"><h3>Sem grounding</h3><p>o agente inventa fatos, cita fontes falsas e responde com confiança errada.</p></div>
+  <div class="compare-col good fragment"><h3>Com grounding</h3><p>ele busca informação real antes de responder e cita fontes verificáveis.</p></div>
+</div>
+<div class="insight-box fragment">💡 RAG, busca web e bancos de dados são técnicas de grounding: conectam o LLM ao mundo real.</div>
+</section>
+
+<section>
+<h1>O que é Grounding?</h1>
+<div class="card card-cyan mt-3">
+<div class="text-center">
+<b>Grounding</b> = ancorar cada afirmação do modelo em uma <b>fonte verificável</b>.<br>
+Toda resposta precisa responder: <b>"de onde isso veio?"</b>
+</div>
+</div>
+<div class="grid-2 mt-3 text-sm">
+
+<div class="card card-red">
+<b>❌ Sem grounding</b><br>
+<i>"O contrato exige aviso prévio de 60 dias."</i><br>
+→ Verdade? Inventado? Impossível auditar.
+</div>
+
+<div class="tip-box">
+<b>✅ Com grounding</b><br>
+<i>"O contrato exige 60 dias de aviso prévio <b>[Cláusula 14.3, contrato_v3.pdf]</b>."</i><br>
+→ Auditável, rastreável, defensável.
+</div>
+
+</div>
+<div class="card card-purple mt-3 text-xs">
+📚 <b>Leitura essencial:</b> Rashkin et al. (2023) — <i>"Measuring Attribution in NLG Models"</i> formaliza o conceito <b>AIS</b> (<i>Attributable to Identified Sources</i>). Bohnet et al. (2022) — <i>"Attributed Question Answering"</i> propõe o benchmark AQA. Em jurídico, médico e financeiro, grounding deixou de ser opcional — virou <b>compliance</b>.
+</div>
+</section>
+
+<section>
+<h1>Por que grounding falha</h1>
+
+<div class="flow-diagram mt-2">
+  <div class="flow-node node-purple fragment">Pergunta</div>
+  <div class="flow-arrow fragment">→</div>
+  <div class="flow-node node-cyan fragment">Retrieval</div>
+  <div class="flow-arrow fragment">→</div>
+  <div class="flow-node node-green fragment">Contexto<br>100 chunks</div>
+  <div class="flow-arrow fragment">→</div>
+  <div class="flow-node node-purple fragment">LLM gera resposta</div>
+</div>
+<div class="grid-4 mt-2 stagger-in">
+  <div class="card card-red">❌ Cita chunk errado</div>
+  <div class="card card-red">❌ Mistura fatos</div>
+  <div class="card card-red">❌ Inventa citação</div>
+  <div class="card card-red">❌ Ignora contexto</div>
+</div>
+<div class="mt-3 text-sm">
+Mesmo com RAG, a <b>"grounding rate"</b> (% de afirmações ancoradas) raramente passa de 70-80% sem técnicas dedicadas.
+</div>
+<div class="card card-amber mt-2 text-xs">⚖️ <b>Exemplo real:</b> Em 2023, um chatbot jurídico nos EUA citou casos inventados (<i>Mata v. Avianca</i>). O advogado foi multado por submeter citações fabricadas por IA ao tribunal.</div>
+</section>
+
+<section>
+<h1>Técnicas de grounding (1/2)</h1>
+<div class="text-sm mt-3">
+
+<div class="card card-purple">
+<b>1. 🆔 Inline citations com IDs únicos</b><br>
+Cada chunk recebe <code>[doc_id:chunk_id]</code>. Prompt pede citação após cada frase.
+</div>
+
+<div class="card card-purple">
+<b>2. 📋 "According to X" prompting</b><br>
+Forçar prefixo "Segundo [fonte X]…" reduz alucinação em 20% (Weller et al., 2023).
+</div>
+
+<div class="card card-purple">
+<b>3. 🚪 Refusal explícito</b><br>
+Prompt: <i>"Se o contexto não contém a resposta, responda 'Não encontrei nos documentos fornecidos.'"</i>
+</div>
+
+<div class="card card-purple">
+<b>4. 🔍 Contextual grounding check</b><br>
+Após gerar, um <b>segundo LLM</b> verifica: "Cada afirmação é suportada pelo contexto?"
+</div>
+
+</div>
+</section>
+
+<section>
+<h1>Técnicas de grounding (2/2) — em código</h1>
+<div class="text-xs">📖 <b>Camada 1:</b> force o LLM a responder só com base nos documentos e a citar a fonte de cada afirmação.</div>
+<pre><code class="language-python">SYSTEM = &quot;&quot;&quot;Responda APENAS com base nos documentos abaixo.
+Para CADA afirmação, adicione [doc_id] da fonte.
+Se não souber, responda exatamente: &quot;Não encontrei nos documentos.&quot;
+NÃO use conhecimento externo.&quot;&quot;&quot;
+contexto = &quot;
+
+&quot;.join([f&quot;[doc_{d.id}] {d.content}&quot; for d in docs_retrieved])
+resposta = llm.invoke(f&quot;{SYSTEM}
+
+{contexto}
+
+Pergunta: {q}&quot;)</code></pre>
+</section>
+
+<section>
+<h1>Técnicas de grounding (2/2) — continuação</h1>
+<div class="text-xs">📖 <b>Camada 2:</b> rode uma verificação automática que classifica cada frase como suportada, parcial ou não suportada.</div>
+<pre><code class="language-python">verificacao = llm.invoke(f&quot;&quot;&quot;
+Resposta: {resposta}
+Contexto disponível: {contexto}
+Para cada afirmação na resposta, marque:
+- SUPORTADA (existe no contexto)
+- NÃO_SUPORTADA (alucinação)
+- PARCIAL (parcialmente apoiada)
+JSON: {{&quot;afirmacoes&quot;: [{{&quot;texto&quot;: ..., &quot;status&quot;: ...}}]}}
+&quot;&quot;&quot;)</code></pre>
+<div class="card card-cyan mt-3 text-xs">🎯 Monitore <b>Groundedness</b>, <b>Citation accuracy</b> e <b>Answer relevance</b>.</div>
+</section>
+
+<section>
+<h1>Frameworks que ajudam com grounding</h1>
+<table>
+<thead><tr>
+<th>Ferramenta</th>
+<th>O que faz</th>
+</tr></thead>
+<tbody>
+<tr><td><b>RAGAS</b></td><td>Métricas automáticas: faithfulness, answer_relevancy, context_precision</td></tr>
+<tr><td><b>TruLens</b></td><td>Tracing + avaliação de grounding em produção</td></tr>
+<tr><td><b>Vertex AI Grounding</b></td><td>Google força citações em URL real</td></tr>
+<tr><td><b>Bing Grounding (Azure)</b></td><td>Tool nativo para citar web</td></tr>
+<tr><td><b>Anthropic Citations API</b></td><td>Citações estruturadas garantidas pelo modelo (2024)</td></tr>
+<tr><td><b>DeepEval</b></td><td>Suite de testes incluindo hallucination + faithfulness</td></tr>
+</tbody>
+</table>
+<div class="card card-amber mt-3 text-sm">
+⚠️ <b>"Faithfulness"</b> ≠ <b>"Correctness"</b>. Resposta pode ser <b>fiel</b> ao contexto mas o <b>contexto</b> estar errado. Garantir grounding é necessário, não suficiente.
+</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #312e81 0%, #0f172a 100%)" class="text-center">
+<h1>🧬 Synthesis</h1>
+<div class="big-date animate-float">🧬</div>
+<div class="grid-3 mt-2 stagger-in">
+  <div class="card card-purple text-center"><div class="card-title">1. Retrieve</div><div class="card-desc">Buscar chunks relevantes</div></div>
+  <div class="card card-cyan text-center"><div class="card-title">2. Augment</div><div class="card-desc">Montar prompt com contexto</div></div>
+  <div class="card card-green text-center"><div class="card-title">3. Generate</div><div class="card-desc">LLM sintetiza a resposta final</div></div>
+</div>
+<div class="tip-box">Boa synthesis não copia chunks: ela <b>integra, compara e contextualiza</b> a informação recuperada.</div>
+</section>
+
+<section>
+<h1>O problema da Synthesis</h1>
+<p class="text-sm">Recuperei 20 chunks de 5 fontes. <b>E agora?</b></p>
+
+<div class="grid-3 mt-2 stagger-in">
+  <div class="card card-cyan">📄 Doc A diz: "X é 30%"</div>
+  <div class="card card-cyan">📄 Doc B diz: "X é 40%"</div>
+  <div class="card card-cyan">📄 Doc C diz: "X cresceu em 2024"</div>
+  <div class="card card-amber">📄 Doc D contradiz Doc A</div>
+  <div class="card">📄 Doc E é tangencial</div>
+  <div class="card card-purple">🧬 Synthesizer → resposta única, coerente, citando conflitos</div>
+</div>
+<div class="mt-3 text-sm">
+Synthesis ≠ Retrieval. É um <b>passo de raciocínio</b> que requer: dedup, resolução de conflito, hierarquização, citação atribuída.
+</div>
+</section>
+
+<section>
+<h1>Padrão 1 · Map-Reduce sobre documentos</h1>
+<p class="text-sm">Para muitos docs ou docs grandes — não cabem todos no contexto.</p>
+
+<div class="flow-diagram mt-2">
+  <div class="flow-node node-cyan fragment">Doc 1</div>
+  <div class="flow-node node-cyan fragment">Doc 2</div>
+  <div class="flow-node node-cyan fragment">Doc N</div>
+  <div class="flow-arrow fragment">↓</div>
+  <div class="flow-node node-green fragment">Map: extrai info relevante</div>
+  <div class="flow-arrow fragment">→</div>
+  <div class="flow-node node-purple fragment">Reduce: combina, resolve conflitos, responde</div>
+</div>
+<div class="mt-3 text-sm">
+<b>Map:</b> rodar em paralelo, barato (modelo menor). <b>Reduce:</b> modelo maior, com instruções de citação.<br>
+Variante: <b>Refine</b> — atualiza resposta incrementalmente conforme lê cada doc.
+</div>
+</section>
+
+<section>
+<h1>Padrão 2 · Resolução de conflitos</h1>
+<p class="text-sm">Quando fontes discordam, o agente <b>não pode</b> simplesmente escolher uma.</p>
+<pre><code class="language-python">SYNTH_PROMPT = &quot;&quot;&quot;Sintetize a resposta usando os trechos abaixo.
+REGRAS:
+1. Se fontes CONCORDAM, afirme com confiança e cite todas.
+2. Se fontes DISCORDAM, apresente as visões DIVERGENTES explicitamente:
+   &quot;Segundo [A], X = 30%. Já [B] reporta X = 40%.&quot;
+3. Se a divergência tem causa identificável (data, escopo), explique:
+   &quot;A diferença pode se dever a [A] ser de 2023 e [B] de 2024.&quot;
+&quot;&quot;&quot;</code></pre>
+</section>
+
+<section>
+<h1>Padrão 2 · Resolução de conflitos — continuação</h1>
+<pre><code class="language-python">SYNTH_PROMPT = &quot;&quot;&quot;
+4. NUNCA invente uma &#x27;média&#x27; entre fontes contraditórias.
+5. Cite com [doc_id] após cada afirmação.
+Trechos:
+{contexto}
+Pergunta: {pergunta}
+&quot;&quot;&quot;</code></pre>
+<div class="card card-amber mt-3 text-sm">
+⚠️ <b>Anti-padrão clássico:</b> "média de alucinações" — pegar 3 números diferentes e dar a média. Pior que escolher um.
+</div>
+</section>
+
+<section>
+<h1>Padrão 3 · Hierarchical Summarization</h1>
+<p class="text-sm">Para corpora gigantes (livros, repositórios, milhares de tickets):</p>
+
+<div class="flow-diagram mt-2">
+  <div class="flow-node node-cyan fragment">Chunks</div>
+  <div class="flow-arrow fragment">→</div>
+  <div class="flow-node node-green fragment">Sumário lvl 1</div>
+  <div class="flow-arrow fragment">→</div>
+  <div class="flow-node node-amber fragment">Sumário lvl 2</div>
+  <div class="flow-arrow fragment">→</div>
+  <div class="flow-node node-purple fragment">Resposta final<br>citando origens</div>
+</div>
+<div class="mt-3 text-sm">
+Cada nível mantém <b>ponteiros</b> para o nível anterior — assim a resposta final ainda pode citar chunks específicos.<br>
+Usado em: <b>Claude Projects</b>, <b>NotebookLM</b>, <b>Cursor codebase indexing</b>.
+</div>
+</section>
+
+<section>
+<h1>Synthesis na prática · LangChain</h1>
+<pre><code class="language-python">from langchain.chains.combine_documents import create_stuff_documents_chain
+from langchain.chains import create_retrieval_chain
+
+# 1) Map-reduce nativo
+from langchain.chains.summarize import load_summarize_chain
+chain = load_summarize_chain(llm, chain_type=&quot;map_reduce&quot;)
+
+# 2) Refine — resposta evolui doc a doc
+chain_refine = load_summarize_chain(llm, chain_type=&quot;refine&quot;)
+
+# 3) Stuff — joga tudo no contexto (só se cabe)
+chain_stuff = load_summarize_chain(llm, chain_type=&quot;stuff&quot;)</code></pre>
+<table>
+<thead><tr>
+<th>Chain type</th>
+<th>Quando usar</th>
+<th>Pro</th>
+<th>Contra</th>
+</tr></thead>
+<tbody>
+<tr><td><b>Stuff</b></td><td>Cabem todos os docs</td><td>Simples</td><td>Limitado por context window</td></tr>
+<tr><td><b>Map-Reduce</b></td><td>Muitos docs</td><td>Paralelizável</td><td>Perde contexto cross-doc</td></tr>
+<tr><td><b>Refine</b></td><td>Docs sequenciais</td><td>Mantém contexto</td><td>Sequencial, sem paralelizar</td></tr>
+</tbody>
+</table>
+</section>
+
+<section>
+<h1>🧪 Context Engineering — o novo nome do jogo</h1>
+<div class="card card-cyan mt-3 text-center text-sm"><b>Prompt engineering</b> → <b>Context engineering</b></div>
+<div class="grid-2 mt-3 text-xs">
+<div class="card card-purple"><b>📦 O que entra</b><br>System, exemplos, retrievals, memória, tool results, histórico — em qual ordem?</div>
+<div class="card card-purple"><b>🗑️ O que sai</b><br>Compressão, summarization, eviction policies e mitigação de “lost in the middle”.</div>
+<div class="card card-purple"><b>🎚️ Quanto e quando</b><br>Dynamic context: recuperar só quando precisa e gastar tokens onde importa.</div>
+<div class="card card-purple"><b>🔁 Como evolui</b><br>O contexto muda turn a turn; ele não é estático.</div>
+</div>
+<div class="card card-amber mt-3 text-xs">📚 Termos atuais: <b>Context engineering</b> (Karpathy), <b>Context rot</b> (Anthropic) e <b>Context economy</b>.</div>
+</section>
+
+<section>
+<h1>💰 Prompt Caching — 90% de economia</h1>
+<div class="tip-box mt-3 text-sm"><b>Como funciona:</b> partes <b>estáveis</b> do prompt (system, docs, exemplos) ficam cacheadas no servidor; as próximas chamadas pagam ~10% desse trecho.</div>
+<pre><code class="language-python">response = client.messages.create(
+    model=&quot;claude-sonnet-4-5&quot;,
+    system=[
+        {&quot;type&quot;: &quot;text&quot;, &quot;text&quot;: &quot;Você é um assistente legal...&quot;},
+        {&quot;type&quot;: &quot;text&quot;, &quot;text&quot;: MEGA_DOCUMENTO_50K_TOKENS,
+         &quot;cache_control&quot;: {&quot;type&quot;: &quot;ephemeral&quot;}},
+    ],
+    messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: pergunta}],
+)</code></pre>
+<div class="grid-3 mt-3 text-xs"><div class="card"><b>1ª chamada</b><br>100% do custo</div><div class="card"><b>Subsequentes</b><br>~10% do trecho cacheado</div><div class="card"><b>TTL típico</b><br>5 min (ephemeral)</div></div>
+<div class="card card-amber mt-3 text-xs">🎯 <b>Padrão:</b> conteúdo <b>estável no início</b> e <b>dinâmico no fim</b>; inverter a ordem quebra o cache.</div>
+</section>
+
+<section>
+<h1>3.5 Memória — curto vs longo prazo</h1>
+
+<div class="flow-diagram mt-2">
+  <div class="flow-node node-purple fragment">🤖 Agente</div>
+  <div class="flow-arrow fragment">→</div>
+  <div class="flow-node node-cyan fragment">💬 Short-term<br>histórico da sessão</div>
+  <div class="flow-arrow fragment">↘</div>
+  <div class="flow-node node-green fragment">💾 Long-term<br>entre sessões</div>
+  <div class="flow-arrow fragment">→</div>
+  <div class="flow-node node-amber fragment">Episódica / Semântica / Procedural</div>
+</div>
+<div class="grid-3 mt-2 stagger-in">
+  <div class="card card-cyan">Vector DB<br><span class="text-xs">resumos de sessões</span></div>
+  <div class="card card-green">Knowledge graph<br><span class="text-xs">ou vector DB</span></div>
+  <div class="card card-purple">Skills / Tools<br><span class="text-xs">código reutilizável</span></div>
+</div>
+</section>
+
+<section>
+<h1>Tipos de memória de longo prazo</h1>
+<div class="grid-3 mt-3">
+
+<div class="card">
+<div >📖</div>
+<b>Episódica</b><br>
+<span class="text-sm opacity-70">"O que aconteceu" — eventos, conversas passadas, ações tomadas.</span><br><br>
+<i class="text-xs">Ex: ChatGPT memory, Claude Projects.</i>
+</div>
+
+<div class="card">
+<div >🧠</div>
+<b>Semântica</b><br>
+<span class="text-sm opacity-70">"O que sei sobre o mundo" — fatos, preferências do usuário, contexto persistente.</span><br><br>
+<i class="text-xs">Ex: "usuário prefere respostas curtas".</i>
+</div>
+
+<div class="card">
+<div >⚙️</div>
+<b>Procedural</b><br>
+<span class="text-sm opacity-70">"Como fazer" — habilidades, ferramentas, scripts aprendidos.</span><br><br>
+<i class="text-xs">Ex: Skills do Claude, comandos custom.</i>
+</div>
+
+</div>
+</section>
+
+<section>
+<h1>Frameworks de memória persistente</h1>
+<div class="grid-2 mt-3">
+
+<div class="card card-purple">
+<b>mem0</b><br>
+<span class="text-sm">Layer de memória plug-and-play. Detecta automaticamente o que vale a pena lembrar.</span><br>
+<code class="text-xs mt-2">!pip install mem0ai openai -q</code>
+</div>
+
+<div class="card card-purple">
+<b>Zep</b><br>
+<span class="text-sm">Open source. Knowledge graph temporal + vector. Foco em produção.</span><br>
+<code class="text-xs mt-2">getzep.com</code>
+</div>
+
+<div class="card card-purple">
+<b>LangGraph + checkpoints</b><br>
+<span class="text-sm">Persiste o estado completo do agente em Postgres/Redis. Você controla tudo.</span>
+</div>
+
+<div class="card card-purple">
+<b>Letta (ex-MemGPT)</b><br>
+<span class="text-sm">Papers seminais sobre "OS para agentes" com memória hierárquica.</span>
+</div>
+
+</div>
+</section>
+
+<section>
+<h1>Exemplo: memória com mem0</h1>
+<div class="text-xs">📖 <b>Em palavras:</b> o mem0 funciona como um caderno do usuário: você grava fatos com <code>add()</code> e recupera só as memórias relevantes com <code>search()</code>.</div>
+<pre><code class="language-python">from mem0 import Memory
+m = Memory()
+user_id = &quot;alan&quot;
+m.add(&quot;Prefiro respostas em português, tom técnico&quot;, user_id=user_id)
+m.add(&quot;Trabalho com Python e TypeScript&quot;, user_id=user_id)
+m.add(&quot;Não gosto de emojis em código&quot;, user_id=user_id)</code></pre>
+</section>
+
+<section>
+<h1>Exemplo: memória com mem0 — continuação</h1>
+<pre><code class="language-python">def chat(pergunta: str):
+    memorias = m.search(pergunta, user_id=user_id, limit=5)
+    contexto = &quot;\\n&quot;.join(m[&quot;memory&quot;] for m in memorias[&quot;results&quot;])
+    return client.chat.completions.create(
+        model=&quot;gpt-4o-mini&quot;,
+        messages=[
+            {&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: f&quot;Sobre o usuário:\\n{contexto}&quot;},
+            {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: pergunta},
+        ],
+    ).choices[0].message.content
+print(chat(&quot;Me ajude a escrever uma função&quot;))</code></pre>
+<div class="card card-cyan mt-3 text-xs">✅ Resultado: ele responde em português, tom técnico e sem emojis mesmo em outra sessão.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)" class="text-center">
+<h1>🧠 Além do RAG: memória como arquitetura</h1>
+<p class="text-sm">No <b>Stanford CS329A</b>, a ideia não é só “colocar mais texto no prompt”.<br>É tratar contexto como um <b>sistema de memória</b>, com camadas e políticas.</p>
+<div class="grid-3 mt-2 stagger-in text-xs">
+  <div class="card card-purple expandable">
+    <div class="card-title">🪟 Contexto = mesa de trabalho</div>
+    <div class="card-desc">O que está aberto agora, visível para o modelo.</div>
+    <div class="card-detail">
+      <p><b>Analogia:</b> sua mesa ou aba atual do navegador.</p>
+      <p>Se você lota a mesa com tudo, fica caro, lento e confuso.</p>
     </div>
-    <div class="card card-purple parallax-card">
-      <h3>Bloco 2 — Prática &amp; Arquitetura</h3>
-      <ul class="text-sm">
-        <li>Setup Colab</li>
-        <li>Laboratório: roteador de custos</li>
-        <li>ChromaDB + filtros de acesso</li>
-        <li>Integração enterprise com MCP</li>
-        <li>Checklist para PMs</li>
-        <li>Exercícios e business case</li>
-      </ul>
+  </div>
+  <div class="card card-cyan expandable">
+    <div class="card-title">🗃️ Memória externa = armário</div>
+    <div class="card-desc">Informações ficam guardadas fora do prompt.</div>
+    <div class="card-detail">
+      <p>Pode ser Vector DB, banco relacional, arquivos, sumários ou checkpoints.</p>
+      <p>O agente busca só o que precisa, em vez de carregar tudo toda hora.</p>
     </div>
   </div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
-  <h1>🔁 Recap + bridge</h1>
-  <div class="grid-3 mt-2 text-sm">
-    <div class="card card-cyan parallax-card"><b>E1</b><br>anatomia do agente<br>+ custo por token</div>
-    <div class="card card-amber parallax-card"><b>E2</b><br>processos, HITL<br>+ governança de ação</div>
-    <div class="card card-red parallax-card"><b>Gap</b><br>o agente ainda é<br><b>amnésico</b> sobre a empresa</div>
-  </div>
-  <div class="insight-box mt-2">Pergunta do dia: <b>como dar conhecimento</b> sem abrir a porta para vazamento, oversharing ou custo explosivo?</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #0a2e1f 0%, #0f172a 100%)">
-  <h1>🧵 Fio narrativo do encontro</h1>
-  <div class="flow-diagram mt-2">
-    <div class="card card-red parallax-card">1. Amnésico</div>
-    <div class="card card-cyan parallax-card">2. Contexto controlado</div>
-    <div class="card card-green parallax-card">3. RAG seguro</div>
-    <div class="card card-purple parallax-card">4. MCP padronizado</div>
-    <div class="card card-amber parallax-card">5. Roteador por custo e segurança</div>
-  </div>
-  <div class="tip-box mt-2">Analogia: sair de um estagiário sem acesso para um diretor com <b>crachá, políticas e rotas aprovadas</b>.</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%)">
-  <h1>💸 Context window = budget de dados</h1>
-  <div class="compare-cols mt-2">
-    <div class="compare-col bad">
-      <h3>❌ Intuição errada</h3>
-      <p>“Joga tudo no prompt.”</p>
-      <ul>
-        <li>janela é finita</li>
-        <li>latência sobe</li>
-        <li>custo por requisição explode</li>
-        <li>risco de expor dado demais</li>
-      </ul>
-    </div>
-    <div class="compare-col good">
-      <h3>✅ Visão correta</h3>
-      <p>Prompt é <b>orçamento</b>.</p>
-      <ul>
-        <li>contexto deve ser mínimo</li>
-        <li>cada token precisa justificar valor</li>
-        <li>acesso segue política</li>
-        <li>menos contexto irrelevante = mais precisão</li>
-      </ul>
+  <div class="card card-green expandable">
+    <div class="card-title">⚖️ Política de memória</div>
+    <div class="card-desc">Quem entra, quem sai e quem volta para o contexto.</div>
+    <div class="card-detail">
+      <p><b>Perguntas-chave:</b> o que vale lembrar? o que pode ser resumido? o que deve ser reconsultado?</p>
+      <p>Isso é <b>context engineering</b> na prática.</p>
     </div>
   </div>
+</div>
+<div class="insight-box mt-3">📚 Fonte-guia: Stanford CS329A — memória, context management e agentes que escolhem como usar contexto.</div>
 </section>
 
-<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%)">
-  <h1>📦 Três estratégias para “dar dados” ao agente</h1>
-  <div class="grid-3 mt-2 text-sm">
-    <div class="card card-amber parallax-card"><b>Context stuffing</b><br>cola contexto fixo no prompt<br><span class="text-xs">barato, rápido, mas limitado</span></div>
-    <div class="card card-green parallax-card"><b>RAG</b><br>busca só o que importa<br><span class="text-xs">escalável e atualizável</span></div>
-    <div class="card card-purple parallax-card"><b>Fine-tuning</b><br>muda comportamento do modelo<br><span class="text-xs">caro e mais permanente</span></div>
-  </div>
-  <div class="tip-box mt-2">Analogia: stuffing = levar uma pasta; RAG = consultar o arquivo certo; fine-tuning = treinar um novo funcionário.</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #111827 0%, #0f766e 100%)">
-  <h1>📊 Decisão de negócio: qual estratégia usar?</h1>
-  <div class="slide-in-right mt-2">
-    <table>
-      <thead><tr><th>Estratégia</th><th>Custo</th><th>Latência</th><th>Atualização</th><th>Segurança</th></tr></thead>
-      <tbody>
-        <tr><td><b>Stuffing</b></td><td>💰</td><td>⚡</td><td>manual</td><td>médio</td></tr>
-        <tr><td><b>RAG</b></td><td>💰💰</td><td>⚡⚡</td><td>quase imediata</td><td>alto com filtros</td></tr>
-        <tr><td><b>Fine-tuning</b></td><td>💰💰💰💰</td><td>⚡</td><td>lenta</td><td>não resolve ACL sozinho</td></tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="insight-box mt-2">Para dados corporativos vivos, o default executivo costuma ser: <b>RAG + governança</b>.</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
-  <h1>🔍 RAG para executivos</h1>
-  <div class="card card-green parallax-card mt-2 text-sm">
-    <b>Retrieval-Augmented Generation</b> = buscar pedaços relevantes de documentos e injetar só esses trechos no prompt.
-  </div>
-  <div class="grid-2 mt-2 text-sm">
-    <div class="card card-cyan parallax-card">Valor: conhecimento atualizado <b>sem retreinar</b> o modelo.</div>
-    <div class="card card-amber parallax-card">Risco: se a base está ruim, o agente erra com muita confiança.</div>
-  </div>
-  <div class="tip-box mt-2">Analogia: o agente não “decorou” a biblioteca; ele chama um <b>bibliotecário</b> antes de responder.</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #0a2e1f 0%, #0f172a 100%)">
-  <h1>⚙️ Pipeline simplificado de RAG</h1>
-  <div class="agent-trace mt-2">
-    <div class="trace-line">documento bruto → <span class="trace-action">chunking</span></div>
-    <div class="trace-line">chunk → <span class="trace-action">embedding</span></div>
-    <div class="trace-line">embedding → <span class="trace-action">vector DB</span></div>
-    <div class="trace-line">pergunta do usuário → <span class="trace-action">busca semântica + filtros</span></div>
-    <div class="trace-line">top-k trechos → <span class="trace-result">prompt final</span></div>
-    <div class="trace-line">modelo responde com base nos trechos recuperados</div>
-  </div>
-  <div class="text-xs opacity-70 mt-2 text-center">Cada etapa é uma superfície de custo, qualidade e governança.</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%)">
-  <h1>🏦 Onde isso gera valor real</h1>
-  <div class="grid-3 mt-2 text-sm">
-    <div class="card card-green parallax-card"><b>Banco digital</b><br>FAQ interno atualizado<br><span class="text-xs">menos tickets repetitivos</span></div>
-    <div class="card card-purple parallax-card"><b>Jurídico</b><br>busca em contratos e cláusulas<br><span class="text-xs">menos tempo por revisão</span></div>
-    <div class="card card-cyan parallax-card"><b>Compliance</b><br>normas, políticas, evidências<br><span class="text-xs">mais rastreabilidade</span></div>
-  </div>
-  <div class="insight-box mt-2">Business value: manter a base viva custa menos do que reeducar o modelo toda semana.</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%)">
-  <h1>🗑️ Limitações honestas do RAG</h1>
-  <div class="grid-2 mt-2 text-sm">
-    <div class="card card-red parallax-card">
-      <b>Problemas comuns</b>
-      <ul class="text-xs">
-        <li>documento desatualizado</li>
-        <li>chunk mal cortado</li>
-        <li>metadata inconsistente</li>
-        <li>busca sem filtros</li>
-      </ul>
-    </div>
-    <div class="card card-green parallax-card">
-      <b>Mitigação</b>
-      <ul class="text-xs">
-        <li>curadoria da base</li>
-        <li>reindexação versionada</li>
-        <li>testes de retrieval</li>
-        <li>logs de acesso por consulta</li>
-      </ul>
+<section>
+<h1>🧠 MemGPT — LLMs como sistemas operacionais</h1>
+<p class="text-sm"><b>MemGPT</b> (Packer et al., 2023) propõe olhar para o agente como um <b>OS</b>:<br><b>contexto principal = RAM</b> · <b>memória externa = HD</b>.</p>
+<div class="flow-diagram mt-2">
+  <div class="flow-node node-purple fragment">Usuário fala</div>
+  <div class="flow-arrow fragment">→</div>
+  <div class="flow-node node-cyan fragment">Contexto ativo<br>“RAM”</div>
+  <div class="flow-arrow fragment">↔</div>
+  <div class="flow-node node-green fragment">Memória arquivada<br>“HD / disco”</div>
+  <div class="flow-arrow fragment">→</div>
+  <div class="flow-node node-amber fragment">Resposta</div>
+</div>
+<div class="grid-3 mt-3 text-xs stagger-in">
+  <div class="card card-cyan expandable">
+    <div class="card-title">💬 O que fica na “RAM”</div>
+    <div class="card-desc">Pergunta atual, instruções e poucos fatos críticos.</div>
+    <div class="card-detail">
+      <p>É a parte cara e limitada: tudo aqui consome tokens a cada chamada.</p>
+      <p>Por isso o agente não deve deixar “tudo aberto”.</p>
     </div>
   </div>
-  <div class="tip-box mt-2">Analogia: um buscador sobre arquivos mal catalogados só digitaliza a <b>bagunça do armário</b>.</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #111827 0%, #0f766e 100%)">
-  <h1>🔐 O problema central de governança</h1>
-  <div class="text-sm mt-2">Sem controle de acesso, o melhor RAG do mundo vira o <b>melhor mecanismo de vazamento</b> da empresa.</div>
-  <div class="grid-3 mt-2 text-sm">
-    <div class="card card-red parallax-card">Todo usuário<br>vê todo chunk</div>
-    <div class="card card-red parallax-card">Toda pergunta<br>consulta toda base</div>
-    <div class="card card-red parallax-card">Toda resposta<br>pode revelar demais</div>
-  </div>
-  <div class="insight-box mt-2">Governança em IA não começa na resposta. Começa <b>antes da busca</b>.</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
-  <h1>🏷️ Metadata filtering</h1>
-  <div class="grid-2 mt-2">
-    <div class="card card-cyan parallax-card text-sm">
-      <b>Cada chunk recebe tags</b><br>
-      <code>{departamento: "RH", nivel: "gerente+", pais: "BR"}</code>
-    </div>
-    <div class="card card-green parallax-card text-sm">
-      <b>Na consulta</b><br>
-      o sistema filtra permissões <b>antes</b> da busca semântica final.
+  <div class="card card-green expandable">
+    <div class="card-title">💾 O que vai para o “HD”</div>
+    <div class="card-desc">Histórico antigo, detalhes raros e documentos grandes.</div>
+    <div class="card-detail">
+      <p><b>Paging out:</b> tirar do contexto atual, mas guardar para recuperar depois.</p>
+      <p><b>Paging in:</b> trazer de volta quando a tarefa exigir.</p>
     </div>
   </div>
-  <div class="tip-box mt-2">Analogia: não basta achar o documento certo; é preciso confirmar se a pessoa pode <b>entrar na sala</b> onde ele está.</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #0a2e1f 0%, #0f172a 100%)">
-  <h1>🛂 RBAC aplicado ao RAG</h1>
-  <div class="agent-trace mt-2">
-    <div class="trace-line"><span class="trace-user">user:</span> “Mostre a política de bônus do board”</div>
-    <div class="trace-line"><span class="trace-system">perfil:</span> analista_junior / Finanças / BR</div>
-    <div class="trace-line"><span class="trace-action">policy_engine()</span> → permitido? <b>não</b></div>
-    <div class="trace-line"><span class="trace-action">vector_search()</span> → consulta bloqueada</div>
-    <div class="trace-line"><span class="trace-result">assistant:</span> acesso insuficiente; contate RH executivo</div>
-  </div>
-  <div class="text-xs opacity-70 mt-2 text-center">A negativa também é produto. Ela precisa ser clara, auditável e educada.</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%)">
-  <h1>🏢 Multi-tenancy e namespaces</h1>
-  <div class="grid-4 mt-2 text-xs">
-    <div class="card card-purple parallax-card"><b>Cliente A</b><br>namespace próprio</div>
-    <div class="card card-cyan parallax-card"><b>Cliente B</b><br>namespace próprio</div>
-    <div class="card card-green parallax-card"><b>RH</b><br>índice separado</div>
-    <div class="card card-amber parallax-card"><b>Jurídico</b><br>índice separado</div>
-  </div>
-  <div class="card mt-2 text-sm">Padrão recomendado: separar por <b>cliente, departamento, jurisdição e sensibilidade</b>.</div>
-  <div class="tip-box mt-2">Analogia: condomínio corporativo. Cada andar tem crachá, câmera e registro de acesso.</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%)">
-  <h1>📁 Case: 50 mil documentos, 3 níveis, 5 departamentos</h1>
-  <div class="grid-2 mt-2 text-sm">
-    <div class="card card-green parallax-card">
-      <b>Arquitetura mínima</b>
-      <ul class="text-xs">
-        <li>chunks com owner e sensibilidade</li>
-        <li>índices por domínio</li>
-        <li>policy engine central</li>
-        <li>logs por consulta e resposta</li>
-      </ul>
-    </div>
-    <div class="card card-amber parallax-card">
-      <b>Benefício executivo</b>
-      <ul class="text-xs">
-        <li>menos risco de vazamento lateral</li>
-        <li>mais confiança para escalar uso</li>
-        <li>compliance mais fácil de provar</li>
-        <li>custos previsíveis por área</li>
-      </ul>
+  <div class="card card-amber expandable">
+    <div class="card-title">🧑‍💻 Quem decide?</div>
+    <div class="card-desc">O próprio agente gerencia a memória.</div>
+    <div class="card-detail">
+      <p>Na visão do MemGPT, o LLM recebe instruções explícitas para decidir o que manter, resumir ou arquivar.</p>
+      <p>É menos “prompt gigante” e mais “gerente de memória”.</p>
     </div>
   </div>
+</div>
+<div class="tip-box mt-3">🖥️ Analogia simples: seu computador não coloca todos os arquivos na RAM; o agente bom também não.</div>
 </section>
 
-<section data-background-gradient="linear-gradient(135deg, #111827 0%, #0f766e 100%)">
-  <h1>🧭 Quando usar RAG vs fine-tuning vs prompt engineering</h1>
-  <div class="stagger-in mt-2">
-    <div class="card card-green parallax-card fragment"><b>Dados mudam sempre?</b> → <b>RAG</b></div>
-    <div class="card card-purple parallax-card fragment"><b>Quer mudar estilo, formato ou comportamento persistente?</b> → <b>Fine-tuning</b></div>
-    <div class="card card-cyan parallax-card fragment"><b>São poucas regras e poucos exemplos?</b> → <b>Prompt engineering</b></div>
-  </div>
-  <div class="insight-box mt-2">PM rule: não use fine-tuning para resolver um problema que é, na verdade, de <b>acesso a dados</b>.</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
-  <h1>🧮 Custo mensal de manutenção — visão simplificada</h1>
-  <div class="slide-in-right mt-2">
-    <table>
-      <thead><tr><th>Abordagem</th><th>Setup</th><th>Operação</th><th>Quando dói</th></tr></thead>
-      <tbody>
-        <tr><td>Prompt</td><td>baixo</td><td>baixo</td><td>escala limitada</td></tr>
-        <tr><td>RAG</td><td>médio</td><td>médio</td><td>reindexação + storage</td></tr>
-        <tr><td>Fine-tune</td><td>alto</td><td>alto</td><td>mudança frequente</td></tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="tip-box mt-2">Analogia financeira: fine-tuning é CAPEX alto; RAG é OPEX controlável; stuffing é caixa pequeno com teto baixo.</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #0a2e1f 0%, #0f172a 100%)">
-  <h1>🔌 MCP como ativo estratégico</h1>
-  <div class="card card-purple parallax-card mt-2 text-sm">
-    <b>Model Context Protocol</b> é um padrão para conectar agentes a sistemas como ERP, CRM, bancos e APIs internas.
-  </div>
-  <div class="grid-2 mt-2 text-sm">
-    <div class="card card-cyan parallax-card">Antes: integrações customizadas para cada combinação de agente e sistema.</div>
-    <div class="card card-green parallax-card">Depois: um servidor padronizado por sistema, reutilizável por vários agentes.</div>
-  </div>
-  <div class="insight-box mt-2">Analogia: <b>USB-C para IA</b>. Menos adaptadores, menos código artesanal, menos risco operacional.</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%)">
-  <h1>📉 Antes do MCP vs com MCP</h1>
-  <div class="compare-cols mt-2">
-    <div class="compare-col bad">
-      <h3>❌ Sem padrão</h3>
-      <p>N agentes × M sistemas</p>
-      <ul>
-        <li>muito código duplicado</li>
-        <li>segurança inconsistente</li>
-        <li>onboarding lento</li>
-        <li>troca de fornecedor cara</li>
-      </ul>
-    </div>
-    <div class="compare-col good">
-      <h3>✅ Com MCP</h3>
-      <p>N agentes + M servidores</p>
-      <ul>
-        <li>contrato único</li>
-        <li>telemetria padronizada</li>
-        <li>menos acoplamento</li>
-        <li>reuso entre produtos</li>
-      </ul>
+<section>
+<h1>⚡ CacheBlend &amp; Efficient RAG</h1>
+<p class="text-sm">Para RAG funcionar em produção, não basta recuperar bem — precisa ser <b>rápido</b>, <b>barato</b> e <b>repetível</b>.</p>
+<div class="flow-diagram mt-2">
+  <div class="flow-node node-purple fragment">Pergunta</div>
+  <div class="flow-arrow fragment">→</div>
+  <div class="flow-node node-cyan fragment">Retrieval</div>
+  <div class="flow-arrow fragment">→</div>
+  <div class="flow-node node-green fragment">Cache de contexto<br>/ KV / chunks</div>
+  <div class="flow-arrow fragment">→</div>
+  <div class="flow-node node-amber fragment">Fusão rápida</div>
+  <div class="flow-arrow fragment">→</div>
+  <div class="flow-node node-purple fragment">LLM</div>
+</div>
+<div class="grid-3 mt-3 text-xs stagger-in">
+  <div class="card card-purple expandable">
+    <div class="card-title">♻️ Reaproveitar o que já foi lido</div>
+    <div class="card-desc">Não recalcule tudo do zero a cada pergunta parecida.</div>
+    <div class="card-detail">
+      <p><b>Exemplo:</b> política de RH, manual da empresa e docs da API aparecem o dia inteiro.</p>
+      <p>Se esses blocos já foram processados, faz sentido cacheá-los.</p>
     </div>
   </div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%)">
-  <h1>💼 ROI executivo do MCP</h1>
-  <div class="grid-3 mt-2 text-sm">
-    <div class="card card-green parallax-card"><b>60–80%</b><br>menos código custom de integração</div>
-    <div class="card card-cyan parallax-card"><b>Mais velocidade</b><br>para plugar novos agentes</div>
-    <div class="card card-amber parallax-card"><b>Mais governança</b><br>logs e políticas centralizados</div>
-  </div>
-  <div class="card mt-2 text-sm">Exemplos: servidor MCP para <b>SAP</b>, outro para <b>Salesforce</b>, outro para <b>Postgres</b>.</div>
-  <div class="text-xs opacity-70 mt-2 text-center">Ecossistema já adotado por Claude, Cursor, GitHub Copilot e Windsurf.</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
-  <h1>🧪 Setup Colab</h1>
-  <pre><code class="language-python"># Instalação mínima para o laboratório
-!pip install openai chromadb -q
-
-# Imports principais
-import chromadb
-from collections import Counter
-from dataclasses import dataclass
-</code></pre>
-  <div class="tip-box mt-2">Sem <code>.env</code>. Vamos usar <b>dados mock</b> e simular custos para focar em arquitetura.</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #0a2e1f 0%, #0f172a 100%)">
-  <h1>🧰 Helpers base</h1>
-  <pre><code class="language-python"># Custos simulados por rota
-CUSTOS = {
-    "rag_local": 0.001,
-    "api_mercado": 0.050,
-    "llm_direto": 0.003,
-}
-
-# Perfis de acesso simplificados
-PERMISSOES = {
-    "junior": {"publico"},
-    "senior": {"publico", "interno"},
-    "diretor": {"publico", "interno", "restrito"},
-}
-</code></pre>
-  <div class="insight-box mt-2">Analogia: isso é a <b>tabela de tarifas</b> e a <b>matriz de crachás</b> do seu agente.</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%)">
-  <h1>🏗️ Laboratório: Agente Analista de Investimentos</h1>
-  <div class="grid-2 mt-2 text-sm">
-    <div class="card card-green parallax-card">
-      <b>Objetivo</b>
-      <ul class="text-xs">
-        <li>usar RAG para documentos internos</li>
-        <li>usar API para dado de mercado real-time</li>
-        <li>responder direto quando não precisa de tool</li>
-      </ul>
-    </div>
-    <div class="card card-amber parallax-card">
-      <b>Clímax</b>
-      <ul class="text-xs">
-        <li>rotear por custo</li>
-        <li>rotear por segurança</li>
-        <li>medir gasto por tipo de query</li>
-      </ul>
+  <div class="card card-cyan expandable">
+    <div class="card-title">🧩 CacheBlend = fusão eficiente</div>
+    <div class="card-desc">Mistura pedaços recuperados com cache, reduzindo recomputação.</div>
+    <div class="card-detail">
+      <p>A ideia central é: <b>reusar</b> conhecimento recuperado e recalcular só o mínimo necessário.</p>
+      <p>Resultado típico: menor <i>time-to-first-token</i> e mais throughput.</p>
     </div>
   </div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%)">
-  <h1>1️⃣ Step 1 — Base local com ChromaDB</h1>
-  <pre><code class="language-python"># Documentos mock
-DOCS = [
-    ("d1", "Política de alocação da carteira conservadora.", "publico"),
-    ("d2", "Estratégia interna para rebalanceamento trimestral.", "interno"),
-    ("d3", "Comitê aprovou limite setorial de 12% em energia.", "restrito"),
-]
-
-client = chromadb.Client()
-col = client.create_collection("investimentos")
-
-for doc_id, texto, nivel in DOCS:
-    col.add(ids=[doc_id], documents=[texto], metadatas=[{"nivel": nivel}])
-</code></pre>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #111827 0%, #0f766e 100%)">
-  <h1>2️⃣ Step 2 — Metadata filtering</h1>
-  <pre><code class="language-python">def buscar_documentos(pergunta, papel):
-    niveis = list(PERMISSOES[papel])
-    return col.query(
-        query_texts=[pergunta],
-        n_results=2,
-        where={"nivel": {"$in": niveis}},
-    )
-
-print(buscar_documentos("limite de energia", "senior"))
-# senior não deve ver conteúdo "restrito"
-</code></pre>
-  <div class="tip-box mt-2">Analogia: a busca já sai do elevador no <b>andar permitido</b>; ela nem passa na porta do board.</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
-  <h1>3️⃣ Step 3 — Router por intenção</h1>
-  <pre><code class="language-python">def classificar_rota(pergunta):
-    q = pergunta.lower()
-    if any(x in q for x in ["agora", "hoje", "tempo real", "cotação"]):
-        return "api_mercado"
-    if any(x in q for x in ["política", "comitê", "rebalanceamento"]):
-        return "rag_local"
-    return "llm_direto"
-
-print(classificar_rota("Qual a cotação do dólar agora?"))
-</code></pre>
-  <div class="insight-box mt-2">PM view: roteamento é política operacional, não truque técnico.</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #0a2e1f 0%, #0f172a 100%)">
-  <h1>4️⃣ Step 4 — Resolver pergunta com custo</h1>
-  <pre><code class="language-python">def responder(pergunta, papel="junior"):
-    rota = classificar_rota(pergunta)
-    custo = CUSTOS[rota]
-    if rota == "rag_local":
-        dados = buscar_documentos(pergunta, papel)["documents"][0]
-        return {"rota": rota, "custo": custo, "resposta": dados}
-    if rota == "api_mercado":
-        return {"rota": rota, "custo": custo, "resposta": "Cotação simulada: 5.42"}
-    return {"rota": rota, "custo": custo, "resposta": "Resposta geral do assistente"}
-</code></pre>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%)">
-  <h1>5️⃣ Step 5 — Simular 100 queries</h1>
-  <pre><code class="language-python">queries = [
-    "Explique diversificação", "Qual a cotação do dólar agora?",
-    "Mostre a política de alocação", "Qual o outlook do setor elétrico?",
-] * 25
-
-rotas = [classificar_rota(q) for q in queries]
-contagem = Counter(rotas)
-
-custo_total = sum(CUSTOS[r] for r in rotas)
-print(contagem)
-print(f"Custo total: ${custo_total:.3f}")
-</code></pre>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%)">
-  <h1>📈 Interpretação executiva dos resultados</h1>
-  <div class="grid-3 mt-2 text-sm">
-    <div class="card card-green parallax-card"><b>RAG local</b><br>baixo custo<br>bom para políticas e memória interna</div>
-    <div class="card card-amber parallax-card"><b>API real-time</b><br>alto valor<br>usar só quando necessário</div>
-    <div class="card card-cyan parallax-card"><b>LLM direto</b><br>meio-termo<br>ótimo para perguntas genéricas</div>
-  </div>
-  <div class="tip-box mt-2">Analogia: nem toda viagem pede táxi premium; às vezes metrô resolve, às vezes só uma ligação basta.</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #111827 0%, #0f766e 100%)">
-  <h1>🧾 Exemplo de relatório de custos</h1>
-  <div class="slide-in-right mt-2">
-    <table>
-      <thead><tr><th>Rota</th><th>Volume</th><th>Custo unitário</th><th>Total</th></tr></thead>
-      <tbody>
-        <tr><td>rag_local</td><td>40</td><td>$0.001</td><td>$0.040</td></tr>
-        <tr><td>llm_direto</td><td>35</td><td>$0.003</td><td>$0.105</td></tr>
-        <tr><td>api_mercado</td><td>25</td><td>$0.050</td><td>$1.250</td></tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="insight-box mt-2">Mesmo com menor volume, a rota premium domina o custo. É aí que o roteador paga o projeto.</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
-  <h1>🏛️ Arquitetura de referência enterprise</h1>
-  <div class="agent-trace mt-2">
-    <div class="trace-line">Sistemas legados → SAP | Salesforce | Postgres | SharePoint</div>
-    <div class="trace-line">⬇</div>
-    <div class="trace-line"><span class="trace-action">MCP servers</span> com autenticação, logging e políticas</div>
-    <div class="trace-line">⬇</div>
-    <div class="trace-line"><span class="trace-thought">agente orquestrador</span> decide fonte por custo e sensibilidade</div>
-    <div class="trace-line">⬇</div>
-    <div class="trace-line"><span class="trace-result">usuário</span> recebe resposta resumida e auditável</div>
-  </div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #0a2e1f 0%, #0f172a 100%)">
-  <h1>✅ Checklist para PMs: “minha empresa está pronta?”</h1>
-  <div class="grid-2 mt-2 text-sm">
-    <div class="card card-green parallax-card">
-      <ul class="text-xs">
-        <li>dados classificados por sensibilidade?</li>
-        <li>RBAC definido por sistema?</li>
-        <li>logs e auditoria habilitados?</li>
-        <li>fontes com owner claro?</li>
-      </ul>
-    </div>
-    <div class="card card-amber parallax-card">
-      <ul class="text-xs">
-        <li>SLA de atualização da base?</li>
-        <li>fluxo para negar acesso?</li>
-        <li>custos por rota monitorados?</li>
-        <li>legados têm API ou precisam de MCP?</li>
-      </ul>
+  <div class="card card-green expandable">
+    <div class="card-title">🏭 Efficient RAG na prática</div>
+    <div class="card-desc">Caching + híbrido + rerank + compressão.</div>
+    <div class="card-detail">
+      <p>RAG escalável normalmente combina: cache de consultas frequentes, busca híbrida, reranker e compressão de contexto.</p>
+      <p>Objetivo: dar resposta boa <b>sem</b> pagar a conta de um prompt monstro.</p>
     </div>
   </div>
+</div>
+<div class="insight-box mt-3">📚 Stanford CS329A enfatiza isso: retrieval útil precisa virar <b>knowledge fusion prática</b>, não só demo bonita.</div>
 </section>
 
-<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%)">
-  <h1>❓ Perguntas que o PM deve fazer ao time de engenharia</h1>
-  <div class="stagger-in mt-2 text-sm">
-    <div class="card card-cyan parallax-card fragment">Como vocês impedem que um usuário veja chunks fora do seu escopo?</div>
-    <div class="card card-purple parallax-card fragment">O filtro de acesso roda <b>antes</b> ou <b>depois</b> do retrieval?</div>
-    <div class="card card-green parallax-card fragment">Como vocês medem custo por tipo de query e por departamento?</div>
-    <div class="card card-amber parallax-card fragment">Quais integrações serão MCP e quais seguem API direta?</div>
-  </div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%)">
-  <h1>📑 Template rápido de RFP para plataforma de agentes</h1>
-  <div class="grid-2 mt-2 text-sm">
-    <div class="card card-green parallax-card">
-      <b>Capacidades mínimas</b>
-      <ul class="text-xs">
-        <li>RBAC no retrieval</li>
-        <li>metadata filtering</li>
-        <li>MCP ou padrão aberto equivalente</li>
-        <li>logs por usuário e por ferramenta</li>
-      </ul>
-    </div>
-    <div class="card card-red parallax-card">
-      <b>Red flags</b>
-      <ul class="text-xs">
-        <li>“segurança via prompt” apenas</li>
-        <li>sem custo por rota</li>
-        <li>sem exportação de logs</li>
-        <li>acoplamento forte ao fornecedor</li>
-      </ul>
+<section>
+<h1>🧩 Cartridges — conhecimento portátil</h1>
+<p class="text-sm"><b>Cartridges</b> são representações leves de contexto longo: o agente “estuda” um domínio antes e guarda um pacote reutilizável para carregar sob demanda.</p>
+<div class="grid-3 mt-2 stagger-in text-xs">
+  <div class="card card-purple expandable">
+    <div class="card-title">📚 1. Self-study offline</div>
+    <div class="card-desc">O agente lê docs, código ou um corpus inteiro antes do uso.</div>
+    <div class="card-detail">
+      <p>Em vez de reprocessar 500 páginas sempre, ele faz uma fase de estudo e destilação.</p>
+      <p>É como montar um resumo inteligente com estrutura para consulta futura.</p>
     </div>
   </div>
+  <div class="card card-cyan expandable">
+    <div class="card-title">🎮 2. Vira um “cartucho”</div>
+    <div class="card-desc">Conhecimento compactado, leve e reutilizável.</div>
+    <div class="card-detail">
+      <p><b>Analogia:</b> videogame antigo — você encaixa o cartucho certo e ganha aquele mundo.</p>
+      <p>No agente, o cartucho carrega fatos, estrutura, índices e atalhos daquele domínio.</p>
+    </div>
+  </div>
+  <div class="card card-green expandable">
+    <div class="card-title">🚀 3. Load on demand</div>
+    <div class="card-desc">Só entra no contexto quando o tema pede.</div>
+    <div class="card-detail">
+      <p>Se a pergunta é sobre jurídico, carrega o cartucho jurídico; se é sobre código, carrega o cartucho do repositório.</p>
+      <p>Menos contexto inútil, mais foco.</p>
+    </div>
+  </div>
+</div>
+<div class="card card-amber expandable mt-3 text-xs">
+  <div class="card-title">💡 Por que isso importa?</div>
+  <div class="card-desc">Cartridges tentam unir o melhor de dois mundos: profundidade de contexto e baixo custo de uso.</div>
+  <div class="card-detail">
+    <p>É uma alternativa entre <b>colar tudo no prompt</b> e <b>fazer retrieval do zero o tempo todo</b>.</p>
+    <p>No espírito do Stanford CS329A, é memória preparada para agentes que aprendem a se organizar.</p>
+  </div>
+</div>
 </section>
 
-<section data-background-gradient="linear-gradient(135deg, #111827 0%, #0f766e 100%)">
-  <h1>📝 Exercícios (1/2)</h1>
-  <div class="stagger-in mt-2 text-sm">
-    <div class="card card-green parallax-card fragment"><b>Exercício 1:</b> desenhe a arquitetura RAG da sua empresa e marque níveis de acesso.</div>
-    <div class="card card-cyan parallax-card fragment"><b>Exercício 2:</b> estime o custo mensal de um RAG com 10 mil docs e 1000 queries/dia.</div>
+<section>
+<h1>📊 Comparando arquiteturas de memória</h1>
+<div class="grid-4 mt-2 text-xs stagger-in">
+  <div class="card card-red expandable">
+    <div class="card-title">1. Sem memória</div>
+    <div class="card-desc">Cada turno começa do zero.</div>
+    <div class="card-detail">
+      <p><b>Bom para:</b> FAQs simples.</p>
+      <p><b>Quebra em:</b> personalização, continuidade e tarefas longas.</p>
+    </div>
   </div>
-  <div class="tip-box mt-2">Dica: separe custo de <b>ingestão</b>, <b>armazenamento</b>, <b>retrieval</b> e <b>resposta</b>.</div>
+  <div class="card card-amber expandable">
+    <div class="card-title">2. Curto prazo</div>
+    <div class="card-desc">Só o histórico da conversa atual.</div>
+    <div class="card-detail">
+      <p><b>Bom para:</b> chats curtos.</p>
+      <p><b>Problema:</b> esquece entre sessões e sofre com context window.</p>
+    </div>
+  </div>
+  <div class="card card-green expandable">
+    <div class="card-title">3. Longo prazo</div>
+    <div class="card-desc">Vector DB / memória persistente entre sessões.</div>
+    <div class="card-detail">
+      <p><b>Bom para:</b> preferências, fatos do usuário e documentos externos.</p>
+      <p><b>Problema:</b> ainda depende de retrieval certo e não decide sozinho o que “sai da RAM”.</p>
+    </div>
+  </div>
+  <div class="card card-purple expandable">
+    <div class="card-title">4. Hierárquica (MemGPT-style)</div>
+    <div class="card-desc">Contexto ativo + memória externa + política de paginação.</div>
+    <div class="card-detail">
+      <p><b>Bom para:</b> agentes persistentes, longos e mais autônomos.</p>
+      <p><b>Trade-off:</b> exige orquestração melhor, mas escala muito melhor que “prompt infinito”.</p>
+    </div>
+  </div>
+</div>
+<div class="flow-diagram mt-3">
+  <div class="flow-node node-red fragment">Zero memória</div>
+  <div class="flow-arrow fragment">→</div>
+  <div class="flow-node node-amber fragment">Histórico local</div>
+  <div class="flow-arrow fragment">→</div>
+  <div class="flow-node node-green fragment">Memória persistente</div>
+  <div class="flow-arrow fragment">→</div>
+  <div class="flow-node node-purple fragment">Memória hierárquica</div>
+</div>
+<div class="tip-box mt-3">🎯 Regra prática para iniciantes: comece com <b>curto prazo + RAG</b>; evolua para <b>memória hierárquica</b> quando o agente precisar durar muito e decidir melhor o que lembrar.</div>
 </section>
 
-<section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
-  <h1>📝 Exercícios (2/2)</h1>
-  <div class="stagger-in mt-2 text-sm">
-    <div class="card card-purple parallax-card fragment"><b>Exercício 3:</b> liste 5 sistemas da sua empresa que se beneficiariam de um servidor MCP.</div>
-    <div class="card card-amber parallax-card fragment"><b>Bônus:</b> monte o business case para migrar 3 integrações custom para MCP.</div>
-  </div>
-  <div class="insight-box mt-2">Pergunta de board: <b>quanto tempo e risco eu removo</b> ao trocar integração artesanal por padrão?</div>
+<section data-background-gradient="linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%)" class="text-center">
+<h1>🔧 Parte 2: Habilidades e colaboração</h1>
+<p class="text-sm">O agente já tem <b>memória</b> e <b>conhecimento externo</b> (RAG).<br>Agora vamos dar a ele <b>habilidades permanentes</b> — e a capacidade de <b>trabalhar em equipe</b>.</p>
+<div class="insight-box fragment">Skills, MCP, e padrões multi-agente.</div>
 </section>
 
-<section data-background-gradient="linear-gradient(135deg, #0a2e1f 0%, #0f172a 100%)">
-  <h1>🔚 Recap final + ponte para o Encontro 4</h1>
-  <div class="grid-3 mt-2 text-sm">
-    <div class="card card-green parallax-card"><b>Hoje</b><br>RAG seguro<br>+ roteamento de custos</div>
-    <div class="card card-cyan parallax-card"><b>Enterprise</b><br>MCP + legados<br>+ governança</div>
-    <div class="card card-red parallax-card"><b>Próximo</b><br>o que fazer quando o agente <b>erra</b> em produção?</div>
-  </div>
-  <div class="insight-box mt-2">Preview E4: auditoria, red teaming, avaliação e métricas. Seu agente já tem dados — agora ele precisa ser <b>observável e confiável</b>.</div>
+<section>
+<h1>3.6 Skills — capacidades reutilizáveis</h1>
+<p class="text-sm">📅 Lançado pela Anthropic em <b>outubro/2025</b>.</p>
+<p class="text-sm"><b>Conceito:</b> uma "skill" é uma <b>pasta</b> com:</p>
+<ul><li class="fragment">Um <code>SKILL.md</code> descrevendo o que faz e quando usar</li><li class="fragment">Scripts auxiliares (Python, bash)</li><li class="fragment">Templates, dados, recursos</li></ul>
+<p class="text-sm">O agente <b>descobre</b> skills disponíveis e <b>carrega só o necessário</b> quando relevante.</p>
+<pre><code class="language-text">~/.claude/skills/
+├── pdf-extractor/
+│   ├── SKILL.md          ← &quot;use isto para extrair texto de PDFs&quot;
+│   └── extract.py
+├── jira-integration/
+│   ├── SKILL.md
+│   └── jira_client.py
+└── excel-formatter/
+    ├── SKILL.md
+    └── format.py</code></pre>
+</section>
+
+<section>
+<h1>Skills vs Tools — qual a diferença?</h1>
+<div class="grid-2 mt-3 text-xs">
+<div class="card card-cyan"><div >🛠️ Tool</div><b>Sempre disponível</b><br>Schema JSON fixo<br>1 função = 1 tool<br>Ocupa contexto mesmo parada</div>
+<div class="card card-purple"><div >🎓 Skill</div><b>Carrega sob demanda</b><br>Pode trazer docs e scripts<br>1 skill = competência inteira<br>Quase zero overhead</div>
+</div>
+<div class="card card-amber mt-3 text-xs">💡 <b>Analogia:</b> tool é função da biblioteca padrão; skill é um pacote especializado que você só carrega quando precisa.</div>
+</section>
+
+<section>
+<h1>3.7 MCP — Model Context Protocol</h1>
+<p class="text-sm">📅 Lançado pela <b>Anthropic em novembro/2024</b>. Adotado por OpenAI, Google e a maioria dos frameworks em 2025.</p>
+<div class="card card-cyan mt-3 text-center">
+<div >
+MCP é o <b>"USB-C"</b> dos agentes:<br>
+um protocolo padrão para conectar LLMs a <b>qualquer</b> fonte de dados ou ferramenta.
+</div>
+</div>
+<div class="grid-2 mt-3 text-sm">
+
+<div class="card card-red">
+<b>Antes do MCP:</b><br>
+Cada framework (LangChain, LlamaIndex, CrewAI…) tinha sua API de tools.<br>
+Integrar com Slack? 5 implementações diferentes.
+</div>
+
+<div class="tip-box">
+<b>Com MCP:</b><br>
+1 servidor MCP do Slack → funciona em <b>todos</b> os agentes/clientes que falam MCP.<br>
+Hoje: Claude Desktop, Cursor, VS Code, Cline, Continue…
+</div>
+
+</div>
+</section>
+
+<section>
+<h1>MCP — arquitetura</h1>
+
+<div class="flow-diagram mt-2">
+  <div class="flow-node node-purple fragment">Claude Desktop / Cursor / Seu app</div>
+  <div class="flow-arrow fragment">→</div>
+  <div class="flow-node node-cyan fragment">Filesystem</div>
+  <div class="flow-node node-cyan fragment">GitHub</div>
+  <div class="flow-node node-cyan fragment">Postgres</div>
+  <div class="flow-node node-cyan fragment">Slack</div>
+  <div class="flow-node node-amber fragment">Custom seu</div>
+</div>
+<div class="mt-3 text-xs">Comunicação por <b>JSON-RPC</b> (stdio local ou HTTP/SSE remoto). Cada servidor expõe <b>tools</b>, <b>resources</b> e <b>prompts</b>.</div>
+</section>
+
+<section>
+<h1>MCP em ação — servidor mínimo (Python)</h1>
+<pre><code class="language-python">from mcp.server.fastmcp import FastMCP
+mcp = FastMCP(&quot;minha-calculadora&quot;)
+@mcp.tool()
+def somar(a: int, b: int) -&gt; int:
+    &quot;&quot;&quot;Soma dois números inteiros.&quot;&quot;&quot;
+    return a + b</code></pre>
+</section>
+
+<section>
+<h1>MCP em ação — servidor mínimo (Python) — continuação</h1>
+<pre><code class="language-python">@mcp.tool()
+def multiplicar(a: int, b: int) -&gt; int:
+    &quot;&quot;&quot;Multiplica dois números inteiros.&quot;&quot;&quot;
+    return a * b
+if __name__ == &quot;__main__&quot;:
+    mcp.run()</code></pre>
+<div class="card card-cyan mt-3 text-sm">
+Pronto. Esse servidor funciona em <b>Claude Desktop</b>, <b>Cursor</b>, <b>VS Code Copilot</b>, ou qualquer cliente MCP, sem mudar uma linha. <b>Esse é o ponto</b>.
+</div>
+</section>
+
+<section>
+<h1>Ecossistema MCP — alguns servidores prontos</h1>
+<div class="grid-3 text-sm">
+
+<div class="card"><b>filesystem</b> · ler/escrever arquivos</div>
+<div class="card"><b>github</b> · issues, PRs, código</div>
+<div class="card"><b>postgres / sqlite</b> · queries SQL</div>
+<div class="card"><b>slack</b> · mensagens, canais</div>
+<div class="card"><b>brave-search</b> · busca web</div>
+<div class="card"><b>puppeteer</b> · navegação automatizada</div>
+<div class="card"><b>memory</b> · KV store persistente</div>
+<div class="card"><b>fetch</b> · HTTP requests</div>
+<div class="card"><b>google-drive</b> · arquivos GDrive</div>
+
+</div>
+<div class="mt-3 text-center text-sm opacity-70">
+Lista oficial: <a href="https://github.com/modelcontextprotocol/servers">github.com/modelcontextprotocol/servers</a> — centenas de servidores comunitários.
+</div>
+</section>
+
+<section>
+<h1>3.8 Padrões multi-agente</h1>
+
+<div class="grid-3 mt-2">
+  <div class="card card-purple fragment"><b>1. Supervisor / Orchestrator</b><div class="flow-diagram mt-1"><div class="flow-node node-purple">Supervisor</div><div class="flow-arrow">→</div><div class="flow-node node-cyan">A / B / C</div></div></div>
+  <div class="card card-cyan fragment"><b>2. Handoff / Swarm</b><div class="flow-diagram mt-1"><div class="flow-node node-cyan">Agente 1</div><div class="flow-arrow">→</div><div class="flow-node node-green">Agente 2</div><div class="flow-arrow">→</div><div class="flow-node node-amber">Agente 3</div></div></div>
+  <div class="card card-green fragment"><b>3. Hierárquico</b><div class="flow-diagram mt-1"><div class="flow-node node-purple">CEO</div><div class="flow-arrow">→</div><div class="flow-node node-cyan">Managers</div><div class="flow-arrow">→</div><div class="flow-node node-green">Workers</div></div></div>
+</div>
+</section>
+
+<section>
+<h1>Quando usar multi-agente?</h1>
+<div class="grid-2 mt-3 text-xs">
+<div class="tip-box"><div >✅ Use quando</div>Fases bem diferentes<br>Prompts/contextos distintos<br>Especialistas com tools próprias<br>Paralelismo gera ganho real</div>
+<div class="card card-red"><div >❌ Evite quando</div>Um agente resolve sozinho<br>Latência é crítica<br>Custo precisa ser previsível<br>Você nem mediu o benefício</div>
+</div>
+<div class="card card-amber mt-3 text-xs">🎯 <b>Regra prática:</b> single-agent com bom contexto costuma vencer; só vá de multi-agent quando a tarefa realmente pedir especialização ou paralelismo.</div>
+</section>
+
+<section>
+<h1>Frameworks multi-agente</h1>
+<div class="grid-2 mt-3">
+
+<div class="card card-purple">
+<b>CrewAI</b><br>
+<span class="text-sm">"Crew" de agentes com roles (researcher, writer, reviewer). Sintaxe declarativa.</span>
+</div>
+
+<div class="card card-purple">
+<b>AutoGen (Microsoft)</b><br>
+<span class="text-sm">Agentes conversam entre si. Forte em geração de código colaborativa.</span>
+</div>
+
+<div class="card card-purple">
+<b>LangGraph (multi-agent)</b><br>
+<span class="text-sm">Cada nó do grafo = 1 agente. Controle total, padrão moderno.</span>
+</div>
+
+<div class="card card-purple">
+<b>OpenAI Swarm / Agents SDK</b><br>
+<span class="text-sm">Handoffs leves entre agentes. Lançado em 2024.</span>
+</div>
+
+</div>
+</section>
+
+<section>
+<h1>Exemplo: Crew com CrewAI</h1>
+<div class="text-sm">
+📖 <b>Em palavras:</b> imagine uma <b>equipe de funcionários</b>. Cada <code>Agent</code> tem um cargo (role), um objetivo e um "currículo" (backstory) — isso vira parte do prompt dele. Cada <code>Task</code> é uma entrega esperada, atribuída a um agente. O <code>Crew</code> orquestra: o pesquisador entrega, o escritor pega o resultado dele como contexto e produz o artigo. <b>Divisão de trabalho automatizada.</b>
+</div>
+<pre><code class="language-python">from crewai import Agent, Task, Crew
+pesquisador = Agent(
+    role=&quot;Pesquisador&quot;,
+    goal=&quot;Encontrar informações precisas sobre o tema&quot;,
+    backstory=&quot;Você é um analista meticuloso.&quot;,
+    tools=[busca_web, leitor_pdf],
+)
+escritor = Agent(
+    role=&quot;Escritor técnico&quot;,
+    goal=&quot;Transformar pesquisa em artigo claro&quot;,
+    backstory=&quot;Você escreve para devs juniores.&quot;,
+)</code></pre>
+</section>
+
+<section>
+<h1>Exemplo: Crew com CrewAI — continuação</h1>
+<pre><code class="language-python">t1 = Task(description=&quot;Pesquise tudo sobre {tema}&quot;, agent=pesquisador)
+t2 = Task(description=&quot;Escreva artigo de 500 palavras baseado na pesquisa&quot;,
+          agent=escritor, context=[t1])
+crew = Crew(agents=[pesquisador, escritor], tasks=[t1, t2])
+print(crew.kickoff(inputs={&quot;tema&quot;: &quot;agentes de IA&quot;}))</code></pre>
+</section>
+
+<section>
+<h1>3.9 Hands-on integrado — agente com RAG + memória</h1>
+<pre><code class="language-python"># 📋 Execute no Google Colab — copie e cole
+# Célula 1: Setup
+!pip install langgraph langchain langchain-openai langchain-chroma chromadb openai -q
+import os
+from typing import Annotated, TypedDict
+from langchain_openai import ChatOpenAI
+from langchain_core.messages import SystemMessage
+from langgraph.graph.message import add_messages
+
+# Cole sua chave aqui (ou use Colab Secrets)
+os.environ["OPENAI_API_KEY"] = "sk-..."  # ← substitua pela sua chave
+llm = ChatOpenAI(model="gpt-4o-mini")
+
+from langgraph.graph import StateGraph, END
+from langgraph.checkpoint.sqlite import SqliteSaver
+# ... imports do RAG (Chroma, embeddings)
+class State(TypedDict):
+    messages: Annotated[list, add_messages]
+    context_docs: list[str]
+def retrieve_node(state):
+    q = state[&quot;messages&quot;][-1].content
+    docs = retriever.invoke(q)
+    return {&quot;context_docs&quot;: [d.page_content for d in docs]}</code></pre>
+</section>
+
+<section>
+<h1>3.9 Hands-on integrado — continuação</h1>
+<pre><code class="language-python">def agent_node(state):
+    sys = f&quot;Use APENAS este contexto:\\n{state[&#x27;context_docs&#x27;]}&quot;
+    msgs = [SystemMessage(sys)] + state[&quot;messages&quot;]
+    return {&quot;messages&quot;: [llm.invoke(msgs)]}
+graph = StateGraph(State)
+graph.add_node(&quot;retrieve&quot;, retrieve_node)
+graph.add_node(&quot;agent&quot;, agent_node)
+graph.set_entry_point(&quot;retrieve&quot;)
+graph.add_edge(&quot;retrieve&quot;, &quot;agent&quot;)
+graph.add_edge(&quot;agent&quot;, END)
+memory = SqliteSaver.from_conn_string(&quot;checkpoints.db&quot;)
+app = graph.compile(checkpointer=memory)</code></pre>
+<div class="card card-cyan mt-3 text-xs">💾 Aqui o RAG busca contexto por turno e o <code>SqliteSaver</code> mantém memória persistente entre execuções.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #3b0764 0%, #0f172a 100%)" class="text-center">
+<h1>🏋️ 3.10 Exercícios — Encontro 3</h1>
+<div class="meta-info"><span class="badge">5 atividades</span><span class="badge">Memória</span><span class="badge">RAG</span><span class="badge">Skills</span><span class="badge">Multi-agente</span></div>
+</section>
+
+<section>
+<h1>Exercício 3.1 · RAG sobre seus próprios docs</h1>
+<div class="card card-purple">
+
+<b>Tarefa:</b> monte um RAG sobre <b>3-5 PDFs ou Markdowns reais</b> (manual técnico, artigos, sua tese, qualquer coisa).
+
+<b>Requisitos:</b>
+<ul class="text-xs mt-1">
+<li>Use Chroma local</li>
+<li>Chunking de 500 tokens com overlap de 50</li>
+<li>Top-K = 4</li>
+<li>Mostre os documentos recuperados antes da resposta</li>
+</ul>
+
+<b>Teste com 5 perguntas:</b>
+<ul class="text-xs mt-1">
+<li>2 fáceis (estão literais no doc)</li>
+<li>2 difíceis (exigem síntese de 2+ trechos)</li>
+<li>1 "pegadinha" (não está no doc — o agente deve dizer "não sei")</li>
+</ul>
+
+</div>
+</section>
+
+<section>
+<h1>Exercício 3.2 · Memória entre sessões</h1>
+<div class="card card-purple">
+
+<b>Tarefa:</b> use <b>mem0</b> ou <b>LangGraph + SqliteSaver</b> para criar um chat que <b>lembra</b> do usuário entre execuções.
+
+<b>Cenário:</b>
+<ol class="text-xs mt-1">
+<li>Sessão 1: usuário diz "me chamo Maria, sou engenheira de dados, prefiro Python"</li>
+<li>Encerre o programa</li>
+<li>Sessão 2 (novo <code>python script.py</code>): pergunta "qual minha profissão?"</li>
+</ol>
+
+O agente deve responder corretamente <b>sem</b> receber a info novamente.
+
+</div>
+</section>
+
+<section>
+<h1>Exercício 3.3 · Crie um MCP server</h1>
+<div class="card card-purple">
+
+<b>Tarefa:</b> crie um servidor MCP simples que expõe <b>2 ferramentas</b> úteis:
+
+<ol class="text-xs mt-1">
+<li><code>listar_arquivos(diretorio: str)</code> — lista arquivos de um diretório</li>
+<li><code>contar_linhas(caminho_arquivo: str)</code> — conta linhas de um arquivo</li>
+</ol>
+
+<b>Conecte ao Claude Desktop</b> (ou Cursor) editando o <code>claude_desktop_config.json</code>.
+
+<b>Teste:</b> pergunte ao Claude "quantas linhas tem o maior arquivo .py da pasta X?"
+
+<b>O que isso ensina:</b> seu agente passa a ter ferramentas custom em <b>qualquer cliente MCP</b>, não só num script Python.
+
+</div>
+</section>
+
+<section>
+<h1>Exercício 3.4 · Crew de 2 agentes</h1>
+<div class="card card-purple">
+
+<b>Tarefa:</b> use <b>CrewAI</b> ou <b>LangGraph</b> para montar:
+
+<ul class="text-xs mt-1">
+<li><b>Agente 1 — Pesquisador:</b> recebe um tema, faz 3 buscas web, retorna fatos</li>
+<li><b>Agente 2 — Crítico:</b> recebe os fatos, avalia se são confiáveis, marca os duvidosos</li>
+</ul>
+
+<b>Teste:</b> <i>"Quais foram os 3 maiores avanços em IA em 2025?"</i>
+
+<b>Análise:</b> compare com a resposta de um único agente fazendo a mesma tarefa. O multi-agente foi melhor? Pior? Mais caro?
+
+</div>
+</section>
+
+<section>
+<h1>Exercício 3.5 · Análise de context window</h1>
+<div class="card card-cyan">
+
+<b>Tarefa de análise (sem código obrigatório):</b>
+
+Escolha um agente real que você usa (Cursor, Claude Code, ChatGPT, etc) e responda:
+
+<ol class="text-xs mt-1">
+<li>Qual a janela de contexto do modelo subjacente?</li>
+<li>Como ele lida com <b>históricos longos</b> (você já viu o "histórico antigo" sumir)?</li>
+<li>Ele usa <b>RAG</b>? Em que parte (busca no seu código? em docs?)</li>
+<li>Tem memória <b>entre sessões</b>? Como ela funciona (na sua percepção)?</li>
+<li>Que <b>falhas de contexto</b> você já viu? (Ex: "esqueceu" algo que você disse no início.)</li>
+</ol>
+
+Escreva 1 página. Será discutido no Encontro 4.
+
+</div>
+</section>
+
+<section>
+<h1>🌐 Mercado: RAG, grounding &amp; memória</h1>
+<div class="grid-2 text-xs">
+<div class="card card-purple"><b>🗄️ Vector DBs líderes</b><br>Pinecone · Weaviate · Qdrant · Chroma · pgvector (Supabase/Neon) · Turbopuffer · LanceDB · Elasticsearch/OpenSearch</div>
+<div class="card card-cyan"><b>🔎 RAG-as-a-service / search</b><br>Exa · Tavily · Perplexity API · You.com API · Brave Search API · Azure AI Search · Vertex AI Search</div>
+<div class="tip-box"><b>🧠 Memória para agentes</b><br>Mem0 · Letta (ex-MemGPT) · Zep · ChatGPT Memory · Claude Projects · Cursor codebase indexing</div>
+<div class="card card-amber"><b>📦 Casos reais</b><br>Notion AI Q&A · Glean (US$ 4,6B) · Harvey · Perplexity · Klarna usando RAG sobre políticas</div>
+</div>
+<div class="card card-blue mt-3 text-xs">🧩 <b>Analogia:</b> a <b>Glean</b> é o “Google interno da empresa” — grounding sobre Slack, Drive, Jira e Confluence. Esse é o produto-tipo de 2025.</div>
+</section>
+
+<section>
+<h1>📚 Referências públicas — Encontro 3 (1/2)</h1>
+<div class="grid-2 text-xs mt-3">
+<div class="card card-purple"><b>RAG & Context</b><ul class="mt-1"><li>Lewis et al. (2020) — <i>RAG for Knowledge-Intensive NLP</i> · <a href="https://arxiv.org/abs/2005.11401">arXiv:2005.11401</a></li><li>Gao et al. (2022) — <i>HyDE</i> · <a href="https://arxiv.org/abs/2212.10496">arXiv:2212.10496</a></li><li>Liu et al. (2023) — <i>Lost in the Middle</i> · <a href="https://arxiv.org/abs/2307.03172">arXiv:2307.03172</a></li><li>Gao et al. (2024) — <i>RAG Survey</i> · <a href="https://arxiv.org/abs/2312.10997">arXiv:2312.10997</a></li></ul></div>
+<div class="card card-cyan"><b>Grounding & Attribution</b><ul class="mt-1"><li>Rashkin et al. (2023) — <i>Measuring Attribution in NLG</i> · <a href="https://aclanthology.org/2023.cl-4.2/">aclanthology.org/2023.cl-4.2</a></li><li>Bohnet et al. (2022) — <i>Attributed QA</i> · <a href="https://arxiv.org/abs/2212.08037">arXiv:2212.08037</a></li><li>Anthropic (2024) — <i>Citations API</i> · <a href="https://docs.anthropic.com/en/docs/build-with-claude/citations">docs.anthropic.com</a></li></ul></div>
+</div>
+</section>
+
+<section>
+<h1>📚 Referências públicas — Encontro 3 (2/2)</h1>
+<div class="grid-2 text-xs mt-3">
+<div class="tip-box"><b>Memória & Skills</b><ul class="mt-1"><li>Stanford CS329A — <i>Self-Improving AI Agents</i> · <a href="https://stanford-cs329a.github.io/">stanford-cs329a.github.io</a></li><li>Packer et al. (2023) — <i>MemGPT</i> · <a href="https://arxiv.org/abs/2310.08560">arXiv:2310.08560</a></li><li>Park et al. (2023) — <i>Generative Agents</i> · <a href="https://arxiv.org/abs/2304.03442">arXiv:2304.03442</a></li><li>Anthropic (2024) — <i>Prompt Caching</i> · <a href="https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching">docs.anthropic.com</a></li><li>Anthropic (2024) — <i>MCP Specification</i> · <a href="https://modelcontextprotocol.io/">modelcontextprotocol.io</a></li></ul></div>
+<div class="card card-amber"><b>Multi-agente & Frameworks</b><ul class="mt-1"><li>CacheBlend (2024) — <i>Fast LLM Serving for RAG with Cached Knowledge Fusion</i> · <a href="https://arxiv.org/abs/2405.16444">arXiv:2405.16444</a></li><li>Wu et al. (2023) — <i>AutoGen</i> · <a href="https://arxiv.org/abs/2308.08155">arXiv:2308.08155</a></li><li>CrewAI Docs · <a href="https://docs.crewai.com/">docs.crewai.com</a></li><li>Chroma · <a href="https://docs.trychroma.com/">docs.trychroma.com</a> · Qdrant · <a href="https://qdrant.tech/documentation/">qdrant.tech</a> · pgvector · <a href="https://github.com/pgvector/pgvector">github.com/pgvector</a></li></ul></div>
+</div>
+<div class="mt-2 text-xs opacity-70">Todo conteúdo deste encontro é de domínio público. Marcas mencionadas pertencem aos respectivos donos; uso exclusivamente educacional.</div>
+</section>
+
+<section>
+<h1>🔄 Recap — O que construímos no Encontro 3</h1>
+<div class="grid-2 text-xs">
+<div class="card card-purple"><b>📜 Evolução</b><br>2020: paper RAG · 2023: vector DBs explodem · 2024: MCP · 2025: multi-agentes em produção.</div>
+<div class="card card-cyan"><b>🔧 O que você sabe fazer</b><br>Gerenciar contexto, construir RAG, implementar memória, criar Skills/MCP e orquestrar multi-agentes.</div>
+<div class="tip-box"><b>🏢 Produtos que usam isso</b><br>Perplexity, NotebookLM, Claude Projects e GitHub Copilot mostram RAG, grounding, memória e extensibilidade em ação.</div>
+<div class="card card-amber"><b>❓ Perguntas abertas</b><br>Como agentes falham em produção, como medi-los e quais produtos estão vencendo — tudo isso entra no Encontro 4.</div>
+</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #0a2e1f 0%, #0f172a 100%)" class="text-center">
+<h1>✅ Fim do Encontro 3</h1>
+<div class="stagger-in mt-2" style="text-align: left; max-width: 700px; margin: 0 auto;">
+<div class="card card-green fragment" style="padding: 0.6rem 1rem; margin-bottom: 0.4rem;">✅ Gerenciar context window (truncate, summarize, RAG)</div>
+<div class="card card-green fragment" style="padding: 0.6rem 1rem; margin-bottom: 0.4rem;">✅ Construir um pipeline RAG completo</div>
+<div class="card card-green fragment" style="padding: 0.6rem 1rem; margin-bottom: 0.4rem;">✅ Implementar memória de longo prazo</div>
+<div class="card card-green fragment" style="padding: 0.6rem 1rem; margin-bottom: 0.4rem;">✅ Conceituar e criar Skills + MCP</div>
+<div class="card card-green fragment" style="padding: 0.6rem 1rem; margin-bottom: 0.4rem;">✅ Orquestrar multi-agentes (e quando NÃO usar)</div>
+</div>
+<div class="card card-cyan mt-3 text-center"><div class="card-title">Próximo: Encontro 4 — Problemas Comuns &amp; State-of-the-Art</div><div class="card-desc">Onde tudo isso encontra a <i>realidade</i>: falhas, custos, e os produtos que estão ganhando o mercado.</div></div>
 </section>
