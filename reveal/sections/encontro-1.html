@@ -1302,42 +1302,120 @@ JSON: {"decisao": "aprovado|rejeitado", "valor": float,
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #1f2937 100%)">
-<h1>Anatomia de uma mensagem — os 4 papéis</h1>
-<div  class="text-sm">Todo agente conversa em mensagens tipadas. Se você entender estas 4, já evita a maioria dos bugs.</div>
+<h1>🗣️ A linguagem secreta dos agentes — os 4 papéis</h1>
+<div class="text-sm">Imagine uma sala de reunião onde cada pessoa tem um papel fixo. Todo agente conversa assim — se você dominar estes 4 papéis, <b>consegue debugar qualquer agente</b> lendo o histórico de mensagens.</div>
 
-<div  class="grid-2 stagger-in text-xs">
-<div  class="card card-purple parallax-card scale-in"><b>system</b><br>Instruções do desenvolvedor.<pre class="text-[10px] mt-1"><code>{"role":"system","content":"Você é..."}</code></pre></div>
-<div  class="card card-cyan parallax-card scale-in"><b>user</b><br>Input humano ou externo.<pre class="text-[10px] mt-1"><code>{"role":"user","content":"Qual o PIB?"}</code></pre></div>
-<div  class="card card-green parallax-card scale-in"><b>assistant</b><br>Resposta do LLM ou pedido de tool.<pre class="text-[10px] mt-1"><code>{"role":"assistant","tool_calls":[...]}</code></pre></div>
-<div  class="card card-cyan parallax-card scale-in"><b>tool</b><br>Resultado da ferramenta.<pre class="text-[10px] mt-1"><code>{"role":"tool","tool_call_id":"c1","content":"..."}</code></pre></div>
+<div class="flow-diagram mt-2">
+<div class="flow-node node-purple">🧑‍💼 system</div>
+<div class="flow-arrow">→</div>
+<div class="flow-node node-cyan">👤 user</div>
+<div class="flow-arrow">→</div>
+<div class="flow-node node-green">🤖 assistant</div>
+<div class="flow-arrow">↔</div>
+<div class="flow-node node-amber">🔧 tool</div>
 </div>
 
-<div  class="mt-3 text-xs opacity-70" style="opacity:0.7;">Fluxo central: <code>assistant(tool_call) → tool(result) → assistant(...)</code>.</div>
+<div class="grid-2 stagger-in text-xs" style="gap:0.5rem; margin-top:0.8rem;">
+<div class="card card-purple parallax-card scale-in" style="padding:0.6rem;">
+<b>system</b> — O "briefing" do chefe
+<p style="margin:0.3rem 0 0;">Define quem o agente é, o que pode/não pode fazer, tom de voz. O usuário <b>nunca vê</b> esta mensagem.</p>
+<pre class="text-[10px] mt-1"><code>{"role":"system","content":"Você é um assistente financeiro. Nunca recomende ações específicas."}</code></pre>
+</div>
+<div class="card card-cyan parallax-card scale-in" style="padding:0.6rem;">
+<b>user</b> — A demanda do cliente
+<p style="margin:0.3rem 0 0;">Pode vir de um humano real OU de outro sistema (API, scheduler). O agente não distingue.</p>
+<pre class="text-[10px] mt-1"><code>{"role":"user","content":"Qual o saldo da minha conta?"}</code></pre>
+</div>
+<div class="card card-green parallax-card scale-in" style="padding:0.6rem;">
+<b>assistant</b> — O cérebro decidindo
+<p style="margin:0.3rem 0 0;">Pode responder diretamente OU pedir para usar uma tool. Essa decisão é o coração do agente.</p>
+<pre class="text-[10px] mt-1"><code>{"role":"assistant","tool_calls":[{"function":{"name":"consultar_saldo","arguments":"{\"cpf\":\"123\"}"}}]}</code></pre>
+</div>
+<div class="card card-amber parallax-card scale-in" style="padding:0.6rem;">
+<b>tool</b> — O mundo real respondendo
+<p style="margin:0.3rem 0 0;">Resultado da execução da ferramenta. O agente lê isso e decide: responder ao user ou chamar outra tool.</p>
+<pre class="text-[10px] mt-1"><code>{"role":"tool","tool_call_id":"c1","content":"{\"saldo\": 4250.00, \"moeda\": \"BRL\"}"}</code></pre>
+</div>
+</div>
+
+<div class="tip-box" style="margin-top:0.6rem;">
+💡 <b>Dica de debug:</b> Quando um agente faz algo errado, imprima o array de mensagens. Em 90% dos casos, o problema está visível: system vago, tool retornando erro que o assistant ignora, ou contexto que excedeu a janela.
+</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
-<h1>Estado: o que <strong>flui</strong> entre iterações</h1>
-<p>Diferente de uma chamada LLM solta, um agente carrega <strong>estado acumulado</strong>:</p>
-<div  class="grid-2 stagger-in text-sm">
-<div  class="card parallax-card scale-in"><b>Estado explícito</b><br><span class="text-xs">Histórico, tool calls, resultados, scratchpad e system prompt.</span></div>
-<div  class="card parallax-card scale-in"><b>Estado implícito</b><br><span class="text-xs">Iterações, custo, sessões abertas, cache e observabilidade.</span></div>
+<h1>🧠 Estado: a "memória de trabalho" do agente</h1>
+<p class="text-sm">Uma chamada de API é <b>stateless</b> — pergunta e resposta. Um agente é <b>stateful</b> — ele acumula contexto a cada iteração, como um humano que vai anotando numa prancheta enquanto trabalha.</p>
+
+<div class="grid-2 stagger-in" style="gap:0.6rem; margin-top:0.8rem;">
+<div class="card card-purple parallax-card scale-in" style="padding:0.7rem;">
+<b>📋 Estado explícito</b> <span class="text-xs">(você controla)</span>
+<div class="text-xs" style="margin-top:0.4rem;">
+<p>• <b>Histórico de mensagens</b> — tudo que foi dito/feito</p>
+<p>• <b>Tool calls + resultados</b> — quais ações tomou e o que retornou</p>
+<p>• <b>Scratchpad</b> — raciocínio intermediário (CoT)</p>
+<p>• <b>System prompt</b> — pode ser atualizado mid-conversation</p>
+</div>
+<div class="text-xs" style="margin-top:0.3rem; opacity:0.7;"><i>Analogia: as anotações no caderno do funcionário</i></div>
+</div>
+<div class="card card-cyan parallax-card scale-in" style="padding:0.7rem;">
+<b>⚙️ Estado implícito</b> <span class="text-xs">(acontece "por baixo")</span>
+<div class="text-xs" style="margin-top:0.4rem;">
+<p>• <b>Contador de iterações</b> — quantos loops já rodou</p>
+<p>• <b>Custo acumulado</b> — tokens gastos até agora</p>
+<p>• <b>Sessões externas</b> — conexões DB, browser, APIs abertas</p>
+<p>• <b>Cache/memory</b> — resumos de conversas anteriores</p>
+</div>
+<div class="text-xs" style="margin-top:0.3rem; opacity:0.7;"><i>Analogia: o relógio, o orçamento e as janelas abertas no PC</i></div>
+</div>
 </div>
 
-<div  class="text-xs card card-amber parallax-card scale-in">
-<b>Implicação prática:</b> agentes não são "stateless" como uma API REST. Para escalar, persista o estado (Redis, banco) e torne o loop <b>retomável</b> — interrompido, deve poder continuar.
+<div class="insight-box" style="margin-top:0.7rem;">
+<b>🏗️ Implicação arquitetural:</b> Se seu agente for interrompido (crash, timeout, deploy), ele precisa <b>retomar de onde parou</b>. Isso exige persistir estado em Redis/banco — não confie na memória do processo. Sem isso, o agente recomeça do zero e o usuário repete tudo.
+</div>
+
+<div class="tip-box" style="margin-top:0.4rem;">
+💡 <b>Exemplo real:</b> O GitHub Copilot Workspace salva checkpoints a cada etapa. Se o browser fechar, ao voltar você encontra o plano exatamente onde parou — isso é persistência de estado agentic em produção.
 </div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #0f766e 100%)">
-<h1>Paradigmas de orquestração</h1>
-<p>Três arquiteturas que você vai encontrar no mercado:</p>
-<div  class="grid-3 stagger-in text-xs">
-<div  class="card card-purple parallax-card scale-in"><b>🔁 ReAct</b><br>Pensa → age → observa.<br>✅ simples e flexível<br>❌ pode divagar</div>
-<div  class="card card-cyan parallax-card scale-in"><b>📋 Plan-and-Execute</b><br>Planeja tudo antes.<br>✅ previsível e auditável<br>❌ o plano envelhece</div>
-<div  class="card card-green parallax-card scale-in"><b>🔄 Reflexion</b><br>Executa, critica, tenta de novo.<br>✅ melhora qualidade<br>❌ custa mais</div>
+<h1>🎭 Paradigmas de orquestração — 3 filosofias de como agentes pensam</h1>
+<p class="text-sm">Assim como há diferentes estilos de gestão (microgerenciamento vs. delegação), há diferentes formas de organizar o raciocínio de um agente:</p>
+
+<div class="grid-3 stagger-in text-xs" style="gap:0.5rem; margin-top:0.8rem;">
+<div class="card card-purple parallax-card scale-in" style="padding:0.7rem;">
+<div style="font-size:1.3em; text-align:center;">🔁</div>
+<b>ReAct</b> <span style="opacity:0.7;">(Reason + Act)</span>
+<p style="margin:0.4rem 0;"><b>Como funciona:</b> Pensa → Age → Observa → repete. Decide um passo de cada vez.</p>
+<p style="margin:0.3rem 0;"><b>Analogia:</b> Um detetive investigando — segue pistas uma a uma.</p>
+<p style="margin:0.3rem 0; color:#4ade80;">✅ Simples, flexível, bom para tarefas exploratórias</p>
+<p style="margin:0.2rem 0; color:#f87171;">❌ Pode divagar sem foco, custo alto em iterações</p>
+<p style="margin:0.3rem 0; opacity:0.7;"><b>Usado em:</b> ChatGPT plugins, LangChain agents, a maioria dos demos</p>
+</div>
+<div class="card card-cyan parallax-card scale-in" style="padding:0.7rem;">
+<div style="font-size:1.3em; text-align:center;">📋</div>
+<b>Plan-and-Execute</b>
+<p style="margin:0.4rem 0;"><b>Como funciona:</b> Primeiro cria plano completo → depois executa cada passo sem replanejar.</p>
+<p style="margin:0.3rem 0;"><b>Analogia:</b> Um gerente de projeto que faz o Gantt chart antes de começar.</p>
+<p style="margin:0.3rem 0; color:#4ade80;">✅ Previsível, auditável, bom para workflows fixos</p>
+<p style="margin:0.2rem 0; color:#f87171;">❌ Plano "envelhece" — se algo muda, não se adapta</p>
+<p style="margin:0.3rem 0; opacity:0.7;"><b>Usado em:</b> Copilot Workspace, Devin (planning phase)</p>
+</div>
+<div class="card card-green parallax-card scale-in" style="padding:0.7rem;">
+<div style="font-size:1.3em; text-align:center;">🔄</div>
+<b>Reflexion</b>
+<p style="margin:0.4rem 0;"><b>Como funciona:</b> Executa → avalia resultado → critica → tenta de novo com aprendizado.</p>
+<p style="margin:0.3rem 0;"><b>Analogia:</b> Um estudante que faz prova, vê a nota, estuda os erros e refaz.</p>
+<p style="margin:0.3rem 0; color:#4ade80;">✅ Melhora qualidade iterativamente, auto-correção</p>
+<p style="margin:0.2rem 0; color:#f87171;">❌ 2-3x mais caro (múltiplas passadas), mais lento</p>
+<p style="margin:0.3rem 0; opacity:0.7;"><b>Usado em:</b> Code review bots, AlphaCode, agentes de escrita</p>
+</div>
 </div>
 
-<div  class="text-xs" style="opacity:0.8;">Na prática, sistemas fortes <b>combinam</b> os três: planejam em alto nível, executam em ReAct e refletem após blocos.</div>
+<div class="insight-box" style="margin-top:0.7rem;">
+<b>🏢 Na prática:</b> Sistemas de produção <b>combinam os três</b>. Exemplo: Copilot Coding Agent planeja (Plan-and-Execute), executa cada passo em ReAct (think → edit → test), e se o teste falha, reflete (Reflexion) antes de tentar de novo. Não é "escolha um" — é "quando usar cada um".
+</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
