@@ -153,12 +153,27 @@ Antes de mergulhar, os termos novos que você vai ouvir hoje:
 
 # 2.1 Recap: por que o ReAct manual falha?
 
-<div class="text-sm mb-3">No Encontro 1 fizemos um agente "na unha" com <code>re.search</code>. Funciona, mas escala mal.</div>
-<div class="grid grid-cols-2 gap-3 text-sm">
-<div class="p-3 rounded-xl bg-red-500/10 border border-red-500/30"><div class="font-bold text-red-300 mb-1">😖 Problemas</div><ul class="text-xs leading-snug"><li>Parsing frágil: regex quebra fácil</li><li>LLM alucina nomes de ferramentas</li><li>Argumentos viram strings mal formadas</li><li>Sem tipagem nem validação</li><li>Debug difícil quando algo falha</li></ul></div>
-<div class="p-3 rounded-xl bg-green-500/10 border border-green-500/30"><div class="font-bold text-green-300 mb-1">😎 Solução: Function Calling</div><ul class="text-xs leading-snug"><li>OpenAI, Anthropic e Gemini suportam nativamente</li><li>JSON Schema valida argumentos</li><li>Modelo retorna estrutura, não texto livre</li><li>Permite múltiplas chamadas em paralelo</li><li>Virou padrão da indústria desde 2023</li></ul></div>
+<div class="text-sm mb-3">No Encontro 1 o agente funcionava porque o mundo era controlado. Em produção, a resposta do LLM vira <b>entrada de outro sistema</b> — e texto livre quebra.</div>
+
+<div class="grid grid-cols-3 gap-3 text-xs">
+<div class="p-3 rounded-xl bg-red-500/10 border border-red-500/30">
+<div class="font-bold text-red-200 mb-2 text-sm">1. Parser frágil</div>
+<div class="font-mono leading-snug">Action: buscar("SP")<br>Action Input: São Paulo</div>
+<div class="mt-2 opacity-80">Uma vírgula, aspas diferentes ou texto extra já quebram o <code>re.search</code>.</div>
 </div>
-<div class="mt-3 text-center text-xs opacity-70">Antes das tools robustas, vamos entender <b>como melhorar o reasoning</b>.</div>
+<div class="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30">
+<div class="font-bold text-amber-200 mb-2 text-sm">2. Sem contrato</div>
+<div class="font-mono leading-snug">Action: pesquisar_web<br>Action: busca<br>Action: google</div>
+<div class="mt-2 opacity-80">O modelo pode inventar nome de tool, omitir campo ou mandar argumento no tipo errado.</div>
+</div>
+<div class="p-3 rounded-xl bg-cyan-500/10 border border-cyan-500/30">
+<div class="font-bold text-cyan-200 mb-2 text-sm">3. Difícil recuperar</div>
+<div class="font-mono leading-snug">Erro → prompt maior<br>Erro → regex maior<br>Erro → mais exceções</div>
+<div class="mt-2 opacity-80">Você conserta sintomas, mas não cria validação, retry nem observabilidade.</div>
+</div>
+</div>
+
+<div class="mt-3 p-3 rounded-xl bg-green-500/10 border border-green-500/30 text-sm text-center"><b>Virada do Encontro 2:</b> saímos de “parsear texto do modelo” para <b>contratos explícitos</b>: reasoning melhor + Function Calling + Structured Outputs.</div>
 
 ---
 layout: center
