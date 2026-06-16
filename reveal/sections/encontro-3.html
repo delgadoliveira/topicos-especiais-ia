@@ -188,7 +188,7 @@ def summarize(messages: list) -&gt; str:
     &quot;&quot;&quot;Sumariza mensagens usando HuggingFace Inference API.&quot;&quot;&quot;
     texto = &quot;\n&quot;.join(f&quot;{m[&#x27;role&#x27;]}: {m[&#x27;content&#x27;]}&quot; for m in messages)
     resp = client.chat.completions.create(
-        model=&quot;mistralai/Mistral-Nemo-Instruct-2407&quot;,
+        model=&quot;mistralai/Mistral-Small-24B-Instruct-2501&quot;,
         messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: f&quot;Resuma em 200 palavras:\n{texto}&quot;}],
         max_tokens=250,
     )
@@ -1296,7 +1296,7 @@ def generate(context: list[str], question: str) -&gt; str:
     &quot;&quot;&quot;Gera resposta usando HuggingFace com contexto injetado.&quot;&quot;&quot;
     ctx = &quot;\n&quot;.join(f&quot;- {d}&quot; for d in context)
     resp = client.chat.completions.create(
-        model=&quot;mistralai/Mistral-Nemo-Instruct-2407&quot;,
+        model=&quot;mistralai/Mistral-Small-24B-Instruct-2501&quot;,
         messages=[
             {&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: f&quot;Responda baseado APENAS neste contexto:\n{ctx}&quot;},
             {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: question},

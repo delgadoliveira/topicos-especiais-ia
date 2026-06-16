@@ -1029,14 +1029,21 @@ flowchart LR
 
 ---
 
-# Por que reasoning models importam para agentes?
+# Reasoning models: o cérebro do planner
 
-<div class="grid grid-cols-2 gap-3 mt-4 text-xs">
-<div class="p-3 rounded-lg bg-amber-500/10 border border-amber-500/30"><b>Trade-off</b><ul><li>Mais tokens pensando = mais custo</li><li>Mais lento: segundos → minutos</li><li>Mas resolve tarefas antes inviáveis</li></ul></div>
-<div class="p-3 rounded-lg bg-green-500/10 border border-green-500/30"><b>Impacto em agentes</b><ul><li>Planejam melhor</li><li>Fazem menos loops desnecessários</li><li>Decidem melhor quando chamar tool</li><li>SWE-bench: o3-pro chega a 70%+ em bugs reais</li></ul></div>
+<div class="mb-3 p-3 rounded-lg bg-blue-500/10 border border-blue-500/30 text-sm">
+A pergunta certa não é “usar reasoning model em tudo?”. É: <b>em qual momento do agente vale pagar para pensar mais?</b>
 </div>
 
-<div class="mt-3 p-3 rounded-lg bg-purple-500/10 border border-purple-500/30 text-xs"><b>🧩 Analogia:</b> um reasoning model é quem rascunha a prova antes de entregar.</div>
+<div class="grid grid-cols-3 gap-3 text-xs">
+<div class="p-3 rounded-lg bg-red-500/10 border border-red-500/30"><b>1. Sem planejamento</b><br>O agente barato tende a ser impulsivo: chama tool cedo demais, entra em loop, mistura subtarefas e só percebe o erro depois de gastar tokens.</div>
+<div class="p-3 rounded-lg bg-purple-500/10 border border-purple-500/30"><b>2. Reasoning no ponto crítico</b><br>Use o modelo forte para <b>decompor a tarefa</b>, escolher tools, definir critérios de parada e revisar se o plano ainda faz sentido.</div>
+<div class="p-3 rounded-lg bg-green-500/10 border border-green-500/30"><b>3. Execução barata</b><br>Depois do plano, modelos rápidos executam passos simples; tools fazem fatos/cálculos; o reasoning volta só para impasse, erro ou replanejamento.</div>
+</div>
+
+<div class="mt-3 p-3 rounded bg-amber-500/10 border border-amber-500/30 text-xs">
+🏗️ <b>Padrão 2026:</b> planner caro poucas vezes + executor barato muitas vezes + telemetria/limites. Usar o3/R1/Claude Thinking em todo turno vira uma demo lenta e cara; usar só modelo barato vira agente impulsivo.
+</div>
 
 ---
 

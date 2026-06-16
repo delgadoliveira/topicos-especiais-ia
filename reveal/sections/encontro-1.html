@@ -1742,21 +1742,14 @@ Pergunta → [pensa] → [testa hipótese] → [verifica] → [revisa] → Respo
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #1f2937 100%)">
-<h1>Por que reasoning models importam para agentes?</h1>
-<div class="text-sm" style="margin-bottom: 1rem;">Reasoning models (o1, o3, DeepSeek R1, Claude thinking) não são "modelos melhores" — são uma <b>arquitetura fundamentalmente diferente</b>: gastam compute <b>na hora de responder</b> (test-time) em vez de só no treino.</div>
+<h1>Reasoning models: o cérebro do planner</h1>
+<div class="card card-blue text-sm" style="margin-bottom:0.8rem;">A pergunta certa não é “usar reasoning model em tudo?”. É: <b>em qual momento do agente vale pagar para pensar mais?</b></div>
 <div class="grid-3 stagger-in text-xs">
-<div class="card card-amber parallax-card scale-in fragment"><b>💸 Custo</b>
-<ul style="line-height: 1.6;"><li>5-30× mais tokens por resposta</li><li>Latência: 5s → 60s+ em tarefas difíceis</li><li>Custo por query: $0.01 → $0.10-$1.00</li></ul>
-<div class="mt-1 opacity-70">Não use para perguntas simples!</div>
+<div class="card card-red parallax-card scale-in"><b>1. Sem planejamento</b><br>O agente barato tende a ser impulsivo: chama tool cedo demais, entra em loop, mistura subtarefas e só percebe o erro depois de gastar tokens.</div>
+<div class="card card-purple parallax-card scale-in"><b>2. Reasoning no ponto crítico</b><br>Use o modelo forte para <b>decompor a tarefa</b>, escolher tools, definir critérios de parada e revisar se o plano ainda faz sentido.</div>
+<div class="card card-green parallax-card scale-in"><b>3. Execução barata</b><br>Depois do plano, modelos rápidos executam passos simples; tools fazem fatos/cálculos; o reasoning volta só para impasse, erro ou replanejamento.</div>
 </div>
-<div class="card card-green parallax-card scale-in fragment"><b>📈 Ganho em agentes</b>
-<ul style="line-height: 1.6;"><li>Planejam melhor → menos loops inúteis</li><li>Decidem melhor quando chamar tool</li><li>Resolvem problemas multi-step complexos</li><li>SWE-bench: 2% (2023) → <b>70%+</b> (2025)</li></ul>
-</div>
-<div class="card card-purple parallax-card scale-in fragment"><b>🏗️ Padrão de design</b>
-<ul style="line-height: 1.6;"><li>Use reasoning model como <b>planner</b></li><li>Delegue execução para modelo barato</li><li>Resultado: acurácia alta, custo controlado</li><li>Ex: o3 planeja, GPT-4o-mini executa</li></ul>
-</div>
-</div>
-<div class="insight-box mt-2 text-xs">🧩 <b>Analogia:</b> um reasoning model é como um arquiteto que desenha a planta (caro, demora, mas acerta). O modelo rápido é o pedreiro que executa (barato, eficiente, segue instruções). Juntos: qualidade + economia.</div>
+<div class="tip-box mt-2 text-xs">🏗️ <b>Padrão 2026:</b> planner caro poucas vezes + executor barato muitas vezes + telemetria/limites. Usar o3/R1/Claude Thinking em todo turno vira uma demo lenta e cara; usar só modelo barato vira agente impulsivo.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
@@ -2089,7 +2082,7 @@ client = InferenceClient(token=HF_TOKEN)
 
 # Teste rápido
 resposta = client.chat.completions.create(
-    model=&quot;mistralai/Mistral-Nemo-Instruct-2407&quot;,
+    model=&quot;mistralai/Mistral-Small-24B-Instruct-2501&quot;,
     messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Diga oi em 3 palavras&quot;}],
     max_tokens=50,
 )
@@ -2099,7 +2092,7 @@ print(&quot;✅ Setup completo — HuggingFace gratuito funcionando!&quot;)
 
 <div class="grid-2 text-xs mt-2" style="gap:0.5rem;">
 <div class="card card-green"><b>✅ 100% gratuito</b><br>HuggingFace Inference API oferece modelos gratuitos sem limite de billing. Basta criar conta + gerar token.</div>
-<div class="card card-amber"><b>💡 Modelo chat usado</b><br><code>mistralai/Mistral-Nemo-Instruct-2407</code>. Evite <code>Mistral-7B-Instruct-v0.3</code> neste endpoint: ele não é tratado como chat model pelo router.</div>
+<div class="card card-amber"><b>💡 Modelo chat usado</b><br><code>mistralai/Mistral-Small-24B-Instruct-2501</code> — gratuito, rápido e suportado no endpoint <code>/v1/chat/completions</code> da HuggingFace. Nem todos os modelos são suportados como chat; verifique na <a href="https://huggingface.co/models?inference=warm&pipeline_tag=text-generation" style="color:#4da6ff;">página de modelos</a>.</div>
 </div>
 </section>
 
@@ -2256,7 +2249,7 @@ Ferramentas disponíveis:
     ]
     for step in range(max_steps):
         resp = client.chat.completions.create(
-            model=&quot;mistralai/Mistral-Nemo-Instruct-2407&quot;,
+            model=&quot;mistralai/Mistral-Small-24B-Instruct-2501&quot;,
             messages=msgs,
             max_tokens=200,
             temperature=0.1,

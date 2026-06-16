@@ -513,7 +513,7 @@ replanning_trigger = "Se qualquer passo falhar 2x, re-planejar"</code></pre>
 def create_plan(objective: str) -&gt; list[dict]:
     &quot;&quot;&quot;Pede ao LLM para decompor objetivo em passos ordenados.&quot;&quot;&quot;
     resp = client.chat.completions.create(
-        model=&quot;mistralai/Mistral-Nemo-Instruct-2407&quot;,
+        model=&quot;mistralai/Mistral-Small-24B-Instruct-2501&quot;,
         messages=[
             {&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: &quot;Decomponha o objetivo em 3-5 passos. Responda APENAS JSON: {\\&quot;passos\\&quot;: [{\\&quot;id\\&quot;: 1, \\&quot;acao\\&quot;: \\&quot;...\\&quot;, \\&quot;tool\\&quot;: \\&quot;busca|calculadora|escrita\\&quot;, \\&quot;depende_de\\&quot;: []}]}&quot;},
             {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: objective},
@@ -713,7 +713,7 @@ create_plan(&quot;Analisar o mercado de IA no Brasil&quot;)</code></pre>
 import json
 
 resp = client.chat.completions.create(
-    model=&quot;mistralai/Mistral-Nemo-Instruct-2407&quot;,
+    model=&quot;mistralai/Mistral-Small-24B-Instruct-2501&quot;,
     messages=[
         {&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: &quot;&quot;&quot;Você tem acesso a ferramentas. Responda APENAS em JSON:
 {&quot;tool&quot;: &quot;nome&quot;, &quot;args&quot;: {&quot;param&quot;: &quot;valor&quot;}} ou {&quot;answer&quot;: &quot;resposta final&quot;}
@@ -738,7 +738,7 @@ print(resultado)  # {&quot;tool&quot;: &quot;calculadora&quot;, &quot;args&quot;
     ]
     for step in range(max_steps):
         resp = client.chat.completions.create(
-            model="mistralai/Mistral-Nemo-Instruct-2407",
+            model="mistralai/Mistral-Small-24B-Instruct-2501",
             messages=msgs, max_tokens=150,
         )
         out = json.loads(resp.choices[0].message.content)
