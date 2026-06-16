@@ -609,7 +609,7 @@ Variante avançada do <b>Self-Reflection</b>, mas com agentes/prompts <b>separad
 
 # Decision tree: qual padrão usar?
 
-```mermaid {scale: 0.65}
+```mermaid {scale: 0.5}
 flowchart TD
   S[Tenho uma tarefa LLM] --> Q1{Passos<br/>conhecidos?}
   Q1 -- Sim, fixos --> CH[⛓️ Prompt Chaining]
@@ -1049,7 +1049,7 @@ print(result["messages"][-1].content)
 
 # 2.10 Decision tree: qual abordagem usar?
 
-```mermaid {scale: 0.7}
+```mermaid {scale: 0.5}
 flowchart TD
   S[Tenho um caso de uso] --> Q1{Os passos<br/>são fixos?}
   Q1 -- Sim --> W[Use workflow simples<br/>com chamadas LLM diretas]
