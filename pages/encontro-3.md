@@ -963,144 +963,137 @@ chain_stuff = load_summarize_chain(llm, chain_type="stuff")
 
 ---
 
-# 🧪 Context Engineering — o novo nome do jogo
-<div class="mt-3 p-3 rounded-xl bg-cyan-500/10 border-2 border-cyan-500/40 text-center text-sm"><b>Prompt engineering</b> → <b>Context engineering</b></div>
-<div class="mt-3 grid grid-cols-2 gap-3 text-xs">
-<div class="p-2 rounded bg-purple-500/10 border border-purple-500/30"><b>📦 O que entra</b><br>System, exemplos, retrievals, memória, tool results, histórico — em qual ordem?</div>
-<div class="p-2 rounded bg-purple-500/10 border border-purple-500/30"><b>🗑️ O que sai</b><br>Compressão, summarization, eviction policies e mitigação de “lost in the middle”.</div>
-<div class="p-2 rounded bg-purple-500/10 border border-purple-500/30"><b>🎚️ Quanto e quando</b><br>Dynamic context: recuperar só quando precisa e gastar tokens onde importa.</div>
-<div class="p-2 rounded bg-purple-500/10 border border-purple-500/30"><b>🔁 Como evolui</b><br>O contexto muda turn a turn; ele não é estático.</div>
+# 🧠 Além do RAG: memória como arquitetura
+
+<div class="mt-3 p-4 rounded-xl bg-cyan-500/10 border-2 border-cyan-500/40 text-center">
+RAG responde <b>“o que sei nos documentos?”</b><br>
+Memória responde <b>“o que este agente precisa carregar ao longo do tempo?”</b>
 </div>
-<div class="mt-3 p-2 rounded bg-amber-500/10 border border-amber-500/30 text-xs">📚 Termos atuais: <b>Context engineering</b> (Karpathy), <b>Context rot</b> (Anthropic) e <b>Context economy</b>.</div>
+
+<div class="grid grid-cols-3 gap-3 mt-4 text-sm">
+<div class="p-3 rounded-xl bg-purple-500/10 border border-purple-500/30"><b>Chatbots pessoais</b><br>ChatGPT Memory, Claude Projects e Copilot lembram preferências, projetos e histórico.</div>
+<div class="p-3 rounded-xl bg-green-500/10 border border-green-500/30"><b>Coding agents</b><br>Cursor, Copilot e Claude Code tratam o repositório como memória operacional.</div>
+<div class="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30"><b>Enterprise agents</b><br>Copilot, Glean, Notion AI e ServiceNow combinam documentos, identidade e políticas.</div>
+</div>
+
+<div class="mt-3 p-3 rounded bg-amber-500/10 border border-amber-500/30 text-sm">📌 Storyline: memória virou diferencial de produto porque reduz repetição, personaliza respostas e permite continuidade entre sessões.</div>
+
 ---
 
-# 💰 Prompt Caching — 90% de economia
-<div class="mt-3 p-3 rounded-xl bg-green-500/10 border-2 border-green-500/40 text-sm"><b>Como funciona:</b> partes <b>estáveis</b> do prompt (system, docs, exemplos) ficam cacheadas no servidor; as próximas chamadas pagam ~10% desse trecho.</div>
-```python
-response = client.messages.create(
-    model="claude-sonnet-4-5",
-    system=[
-        {"type": "text", "text": "Você é um assistente legal..."},
-        {"type": "text", "text": MEGA_DOCUMENTO_50K_TOKENS,
-         "cache_control": {"type": "ephemeral"}},
-    ],
-    messages=[{"role": "user", "content": pergunta}],
-)
-```
-<div class="mt-3 grid grid-cols-3 gap-2 text-xs"><div class="p-2 rounded bg-white/5"><b>1ª chamada</b><br>100% do custo</div><div class="p-2 rounded bg-white/5"><b>Subsequentes</b><br>~10% do trecho cacheado</div><div class="p-2 rounded bg-white/5"><b>TTL típico</b><br>5 min (ephemeral)</div></div>
-<div class="mt-3 p-2 rounded bg-amber-500/10 border border-amber-500/30 text-xs">🎯 <b>Padrão:</b> conteúdo <b>estável no início</b> e <b>dinâmico no fim</b>; inverter a ordem quebra o cache.</div>
+# Context Engineering — o novo nome do jogo
+
+<div class="mt-3 p-4 rounded-xl bg-cyan-500/10 border-2 border-cyan-500/40 text-center">
+Não é “escrever prompt melhor”. É <b>projetar o fluxo de contexto</b>.
+</div>
+
+<div class="grid grid-cols-2 gap-3 mt-4 text-sm">
+<div class="p-3 rounded-xl bg-purple-500/10 border border-purple-500/30"><b>1. Selecionar</b><br>Quais docs, memórias, tool results e exemplos entram agora?</div>
+<div class="p-3 rounded-xl bg-red-500/10 border border-red-500/30"><b>2. Filtrar</b><br>O que fica fora para evitar ruído, custo e “lost in the middle”?</div>
+<div class="p-3 rounded-xl bg-green-500/10 border border-green-500/30"><b>3. Ordenar</b><br>System, instruções, memória, evidências e pergunta competem por atenção.</div>
+<div class="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30"><b>4. Atualizar</b><br>Depois da resposta: guardar fato novo, resumir episódio ou esquecer?</div>
+</div>
+
 ---
 
-# 3.5 Memória — curto vs longo prazo
+# Memória em camadas: mesa, armário e arquivo
 
 ```mermaid {scale: 0.55}
-flowchart TB
-  A[🤖 Agente] --> S[💬 Short-term<br/>histórico da sessão<br/>na context window]
-  A --> L[💾 Long-term<br/>persistente entre sessões]
-  
-  L --> L1[Episódica - o que aconteceu]
-  L --> L2[Semântica - o que sei]
-  L --> L3[Procedural - como faço]
-  
-  L1 --> VDB[(Vector DB<br/>resumos de sessões)]
-  L2 --> KG[(Knowledge graph<br/>ou vector DB)]
-  L3 --> CODE[(Skills/Tools<br/>código reutilizável)]
-  
-  style A fill:#7c5cff,color:#fff
-  style VDB fill:#2dd4bf,color:#000
-  style KG fill:#2dd4bf,color:#000
-  style CODE fill:#2dd4bf,color:#000
+flowchart LR
+  U[Usuário / tarefa] --> W[Working memory<br/>context window]
+  W --> R[RAG<br/>documentos externos]
+  W <--> M[Long-term memory<br/>perfil, episódios, skills]
+  M --> P[Políticas<br/>salvar, resumir, esquecer]
+  R --> W
+  P --> M
 ```
+
+<div class="grid grid-cols-3 gap-3 mt-3 text-sm">
+<div class="p-3 rounded-xl bg-cyan-500/10 border border-cyan-500/30"><b>Mesa</b><br>contexto ativo: caro, limitado, útil agora.</div>
+<div class="p-3 rounded-xl bg-green-500/10 border border-green-500/30"><b>Armário</b><br>memória persistente: recuperável entre sessões.</div>
+<div class="p-3 rounded-xl bg-purple-500/10 border border-purple-500/30"><b>Biblioteca</b><br>RAG: conhecimento externo com evidências.</div>
+</div>
 
 ---
 
 # Tipos de memória de longo prazo
 
-<div class="grid grid-cols-3 gap-4 mt-6">
-
-<div class="p-4 rounded-xl bg-white/5 border border-white/10">
-<div class="text-2xl mb-2">📖</div>
-<b>Episódica</b><br>
-<span class="text-sm opacity-80">"O que aconteceu" — eventos, conversas passadas, ações tomadas.</span><br><br>
-<i class="text-xs">Ex: ChatGPT memory, Claude Projects.</i>
+<div class="grid grid-cols-3 gap-3 mt-4 text-sm">
+<div class="p-3 rounded-xl bg-purple-500/10 border border-purple-500/30"><b>📖 Episódica</b><br>O que aconteceu.<br><span class="text-xs">Ex.: “na aula passada, o grupo decidiu usar Qdrant”.</span><br><br><b>Uso:</b> continuidade de projetos.</div>
+<div class="p-3 rounded-xl bg-cyan-500/10 border border-cyan-500/30"><b>🧠 Semântica</b><br>Fatos e preferências estáveis.<br><span class="text-xs">Ex.: “usuário prefere Python e respostas em PT-BR”.</span><br><br><b>Uso:</b> personalização.</div>
+<div class="p-3 rounded-xl bg-green-500/10 border border-green-500/30"><b>⚙️ Procedural</b><br>Como fazer tarefas.<br><span class="text-xs">Ex.: “para deploy, rode build, versão, commit e push”.</span><br><br><b>Uso:</b> skills e workflows.</div>
 </div>
 
-<div class="p-4 rounded-xl bg-white/5 border border-white/10">
-<div class="text-2xl mb-2">🧠</div>
-<b>Semântica</b><br>
-<span class="text-sm opacity-80">"O que sei sobre o mundo" — fatos, preferências do usuário, contexto persistente.</span><br><br>
-<i class="text-xs">Ex: "usuário prefere respostas curtas".</i>
+<div class="mt-3 p-3 rounded bg-amber-500/10 border border-amber-500/30 text-sm">💡 Pergunta pedagógica: isso é algo que o agente deve lembrar, procurar nos documentos ou recalcular agora?</div>
+
+---
+
+# MemGPT — LLMs como sistemas operacionais
+
+<div class="mt-3 p-4 rounded-xl bg-slate-500/10 border border-slate-500/30 text-center text-sm">
+MemGPT / Letta propõe tratar o LLM como um processo com <b>RAM limitada</b> e <b>memória externa paginável</b>.
 </div>
 
-<div class="p-4 rounded-xl bg-white/5 border border-white/10">
-<div class="text-2xl mb-2">⚙️</div>
-<b>Procedural</b><br>
-<span class="text-sm opacity-80">"Como fazer" — habilidades, ferramentas, scripts aprendidos.</span><br><br>
-<i class="text-xs">Ex: Skills do Claude, comandos custom.</i>
-</div>
+```mermaid {scale: 0.52}
+flowchart LR
+  Q[Turno atual] --> RAM[Context window<br/>RAM]
+  RAM <--> OS[Política do agente<br/>page in / page out]
+  OS <--> DISK[(Memória externa<br/>perfis, episódios, docs)]
+  RAM --> A[Resposta]
+```
 
+<div class="grid grid-cols-2 gap-3 mt-3 text-sm">
+<div class="p-3 rounded-xl bg-green-500/10 border border-green-500/30"><b>Por que importa?</b><br>Agentes de longa duração não cabem em prompt infinito; precisam decidir o que lembrar e quando trazer de volta.</div>
+<div class="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30"><b>Trade-off</b><br>Mais autonomia e continuidade, mas exige políticas, tracing e avaliação para não consolidar memória errada.</div>
 </div>
 
 ---
 
 # Frameworks de memória persistente
 
-<div class="grid grid-cols-2 gap-4 mt-6">
+<table class="text-sm mt-3">
+<thead><tr><th>Opção</th><th>Modelo mental</th><th>Quando usar</th></tr></thead>
+<tbody>
+<tr><td><b>mem0</b></td><td>camada plug-and-play que extrai fatos úteis</td><td>MVPs, agentes pessoais, personalização rápida</td></tr>
+<tr><td><b>Zep</b></td><td>knowledge graph temporal + vetores</td><td>produção, histórico multiusuário, relações entre fatos</td></tr>
+<tr><td><b>LangGraph checkpoints</b></td><td>estado do workflow persistido</td><td>agentes com etapas, retries e auditoria</td></tr>
+<tr><td><b>Letta / MemGPT</b></td><td>memória hierárquica gerenciada pelo agente</td><td>agentes persistentes, pesquisa, conversas longas</td></tr>
+</tbody>
+</table>
 
-<div class="p-4 rounded-xl bg-purple-500/10 border border-purple-500/30">
-<b>mem0</b><br>
-<span class="text-sm">Layer de memória plug-and-play. Detecta automaticamente o que vale a pena lembrar.</span><br>
-<code class="text-xs mt-2 block">pip install mem0ai</code>
-</div>
-
-<div class="p-4 rounded-xl bg-purple-500/10 border border-purple-500/30">
-<b>Zep</b><br>
-<span class="text-sm">Open source. Knowledge graph temporal + vector. Foco em produção.</span><br>
-<code class="text-xs mt-2 block">getzep.com</code>
-</div>
-
-<div class="p-4 rounded-xl bg-purple-500/10 border border-purple-500/30">
-<b>LangGraph + checkpoints</b><br>
-<span class="text-sm">Persiste o estado completo do agente em Postgres/Redis. Você controla tudo.</span>
-</div>
-
-<div class="p-4 rounded-xl bg-purple-500/10 border border-purple-500/30">
-<b>Letta (ex-MemGPT)</b><br>
-<span class="text-sm">Papers seminais sobre "OS para agentes" com memória hierárquica.</span>
-</div>
-
-</div>
+<div class="mt-3 p-3 rounded bg-cyan-500/10 border border-cyan-500/30 text-sm">📌 Mercado: a disputa não é só “qual LLM responde melhor”, mas qual produto mantém contexto confiável, governado e barato.</div>
 
 ---
 
-# Exemplo: memória com mem0
-<div class="mb-3 p-2 rounded bg-sky-500/10 border border-sky-500/30 text-xs">📖 <b>Em palavras:</b> o mem0 funciona como um caderno do usuário: você grava fatos com <code>add()</code> e recupera só as memórias relevantes com <code>search()</code>.</div>
-```python
-from mem0 import Memory
-m = Memory()
-user_id = "alan"
-m.add("Prefiro respostas em português, tom técnico", user_id=user_id)
-m.add("Trabalho com Python e TypeScript", user_id=user_id)
-m.add("Não gosto de emojis em código", user_id=user_id)
-```
+# CacheBlend & Efficient RAG
+
+<div class="mt-3 p-4 rounded-xl bg-green-500/10 border-2 border-green-500/40 text-center text-sm">
+Em produção, memória também é <b>economia de contexto</b>: reusar o que já foi processado e recalcular só o necessário.
+</div>
+
+<div class="grid grid-cols-3 gap-3 mt-4 text-sm">
+<div class="p-3 rounded-xl bg-purple-500/10 border border-purple-500/30"><b>Prompt caching</b><br>Partes estáveis do prompt ficam cacheadas; docs comuns não custam tudo de novo.</div>
+<div class="p-3 rounded-xl bg-cyan-500/10 border border-cyan-500/30"><b>CacheBlend</b><br>Funde conhecimento recuperado e cache para reduzir latência em RAG repetitivo.</div>
+<div class="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30"><b>Efficient RAG</b><br>Busca híbrida + rerank + compressão + cache para escalar sem prompt monstro.</div>
+</div>
+
+<div class="mt-3 p-3 rounded bg-amber-500/10 border border-amber-500/30 text-sm">🏢 Relação com mercado: Glean, Notion AI, Copilot e agentes de código precisam responder rápido sobre corpus grande e repetido; sem cache, a conta explode.</div>
 
 ---
 
-# Exemplo: memória com mem0 — continuação
-```python
-def chat(pergunta: str):
-    memorias = m.search(pergunta, user_id=user_id, limit=5)
-    contexto = "\\n".join(m["memory"] for m in memorias["results"])
-    return client.chat.completions.create(
-        model="gpt-4o-mini",
-        messages=[
-            {"role": "system", "content": f"Sobre o usuário:\\n{contexto}"},
-            {"role": "user", "content": pergunta},
-        ],
-    ).choices[0].message.content
-print(chat("Me ajude a escrever uma função"))
-```
-<div class="mt-3 p-2 rounded bg-cyan-500/10 border border-cyan-500/30 text-xs">✅ Resultado: ele responde em português, tom técnico e sem emojis mesmo em outra sessão.</div>
+# Comparando arquiteturas de memória
+
+<table class="text-xs mt-2">
+<thead><tr><th>Arquitetura</th><th>Resolve</th><th>Quebra quando...</th><th>Exemplo de mercado</th></tr></thead>
+<tbody>
+<tr><td><b>Sem memória</b></td><td>FAQ simples</td><td>usuário espera continuidade</td><td>chatbot demo</td></tr>
+<tr><td><b>Histórico curto</b></td><td>conversa atual</td><td>sessão fica longa ou reinicia</td><td>chat básico com thread</td></tr>
+<tr><td><b>RAG</b></td><td>conhecimento externo verificável</td><td>precisa lembrar preferências e decisões</td><td>Glean, Notion Q&A, NotebookLM</td></tr>
+<tr><td><b>Memória persistente</b></td><td>personalização e continuidade</td><td>memória fica suja ou sem governança</td><td>ChatGPT Memory, Claude Projects</td></tr>
+<tr><td><b>Hierárquica</b></td><td>agente de longa vida</td><td>não há política de page-in/page-out</td><td>Letta/MemGPT-style agents</td></tr>
+</tbody>
+</table>
+
+<div class="mt-3 p-3 rounded bg-cyan-500/10 border border-cyan-500/30 text-sm">Regra prática: <b>RAG traz conhecimento</b>, <b>memória traz continuidade</b>, <b>context engineering decide o que entra agora</b>.</div>
 ---
 
 ---

@@ -1120,378 +1120,106 @@ chain_stuff = load_summarize_chain(llm, chain_type=&quot;stuff&quot;)</code></pr
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
-<h1>🧪 Context Engineering — o novo nome do jogo</h1>
-<div class="card card-cyan mt-3 text-center text-sm"><b>Prompt engineering</b> → <b>Context engineering</b></div>
-<div class="grid-2 mt-3 text-xs">
-<div class="card card-purple"><b>📦 O que entra</b><br>System, exemplos, retrievals, memória, tool results, histórico — em qual ordem?</div>
-<div class="card card-purple"><b>🗑️ O que sai</b><br>Compressão, summarization, eviction policies e mitigação de “lost in the middle”.</div>
-<div class="card card-purple"><b>🎚️ Quanto e quando</b><br>Dynamic context: recuperar só quando precisa e gastar tokens onde importa.</div>
-<div class="card card-purple"><b>🔁 Como evolui</b><br>O contexto muda turn a turn; ele não é estático.</div>
+<h1>🧠 Além do RAG: memória como arquitetura</h1>
+<div class="card card-cyan mt-3 text-center"><b>RAG</b> responde “o que sei nos documentos?”<br><b>Memória</b> responde “o que este agente precisa carregar ao longo do tempo?”</div>
+<div class="grid-3 mt-3 text-sm">
+<div class="card card-purple"><b>Chatbots pessoais</b><br>ChatGPT Memory, Claude Projects e Copilot lembram preferências, projetos e histórico.</div>
+<div class="card card-green"><b>Coding agents</b><br>Cursor, Copilot e Claude Code tratam o repositório como memória operacional.</div>
+<div class="card card-amber"><b>Enterprise agents</b><br>Copilot, Glean, Notion AI e ServiceNow combinam documentos, identidade e políticas.</div>
 </div>
-<div class="card card-amber mt-3 text-xs">📚 Termos atuais: <b>Context engineering</b> (Karpathy), <b>Context rot</b> (Anthropic) e <b>Context economy</b>.</div>
+<div class="card card-amber mt-3 text-sm">📌 Storyline: memória virou diferencial de produto porque reduz repetição, personaliza respostas e permite continuidade entre sessões.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
-<h1>💰 Prompt Caching — 90% de economia</h1>
-<div class="tip-box mt-3 text-sm"><b>Como funciona:</b> partes <b>estáveis</b> do prompt (system, docs, exemplos) ficam cacheadas no servidor; as próximas chamadas pagam ~10% desse trecho.</div>
-<pre><code class="language-python">response = client.messages.create(
-    model=&quot;claude-sonnet-4-5&quot;,
-    system=[
-        {&quot;type&quot;: &quot;text&quot;, &quot;text&quot;: &quot;Você é um assistente legal...&quot;},
-        {&quot;type&quot;: &quot;text&quot;, &quot;text&quot;: MEGA_DOCUMENTO_50K_TOKENS,
-         &quot;cache_control&quot;: {&quot;type&quot;: &quot;ephemeral&quot;}},
-    ],
-    messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: pergunta}],
-)</code></pre>
-<div class="grid-3 mt-3 text-xs"><div class="card"><b>1ª chamada</b><br>100% do custo</div><div class="card"><b>Subsequentes</b><br>~10% do trecho cacheado</div><div class="card"><b>TTL típico</b><br>5 min (ephemeral)</div></div>
-<div class="card card-amber mt-3 text-xs">🎯 <b>Padrão:</b> conteúdo <b>estável no início</b> e <b>dinâmico no fim</b>; inverter a ordem quebra o cache.</div>
+<h1>Context Engineering — o novo nome do jogo</h1>
+<div class="card card-cyan mt-3 text-center">Não é “escrever prompt melhor”. É <b>projetar o fluxo de contexto</b>.</div>
+<div class="grid-2 mt-3 text-sm">
+<div class="card card-purple"><b>1. Selecionar</b><br>Quais docs, memórias, tool results e exemplos entram agora?</div>
+<div class="card card-red"><b>2. Filtrar</b><br>O que fica fora para evitar ruído, custo e “lost in the middle”?</div>
+<div class="card card-green"><b>3. Ordenar</b><br>System, instruções, memória, evidências e pergunta competem por atenção.</div>
+<div class="card card-amber"><b>4. Atualizar</b><br>Depois da resposta: guardar fato novo, resumir episódio ou esquecer?</div>
+</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
-<h1>3.5 Memória — curto vs longo prazo</h1>
+<h1>Memória em camadas: mesa, armário e arquivo</h1>
 
 <div class="flow-diagram mt-2">
-  <div class="flow-node node-purple">🤖 Agente</div>
-  <div class="flow-arrow">→</div>
-  <div class="flow-node node-cyan">💬 Short-term<br>histórico da sessão</div>
-  <div class="flow-arrow">↘</div>
-  <div class="flow-node node-green">💾 Long-term<br>entre sessões</div>
-  <div class="flow-arrow">→</div>
-  <div class="flow-node node-amber">Episódica / Semântica / Procedural</div>
+  <div class="flow-node node-purple">Usuário / tarefa</div><div class="flow-arrow">→</div>
+  <div class="flow-node node-cyan">Working memory<br>context window</div><div class="flow-arrow">↔</div>
+  <div class="flow-node node-green">Long-term memory</div><div class="flow-arrow">↔</div>
+  <div class="flow-node node-amber">Políticas<br>salvar / esquecer</div>
 </div>
-<div class="grid-3 mt-2 stagger-in">
-  <div class="card card-cyan">Vector DB<br><span class="text-xs">resumos de sessões</span></div>
-  <div class="card card-green">Knowledge graph<br><span class="text-xs">ou vector DB</span></div>
-  <div class="card card-purple">Skills / Tools<br><span class="text-xs">código reutilizável</span></div>
+<div class="grid-3 mt-3 text-sm">
+  <div class="card card-cyan"><b>Mesa</b><br>contexto ativo: caro, limitado, útil agora.</div>
+  <div class="card card-green"><b>Armário</b><br>memória persistente: recuperável entre sessões.</div>
+  <div class="card card-purple"><b>Biblioteca</b><br>RAG: conhecimento externo com evidências.</div>
 </div>
-<div class="card card-cyan mt-2 text-xs"><b>🏢 Em produção:</b> ChatGPT Memory (20M+ usuários), Claude Projects (contexto persistente por projeto), Cursor (indexa repo inteiro como memória de trabalho), Microsoft Copilot (Graph como memória enterprise). Memória é o que transforma chatbot em <b>assistente pessoal</b>.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
 <h1>Tipos de memória de longo prazo</h1>
-<p class="text-sm">Inspirados na psicologia cognitiva, agentes modernos implementam <b>3 tipos</b> de memória persistente — cada um serve um propósito distinto:</p>
-<div class="grid-3 mt-2">
-
-<div class="card card-purple">
-<div class="card-title">📖 Episódica</div>
-<div class="card-desc"><b>"O que aconteceu"</b></div>
-<ul class="text-xs mt-1" style="line-height:1.7;">
-  <li>Eventos, conversas passadas, ações tomadas</li>
-  <li>Permite ao agente dizer: <i>"da última vez que falamos sobre X, você decidiu Y"</i></li>
-  <li>Armazenada como sequência temporal</li>
-</ul>
-<div class="text-xs mt-1 opacity-70">📦 <b>Produto:</b> ChatGPT Memory, Claude Projects, Copilot Memory</div>
-<div class="text-xs opacity-70">🧪 <b>Técnica:</b> log de interações indexado por timestamp + embedding</div>
+<div class="grid-3 mt-3 text-sm">
+<div class="card card-purple"><b>📖 Episódica</b><br>O que aconteceu.<br><span class="text-xs">“na aula passada, o grupo decidiu usar Qdrant”.</span><br><br><b>Uso:</b> continuidade de projetos.</div>
+<div class="card card-cyan"><b>🧠 Semântica</b><br>Fatos e preferências estáveis.<br><span class="text-xs">“usuário prefere Python e PT-BR”.</span><br><br><b>Uso:</b> personalização.</div>
+<div class="card card-green"><b>⚙️ Procedural</b><br>Como fazer tarefas.<br><span class="text-xs">“para deploy, rode build, versão, commit e push”.</span><br><br><b>Uso:</b> skills e workflows.</div>
 </div>
-
-<div class="card card-cyan">
-<div class="card-title">🧠 Semântica</div>
-<div class="card-desc"><b>"O que sei sobre o mundo/usuário"</b></div>
-<ul class="text-xs mt-1" style="line-height:1.7;">
-  <li>Fatos, preferências, contexto persistente</li>
-  <li>Permite personalização: <i>"usuário é vegano e mora em SP"</i></li>
-  <li>Armazenada como pares chave-valor ou knowledge graph</li>
-</ul>
-<div class="text-xs mt-1 opacity-70">📦 <b>Produto:</b> Mem0, Zep knowledge graphs, perfil do usuário</div>
-<div class="text-xs opacity-70">🧪 <b>Técnica:</b> extração automática de fatos + deduplicação</div>
-</div>
-
-<div class="card card-green">
-<div class="card-title">⚙️ Procedural</div>
-<div class="card-desc"><b>"Como fazer as coisas"</b></div>
-<ul class="text-xs mt-1" style="line-height:1.7;">
-  <li>Habilidades aprendidas, scripts, workflows</li>
-  <li>Permite ao agente melhorar: <i>"aprendi que para deploy uso o script X"</i></li>
-  <li>Armazenada como templates ou regras executáveis</li>
-</ul>
-<div class="text-xs mt-1 opacity-70">📦 <b>Produto:</b> Claude Skills, Cursor Rules, Custom GPTs</div>
-<div class="text-xs opacity-70">🧪 <b>Técnica:</b> prompt templates versionados + retrieval por similaridade</div>
-</div>
-
-</div>
-<div class="insight-box mt-2 text-xs">🧠 <b>Analogia humana:</b> Episódica = seu diário · Semântica = sua enciclopédia pessoal · Procedural = seu caderno de receitas</div>
+<div class="card card-amber mt-3 text-sm">💡 Pergunta pedagógica: isso é algo que o agente deve lembrar, procurar nos documentos ou recalcular agora?</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #0f766e 100%)">
-<h1>Frameworks de memória persistente</h1>
-<p class="text-sm">O mercado oferece soluções prontas para dar memória ao seu agente — de plug-and-play a custom:</p>
-<div class="grid-2 mt-2">
-
-<div class="card card-purple">
-<div class="card-title">🧠 mem0</div>
-<div class="card-desc">Layer de memória plug-and-play — detecta automaticamente o que vale lembrar.</div>
-<ul class="text-xs mt-1" style="line-height:1.6;">
-  <li><b>Como funciona:</b> extrai fatos das conversas, deduplica, e retorna os relevantes via <code>search()</code></li>
-  <li><b>Setup:</b> <code>pip install mem0ai</code> → 3 linhas para funcionar</li>
-  <li><b>Diferencial:</b> memória automática (não precisa dizer "lembre disso")</li>
-  <li><b>Ideal para:</b> MVPs, protótipos, agentes pessoais</li>
-</ul>
+<h1>MemGPT — LLMs como sistemas operacionais</h1>
+<div class="card mt-3 text-center text-sm">MemGPT / Letta propõe tratar o LLM como um processo com <b>RAM limitada</b> e <b>memória externa paginável</b>.</div>
+<div class="flow-diagram mt-3">
+  <div class="flow-node node-purple">Turno atual</div><div class="flow-arrow">→</div>
+  <div class="flow-node node-cyan">Context window<br>RAM</div><div class="flow-arrow">↔</div>
+  <div class="flow-node node-amber">Política do agente<br>page in / out</div><div class="flow-arrow">↔</div>
+  <div class="flow-node node-green">Memória externa<br>episódios / docs</div>
 </div>
-
-<div class="card card-cyan">
-<div class="card-title">⚡ Zep</div>
-<div class="card-desc">Open source. Knowledge graph temporal + vector store. Foco em produção.</div>
-<ul class="text-xs mt-1" style="line-height:1.6;">
-  <li><b>Como funciona:</b> constrói grafo de conhecimento temporal sobre o usuário</li>
-  <li><b>Setup:</b> Docker + API REST — <code>getzep.com</code></li>
-  <li><b>Diferencial:</b> relaciona fatos entre si ("João é gerente de Maria")</li>
-  <li><b>Ideal para:</b> aplicações empresariais multi-tenant, compliance</li>
-</ul>
+<div class="grid-2 mt-3 text-sm">
+<div class="card card-green"><b>Por que importa?</b><br>Agentes de longa duração precisam decidir o que lembrar e quando trazer de volta.</div>
+<div class="card card-amber"><b>Trade-off</b><br>Mais autonomia, mas exige tracing e avaliação para não consolidar memória errada.</div>
 </div>
-
-<div class="card card-green">
-<div class="card-title">🔄 LangGraph + Checkpoints</div>
-<div class="card-desc">Persiste o estado completo do agente (incluindo memórias) em Postgres/Redis.</div>
-<ul class="text-xs mt-1" style="line-height:1.6;">
-  <li><b>Como funciona:</b> cada nó do grafo pode ler/escrever memórias no state</li>
-  <li><b>Setup:</b> <code>MemorySaver()</code> ou <code>PostgresSaver()</code></li>
-  <li><b>Diferencial:</b> controle total — você decide exatamente o que persistir</li>
-  <li><b>Ideal para:</b> agentes complexos com estado custom, workflows longos</li>
-</ul>
-</div>
-
-<div class="card card-amber">
-<div class="card-title">📚 Letta (ex-MemGPT)</div>
-<div class="card-desc">Paper seminal "OS para agentes" — memória hierárquica inspirada em sistemas operacionais.</div>
-<ul class="text-xs mt-1" style="line-height:1.6;">
-  <li><b>Como funciona:</b> context window = "RAM", banco externo = "disco". Agente faz page-in/page-out</li>
-  <li><b>Setup:</b> <code>pip install letta</code> → servidor local com UI</li>
-  <li><b>Diferencial:</b> memória virtualmente infinita, auto-gerenciada</li>
-  <li><b>Ideal para:</b> pesquisa, agentes de longa vida, conversas de meses</li>
-</ul>
-</div>
-
-</div>
-<div class="tip-box mt-2 text-xs">📌 <b>Como escolher?</b> Protótipo rápido → mem0 · Produção com grafos → Zep · Controle total → LangGraph · Pesquisa/memória infinita → Letta</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #172554 100%)">
-<h1>Exemplo: memória com mem0</h1>
-<div class="text-xs">📖 <b>Em palavras:</b> o mem0 funciona como um caderno do usuário: você grava fatos com <code>add()</code> e recupera só as memórias relevantes com <code>search()</code>.</div>
-<pre><code class="language-python">from mem0 import Memory
-m = Memory()
-user_id = &quot;alan&quot;
-m.add(&quot;Prefiro respostas em português, tom técnico&quot;, user_id=user_id)
-m.add(&quot;Trabalho com Python e TypeScript&quot;, user_id=user_id)
-m.add(&quot;Não gosto de emojis em código&quot;, user_id=user_id)</code></pre>
+<h1>Frameworks de memória persistente</h1>
+<table class="text-sm mt-3">
+<thead><tr><th>Opção</th><th>Modelo mental</th><th>Quando usar</th></tr></thead>
+<tbody>
+<tr><td><b>mem0</b></td><td>camada plug-and-play que extrai fatos úteis</td><td>MVPs, agentes pessoais, personalização rápida</td></tr>
+<tr><td><b>Zep</b></td><td>knowledge graph temporal + vetores</td><td>produção, histórico multiusuário, relações entre fatos</td></tr>
+<tr><td><b>LangGraph checkpoints</b></td><td>estado do workflow persistido</td><td>agentes com etapas, retries e auditoria</td></tr>
+<tr><td><b>Letta / MemGPT</b></td><td>memória hierárquica gerenciada pelo agente</td><td>agentes persistentes, pesquisa, conversas longas</td></tr>
+</tbody>
+</table>
+<div class="card card-cyan mt-3 text-sm">📌 Mercado: a disputa não é só “qual LLM responde melhor”, mas qual produto mantém contexto confiável, governado e barato.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e293b 100%)">
-<h1>Exemplo: memória com mem0 — continuação</h1>
-<pre><code class="language-python">def chat(pergunta: str):
-    memorias = m.search(pergunta, user_id=user_id, limit=5)
-    contexto = &quot;\n&quot;.join(m[&quot;memory&quot;] for m in memorias[&quot;results&quot;])
-    # Mock de resposta (em produção: chamaria LLM real)
-    resposta = f&quot;[Com contexto de {len(memorias[&#x27;results&#x27;])} memórias] &quot;
-    resposta += f&quot;Baseado no que sei sobre você ({contexto[:50]}...), &quot;
-    resposta += &quot;aqui está minha resposta personalizada.&quot;
-    return resposta
-
-print(chat(&quot;Me ajude a escrever uma função&quot;))</code></pre>
-<div class="card card-cyan mt-3 text-xs">✅ Resultado: ele responde em português, tom técnico e sem emojis mesmo em outra sessão — porque a memória persistiu as preferências.</div>
+<h1>CacheBlend &amp; Efficient RAG</h1>
+<div class="card card-green mt-3 text-center text-sm">Em produção, memória também é <b>economia de contexto</b>: reusar o que já foi processado e recalcular só o necessário.</div>
+<div class="grid-3 mt-3 text-sm">
+<div class="card card-purple"><b>Prompt caching</b><br>Partes estáveis do prompt ficam cacheadas; docs comuns não custam tudo de novo.</div>
+<div class="card card-cyan"><b>CacheBlend</b><br>Funde conhecimento recuperado e cache para reduzir latência em RAG repetitivo.</div>
+<div class="card card-amber"><b>Efficient RAG</b><br>Busca híbrida + rerank + compressão + cache para escalar sem prompt monstro.</div>
+</div>
+<div class="card card-amber mt-3 text-sm">🏢 Relação com mercado: Glean, Notion AI, Copilot e agentes de código precisam responder rápido sobre corpus grande e repetido; sem cache, a conta explode.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)" class="text-center">
-<h1>🧠 Além do RAG: memória como arquitetura</h1>
-<p class="text-sm">No <b>Stanford CS329A</b>, a ideia não é só “colocar mais texto no prompt”.<br>É tratar contexto como um <b>sistema de memória</b>, com camadas e políticas.</p>
-<div class="grid-3 mt-2 stagger-in text-xs">
-  <div class="card card-purple expandable">
-    <div class="card-title">🪟 Contexto = mesa de trabalho</div>
-    <div class="card-desc">O que está aberto agora, visível para o modelo.</div>
-    <div class="card-detail">
-      <p><b>Analogia:</b> sua mesa ou aba atual do navegador.</p>
-      <p>Se você lota a mesa com tudo, fica caro, lento e confuso.</p>
-    </div>
-  </div>
-  <div class="card card-cyan expandable">
-    <div class="card-title">🗃️ Memória externa = armário</div>
-    <div class="card-desc">Informações ficam guardadas fora do prompt.</div>
-    <div class="card-detail">
-      <p>Pode ser Vector DB, banco relacional, arquivos, sumários ou checkpoints.</p>
-      <p>O agente busca só o que precisa, em vez de carregar tudo toda hora.</p>
-    </div>
-  </div>
-  <div class="card card-green expandable">
-    <div class="card-title">⚖️ Política de memória</div>
-    <div class="card-desc">Quem entra, quem sai e quem volta para o contexto.</div>
-    <div class="card-detail">
-      <p><b>Perguntas-chave:</b> o que vale lembrar? o que pode ser resumido? o que deve ser reconsultado?</p>
-      <p>Isso é <b>context engineering</b> na prática.</p>
-    </div>
-  </div>
-</div>
-<div class="insight-box mt-3">📚 Fonte-guia: Stanford CS329A — memória, context management e agentes que escolhem como usar contexto.</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #111827 0%, #1f2937 100%)">
-<h1>🧠 MemGPT — LLMs como sistemas operacionais</h1>
-<p class="text-sm"><b>MemGPT</b> (Packer et al., 2023) propõe olhar para o agente como um <b>OS</b>:<br><b>contexto principal = RAM</b> · <b>memória externa = HD</b>.</p>
-<div class="flow-diagram mt-2">
-  <div class="flow-node node-purple">Usuário fala</div>
-  <div class="flow-arrow">→</div>
-  <div class="flow-node node-cyan">Contexto ativo<br>“RAM”</div>
-  <div class="flow-arrow">↔</div>
-  <div class="flow-node node-green">Memória arquivada<br>“HD / disco”</div>
-  <div class="flow-arrow">→</div>
-  <div class="flow-node node-amber">Resposta</div>
-</div>
-<div class="grid-3 mt-3 text-xs stagger-in">
-  <div class="card card-cyan expandable">
-    <div class="card-title">💬 O que fica na “RAM”</div>
-    <div class="card-desc">Pergunta atual, instruções e poucos fatos críticos.</div>
-    <div class="card-detail">
-      <p>É a parte cara e limitada: tudo aqui consome tokens a cada chamada.</p>
-      <p>Por isso o agente não deve deixar “tudo aberto”.</p>
-    </div>
-  </div>
-  <div class="card card-green expandable">
-    <div class="card-title">💾 O que vai para o “HD”</div>
-    <div class="card-desc">Histórico antigo, detalhes raros e documentos grandes.</div>
-    <div class="card-detail">
-      <p><b>Paging out:</b> tirar do contexto atual, mas guardar para recuperar depois.</p>
-      <p><b>Paging in:</b> trazer de volta quando a tarefa exigir.</p>
-    </div>
-  </div>
-  <div class="card card-amber expandable">
-    <div class="card-title">🧑‍💻 Quem decide?</div>
-    <div class="card-desc">O próprio agente gerencia a memória.</div>
-    <div class="card-detail">
-      <p>Na visão do MemGPT, o LLM recebe instruções explícitas para decidir o que manter, resumir ou arquivar.</p>
-      <p>É menos “prompt gigante” e mais “gerente de memória”.</p>
-    </div>
-  </div>
-</div>
-<div class="tip-box mt-3">🖥️ Analogia simples: seu computador não coloca todos os arquivos na RAM; o agente bom também não.</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)">
-<h1>⚡ CacheBlend &amp; Efficient RAG</h1>
-<p class="text-sm">Para RAG funcionar em produção, não basta recuperar bem — precisa ser <b>rápido</b>, <b>barato</b> e <b>repetível</b>.</p>
-<div class="flow-diagram mt-2">
-  <div class="flow-node node-purple">Pergunta</div>
-  <div class="flow-arrow">→</div>
-  <div class="flow-node node-cyan">Retrieval</div>
-  <div class="flow-arrow">→</div>
-  <div class="flow-node node-green">Cache de contexto<br>/ KV / chunks</div>
-  <div class="flow-arrow">→</div>
-  <div class="flow-node node-amber">Fusão rápida</div>
-  <div class="flow-arrow">→</div>
-  <div class="flow-node node-purple">LLM</div>
-</div>
-<div class="grid-3 mt-3 text-xs stagger-in">
-  <div class="card card-purple expandable">
-    <div class="card-title">♻️ Reaproveitar o que já foi lido</div>
-    <div class="card-desc">Não recalcule tudo do zero a cada pergunta parecida.</div>
-    <div class="card-detail">
-      <p><b>Exemplo:</b> política de RH, manual da empresa e docs da API aparecem o dia inteiro.</p>
-      <p>Se esses blocos já foram processados, faz sentido cacheá-los.</p>
-    </div>
-  </div>
-  <div class="card card-cyan expandable">
-    <div class="card-title">🧩 CacheBlend = fusão eficiente</div>
-    <div class="card-desc">Mistura pedaços recuperados com cache, reduzindo recomputação.</div>
-    <div class="card-detail">
-      <p>A ideia central é: <b>reusar</b> conhecimento recuperado e recalcular só o mínimo necessário.</p>
-      <p>Resultado típico: menor <i>time-to-first-token</i> e mais throughput.</p>
-    </div>
-  </div>
-  <div class="card card-green expandable">
-    <div class="card-title">🏭 Efficient RAG na prática</div>
-    <div class="card-desc">Caching + híbrido + rerank + compressão.</div>
-    <div class="card-detail">
-      <p>RAG escalável normalmente combina: cache de consultas frequentes, busca híbrida, reranker e compressão de contexto.</p>
-      <p>Objetivo: dar resposta boa <b>sem</b> pagar a conta de um prompt monstro.</p>
-    </div>
-  </div>
-</div>
-<div class="insight-box mt-3">📚 Stanford CS329A enfatiza isso: retrieval útil precisa virar <b>knowledge fusion prática</b>, não só demo bonita.</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #064e3b 100%)">
-<h1>🧩 Cartridges — conhecimento portátil</h1>
-<p class="text-sm"><b>Cartridges</b> são representações leves de contexto longo: o agente “estuda” um domínio antes e guarda um pacote reutilizável para carregar sob demanda.</p>
-<div class="grid-3 mt-2 stagger-in text-xs">
-  <div class="card card-purple expandable">
-    <div class="card-title">📚 1. Self-study offline</div>
-    <div class="card-desc">O agente lê docs, código ou um corpus inteiro antes do uso.</div>
-    <div class="card-detail">
-      <p>Em vez de reprocessar 500 páginas sempre, ele faz uma fase de estudo e destilação.</p>
-      <p>É como montar um resumo inteligente com estrutura para consulta futura.</p>
-    </div>
-  </div>
-  <div class="card card-cyan expandable">
-    <div class="card-title">🎮 2. Vira um “cartucho”</div>
-    <div class="card-desc">Conhecimento compactado, leve e reutilizável.</div>
-    <div class="card-detail">
-      <p><b>Analogia:</b> videogame antigo — você encaixa o cartucho certo e ganha aquele mundo.</p>
-      <p>No agente, o cartucho carrega fatos, estrutura, índices e atalhos daquele domínio.</p>
-    </div>
-  </div>
-  <div class="card card-green expandable">
-    <div class="card-title">🚀 3. Load on demand</div>
-    <div class="card-desc">Só entra no contexto quando o tema pede.</div>
-    <div class="card-detail">
-      <p>Se a pergunta é sobre jurídico, carrega o cartucho jurídico; se é sobre código, carrega o cartucho do repositório.</p>
-      <p>Menos contexto inútil, mais foco.</p>
-    </div>
-  </div>
-</div>
-<div class="card card-amber expandable mt-3 text-xs">
-  <div class="card-title">💡 Por que isso importa?</div>
-  <div class="card-desc">Cartridges tentam unir o melhor de dois mundos: profundidade de contexto e baixo custo de uso.</div>
-  <div class="card-detail">
-    <p>É uma alternativa entre <b>colar tudo no prompt</b> e <b>fazer retrieval do zero o tempo todo</b>.</p>
-    <p>No espírito do Stanford CS329A, é memória preparada para agentes que aprendem a se organizar.</p>
-  </div>
-</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
-<h1>📊 Comparando arquiteturas de memória</h1>
-<div class="grid-4 mt-2 text-xs stagger-in">
-  <div class="card card-red expandable">
-    <div class="card-title">1. Sem memória</div>
-    <div class="card-desc">Cada turno começa do zero.</div>
-    <div class="card-detail">
-      <p><b>Bom para:</b> FAQs simples.</p>
-      <p><b>Quebra em:</b> personalização, continuidade e tarefas longas.</p>
-    </div>
-  </div>
-  <div class="card card-amber expandable">
-    <div class="card-title">2. Curto prazo</div>
-    <div class="card-desc">Só o histórico da conversa atual.</div>
-    <div class="card-detail">
-      <p><b>Bom para:</b> chats curtos.</p>
-      <p><b>Problema:</b> esquece entre sessões e sofre com context window.</p>
-    </div>
-  </div>
-  <div class="card card-green expandable">
-    <div class="card-title">3. Longo prazo</div>
-    <div class="card-desc">Vector DB / memória persistente entre sessões.</div>
-    <div class="card-detail">
-      <p><b>Bom para:</b> preferências, fatos do usuário e documentos externos.</p>
-      <p><b>Problema:</b> ainda depende de retrieval certo e não decide sozinho o que “sai da RAM”.</p>
-    </div>
-  </div>
-  <div class="card card-purple expandable">
-    <div class="card-title">4. Hierárquica (MemGPT-style)</div>
-    <div class="card-desc">Contexto ativo + memória externa + política de paginação.</div>
-    <div class="card-detail">
-      <p><b>Bom para:</b> agentes persistentes, longos e mais autônomos.</p>
-      <p><b>Trade-off:</b> exige orquestração melhor, mas escala muito melhor que “prompt infinito”.</p>
-    </div>
-  </div>
-</div>
-<div class="flow-diagram mt-3">
-  <div class="flow-node node-red">Zero memória</div>
-  <div class="flow-arrow">→</div>
-  <div class="flow-node node-amber">Histórico local</div>
-  <div class="flow-arrow">→</div>
-  <div class="flow-node node-green">Memória persistente</div>
-  <div class="flow-arrow">→</div>
-  <div class="flow-node node-purple">Memória hierárquica</div>
-</div>
-<div class="tip-box mt-3">🎯 Regra prática para iniciantes: comece com <b>curto prazo + RAG</b>; evolua para <b>memória hierárquica</b> quando o agente precisar durar muito e decidir melhor o que lembrar.</div>
+<h1>Comparando arquiteturas de memória</h1>
+<table class="text-xs mt-2">
+<thead><tr><th>Arquitetura</th><th>Resolve</th><th>Quebra quando...</th><th>Exemplo de mercado</th></tr></thead>
+<tbody>
+<tr><td><b>Sem memória</b></td><td>FAQ simples</td><td>usuário espera continuidade</td><td>chatbot demo</td></tr>
+<tr><td><b>Histórico curto</b></td><td>conversa atual</td><td>sessão fica longa ou reinicia</td><td>chat básico com thread</td></tr>
+<tr><td><b>RAG</b></td><td>conhecimento externo verificável</td><td>precisa lembrar preferências e decisões</td><td>Glean, Notion Q&amp;A, NotebookLM</td></tr>
+<tr><td><b>Memória persistente</b></td><td>personalização e continuidade</td><td>memória fica suja ou sem governança</td><td>ChatGPT Memory, Claude Projects</td></tr>
+<tr><td><b>Hierárquica</b></td><td>agente de longa vida</td><td>não há política de page-in/page-out</td><td>Letta/MemGPT-style agents</td></tr>
+</tbody>
+</table>
+<div class="card card-cyan mt-3 text-sm">Regra prática: <b>RAG traz conhecimento</b>, <b>memória traz continuidade</b>, <b>context engineering decide o que entra agora</b>.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%)" class="text-center">
