@@ -1615,8 +1615,12 @@ Houve <b>três saltos qualitativos</b>.
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
-<h1>🔬 O que é RLHF? — o ingrediente que viabilizou agentes</h1>
-<p class="text-sm">Sem RLHF, não existiriam agentes confiáveis. Este é o processo que transformou modelos que "completam texto" em assistentes que <b>seguem instruções com segurança</b>.</p>
+<h1>🔬 O que é RLHF? — por que agentes precisam disso</h1>
+<p class="text-sm">RLHF <b>não</b> é usado para avaliar agentes. Ele é uma <b>técnica de treinamento</b> que ensina o LLM a <b>obedecer instruções</b> em vez de apenas completar texto. Sem isso, você não pode pedir "chame esta API" e confiar que o modelo vai fazer — ele simplesmente continuaria gerando texto aleatório.</p>
+
+<div class="tip-box" style="margin-top:0.5rem;">
+💡 <b>Analogia:</b> Um LLM pré-treinado é como um funcionário genial que fala 50 idiomas mas <b>ignora ordens</b>. RLHF é o processo que ensina esse funcionário a <b>seguir instruções, respeitar limites e reportar quando não sabe</b>. Só depois disso você pode confiar tarefas reais (= agentes) a ele.
+</div>
 
 <div class="flow-diagram mt-2">
 <div class="flow-node node-purple">LLM gera<br>2+ respostas</div>
@@ -1647,7 +1651,7 @@ Houve <b>três saltos qualitativos</b>.
 </div>
 
 <div class="insight-box" style="margin-top:0.8rem;">
-<b>🏢 Por que o PM precisa saber isso:</b> Empresas que fazem fine-tuning precisam decidir se investem em RLHF próprio (custo alto, controle total) ou usam modelos pré-alinhados via API (mais barato, menos controle). A maioria das empresas escolhe a API — e aplica guardrails na camada de prompt.
+<b>🔗 Conexão com agentes:</b> Agentes precisam que o LLM: (1) siga um formato exato (ex: JSON de tool calls), (2) pare quando não sabe, (3) recuse ações perigosas. <b>RLHF é o que ensina essas 3 coisas.</b> Sem RLHF, dar ferramentas a um LLM seria como dar uma serra elétrica a alguém que não entende "pare".
 </div>
 </section>
 
