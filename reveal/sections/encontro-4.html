@@ -945,7 +945,7 @@ NUNCA invente URL, número, data ou citação."""</code></pre>
     for step in range(max_steps):
         if time.time() - t0 &gt; timeout: return "⛔ Timeout — retornando melhor esforço."
         resp = client.chat.completions.create(
-            model="mistralai/Mistral-7B-Instruct-v0.3",
+            model="mistralai/Mistral-Nemo-Instruct-2407",
             messages=msgs, max_tokens=400,
         )
         content = resp.choices[0].message.content
@@ -1285,3 +1285,4 @@ print(json.dumps(results, indent=2, ensure_ascii=False))</code></pre>
   <div class="text-xs opacity-70 mt-2">Construa coisas. Quebre coisas. Compartilhe o que aprender.</div>
   <h2 class="mt-3">🤖 Bem-vindo à era dos agentes.</h2>
 </section>
+

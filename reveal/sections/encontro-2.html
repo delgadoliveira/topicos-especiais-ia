@@ -51,16 +51,21 @@
 
 <section>
 <h1>🗺️ Agenda do Encontro 2</h1>
-<div class="stagger-in grid-2" style="gap: 1.4rem; margin-top: 2rem;">
-<div>
-<p class="slide-in-left"><b>Bloco 1 — Reasoning & Planning (~90 min)</b></p>
-<ul class="mt-2"><li class="fragment" data-fragment-index="1">2.1 Recap: limites do ReAct manual</li><li class="fragment" data-fragment-index="2">2.2 Chain-of-Thought (CoT)</li><li class="fragment" data-fragment-index="3">2.3 Self-Consistency</li><li class="fragment" data-fragment-index="4">2.4 Tree-of-Thoughts (ToT)</li><li class="fragment" data-fragment-index="5">2.5 Planning: Plan-and-Execute, ReWOO</li></ul>
-</div>
-<div>
-<p class="slide-in-left"><b>Bloco 2 — Tool Execution (~90 min)</b></p>
-<ul class="mt-2"><li class="fragment" data-fragment-index="1">2.6 Function Calling estruturado</li><li class="fragment" data-fragment-index="2">2.7 Hands-on: agente robusto com OpenAI tools</li><li class="fragment" data-fragment-index="3">2.8 LangChain — quando faz sentido</li><li class="fragment" data-fragment-index="4">2.9 LangGraph — state machines explícitas</li><li class="fragment" data-fragment-index="5">2.10 Exercícios</li></ul>
+<div class="grid-2 mt-3" style="gap: 1.4rem;">
+<div class="card card-purple slide-in-left">
+<div class="card-title">🧠 Bloco 1 — Reasoning &amp; Planning (~90 min)</div>
+<div class="card-desc">
+<ul><li class="fragment">2.1 Recap: limites do ReAct manual</li><li class="fragment">2.2 Chain-of-Thought (CoT)</li><li class="fragment">2.3 Self-Consistency</li><li class="fragment">2.4 Tree-of-Thoughts (ToT)</li><li class="fragment">2.5 Planning: Plan-and-Execute, ReWOO</li></ul>
 </div>
 </div>
+<div class="card card-cyan slide-in-right">
+<div class="card-title">🔧 Bloco 2 — Tool Execution (~90 min)</div>
+<div class="card-desc">
+<ul><li class="fragment">2.6 Function Calling estruturado</li><li class="fragment">2.7 Hands-on: agente robusto com HuggingFace</li><li class="fragment">2.8 LangChain — quando faz sentido</li><li class="fragment">2.9 LangGraph — state machines explícitas</li><li class="fragment">2.10 Exercícios</li></ul>
+</div>
+</div>
+</div>
+<div class="tip-box mt-2 text-xs">🎯 <b>Fio condutor:</b> seu agente do E1 funciona, mas é "impulsivo". Hoje ele aprende a <b>pensar antes de agir</b> e a <b>agir com precisão cirúrgica</b>.</div>
 </section>
 
 <section>
@@ -250,9 +255,11 @@ R:"""</code></pre>
 <p class="slide-in-left">📄 <b>Shinn et al., 2023</b> — <i>"Reflexion: Language Agents with Verbal Reinforcement Learning"</i></p>
 <p class="slide-in-left">A ideia: depois de tentar uma tarefa, o agente <b>critica seu próprio output</b> e tenta de novo com a crítica no contexto.</p>
 <div class="flow-diagram"><div class="flow-node node-purple">🎯 Tarefa</div><div class="flow-arrow">→</div><div class="flow-node node-purple">🤖 Tentativa 1</div><div class="flow-arrow">→</div><div class="flow-node node-purple">Sucesso?</div><div class="flow-arrow">→</div><div class="flow-node node-amber">🪞 Auto-crítica<br>'O que falhou?'</div><div class="flow-arrow">→</div><div class="flow-node node-amber">🤖 Tentativa 2<br>contexto + crítica</div><div class="flow-arrow">→</div><div class="flow-node node-green">✅</div></div>
-<div class="mt-3 text-sm">
-<p class="slide-in-left">Melhora performance em <b>20-30%</b> em benchmarks como HumanEval e ALFWorld, sem retreinar nada.</p>
+<div class="grid-2 mt-2 stagger-in text-xs">
+<div class="card card-green fragment"><div class="card-title">📈 Resultado</div><div class="card-desc">Melhora <b>20-30%</b> em HumanEval e ALFWorld, sem retreinar nada — apenas adicionando autocrítica ao loop.</div></div>
+<div class="card card-amber fragment"><div class="card-title">💡 Analogia</div><div class="card-desc">Como um <b>aluno revisando a prova</b> antes de entregar: relê, encontra erros, corrige. Simples, mas eficaz.</div></div>
 </div>
+<div class="insight-box mt-2 text-xs">🏢 <b>Na prática:</b> Cursor, Devin e Claude Code usam Reflexion internamente — quando o código não compila, o agente lê o erro, critica sua solução e tenta de novo.</div>
 </section>
 
 <section>
@@ -506,7 +513,7 @@ replanning_trigger = "Se qualquer passo falhar 2x, re-planejar"</code></pre>
 def create_plan(objective: str) -&gt; list[dict]:
     &quot;&quot;&quot;Pede ao LLM para decompor objetivo em passos ordenados.&quot;&quot;&quot;
     resp = client.chat.completions.create(
-        model=&quot;mistralai/Mistral-7B-Instruct-v0.3&quot;,
+        model=&quot;mistralai/Mistral-Nemo-Instruct-2407&quot;,
         messages=[
             {&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: &quot;Decomponha o objetivo em 3-5 passos. Responda APENAS JSON: {\\&quot;passos\\&quot;: [{\\&quot;id\\&quot;: 1, \\&quot;acao\\&quot;: \\&quot;...\\&quot;, \\&quot;tool\\&quot;: \\&quot;busca|calculadora|escrita\\&quot;, \\&quot;depende_de\\&quot;: []}]}&quot;},
             {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: objective},
@@ -658,9 +665,12 @@ create_plan(&quot;Analisar o mercado de IA no Brasil&quot;)</code></pre>
 <div style="font-size: 0.78em; margin-top: 2rem; opacity: 0.9;">
 <p class="slide-in-left">O agente já sabe <b>pensar</b> (CoT, ToT, Planning).<br><br>Agora precisa de <b>mãos firmes</b> — ferramentas estruturadas e confiáveis.</p>
 </div>
-<div class="text-sm" style="margin-top: 2rem; opacity: 0.6;">
-<p class="slide-in-left">É aqui que o "artesanal" do Encontro 1 vira <b>padrão de indústria</b>.</p>
+<div class="grid-3 mt-3 stagger-in text-xs">
+<div class="card card-purple parallax-card fragment"><b>🧠 Encontro 1</b><br>Regex manual, 1 tool por vez, parsing frágil</div>
+<div class="card card-cyan parallax-card fragment"><b>🔧 Encontro 2</b><br>Function Calling, JSON Schema, multi-tool paralelo</div>
+<div class="card card-green parallax-card fragment"><b>🏗️ Produção</b><br>LangGraph, checkpoints, HITL, observabilidade</div>
 </div>
+<div class="insight-box fragment mt-2">É aqui que o "artesanal" do Encontro 1 vira <b>padrão de indústria</b>. A diferença? <b>Confiabilidade + escala</b>.</div>
 </section>
 
 <section>
@@ -703,7 +713,7 @@ create_plan(&quot;Analisar o mercado de IA no Brasil&quot;)</code></pre>
 import json
 
 resp = client.chat.completions.create(
-    model=&quot;mistralai/Mistral-7B-Instruct-v0.3&quot;,
+    model=&quot;mistralai/Mistral-Nemo-Instruct-2407&quot;,
     messages=[
         {&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: &quot;&quot;&quot;Você tem acesso a ferramentas. Responda APENAS em JSON:
 {&quot;tool&quot;: &quot;nome&quot;, &quot;args&quot;: {&quot;param&quot;: &quot;valor&quot;}} ou {&quot;answer&quot;: &quot;resposta final&quot;}
@@ -728,7 +738,7 @@ print(resultado)  # {&quot;tool&quot;: &quot;calculadora&quot;, &quot;args&quot;
     ]
     for step in range(max_steps):
         resp = client.chat.completions.create(
-            model="mistralai/Mistral-7B-Instruct-v0.3",
+            model="mistralai/Mistral-Nemo-Instruct-2407",
             messages=msgs, max_tokens=150,
         )
         out = json.loads(resp.choices[0].message.content)
@@ -750,7 +760,8 @@ print(resultado)  # {&quot;tool&quot;: &quot;calculadora&quot;, &quot;args&quot;
                 "content": str(result),
             })
     return "Max steps atingido."</code></pre>
-<div class="mt-2 text-xs opacity-70">Se vierem 2 <code>tool_calls</code>, você pode executar ambas em paralelo e só depois devolver os resultados ao modelo.</div>
+<div class="tip-box mt-2 text-xs">⚠️ Se vierem 2 <code>tool_calls</code>, você pode executar ambas em <b>paralelo</b> e só depois devolver os resultados ao modelo — latência cai ~50%.</div>
+<div class="insight-box mt-2 text-xs">🏢 <b>Na indústria:</b> Cursor IDE executa ~3-5 tool_calls em paralelo (read_file, grep, list_dir) numa única resposta. É o que dá a sensação de "velocidade mágica".</div>
 </section>
 
 <section>
@@ -766,6 +777,7 @@ print(resultado)  # {&quot;tool&quot;: &quot;calculadora&quot;, &quot;args&quot;
 <h1>Parallel tool calls — exemplo visual</h1>
 <div class="agent-trace"><div class="trace-line trace-user">Usuário → LLM: Compare clima de SP e RJ</div><div class="trace-line trace-action">LLM → Usuário: tool_calls: [clima(SP), clima(RJ)]</div><div class="trace-line trace-user">Usuário → clima(SP): clima("SP")</div><div class="trace-line trace-obs">clima(SP) → Usuário: 22°C</div><div class="trace-line trace-user">Usuário → clima(RJ): clima("RJ")</div><div class="trace-line trace-obs">clima(RJ) → Usuário: 28°C</div><div class="trace-line trace-user">Usuário → LLM: results: [22°C, 28°C]</div><div class="trace-line trace-result">LLM → Usuário: Resposta: "RJ está 6°C mais quente."</div></div>
 <div class="insight-box fragment">Uma decisão do modelo, duas ferramentas em paralelo, uma síntese final.</div>
+<div class="tip-box mt-2 text-xs">💡 <b>Na prática:</b> parallel tool calls reduz latência em 40-60% quando há 2+ tools independentes. GPT-4o, Claude 3.5+ e Gemini 2.0+ suportam nativamente.</div>
 </section>
 
 <section>
@@ -810,8 +822,9 @@ print(executor.invoke({"input": "Qual a capital do Brasil e quanto é 47*13?"}))
 <p class="slide-in-left">LangChain criou o LangGraph em <b>2024</b> como resposta à principal crítica: "abstrai demais, não sei o que está acontecendo".</p>
 <p class="slide-in-left"><b>Conceito:</b> seu agente é um <b>grafo dirigido</b> onde cada nó é uma função Python e cada aresta é uma condição.</p>
 <div class="flow-diagram"><div class="flow-node node-purple">[*] --> agent: entrada do usuário</div><div class="flow-arrow">→</div><div class="flow-node node-cyan">agent --> tools: precisa de tool?</div><div class="flow-arrow">→</div><div class="flow-node node-green">agent --> END: resposta pronta</div><div class="flow-arrow">→</div><div class="flow-node node-cyan">tools --> agent: resultado da tool</div></div>
-<div class="card mt-3 text-xs card-cyan parallax-card fragment">
-<p class="slide-in-left">💡 Diferente do LangChain (loop implícito), aqui <b>você desenha o fluxo</b> — cada rota é explícita e debugável.</p>
+<div class="grid-2 mt-2 text-xs stagger-in">
+<div class="card card-cyan parallax-card fragment">💡 Diferente do LangChain (loop implícito), aqui <b>você desenha o fluxo</b> — cada rota é explícita e debugável.</div>
+<div class="card card-green parallax-card fragment">🏢 <b>Adoção:</b> empresas como Elastic, Replit, e bancos como JP Morgan usam LangGraph em produção por conta da auditabilidade.</div>
 </div>
 </section>
 
@@ -893,6 +906,10 @@ for event in app.stream({"messages": [("user", "...")]}):
 <section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #111827 100%)">
 <h1>🎯 2.10 Boas Práticas — tirando o melhor dos agentes</h1>
 <p class="slide-in-left">Como interagir com agentes para maximizar resultados</p>
+<div class="grid-2 mt-3 stagger-in text-xs">
+<div class="card card-amber parallax-card fragment"><b>📖 Analogia:</b> prompts são como <b>briefings para um estagiário brilhante</b>. Ele é capaz, mas precisa de contexto claro, exemplos e limites.</div>
+<div class="card card-green parallax-card fragment"><b>🎯 Resultado esperado:</b> um agente bem instruído resolve 80% dos casos sem intervenção. Mal instruído? Menos de 30%.</div>
+</div>
 </section>
 
 <section>
@@ -924,11 +941,18 @@ for event in app.stream({"messages": [("user", "...")]}):
 <div class="card mt-3 text-xs card-green parallax-card fragment">
 <p class="slide-in-left">💡 <b>Regra de ouro:</b> se o agente falha repetidamente, o problema quase nunca é o modelo — é o <b>design do sistema</b> (prompt, tools, ou orquestração).</p>
 </div>
+<div class="insight-box mt-2 text-xs">📊 <b>Dado real:</b> segundo a equipe do LangSmith, ~70% dos tickets de suporte de agentes são resolvidos melhorando tool descriptions ou system prompts — sem trocar o modelo.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%)">
 <h1>🏋️ 2.11 Exercícios — Encontro 2</h1>
 <div class="typewriter-js text-center mt-2" data-text="5 atividades · Aplique os conceitos de reasoning, planning e tool execution"></div>
+<div class="grid-3 mt-3 stagger-in text-xs">
+<div class="card card-purple parallax-card fragment"><b>🧠 Raciocínio</b><br>Ex 2.1 e 2.5</div>
+<div class="card card-cyan parallax-card fragment"><b>🔧 Ferramentas</b><br>Ex 2.2 e 2.3</div>
+<div class="card card-green parallax-card fragment"><b>📋 Planejamento</b><br>Ex 2.4</div>
+</div>
+<div class="tip-box mt-2 text-xs">💡 Todos os exercícios rodam no <b>Google Colab</b> — sem setup local. Tempo estimado: 60-90 min total.</div>
 </section>
 
 <section>
@@ -1108,3 +1132,4 @@ def plan_and_execute(pergunta: str):
 <div class="text-xs opacity-70" style="margin-bottom: 0.75rem;">Implemente um planejador que decompõe tarefas em sub-tarefas.</div>
 <div class="pyrunner-container" data-src="exercises/e2_3_planner.py"><textarea></textarea><button class="run-btn">▶ Executar</button><div class="pyrunner-output"></div></div>
 </section>
+

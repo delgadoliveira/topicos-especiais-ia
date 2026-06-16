@@ -188,7 +188,7 @@ def summarize(messages: list) -&gt; str:
     &quot;&quot;&quot;Sumariza mensagens usando HuggingFace Inference API.&quot;&quot;&quot;
     texto = &quot;\n&quot;.join(f&quot;{m[&#x27;role&#x27;]}: {m[&#x27;content&#x27;]}&quot; for m in messages)
     resp = client.chat.completions.create(
-        model=&quot;mistralai/Mistral-7B-Instruct-v0.3&quot;,
+        model=&quot;mistralai/Mistral-Nemo-Instruct-2407&quot;,
         messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: f&quot;Resuma em 200 palavras:\n{texto}&quot;}],
         max_tokens=250,
     )
@@ -488,6 +488,7 @@ docs = vectordb.search(hipo, k=5)</code></pre>
   <div class="compare-col good fragment"><h3>Com grounding</h3><p>ele busca informação real antes de responder e cita fontes verificáveis.</p></div>
 </div>
 <div class="insight-box fragment">💡 RAG, busca web e bancos de dados são técnicas de grounding: conectam o LLM ao mundo real.</div>
+<div class="tip-box mt-2 text-xs fragment">🏢 <b>Por que importa:</b> em 2024, Air Canada perdeu processo judicial porque seu chatbot inventou uma política de reembolso. Grounding teria evitado — exigindo que cada afirmação citasse o documento-fonte.</div>
 </section>
 
 <section>
@@ -1099,6 +1100,7 @@ print(chat(&quot;Me ajude a escrever uma função&quot;))</code></pre>
 └── excel-formatter/
     ├── SKILL.md
     └── format.py</code></pre>
+<div class="insight-box mt-2 text-xs">🧠 <b>Por que importa:</b> sem skills, você teria que incluir TODA a documentação de TODAS as ferramentas no system prompt — estourando a janela de contexto e o orçamento. Skills resolvem isso com <b>carregamento preguiçoso</b>.</div>
 </section>
 
 <section>
@@ -1108,6 +1110,7 @@ print(chat(&quot;Me ajude a escrever uma função&quot;))</code></pre>
 <div class="card card-purple"><div >🎓 Skill</div><b>Carrega sob demanda</b><br>Pode trazer docs e scripts<br>1 skill = competência inteira<br>Quase zero overhead</div>
 </div>
 <div class="card card-amber mt-3 text-xs">💡 <b>Analogia:</b> tool é função da biblioteca padrão; skill é um pacote especializado que você só carrega quando precisa.</div>
+<div class="tip-box mt-2 text-xs">🎯 <b>Impacto prático:</b> com 5 tools registradas, ~500 tokens de overhead. Com 50 skills possíveis mas só 3 carregadas, ~300 tokens. Skills <b>escalam melhor</b> para agentes com muitas capacidades.</div>
 </section>
 
 <section>
@@ -1149,6 +1152,7 @@ Hoje: Claude Desktop, Cursor, VS Code, Cline, Continue…
   <div class="flow-node node-amber fragment">Custom seu</div>
 </div>
 <div class="mt-3 text-xs">Comunicação por <b>JSON-RPC</b> (stdio local ou HTTP/SSE remoto). Cada servidor expõe <b>tools</b>, <b>resources</b> e <b>prompts</b>.</div>
+<div class="tip-box mt-2 text-xs">🔑 <b>Três primitivas MCP:</b> (1) <b>Tools</b> — funções executáveis, (2) <b>Resources</b> — dados que o agente pode ler, (3) <b>Prompts</b> — templates de instrução reutilizáveis. Juntas, cobrem qualquer integração.</div>
 </section>
 
 <section>
@@ -1172,6 +1176,7 @@ if __name__ == &quot;__main__&quot;:
 <div class="card card-cyan mt-3 text-sm">
 Pronto. Esse servidor funciona em <b>Claude Desktop</b>, <b>Cursor</b>, <b>VS Code Copilot</b>, ou qualquer cliente MCP, sem mudar uma linha. <b>Esse é o ponto</b>.
 </div>
+<div class="insight-box mt-2 text-xs">🚀 <b>Impacto empresarial:</b> antes do MCP, cada integração custava semanas de dev. Com MCP, uma empresa pode expor seus sistemas internos (ERP, CRM, DB) UMA vez e qualquer agente os acessa. É a diferença entre N² integrações e N.</div>
 </section>
 
 <section>
@@ -1211,6 +1216,7 @@ Lista oficial: <a href="https://github.com/modelcontextprotocol/servers">github.
 <div class="card card-red"><div >❌ Evite quando</div>Um agente resolve sozinho<br>Latência é crítica<br>Custo precisa ser previsível<br>Você nem mediu o benefício</div>
 </div>
 <div class="card card-amber mt-3 text-xs">🎯 <b>Regra prática:</b> single-agent com bom contexto costuma vencer; só vá de multi-agent quando a tarefa realmente pedir especialização ou paralelismo.</div>
+<div class="insight-box mt-2 text-xs">🏢 <b>Realidade do mercado (2025):</b> segundo a Anthropic, <b>~90% dos agentes em produção são single-agent</b>. Multi-agent brilha em: coding assistants (planner + coder + reviewer), research (pesquisador + escritor), e customer support (router + especialistas).</div>
 </section>
 
 <section>
@@ -1290,7 +1296,7 @@ def generate(context: list[str], question: str) -&gt; str:
     &quot;&quot;&quot;Gera resposta usando HuggingFace com contexto injetado.&quot;&quot;&quot;
     ctx = &quot;\n&quot;.join(f&quot;- {d}&quot; for d in context)
     resp = client.chat.completions.create(
-        model=&quot;mistralai/Mistral-7B-Instruct-v0.3&quot;,
+        model=&quot;mistralai/Mistral-Nemo-Instruct-2407&quot;,
         messages=[
             {&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: f&quot;Responda baseado APENAS neste contexto:\n{ctx}&quot;},
             {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: question},
@@ -1484,3 +1490,4 @@ Escreva 1 página. Será discutido no Encontro 4.
 </div>
 <div class="card card-cyan mt-3 text-center"><div class="card-title">Próximo: Encontro 4 — Problemas Comuns &amp; State-of-the-Art</div><div class="card-desc">Onde tudo isso encontra a <i>realidade</i>: falhas, custos, e os produtos que estão ganhando o mercado.</div></div>
 </section>
+

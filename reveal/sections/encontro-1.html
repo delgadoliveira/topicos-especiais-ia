@@ -2071,7 +2071,7 @@ client = InferenceClient(token=HF_TOKEN)
 
 # Teste rápido
 resposta = client.chat.completions.create(
-    model=&quot;mistralai/Mistral-7B-Instruct-v0.3&quot;,
+    model=&quot;mistralai/Mistral-Nemo-Instruct-2407&quot;,
     messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Diga oi em 3 palavras&quot;}],
     max_tokens=50,
 )
@@ -2081,7 +2081,7 @@ print(&quot;✅ Setup completo — HuggingFace gratuito funcionando!&quot;)
 
 <div class="grid-2 text-xs mt-2" style="gap:0.5rem;">
 <div class="card card-green"><b>✅ 100% gratuito</b><br>HuggingFace Inference API oferece modelos gratuitos sem limite de billing. Basta criar conta + gerar token.</div>
-<div class="card card-amber"><b>💡 Modelos disponíveis</b><br>Mistral-7B, Llama-3, Qwen-2.5, Phi-3 — todos acessíveis via mesma API.</div>
+<div class="card card-amber"><b>💡 Modelo chat usado</b><br><code>mistralai/Mistral-Nemo-Instruct-2407</code>. Evite <code>Mistral-7B-Instruct-v0.3</code> neste endpoint: ele não é tratado como chat model pelo router.</div>
 </div>
 </section>
 
@@ -2238,7 +2238,7 @@ Ferramentas disponíveis:
     ]
     for step in range(max_steps):
         resp = client.chat.completions.create(
-            model=&quot;mistralai/Mistral-7B-Instruct-v0.3&quot;,
+            model=&quot;mistralai/Mistral-Nemo-Instruct-2407&quot;,
             messages=msgs,
             max_tokens=200,
             temperature=0.1,
