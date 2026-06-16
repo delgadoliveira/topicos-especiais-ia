@@ -844,8 +844,27 @@ Ele gera o que é <b>estatisticamente plausível</b>, não o que é <b>verdadeir
 </div>
 </section>
 
+<section class="text-center" data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%)">
+<div class="text-center">
+<h1 class="typewriter-js" data-text="🔬 Agora: deep dive em cada peça">🔬 Agora: deep dive em cada peça</h1>
+<div style="font-size: 0.9em; opacity: 0.9; margin-top: 1rem;">
+Você já viu os <b>5 componentes</b> e entende <b>por que</b> cada um é necessário.<br><br>
+Agora vamos mergulhar nos <b>detalhes técnicos</b> de cada peça — começando pelo <b>cérebro</b> (o LLM em si) e depois pelas <b>mãos</b> (tools).
+</div>
+<div class="flow-diagram mt-3">
+<div class="flow-node node-purple" style="border: 2px solid rgba(167,139,250,0.6);">🧠 Cérebro (LLM)<br><span class="text-xs">modelos, tokens, temperatura</span></div>
+<div class="flow-arrow">→</div>
+<div class="flow-node node-cyan">🛠️ Mãos (Tools)<br><span class="text-xs">schema, execução, design</span></div>
+<div class="flow-arrow">→</div>
+<div class="flow-node node-amber">📋 Instruções (Prompts)<br><span class="text-xs">system prompt, persona</span></div>
+<div class="flow-arrow">→</div>
+<div class="flow-node node-green">🔄 Loop (ReAct)<br><span class="text-xs">implementação prática</span></div>
+</div>
+<div class="text-xs mt-3" style="opacity: 0.6;">Cada deep dive termina com implicações práticas para construção de agentes.</div>
+</div>
+</section>
+
 <section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
-<h1>🧠 Deep dive: o LLM (cérebro)</h1>
 <div  class="grid-2 stagger-in text-sm">
 <div  class="card card-purple parallax-card scale-in">
 <b>O que ele faz num agente</b>
@@ -939,8 +958,33 @@ tokens · janela de contexto · temperatura
 <div  class="mt-3 text-xs card card-green parallax-card scale-in"><b>🧩 Analogia:</b> responder prova em temp alta é "chutar com estilo". Às vezes brilha; geralmente erra mais.</div>
 </section>
 
+<section class="text-center" data-background-gradient="linear-gradient(135deg, #1f2937 0%, #312e81 100%)">
+<div class="text-center">
+<h1>✅ Cérebro mapeado — agora as mãos</h1>
+<div style="font-size: 0.85em; opacity: 0.9; margin-top: 1rem;">
+Você entende como o LLM funciona: <b>predição de tokens</b>, <b>janela de contexto</b> e <b>temperatura</b>.<br><br>
+Mas ele sozinho só gera texto. Para <b>agir no mundo real</b>, precisa de <b>ferramentas</b> — APIs, banco de dados, calculadoras, browsers.
+</div>
+<div class="grid-2 mt-3 text-xs" style="gap: 0.8rem;">
+<div class="card" style="background: rgba(167,139,250,0.08); border: 1px solid rgba(167,139,250,0.28);">
+<b>O que já vimos:</b><br>
+✅ O LLM é o motor de raciocínio<br>
+✅ Tokens = unidade de custo<br>
+✅ Janela = limite de memória<br>
+✅ Temperatura = controle de criatividade
+</div>
+<div class="card card-cyan">
+<b>O que veremos agora:</b><br>
+→ Como tools são descritas para o LLM<br>
+→ Como ele "pede" para usar uma<br>
+→ Princípios de design de tools<br>
+→ Guardrails e segurança
+</div>
+</div>
+</div>
+</section>
+
 <section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
-<h1>🛠️ Deep dive: ferramentas (tools)</h1>
 <p>Uma tool tem <strong>3 partes</strong> que o LLM precisa entender:</p>
 <div  class="grid-3 stagger-in text-xs">
 <div  class="card card-cyan parallax-card scale-in"><b>1. Nome + descrição</b><br>Se a descrição é ambígua, o LLM chama errado.<pre class="text-[10px] mt-2"><code>name: "search_web"
