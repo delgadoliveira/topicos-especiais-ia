@@ -214,4 +214,41 @@ function initReveal() {
       card.classList.toggle('expanded');
     });
   });
+
+  // ─── Tokenizer interativo ───
+  (function initTokenizer() {
+    const COLORS = [
+      '#60a5fa','#f472b6','#34d399','#fbbf24','#a78bfa',
+      '#fb923c','#22d3ee','#e879f9','#4ade80','#f87171',
+      '#38bdf8','#c084fc','#facc15','#2dd4bf','#fb7185'
+    ];
+    // BPE-like split: common Portuguese subwords + punctuation + spaces
+    function bpeSplit(text) {
+      const re = /(\s+|[.,!?;:"""''()\[\]{}—–\-\/\\]|ção|ções|mente|ando|endo|indo|ável|ível|idade|ista|ismo|ente|ário|ária|eiro|eira|oso|osa|izar|izar|ação|ções|lh[aeo]|nh[aeo]|ch[aeo]|qu[ei]|[A-ZÀ-Ú][a-zà-ú]+|[a-zà-ú]{1,5}|[A-ZÀ-Ú]+|\d+|.)/g;
+      return text.match(re) || [];
+    }
+    function renderTokens(text) {
+      const output = document.getElementById('tokenizer-output');
+      if (!output) return;
+      const tokens = bpeSplit(text);
+      output.innerHTML = tokens.map((t, i) =>
+        `<span style="background:${COLORS[i % COLORS.length]}22; border:1px solid ${COLORS[i % COLORS.length]}88; border-radius:4px; padding:1px 4px; margin:2px; display:inline-block; color:${COLORS[i % COLORS.length]}">${t.replace(/ /g, '␣')}</span>`
+      ).join('') + `<div style="margin-top:0.4rem; opacity:0.7; font-size:0.85em;">Total: <b>${tokens.length}</b> tokens</div>`;
+    }
+    const input = document.getElementById('tokenizer-input');
+    if (input) {
+      input.addEventListener('input', () => renderTokens(input.value));
+      renderTokens(input.value); // render initial value
+    } else {
+      // Input may not exist yet if slide hasn't been reached; use slidechanged to init
+      deck.on('slidechanged', function tokenizerCheck() {
+        const el = document.getElementById('tokenizer-input');
+        if (el && !el._tokenizerBound) {
+          el._tokenizerBound = true;
+          el.addEventListener('input', () => renderTokens(el.value));
+          renderTokens(el.value);
+        }
+      });
+    }
+  })();
 }
