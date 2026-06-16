@@ -694,6 +694,28 @@ flowchart TB
 <div class="mt-3 p-2 rounded-xl bg-cyan-500/10 border border-cyan-500/30 text-xs">💼 Em 2025, quase todo SaaS grande está adicionando “agentes”; a disputa virou distribuição, confiança e integração.</div>
 ---
 
+# 📊 Estado do Mercado — Dados de 2026
+<div class="grid grid-cols-2 gap-3 mt-3 text-xs">
+<div class="p-3 rounded-xl bg-purple-500/10 border border-purple-500/30"><b>Adoção</b><ul class="mt-1"><li>57% usam agentes em workflows multi-etapa</li><li>16% já rodam processos cross-functional</li><li>81% planejam casos mais complexos</li></ul></div>
+<div class="p-3 rounded-xl bg-cyan-500/10 border border-cyan-500/30"><b>ROI e produtividade</b><ul class="mt-1"><li>80% já veem retorno econômico mensurável</li><li>90% usam IA para dev; 86% já em produção</li><li>~59% de ganho em code gen, review e docs</li></ul></div>
+<div class="p-3 rounded-xl bg-green-500/10 border border-green-500/30"><b>Além de código</b><ul class="mt-1"><li>Análise de dados e relatórios: 60%</li><li>Automação interna: 48%</li><li>9 em 10 líderes relatam trabalho mais estratégico</li></ul></div>
+<div class="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30"><b>Top 3 desafios</b><ul class="mt-1"><li>Integração com sistemas: 46%</li><li>Dados/acesso/qualidade: 42%</li><li>Gestão de mudança: 39%</li></ul></div>
+</div>
+<div class="mt-2 text-xs opacity-70">Fonte: Anthropic, <i>State of AI Agents Report</i>, 2026</div>
+
+---
+
+# 🏢 Casos Reais em Produção (2026)
+<div class="grid grid-cols-2 gap-3 mt-3 text-xs">
+<div class="p-3 rounded-xl bg-purple-500/10 border border-purple-500/30"><b>Thomson Reuters · CoCounsel</b><br>150 anos de jurisprudência e regulamentação acessíveis em minutos.</div>
+<div class="p-3 rounded-xl bg-cyan-500/10 border border-cyan-500/30"><b>eSentire</b><br>Análise de ameaças caiu de <b>5h → 7min</b>, com <b>95%</b> de alinhamento com especialistas.</div>
+<div class="p-3 rounded-xl bg-green-500/10 border border-green-500/30"><b>Doctolib</b><br>Infra de testes legacy substituída em horas; novas features ficaram <b>40%</b> mais rápidas.</div>
+<div class="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30"><b>L'Oréal</b><br><b>99,9%</b> de precisão em analytics conversacional e <b>44 mil</b> usuários por mês.</div>
+</div>
+<div class="mt-2 text-xs opacity-70">Fonte: Anthropic, <i>State of AI Agents Report</i>, 2026</div>
+
+---
+
 # 4.9 Anti-patterns observados em produção
 <div class="grid grid-cols-2 gap-3 mt-3 text-xs">
 <div class="p-2 rounded-xl bg-red-500/10 border border-red-500/30"><b>❌ Multi-agente prematuro</b><br>Orquestração vira pesadelo, custo 5x, debug impossível.</div>

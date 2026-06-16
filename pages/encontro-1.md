@@ -218,6 +218,24 @@ Vamos quebrar essa definição em partes nos próximos slides.
 
 ---
 
+# Agente vs Assistente vs Bot
+
+<div class="mt-3 text-xs">
+<table class="w-full border-collapse">
+  <thead><tr class="bg-white/5"><th class="p-2 text-left">Dimensão</th><th class="p-2 text-left">Agente</th><th class="p-2 text-left">Assistente</th><th class="p-2 text-left">Bot</th></tr></thead>
+  <tbody>
+    <tr><td class="p-2 border-t border-white/10"><b>Propósito</b></td><td class="p-2 border-t border-white/10">Persegue metas e conclui tarefas</td><td class="p-2 border-t border-white/10">Responde e recomenda</td><td class="p-2 border-t border-white/10">Executa fluxo pré-definido</td></tr>
+    <tr><td class="p-2 border-t border-white/10"><b>Autonomia</b></td><td class="p-2 border-t border-white/10">Alta, toma decisões</td><td class="p-2 border-t border-white/10">Média, depende do usuário</td><td class="p-2 border-t border-white/10">Baixa, segue regras</td></tr>
+    <tr><td class="p-2 border-t border-white/10"><b>Complexidade</b></td><td class="p-2 border-t border-white/10">Multi-etapa, aberta</td><td class="p-2 border-t border-white/10">Tarefas guiadas</td><td class="p-2 border-t border-white/10">Interações básicas</td></tr>
+    <tr><td class="p-2 border-t border-white/10"><b>Aprendizado</b></td><td class="p-2 border-t border-white/10">Aprende e adapta</td><td class="p-2 border-t border-white/10">Limitado/assistido</td><td class="p-2 border-t border-white/10">Mínimo</td></tr>
+    <tr><td class="p-2 border-t border-white/10"><b>Interação</b></td><td class="p-2 border-t border-white/10">Proativo</td><td class="p-2 border-t border-white/10">Reativo</td><td class="p-2 border-t border-white/10">Scriptado</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="mt-2 text-xs opacity-70">Fonte: Google Cloud, 2026</div>
+
+---
+
 # Espectro: do script ao agente
 
 ```mermaid {scale: 0.55}
@@ -238,6 +256,16 @@ flowchart LR
 | LLM single-shot | Programador (prompt único) | "Resuma este texto" |
 | Workflow com LLM | Programador (DAG fixo, LLM em cada nó) | Extração → Tradução → Resumo |
 | **Agente** | **O próprio LLM, em loop** | "Pesquise X na web e me entregue um relatório" |
+
+---
+
+# Tipos de Agentes
+
+<div class="grid grid-cols-2 gap-3 mt-3 text-xs">
+<div class="p-3 rounded-xl bg-cyan-500/10 border border-cyan-500/30"><b>Por interação</b><ul class="mt-1"><li><b>Surface agents</b>: interativos, conversam com o usuário, coletam contexto e explicam a execução.</li><li><b>Background agents</b>: trabalham em segundo plano, com mais autonomia e pouca ou nenhuma interação humana.</li></ul></div>
+<div class="p-3 rounded-xl bg-purple-500/10 border border-purple-500/30"><b>Por quantidade</b><ul class="mt-1"><li><b>Single agent</b>: um agente concentra contexto, memória e ferramentas.</li><li><b>Multi-agent</b>: vários agentes especializados dividem papéis e coordenam subtarefas.</li></ul></div>
+</div>
+<div class="mt-3 text-xs opacity-70">Classificação: Google Cloud, 2026</div>
 
 ---
 
@@ -296,29 +324,31 @@ flowchart TB
 
 # Os 5 componentes essenciais
 
-<div class="grid grid-cols-1 gap-3 text-sm">
+<div class="grid grid-cols-1 gap-2 text-xs">
 
 <div class="p-3 rounded-lg bg-purple-500/10 border border-purple-500/30">
-<b>1. 🧠 LLM (cérebro)</b> — faz reasoning e decide o próximo passo. Geralmente GPT-4o, Claude Sonnet, Gemini Pro, ou modelos open source (Llama, Qwen).
+<b>1. 🎭 Persona + objetivo</b> — papel, missão, limites e critério de sucesso; é o que Google chama de “persona” do agente.
 </div>
 
 <div class="p-3 rounded-lg bg-cyan-500/10 border border-cyan-500/30">
-<b>2. 🛠️ Ferramentas (tools)</b> — ações no mundo: HTTP requests, queries SQL, execução de código Python, leitura/escrita de arquivos, navegação web, controle de mouse…
+<b>2. 🧠 Modelo / reasoning engine</b> — o LLM interpreta contexto, planeja, decide e escolhe o próximo passo.
 </div>
 
 <div class="p-3 rounded-lg bg-green-500/10 border border-green-500/30">
-<b>3. 💾 Memória</b> — contexto da conversa (curto prazo) + base de conhecimento persistente (longo prazo, geralmente vector DB).
+<b>3. 💾 Memória</b> — curto prazo + longo prazo + episódica + consenso compartilhado; evita recomeçar do zero.
 </div>
 
 <div class="p-3 rounded-lg bg-amber-500/10 border border-amber-500/30">
-<b>4. 🔄 Loop de controle</b> — o "run loop" que alimenta observações de volta ao LLM até a parada (sucesso, max steps, erro).
+<b>4. 🛠️ Tools + executor</b> — APIs, SQL, browser, arquivos e código; o executor valida e aplica a ação no mundo.
 </div>
 
 <div class="p-3 rounded-lg bg-pink-500/10 border border-pink-500/30">
-<b>5. 🎯 Objetivo</b> — prompt do usuário + <i>system prompt</i> definindo missão, persona e restrições.
+<b>5. 🔄 Loop de controle</b> — <b>Observe → Think → Act → Reflect</b>; observa resultados, ajusta plano e itera até parar.
 </div>
 
 </div>
+
+<div class="mt-3 text-xs opacity-70">Google Cloud (2026): persona + memory + tools + model. OpenAI (2025): loop explícito com reflexão, avaliação humana e telemetria.</div>
 
 ---
 
