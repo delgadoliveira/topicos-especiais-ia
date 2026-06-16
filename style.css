@@ -1,17 +1,24 @@
-/* Esconder controles de navegação do Slidev (play.vue bottom bar + controls) */
+/* Esconder controles de navegação do Slidev */
 
-/* Nav bar wrapper (div.absolute.bottom-0 no play.vue) */
-#slide-container + div,
-.slidev-layout ~ div[class*="absolute"][class*="bottom-0"] {
+/* O NavControls fica em div.absolute.bottom-0 dentro do SlideContainer */
+#page-root .absolute.bottom-0 {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  height: 0 !important;
+  overflow: hidden !important;
+}
+
+/* Garantir que o hover não revela o nav */
+#page-root .absolute.bottom-0:hover {
+  opacity: 0 !important;
+}
+
+/* Controls component (top-right gear icon etc) */
+#page-root ~ div:not(#twoslash-container) {
   display: none !important;
 }
 
-/* NavControls component and all interactive controls */
-.slidev-icon-btn,
-button[title="Next"],
-button[title="Previous"],
-button[title="Go to Page"],
-button[title="Toggle Overview"],
-button[title="Toggle Dark Mode"] {
+/* Qualquer botão de navegação restante */
+.slidev-icon-btn {
   display: none !important;
 }

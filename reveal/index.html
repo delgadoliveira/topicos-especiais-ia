@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tópicos Especiais em IA — Agentes (Zero to Hero)</title>
+  <link rel="stylesheet" href="vendor/reveal/reveal.css">
+  <link rel="stylesheet" href="vendor/reveal/theme/black.css" id="theme">
+  <link rel="stylesheet" href="vendor/reveal/plugin/highlight/monokai.css">
+  <link rel="stylesheet" href="reveal/css/theme.css">
+  <link rel="stylesheet" href="reveal/css/animations.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- ═══════════════════════════════════════ -->
+      <!-- INTRO / BOAS-VINDAS                    -->
+      <!-- ═══════════════════════════════════════ -->
+      <section>
+        <section data-background-gradient="linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%)">
+          <h1 class="glow-text">Tópicos Especiais em IA</h1>
+          <h2 class="subtitle-animate">Agentes — Do Zero ao Hero</h2>
+          <div class="meta-info">
+            <span class="badge">4 encontros</span>
+            <span class="badge">12h total</span>
+            <span class="badge">Python + hands-on</span>
+          </div>
+          <div class="version-tag">v3.0.0 · 2026</div>
+        </section>
+
+        <section>
+          <h2>🎯 O que você vai aprender</h2>
+          <div class="stagger-in">
+            <div class="card card-cyan">
+              <div class="card-icon">🧱</div>
+              <div class="card-title">Encontro 1</div>
+              <div class="card-desc">Fundamentos — O que é um agente, anatomia, ReAct</div>
+            </div>
+            <div class="card card-purple">
+              <div class="card-icon">🧠</div>
+              <div class="card-title">Encontro 2</div>
+              <div class="card-desc">Reasoning, Planning & Tool Execution</div>
+            </div>
+            <div class="card card-green">
+              <div class="card-icon">💾</div>
+              <div class="card-title">Encontro 3</div>
+              <div class="card-desc">Skills, Memória & Context Management</div>
+            </div>
+            <div class="card card-amber">
+              <div class="card-icon">🚀</div>
+              <div class="card-title">Encontro 4</div>
+              <div class="card-desc">Problemas Comuns & State-of-the-Art</div>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h2>⚙️ Setup do Ambiente</h2>
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="terminal-dot red"></span>
+              <span class="terminal-dot yellow"></span>
+              <span class="terminal-dot green"></span>
+              <span class="terminal-title">Terminal</span>
+            </div>
+            <pre class="terminal-body"><code class="language-bash"># Python 3.10+ necessário
+python -m venv .venv
+source .venv/bin/activate  # Windows: .venv\Scripts\activate
+
+# Dependências
+pip install openai langchain langgraph chromadb
+
+# Configurar API key
+echo "OPENAI_API_KEY=sk-..." > .env</code></pre>
+          </div>
+          <div class="tip-box fragment">
+            💡 <b>Dica:</b> Todos os exercícios rodam direto no navegador com Pyodide — sem instalar nada para começar!
+          </div>
+        </section>
+      </section>
+
+      <!-- ═══════════════════════════════════════ -->
+      <!-- HISTÓRIA / TIMELINE                    -->
+      <!-- ═══════════════════════════════════════ -->
+      <section>
+        <section data-background-gradient="linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)">
+          <h1>📜 A História da IA</h1>
+          <p class="subtitle-animate">70 anos em 10 minutos</p>
+        </section>
+
+        <section>
+          <h2>A linha do tempo</h2>
+          <div class="timeline-track">
+            <div class="timeline-era fragment" data-fragment-index="1">
+              <div class="era-dot" style="--color: #6b7280"></div>
+              <div class="era-label">1950–1970</div>
+              <div class="era-content">Perceptron<br>Turing Test<br>ELIZA<br>1º AI Winter</div>
+            </div>
+            <div class="timeline-era fragment" data-fragment-index="2">
+              <div class="era-dot" style="--color: #6b7280"></div>
+              <div class="era-label">1980–2000</div>
+              <div class="era-content">Expert Systems<br>Backprop<br>Deep Blue<br>N-grams</div>
+            </div>
+            <div class="timeline-era fragment" data-fragment-index="3">
+              <div class="era-dot" style="--color: #3b82f6"></div>
+              <div class="era-label">2010–2019</div>
+              <div class="era-content">Deep Learning<br>Word2Vec<br>Transformer<br>GPT-1 + BERT</div>
+            </div>
+            <div class="timeline-era fragment" data-fragment-index="4">
+              <div class="era-dot" style="--color: #a855f7"></div>
+              <div class="era-label">2020–2023</div>
+              <div class="era-content">GPT-3 (175B)<br>ChatGPT<br>ReAct + CoT<br>Function Calling</div>
+            </div>
+            <div class="timeline-era fragment" data-fragment-index="5">
+              <div class="era-dot" style="--color: #22c55e"></div>
+              <div class="era-label">2024–2025</div>
+              <div class="era-content">Claude + MCP<br>Cursor / Devin<br>Computer Use<br><b>Era dos Agentes</b></div>
+            </div>
+          </div>
+          <div class="insight-box fragment" data-fragment-index="6">
+            💡 De 1950 a 2020: modelos que <b>entendem</b>. De 2020 em diante: modelos que <b>AGEM</b>.
+          </div>
+        </section>
+
+        <section>
+          <h2>E o ChatGPT?</h2>
+          <div class="big-date fragment">30/nov/2022</div>
+          <div class="stats-row">
+            <div class="stat fragment"><span class="stat-number counter" data-target="1000000">0</span><span class="stat-label">usuários em 5 dias</span></div>
+            <div class="stat fragment"><span class="stat-number counter" data-target="100000000">0</span><span class="stat-label">usuários em 2 meses</span></div>
+          </div>
+          <div class="explanation-box fragment">
+            <h3>O que era, exatamente?</h3>
+            <ul>
+              <li><b>GPT-3.5</b> — LLM de ~175B parâmetros (já existia como API)</li>
+              <li><b>RLHF</b> — humanos classificaram respostas boas vs ruins</li>
+              <li><b>Interface de chat</b> — qualquer pessoa podia conversar com a IA</li>
+            </ul>
+            <div class="highlight-text">A revolução foi de <u>acesso</u>, não de modelo.</div>
+          </div>
+        </section>
+      </section>
+
+      <!-- ═══════════════════════════════════════ -->
+      <!-- ENCONTRO 1                             -->
+      <!-- ═══════════════════════════════════════ -->
+      <section id="encontro-1"></section>
+
+      <!-- ═══════════════════════════════════════ -->
+      <!-- ENCONTRO 2                             -->
+      <!-- ═══════════════════════════════════════ -->
+      <section id="encontro-2"></section>
+
+      <!-- ═══════════════════════════════════════ -->
+      <!-- ENCONTRO 3                             -->
+      <!-- ═══════════════════════════════════════ -->
+      <section id="encontro-3"></section>
+
+      <!-- ═══════════════════════════════════════ -->
+      <!-- ENCONTRO 4                             -->
+      <!-- ═══════════════════════════════════════ -->
+      <section id="encontro-4"></section>
+
+    </div>
+
+    <!-- Navigation (custom clean) -->
+    <nav class="custom-nav" id="custom-nav">
+      <button id="nav-prev" aria-label="Anterior">‹</button>
+      <span id="nav-progress"></span>
+      <button id="nav-next" aria-label="Próximo">›</button>
+    </nav>
+
+    <!-- Version footer -->
+    <div class="version-footer">v3.0.0 · Tópicos Especiais em IA · 2026</div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="vendor/reveal/reveal.js"></script>
+  <script src="vendor/reveal/plugin/highlight.js"></script>
+  <script src="vendor/reveal/plugin/notes.js"></script>
+  <script src="vendor/reveal/plugin/markdown.js"></script>
+  <script src="vendor/gsap/gsap.js"></script>
+  <script src="reveal/js/animations.js"></script>
+  <script src="reveal/js/pyrunner.js"></script>
+  <script src="reveal/js/main.js"></script>
+</body>
+</html>

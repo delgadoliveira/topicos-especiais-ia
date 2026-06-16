@@ -1,4 +1,4 @@
-name: Deploy Slidev to GitHub Pages
+name: Deploy to GitHub Pages
 
 on:
   push:
@@ -22,14 +22,13 @@ jobs:
 
       - uses: actions/setup-node@v6
         with:
-          node-version: 24
+          node-version: 20
           cache: npm
 
       - run: npm ci
 
-      # Usa o nome do repositório como base path
       - name: Build
-        run: npx slidev build slides.md --base /${{ github.event.repository.name }}/
+        run: node build.js
 
       - uses: actions/configure-pages@v6
 

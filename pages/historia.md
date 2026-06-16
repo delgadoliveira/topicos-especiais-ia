@@ -30,42 +30,7 @@ class: text-center
 
 # A linha do tempo de 70 anos — visão geral
 
-<div class="grid grid-cols-5 gap-2 text-xs mt-2">
-
-<div class="p-2 rounded-lg border border-gray-500/40 bg-gray-500/10 text-center">
-<div class="font-bold text-gray-400">1950–1970</div>
-<div class="mt-1">Perceptron<br/>Turing Test<br/>ELIZA<br/>1º AI Winter</div>
-</div>
-
-<div class="p-2 rounded-lg border border-gray-500/40 bg-gray-500/10 text-center">
-<div class="font-bold text-gray-400">1980–2000</div>
-<div class="mt-1">Expert Systems<br/>Backprop<br/>Deep Blue<br/>N-grams</div>
-</div>
-
-<div class="p-2 rounded-lg border border-blue-500/40 bg-blue-500/10 text-center">
-<div class="font-bold text-blue-400">2010–2019</div>
-<div class="mt-1">Deep Learning<br/>Word2Vec<br/>Transformer<br/>GPT-1 + BERT</div>
-</div>
-
-<div class="p-2 rounded-lg border border-purple-500/40 bg-purple-500/10 text-center">
-<div class="font-bold text-purple-400">2020–2023</div>
-<div class="mt-1">GPT-3 (175B)<br/>ChatGPT<br/>ReAct + CoT<br/>Function Calling</div>
-</div>
-
-<div class="p-2 rounded-lg border border-green-500/40 bg-green-500/10 text-center">
-<div class="font-bold text-green-400">2024–2025</div>
-<div class="mt-1">Claude 4 + MCP<br/>Cursor / Devin<br/>Computer Use<br/><b>Era dos Agentes</b></div>
-</div>
-
-</div>
-
-<div class="mt-4 text-center text-sm opacity-80">
-💡 De 1950 a 2020: modelos que <b>entendem</b>. De 2020 em diante: modelos que <b>AGEM</b>.
-</div>
-
-<div class="mt-2 text-xs opacity-50 text-center">
-📐 <a href="/topicos-especiais-ia/diagrams/timeline-70-anos.excalidraw">Download diagrama interativo (Excalidraw)</a>
-</div>
+<TimelineAnimada />
 
 ---
 layout: two-cols
@@ -361,15 +326,23 @@ layout: two-cols
 </div>
 
 <div class="mt-3 p-3 rounded-lg bg-cyan-500/10 border border-cyan-500/30">
-<b>Não era nada tecnicamente novo</b> — era GPT-3.5 + interface de chat + RLHF.<br>
-A revolução foi <b>de acesso</b>, não de modelo.
+<b>Não era nada tecnicamente novo</b> — mas o que era, exatamente?<br>
+<div class="mt-2 text-sm opacity-90">
+• <b>GPT-3.5</b> — um LLM de ~175B parâmetros (já existia como API desde março/2022)<br>
+• <b>RLHF</b> — Reinforcement Learning from Human Feedback: humanos classificaram respostas boas vs ruins e o modelo aprendeu a "se comportar" como esperamos<br>
+• <b>Interface de chat</b> — uma webpage simples onde qualquer pessoa podia conversar com a IA, sem precisar programar ou saber usar API
+</div>
+<div class="mt-2 text-sm font-bold text-cyan-300">
+A revolução foi de <u>acesso</u> e <u>experiência do usuário</u>, não de modelo.<br>
+Pela 1ª vez, qualquer pessoa do planeta pôde conversar com uma IA avançada gratuitamente.
+</div>
 </div>
 
 </v-clicks>
 
 ---
 
-# 2023 · A explosão Cambriana dos agentes (1º semestre)
+# 2023 · O boom dos agentes (1º semestre)
 
 <div class="grid grid-cols-2 gap-3 mt-2 text-sm">
 <div class="p-3 rounded-lg bg-white/5"><b>Março</b> · GPT-4 — multimodal, raciocínio muito melhor</div>
@@ -386,7 +359,7 @@ A revolução foi <b>de acesso</b>, não de modelo.
 
 ---
 
-# 2023 · A explosão Cambriana dos agentes (2º semestre)
+# 2023 · O boom dos agentes (2º semestre)
 
 <div class="grid grid-cols-2 gap-3 mt-2 text-sm">
 <div class="p-3 rounded-lg bg-white/5"><b>Julho</b> · Llama 2 — primeiro LLM open source competitivo</div>
