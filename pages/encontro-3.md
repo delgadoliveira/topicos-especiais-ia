@@ -1348,6 +1348,81 @@ class: text-center
 
 Você agora sabe:
 
+---
+
+# 🔌 MCP — Conectando agentes ao ecossistema digital
+
+<div class="text-xs mt-2">
+
+**Model Context Protocol** (Anthropic, 2024) — padrão aberto para conectar agentes a ferramentas.
+
+</div>
+
+<div class="grid grid-cols-2 gap-3 text-xs mt-2">
+
+<div class="p-3 rounded-xl border border-cyan-500/30 bg-cyan-500/5">
+
+### Como funciona
+
+1. **Server** expõe tools via JSON-RPC
+2. **Client** (agente) descobre tools disponíveis
+3. Agente chama tool → Server executa → retorna resultado
+4. Padrão universal (como HTTP para web)
+
+</div>
+
+<div class="p-3 rounded-xl border border-purple-500/30 bg-purple-500/5">
+
+### Exemplos reais
+
+- **Spotify MCP** — busca músicas, cria playlists
+- **GitHub MCP** — cria PRs, lê issues
+- **Slack MCP** — envia mensagens, busca canais
+- **Database MCP** — query SQL seguro
+
+</div>
+
+</div>
+
+<div class="mt-2 p-2 rounded bg-amber-500/10 border border-amber-500/30 text-xs">
+📌 <b>MIT Mod 3:</b> "A integração com sistemas existentes é onde 80% dos pilotos falham." O MCP resolve a fragmentação.
+</div>
+
+---
+
+layout: section
+---
+
+# 🧪 Exercícios Interativos — Encontro 3
+
+<div class="text-sm opacity-60 mt-4">Pratique memória, RAG e context management</div>
+
+---
+
+# 🧪 Exercício 3.1 — Sliding Window de contexto
+
+<div class="text-xs mb-2 opacity-70">Implemente truncamento inteligente de histórico de mensagens.</div>
+
+<PyRunner src="/topicos-especiais-ia/exercises/e3_1_sliding_window.py" height="300px" />
+
+---
+
+# 🧪 Exercício 3.2 — Mini RAG com busca por similaridade
+
+<div class="text-xs mb-2 opacity-70">Implemente retrieval básico usando similaridade de palavras (sem embeddings).</div>
+
+<PyRunner src="/topicos-especiais-ia/exercises/e3_2_mini_rag.py" height="320px" />
+
+---
+
+# 🧪 Exercício 3.3 — Memória de longo prazo
+
+<div class="text-xs mb-2 opacity-70">Implemente um store de memória com save/recall.</div>
+
+<PyRunner src="/topicos-especiais-ia/exercises/e3_3_memoria.py" height="320px" />
+
+---
+
 - Gerenciar context window (truncate, summarize, RAG)
 - Construir um pipeline RAG completo
 - Implementar memória de longo prazo

@@ -21,24 +21,20 @@
     <div class="error" v-if="error">
       <pre>{{ error }}</pre>
     </div>
+    <!-- Hidden slot to capture code from slot content -->
+    <div ref="slotContainer" style="display:none"><slot /></div>
   </div>
 </template>
 
-<script lang="ts">
+<script>
 import { defineComponent, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 
 const PYODIDE_CDN = 'https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js'
 
-let pyodideScriptPromise: Promise<void> | null = null
-let pyodideReadyPromise: Promise<any> | null = null
-let pyodideInstance: any = null
+let pyodideScriptPromise = null
+let pyodideReadyPromise = null
+let pyodideInstance = null
 let runnerCounter = 0
-
-declare global {
-  interface Window {
-    loadPyodide?: (options?: Record<string, unknown>) => Promise<any>
-  }
-}
 
 function ensurePyodideScript() {
   if (typeof window === 'undefined') {
@@ -53,8 +49,8 @@ function ensurePyodideScript() {
     return pyodideScriptPromise
   }
 
-  pyodideScriptPromise = new Promise<void>((resolve, reject) => {
-    const existingScript = document.querySelector<HTMLScriptElement>('script[data-pyodide-loader="true"]')
+  pyodideScriptPromise = new Promise((resolve, reject) => {
+    const existingScript = document.querySelector('script[data-pyodide-loader="true"]')
 
     if (existingScript) {
       existingScript.addEventListener('load', () => resolve(), { once: true })
@@ -112,6 +108,10 @@ export default defineComponent({
       type: String,
       default: '',
     },
+    src: {
+      type: String,
+      default: '',
+    },
     readOnly: {
       type: Boolean,
       default: false,
@@ -128,7 +128,8 @@ export default defineComponent({
     const loading = ref(true)
     const ready = ref(false)
     const runnerId = `py-runner-${++runnerCounter}`
-    let readyTimer: ReturnType<typeof setTimeout> | null = null
+    const slotContainer = ref(null)
+    let readyTimer = null
 
     const flashReady = () => {
       ready.value = true
@@ -203,7 +204,23 @@ json.dumps({
       },
     )
 
-    onMounted(() => {
+    onMounted(async () => {
+      // Priority: src prop > code prop > slot content
+      if (props.src) {
+        try {
+          const resp = await fetch(props.src)
+          if (resp.ok) {
+            source.value = await resp.text()
+          }
+        } catch (e) {
+          error.value = `Erro ao carregar ${props.src}`
+        }
+      } else if (!props.code && slotContainer.value) {
+        const slotText = slotContainer.value.textContent || ''
+        if (slotText.trim()) {
+          source.value = slotText.trim()
+        }
+      }
       void initialize()
     })
 
@@ -220,6 +237,7 @@ json.dumps({
       ready,
       readOnly: props.readOnly,
       run,
+      slotContainer,
       source,
       height: props.height,
     }

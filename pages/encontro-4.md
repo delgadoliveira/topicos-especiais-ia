@@ -1084,6 +1084,152 @@ Em 12 horas você saiu de <b>"o que é um agente?"</b> para construir, avaliar e
 
 </div>
 
+---
+layout: section
+---
+
+# 📏 Da prova de conceito à produção — Last Mile
+
+<div class="text-xs mt-2">
+
+**MIT Module 6:** "Por que pilotos funcionam mas deploys falham?"
+
+</div>
+
+<div class="grid grid-cols-2 gap-3 text-xs mt-2">
+
+<div class="p-3 rounded-xl border border-red-500/30 bg-red-500/5">
+
+### ❌ Por que pilotos falham no deploy
+
+- Dados de teste ≠ dados reais
+- Sem monitoramento em produção
+- Usuários encontram edge cases
+- Resistência interna da equipe
+- Sem ownership claro (quem conserta?)
+
+</div>
+
+<div class="p-3 rounded-xl border border-green-500/30 bg-green-500/5">
+
+### ✅ Checklist para produção
+
+- [ ] Métricas definidas (latência, custo, qualidade)
+- [ ] Fallback humano configurado
+- [ ] Alertas para anomalias
+- [ ] Rollback em < 5 min
+- [ ] Documentação para on-call
+
+</div>
+
+</div>
+
+---
+
+# ⚖️ Governance & Compliance
+
+<div class="text-xs mt-2">
+
+| Regulação | Escopo | Impacto em agentes |
+|---|---|---|
+| **LGPD** (Brasil) | Dados pessoais | Consentimento antes de processar PII |
+| **GDPR** (EU) | Dados pessoais | Right to explanation, data minimization |
+| **EU AI Act** | Sistemas de IA | Classificação de risco, auditoria |
+| **HIPAA** (Saúde) | Dados médicos | Criptografia, access control |
+
+</div>
+
+<div class="mt-3 text-xs">
+
+**Onde inserir guardrails (MIT Mod 7):**
+
+</div>
+
+<div class="grid grid-cols-3 gap-2 text-xs mt-1">
+<div class="p-2 rounded bg-cyan-500/10 text-center">📥 Input<br/>Validação + PII filter</div>
+<div class="p-2 rounded bg-purple-500/10 text-center">⚙️ Execução<br/>Sandboxing + limits</div>
+<div class="p-2 rounded bg-amber-500/10 text-center">📤 Output<br/>Toxicity + fact-check</div>
+</div>
+
+---
+
+# 🗺️ Roadmap estratégico — curto, médio, longo prazo
+
+<div class="text-xs mt-2">Baseado no Capstone do MIT — como planejar adoção de agentes:</div>
+
+<div class="grid grid-cols-3 gap-3 text-xs mt-2">
+
+<div class="p-3 rounded-xl border border-green-500/30 bg-green-500/5">
+
+### 📅 0–3 meses
+
+- Identificar 1 processo repetitivo
+- PoC com agente single-task
+- Medir baseline vs agente
+- Budget: ~$50/mês (API)
+
+</div>
+
+<div class="p-3 rounded-xl border border-amber-500/30 bg-amber-500/5">
+
+### 📅 3–6 meses
+
+- Integrar com sistemas (MCP/APIs)
+- Adicionar HITL e monitoring
+- Expandir para 2-3 use cases
+- Definir KPIs claros
+
+</div>
+
+<div class="p-3 rounded-xl border border-purple-500/30 bg-purple-500/5">
+
+### 📅 6–12 meses
+
+- Multi-agent orquestrado
+- Governance framework
+- Self-improving (feedback loops)
+- Escalar para toda a equipe
+
+</div>
+
+</div>
+
+<div class="mt-2 p-2 rounded bg-cyan-500/10 border border-cyan-500/30 text-xs">
+🎓 <b>MIT Capstone:</b> Seu projeto final: desenhe um plano de integração de agentes para uma função de negócio real.
+</div>
+
+---
+
+# 🧪 Exercícios Interativos — Encontro 4
+
+<div class="text-sm opacity-60 mt-4">Pratique guardrails, avaliação e debugging de agentes</div>
+
+---
+
+# 🧪 Exercício 4.1 — Guardrails de segurança
+
+<div class="text-xs mb-2 opacity-70">Implemente validadores de input/output para proteger seu agente.</div>
+
+<PyRunner src="/topicos-especiais-ia/exercises/e4_1_guardrails.py" height="320px" />
+
+---
+
+# 🧪 Exercício 4.2 — Avaliando qualidade do agente
+
+<div class="text-xs mb-2 opacity-70">Implemente métricas básicas para avaliar as respostas do agente.</div>
+
+<PyRunner src="/topicos-especiais-ia/exercises/e4_2_avaliacao.py" height="320px" />
+
+---
+
+# 🧪 Exercício 4.3 — Debug de agente com trace
+
+<div class="text-xs mb-2 opacity-70">Implemente um sistema de tracing para debugar execuções do agente.</div>
+
+<PyRunner src="/topicos-especiais-ia/exercises/e4_3_tracing.py" height="320px" />
+
+---
+
 <div class="text-xl mt-12 text-cyan-400 font-bold">
 Agora é com você.
 </div>

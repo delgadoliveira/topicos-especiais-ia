@@ -30,30 +30,42 @@ class: text-center
 
 # A linha do tempo de 70 anos — visão geral
 
-```mermaid {scale: 0.55}
-timeline
-    title 70 anos de IA — em uma página
-    1950s : Perceptron (1958)
-          : Teste de Turing
-    1960s : ELIZA (1966)
-          : 1º "chatbot" baseado em regras
-    1970s : Primeiro AI Winter
-    1980s : Sistemas Especialistas
-          : Backpropagation popularizado
-    1990s : Deep Blue vence Kasparov (1997)
-    2000s : Estatística + Internet
-          : Modelos de linguagem N-gram
-    2010s : Deep Learning explode
-          : Word2Vec, seq2seq, LSTM
-    2017  : Transformer "Attention is All You Need"
-    2018  : GPT-1 + BERT
-    2020  : GPT-3 (175B) — in-context learning
-    2022  : ChatGPT + ReAct + Chain-of-Thought
-    2023  : GPT-4, AutoGPT, function calling
-    2024  : Claude 3, MCP, Computer Use, o1
-    2025  : Cursor, Claude Code, Devin, Manus
-          : Era dos agentes
-```
+<div class="grid grid-cols-5 gap-2 text-xs mt-2">
+
+<div class="p-2 rounded-lg border border-gray-500/40 bg-gray-500/10 text-center">
+<div class="font-bold text-gray-400">1950–1970</div>
+<div class="mt-1">Perceptron<br/>Turing Test<br/>ELIZA<br/>1º AI Winter</div>
+</div>
+
+<div class="p-2 rounded-lg border border-gray-500/40 bg-gray-500/10 text-center">
+<div class="font-bold text-gray-400">1980–2000</div>
+<div class="mt-1">Expert Systems<br/>Backprop<br/>Deep Blue<br/>N-grams</div>
+</div>
+
+<div class="p-2 rounded-lg border border-blue-500/40 bg-blue-500/10 text-center">
+<div class="font-bold text-blue-400">2010–2019</div>
+<div class="mt-1">Deep Learning<br/>Word2Vec<br/>Transformer<br/>GPT-1 + BERT</div>
+</div>
+
+<div class="p-2 rounded-lg border border-purple-500/40 bg-purple-500/10 text-center">
+<div class="font-bold text-purple-400">2020–2023</div>
+<div class="mt-1">GPT-3 (175B)<br/>ChatGPT<br/>ReAct + CoT<br/>Function Calling</div>
+</div>
+
+<div class="p-2 rounded-lg border border-green-500/40 bg-green-500/10 text-center">
+<div class="font-bold text-green-400">2024–2025</div>
+<div class="mt-1">Claude 4 + MCP<br/>Cursor / Devin<br/>Computer Use<br/><b>Era dos Agentes</b></div>
+</div>
+
+</div>
+
+<div class="mt-4 text-center text-sm opacity-80">
+💡 De 1950 a 2020: modelos que <b>entendem</b>. De 2020 em diante: modelos que <b>AGEM</b>.
+</div>
+
+<div class="mt-2 text-xs opacity-50 text-center">
+📐 <a href="/topicos-especiais-ia/diagrams/timeline-70-anos.excalidraw">Download diagrama interativo (Excalidraw)</a>
+</div>
 
 ---
 layout: two-cols
@@ -164,38 +176,32 @@ flowchart TB
 
 # 2018 · A corrida começa
 
-<div class="grid grid-cols-2 gap-6">
+<div class="grid grid-cols-2 gap-4">
 
-<div class="p-5 rounded-xl border border-purple-500/40 bg-purple-500/5">
+<div class="p-4 rounded-xl border border-purple-500/40 bg-purple-500/5">
 
-### 🔵 GPT-1
-**OpenAI · Junho 2018**
+### 🔵 GPT-1 — OpenAI · Jun 2018
 
-- **117 milhões** de parâmetros
-- Treinado em **BooksCorpus** (~7 mil livros)
-- "Improving Language Understanding by Generative Pre-Training"
-- Demonstrou: pré-treino + fine-tuning bate modelos especializados
+- **117M** parâmetros · BooksCorpus
+- Pré-treino + fine-tuning > modelos especializados
 - Praticamente ignorado pela mídia
 
 </div>
 
-<div class="p-5 rounded-xl border border-cyan-500/40 bg-cyan-500/5">
+<div class="p-4 rounded-xl border border-cyan-500/40 bg-cyan-500/5">
 
-### 🟢 BERT
-**Google · Outubro 2018**
+### 🟢 BERT — Google · Out 2018
 
-- **340 milhões** de parâmetros
-- Bidirectional Encoder
+- **340M** parâmetros · Bidirectional
 - Bateu 11 benchmarks de NLP
-- Foi a **estrela do momento** — dominou pesquisa por 2 anos
-- Mas: bom em *entender*, ruim em *gerar*
+- Bom em *entender*, ruim em *gerar*
 
 </div>
 
 </div>
 
-<div class="mt-8 p-4 rounded-xl bg-amber-500/10 border border-amber-500/30">
-<b>Curiosidade:</b> em 2018, a comunidade apostava em <b>BERT</b> (Google) como o futuro. Quase ninguém previu que a abordagem <i>generative-only</i> da OpenAI venceria.
+<div class="mt-4 p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 text-xs">
+💡 Em 2018 todos apostavam no BERT. Ninguém previu que a abordagem <i>generative-only</i> venceria.
 </div>
 
 ---

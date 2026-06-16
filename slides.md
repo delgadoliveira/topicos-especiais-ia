@@ -99,15 +99,16 @@ layout: two-cols
 Esta disciplina é **prática**. Em todo encontro vocês vão:
 
 - 🐍 Escrever código Python
-- 🛠️ Instalar e rodar agentes
+- 🛠️ Instalar e rodar agentes reais
 - 🔬 Entender o que está acontecendo *por dentro*
 - 💥 Quebrar coisas (e consertar)
 
 Pré-requisitos:
 
-- Python básico
+- Python 3.10+
+- Conta na OpenAI (ou Groq/Anthropic)
+- Terminal e editor de código
 - Curiosidade
-- Vontade de errar e iterar
 
 ::right::
 
@@ -123,6 +124,88 @@ Pré-requisitos:
 - Avaliar criticamente Cursor, Claude Code, Devin & cia
 
 </v-clicks>
+
+---
+
+# 🔧 Setup do ambiente — o que instalar
+
+<div class="grid grid-cols-2 gap-4 text-xs">
+
+<div class="p-3 rounded-xl border border-cyan-500/30 bg-cyan-500/5">
+
+### Básico (todos os encontros)
+
+```bash
+python -m venv .venv
+source .venv/bin/activate  # Linux/Mac
+# .venv\Scripts\activate   # Windows
+
+pip install openai python-dotenv
+```
+
+Crie `.env` com sua chave:
+```
+OPENAI_API_KEY=sk-...
+```
+
+</div>
+
+<div class="p-3 rounded-xl border border-purple-500/30 bg-purple-500/5">
+
+### Frameworks (E2+)
+
+```bash
+pip install langchain langchain-openai
+pip install langgraph
+```
+
+### RAG & Memória (E3)
+
+```bash
+pip install chromadb sentence-transformers
+pip install tiktoken
+```
+
+</div>
+
+</div>
+
+<div class="mt-3 p-2 rounded bg-amber-500/10 border border-amber-500/30 text-xs">
+⚡ <b>Alternativa gratuita:</b> use <code>pip install groq</code> + API gratuita do Groq (llama-3.1-70b) se não quiser pagar OpenAI.
+</div>
+
+---
+
+# 🚀 Seu primeiro agente em 30 segundos
+
+<div class="text-xs mb-2 opacity-70">Copie, cole no terminal e veja um agente funcionar:</div>
+
+```python {maxHeight:'280px'}
+# agente_minimo.py — rode com: python agente_minimo.py
+from openai import OpenAI
+import json
+
+client = OpenAI()  # usa OPENAI_API_KEY do ambiente
+
+tools = [{"type": "function", "function": {
+    "name": "calcular", "description": "Faz contas",
+    "parameters": {"type": "object", "properties": {
+        "expressao": {"type": "string"}}, "required": ["expressao"]}
+}}]
+
+msgs = [{"role": "user", "content": "Quanto e 42 * 37?"}]
+resp = client.chat.completions.create(
+    model="gpt-4o-mini", messages=msgs, tools=tools)
+
+if resp.choices[0].message.tool_calls:
+    call = resp.choices[0].message.tool_calls[0]
+    args = json.loads(call.function.arguments)
+    result = eval(args["expressao"])
+    print(f"Tool chamada: {call.function.name}({args})")
+    print(f"Resultado: {result}")
+```
+
+<div class="mt-2 text-xs opacity-70">Se isso rodou, você já tem um agente. Os próximos encontros vão torná-lo <b>inteligente</b>.</div>
 
 ---
 layout: section

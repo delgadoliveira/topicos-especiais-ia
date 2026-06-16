@@ -1715,7 +1715,130 @@ Todo o material apresentado é de **domínio público / publicações abertas**.
 
 ---
 
+# 🏢 Agentes por função de negócio
+
+<div class="grid grid-cols-3 gap-3 text-xs mt-2">
+
+<div class="p-3 rounded-xl border border-cyan-500/30 bg-cyan-500/5">
+
+### 💼 RH & Recrutamento
+
+- Triagem automática de CVs
+- Agendamento de entrevistas
+- Onboarding assistido
+
+</div>
+
+<div class="p-3 rounded-xl border border-purple-500/30 bg-purple-500/5">
+
+### 💰 Finanças
+
+- Reconciliação de faturas
+- Detecção de fraude
+- Relatórios automáticos
+
+</div>
+
+<div class="p-3 rounded-xl border border-amber-500/30 bg-amber-500/5">
+
+### 🖥️ TI & DevOps
+
+- IT Helpdesk Copilot
+- Incident response
+- Code review assistido
+
+</div>
+
+</div>
+
+<div class="mt-3 p-2 rounded bg-green-500/10 border border-green-500/30 text-xs">
+📊 <b>MIT:</b> "Agentes funcionais (HR bots, Finance advisors, IT copilots) são o ponto de entrada mais comum em empresas."
+</div>
+
+---
+
+# 🐛 Maturidade: Crawl → Walk → Run
+
+<div class="text-xs mt-2">Modelo do MIT para adoção gradual de agentes na organização:</div>
+
+<div class="grid grid-cols-3 gap-3 mt-3 text-xs">
+
+<div class="p-3 rounded-xl border border-green-500/40 bg-green-500/5">
+
+### 🐛 Crawl
+
+- Chatbot FAQ interno
+- Resumo de documentos
+- 1 agente, 1 tarefa simples
+- **Risco baixo**, sandbox
+
+</div>
+
+<div class="p-3 rounded-xl border border-amber-500/40 bg-amber-500/5">
+
+### 🚶 Walk
+
+- Agente com tools reais (APIs)
+- Integração com sistemas
+- Human-in-the-loop
+- **Monitoramento** ativo
+
+</div>
+
+<div class="p-3 rounded-xl border border-red-500/40 bg-red-500/5">
+
+### 🏃 Run
+
+- Multi-agente autônomo
+- Decisões de alto impacto
+- Orquestração completa
+- **Governance** obrigatório
+
+</div>
+
+</div>
+
+<div class="mt-3 text-xs opacity-70 text-center">
+Fonte: MIT Professional Education — "The Maturity Cycle of Agentic Implementation"
+</div>
+
+---
+
 # ✅ Fim do Encontro 1
+
+---
+layout: section
+---
+
+# 🧪 Exercícios Interativos — Encontro 1
+
+<div class="text-sm opacity-60 mt-4">Pratique no navegador: rode o código e veja os resultados</div>
+
+---
+
+# 🧪 Exercício 1.1 — Simulando um LLM com decisão
+
+<div class="text-xs mb-2 opacity-70">Implemente a função <code>decidir_acao</code> que retorna "buscar" ou "responder" baseado na pergunta.</div>
+
+<PyRunner src="/topicos-especiais-ia/exercises/e1_1_decidir_acao.py" height="280px" />
+
+---
+
+# 🧪 Exercício 1.2 — Loop ReAct simplificado
+
+<div class="text-xs mb-2 opacity-70">Simule o loop Thought → Action → Observation manualmente.</div>
+
+<PyRunner src="/topicos-especiais-ia/exercises/e1_2_react_loop.py" height="300px" />
+
+---
+
+# 🧪 Exercício 1.3 — Construa seu primeiro agente
+
+<div class="text-xs mb-2 opacity-70">Complete o agente adicionando uma nova tool e testando o dispatch.</div>
+
+<PyRunner src="/topicos-especiais-ia/exercises/e1_3_dispatcher.py" height="320px" />
+
+---
 
 Você agora sabe:
 

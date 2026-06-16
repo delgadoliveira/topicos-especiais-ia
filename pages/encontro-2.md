@@ -1333,6 +1333,102 @@ class: text-center
 
 Você agora sabe:
 
+---
+
+# 🔓 Open-Source vs Closed-Source
+
+<div class="grid grid-cols-2 gap-4 text-xs mt-2">
+
+<div class="p-3 rounded-xl border border-green-500/30 bg-green-500/5">
+
+### 🟢 Open-Source
+
+| Modelo | Params | Destaque |
+|---|---|---|
+| Llama 3.1 | 405B | Meta, uso comercial |
+| Mistral Large | 123B | EU-based, MoE |
+| Qwen 2.5 | 72B | Alibaba, multilingual |
+| DeepSeek R1 | 671B | Reasoning SOTA |
+
+✅ Controle total, sem vendor lock-in, custo variável
+
+</div>
+
+<div class="p-3 rounded-xl border border-purple-500/30 bg-purple-500/5">
+
+### 🟣 Closed-Source
+
+| Modelo | Provider | Destaque |
+|---|---|---|
+| GPT-4o | OpenAI | Multimodal, tools |
+| Claude 4 | Anthropic | 200K ctx, seguro |
+| Gemini 2.5 | Google | 1M ctx, grounding |
+
+✅ Performance SOTA, suporte enterprise, integração rápida
+
+</div>
+
+</div>
+
+<div class="mt-2 p-2 rounded bg-cyan-500/10 border border-cyan-500/30 text-xs">
+💡 <b>Regra MIT:</b> "Use closed para prototipar, open para produção com dados sensíveis."
+</div>
+
+---
+
+# 🛡️ Riscos de agentes — MIT Module 4
+
+<div class="text-xs mt-2">
+
+| Risco | Descrição | Mitigação |
+|---|---|---|
+| **Prompt injection** | Atacante injeta instrução maliciosa | Input validation, guardrails |
+| **Data exfiltration** | Agente vaza dados via tool call | Sandboxing, allowlist de tools |
+| **Hallucination cascade** | Erro se propaga entre agentes | Verificação cruzada, HITL |
+| **Runaway costs** | Loop infinito consome $$$$ | Max iterations, budget caps |
+| **Over-autonomy** | Agente toma decisão sem aprovação | Approval gates, audit trail |
+
+</div>
+
+<div class="mt-3 p-2 rounded bg-red-500/10 border border-red-500/30 text-xs">
+⚠️ <b>MIT:</b> "O maior risco não é o agente falhar — é falhar silenciosamente enquanto parece funcionar."
+</div>
+
+---
+
+layout: section
+---
+
+# 🧪 Exercícios Interativos — Encontro 2
+
+<div class="text-sm opacity-60 mt-4">Pratique reasoning, planning e tool execution</div>
+
+---
+
+# 🧪 Exercício 2.1 — Chain-of-Thought manual
+
+<div class="text-xs mb-2 opacity-70">Implemente um prompt CoT e veja como a estruturação melhora a resposta.</div>
+
+<PyRunner src="/topicos-especiais-ia/exercises/e2_1_cot.py" height="280px" />
+
+---
+
+# 🧪 Exercício 2.2 — Function Calling (JSON schema)
+
+<div class="text-xs mb-2 opacity-70">Simule o parsing de uma resposta do LLM em formato function_call.</div>
+
+<PyRunner src="/topicos-especiais-ia/exercises/e2_2_function_calling.py" height="320px" />
+
+---
+
+# 🧪 Exercício 2.3 — Planner simples
+
+<div class="text-xs mb-2 opacity-70">Implemente um planejador que decompõe tarefas em sub-tarefas.</div>
+
+<PyRunner src="/topicos-especiais-ia/exercises/e2_3_planner.py" height="320px" />
+
+---
+
 - Como melhorar reasoning (CoT, Self-Consistency, ToT)
 - Estratégias de planning (Plan-and-Execute, ReWOO)
 - Function calling robusto
