@@ -48,32 +48,40 @@ Hoje vamos ensiná-lo a <b>raciocinar</b> antes de agir — e a usar ferramentas
 
 ---
 
-# 🗺️ Agenda do Encontro 2
+# 🗺️ Agenda do Encontro 2 — a jornada de hoje
 
-<div class="grid grid-cols-2 gap-6 mt-6">
+<div class="mb-3 p-3 rounded-lg bg-blue-500/10 border border-blue-500/30 text-sm">
+Vamos transformar o agente do Encontro 1 em um agente que <b>decide melhor</b>, <b>age com contratos</b> e <b>é observável o suficiente para produção</b>.
+</div>
+
+<div class="grid grid-cols-2 gap-4 mt-3 text-sm">
 
 <div>
 
-**Bloco 1 — Reasoning & Planning (~90 min)**
+**Bloco 1 — Pensar melhor (~90 min)**
 - 2.1 Recap: limites do ReAct manual
 - 2.2 Chain-of-Thought (CoT)
-- 2.3 Self-Consistency
-- 2.4 Tree-of-Thoughts (ToT)
-- 2.5 Planning: Plan-and-Execute, ReWOO
+- 2.3 Self-Consistency, ToT e Reflexion
+- 2.4 Padrões agentic da Anthropic
+- 2.5 Planning: Plan-and-Execute, ReWOO, replanning
 
 </div>
 
 <div>
 
-**Bloco 2 — Tool Execution (~90 min)**
+**Bloco 2 — Agir com precisão (~90 min)**
 - 2.6 Function Calling estruturado
-- 2.7 Hands-on: agente robusto com OpenAI tools
-- 2.8 LangChain — quando faz sentido
-- 2.9 LangGraph — state machines explícitas
-- 2.10 Exercícios
+- 2.7 Tool loop robusto + parallel calls
+- 2.8 Frameworks: SDK puro, LangChain, LangGraph
+- 2.9 Boas práticas, riscos e custos
+- 2.10 Exercícios guiados + PyRunner
 
 </div>
 
+</div>
+
+<div class="mt-3 p-3 rounded-lg bg-green-500/10 border border-green-500/30 text-xs text-center">
+<b>Produto da aula:</b> uma checklist para escolher entre prompt simples, workflow, agente com tools, planner e grafo de estado.
 </div>
 
 ---
@@ -148,6 +156,35 @@ Antes de mergulhar, os termos novos que você vai ouvir hoje:
 </div>
 
 <div class="mt-3 p-2 rounded-lg bg-blue-500/10 border border-blue-500/30 text-xs text-center"><b>Fio condutor:</b> reasoning sem tools vira resposta bonita; tools sem reasoning viram automação cega.</div>
+
+---
+
+# 🧪 Caso condutor — assistente de viagem corporativa
+
+<div class="mb-3 text-sm">Para evitar uma aula abstrata, vamos usar o mesmo caso mental ao longo do encontro:</div>
+
+<div class="grid grid-cols-2 gap-3 text-xs">
+<div class="p-3 rounded-xl bg-purple-500/10 border border-purple-500/30">
+<b>Pedido do usuário</b><br>
+“Planeje uma viagem de 3 dias para Porto Alegre com orçamento de R$ 2.000, perto do centro, com justificativa de custos.”
+</div>
+<div class="p-3 rounded-xl bg-red-500/10 border border-red-500/30">
+<b>Por que é difícil?</b><br>
+Precisa decompor tarefa, buscar dados, comparar alternativas, respeitar orçamento, citar evidências e não comprar nada sem aprovação.
+</div>
+<div class="p-3 rounded-xl bg-cyan-500/10 border border-cyan-500/30">
+<b>Reasoning resolve</b><br>
+CoT, Self-Consistency, ToT e Planning ajudam a escolher a rota: o que buscar, em que ordem, quando replanejar e como justificar.
+</div>
+<div class="p-3 rounded-xl bg-green-500/10 border border-green-500/30">
+<b>Tool execution resolve</b><br>
+Function Calling, schemas, logs, max_steps e LangGraph transformam intenção em ação controlada e auditável.
+</div>
+</div>
+
+<div class="mt-3 p-2 rounded-lg bg-amber-500/10 border border-amber-500/30 text-xs text-center">
+Use este caso como régua: cada técnica nova precisa responder <b>qual falha ela reduz</b>.
+</div>
 
 ---
 
@@ -664,6 +701,25 @@ flowchart TD
 
 ---
 
+# Checkpoint — dos padrões para planejamento
+
+<div class="grid grid-cols-2 gap-3 text-xs">
+<div class="p-3 rounded-xl bg-purple-500/10 border border-purple-500/30">
+<b>O que aprendemos até aqui</b><br>
+CoT melhora uma resposta; Self-Consistency compara várias; ToT explora caminhos; Reflexion revisa; os 5 padrões organizam workflows previsíveis.
+</div>
+<div class="p-3 rounded-xl bg-cyan-500/10 border border-cyan-500/30">
+<b>O problema que ainda falta</b><br>
+Quando a tarefa tem dependências, tools caras, dados incertos e risco, o agente precisa decidir <b>uma rota de execução</b> antes de gastar ações.
+</div>
+</div>
+
+<div class="mt-3 p-3 rounded-xl bg-green-500/10 border border-green-500/30 text-sm text-center">
+É aqui que entramos em <b>Planning</b>: transformar raciocínio em plano executável, monitorável e revisável.
+</div>
+
+---
+
 # 2.5 Planning — pensar antes de agir
 
 ReAct decide **passo a passo**. Planning decide a **rota inteira** antes de começar.
@@ -1003,6 +1059,21 @@ sequenceDiagram
 
 ---
 
+# Checkpoint — a régua de arquitetura
+
+<div class="grid grid-cols-4 gap-2 text-xs">
+<div class="p-2 rounded-lg bg-white/5 border border-white/10"><b>1 chamada</b><br>Resposta direta ou CoT leve.</div>
+<div class="p-2 rounded-lg bg-purple-500/10 border border-purple-500/30"><b>Workflow</b><br>Passos fixos, validação simples.</div>
+<div class="p-2 rounded-lg bg-cyan-500/10 border border-cyan-500/30"><b>Agente com tools</b><br>Loop, schemas, observações.</div>
+<div class="p-2 rounded-lg bg-green-500/10 border border-green-500/30"><b>Grafo</b><br>Estado, HITL, checkpoints, retomada.</div>
+</div>
+
+<div class="mt-3 p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 text-sm text-center">
+Não use framework para parecer moderno. Use quando a arquitetura precisa de <b>controle explícito</b>.
+</div>
+
+---
+
 # 2.8 Quando usar LangChain?
 
 LangChain é o framework mais popular para agentes em Python — com **prós e contras** claros.
@@ -1334,15 +1405,7 @@ Em **um parágrafo cada**:
 </div>
 
 ---
-layout: center
-class: text-center
----
-
----
-
----
-
-# 🌐 Mercado de reasoning & frameworks (2024-2025)
+# 🌐 Mercado de reasoning & frameworks (2024-2026)
 
 <div class="grid grid-cols-2 gap-3 text-xs">
 <div class="p-2 rounded-lg bg-purple-500/10 border border-purple-500/30"><b>🧠 Reasoning models</b><div class="mt-1 leading-snug">• <b>OpenAI o1, o3, o3-mini</b> (set/2024–jan/2025)<br>• <b>DeepSeek R1</b> (jan/2025) — open weights, abalou o mercado<br>• <b>Claude Sonnet 4 Thinking</b> (mai/2025)<br>• <b>Gemini 2.5 Pro Thinking</b><br>• <b>Qwen QwQ</b>, <b>Kimi k1.5</b> (Moonshot)</div></div>
@@ -1351,7 +1414,7 @@ class: text-center
 
 ---
 
-# 🌐 Mercado de reasoning & frameworks (2024-2025) — cont.
+# 🌐 Mercado de reasoning & frameworks (2024-2026) — cont.
 
 <div class="grid grid-cols-2 gap-3 text-xs">
 <div class="p-2 rounded-lg bg-green-500/10 border border-green-500/30"><b>🧩 Padrões emergentes em produção</b><div class="mt-1 leading-snug">• Anthropic <b>Building Effective Agents</b> (dez/2024) consolidou 5 padrões<br>• <b>OpenAI Swarm → Agents SDK</b> popularizou handoffs<br>• <b>LangGraph Supervisor</b> virou padrão de coordenação<br>• <b>MCP</b> (nov/2024) tornou-se padrão de tool calling</div></div>
@@ -1380,6 +1443,59 @@ class: text-center
 
 ---
 
+# 🧭 Dois filtros antes de produção
+
+<div class="grid grid-cols-2 gap-3 text-xs">
+<div class="p-3 rounded-xl bg-green-500/10 border border-green-500/30">
+<b>🔓 Open-source vs closed-source</b><br>
+Closed acelera protótipo e entrega modelos fortes com suporte. Open dá controle, custo previsível, privacidade e menos lock-in. A pergunta não é “qual é melhor?” — é <b>qual restrição domina seu caso</b>.
+</div>
+<div class="p-3 rounded-xl bg-red-500/10 border border-red-500/30">
+<b>🛡️ Risco operacional</b><br>
+Prompt injection, vazamento via tool, custos em loop, autonomia excessiva e falha silenciosa. Quanto mais o agente age fora do chat, mais precisa de sandbox, allowlist, aprovação e logs.
+</div>
+</div>
+
+<div class="mt-3 p-3 rounded-lg bg-blue-500/10 border border-blue-500/30 text-xs text-center">
+<b>Regra prática:</b> prototipe com o melhor modelo disponível; produza com a combinação que maximiza <b>controle + avaliação + custo aceitável</b>.
+</div>
+
+---
+
+# 🧪 Exercícios Interativos — Encontro 2
+
+<div class="text-sm opacity-70 mb-3">Agora os conceitos viram prática no navegador.</div>
+
+<div class="grid grid-cols-3 gap-3 text-xs">
+<div class="p-3 rounded-xl bg-purple-500/10 border border-purple-500/30"><b>2.1 CoT manual</b><br>Compare prompt direto vs passo a passo e observe onde a decomposição reduz erro.</div>
+<div class="p-3 rounded-xl bg-cyan-500/10 border border-cyan-500/30"><b>2.2 Function Calling</b><br>Simule tool calls em JSON e veja por que contrato vence regex.</div>
+<div class="p-3 rounded-xl bg-green-500/10 border border-green-500/30"><b>2.3 Planner simples</b><br>Decomponha uma tarefa em passos e execute com contexto acumulado.</div>
+</div>
+
+---
+
+# 🧪 Exercício Interativo 2.1 — Chain-of-Thought manual
+
+<div class="text-xs mb-2 opacity-70">Implemente um prompt CoT e veja como a estruturação melhora a resposta.</div>
+
+<PyRunner src="/topicos-especiais-ia/exercises/e2_1_cot.py" height="280px" />
+
+---
+
+# 🧪 Exercício Interativo 2.2 — Function Calling (JSON schema)
+
+<div class="text-xs mb-2 opacity-70">Simule o parsing de uma resposta do LLM em formato function_call.</div>
+
+<PyRunner src="/topicos-especiais-ia/exercises/e2_2_function_calling.py" height="320px" />
+
+---
+
+# 🧪 Exercício Interativo 2.3 — Planner simples
+
+<div class="text-xs mb-2 opacity-70">Implemente um planejador que decompõe tarefas em subtarefas.</div>
+
+<PyRunner src="/topicos-especiais-ia/exercises/e2_3_planner.py" height="320px" />
+
 ---
 
 # 🔄 Recap — O que construímos no Encontro 2
@@ -1402,108 +1518,10 @@ class: text-center
 
 # ✅ Fim do Encontro 2
 
-Você agora sabe:
-
----
-
-# 🔓 Open-Source vs Closed-Source
-
-<div class="grid grid-cols-2 gap-4 text-xs mt-2">
-
-<div class="p-3 rounded-xl border border-green-500/30 bg-green-500/5">
-
-### 🟢 Open-Source
-
-| Modelo | Params | Destaque |
-|---|---|---|
-| Llama 3.1 | 405B | Meta, uso comercial |
-| Mistral Large | 123B | EU-based, MoE |
-| Qwen 2.5 | 72B | Alibaba, multilingual |
-| DeepSeek R1 | 671B | Reasoning SOTA |
-
-✅ Controle total, sem vendor lock-in, custo variável
-
+<div class="grid grid-cols-2 gap-3 text-xs">
+<div class="p-3 rounded-xl bg-green-500/10 border border-green-500/30"><b>Você agora tem repertório</b><br>CoT, Self-Consistency, ToT, Reflexion, Planning, Function Calling, patterns da Anthropic, LangChain e LangGraph.</div>
+<div class="p-3 rounded-xl bg-cyan-500/10 border border-cyan-500/30"><b>Você também tem critério</b><br>Quando aumentar custo, quando manter simples, quando exigir schema, quando desenhar grafo e quando colocar humano no loop.</div>
 </div>
-
-<div class="p-3 rounded-xl border border-purple-500/30 bg-purple-500/5">
-
-### 🟣 Closed-Source
-
-| Modelo | Provider | Destaque |
-|---|---|---|
-| GPT-4o | OpenAI | Multimodal, tools |
-| Claude 4 | Anthropic | 200K ctx, seguro |
-| Gemini 2.5 | Google | 1M ctx, grounding |
-
-✅ Performance SOTA, suporte enterprise, integração rápida
-
-</div>
-
-</div>
-
-<div class="mt-2 p-2 rounded bg-cyan-500/10 border border-cyan-500/30 text-xs">
-💡 <b>Regra MIT:</b> "Use closed para prototipar, open para produção com dados sensíveis."
-</div>
-
----
-
-# 🛡️ Riscos de agentes — MIT Module 4
-
-<div class="text-xs mt-2">
-
-| Risco | Descrição | Mitigação |
-|---|---|---|
-| **Prompt injection** | Atacante injeta instrução maliciosa | Input validation, guardrails |
-| **Data exfiltration** | Agente vaza dados via tool call | Sandboxing, allowlist de tools |
-| **Hallucination cascade** | Erro se propaga entre agentes | Verificação cruzada, HITL |
-| **Runaway costs** | Loop infinito consome $$$$ | Max iterations, budget caps |
-| **Over-autonomy** | Agente toma decisão sem aprovação | Approval gates, audit trail |
-
-</div>
-
-<div class="mt-3 p-2 rounded bg-red-500/10 border border-red-500/30 text-xs">
-⚠️ <b>MIT:</b> "O maior risco não é o agente falhar — é falhar silenciosamente enquanto parece funcionar."
-</div>
-
----
-
-layout: section
----
-
-# 🧪 Exercícios Interativos — Encontro 2
-
-<div class="text-sm opacity-60 mt-4">Pratique reasoning, planning e tool execution</div>
-
----
-
-# 🧪 Exercício 2.1 — Chain-of-Thought manual
-
-<div class="text-xs mb-2 opacity-70">Implemente um prompt CoT e veja como a estruturação melhora a resposta.</div>
-
-<PyRunner src="/topicos-especiais-ia/exercises/e2_1_cot.py" height="280px" />
-
----
-
-# 🧪 Exercício 2.2 — Function Calling (JSON schema)
-
-<div class="text-xs mb-2 opacity-70">Simule o parsing de uma resposta do LLM em formato function_call.</div>
-
-<PyRunner src="/topicos-especiais-ia/exercises/e2_2_function_calling.py" height="320px" />
-
----
-
-# 🧪 Exercício 2.3 — Planner simples
-
-<div class="text-xs mb-2 opacity-70">Implemente um planejador que decompõe tarefas em sub-tarefas.</div>
-
-<PyRunner src="/topicos-especiais-ia/exercises/e2_3_planner.py" height="320px" />
-
----
-
-- Como melhorar reasoning (CoT, Self-Consistency, ToT)
-- Estratégias de planning (Plan-and-Execute, ReWOO)
-- Function calling robusto
-- Quando usar LangChain vs LangGraph vs SDK puro
 
 <div class="mt-12 text-xl text-cyan-400">
 Próximo: <b>Encontro 3 — Skills, Memória & Contexto</b>

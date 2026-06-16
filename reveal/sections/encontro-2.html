@@ -61,17 +61,20 @@
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #1f2937 100%)">
 <h1>🗺️ A jornada de hoje — 2 blocos, 1 objetivo</h1>
+<div class="card card-blue text-sm" style="margin-bottom:0.7rem; opacity:1; transform:none;">
+Vamos transformar o agente do Encontro 1 em um sistema que <b>decide melhor</b>, <b>age com contratos</b> e <b>é observável o suficiente para produção</b>.
+</div>
 
-<div class="grid-2" style="gap:1.2rem; margin-top:1rem;">
+<div class="grid-2" style="gap:1.0rem; margin-top:0.4rem;">
 <div class="card card-purple parallax-card" style="padding:0.8rem;">
 <div style="font-size:1.2em; text-align:center; margin-bottom:0.5rem;">🧠</div>
-<b>Bloco 1 — Pensando melhor</b><br><span class="text-xs">(~90 min)</span>
+<b>Bloco 1 — Pensar melhor</b><br><span class="text-xs">(~90 min)</span>
 <div class="text-xs" style="margin-top:0.5rem; line-height:1.7;">
-1. Chain-of-Thought (CoT)<br>
-2. Self-Consistency & ToT<br>
-3. Reasoning Models (o1, R1)<br>
-4. Reflexion (auto-crítica)<br>
-5. Planning (plano completo)
+1. Recap: limites do ReAct manual<br>
+2. CoT, Self-Consistency, ToT<br>
+3. Reflexion e verification<br>
+4. Padrões agentic da Anthropic<br>
+5. Planning, ReWOO e replanning
 </div>
 </div>
 
@@ -80,10 +83,10 @@
 <b>Bloco 2 — Agindo com precisão</b><br><span class="text-xs">(~90 min)</span>
 <div class="text-xs" style="margin-top:0.5rem; line-height:1.7;">
 6. Function Calling estruturado<br>
-7. Hands-on: agente robusto (HF)<br>
-8. Padrões Anthropic (5 patterns)<br>
-9. LangChain & LangGraph<br>
-10. Exercícios práticos
+7. Tool loop robusto + parallel calls<br>
+8. SDK puro, LangChain, LangGraph<br>
+9. Boas práticas, riscos e custos<br>
+10. Exercícios guiados + PyRunner
 </div>
 </div>
 </div>
@@ -97,7 +100,7 @@
 </div>
 
 <div class="tip-box" style="margin-top:0.7rem;">
-💡 <b>Fio condutor:</b> seu agente do E1 é "impulsivo". Hoje ele aprende a <b>pensar antes de agir</b> (Bloco 1) e a <b>agir com precisão cirúrgica</b> (Bloco 2).
+💡 <b>Produto da aula:</b> uma checklist para escolher entre prompt simples, workflow, agente com tools, planner e grafo de estado.
 </div>
 </section>
 
@@ -220,6 +223,18 @@
 <div style="opacity:1; transform:none; padding:0.5rem; text-align:center; border-radius:0.6rem; background:rgba(248,113,113,0.10); border:1px solid rgba(248,113,113,0.28);"><b>Produção</b><br>LangGraph + avaliação + HITL</div>
 </div>
 <div class="text-xs" style="opacity:1; transform:none; margin-top:0.75rem; padding:0.55rem; text-align:center; border-radius:0.6rem; background:rgba(59,130,246,0.10); border:1px solid rgba(59,130,246,0.28);"><b>Fio condutor:</b> reasoning sem tools vira resposta bonita; tools sem reasoning viram automação cega.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
+<h1>🧪 Caso condutor — viagem corporativa</h1>
+<p class="text-sm">Para evitar uma aula abstrata, vamos usar o mesmo caso mental ao longo do encontro:</p>
+<div class="grid-2 stagger-in text-xs" style="gap:0.7rem; margin-top:0.7rem;">
+<div class="card card-purple" style="opacity:1; transform:none;"><b>Pedido do usuário</b><br>“Planeje uma viagem de 3 dias para Porto Alegre com orçamento de R$ 2.000, perto do centro, com justificativa de custos.”</div>
+<div class="card card-red" style="opacity:1; transform:none;"><b>Por que é difícil?</b><br>Precisa decompor tarefa, buscar dados, comparar alternativas, respeitar orçamento, citar evidências e não comprar nada sem aprovação.</div>
+<div class="card card-cyan" style="opacity:1; transform:none;"><b>Reasoning resolve</b><br>CoT, Self-Consistency, ToT e Planning ajudam a escolher rota, ordem de busca, gatilhos de replanejamento e justificativa.</div>
+<div class="card card-green" style="opacity:1; transform:none;"><b>Tool execution resolve</b><br>Function Calling, schemas, logs, max_steps e LangGraph transformam intenção em ação controlada e auditável.</div>
+</div>
+<div class="tip-box mt-2 text-xs">Use este caso como régua: cada técnica nova precisa responder <b>qual falha ela reduz</b>.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
@@ -666,6 +681,15 @@ print(ticket.prioridade, ticket.requer_resposta_imediata)  # 5 True</code></pre>
 <div class="tip-box mt-2 text-xs">Primeiro organize a execução; depois pense em planning mais sofisticado.</div>
 </section>
 
+<section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
+<h1>Checkpoint — dos padrões para planejamento</h1>
+<div class="grid-2 stagger-in text-xs" style="gap:0.8rem;">
+<div class="card card-purple parallax-card fragment"><b>O que aprendemos até aqui</b><br>CoT melhora uma resposta; Self-Consistency compara várias; ToT explora caminhos; Reflexion revisa; os 5 padrões organizam workflows previsíveis.</div>
+<div class="card card-cyan parallax-card fragment"><b>O problema que ainda falta</b><br>Quando há dependências, tools caras, dados incertos e risco, o agente precisa decidir <b>uma rota de execução</b> antes de gastar ações.</div>
+</div>
+<div class="insight-box mt-2 text-sm">É aqui que entramos em <b>Planning</b>: transformar raciocínio em plano executável, monitorável e revisável.</div>
+</section>
+
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #0f766e 100%)">
 <h1>🗺️ Do próximo passo à rota completa</h1>
 <p class="slide-in-left" style="opacity:0.8; margin-bottom:1rem;">Os padrões acima organizam o <b>trabalho</b>. Agora vem outra pergunta: o agente deve decidir <b>um passo por vez</b> ou desenhar um <b>plano inteiro</b> antes de agir?</p>
@@ -1022,6 +1046,17 @@ print(json.loads(resp.choices[0].message.content))</code></pre>
 </div>
 </section>
 
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #0f766e 100%)">
+<h1>Checkpoint — a régua de arquitetura</h1>
+<div class="grid-4 stagger-in text-xs" style="gap:0.55rem;">
+<div class="card parallax-card fragment" style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12);"><b>1 chamada</b><br>Resposta direta ou CoT leve.</div>
+<div class="card card-purple parallax-card fragment"><b>Workflow</b><br>Passos fixos, validação simples.</div>
+<div class="card card-cyan parallax-card fragment"><b>Agente com tools</b><br>Loop, schemas, observações.</div>
+<div class="card card-green parallax-card fragment"><b>Grafo</b><br>Estado, HITL, checkpoints, retomada.</div>
+</div>
+<div class="tip-box mt-2 text-sm">Não use framework para parecer moderno. Use quando a arquitetura precisa de <b>controle explícito</b>.</div>
+</section>
+
 <section data-background-gradient="linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)">
 <h1>🏭 Do artesanal para produção</h1>
 <p class="slide-in-left" style="opacity:0.8; margin-bottom:1rem;">Já temos raciocínio, planning e tool use. O problema agora não é “conseguir fazer uma demo”; é <b>manter o sistema compreensível, observável e confiável</b>.</p>
@@ -1181,6 +1216,38 @@ result = app.invoke({"messages": [("user", "Quanto custa um hotel em SP?")]})</c
 <div class="insight-box mt-2 text-xs">Se o agente falha sempre, normalmente o defeito está no <b>desenho do sistema</b>, não no “QI do modelo”.</div>
 </section>
 
+<section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
+<h1>🌐 Mercado de reasoning & frameworks (2024-2025)</h1>
+<div class="stagger-in grid-2 text-xs" style="gap: 0.8rem;">
+<div class="card card-purple parallax-card fragment"><b>🧠 Reasoning models</b><div class="mt-1" style="line-height: 1.5;">• <b>OpenAI o1, o3, o3-mini</b> (set/2024–jan/2025)<br>• <b>DeepSeek R1</b> (jan/2025) — open weights, abalou o mercado<br>• <b>Claude Sonnet 4 Thinking</b> (mai/2025)<br>• <b>Gemini 2.5 Pro Thinking</b><br>• <b>Qwen QwQ</b>, <b>Kimi k1.5</b> (Moonshot)</div></div>
+<div class="card card-cyan parallax-card fragment"><b>🛠️ Frameworks de agente</b><div class="mt-1" style="line-height: 1.5;">• <b>LangGraph</b> — grafo de estados<br>• <b>OpenAI Agents SDK</b> (mar/2025)<br>• <b>LlamaIndex AgentWorkflow</b><br>• <b>Pydantic AI</b>, <b>Smolagents</b><br>• <b>CrewAI</b>, <b>AutoGen</b>, <b>Mastra</b>, <b>Vercel AI SDK</b></div></div>
+</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
+<h1>🌐 Mercado de reasoning & frameworks (2024-2025) — cont.</h1>
+<div class="stagger-in grid-2 text-xs" style="gap: 0.8rem;">
+<div class="card card-green parallax-card fragment"><b>🧩 Padrões emergentes em produção</b><div class="mt-1" style="line-height: 1.5;">• Anthropic <b>Building Effective Agents</b> (dez/2024) consolidou 5 padrões<br>• <b>OpenAI Swarm → Agents SDK</b> popularizou handoffs<br>• <b>LangGraph Supervisor</b> virou padrão de coordenação<br>• <b>MCP</b> (nov/2024) tornou-se padrão de tool calling</div></div>
+<div class="card card-amber parallax-card fragment"><b>💸 Custos típicos por padrão (2025)</b><div class="mt-1" style="line-height: 1.5;">• ReAct simples (5 turnos): <b>~$0,02</b><br>• Reasoning model (o1) por query: <b>~$0,10–$1</b><br>• Multi-agent (5 agentes, 20 turnos): <b>~$0,50</b><br>• Deep Research run (OpenAI): <b>~$1–5</b></div></div>
+</div>
+<div class="mt-3 text-xs opacity-70 text-center">Fontes: documentação oficial dos modelos, blogs Anthropic/OpenAI e repositórios públicos no GitHub.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%)">
+<h1>🧭 Dois filtros antes de produção</h1>
+<div class="grid-2 text-xs mt-2" style="gap:0.8rem;">
+<div class="card card-green parallax-card fragment">
+<b>🔓 Open-source vs closed-source</b><br>
+Closed acelera protótipo e entrega modelos fortes com suporte. Open dá controle, custo previsível, privacidade e menos lock-in. A pergunta não é “qual é melhor?” — é <b>qual restrição domina seu caso</b>.
+</div>
+<div class="card card-red parallax-card fragment">
+<b>⚠️ Risco operacional</b><br>
+Prompt injection, vazamento via tool, custos em loop, autonomia excessiva e falha silenciosa. Quanto mais o agente age fora do chat, mais precisa de sandbox, allowlist, aprovação e logs.
+</div>
+</div>
+<div class="tip-box mt-2 text-xs"><b>Regra prática:</b> prototipe com o melhor modelo disponível; produza com a combinação que maximiza <b>controle + avaliação + custo aceitável</b>.</div>
+</section>
+
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #172554 100%)">
 <h1>🏋️ Exercícios — Encontro 2</h1>
 <div class="typewriter-js text-center mt-2" data-text="5 atividades · reasoning, planning e tool execution"></div>
@@ -1217,24 +1284,39 @@ result = app.invoke({"messages": [("user", "Quanto custa um hotel em SP?")]})</c
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e293b 100%)">
 <h1>🔗 De loops manuais → grafos explícitos</h1>
-<div class="card card-cyan parallax-card">
-<p class="text-sm">No exercício anterior você viu que o <b>loop manual funciona</b> — mas e se você precisar de:</p>
-<ul class="text-sm mt-1">
-<li class="fragment">Um validador entre o agente e a resposta final?</li>
-<li class="fragment">Pausar a execução e retomar depois?</li>
-<li class="fragment">Depurar visualmente cada decisão do fluxo?</li>
-</ul>
-<p class="text-sm mt-1 fragment"><b>→ É aqui que o LangGraph entra:</b> cada nó é uma função, cada aresta é uma decisão explícita. Você ganha <em>controle cirúrgico</em> sem perder a flexibilidade.</p>
+<p class="text-xs" style="opacity:0.8; margin-bottom:0.5rem;">Seu loop <code>while</code> do Exercício 2.2 funciona — mas escala mal. Veja o que falta:</p>
+<div class="grid-3 stagger-in text-xs" style="gap:0.6rem;">
+<div class="card card-red parallax-card fragment">
+<b>❌ Loop manual</b><br>
+Fluxo implícito no código, difícil de depurar. Adicionar um validador exige reescrever o while. Sem persistência de estado entre reinícios.
 </div>
+<div class="card card-cyan parallax-card fragment">
+<b>→ O que você precisa</b><br>
+Um validador entre agente e resposta final. Pausar e retomar execução. Visualizar cada decisão do fluxo. Checkpoints automáticos.
+</div>
+<div class="card card-green parallax-card fragment">
+<b>✅ LangGraph</b><br>
+Cada nó = uma função. Cada aresta = uma decisão explícita. Estado tipado com <code>TypedDict</code>. Visualização do grafo integrada. Persistência nativa.
+</div>
+</div>
+<div class="tip-box mt-2 text-xs fragment">💡 <b>Analogia:</b> loop manual é como dar direções por telefone ("vire à esquerda, depois..."). LangGraph é o GPS — você vê o mapa inteiro e pode recalcular a rota.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
 <h1>Exercício 2.3 · LangGraph básico</h1>
 <div class="card card-purple parallax-card fragment">
-<p class="slide-in-left"><b>Tarefa:</b> monte o mesmo agente em <b>LangGraph</b>, seguindo o exemplo dos slides.</p>
-<p class="slide-in-left"><b>Adicione:</b></p>
-<ul class="mt-2"><li class="fragment" data-fragment-index="1">Um nó extra chamado <code>validator</code> que <b>roda DEPOIS do agent</b> mas <b>ANTES de finalizar</b>.</li><li class="fragment" data-fragment-index="2">O <code>validator</code> deve checar se a resposta final menciona números. Se sim, ok. Se não, manda de volta para o <code>agent</code> com a mensagem: <i>"Sua resposta não contém números — refine."</i></li><li class="fragment" data-fragment-index="3">Limite de 3 iterações no total.</li></ul>
-<p class="slide-in-left"><b>O que isso ensina:</b> controle explícito do fluxo. Algo que é trivial em LangGraph e doloroso em LangChain puro.</p>
+<p class="slide-in-left"><b>Tarefa:</b> reimplemente o agente do Ex 2.2 como um <b>grafo LangGraph</b> com 3 nós:</p>
+<div class="grid-3 mt-2 text-xs" style="gap:0.5rem;">
+<div class="card card-cyan"><b>agent</b><br>Recebe mensagem, decide se precisa de tool ou se já pode responder</div>
+<div class="card card-amber"><b>tools</b><br>Executa a tool chamada e devolve o resultado ao agent</div>
+<div class="card card-green"><b>validator</b><br>Verifica se a resposta contém números; se não, devolve ao agent</div>
+</div>
+<p class="slide-in-left mt-2"><b>Regras do validator:</b></p>
+<ul class="text-xs"><li class="fragment">Roda <b>DEPOIS</b> do agent decidir finalizar, mas <b>ANTES</b> de retornar ao usuário</li>
+<li class="fragment">Se a resposta não contém números → envia <i>"Sua resposta não contém dados numéricos — refine com valores concretos."</i></li>
+<li class="fragment">Limite de <b>3 iterações</b> no total (evitar loop infinito)</li></ul>
+<p class="slide-in-left mt-1"><b>Teste com:</b> <i>"Quantos km de São Paulo a Curitiba e quanto tempo de carro?"</i></p>
+<p class="text-xs mt-1 fragment" style="opacity:0.7;">💡 <b>O que isso ensina:</b> controle explícito do fluxo com edges condicionais — algo trivial em LangGraph e doloroso com loops manuais.</p>
 </div>
 </section>
 
@@ -1263,28 +1345,13 @@ def plan_and_execute(pergunta: str):
 <section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
 <h1>Exercício 2.5 · Reflexão</h1>
 <div class="card card-cyan parallax-card fragment">
-<p class="slide-in-left">Em <b>um parágrafo cada</b>:</p>
-<ol class="mt-2"><li class="fragment" data-fragment-index="1">Em que situação real (do seu trabalho/estudo) <b>Self-Consistency</b> valeria os 5× de custo?</li></ol>
-<ol class="mt-2"><li class="fragment" data-fragment-index="1">Cite uma tarefa onde <b>Tree-of-Thoughts</b> seria justificado. E uma onde seria <b>exagero</b>.</li></ol>
-<ol class="mt-2"><li class="fragment" data-fragment-index="1">Você prefere LangChain ou LangGraph para o seu próximo projeto? Por quê?</li></ol>
+<p class="slide-in-left">Em <b>um parágrafo cada</b>, responda:</p>
+<ol class="mt-2">
+<li class="fragment">Em que situação real (do seu trabalho/estudo) <b>Self-Consistency</b> valeria os 5× de custo? Justifique com um exemplo concreto.</li>
+<li class="fragment">Cite uma tarefa onde <b>Tree-of-Thoughts</b> seria justificado. E uma onde seria <b>exagero</b> — explique por quê.</li>
+<li class="fragment">Você prefere <b>LangChain</b> ou <b>LangGraph</b> para o seu próximo projeto? Compare trade-offs reais (complexidade, controle, debugging).</li>
+</ol>
 </div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
-<h1>🌐 Mercado de reasoning & frameworks (2024-2025)</h1>
-<div class="stagger-in grid-2 text-xs" style="gap: 0.8rem;">
-<div class="card card-purple parallax-card fragment"><b>🧠 Reasoning models</b><div class="mt-1" style="line-height: 1.5;">• <b>OpenAI o1, o3, o3-mini</b> (set/2024–jan/2025)<br>• <b>DeepSeek R1</b> (jan/2025) — open weights, abalou o mercado<br>• <b>Claude Sonnet 4 Thinking</b> (mai/2025)<br>• <b>Gemini 2.5 Pro Thinking</b><br>• <b>Qwen QwQ</b>, <b>Kimi k1.5</b> (Moonshot)</div></div>
-<div class="card card-cyan parallax-card fragment"><b>🛠️ Frameworks de agente</b><div class="mt-1" style="line-height: 1.5;">• <b>LangGraph</b> — grafo de estados<br>• <b>OpenAI Agents SDK</b> (mar/2025)<br>• <b>LlamaIndex AgentWorkflow</b><br>• <b>Pydantic AI</b>, <b>Smolagents</b><br>• <b>CrewAI</b>, <b>AutoGen</b>, <b>Mastra</b>, <b>Vercel AI SDK</b></div></div>
-</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
-<h1>🌐 Mercado de reasoning & frameworks (2024-2025) — cont.</h1>
-<div class="stagger-in grid-2 text-xs" style="gap: 0.8rem;">
-<div class="card card-green parallax-card fragment"><b>🧩 Padrões emergentes em produção</b><div class="mt-1" style="line-height: 1.5;">• Anthropic <b>Building Effective Agents</b> (dez/2024) consolidou 5 padrões<br>• <b>OpenAI Swarm → Agents SDK</b> popularizou handoffs<br>• <b>LangGraph Supervisor</b> virou padrão de coordenação<br>• <b>MCP</b> (nov/2024) tornou-se padrão de tool calling</div></div>
-<div class="card card-amber parallax-card fragment"><b>💸 Custos típicos por padrão (2025)</b><div class="mt-1" style="line-height: 1.5;">• ReAct simples (5 turnos): <b>~$0,02</b><br>• Reasoning model (o1) por query: <b>~$0,10–$1</b><br>• Multi-agent (5 agentes, 20 turnos): <b>~$0,50</b><br>• Deep Research run (OpenAI): <b>~$1–5</b></div></div>
-</div>
-<div class="mt-3 text-xs opacity-70 text-center">Fontes: documentação oficial dos modelos, blogs Anthropic/OpenAI e repositórios públicos no GitHub.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #064e3b 100%)">
@@ -1302,35 +1369,6 @@ def plan_and_execute(pergunta: str):
 <div class="card card-amber parallax-card fragment"><b>Frameworks</b><div class="mt-1" style="line-height: 1.5;">• LangChain · <a href="https://python.langchain.com/">python.langchain.com</a><br>• LangGraph · <a href="https://langchain-ai.github.io/langgraph/">langchain-ai.github.io/langgraph</a><br>• Instructor · <a href="https://python.useinstructor.com/">python.useinstructor.com</a></div></div>
 </div>
 <div class="mt-2 text-xs opacity-70">Todo conteúdo deste encontro é de domínio público. Marcas citadas pertencem aos respectivos donos; uso exclusivamente educacional.</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%)">
-<h1>🔓 Open-Source vs Closed-Source</h1>
-<div class="compare-cols text-xs mt-2" style="gap: 1rem;">
-<div class="compare-col good">
-<h3>🟢 Open-Source</h3>
-<div class="slide-in-right mt-2"><table><thead><tr><th>Modelo</th><th>Params</th><th>Destaque</th></tr></thead><tbody><tr><td>Llama 3.1</td><td>405B</td><td>Meta, uso comercial</td></tr><tr><td>Mistral Large</td><td>123B</td><td>EU-based, MoE</td></tr><tr><td>Qwen 2.5</td><td>72B</td><td>Alibaba, multilingual</td></tr><tr><td>DeepSeek R1</td><td>671B</td><td>Reasoning SOTA</td></tr></tbody></table></div>
-<p class="slide-in-left">✅ Controle total, sem vendor lock-in, custo variável</p>
-</div>
-<div class="compare-col good">
-<h3>🟣 Closed-Source</h3>
-<div class="slide-in-right mt-2"><table><thead><tr><th>Modelo</th><th>Provider</th><th>Destaque</th></tr></thead><tbody><tr><td>GPT-4o</td><td>OpenAI</td><td>Multimodal, tools</td></tr><tr><td>Claude 4</td><td>Anthropic</td><td>200K ctx, seguro</td></tr><tr><td>Gemini 2.5</td><td>Google</td><td>1M ctx, grounding</td></tr></tbody></table></div>
-<p class="slide-in-left">✅ Performance SOTA, suporte enterprise, integração rápida</p>
-</div>
-</div>
-<div class="card mt-2 text-xs card-cyan parallax-card fragment">
-<p class="slide-in-left">💡 <b>Regra MIT:</b> "Use closed para prototipar, open para produção com dados sensíveis."</p>
-</div>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)">
-<h1>🛡️ Riscos de agentes — MIT Module 4</h1>
-<div class="text-xs mt-2">
-<div class="slide-in-right mt-2"><table><thead><tr><th>Risco</th><th>Descrição</th><th>Mitigação</th></tr></thead><tbody><tr><td><b>Prompt injection</b></td><td>Atacante injeta instrução maliciosa</td><td>Input validation, guardrails</td></tr><tr><td><b>Data exfiltration</b></td><td>Agente vaza dados via tool call</td><td>Sandboxing, allowlist de tools</td></tr><tr><td><b>Hallucination cascade</b></td><td>Erro se propaga entre agentes</td><td>Verificação cruzada, HITL</td></tr><tr><td><b>Runaway costs</b></td><td>Loop infinito consome $$$$</td><td>Max iterations, budget caps</td></tr><tr><td><b>Over-autonomy</b></td><td>Agente toma decisão sem aprovação</td><td>Approval gates, audit trail</td></tr></tbody></table></div>
-</div>
-<div class="card mt-3 text-xs parallax-card fragment" style="background: rgba(248, 113, 113, 0.08); border: 1px solid rgba(248, 113, 113, 0.28);">
-<p class="slide-in-left">⚠️ <b>MIT:</b> "O maior risco não é o agente falhar — é falhar silenciosamente enquanto parece funcionar."</p>
-</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
@@ -1351,13 +1389,17 @@ def plan_and_execute(pergunta: str):
 
 <section data-background-gradient="linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)">
 <h1>✅ Fim do Encontro 2</h1>
-<div class="stagger-in mt-2" style="text-align: left; max-width: 700px; margin: 0 auto;">
-<div class="card card-green fragment" style="padding: 0.6rem 1rem; margin-bottom: 0.4rem;">✅ Chain-of-Thought — fazer o agente "pensar em voz alta"</div>
-<div class="card card-green fragment" style="padding: 0.6rem 1rem; margin-bottom: 0.4rem;">✅ Planning — planejar antes de executar</div>
-<div class="card card-green fragment" style="padding: 0.6rem 1rem; margin-bottom: 0.4rem;">✅ Function Calling — ferramentas estruturadas e tipadas</div>
-<div class="card card-green fragment" style="padding: 0.6rem 1rem; margin-bottom: 0.4rem;">✅ Frameworks — quando usar LangChain vs LangGraph vs SDK puro</div>
+<div class="card card-blue text-sm" style="opacity:1; transform:none; margin-bottom:0.8rem;">
+Hoje saímos de "um agente que responde" para "um sistema que <b>raciocina, planeja, executa e se verifica</b>".
 </div>
-<div class="card card-cyan mt-3"><div class="card-title">Próximo: Encontro 3 — Skills, Memória &amp; Contexto</div><div class="card-desc">Onde o agente <i>aprende</i>, <i>lembra</i>, e <i>colabora</i>.</div></div>
+<div class="grid-2 stagger-in text-xs" style="gap:0.7rem;">
+<div class="card card-purple fragment"><b>Repertório técnico</b><br>CoT, Self-Consistency, ToT, Reflexion, Planning, Function Calling, parallel tool calls, LangChain e LangGraph.</div>
+<div class="card card-green fragment"><b>Critério de engenharia</b><br>Escolher a menor arquitetura que dê contrato, rastreabilidade, limite de custo e ponto de intervenção humana.</div>
+</div>
+<div class="insight-box mt-2 text-sm">
+<b>Frase para levar:</b> agente bom não é o que "parece inteligente"; é o que deixa claro <b>por que decidiu, que tool usou, como validou e quando deve parar</b>.
+</div>
+<div class="card card-cyan mt-2"><div class="card-title">Próximo: Encontro 3 — Skills, Memória &amp; Contexto</div><div class="card-desc">Onde o agente deixa de resolver apenas uma tarefa isolada e passa a usar conhecimento, histórico e colaboração.</div></div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #1e1b4b 100%)">
