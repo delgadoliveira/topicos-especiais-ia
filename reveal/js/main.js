@@ -69,7 +69,9 @@ function initReveal() {
   if (sidebarToggle) {
     sidebarToggle.addEventListener('click', (e) => {
       e.stopPropagation();
-      sidebarNav.classList.toggle('open');
+      const isOpen = sidebarNav.classList.toggle('open');
+      const overlay = document.getElementById('sidebar-overlay');
+      if (overlay) overlay.classList.toggle('active', isOpen);
     });
   }
 
@@ -166,21 +168,43 @@ function initReveal() {
     window.PyRunner.initAll();
   }
 
-  // Close sidebar when clicking outside on mobile
+  // Close sidebar when clicking outside
   document.addEventListener('click', (e) => {
-    if (sidebarNav && !sidebarNav.contains(e.target)) {
+    if (sidebarNav && sidebarNav.classList.contains('open') && 
+        !sidebarNav.contains(e.target) && !sidebarToggle.contains(e.target)) {
       sidebarNav.classList.remove('open');
+      const overlay = document.getElementById('sidebar-overlay');
+      if (overlay) overlay.classList.remove('active');
     }
   });
 
-  // ─── Expandable Cards ───
-  // Universal: any .card.expandable toggles .expanded on click
-  // This also prevents Reveal from advancing slides on card clicks
-  document.querySelectorAll('.card.expandable').forEach(card => {
-    card.addEventListener('click', (e) => {
+  // Sidebar overlay click to close
+  const sidebarOverlay = document.getElementById('sidebar-overlay');
+  if (sidebarOverlay) {
+    sidebarOverlay.addEventListener('click', () => {
+      sidebarNav.classList.remove('open');
+      sidebarOverlay.classList.remove('active');
+    });
+  }
+
+  // Sidebar close button
+  const sidebarClose = document.getElementById('sidebar-close');
+  if (sidebarClose) {
+    sidebarClose.addEventListener('click', (e) => {
+      e.stopPropagation();
+      sidebarNav.classList.remove('open');
+      if (sidebarOverlay) sidebarOverlay.classList.remove('active');
+    });
+  }
+
+  // ─── Expandable Cards (event delegation) ───
+  // Use delegation on the reveal container so dynamically loaded cards work
+  document.querySelector('.reveal').addEventListener('click', (e) => {
+    const card = e.target.closest('.card.expandable');
+    if (card) {
       e.stopPropagation();
       card.classList.toggle('expanded');
-    });
+    }
   });
 
   // Vocab cards (encontro-1 vocabulary slide)

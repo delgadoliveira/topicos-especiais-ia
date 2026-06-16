@@ -186,11 +186,21 @@
 }
 
 .card.expandable.expanded .card-detail {
-  max-height: 800px;
+  max-height: 280px;
+  overflow-y: auto;
   opacity: 1;
   margin-top: 0.8rem;
   padding-top: 0.8rem;
   border-top: 1px solid var(--border-subtle);
+}
+
+.card.expandable.expanded .card-detail::-webkit-scrollbar {
+  width: 3px;
+}
+
+.card.expandable.expanded .card-detail::-webkit-scrollbar-thumb {
+  background: rgba(34, 211, 238, 0.3);
+  border-radius: 3px;
 }
 
 .card-detail ul {
@@ -727,191 +737,196 @@
 .reveal .progress { height: 2px !important; }
 
 /* ═══════════════════════════════════════════════════════
-   LEFT SIDEBAR NAVIGATION
-   Collapsed: thin strip with toggle button (no cut icons)
-   Open: full panel with detailed topic navigation
+   LEFT SIDEBAR NAVIGATION — Drawer style
+   Hamburger always visible · Sidebar slides in · Overlay dims background
    ═══════════════════════════════════════════════════════ */
+.sidebar-toggle {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 300;
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px;
+  color: rgba(255,255,255,0.7);
+  transition: all 0.2s ease;
+  padding: 0;
+  outline: none;
+}
+
+.sidebar-toggle:hover {
+  color: var(--cyan);
+  border-color: rgba(34, 211, 238, 0.4);
+  background: rgba(15, 23, 42, 0.95);
+  transform: scale(1.08);
+}
+
+.sidebar-toggle svg {
+  width: 20px;
+  height: 20px;
+}
+
+.sidebar-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 199;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.sidebar-overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
 .sidebar-nav {
   position: fixed;
   top: 0;
   left: 0;
   height: 100vh;
-  width: 0;
-  z-index: 200;
-  transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-  overflow: hidden;
+  width: 280px;
+  z-index: 250;
+  transform: translateX(-100%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .sidebar-nav.open {
-  width: 280px;
-}
-
-.sidebar-toggle {
-  position: fixed;
-  top: 1rem;
-  left: 1rem;
-  width: 36px;
-  height: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  z-index: 210;
-  background: rgba(10, 10, 30, 0.7);
-  backdrop-filter: blur(10px);
-  border: 1px solid var(--border-subtle);
-  border-radius: 8px;
-  color: var(--text-muted);
-  transition: all 0.2s ease;
-}
-
-.sidebar-toggle:hover {
-  color: var(--cyan);
-  border-color: rgba(34, 211, 238, 0.3);
-  background: rgba(10, 10, 30, 0.9);
-}
-
-.sidebar-toggle svg {
-  width: 18px;
-  height: 18px;
-}
-
-.sidebar-nav.open ~ .sidebar-toggle,
-.sidebar-nav.open .sidebar-toggle {
-  left: 244px;
+  transform: translateX(0);
 }
 
 .sidebar-content {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 280px;
+  width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
-  background: rgba(10, 10, 30, 0.95);
-  backdrop-filter: blur(20px);
-  border-right: 1px solid var(--border-subtle);
-  padding: 0.8rem 0;
+  background: linear-gradient(180deg, #0c0f1a 0%, #111827 100%);
+  border-right: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 4px 0 24px rgba(0,0,0,0.5);
 }
 
 .sidebar-header {
-  padding: 0.8rem 1.2rem;
-  font-size: 0.7rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1rem 0.8rem;
+  font-size: 0.75rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   color: var(--cyan);
-  border-bottom: 1px solid var(--border-subtle);
-  margin-bottom: 0.4rem;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.sidebar-close {
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.4);
+  font-size: 1.1rem;
+  cursor: pointer;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  transition: all 0.15s;
+}
+
+.sidebar-close:hover {
+  color: #fff;
+  background: rgba(255,255,255,0.1);
 }
 
 .sidebar-list {
   list-style: none;
-  padding: 0;
+  padding: 0.5rem 0;
   margin: 0;
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
 }
 
-.sidebar-list::-webkit-scrollbar {
-  width: 4px;
-}
-
+.sidebar-list::-webkit-scrollbar { width: 4px; }
 .sidebar-list::-webkit-scrollbar-thumb {
-  background: var(--border-subtle);
+  background: rgba(255,255,255,0.1);
   border-radius: 4px;
 }
 
-.sidebar-list::-webkit-scrollbar-thumb:hover {
-  background: var(--cyan);
-}
-
-/* Top-level items (Intro, História) */
 .sidebar-item {
   display: flex;
   align-items: center;
   gap: 0.6rem;
-  padding: 0.5rem 1.2rem;
+  padding: 0.5rem 1rem;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.15s ease;
   position: relative;
-  white-space: nowrap;
   font-size: 0.72rem;
   font-weight: 600;
-  color: var(--text-secondary);
+  color: rgba(255,255,255,0.6);
 }
 
 .sidebar-item::before {
   content: '';
   position: absolute;
   left: 0;
-  top: 0;
-  bottom: 0;
+  top: 4px;
+  bottom: 4px;
   width: 3px;
   background: var(--cyan);
   border-radius: 0 3px 3px 0;
   opacity: 0;
-  transform: scaleY(0);
-  transition: all 0.25s ease;
-}
-
-.sidebar-item.active::before {
-  opacity: 1;
-  transform: scaleY(1);
+  transition: opacity 0.2s;
 }
 
 .sidebar-item:hover {
-  background: rgba(34, 211, 238, 0.06);
-  color: var(--text-primary);
+  background: rgba(34, 211, 238, 0.05);
+  color: rgba(255,255,255,0.9);
 }
 
 .sidebar-item.active {
-  background: rgba(34, 211, 238, 0.1);
+  background: rgba(34, 211, 238, 0.08);
   color: var(--cyan);
 }
 
+.sidebar-item.active::before { opacity: 1; }
+
 .sidebar-icon {
-  font-size: 1rem;
-  min-width: 1.4rem;
+  font-size: 0.95rem;
+  min-width: 1.2rem;
   text-align: center;
   flex-shrink: 0;
 }
 
 .sidebar-label {
-  font-size: inherit;
-  color: inherit;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-/* Groups (Encontros with subtopics) */
-.sidebar-group {
-  list-style: none;
-  margin-top: 0.2rem;
-}
+.sidebar-group { list-style: none; }
 
-.sidebar-group > .sidebar-item {
-  padding: 0.55rem 1.2rem;
-}
-
-/* Subtopics */
 .sidebar-topics {
   list-style: none;
   padding: 0;
   margin: 0;
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: max-height 0.3s ease;
 }
 
 .sidebar-group.expanded .sidebar-topics {
-  max-height: 400px;
+  max-height: 500px;
 }
 
 .sidebar-topics li {
-  padding: 0.3rem 1.2rem 0.3rem 2.8rem;
-  font-size: 0.6rem;
-  color: var(--text-muted);
+  padding: 0.3rem 1rem 0.3rem 2.6rem;
+  font-size: 0.62rem;
+  color: rgba(255,255,255,0.45);
   cursor: pointer;
   transition: all 0.15s ease;
   white-space: nowrap;
@@ -921,10 +936,11 @@
 }
 
 .sidebar-topics li::before {
-  content: '·';
+  content: '›';
   position: absolute;
-  left: 2.2rem;
-  color: var(--text-muted);
+  left: 2rem;
+  color: rgba(255,255,255,0.2);
+  transition: color 0.15s;
 }
 
 .sidebar-topics li:hover {
@@ -932,24 +948,24 @@
   background: rgba(34, 211, 238, 0.04);
 }
 
+.sidebar-topics li:hover::before,
+.sidebar-topics li.active::before {
+  color: var(--cyan);
+}
+
 .sidebar-topics li.active {
   color: var(--cyan);
   font-weight: 600;
 }
 
-.sidebar-topics li.active::before {
-  content: '›';
-  color: var(--cyan);
-}
-
 .sidebar-divider {
   height: 1px;
-  margin: 0.4rem 1.2rem;
-  background: var(--border-subtle);
+  margin: 0.4rem 1rem;
+  background: rgba(255,255,255,0.06);
 }
 
 .sidebar-progress {
-  margin: 0.6rem 1.2rem 0.3rem;
+  margin: 0.5rem 1rem 0.3rem;
   height: 3px;
   background: rgba(255, 255, 255, 0.06);
   border-radius: 3px;
@@ -968,6 +984,6 @@
   text-align: center;
   font-size: 0.58rem;
   font-family: var(--font-mono);
-  color: var(--text-muted);
-  padding: 0.3rem 0 0.6rem;
+  color: rgba(255,255,255,0.4);
+  padding: 0.3rem 0 0.8rem;
 }

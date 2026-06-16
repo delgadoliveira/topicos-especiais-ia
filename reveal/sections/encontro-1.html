@@ -52,26 +52,27 @@ Esse é o problema que vamos resolver hoje: transformar um LLM que <b>conversa</
 
 <section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
 <h1>1.1 Roadmap da disciplina</h1>
-<div  class="mt-2"><div  class="slide-in-left">
-<p>Em <strong>4 encontros</strong> vamos sair de <em>"não sei o que é um agente"</em> para <em>"sei desenhar, implementar, avaliar e debugar agentes"</em>.</p>
-<p><strong>Filosofia da disciplina:</strong></p>
-<ul class="text-sm">
+<p style="font-size:0.8em;">Em <strong>4 encontros</strong> vamos sair de <em>"não sei o que é um agente"</em> para <em>"sei desenhar, implementar, avaliar e debugar agentes"</em>.</p>
+
+<div class="grid-2" style="gap:1rem; margin-top:0.8rem;">
+<div class="card card-purple" style="opacity:1;transform:none;">
+<h3 style="margin:0 0 0.4rem; font-size:0.8em;">🎯 Filosofia</h3>
+<ul class="text-sm" style="margin:0; padding-left:1.2em;">
 <li>🛠️ Toda aula tem código rodando</li>
 <li>🧪 Erros são parte do aprendizado</li>
-<li>📚 Teoria só o suficiente pra entender o porquê</li>
-<li>🌍 Exemplos de produtos reais (Cursor, Claude Code, Devin…)</li>
-</ul></div><div  class="slide-in-right"><h1>Como aproveitar (assíncrono)</h1>
-<div  class="fragment card parallax-card" data-fragment-index="1">
-⏰ <b>~90 min:</b> assistir/ler com atenção, copiar código, rodar
+<li>📚 Teoria só o suficiente pro "porquê"</li>
+<li>🌍 Exemplos de produtos reais</li>
+</ul>
 </div>
-
-<div  class="fragment card parallax-card" data-fragment-index="2">
-⏰ <b>~90 min:</b> exercícios sem olhar a solução
+<div class="card card-cyan" style="opacity:1;transform:none;">
+<h3 style="margin:0 0 0.4rem; font-size:0.8em;">⏰ Como aproveitar (assíncrono)</h3>
+<ul class="text-sm" style="margin:0; padding-left:1.2em;">
+<li><b>~90 min:</b> assistir, copiar código, rodar</li>
+<li><b>~90 min:</b> exercícios sem olhar solução</li>
+</ul>
+<p class="text-xs" style="margin-top:0.5rem; opacity:0.85;">⚠️ <b>Não pule os exercícios.</b> Ler ≠ construir.</p>
 </div>
-
-<div  class="fragment card card-amber parallax-card" data-fragment-index="3">
-⚠️ <b>Não pule os exercícios.</b> É onde o aprendizado realmente acontece. Ler sobre agentes ≠ construir agentes.
-</div></div></div>
+</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
@@ -186,16 +187,53 @@ Esse é o problema que vamos resolver hoje: transformar um LLM que <b>conversa</
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
 <h1>🧩 Onde você já viu isso no dia-a-dia</h1>
-<p>Mesmo sem perceber, você provavelmente já usou <strong>agentes de IA</strong> nas últimas 24h:</p>
-<div  class="grid-2 stagger-in text-sm">
-<div  class="card parallax-card scale-in"><b>📱 Celular</b><br>Meta AI, Siri/Alexa/Assistente, ChatGPT/Claude/Gemini app.</div>
-<div  class="card parallax-card scale-in"><b>💻 Trabalho/estudo</b><br>Copilot no Office, Gemini no Gmail/Docs, Notion AI, Slack AI.</div>
-<div  class="card parallax-card scale-in"><b>🛒 Consumo</b><br>Atendimento Magalu/Nubank/iFood, resumo da Amazon, recomendações de streaming.</div>
-<div  class="card parallax-card scale-in"><b>👨‍💻 Programação</b><br>GitHub Copilot, Cursor/Windsurf, v0.dev, Bolt.new.</div>
+<p style="font-size:0.8em;">Mesmo sem perceber, você provavelmente já usou <strong>agentes de IA</strong> nas últimas 24h. <span style="opacity:0.6;">Clique para ver exemplos reais.</span></p>
+<div class="grid-2 stagger-in text-sm" style="gap:0.7rem;">
+
+<div class="card expandable parallax-card scale-in">
+<b>📱 Celular</b><br>Meta AI, Siri, ChatGPT app, Google Gemini
+<div class="card-detail">
+<p><b>Caso real — Meta AI no WhatsApp:</b></p>
+<p>Você pergunta: <i>"Quais restaurantes japoneses perto de mim abertos agora?"</i></p>
+<p>O agente faz: ① detecta sua localização via GPS → ② busca no Google Maps API → ③ filtra por horário e tipo de cozinha → ④ formata resposta com links e avaliações.</p>
+<p><b>Por que é um agente?</b> Porque o LLM sozinho não sabe sua localização nem o horário de funcionamento — ele precisa de <em>ferramentas</em> (GPS, Maps, relógio).</p>
+<div class="detail-example">Outros: Siri criando alarmes, Gemini enviando emails, Claude analisando fotos que você tira.</div>
+</div>
 </div>
 
-<div  class="mt-3 text-xs card card-cyan parallax-card scale-in">
-🎯 <b>O que esses produtos têm em comum?</b> Por baixo do capô, todos seguem o mesmo padrão de "LLM + ferramentas + loop" que vamos desmontar hoje.
+<div class="card expandable parallax-card scale-in">
+<b>💻 Trabalho / Estudo</b><br>Copilot no Office, Gemini no Gmail, Notion AI
+<div class="card-detail">
+<p><b>Caso real — Copilot no PowerPoint:</b></p>
+<p>Você diz: <i>"Crie uma apresentação sobre nosso resultado Q2 com os dados desse Excel"</i></p>
+<p>O agente faz: ① abre o arquivo .xlsx → ② extrai dados de vendas → ③ gera gráficos → ④ cria 8 slides com layout, título e talking points → ⑤ aplica o tema da empresa.</p>
+<p><b>Por que é um agente?</b> Envolve leitura de arquivo, interpretação de dados, geração de visual e escrita — múltiplas ferramentas em sequência.</p>
+<div class="detail-example">Gemini no Gmail: resume threads longas, sugere respostas, agenda reunião no Calendar — tudo num fluxo só.</div>
+</div>
+</div>
+
+<div class="card expandable parallax-card scale-in">
+<b>🛒 Consumo / Atendimento</b><br>Nubank, iFood, Magalu, Amazon
+<div class="card-detail">
+<p><b>Caso real — iFood AI:</b></p>
+<p>Você reclama: <i>"Meu pedido veio errado, faltou o suco"</i></p>
+<p>O agente faz: ① busca seu pedido recente (#8834) → ② verifica itens vs. nota fiscal → ③ identifica "suco de laranja" pago mas não entregue → ④ calcula reembolso proporcional → ⑤ aplica crédito de R$12 na sua carteira → ⑥ responde com resumo.</p>
+<p><b>Por que é um agente?</b> Ele tomou uma <em>decisão</em> (reembolso) e <em>executou uma ação</em> (crédito) — não apenas respondeu.</p>
+<div class="detail-example">Nubank: contesta cobrança e abre ticket. Amazon: rastreia pacote e aciona transportadora automaticamente.</div>
+</div>
+</div>
+
+<div class="card expandable parallax-card scale-in">
+<b>👨‍💻 Programação</b><br>GitHub Copilot, Cursor, Claude Code, v0.dev
+<div class="card-detail">
+<p><b>Caso real — Cursor (agente de código):</b></p>
+<p>Você pede: <i>"Refatore esse componente para usar React hooks e adicione testes"</i></p>
+<p>O agente faz: ① lê o arquivo class-based → ② entende props/state → ③ reescreve com useState/useEffect → ④ cria arquivo .test.tsx → ⑤ roda <code>npm test</code> → ⑥ um teste falha → ⑦ lê o erro → ⑧ corrige o mock → ⑨ testes passam ✅</p>
+<p><b>Por que é um agente?</b> Fez <em>múltiplos loops</em> — escreveu, testou, interpretou erro, corrigiu. Sem intervenção humana entre os passos.</p>
+<div class="detail-example">GitHub Copilot Workspace: planeja mudanças em múltiplos arquivos, implementa, abre PR. Claude Code: navega repos inteiros.</div>
+</div>
+</div>
+
 </div>
 </section>
 

@@ -300,9 +300,18 @@ echo "OPENAI_API_KEY=sk-..." > .env</code></pre>
     </div>
 
     <!-- Left Sidebar Navigation -->
+    <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Menu de navegação">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <path d="M4 6h16M4 12h16M4 18h16"/>
+      </svg>
+    </button>
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
     <aside class="sidebar-nav" id="sidebar-nav">
       <div class="sidebar-content">
-        <div class="sidebar-header">📚 Navegação do Curso</div>
+        <div class="sidebar-header">
+          <span>📚 Navegação</span>
+          <button class="sidebar-close" id="sidebar-close" aria-label="Fechar menu">✕</button>
+        </div>
         <ul class="sidebar-list">
           <li class="sidebar-item" data-section="0">
             <span class="sidebar-icon">🏠</span>
@@ -379,11 +388,6 @@ echo "OPENAI_API_KEY=sk-..." > .env</code></pre>
         <div class="sidebar-counter" id="sidebar-counter"></div>
       </div>
     </aside>
-    <div class="sidebar-toggle" id="sidebar-toggle">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M3 12h18M3 6h18M3 18h18"/>
-      </svg>
-    </div>
 
     <!-- Bottom Navigation (prev/next) -->
     <nav class="custom-nav" id="custom-nav">
