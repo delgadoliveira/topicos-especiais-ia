@@ -1441,7 +1441,7 @@ JSON: {"decisao": "aprovado|rejeitado", "valor": float,
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
 <h1>⏸️ Checkpoint — consolidando</h1>
-<p class="text-sm" style="opacity:0.85;">Metade do encontro concluída. Vamos verificar onde estamos.</p>
+<p class="text-sm" style="opacity:0.85;">Metade do encontro concluída. Agora conectamos fundamentos com mercado e código.</p>
 <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1rem; margin-top:1rem;">
 <div class="card card-green" style="padding:1rem;">
 <b>✅ O que você já domina:</b>
@@ -1450,59 +1450,59 @@ JSON: {"decisao": "aprovado|rejeitado", "valor": float,
 <li>5 componentes e o que cada um desbloqueia</li>
 <li>Como o LLM funciona (tokens, contexto, temperatura)</li>
 <li>Como tools funcionam (JSON → execução → observação)</li>
-<li>Onde agentes quebram (5 falhas clássicas)</li>
+<li>Onde agentes quebram: tool errada, loop, contexto, objetivo e autonomia</li>
 </ul>
 </div>
 <div class="card card-cyan" style="padding:1rem;">
 <b>➡️ O que vem agora:</b>
 <ul class="text-sm" style="margin-top:0.5rem; padding-left:1.2em; line-height:1.8;">
-<li>Panorama de mercado — quem está construindo agentes</li>
-<li>Labs de fronteira e modelos disponíveis</li>
+<li>Panorama 2026 — categorias que viraram mercado</li>
+<li>Labs de fronteira, open-source e eixo Ásia</li>
 <li><b>Hands-on:</b> construir seu primeiro agente</li>
 <li>Loop ReAct em Python puro (~20 linhas)</li>
 <li>Function Calling real com API</li>
 </ul>
 </div>
 </div>
-<div class="tip-box" style="margin-top:0.8rem;">🎯 Conceitos → Mercado → Código. Essa é a sequência da segunda metade.</div>
+<div class="tip-box" style="margin-top:0.8rem;">🎯 Conceitos → Mercado → Código. A partir daqui, cada produto do mercado será lido como combinação de LLM + tools + loop + governança.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #1f2937 100%)">
-<h1>🌐 Panorama de mercado — agentes em 2025</h1>
+<h1>🌐 Panorama de mercado — agentes em 2026</h1>
 <div  class="grid-2 stagger-in text-xs">
-<div  class="card card-purple parallax-card scale-in"><b>💻 Coding agents</b><br>GitHub Copilot Workspace / Coding Agent · Cursor (US$ 9B, mai/2025) · Devin/Cognition ($2B+) · Claude Code (fev/2025) · Replit Agent · v0.dev · Bolt.new</div>
-<div  class="card card-cyan parallax-card scale-in"><b>🔎 Research / browse</b><br>Perplexity Pro Search (US$ 9B) · OpenAI Deep Research (fev/2025) · Gemini Deep Research · You.com · Phind</div>
-<div  class="card card-green parallax-card scale-in"><b>🏢 Enterprise / vertical</b><br>Salesforce Agentforce (out/2024) · Copilot Studio + Autonomous Agents · ServiceNow Now Assist · Klarna AI assistant · Sierra (US$ 4B em CX)</div>
-<div  class="card card-amber parallax-card scale-in"><b>🧑‍💼 Computer use</b><br>Anthropic Computer Use (out/2024) · OpenAI Operator (jan/2025) · Google Project Mariner · Adept ACT</div>
+<div  class="card card-purple parallax-card scale-in"><b>💻 Coding agents viraram categoria</b><br>GitHub Copilot Agent/Coding Agent, Cursor, Claude Code, Devin, Replit Agent, Aider, Cline e Continue. O diferencial saiu de autocomplete e foi para <b>editar repo, rodar teste e abrir PR</b>.</div>
+<div  class="card card-cyan parallax-card scale-in"><b>🔎 Research / browser agents</b><br>OpenAI Deep Research, Gemini Deep Research, Perplexity, Comet, You.com e Phind competem em <b>buscar, ler, citar e sintetizar</b> com rastreabilidade.</div>
+<div  class="card card-green parallax-card scale-in"><b>🏢 Enterprise / vertical</b><br>Copilot Studio, Salesforce Agentforce, ServiceNow, SAP Joule, Google Agentspace e AWS Bedrock Agents vendem integração com sistemas, identidade, políticas e governança.</div>
+<div  class="card card-amber parallax-card scale-in"><b>🖥️ Computer use / general agents</b><br>Operator, Claude Computer Use, Manus, Mariner e Adept mostram a promessa: usar software sem API. Ainda exige sandbox, supervisão e rollback.</div>
 </div>
 
-<div  class="mt-3 text-xs opacity-70 text-center" style="opacity:0.7;">Fontes: anúncios oficiais + relatórios públicos de funding (Crunchbase, TechCrunch).</div>
+<div class="tip-box text-xs" style="margin-top:0.8rem;">📌 <b>Leitura 2026:</b> agentes deixam de ser demo isolada e viram <b>camada operacional</b>: identidade + tools + observabilidade + avaliação + HITL. Quem não mede falha em produção.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #0f766e 100%)">
-<h1>🏢 Labs de fronteira — quem fabrica os "cérebros"</h1>
-<p class="text-xs" style="opacity:0.8;">Se há tantos produtos de agentes, quem fabrica os modelos por trás? Estes são os principais fornecedores:</p>
+<h1>🏢 Quem fabrica os “cérebros” — labs de fronteira</h1>
+<p class="text-xs" style="opacity:0.8;">Se há tantos produtos de agentes, quem controla modelo, distribuição, dados e confiança?</p>
 <div class="grid-3 stagger-in text-xs" style="gap:0.6rem; margin-top:0.6rem;">
-<div class="card card-green parallax-card"><b>🟢 OpenAI</b> <span class="opacity-60">(2015)</span><br>GPT-4.1, o3-pro, o4-mini<br><i>Aposta:</i> AGI via escala + reasoning<br><i>Valuation:</i> ~US$ 500B<br><i>Parceiro:</i> Microsoft ($13B+)</div>
-<div class="card card-amber parallax-card"><b>🟠 Anthropic</b> <span class="opacity-60">(2021)</span><br>Claude Haiku/Sonnet/Opus<br><i>Aposta:</i> Constitutional AI + MCP<br><i>Valuation:</i> ~US$ 60B<br><i>Parceiros:</i> Amazon + Google</div>
-<div class="card card-cyan parallax-card"><b>🔵 Google DeepMind</b><br>Gemini 1.5/2.0/2.5<br><i>Aposta:</i> multimodal + 2M tokens<br><i>Trunfo:</i> chip → modelo → produto</div>
-<div class="card card-purple parallax-card"><b>🪟 Microsoft</b><br>Phi + GPT via Azure<br><i>Aposta:</i> distribuição (1.4B users)<br><i>Trunfo:</i> Windows, Office, GitHub</div>
-<div class="card parallax-card" style="background:rgba(255,255,255,0.04);border-color:rgba(255,255,255,0.12);"><b>🦙 Meta (FAIR)</b><br>Llama 3.x / 4 (open weights)<br><i>Aposta:</i> commoditizar modelos<br><i>Impacto:</i> Ollama, Groq, Together</div>
-<div class="card parallax-card" style="background:rgba(248,113,113,0.08);border-color:rgba(248,113,113,0.28);"><b>🇨🇳 DeepSeek + Qwen</b><br>DeepSeek-V3/R1, Qwen 2.5/3<br><i>Aposta:</i> custo baixo (~$6M treino)<br><i>Impacto:</i> democratização global</div>
+<div class="card card-green parallax-card"><b>🟢 OpenAI</b><br>GPT-4o/4.1, o-series e Agents SDK.<br><i>Aposta:</i> reasoning + produto.<br><i>Distribuição:</i> Microsoft/Azure.</div>
+<div class="card card-amber parallax-card"><b>🟠 Anthropic</b><br>Claude Sonnet/Opus/Haiku, MCP e Computer Use.<br><i>Aposta:</i> segurança, dev tools e agentes auditáveis.</div>
+<div class="card card-cyan parallax-card"><b>🔵 Google DeepMind</b><br>Gemini Pro/Flash, contexto longo, multimodal e Agentspace.<br><i>Trunfo:</i> TPU + Search + Workspace + Android.</div>
+<div class="card card-purple parallax-card"><b>🪟 Microsoft</b><br>Copilot, GitHub, Azure AI Foundry e Phi.<br><i>Vence por:</i> distribuição, identidade, compliance e enterprise.</div>
+<div class="card parallax-card" style="background:rgba(255,255,255,0.04);border-color:rgba(255,255,255,0.12);"><b>🦙 Meta</b><br>Llama open weights.<br><i>Estratégia:</i> commoditizar modelos e fortalecer ads/social/AR.</div>
+<div class="card parallax-card" style="background:rgba(248,113,113,0.08);border-color:rgba(248,113,113,0.28);"><b>⚫ xAI</b><br>Grok + infraestrutura agressiva.<br><i>Aposta:</i> escala rápida, dados do X e integração vertical.</div>
 </div>
-<div class="text-xs" style="margin-top:0.6rem; opacity:0.75;">Outros: xAI (Grok), Mistral 🇫🇷 (soberania europeia), Cohere 🇨🇦, AI21 🇮🇱. Com LiteLLM/LangChain, trocar modelo = poucas linhas de código.</div>
+<div class="text-xs" style="margin-top:0.6rem; opacity:0.75;">Pergunta estratégica: você está comprando só modelo, ou também distribuição, compliance, dados e suporte operacional?</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
 <h1>🌏 Open-source, novos entrantes e o eixo Ásia</h1>
-<div  class="grid-2 stagger-in text-sm">
-<div  class="card card-purple parallax-card scale-in"><b>🇫🇷 Mistral AI</b><br><span class="text-xs">Paris, 2023. Modelos abertos como <b>Mistral Large 2, Codestral e Pixtral</b>; foco em soberania digital europeia.</span></div>
-<div  class="card parallax-card scale-in" style="background:rgba(248,113,113,0.08);border-color:rgba(248,113,113,0.28);"><b>🇨🇳 DeepSeek</b><br><span class="text-xs"><b>DeepSeek-V3 / R1</b> (jan/2025) chegou perto de GPT-4o / o1 por fração do custo de treino (~US$ 6M vs US$ 100M+).</span></div>
-<div  class="card card-amber parallax-card scale-in"><b>🇨🇳 Qwen / Kimi / 01.AI</b><br><span class="text-xs"><b>Qwen 2.5 / 3</b> domina rankings open-source; Kimi explora janelas de 2M tokens.</span></div>
-<div  class="card card-cyan parallax-card scale-in"><b>🇨🇦 Cohere · 🇮🇱 AI21 · 🇺🇸 Inflection</b><br><span class="text-xs">Players focados em enterprise, RAG e especialização de domínio.</span></div>
+<div  class="grid-2 stagger-in text-xs">
+<div  class="card card-purple parallax-card scale-in"><b>🇫🇷 Mistral / Europa</b><br>Soberania digital, modelos eficientes, deployment privado e regulação como diferencial. Forte em governos e setores regulados.</div>
+<div  class="card parallax-card scale-in" style="background:rgba(248,113,113,0.08);border-color:rgba(248,113,113,0.28);"><b>🇨🇳 DeepSeek</b><br>Choque de eficiência: R1 popularizou reasoning aberto e mostrou que custo de treino/inferência virou arma competitiva.</div>
+<div  class="card card-amber parallax-card scale-in"><b>🇨🇳 Qwen / Kimi / 01.AI</b><br>Modelos abertos fortes, contexto longo, preço agressivo e ecossistema local. Ásia compete em escala e eficiência.</div>
+<div  class="card card-cyan parallax-card scale-in"><b>🌐 Especialistas enterprise</b><br>Cohere, AI21, Writer, Databricks/Mosaic e Hugging Face focam em RAG, deployment privado, dados corporativos e governança.</div>
 </div>
 
-<div  class="text-sm card card-cyan parallax-card scale-in">🎯 <b>Implicação prática:</b> em agentes, você raramente fica preso a um fornecedor. Com LiteLLM, LangChain ou APIs compatíveis com OpenAI, trocar modelo costuma ser mudança de poucas linhas.</div>
+<div  class="text-sm card card-cyan parallax-card scale-in">🎯 <b>Implicação prática:</b> arquitetura boa é <b>multi-modelo</b>. Use abstrações, evals e roteamento para trocar entre frontier, open-weight e modelos baratos sem redesenhar o agente.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">

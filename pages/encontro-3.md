@@ -55,22 +55,22 @@ Hoje vamos dar <b>memória</b>, <b>conhecimento</b> e <b>habilidades reutilizáv
 <div>
 
 **Bloco 1 — Contexto e Memória (~90 min)**
-- 3.1 O problema da context window
-- 3.2 Estratégias de context management
-- 3.3 RAG (Retrieval-Augmented Generation)
-- 3.4 Vector DBs (Chroma, Qdrant, pgvector)
-- 3.5 Memória de curto e longo prazo
+- **3.1 Context window** — limite, custo e lost-in-the-middle
+- **3.2 Context management** — truncamento, sumarização e handoffs
+- **3.3 RAG** — buscar antes de responder, com grounding
+- **3.4 Vector DBs** — Chroma, Qdrant, pgvector e embeddings
+- **3.5 Memória** — curto prazo, longo prazo e preferências
 
 </div>
 
 <div>
 
 **Bloco 2 — Skills e Multi-Agent (~90 min)**
-- 3.6 Skills — capacidades reutilizáveis
-- 3.7 MCP — Model Context Protocol
-- 3.8 Padrões multi-agente
-- 3.9 Hands-on: agente com RAG + memória
-- 3.10 Exercícios
+- **3.6 Skills** — capacidades reutilizáveis e versionadas
+- **3.7 MCP** — conectar tools externas com protocolo padrão
+- **3.8 Multi-agentes** — supervisor, workers e handoffs
+- **3.9 Hands-on** — agente com RAG + memória
+- **3.10 Exercícios** — consolidar com casos práticos
 
 </div>
 

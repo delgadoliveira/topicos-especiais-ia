@@ -836,25 +836,37 @@ layout: center
 class: text-center
 ---
 
-# ⏸️ Pausa — o que construímos até aqui
+# ⏸️ Checkpoint — consolidando
 
-<div class="text-lg mt-6 opacity-90">
-<b>✅ Sabemos:</b> o que é um agente, seus 5 componentes, como o loop funciona, onde quebra.<br><br>
-<b>➡️ Agora:</b> vamos ver quem está construindo isso no mundo real — e depois <b>botar a mão na massa</b>.
+<div class="grid grid-cols-2 gap-4 text-sm mt-4">
+<div class="p-4 rounded-xl bg-green-500/10 border border-green-500/30">
+<b>✅ O que já fechamos</b><br>
+Agente = LLM + tools + memória + loop + objetivo. Vimos por que ele falha: tool errada, contexto saturado, loop infinito, objetivo ambíguo e autonomia sem limites.
+</div>
+<div class="p-4 rounded-xl bg-cyan-500/10 border border-cyan-500/30">
+<b>➡️ Por que olhar mercado agora?</b><br>
+Os produtos líderes são variações desses mesmos componentes. Entender o mercado ajuda a enxergar quais padrões viraram indústria — e quais ainda são hype.
+</div>
+</div>
+
+<div class="mt-4 p-3 rounded-lg bg-amber-500/10 border border-amber-500/30 text-sm">
+🎯 <b>Ponte para o hands-on:</b> depois do panorama, vamos implementar a versão mínima desses padrões em Python puro para sentir onde a complexidade aparece.
 </div>
 
 ---
 
-# 🌐 Panorama de mercado — agentes em 2025
+# 🌐 Panorama de mercado — agentes em 2026
 
 <div class="grid grid-cols-2 gap-3 text-xs">
-<div class="p-3 rounded-lg bg-purple-500/10 border border-purple-500/30"><b>💻 Coding agents</b><br>GitHub Copilot Workspace / Coding Agent · Cursor (US$ 9B, mai/2025) · Devin/Cognition ($2B+) · Claude Code (fev/2025) · Replit Agent · v0.dev · Bolt.new</div>
-<div class="p-3 rounded-lg bg-cyan-500/10 border border-cyan-500/30"><b>🔎 Research / browse</b><br>Perplexity Pro Search (US$ 9B) · OpenAI Deep Research (fev/2025) · Gemini Deep Research · You.com · Phind</div>
-<div class="p-3 rounded-lg bg-green-500/10 border border-green-500/30"><b>🏢 Enterprise / vertical</b><br>Salesforce Agentforce (out/2024) · Copilot Studio + Autonomous Agents · ServiceNow Now Assist · Klarna AI assistant · Sierra (US$ 4B em CX)</div>
-<div class="p-3 rounded-lg bg-amber-500/10 border border-amber-500/30"><b>🧑‍💼 Computer use</b><br>Anthropic Computer Use (out/2024) · OpenAI Operator (jan/2025) · Google Project Mariner · Adept ACT</div>
+<div class="p-3 rounded-lg bg-purple-500/10 border border-purple-500/30"><b>💻 Coding agents viraram categoria</b><br>GitHub Copilot Agent/Coding Agent, Cursor, Claude Code, Devin, Replit Agent, Aider/Cline/Continue. O diferencial saiu de autocomplete e foi para <b>editar repo, rodar teste, abrir PR</b>.</div>
+<div class="p-3 rounded-lg bg-cyan-500/10 border border-cyan-500/30"><b>🔎 Research / browser agents</b><br>OpenAI Deep Research, Gemini Deep Research, Perplexity, Comet, You.com e Phind competem em <b>buscar, ler, citar e sintetizar</b> com rastreabilidade.</div>
+<div class="p-3 rounded-lg bg-green-500/10 border border-green-500/30"><b>🏢 Enterprise / vertical</b><br>Copilot Studio, Salesforce Agentforce, ServiceNow, SAP Joule, Google Agentspace e AWS Bedrock Agents vendem integração com sistemas, identidade, políticas e governança.</div>
+<div class="p-3 rounded-lg bg-amber-500/10 border border-amber-500/30"><b>🖥️ Computer use / general agents</b><br>Operator, Claude Computer Use, Manus, Mariner e Adept mostram a promessa: usar software sem API. Ainda exige sandbox, supervisão e rollback.</div>
 </div>
 
-<div class="mt-3 text-xs opacity-70 text-center">Fontes: anúncios oficiais + relatórios públicos de funding (Crunchbase, TechCrunch).</div>
+<div class="mt-3 p-3 rounded bg-blue-500/10 border border-blue-500/30 text-xs">
+📌 <b>Leitura 2026:</b> agentes deixam de ser demo isolada e viram <b>camada operacional</b>: identidade + tools + observabilidade + avaliação + HITL. Quem não mede falha em produção.
+</div>
 
 ---
 layout: center
@@ -869,36 +881,31 @@ Se há tantos produtos, <b>quem fabrica os cérebros</b> por trás deles?
 
 ---
 
-# 🏢 Labs de fronteira — parte 1
+# 🏢 Quem fabrica os “cérebros” — labs de fronteira
 
 <div class="grid grid-cols-3 gap-3 text-xs">
-<div class="p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/30"><b>🟢 OpenAI</b> <span class="opacity-60">(2015, SF)</span><br><i>Modelos:</i> GPT-4.1, o3-pro, o4-mini, GPT-4o<br><i>Aposta:</i> AGI via escala + reasoning models; o1/o3 foram substituídos por o3-pro/o4-mini<br><i>Parcerias:</i> Microsoft (US$ 13B+) e Apple Intelligence<br><i>Valuation:</i> ~US$ 500B (2025)</div>
-<div class="p-3 rounded-lg bg-orange-500/10 border border-orange-500/30"><b>🟠 Anthropic</b> <span class="opacity-60">(2021, SF)</span><br><i>Modelos:</i> Claude Haiku/Sonnet/Opus<br><i>Aposta:</i> Constitutional AI + liderança em devs, MCP e Computer Use<br><i>Parcerias:</i> Amazon (US$ 8B) e Google (US$ 2B)<br><i>Valuation:</i> ~US$ 60B (2025)</div>
-<div class="p-3 rounded-lg bg-blue-500/10 border border-blue-500/30"><b>🔵 Google DeepMind</b> <span class="opacity-60">(unificada em 2023)</span><br><i>Modelos:</i> Gemini 1.5/2.0/2.5 Pro/Flash<br><i>Aposta:</i> multimodal nativo + 1M–2M tokens<br><i>Trunfo:</i> operar chip → modelo → produto → distribuição</div>
+<div class="p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/30"><b>🟢 OpenAI</b><br>GPT-4o/4.1, o-series e Agents SDK. Aposta em <b>reasoning + produto</b>; Microsoft/Azure dão distribuição corporativa.</div>
+<div class="p-3 rounded-lg bg-orange-500/10 border border-orange-500/30"><b>🟠 Anthropic</b><br>Claude Sonnet/Opus/Haiku, MCP e Computer Use. Aposta em <b>segurança, dev tools e agentes auditáveis</b>.</div>
+<div class="p-3 rounded-lg bg-blue-500/10 border border-blue-500/30"><b>🔵 Google DeepMind</b><br>Gemini Pro/Flash, contexto longo, multimodal e Agentspace. Trunfo: <b>TPU + Search + Workspace + Android</b>.</div>
+<div class="p-3 rounded-lg bg-cyan-500/10 border border-cyan-500/30"><b>🪟 Microsoft</b><br>Copilot, GitHub, Azure AI Foundry e Phi. Vence por <b>distribuição, identidade, compliance e canais enterprise</b>.</div>
+<div class="p-3 rounded-lg bg-indigo-500/10 border border-indigo-500/30"><b>🦙 Meta</b><br>Llama open weights. Estratégia: commoditizar modelos, fortalecer ads/social/AR e alimentar ecossistema local.</div>
+<div class="p-3 rounded-lg bg-zinc-500/10 border border-zinc-500/30"><b>⚫ xAI</b><br>Grok + infraestrutura agressiva. Aposta em velocidade de escala, dados do X e integração com produtos próprios.</div>
 </div>
 
----
-
-# Labs de fronteira — parte 2
-
-<div class="grid grid-cols-3 gap-3 text-xs">
-<div class="p-3 rounded-lg bg-cyan-500/10 border border-cyan-500/30"><b>🪟 Microsoft</b> <span class="opacity-60">(via OpenAI + interno)</span><br><i>Modelo:</i> Phi + GPT via Azure<br><i>Aposta:</i> distribuição em Windows, Office, GitHub e Azure<br><i>Trunfo:</i> 1.4B de usuários corporativos</div>
-<div class="p-3 rounded-lg bg-indigo-500/10 border border-indigo-500/30"><b>🦙 Meta</b> <span class="opacity-60">(FAIR)</span><br><i>Modelo:</i> Llama 3.x / 4<br><i>Aposta:</i> open weights para commoditizar o modelo<br><i>Impacto:</i> ecossistemas como Ollama, Groq e Together</div>
-<div class="p-3 rounded-lg bg-zinc-500/10 border border-zinc-500/30"><b>⚫ xAI</b> <span class="opacity-60">(2023)</span><br><i>Modelo:</i> Grok 2 / 3 / 4<br><i>Aposta:</i> velocidade de escala + dados do X<br><i>Posição:</i> cluster Colossus com 100k+ H100s</div>
-</div>
+<div class="mt-3 text-xs opacity-75 text-center">Pergunta estratégica: quem controla <b>modelo</b>, <b>distribuição</b>, <b>dados</b> e <b>confiança</b> ao mesmo tempo?</div>
 
 ---
 
 # 🌏 Open-source, novos entrantes e o eixo Ásia
 
-<div class="grid grid-cols-2 gap-3 text-sm">
-<div class="p-4 rounded-xl bg-purple-500/10 border border-purple-500/30"><b>🇫🇷 Mistral AI</b><br><span class="text-xs">Paris, 2023. Modelos abertos como <b>Mistral Large 2, Codestral e Pixtral</b>; foco em soberania digital europeia.</span></div>
-<div class="p-4 rounded-xl bg-red-500/10 border border-red-500/30"><b>🇨🇳 DeepSeek</b><br><span class="text-xs"><b>DeepSeek-V3 / R1</b> (jan/2025) chegou perto de GPT-4o / o1 por fração do custo de treino (~US$ 6M vs US$ 100M+).</span></div>
-<div class="p-4 rounded-xl bg-amber-500/10 border border-amber-500/30"><b>🇨🇳 Qwen / Kimi / 01.AI</b><br><span class="text-xs"><b>Qwen 2.5 / 3</b> domina rankings open-source; Kimi explora janelas de 2M tokens.</span></div>
-<div class="p-4 rounded-xl bg-teal-500/10 border border-teal-500/30"><b>🇨🇦 Cohere · 🇮🇱 AI21 · 🇺🇸 Inflection</b><br><span class="text-xs">Players focados em enterprise, RAG e especialização de domínio.</span></div>
+<div class="grid grid-cols-2 gap-3 text-xs">
+<div class="p-3 rounded-xl bg-purple-500/10 border border-purple-500/30"><b>🇫🇷 Mistral / Europa</b><br>Soberania digital, modelos eficientes, deployment privado e regulação como diferencial. Forte em governos e setores regulados.</div>
+<div class="p-3 rounded-xl bg-red-500/10 border border-red-500/30"><b>🇨🇳 DeepSeek</b><br>Choque de eficiência: R1 popularizou reasoning aberto e mostrou que custo de treino/inferência virou arma competitiva.</div>
+<div class="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30"><b>🇨🇳 Qwen / Kimi / 01.AI</b><br>Modelos abertos fortes, contexto longo, preço agressivo e ecossistema local. Ásia compete em escala e eficiência.</div>
+<div class="p-3 rounded-xl bg-teal-500/10 border border-teal-500/30"><b>🌐 Especialistas enterprise</b><br>Cohere, AI21, Writer, Databricks/Mosaic e Hugging Face focam em RAG, deployment privado, dados corporativos e governança.</div>
 </div>
 
-<div class="mt-4 p-3 rounded bg-cyan-500/10 border border-cyan-500/30 text-sm">🎯 <b>Implicação prática:</b> em agentes, você raramente fica preso a um fornecedor. Com LiteLLM, LangChain ou APIs compatíveis com OpenAI, trocar modelo costuma ser mudança de poucas linhas.</div>
+<div class="mt-3 p-3 rounded bg-cyan-500/10 border border-cyan-500/30 text-sm">🎯 <b>Implicação prática:</b> arquitetura boa é <b>multi-modelo</b>. Use abstrações como LiteLLM/LangChain, evals e roteamento para trocar entre frontier, open-weight e modelos baratos sem redesenhar o agente.</div>
 
 ---
 
