@@ -30,7 +30,7 @@
 <div class="text-sm text-center mt-3" style="opacity: 0.6;">Hoje vamos ensiná-lo a <b>raciocinar</b> antes de agir — e a usar ferramentas de forma <b>robusta</b>.</div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e293b 100%)">
 <h1>🧪 A jornada — Nível 2: com Reasoning + Tools</h1>
 <div class="agent-trace text-xs" style="margin-bottom: 0.75rem;">
 <div class="trace-line trace-user">user: Planeja uma viagem de 3 dias para Porto Alegre com R$2000</div>
@@ -49,7 +49,7 @@
 <div class="mt-2 text-xs text-center opacity-70">Agora o agente pensa e usa ferramentas — mas ainda não lembra suas preferências.</div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #1f2937 100%)">
 <h1>🗺️ Agenda do Encontro 2</h1>
 <div class="grid-2 mt-3" style="gap: 1.4rem;">
 <div class="card card-purple slide-in-left">
@@ -68,7 +68,7 @@
 <div class="tip-box mt-2 text-xs">🎯 <b>Fio condutor:</b> seu agente do E1 funciona, mas é "impulsivo". Hoje ele aprende a <b>pensar antes de agir</b> e a <b>agir com precisão cirúrgica</b>.</div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
 <h1>🧭 Vocabulário do dia — em 1 frase cada</h1>
 <p class="slide-in-left">Antes de mergulhar, os termos novos que você vai ouvir hoje:</p>
 <div class="stagger-in text-sm mt-3" style="grid-template-columns: 1fr; gap: 0.55rem;">
@@ -93,7 +93,7 @@
 </div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #0f766e 100%)">
 <h1>🧩 Onde você já viu isso</h1>
 <div class="stagger-in grid-2 text-xs" style="gap: 0.55rem;">
 <div class="card card-purple parallax-card fragment"><b>🧠 Reasoning models em produto</b><br>• ChatGPT com <b>o1/o3</b> mostra "thinking..." antes da resposta<br>• <b>Cursor</b> ativa "Reasoning mode" em refatorações grandes</div>
@@ -104,7 +104,7 @@
 <div class="mt-2 text-xs opacity-70 text-center">Em 2025, quase todo produto agentic combina <b>2 ou 3</b> dessas técnicas.</div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
 <h1>🧭 Mapa mental — o que priorizar</h1>
 <p class="text-sm slide-in-left">Muita sigla nova? Calma. Separe assim:</p>
 <div class="grid-2 mt-3" style="gap: 1.2rem;">
@@ -134,7 +134,7 @@
 <div class="insight-box fragment" style="margin-top: 1rem;">💡 <b>Regra prática:</b> se você entende os 6 da esquerda, já compreende 90% de qualquer paper ou produto agentic que ler.</div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
 <h1>2.1 Recap: por que o ReAct manual falha?</h1>
 <div class="text-sm" style="margin-bottom: 1rem;">No Encontro 1 fizemos um agente "na unha" com <code>re.search</code>. Funciona, mas escala mal.</div>
 <div class="stagger-in grid-2 text-sm" style="gap: 0.8rem;">
@@ -152,7 +152,7 @@
 </div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
 <h1>2.2 Chain-of-Thought (CoT)</h1>
 <p class="slide-in-left">📄 <b>Wei et al., 2022</b> — <i>"Chain-of-Thought Prompting Elicits Reasoning in LLMs"</i></p>
 <p class="slide-in-left">A descoberta: pedir ao modelo para <b>mostrar os passos</b> melhora performance em <b>20–40%</b> em tarefas de raciocínio.</p>
@@ -175,7 +175,7 @@
 </div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #1e1b4b 100%)">
 <h1>CoT em código</h1>
 <pre class="scale-in"><code class="language-python"># Sem CoT
 prompt_simples = "Quanto é 17 * 23 + 41?"
@@ -198,14 +198,14 @@ R:"""</code></pre>
 </div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #064e3b 100%)">
 <h1>2.3 Self-Consistency</h1>
 <p class="slide-in-left">📄 <b>Wang et al., 2022</b><br>A ideia: gere <b>N respostas</b> com temperatura > 0 e use <b>votação majoritária</b>.</p>
 <div class="flow-diagram"><div class="flow-node node-purple">Mesma pergunta</div><div class="flow-arrow">→</div><div class="flow-node node-purple">Run 1</div><div class="flow-arrow">→</div><div class="flow-node node-purple">Run 2</div><div class="flow-arrow">→</div><div class="flow-node node-purple">Run 3</div><div class="flow-arrow">→</div><div class="flow-node node-purple">Run 4</div><div class="flow-arrow">→</div><div class="flow-node node-purple">Run 5</div><div class="flow-arrow">→</div><div class="flow-node node-amber">🗳️ Voto majoritário</div><div class="flow-arrow">→</div><div class="flow-node node-green">✅ Resposta final</div></div>
 <div class="mt-3 text-xs"><b>Trade-off:</b> 5× mais caro e lento, mas pode subir acurácia em ~10–20% em problemas complexos.<br><b>Quando usar:</b> tarefas com resposta "certa" (matemática, código).</div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)">
 <h1>2.4 Tree-of-Thoughts (ToT)</h1>
 <p class="slide-in-left">📄 <b>Yao et al., 2023</b><br>Em vez de uma única cadeia, <b>explore múltiplas</b> em árvore, avalie e poda.</p>
 <div class="flow-diagram"><div class="flow-node node-purple">Problema</div><div class="flow-arrow">→</div><div class="flow-node node-purple">Thought A</div><div class="flow-arrow">→</div><div class="flow-node node-purple">Thought B</div><div class="flow-arrow">→</div><div class="flow-node node-purple">Thought C</div><div class="flow-arrow">→</div><div class="flow-node node-green">A.1 ✅</div><div class="flow-arrow">→</div><div class="flow-node node-purple">A.2</div><div class="flow-arrow">→</div><div class="flow-node node-red">B.1 ❌</div><div class="flow-arrow">→</div><div class="flow-node node-purple">B.2</div><div class="flow-arrow">→</div><div class="flow-node node-purple">C.1</div><div class="flow-arrow">→</div><div class="flow-node node-red">descarta</div></div>
@@ -215,7 +215,7 @@ R:"""</code></pre>
 </div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e293b 100%)">
 <h1>Comparativo das estratégias de reasoning</h1>
 <div class="slide-in-right mt-2"><table><thead><tr><th>Estratégia</th><th>Custo</th><th>Acurácia</th><th>Quando usar</th></tr></thead><tbody><tr><td><b>Direct</b> (sem CoT)</td><td>💰</td><td>⭐</td><td>Tarefas triviais, classificação</td></tr><tr><td><b>CoT (zero-shot)</b></td><td>💰</td><td>⭐⭐⭐</td><td>Default — quase sempre vale a pena</td></tr><tr><td><b>CoT (few-shot)</b></td><td>💰💰</td><td>⭐⭐⭐⭐</td><td>Tarefas com padrão claro</td></tr><tr><td><b>Self-Consistency</b></td><td>💰💰💰</td><td>⭐⭐⭐⭐</td><td>Há uma "resposta certa"</td></tr><tr><td><b>Tree-of-Thoughts</b></td><td>💰💰💰💰💰</td><td>⭐⭐⭐⭐⭐</td><td>Problemas complexos, exploratórios</td></tr><tr><td><b>o1 / DeepSeek-R1</b></td><td>💰💰💰💰</td><td>⭐⭐⭐⭐⭐</td><td>Reasoning treinado nativamente</td></tr></tbody></table></div>
 <div class="card text-sm card-cyan parallax-card fragment" style="margin-top: 1.5rem;">
@@ -223,14 +223,14 @@ R:"""</code></pre>
 </div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #1f2937 100%)">
 <h1>📈 Reasoning melhora resultados — evidência</h1>
 <div class="typewriter-js text-center text-sm text-cyan animate-shimmer" data-text="Acurácia com e sem Chain-of-Thought (%)"></div><div class="stagger-in" style="display:grid; grid-template-columns: repeat(5, 1fr); gap:0.7rem; margin-top:1rem;"><div class="card card-cyan parallax-card fragment text-center"><div class="text-sm"><b>GSM8K</b></div><div class="mt-1 text-red">Sem CoT: 56%</div><div class="text-green">Com CoT: 78%</div><div class="mt-1 text-xs opacity-70">Δ +22 pts</div></div><div class="card card-cyan parallax-card fragment text-center"><div class="text-sm"><b>MATH</b></div><div class="mt-1 text-red">Sem CoT: 34%</div><div class="text-green">Com CoT: 58%</div><div class="mt-1 text-xs opacity-70">Δ +24 pts</div></div><div class="card card-cyan parallax-card fragment text-center"><div class="text-sm"><b>MMLU</b></div><div class="mt-1 text-red">Sem CoT: 70%</div><div class="text-green">Com CoT: 82%</div><div class="mt-1 text-xs opacity-70">Δ +12 pts</div></div><div class="card card-cyan parallax-card fragment text-center"><div class="text-sm"><b>ARC</b></div><div class="mt-1 text-red">Sem CoT: 75%</div><div class="text-green">Com CoT: 88%</div><div class="mt-1 text-xs opacity-70">Δ +13 pts</div></div><div class="card card-cyan parallax-card fragment text-center"><div class="text-sm"><b>StrategyQA</b></div><div class="mt-1 text-red">Sem CoT: 65%</div><div class="text-green">Com CoT: 81%</div><div class="mt-1 text-xs opacity-70">Δ +16 pts</div></div></div>
 <div class="mt-2 text-xs text-center opacity-70">🟦 Sem CoT &nbsp;&nbsp; 🟩 Com CoT — dados aproximados GPT-4 class models</div>
 <div class="card mt-2 text-sm card-cyan parallax-card fragment">💡 CoT dá ganhos de <b>+15 a +25 pontos percentuais</b> em tarefas de raciocínio.</div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
 <h1>🧠 Reasoning Models — o paradigma novo (2024+)</h1>
 <p class="slide-in-left">📅 OpenAI <b>o1</b> (set/2024), <b>o3</b> (dez/2024), DeepSeek <b>R1</b> (jan/2025), Anthropic <b>extended thinking</b> (2025).</p>
 <div class="card mt-3 text-sm text-center card-cyan parallax-card fragment">Em vez de "pensar via prompt", o modelo é <b>treinado via RL</b> para <b>pensar muito antes de responder</b> — gerando milhares de tokens internos invisíveis.</div>
@@ -241,7 +241,7 @@ R:"""</code></pre>
 <div class="card mt-3 text-xs card-amber parallax-card fragment">⚠️ <b>Trade-offs:</b> 5–10× mais caro e 10–100× mais lento. Use para matemática, prova de teoremas, código complexo e planning multi-step — não para chat casual.</div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #0f766e 100%)">
 <h1>Reasoning models — como mudam o design do agente</h1>
 <div class="flow-diagram"><div class="flow-node node-purple">LLM rápido</div><div class="flow-arrow">→</div><div class="flow-node node-cyan">Tool</div><div class="flow-arrow">→</div><div class="flow-node node-green">Resposta</div><div class="flow-arrow">→</div><div class="flow-node node-amber">💭 Reasoning model<br>pensa 30s<br>planeja tudo</div></div>
 <div class="text-sm" style="margin-top: 1.5rem;">
@@ -250,7 +250,7 @@ R:"""</code></pre>
 </div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
 <h1>🪞 Self-Reflection & Reflexion</h1>
 <p class="slide-in-left">📄 <b>Shinn et al., 2023</b> — <i>"Reflexion: Language Agents with Verbal Reinforcement Learning"</i></p>
 <p class="slide-in-left">A ideia: depois de tentar uma tarefa, o agente <b>critica seu próprio output</b> e tenta de novo com a crítica no contexto.</p>
@@ -262,7 +262,7 @@ R:"""</code></pre>
 <div class="insight-box mt-2 text-xs">🏢 <b>Na prática:</b> Cursor, Devin e Claude Code usam Reflexion internamente — quando o código não compila, o agente lê o erro, critica sua solução e tenta de novo.</div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
 <h1>Self-Reflection em código</h1>
 <div class="card text-xs card-cyan parallax-card fragment" style="margin-bottom: 0.75rem;">
 <p class="slide-in-left">📖 <b>Em palavras (sem ler código):</b> o agente <b>tenta resolver</b>, depois <b>se critica</b> ("isso de fato responde a pergunta?"), e se a crítica disser que não, ele <b>tenta de novo</b> levando a crítica em consideração. Repete até dar certo ou bater o limite de tentativas.</p>
@@ -282,7 +282,7 @@ R:"""</code></pre>
         """)</code></pre>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
 <h1>Self-Reflection em código — continuação</h1>
 <pre class="scale-in"><code class="language-python">        critica = json.loads(critica_raw)
         if critica["ok"]:
@@ -298,7 +298,7 @@ R:"""</code></pre>
 </div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #1e1b4b 100%)">
 <h1>📐 Structured Outputs</h1>
 <p class="slide-in-left">Em produção, você quase nunca quer <b>texto livre</b> do LLM; você quer <b>dados tipados</b>.</p>
 <div class="compare-cols mt-3 text-xs" style="gap: 0.8rem;">
@@ -317,7 +317,7 @@ p = llm.with_structured_output(Pessoa).invoke(...)
 <div class="mt-3 text-xs">Nativo em <b>OpenAI</b> (Structured Outputs, ago/2024), <b>Anthropic</b> (tool use) e <b>Gemini</b>; no ecossistema, destaque para <b>Pydantic AI</b> e <b>Instructor</b>.</div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #064e3b 100%)">
 <h1>Pydantic AI — framework type-safe</h1>
 <div class="card text-xs card-cyan parallax-card fragment" style="margin-bottom: 0.75rem;">📖 <b>Em palavras:</b> você descreve a forma do resultado e o framework devolve um objeto Python validado, pronto para DBs, filas e APIs — sem torcer para o JSON vir certo.</div>
 <pre class="scale-in"><code class="language-python">from pydantic import BaseModel; from pydantic_ai import Agent
@@ -340,7 +340,7 @@ print(ticket.prioridade, ticket.requer_resposta_imediata)  # 5 True</code></pre>
 </div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)">
 <h1>Os 5 padrões — visão geral</h1>
 <div class="stagger-in text-sm" style="grid-template-columns: 1fr; gap: 0.8rem; margin-top: 1.5rem;">
 <div class="card card-purple parallax-card fragment">
@@ -364,7 +364,7 @@ print(ticket.prioridade, ticket.requer_resposta_imediata)  # 5 True</code></pre>
 </div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e293b 100%)">
 <h1>Padrão 1 · Prompt Chaining</h1>
 <div class="flow-diagram"><div class="flow-node node-purple">Input</div><div class="flow-arrow">→</div><div class="flow-node node-purple">LLM 1<br>extrai dados</div><div class="flow-arrow">→</div><div class="flow-node node-purple">validação<br>opcional</div><div class="flow-arrow">→</div><div class="flow-node node-purple">LLM 2<br>transforma</div><div class="flow-arrow">→</div><div class="flow-node node-purple">LLM 3<br>formata</div><div class="flow-arrow">→</div><div class="flow-node node-green">Output</div></div>
 <div class="text-sm" style="margin-top: 1.5rem;">
@@ -374,7 +374,7 @@ print(ticket.prioridade, ticket.requer_resposta_imediata)  # 5 True</code></pre>
 </div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #1f2937 100%)">
 <h1>Padrão 2 · Routing</h1>
 <div class="flow-diagram"><div class="flow-node node-purple">Input</div><div class="flow-arrow">→</div><div class="flow-node node-cyan">🔀 Classificador<br>LLM pequeno/barato</div><div class="flow-arrow">→</div><div class="flow-node node-cyan">Modelo rápido<br>Haiku/4o-mini</div><div class="flow-arrow">→</div><div class="flow-node node-purple">Modelo grande<br>Sonnet/4o</div><div class="flow-arrow">→</div><div class="flow-node node-purple">Reasoning model<br>o1/R1</div></div>
 <div class="text-sm" style="margin-top: 1.5rem;">
@@ -383,7 +383,7 @@ print(ticket.prioridade, ticket.requer_resposta_imediata)  # 5 True</code></pre>
 </div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
 <h1>Padrão 3 · Parallelization</h1>
 <div class="compare-cols mt-3 text-xs" style="gap: 0.8rem;">
 <div class="card card-purple parallax-card fragment"><b>3a. Sectioning</b><br>Divide a tarefa em partes independentes.<br><span style="opacity: 0.8;">Ex: classificar e-mail + checar tom + extrair entidades.</span></div>
@@ -392,19 +392,19 @@ print(ticket.prioridade, ticket.requer_resposta_imediata)  # 5 True</code></pre>
 <div class="card mt-3 text-xs card-amber parallax-card fragment"><b>Quando usar:</b> subtarefas que não dependem umas das outras. Ganho principal: <b>latência menor</b>; trade-off: precisa agregar os resultados no final.</div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #0f766e 100%)">
 <h1>Padrão 3 · Parallelization — sectioning</h1>
 <div class="text-xs" style="margin-bottom: 0.75rem;">Mesma tarefa, partes independentes, merge no final.</div>
 <div class="flow-diagram"><div class="flow-node node-purple">Tarefa</div><div class="flow-arrow">→</div><div class="flow-node node-purple">Parte A</div><div class="flow-arrow">→</div><div class="flow-node node-purple">Parte B</div><div class="flow-arrow">→</div><div class="flow-node node-purple">Parte C</div><div class="flow-arrow">→</div><div class="flow-node node-green">Merge</div></div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
 <h1>Padrão 3 · Parallelization — voting</h1>
 <div class="text-xs" style="margin-bottom: 0.75rem;">Mesma pergunta, várias respostas, decisão por maioria.</div>
 <div class="flow-diagram"><div class="flow-node node-purple">Pergunta</div><div class="flow-arrow">→</div><div class="flow-node node-purple">LLM run 1</div><div class="flow-arrow">→</div><div class="flow-node node-purple">LLM run 2</div><div class="flow-arrow">→</div><div class="flow-node node-purple">LLM run 3</div><div class="flow-arrow">→</div><div class="flow-node node-amber">🗳️ Voto</div></div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
 <h1>Padrão 4 · Orchestrator-Workers</h1>
 <div class="flow-diagram"><div class="flow-node node-purple">Tarefa complexa</div><div class="flow-arrow">→</div><div class="flow-node node-purple">🧠 Orchestrator<br>decide passos<br>dinamicamente</div><div class="flow-arrow">→</div><div class="flow-node node-cyan">Worker 1</div><div class="flow-arrow">→</div><div class="flow-node node-cyan">Worker 2</div><div class="flow-arrow">→</div><div class="flow-node node-cyan">Worker N</div><div class="flow-arrow">→</div><div class="flow-node node-purple">🧬 Synthesizer</div><div class="flow-arrow">→</div><div class="flow-node node-green">Resposta</div></div>
 <div class="text-sm" style="margin-top: 1.5rem;">
@@ -413,7 +413,7 @@ print(ticket.prioridade, ticket.requer_resposta_imediata)  # 5 True</code></pre>
 </div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
 <h1>Padrão 5 · Evaluator-Optimizer</h1>
 <div class="flow-diagram"><div class="flow-node node-purple">Tarefa</div><div class="flow-arrow">→</div><div class="flow-node node-purple">Generator</div><div class="flow-arrow">→</div><div class="flow-node node-amber">Evaluator</div><div class="flow-arrow">→</div><div class="flow-node node-green">✅ Output</div></div>
 <div class="text-sm" style="margin-top: 1.5rem;">
@@ -422,18 +422,18 @@ print(ticket.prioridade, ticket.requer_resposta_imediata)  # 5 True</code></pre>
 </div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #1e1b4b 100%)">
 <h1>Decision tree: qual padrão usar?</h1>
 <div class="flow-diagram"><div class="flow-node node-purple">Tenho uma tarefa LLM</div><div class="flow-arrow">→</div><div class="flow-node node-purple">Passos<br>conhecidos?</div><div class="flow-arrow">→</div><div class="flow-node node-purple">⛓️ Prompt Chaining</div><div class="flow-arrow">→</div><div class="flow-node node-purple">🔀 Routing</div><div class="flow-arrow">→</div><div class="flow-node node-green">Subtarefas<br>independentes?</div><div class="flow-arrow">→</div><div class="flow-node node-purple">⚡ Parallelization</div><div class="flow-arrow">→</div><div class="flow-node node-cyan">🧑‍💼 Orchestrator-Workers</div><div class="flow-arrow">→</div><div class="flow-node node-amber">🪞 Evaluator-Optimizer</div></div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #064e3b 100%)">
 <h1>2.5 Planning — pensar antes de agir</h1>
 <p class="slide-in-left">ReAct decide <b>passo a passo</b>. Planning decide a <b>rota inteira</b> antes de começar.</p>
 <div class="flow-diagram"><div class="flow-node node-purple">Pensa 1 passo</div><div class="flow-arrow">→</div><div class="flow-node node-purple">Age</div><div class="flow-arrow">→</div><div class="flow-node node-purple">Observa</div><div class="flow-arrow">→</div><div class="flow-node node-purple">🧠 Cria plano completo<br>1. fazer X<br>2. fazer Y<br>3. fazer Z</div><div class="flow-arrow">→</div><div class="flow-node node-cyan">Executor faz passo 1</div><div class="flow-arrow">→</div><div class="flow-node node-cyan">Executor faz passo 2</div><div class="flow-arrow">→</div><div class="flow-node node-cyan">Executor faz passo 3</div><div class="flow-arrow">→</div><div class="flow-node node-green">✅ Resposta</div></div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)">
 <h1>Plan-and-Execute vs ReWOO</h1>
 <div class="card text-sm card-purple parallax-card fragment">
 <b>🗺️ Plan-and-Execute</b> <span class="opacity-70">(LangChain, 2023)</span><br>
@@ -442,7 +442,7 @@ print(ticket.prioridade, ticket.requer_resposta_imediata)  # 5 True</code></pre>
 </div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e293b 100%)">
 <h1>Plan-and-Execute vs ReWOO — cont.</h1>
 <div class="card text-sm card-cyan parallax-card fragment">
 <b>🔀 ReWOO</b> <span class="opacity-70">(Reasoning WithOut Observation, 2023)</span><br>
@@ -452,7 +452,7 @@ print(ticket.prioridade, ticket.requer_resposta_imediata)  # 5 True</code></pre>
 <div class="card mt-3 text-xs card-amber parallax-card fragment">🎓 Em produção, a combinação mais comum é <b>planner + executor estilo ReAct + replanning quando necessário</b>.</div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #1f2937 100%)">
 <h1>🧠 Agentic Planning — como agentes criam e gerenciam planos</h1>
 <div class="text-xs" style="margin-bottom: 0.75rem;">O diferencial de agentes como Devin, Manus e Claude Code não é só raciocinar: é <b>criar, acompanhar e revisar um plano</b>.</div>
 <div class="stagger-in grid-2 text-xs" style="gap: 0.8rem;">
@@ -461,7 +461,7 @@ print(ticket.prioridade, ticket.requer_resposta_imediata)  # 5 True</code></pre>
 </div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
 <h1>📋 Anatomia de um plano de agente</h1>
 <div class="text-sm" style="margin-bottom: 0.75rem;">Um plano bem estruturado tem 4 elementos: <b>objetivo</b>, <b>passos</b>, <b>dependências/status</b> e <b>gatilho de replanning</b>.</div>
 <pre class="scale-in"><code class="language-python"># começo do plano
@@ -474,7 +474,7 @@ passos = [
 ]</code></pre>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #0f766e 100%)">
 <h1>📋 Anatomia de um plano de agente — cont.</h1>
 <pre class="scale-in"><code class="language-python">passos += [
     {"id": 3, "acao": "Comparar custo-benefício em tabela",
@@ -486,7 +486,7 @@ replanning_trigger = "Se qualquer passo falhar 2x, re-planejar"</code></pre>
 <div class="card mt-3 text-xs card-green parallax-card fragment"><b>Pontos-chave:</b> cada passo tem <code>status</code>, <code>depende_de</code> e a tool necessária. O agente sabe exatamente onde está e o que falta.</div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
 <h1>🔄 Replanning — quando o plano precisa mudar</h1>
 <div class="text-xs" style="margin-bottom: 0.75rem;">Planos rígidos quebram. Agentes úteis <b>re-planejam dinamicamente</b>.</div>
 <div class="stagger-in grid-2 text-xs" style="gap: 0.8rem;">
@@ -495,7 +495,7 @@ replanning_trigger = "Se qualquer passo falhar 2x, re-planejar"</code></pre>
 </div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
 <h1>🔄 Replanning — exemplos em produto</h1>
 <div class="stagger-in grid-3 text-xs" style="gap: 0.55rem;">
 <div class="card card-purple parallax-card fragment"><b>Devin</b><br>Mostra plano com checkboxes, risca o que concluiu e adiciona novos passos se necessário.</div>
@@ -505,7 +505,7 @@ replanning_trigger = "Se qualquer passo falhar 2x, re-planejar"</code></pre>
 <div class="card mt-2 text-xs card-amber parallax-card fragment"><b>🎯 Regra prática:</b> em tarefas com mais de 3 passos, peça um plano explícito antes de executar. Isso reduz loops infinitos em ~60%.</div>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
 <h1>💻 Implementando planning agentic em Python</h1>
 <div class="text-xs" style="margin-bottom:0.3rem; opacity:0.7;">📋 <b>Colab-ready</b> — usa HuggingFace InferenceClient (token gratuito)</div>
 <pre class="scale-in"><code class="language-python">import json
@@ -532,7 +532,7 @@ def create_plan(objective: str) -&gt; list[dict]:
 create_plan(&quot;Analisar o mercado de IA no Brasil&quot;)</code></pre>
 </section>
 
-<section>
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #1e1b4b 100%)">
 <h1>💻 Implementando planning agentic em Python — execução</h1>
 <div class="text-xs" style="margin-bottom:0.3rem; opacity:0.7;">📋 <b>Colab-ready</b> — copie e execute junto com a célula anterior</div>
 <pre class="scale-in"><code class="language-python">def execute_with_replanning(objective: str, max_retries: int = 2):
