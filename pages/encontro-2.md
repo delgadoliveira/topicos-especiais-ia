@@ -771,6 +771,158 @@ flowchart TB
 
 ---
 
+# 🧠 Agentic Planning — como agentes criam e gerenciam planos
+
+<div class="text-sm mb-3">
+O segredo dos agentes mais capazes (Devin, Manus, Claude Code) não é o raciocínio — é a <b>criação e manutenção ativa de um plano</b>.
+</div>
+
+<div class="grid grid-cols-2 gap-4 text-xs">
+
+<div class="p-4 rounded-xl bg-purple-500/10 border border-purple-500/30">
+<b>O que é "Agentic Planning"?</b>
+<div class="mt-2 opacity-80">
+O agente não apenas decide o próximo passo — ele:
+<ol class="mt-1">
+<li><b>Decompõe</b> o objetivo em sub-tarefas</li>
+<li><b>Ordena</b> por dependências</li>
+<li><b>Estima</b> complexidade de cada passo</li>
+<li><b>Executa</b> passo a passo monitorando progresso</li>
+<li><b>Adapta</b> o plano quando algo falha ou muda</li>
+</ol>
+</div>
+</div>
+
+<div class="p-4 rounded-xl bg-cyan-500/10 border border-cyan-500/30">
+<b>🧩 Analogia: GPS vs andar a pé</b>
+<div class="mt-2 opacity-80">
+<b>Sem planning (ReAct):</b> você está numa cidade desconhecida e decide a cada esquina "vou virar aqui". Funciona para distâncias curtas.<br><br>
+<b>Com planning:</b> você abre o GPS, vê a rota inteira, sabe que são 12 passos, e se uma rua estiver fechada, recalcula a rota — não volta ao ponto zero.
+</div>
+</div>
+
+</div>
+
+---
+
+# 📋 Anatomia de um plano de agente
+
+<div class="text-sm mb-3">
+Um plano bem estruturado tem 4 elementos:
+</div>
+
+<div class="p-4 rounded-xl bg-white/5 border border-white/10 text-xs font-mono">
+
+```python
+plan = {
+    "objetivo": "Pesquisar e comparar 3 hotéis em SP para viagem corporativa",
+    "passos": [
+        {"id": 1, "acao": "Buscar hotéis 4-5 estrelas em SP centro",
+         "tool": "search_web", "status": "done", "resultado": "..."},
+        {"id": 2, "acao": "Extrair preços e avaliações dos 5 melhores",
+         "tool": "scrape_page", "status": "in_progress", "depende_de": [1]},
+        {"id": 3, "acao": "Comparar custo-benefício em tabela",
+         "tool": "none (raciocínio)", "status": "pending", "depende_de": [2]},
+        {"id": 4, "acao": "Gerar recomendação final com justificativa",
+         "tool": "none", "status": "pending", "depende_de": [3]},
+    ],
+    "replanning_trigger": "Se qualquer passo falhar 2x, re-planejar"
+}
+```
+
+</div>
+
+<div class="mt-3 p-3 rounded-lg bg-green-500/10 border border-green-500/30 text-xs">
+<b>Pontos-chave:</b> cada passo tem <code>status</code>, <code>depende_de</code>, e a tool necessária. O agente sabe exatamente onde está e o que falta.
+</div>
+
+---
+
+# 🔄 Replanning — quando o plano precisa mudar
+
+<div class="text-sm mb-3">
+Planos rígidos quebram. Agentes inteligentes <b>re-planejam dinamicamente</b>:
+</div>
+
+<div class="grid grid-cols-3 gap-3 text-xs">
+
+<div class="p-3 rounded-lg bg-red-500/10 border border-red-500/30">
+<b>❌ Gatilhos de replanning:</b>
+<ul class="mt-1">
+<li>Tool retornou erro</li>
+<li>Resultado inesperado</li>
+<li>Usuário mudou o objetivo</li>
+<li>Custo/tempo excedeu limite</li>
+<li>Novo contexto invalida um passo</li>
+</ul>
+</div>
+
+<div class="p-3 rounded-lg bg-green-500/10 border border-green-500/30">
+<b>✅ Estratégias de replanning:</b>
+<ul class="mt-1">
+<li><b>Local:</b> refaz só o passo que falhou</li>
+<li><b>Parcial:</b> replaneja do passo atual em diante</li>
+<li><b>Total:</b> descarta tudo e recomeça (último recurso)</li>
+<li><b>Delegação:</b> "não sei fazer X, peço a outro agente"</li>
+</ul>
+</div>
+
+<div class="p-3 rounded-lg bg-purple-500/10 border border-purple-500/30">
+<b>🏢 No mercado:</b>
+<ul class="mt-1">
+<li><b>Devin:</b> mostra plano com checkboxes, risca conforme avança, adiciona novos se necessário</li>
+<li><b>Manus:</b> cria plano visual antes de qualquer ação no browser</li>
+<li><b>Claude Code:</b> verbaliza "meu plano é..." antes de editar arquivos</li>
+</ul>
+</div>
+
+</div>
+
+<div class="mt-3 p-3 rounded-lg bg-amber-500/10 border border-amber-500/30 text-xs">
+<b>🎯 Regra prática:</b> para tarefas com mais de 3 passos, sempre peça ao agente para criar um plano explícito antes de executar. Isso reduz loops infinitos em ~60%.
+</div>
+
+---
+
+# 💻 Implementando planning agentic em Python
+
+<div class="text-xs font-mono">
+
+```python
+import openai
+
+def create_plan(objective: str) -> list[dict]:
+    """Pede ao LLM para decompor o objetivo em passos."""
+    response = openai.chat.completions.create(
+        model="gpt-4.1",
+        messages=[{
+            "role": "system",
+            "content": "Decomponha o objetivo em passos ordenados. "
+                       "Retorne JSON: [{id, acao, tool, depende_de}]"
+        }, {
+            "role": "user", "content": objective
+        }],
+        response_format={"type": "json_object"},
+        temperature=0
+    )
+    return json.loads(response.choices[0].message.content)["passos"]
+
+def execute_with_replanning(objective: str, max_retries=2):
+    plan = create_plan(objective)
+    for step in plan:
+        result = execute_step(step)
+        if result.failed and step["retries"] < max_retries:
+            plan = replan(objective, plan, step, result.error)
+            continue  # recomeça do novo passo atual
+    return synthesize(plan)
+```
+
+</div>
+
+<div class="mt-3 text-xs opacity-70">
+O padrão é simples: <b>planejar → executar → monitorar → re-planejar se necessário</b>. A sofisticação está nos detalhes de quando e como re-planejar.
+</div>
+
 ---
 layout: center
 class: text-center
