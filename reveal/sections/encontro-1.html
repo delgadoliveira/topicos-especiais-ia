@@ -326,20 +326,71 @@ Vamos quebrar essa definição em partes nos próximos slides.
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
-<div class="slide-in-left"><h1>Agente vs Assistente vs Bot</h1>
-<div  class="mt-3 text-xs">
-<table class="w-full border-collapse">
-  <thead><tr class="bg-white/5"><th class="p-2 text-left">Dimensão</th><th class="p-2 text-left">Agente</th><th class="p-2 text-left">Assistente</th><th class="p-2 text-left">Bot</th></tr></thead>
+<h1>🤖 Agente vs Assistente vs Bot</h1>
+<p class="text-sm">Três conceitos que parecem iguais — mas têm diferenças enormes na prática:</p>
+
+<div class="grid-3 stagger-in" style="gap:1rem; margin-top:1.2rem;">
+
+<div class="card card-red expandable" style="text-align:center;">
+  <div class="card-icon">🔧</div>
+  <div class="card-title" style="font-size:0.9em;">Bot (Chatbot)</div>
+  <div class="card-desc" style="font-size:0.65em; margin-top:0.4rem;">
+    <p><b>Segue script fixo</b></p>
+    <p>Árvore de decisão pré-definida. Se o usuário sai do roteiro, quebra.</p>
+  </div>
+  <div class="card-detail">
+    <p><b>Como funciona:</b> IF/ELSE gigante ou fluxo no Dialogflow/ManyChat.</p>
+    <p><b>Exemplo:</b> "Digite 1 para saldo, 2 para extrato, 3 para falar com humano"</p>
+    <p><b>Limitação:</b> Não entende linguagem natural. Não adapta. Não aprende.</p>
+    <div class="detail-example">📞 Aquele bot de telemarketing que te faz repetir "FALAR COM ATENDENTE" 5 vezes.</div>
+  </div>
+</div>
+
+<div class="card card-amber expandable" style="text-align:center;">
+  <div class="card-icon">💡</div>
+  <div class="card-title" style="font-size:0.9em;">Assistente</div>
+  <div class="card-desc" style="font-size:0.65em; margin-top:0.4rem;">
+    <p><b>Responde e sugere</b></p>
+    <p>Entende linguagem natural, mas espera VOCÊ decidir e agir.</p>
+  </div>
+  <div class="card-detail">
+    <p><b>Como funciona:</b> LLM responde perguntas e faz recomendações, mas não executa ações.</p>
+    <p><b>Exemplo:</b> ChatGPT te explica como enviar um email, mas não envia por você.</p>
+    <p><b>Limitação:</b> Reativo — só responde quando perguntado. Não toma iniciativa.</p>
+    <div class="detail-example">💬 "Para reservar o voo, acesse o site X, clique em Y..." — te ensina mas não faz.</div>
+  </div>
+</div>
+
+<div class="card card-green expandable" style="text-align:center;">
+  <div class="card-icon">🦾</div>
+  <div class="card-title" style="font-size:0.9em;">Agente</div>
+  <div class="card-desc" style="font-size:0.65em; margin-top:0.4rem;">
+    <p><b>Decide e executa</b></p>
+    <p>Recebe um objetivo, planeja, usa ferramentas, e entrega resultado.</p>
+  </div>
+  <div class="card-detail">
+    <p><b>Como funciona:</b> LLM em loop — pensa, age, observa, repete até resolver.</p>
+    <p><b>Exemplo:</b> "Reserve o voo mais barato pra SP sexta" → busca, compara, reserva, te manda confirmação.</p>
+    <p><b>Diferencial:</b> Proativo, multi-etapa, usa ferramentas, toma decisões autônomas.</p>
+    <div class="detail-example">✈️ Você dorme, o agente compra a passagem, reserva hotel, e monta o roteiro.</div>
+  </div>
+</div>
+
+</div>
+
+<div class="mt-2" style="font-size:0.6rem;">
+<table style="width:100%; font-size:1em;">
+  <thead><tr style="background:rgba(255,255,255,0.05);"><th style="padding:0.5rem;">Dimensão</th><th style="padding:0.5rem; color:var(--red);">🔧 Bot</th><th style="padding:0.5rem; color:var(--amber);">💡 Assistente</th><th style="padding:0.5rem; color:var(--green);">🦾 Agente</th></tr></thead>
   <tbody>
-    <tr><td class="p-2 border-t border-white/10"><b>Propósito</b></td><td class="p-2 border-t border-white/10">Persegue metas e conclui tarefas</td><td class="p-2 border-t border-white/10">Responde e recomenda</td><td class="p-2 border-t border-white/10">Executa fluxo pré-definido</td></tr>
-    <tr><td class="p-2 border-t border-white/10"><b>Autonomia</b></td><td class="p-2 border-t border-white/10">Alta, toma decisões</td><td class="p-2 border-t border-white/10">Média, depende do usuário</td><td class="p-2 border-t border-white/10">Baixa, segue regras</td></tr>
-    <tr><td class="p-2 border-t border-white/10"><b>Complexidade</b></td><td class="p-2 border-t border-white/10">Multi-etapa, aberta</td><td class="p-2 border-t border-white/10">Tarefas guiadas</td><td class="p-2 border-t border-white/10">Interações básicas</td></tr>
-    <tr><td class="p-2 border-t border-white/10"><b>Aprendizado</b></td><td class="p-2 border-t border-white/10">Aprende e adapta</td><td class="p-2 border-t border-white/10">Limitado/assistido</td><td class="p-2 border-t border-white/10">Mínimo</td></tr>
-    <tr><td class="p-2 border-t border-white/10"><b>Interação</b></td><td class="p-2 border-t border-white/10">Proativo</td><td class="p-2 border-t border-white/10">Reativo</td><td class="p-2 border-t border-white/10">Scriptado</td></tr>
+    <tr><td style="padding:0.4rem;"><b>Autonomia</b></td><td style="padding:0.4rem;">Nenhuma</td><td style="padding:0.4rem;">Baixa-média</td><td style="padding:0.4rem;">Alta</td></tr>
+    <tr><td style="padding:0.4rem;"><b>Entende linguagem?</b></td><td style="padding:0.4rem;">❌ Pattern match</td><td style="padding:0.4rem;">✅ Sim</td><td style="padding:0.4rem;">✅ Sim</td></tr>
+    <tr><td style="padding:0.4rem;"><b>Usa ferramentas?</b></td><td style="padding:0.4rem;">❌ Não</td><td style="padding:0.4rem;">⚠️ Limitado</td><td style="padding:0.4rem;">✅ Várias</td></tr>
+    <tr><td style="padding:0.4rem;"><b>Toma decisões?</b></td><td style="padding:0.4rem;">❌ Segue script</td><td style="padding:0.4rem;">⚠️ Sugere</td><td style="padding:0.4rem;">✅ Decide + age</td></tr>
+    <tr><td style="padding:0.4rem;"><b>Multi-step?</b></td><td style="padding:0.4rem;">❌ Fixo</td><td style="padding:0.4rem;">⚠️ Se guiado</td><td style="padding:0.4rem;">✅ Autônomo</td></tr>
   </tbody>
 </table>
 </div>
-<div  class="mt-2 text-xs opacity-70" style="opacity:0.7;">Fonte: Google Cloud, 2026</div></div>
+<div class="text-xs" style="opacity:0.6; margin-top:0.4rem;">👆 Clique nos cards acima para ver exemplos detalhados · Fonte: adaptado de Google Cloud + Anthropic, 2024–2025</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
