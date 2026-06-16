@@ -161,11 +161,35 @@
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e293b 100%)">
   <h1>🔗 De falhas internas → ataques externos</h1>
-  <div class="card card-amber parallax-card">
-  <p class="text-sm">Os loops e alucinações são falhas do <b>próprio agente</b>. Mas existe outra classe de risco:</p>
-  <p class="text-sm mt-1 fragment"><b>Ataques deliberados via dados de entrada</b> — o agente processa texto que contém instruções maliciosas disfarçadas.</p>
-  <p class="text-sm mt-1 fragment">→ Isso nos leva a <b>Prompt Injection</b>: o problema de segurança #1 em agentes que leem dados externos.</p>
+  <p class="text-sm">Até aqui, vimos falhas que nascem <b>dentro</b> do agente. Agora entramos numa classe diferente: riscos que vêm de <b>fora</b>, de quem quer explorá-lo.</p>
+  <div class="grid-2 mt-2">
+    <div class="card card-amber">
+      <div class="card-title">🔧 Falhas internas (até agora)</div>
+      <ul class="text-xs mt-1" style="line-height:1.7;">
+        <li>Loops infinitos — o agente não para</li>
+        <li>Alucinação — inventa fatos ou tools</li>
+        <li>Custo descontrolado — tokens explodem</li>
+      </ul>
+      <div class="text-xs mt-1 opacity-70">→ Origem: o <b>próprio</b> comportamento do agente</div>
+    </div>
+    <div class="card card-red">
+      <div class="card-title">🎯 Ataques externos (a seguir)</div>
+      <ul class="text-xs mt-1" style="line-height:1.7;">
+        <li>Prompt injection — instruções maliciosas nos dados</li>
+        <li>Vazamento de dados — exfiltração via tools</li>
+        <li>Manipulação de ações — fazer o agente agir contra você</li>
+      </ul>
+      <div class="text-xs mt-1 opacity-70">→ Origem: um <b>atacante</b> que controla a entrada</div>
+    </div>
   </div>
+  <div class="flow-diagram mt-2">
+    <div class="flow-node node-amber">Agente lê dado externo</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node node-red">Dado contém comando oculto</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node node-purple">Agente obedece sem saber</div>
+  </div>
+  <div class="tip-box mt-2 text-sm">→ Isso nos leva ao <b>Prompt Injection</b>: o problema de segurança <b>#1</b> em agentes que leem dados externos (emails, sites, PDFs, documentos).</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
@@ -292,19 +316,40 @@
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #064e3b 100%)">
   <h1>Por que LLMs alucinam — causas raiz</h1>
-  <div style="text-align:center;">
-    <div class="flow-node" style="display:inline-block; background: rgba(248,113,113,.16); border: 1px solid rgba(248,113,113,.38); margin-bottom:0.4rem;">🤖 Alucinação</div>
-    <div class="text-xs" style="margin:0.3rem 0;">↙ &nbsp; ↙ &nbsp; ↓ &nbsp; ↘ &nbsp; ↘</div>
-    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:0.4rem; font-size:0.7em;">
-      <div class="card card-red" style="padding:0.4rem; text-align:center;">📚 Dados ruidosos<br><span class="text-xs opacity-70">treino contraditório</span></div>
-      <div class="card card-red" style="padding:0.4rem; text-align:center;">🎯 Treino força resposta<br><span class="text-xs opacity-70">RLHF penaliza "não sei"</span></div>
-      <div class="card card-amber" style="padding:0.4rem; text-align:center;">🎲 Amostragem<br><span class="text-xs opacity-70">temperatura > 0</span></div>
-      <div class="card card-amber" style="padding:0.4rem; text-align:center;">📦 Contexto perdido<br><span class="text-xs opacity-70">"lost in the middle"</span></div>
-      <div class="card card-purple" style="padding:0.4rem; text-align:center;">❓ Prompt ambíguo<br><span class="text-xs opacity-70">instrução mal-formada</span></div>
-      <div class="card card-purple" style="padding:0.4rem; text-align:center;">🪤 Tool desc imprecisa<br><span class="text-xs opacity-70">modelo usa tool errada</span></div>
+  <p class="text-sm">A alucinação não tem uma causa única. O survey de Huang et al. (2023) organiza os fatores em <b>3 estágios</b> do ciclo de vida do modelo:</p>
+  <div class="flow-diagram mt-2">
+    <div class="flow-node node-red">📚 Dados (treino)</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node node-amber">🎯 Treinamento</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node node-purple">🎲 Inferência</div>
+  </div>
+  <div class="grid-3 mt-2 text-xs">
+    <div class="card card-red">
+      <div class="card-title">📚 Dados</div>
+      <ul style="line-height:1.6;">
+        <li><b>Dados ruidosos</b> — fatos contraditórios ou errados no corpus de treino</li>
+        <li><b>Lacunas de conhecimento</b> — o modelo nunca viu o assunto, mas "chuta"</li>
+      </ul>
+    </div>
+    <div class="card card-amber">
+      <div class="card-title">🎯 Treinamento</div>
+      <ul style="line-height:1.6;">
+        <li><b>RLHF penaliza "não sei"</b> — o modelo aprende que responder sempre é melhor que admitir ignorância</li>
+        <li><b>Exposição vs. geração</b> — treina vendo texto certo, mas na hora gera token a token</li>
+      </ul>
+    </div>
+    <div class="card card-purple">
+      <div class="card-title">🎲 Inferência</div>
+      <ul style="line-height:1.6;">
+        <li><b>Amostragem</b> — temperatura &gt; 0 introduz aleatoriedade</li>
+        <li><b>Lost in the middle</b> — perde contexto longo</li>
+        <li><b>Prompt ambíguo / tool imprecisa</b> — instrução mal-formada leva a respostas inventadas</li>
+      </ul>
     </div>
   </div>
-  <div class="text-sm">📚 Huang et al. (2023) — <i>"A Survey on Hallucination in LLMs"</i> mapeia esses fatores em <b>data, training, inference</b>.</div>
+  <div class="insight-box mt-2 text-xs">🧠 <b>Implicação prática:</b> não existe "desligar" alucinação — você a <b>mitiga</b> em cada estágio: dados melhores, treino que aceita incerteza, e na inferência usar RAG + temperatura baixa + grounding.</div>
+  <div class="text-xs mt-1 opacity-70">📚 Huang et al. (2023) — <i>"A Survey on Hallucination in Large Language Models"</i></div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">

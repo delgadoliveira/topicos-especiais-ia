@@ -947,245 +947,184 @@ Proponha um agente que resolva uma dor real sua. Deve usar pelo menos 3 tools, t
 
 ---
 
-# Critérios de avaliação
-<div class="grid grid-cols-2 gap-3 mt-3 text-xs">
-<div class="p-3 rounded-xl bg-white/5"><b>🏗️ Arquitetura (30%)</b><br>Diagrama claro · framework justificado · tools bem definidas · gerenciamento de contexto.</div>
-<div class="p-3 rounded-xl bg-white/5"><b>🛡️ Robustez (25%)</b><br><code>max_steps</code>, timeout, kill switch, erros de tool tratados e mitigação de 2 falhas.</div>
-<div class="p-3 rounded-xl bg-white/5"><b>📊 Avaliação (25%)</b><br>≥10 casos documentados · métricas de acurácia/latência/custo · análise de falhas.</div>
-<div class="p-3 rounded-xl bg-white/5"><b>📝 Documentação (20%)</b><br>README claro, instruções locais e decisões de design explicadas.</div>
+# 📊 Rubrica do projeto — o que será avaliado
+
+<div class="grid grid-cols-2 gap-3 text-xs mt-3">
+<div class="p-3 rounded-xl bg-purple-500/10 border border-purple-500/30"><b>🏗️ Arquitetura funcional — 30%</b><br>Problema claro · padrão agentic justificado · ≥2 tools úteis · prompt versionado · limites de execução definidos.</div>
+<div class="p-3 rounded-xl bg-green-500/10 border border-green-500/30"><b>📏 Avaliação — 30%</b><br>≥10 casos de teste · 2 adversariais · métricas de acerto, latência e custo · análise de regressões.</div>
+<div class="p-3 rounded-xl bg-red-500/10 border border-red-500/30"><b>🛡️ Robustez — 25%</b><br>Timeout · max_steps · tratamento de erro por tool · fallback humano · mitigação explícita de prompt injection/tool misuse.</div>
+<div class="p-3 rounded-xl bg-cyan-500/10 border border-cyan-500/30"><b>📝 Clareza — 15%</b><br>README executável · decisões de design · limitações conhecidas · traces de sucesso e falha.</div>
 </div>
+
+<div class="mt-3 p-2 rounded-lg bg-amber-500/10 border border-amber-500/30 text-xs">🎯 <b>Regra de ouro:</b> não avalie “se ficou bonito”; avalie se outra pessoa consegue rodar, entender, medir e confiar.</div>
+
 ---
 
-# Estrutura sugerida do entregável
+# 📊 Rubrica — evidências que contam
 
-```
+<div class="grid grid-cols-3 gap-3 text-xs mt-3">
+<div class="p-3 rounded-xl bg-green-500/10 border border-green-500/30"><b>Excelente</b><br>Mostra trade-offs, logs, falhas recuperadas e casos adversariais. O agente erra de modo previsível.</div>
+<div class="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30"><b>Bom</b><br>Funciona em casos principais, mas mede pouco. Há documentação, porém sem análise profunda de falhas.</div>
+<div class="p-3 rounded-xl bg-red-500/10 border border-red-500/30"><b>Frágil</b><br>Só demo feliz. Sem timeout, sem eval, sem trace, sem dizer o que acontece quando tool/API/modelo falha.</div>
+</div>
+
+<div class="mt-4 p-3 rounded-xl bg-blue-500/10 border border-blue-500/30 text-sm text-center">
+Entrega forte não é “agente autônomo”; é <b>agente pequeno, observável, testado e útil</b>.
+</div>
+
+---
+
+# 📦 Estrutura sugerida do entregável
+
+```text
 meu-agente/
-├── README.md                  # como rodar, decisões, limitações
-├── DESIGN.md                  # arquitetura, diagrama, escolhas
-├── EVAL.md                    # casos de teste + métricas
-├── requirements.txt
-├── .env.example
+├── README.md            # como rodar, exemplo de uso, limitações
+├── DESIGN.md            # diagrama + decisões de arquitetura
+├── EVAL.md              # casos, métricas, falhas, próximos passos
+├── .env.example         # nomes das variáveis, sem segredos
 ├── src/
-│   ├── agent.py              # núcleo do agente
-│   ├── tools/                # uma tool por arquivo
-│   ├── memory.py             # camada de memória
-│   └── prompts.py            # system prompts versionados
+│   ├── agent.py         # loop principal
+│   ├── prompts.py       # system prompts versionados
+│   ├── tools/           # tools isoladas e testáveis
+│   └── guardrails.py    # validação, limites, fallback
 ├── tests/
 │   ├── test_tools.py
-│   └── eval_cases.json       # casos de teste com gold answers
-└── traces/                   # logs de execução (samples)
+│   └── eval_cases.json
+└── traces/              # 3 execuções: sucesso, recuperação, falha
 ```
 
----
-
-# 4.11 Para onde ir a partir daqui (1/2)
-<div class="grid grid-cols-2 gap-3 mt-3 text-xs">
-<div class="p-3 rounded-xl bg-purple-500/10 border border-purple-500/30"><b>📚 Papers fundamentais</b><br><i>Attention Is All You Need</i> · <i>ReAct</i> · <i>Chain-of-Thought</i> · <i>Tree of Thoughts</i> · <i>Toolformer</i> · <i>MemGPT</i></div>
-<div class="p-3 rounded-xl bg-cyan-500/10 border border-cyan-500/30"><b>🌐 Recursos contínuos</b><br>Anthropic Cookbook · OpenAI Cookbook · LangChain Academy · LangGraph docs · Hugging Face Agents Course · r/LocalLLaMA</div>
-</div>
+<div class="mt-3 p-2 rounded-lg bg-cyan-500/10 border border-cyan-500/30 text-xs">💡 Se for entregar em Colab, mantenha as mesmas seções como células: setup, prompts, tools, loop, eval, reflexão.</div>
 
 ---
 
-# 4.11 Para onde ir a partir daqui (2/2)
-<div class="grid grid-cols-2 gap-3 mt-3 text-xs">
-<div class="p-3 rounded-xl bg-green-500/10 border border-green-500/30"><b>🛠️ Frameworks pra aprofundar</b><br>LangGraph · Pydantic AI · DSPy · smolagents · Letta.</div>
-<div class="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30"><b>📰 Onde acompanhar a área</b><br>Latent Space · Simon Willison · changelogs da Anthropic/OpenAI · Papers with Code · @karpathy · @hwchase17 · @swyx.</div>
-</div>
-<div class="mt-3 p-2 rounded bg-cyan-500/10 border border-cyan-500/30 text-xs">📌 Estratégia prática: estude fundamentos estáveis e acompanhe tendências pelos changelogs e benchmarks.</div>
----
+# 🎤 Checklist de demo — 5 minutos
 
----
-
-# 🌐 Mercado: avaliação, observabilidade & governança
-<div class="grid grid-cols-2 gap-3 text-xs">
-<div class="p-2 rounded-lg bg-purple-500/10 border border-purple-500/30"><b>📊 Eval & LLM-as-judge</b><br>Braintrust · Promptfoo · Patronus AI · Galileo · OpenAI Evals · Anthropic evals · Ragas.</div>
-<div class="p-2 rounded-lg bg-cyan-500/10 border border-cyan-500/30"><b>🔭 Observabilidade</b><br>LangSmith · Langfuse · Arize Phoenix · Helicone · Weights & Biases Weave · Datadog LLM Observability.</div>
-<div class="p-2 rounded-lg bg-green-500/10 border border-green-500/30"><b>🛡️ Guardrails & segurança</b><br>NeMo Guardrails · Guardrails AI · Lakera Guard · Protect AI · OWASP Top 10 for LLMs.</div>
-<div class="p-2 rounded-lg bg-amber-500/10 border border-amber-500/30"><b>⚖️ Governança / regulação</b><br>EU AI Act · NIST AI RMF · ISO/IEC 42001 · Anthropic RSP · OpenAI Preparedness · UK/US AISI.</div>
-</div>
-<div class="mt-3 p-2 rounded-lg bg-blue-500/10 border border-blue-500/30 text-xs">🧩 <b>Analogia:</b> avaliar agente sem eval é como fazer deploy sem CI — funciona até quebrar em produção.</div>
----
-
-# 📈 Adoção de agentes — projeção de mercado
-```mermaid {scale: 0.55}
-xychart-beta
-    title "Software empresarial com IA agêntica (%)"
-    x-axis ["2023", "2024", "2025", "2026", "2027", "2028"]
-    y-axis "%" 0 --> 40
-    bar [0.5, 2, 8, 15, 25, 33]
-```
-<div class="mt-3 p-3 rounded bg-cyan-500/10 border border-cyan-500/30 text-sm">📊 <b>Gartner (2024):</b> de menos de 1% em 2024 para 33% em 2028. O crescimento exponencial já começou.</div>
-
----
-
-# 🚀 Onde os agentes vão chegar — 2025-2027
-<div class="grid grid-cols-3 gap-3 text-xs">
-<div class="p-2 rounded-lg bg-purple-500/10 border border-purple-500/30"><b>🧪 Tendências de pesquisa</b><br>Test-time compute · agentes que aprendem com a operação · world models · tarefas long-horizon.</div>
-<div class="p-2 rounded-lg bg-cyan-500/10 border border-cyan-500/30"><b>🏗️ Tendências de produto</b><br>Computer use · A2A/MCP · voice agents · vertical SaaS com agente nativo.</div>
-<div class="p-2 rounded-lg bg-green-500/10 border border-green-500/30"><b>💼 Tendências de negócio</b><br>Pricing por outcome · service-as-software · agent ops · consolidação por aquisição.</div>
-</div>
-<div class="mt-3 p-2 rounded-lg bg-amber-500/10 border border-amber-500/30 text-xs">🎯 O diferencial deixou de ser “saber chamar API”; agora é desenhar loop, instrumentar, avaliar e operar agentes.</div>
----
-
-# 📚 Referências públicas — Encontro 4 (1/2)
 <div class="grid grid-cols-2 gap-3 text-xs mt-3">
-<div class="p-3 rounded bg-purple-500/10 border border-purple-500/30"><b>Alucinações</b><ul class="mt-1"><li>Ji et al. (2023) — <i>Survey of Hallucination in NLG</i> · <a href="https://arxiv.org/abs/2202.03629">arXiv:2202.03629</a></li><li>Huang et al. (2023) — <i>Hallucination in LLMs: Survey</i> · <a href="https://arxiv.org/abs/2311.05232">arXiv:2311.05232</a></li><li>Dhuliawala et al. (2023) — <i>Chain-of-Verification</i> · <a href="https://arxiv.org/abs/2309.11495">arXiv:2309.11495</a></li><li>Manakul et al. (2023) — <i>SelfCheckGPT</i> · <a href="https://arxiv.org/abs/2303.08896">arXiv:2303.08896</a></li></ul></div>
-<div class="p-3 rounded bg-cyan-500/10 border border-cyan-500/30"><b>Avaliação</b><ul class="mt-1"><li>Zheng et al. (2023) — <i>MT-Bench & LLM-as-a-Judge</i> · <a href="https://arxiv.org/abs/2306.05685">arXiv:2306.05685</a></li><li>LMSYS Chatbot Arena · <a href="https://lmarena.ai/">lmarena.ai</a></li><li>Jimenez et al. (2024) — <i>SWE-bench</i> · <a href="https://arxiv.org/abs/2310.06770">arXiv:2310.06770</a></li><li>Mialon et al. (2023) — <i>GAIA Benchmark</i> · <a href="https://arxiv.org/abs/2311.12983">arXiv:2311.12983</a></li><li>RAGAS Docs · <a href="https://docs.ragas.io/">docs.ragas.io</a> · DeepEval · <a href="https://docs.confident-ai.com/">docs.confident-ai.com</a></li></ul></div>
+<div class="p-3 rounded-xl bg-purple-500/10 border border-purple-500/30"><b>1. Problema</b><br>Quem é o usuário? Qual tarefa dói hoje? Como saberemos que melhorou?</div>
+<div class="p-3 rounded-xl bg-cyan-500/10 border border-cyan-500/30"><b>2. Arquitetura</b><br>Mostre o loop: input → reasoning → tool → memória/RAG → output → avaliação.</div>
+<div class="p-3 rounded-xl bg-green-500/10 border border-green-500/30"><b>3. Execução ao vivo</b><br>Rode um caso feliz e um caso adversarial. Mostre trace, custo e latência.</div>
+<div class="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30"><b>4. Aprendizado</b><br>O que falhou? O que você faria com mais uma semana? O que não automatizaria?</div>
 </div>
 
 ---
 
-# 📚 Referências públicas — Encontro 4 (2/2)
+# 🧭 Depois do curso — plano de 30 dias
+
+<div class="grid grid-cols-3 gap-3 text-xs mt-3">
+<div class="p-3 rounded-xl bg-green-500/10 border border-green-500/30"><b>Semana 1 · reproduzir</b><br>Refaça um exercício por encontro. Troque o domínio, não a arquitetura.</div>
+<div class="p-3 rounded-xl bg-cyan-500/10 border border-cyan-500/30"><b>Semana 2 · medir</b><br>Crie 20 casos de teste e rode toda mudança contra eles. Aprenda a ler traces.</div>
+<div class="p-3 rounded-xl bg-purple-500/10 border border-purple-500/30"><b>Semana 3 · integrar</b><br>Conecte uma API real ou servidor MCP. Adicione permissões e logs.</div>
+<div class="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30"><b>Semana 4 · publicar</b><br>Documente, grave uma demo curta e peça feedback de alguém que usaria o agente.</div>
+<div class="p-3 rounded-xl bg-red-500/10 border border-red-500/30"><b>Antipadrão</b><br>Trocar de framework toda semana. Framework muda; arquitetura, eval e observabilidade ficam.</div>
+<div class="p-3 rounded-xl bg-blue-500/10 border border-blue-500/30"><b>Métrica pessoal</b><br>Você evoluiu quando consegue explicar uma falha do agente sem “culpar o modelo”.</div>
+</div>
+
+---
+
+# 🧑‍💼 Trilhas de aprofundamento por perfil
+
+<div class="grid grid-cols-3 gap-3 text-xs mt-3">
+<div class="p-3 rounded-xl bg-green-500/10 border border-green-500/30"><b>Gestão / Produto</b><br>Mapeie processos repetitivos, defina ROI, crie política de HITL e aprenda a ler eval reports.</div>
+<div class="p-3 rounded-xl bg-purple-500/10 border border-purple-500/30"><b>Engenharia</b><br>Aprofunde LangGraph/Pydantic AI, MCP, sandboxing, tracing, deploy e testes automatizados.</div>
+<div class="p-3 rounded-xl bg-cyan-500/10 border border-cyan-500/30"><b>Dados / Analytics</b><br>Construa RAG sobre relatórios, text-to-SQL com guardrails, datasets de avaliação e dashboards de qualidade.</div>
+</div>
+
+<div class="mt-3 p-2 rounded-lg bg-amber-500/10 border border-amber-500/30 text-xs">📌 Estratégia prática: fundamentos em profundidade, ferramentas por necessidade, tendências por changelog/benchmark.</div>
+
+---
+
+# 🧰 Ecossistema AgentOps — a stack de produção
+
 <div class="grid grid-cols-2 gap-3 text-xs mt-3">
-<div class="p-3 rounded bg-green-500/10 border border-green-500/30"><b>Protocolos & SOTA</b><ul class="mt-1"><li>Google (2025) — <i>Announcing A2A Protocol</i> · <a href="https://developers.googleblog.com/en/a2a-a-new-era-of-agent-interoperability/">developers.googleblog.com</a></li><li>A2A Spec (Linux Foundation) · <a href="https://a2a-protocol.org/">a2a-protocol.org</a> · <a href="https://github.com/a2aproject/A2A">github.com/a2aproject/A2A</a></li><li>Anthropic (2024) — <i>Computer Use</i> · <a href="https://www.anthropic.com/news/3-5-models-and-computer-use">anthropic.com/news</a></li><li>Anthropic — <i>MCP</i> · <a href="https://modelcontextprotocol.io/">modelcontextprotocol.io</a></li></ul></div>
-<div class="p-3 rounded bg-amber-500/10 border border-amber-500/30"><b>Observabilidade & Produtos</b><ul class="mt-1"><li>LangSmith · <a href="https://docs.smith.langchain.com/">docs.smith.langchain.com</a></li><li>Langfuse (OSS) · <a href="https://langfuse.com/docs">langfuse.com/docs</a></li><li>Arize Phoenix (OSS) · <a href="https://docs.arize.com/phoenix">docs.arize.com/phoenix</a></li><li>Cursor · <a href="https://cursor.com/">cursor.com</a> · Claude Code · <a href="https://docs.anthropic.com/en/docs/claude-code">docs.anthropic.com/claude-code</a></li></ul></div>
-</div>
-<div class="mt-2 text-xs opacity-70">⚖️ Conteúdo de domínio público, uso exclusivamente educacional, sem endosso das marcas citadas.</div>
----
-
-# 4.12 Conselhos finais
-
-<v-clicks>
-
-<div class="p-4 rounded-xl bg-white/5 border border-white/10 mt-4">
-🧪 <b>Construa.</b> Ler sobre agentes não substitui construir um. Você só entende RAG quando ele falha pra você.
-</div>
-
-<div class="p-4 rounded-xl bg-white/5 border border-white/10">
-🔬 <b>Meça.</b> Sem eval set, você está iterando no escuro. 10 casos curados &gt; intuição.
-</div>
-
-<div class="p-4 rounded-xl bg-white/5 border border-white/10">
-🎚️ <b>Comece simples.</b> 80% dos casos "que precisam de agente" precisam só de um workflow com 2-3 chamadas LLM.
-</div>
-
-<div class="p-4 rounded-xl bg-white/5 border border-white/10">
-⏱️ <b>A área muda toda semana.</b> Aprenda os <b>fundamentos</b> (que mudam pouco) e <b>delegue</b> as tendências (que mudam muito).
-</div>
-
-<div class="p-4 rounded-xl bg-cyan-500/10 border border-cyan-500/30">
-🌟 <b>O melhor agente é o que resolve um problema real.</b> Não persiga benchmarks — persiga utilidade.
-</div>
-
-</v-clicks>
-
----
-
-# 📏 Da prova de conceito à produção — Last Mile
-
-<div class="text-xs mt-2">
-
-**MIT Module 6:** "Por que pilotos funcionam mas deploys falham?"
-
-</div>
-
-<div class="grid grid-cols-2 gap-3 text-xs mt-2">
-
-<div class="p-3 rounded-xl border border-red-500/30 bg-red-500/5">
-
-### ❌ Por que pilotos falham no deploy
-
-- Dados de teste ≠ dados reais
-- Sem monitoramento em produção
-- Usuários encontram edge cases
-- Resistência interna da equipe
-- Sem ownership claro (quem conserta?)
-
-</div>
-
-<div class="p-3 rounded-xl border border-green-500/30 bg-green-500/5">
-
-### ✅ Checklist para produção
-
-- [ ] Métricas definidas (latência, custo, qualidade)
-- [ ] Fallback humano configurado
-- [ ] Alertas para anomalias
-- [ ] Rollback em < 5 min
-- [ ] Documentação para on-call
-
-</div>
-
+<div class="p-3 rounded-xl bg-purple-500/10 border border-purple-500/30"><b>📊 Eval</b><br>Promptfoo, Braintrust, Ragas, DeepEval, OpenAI Evals. Pergunta: “piorou ou melhorou?”</div>
+<div class="p-3 rounded-xl bg-cyan-500/10 border border-cyan-500/30"><b>🔭 Observabilidade</b><br>LangSmith, Langfuse, Arize Phoenix, Helicone, Weave. Pergunta: “por que fez isso?”</div>
+<div class="p-3 rounded-xl bg-green-500/10 border border-green-500/30"><b>🛡️ Segurança</b><br>OWASP LLM Top 10, Lakera, Guardrails AI, NeMo Guardrails. Pergunta: “o que ele não pode fazer?”</div>
+<div class="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30"><b>⚙️ Integração</b><br>MCP, A2A, webhooks, filas, feature flags. Pergunta: “como conectar sem perder controle?”</div>
 </div>
 
 ---
 
-# ⚖️ Governance & Compliance
+# 🌐 Mercado 2026 — a história por trás dos nomes
 
-<div class="text-xs mt-2">
-
-| Regulação | Escopo | Impacto em agentes |
-|---|---|---|
-| **LGPD** (Brasil) | Dados pessoais | Consentimento antes de processar PII |
-| **GDPR** (EU) | Dados pessoais | Right to explanation, data minimization |
-| **EU AI Act** | Sistemas de IA | Classificação de risco, auditoria |
-| **HIPAA** (Saúde) | Dados médicos | Criptografia, access control |
-
+<div class="grid grid-cols-3 gap-3 text-xs mt-3">
+<div class="p-3 rounded-xl bg-purple-500/10 border border-purple-500/30"><b>1. Interface</b><br>Chat sozinho virou commodity. Valor migra para agentes dentro do fluxo de trabalho: IDE, CRM, help desk, ERP.</div>
+<div class="p-3 rounded-xl bg-cyan-500/10 border border-cyan-500/30"><b>2. Integração</b><br>O gargalo deixa de ser “modelo sabe responder?” e vira “ele acessa dados, permissões e sistemas certos?”</div>
+<div class="p-3 rounded-xl bg-green-500/10 border border-green-500/30"><b>3. Operação</b><br>Vencedores medem qualidade, custo, latência e falhas. AgentOps vira disciplina, não detalhe técnico.</div>
 </div>
 
-<div class="mt-3 text-xs">
-
-**Onde inserir guardrails (MIT Mod 7):**
-
-</div>
-
-<div class="grid grid-cols-3 gap-2 text-xs mt-1">
-<div class="p-2 rounded bg-cyan-500/10 text-center">📥 Input<br/>Validação + PII filter</div>
-<div class="p-2 rounded bg-purple-500/10 text-center">⚙️ Execução<br/>Sandboxing + limits</div>
-<div class="p-2 rounded bg-amber-500/10 text-center">📤 Output<br/>Toxicity + fact-check</div>
+<div class="mt-3 p-3 rounded-xl bg-blue-500/10 border border-blue-500/30 text-sm text-center">
+Leitura 2026: agentes deixam de ser “demo autônoma” e viram <b>camada operacional sobre sistemas existentes</b>.
 </div>
 
 ---
 
-# 🗺️ Roadmap estratégico — curto, médio, longo prazo
+# 💸 Onde o valor econômico aparece
 
-<div class="text-xs mt-2">Baseado no Capstone do MIT — como planejar adoção de agentes:</div>
-
-<div class="grid grid-cols-3 gap-3 text-xs mt-2">
-
-<div class="p-3 rounded-xl border border-green-500/30 bg-green-500/5">
-
-### 📅 0–3 meses
-
-- Identificar 1 processo repetitivo
-- PoC com agente single-task
-- Medir baseline vs agente
-- Budget: ~$50/mês (API)
-
-</div>
-
-<div class="p-3 rounded-xl border border-amber-500/30 bg-amber-500/5">
-
-### 📅 3–6 meses
-
-- Integrar com sistemas (MCP/APIs)
-- Adicionar HITL e monitoring
-- Expandir para 2-3 use cases
-- Definir KPIs claros
-
-</div>
-
-<div class="p-3 rounded-xl border border-purple-500/30 bg-purple-500/5">
-
-### 📅 6–12 meses
-
-- Multi-agent orquestrado
-- Governance framework
-- Self-improving (feedback loops)
-- Escalar para toda a equipe
-
-</div>
-
-</div>
-
-<div class="mt-2 p-2 rounded bg-cyan-500/10 border border-cyan-500/30 text-xs">
-🎓 <b>MIT Capstone:</b> Seu projeto final: desenhe um plano de integração de agentes para uma função de negócio real.
+<div class="grid grid-cols-2 gap-3 text-xs mt-3">
+<div class="p-3 rounded-xl bg-green-500/10 border border-green-500/30"><b>Automação de trabalho cognitivo</b><br>Suporte, análise, revisão, triagem e documentação. Métrica: horas economizadas com qualidade aceitável.</div>
+<div class="p-3 rounded-xl bg-cyan-500/10 border border-cyan-500/30"><b>Alavancagem de especialistas</b><br>Um especialista supervisiona muitos casos. Métrica: throughput por pessoa e taxa de escalonamento.</div>
+<div class="p-3 rounded-xl bg-purple-500/10 border border-purple-500/30"><b>Produto melhor</b><br>Software passa a fazer tarefas, não só mostrar telas. Métrica: tempo até resultado e retenção.</div>
+<div class="p-3 rounded-xl bg-red-500/10 border border-red-500/30"><b>Risco novo</b><br>Automação errada escala erro. Métrica: custo de falha, auditoria, rollback e intervenção humana.</div>
 </div>
 
 ---
 
-# 🧪 Exercícios Interativos — Encontro 4
+# 🔮 Tendências 2026–2027 — o que observar
 
-<div class="text-sm opacity-60 mt-4">Pratique guardrails, avaliação e debugging antes de fechar a disciplina.</div>
+<div class="grid grid-cols-2 gap-3 text-xs mt-3">
+<div class="p-3 rounded-xl bg-purple-500/10 border border-purple-500/30"><b>Test-time compute</b><br>Modelos gastam mais raciocínio quando a tarefa vale a pena. Pergunta: quando pagar por pensar mais?</div>
+<div class="p-3 rounded-xl bg-cyan-500/10 border border-cyan-500/30"><b>Computer use</b><br>Agentes usam software sem API. Promissor para legado; perigoso sem sandbox, replay e rollback.</div>
+<div class="p-3 rounded-xl bg-green-500/10 border border-green-500/30"><b>MCP/A2A</b><br>Padronização reduz custo de integração e viabiliza ecossistemas multi-agente.</div>
+<div class="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30"><b>Self-improvement controlado</b><br>Agentes aprendem com traces, mas melhorias precisam passar por eval antes de produção.</div>
+</div>
+
+---
+
+# ⚖️ Governance — não é slide jurídico, é requisito de produto
+
+<div class="grid grid-cols-2 gap-3 text-xs mt-3">
+<div class="p-3 rounded-xl bg-cyan-500/10 border border-cyan-500/30"><b>Dados</b><br>Minimize PII, registre consentimento, aplique retenção e controle quem pode ver traces.</div>
+<div class="p-3 rounded-xl bg-purple-500/10 border border-purple-500/30"><b>Ação</b><br>Separe ações reversíveis de irreversíveis. Pagamento, demissão, envio externo e deleção exigem aprovação.</div>
+<div class="p-3 rounded-xl bg-green-500/10 border border-green-500/30"><b>Explicabilidade</b><br>Guarde prompt, contexto, tools chamadas, fontes e decisão final. Sem trace não há auditoria.</div>
+<div class="p-3 rounded-xl bg-red-500/10 border border-red-500/30"><b>Responsabilidade</b><br>Defina owner, SLA, canal de incidente, rollback e critério para desligar o agente.</div>
+</div>
+
+---
+
+# 📏 Last mile — por que piloto bom falha no deploy
+
+<div class="grid grid-cols-2 gap-3 text-xs mt-3">
+<div class="p-3 rounded-xl bg-red-500/10 border border-red-500/30"><b>O piloto engana</b><br>Dados limpos, usuários amigáveis, baixo volume, sem adversários e sem pressão de SLA.</div>
+<div class="p-3 rounded-xl bg-green-500/10 border border-green-500/30"><b>Produção expõe</b><br>Inputs ambíguos, sistemas fora do ar, custos variáveis, ataques, edge cases e usuários impacientes.</div>
+</div>
+
+<div class="mt-3 p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 text-xs">
+Checklist mínimo: <b>eval set</b>, <b>trace</b>, <b>alerta</b>, <b>fallback humano</b>, <b>kill switch</b>, <b>rollback</b>, <b>owner</b>.
+</div>
+
+---
+
+# 🗺️ Roadmap estratégico — 0 a 12 meses
+
+<div class="grid grid-cols-3 gap-3 text-xs mt-3">
+<div class="p-3 rounded-xl bg-green-500/10 border border-green-500/30"><b>0–3 meses · aprender e provar</b><br>1 processo repetitivo · baseline humano · agente pequeno · 20 casos de eval · custo por execução.</div>
+<div class="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30"><b>3–6 meses · integrar e operar</b><br>MCP/APIs · HITL · tracing · dashboard · política de risco · playbook de incidentes.</div>
+<div class="p-3 rounded-xl bg-purple-500/10 border border-purple-500/30"><b>6–12 meses · escalar com governança</b><br>Catálogo de tools · reusable prompts · eval CI/CD · owners por domínio · revisão periódica.</div>
+</div>
+
+<div class="mt-3 p-2 rounded-lg bg-cyan-500/10 border border-cyan-500/30 text-xs">🎓 Capstone mental: escolha um processo real e desenhe como ele evolui por essas três fases.</div>
+
+---
+
+# 🧪 Exercícios Interativos — por que agora?
+
+<div class="grid grid-cols-3 gap-3 text-xs mt-4">
+<div class="p-3 rounded-xl bg-red-500/10 border border-red-500/30"><b>4.1 Guardrails</b><br>Transforma “não faça isso” em validação antes/depois da geração.</div>
+<div class="p-3 rounded-xl bg-cyan-500/10 border border-cyan-500/30"><b>4.2 Avaliação</b><br>Transforma opinião em métrica comparável entre versões.</div>
+<div class="p-3 rounded-xl bg-purple-500/10 border border-purple-500/30"><b>4.3 Tracing</b><br>Transforma comportamento invisível em sequência auditável.</div>
+</div>
+
+<div class="mt-4 p-3 rounded-xl bg-green-500/10 border border-green-500/30 text-sm text-center">Esses três exercícios são o kit mínimo para tirar um agente da demo.</div>
 
 ---
 
@@ -1213,13 +1152,80 @@ xychart-beta
 
 ---
 
-# 🔄 Recap — O que construímos no Encontro 4
+# 📚 Referências essenciais — falhas e avaliação
+
+<div class="grid grid-cols-2 gap-3 text-xs mt-3">
+<div class="p-3 rounded bg-purple-500/10 border border-purple-500/30"><b>Alucinações</b><ul class="mt-1"><li>Ji et al. (2023) — <i>Survey of Hallucination in NLG</i> · <a href="https://arxiv.org/abs/2202.03629">arXiv:2202.03629</a></li><li>Huang et al. (2023) — <i>Hallucination in LLMs: Survey</i> · <a href="https://arxiv.org/abs/2311.05232">arXiv:2311.05232</a></li><li>Dhuliawala et al. (2023) — <i>Chain-of-Verification</i> · <a href="https://arxiv.org/abs/2309.11495">arXiv:2309.11495</a></li><li>Manakul et al. (2023) — <i>SelfCheckGPT</i> · <a href="https://arxiv.org/abs/2303.08896">arXiv:2303.08896</a></li></ul></div>
+<div class="p-3 rounded bg-cyan-500/10 border border-cyan-500/30"><b>Avaliação</b><ul class="mt-1"><li>Zheng et al. (2023) — <i>MT-Bench & LLM-as-a-Judge</i> · <a href="https://arxiv.org/abs/2306.05685">arXiv:2306.05685</a></li><li>LMSYS Chatbot Arena · <a href="https://lmarena.ai/">lmarena.ai</a></li><li>Jimenez et al. (2024) — <i>SWE-bench</i> · <a href="https://arxiv.org/abs/2310.06770">arXiv:2310.06770</a></li><li>Mialon et al. (2023) — <i>GAIA Benchmark</i> · <a href="https://arxiv.org/abs/2311.12983">arXiv:2311.12983</a></li></ul></div>
+</div>
+
+---
+
+# 📚 Referências essenciais — operação e protocolos
+
+<div class="grid grid-cols-2 gap-3 text-xs mt-3">
+<div class="p-3 rounded bg-green-500/10 border border-green-500/30"><b>Protocolos & SOTA</b><ul class="mt-1"><li>Model Context Protocol · <a href="https://modelcontextprotocol.io/">modelcontextprotocol.io</a></li><li>Google A2A · <a href="https://a2a-protocol.org/">a2a-protocol.org</a></li><li>Anthropic Computer Use · <a href="https://www.anthropic.com/news/3-5-models-and-computer-use">anthropic.com/news</a></li><li>CodeMonkeys · AlphaEvolve · AI Scientist · GDPVal</li></ul></div>
+<div class="p-3 rounded bg-amber-500/10 border border-amber-500/30"><b>AgentOps</b><ul class="mt-1"><li>LangSmith · <a href="https://docs.smith.langchain.com/">docs.smith.langchain.com</a></li><li>Langfuse · <a href="https://langfuse.com/docs">langfuse.com/docs</a></li><li>Arize Phoenix · <a href="https://docs.arize.com/phoenix">docs.arize.com/phoenix</a></li><li>RAGAS · DeepEval · Promptfoo · Braintrust</li></ul></div>
+</div>
+<div class="mt-2 text-xs opacity-70">⚖️ Conteúdo de domínio público, uso exclusivamente educacional, sem endosso das marcas citadas.</div>
+
+---
+
+# 🧠 Conselhos finais — heurísticas de engenharia
+
+<div class="grid grid-cols-2 gap-3 text-xs mt-3">
+<div class="p-3 rounded-xl bg-purple-500/10 border border-purple-500/30"><b>Comece determinístico</b><br>Use código, regras e workflow antes de autonomia. Deixe LLM para ambiguidade e linguagem.</div>
+<div class="p-3 rounded-xl bg-cyan-500/10 border border-cyan-500/30"><b>Meça antes de otimizar</b><br>Sem eval set, toda melhoria é anedota. 10 casos bons valem mais que 100 prompts improvisados.</div>
+<div class="p-3 rounded-xl bg-green-500/10 border border-green-500/30"><b>Faça falhas baratas</b><br>Timeout, rollback, fallback humano e logs reduzem o custo de aprender em produção.</div>
+<div class="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30"><b>Construa para auditoria</b><br>Se você não consegue explicar uma decisão, ainda não tem um sistema pronto para usuário real.</div>
+</div>
+
+---
+
+# 🔄 Recap — o que você domina agora
 
 <div class="grid grid-cols-2 gap-3 text-xs">
-<div class="p-3 rounded-xl bg-red-500/10 border border-red-500/30"><b>🧯 Falhas reais</b><br>Alucinação, tool misuse, custo, latência, prompt injection, drift e dependência de sistemas externos.</div>
-<div class="p-3 rounded-xl bg-cyan-500/10 border border-cyan-500/30"><b>📏 Disciplina de avaliação</b><br>Eval sets, métricas, LLM-as-judge, benchmarks como SWE-bench/GAIA e regressão contínua.</div>
-<div class="p-3 rounded-xl bg-green-500/10 border border-green-500/30"><b>🔭 Operação</b><br>Tracing, observabilidade, guardrails, fallback humano, rollback e ownership claro.</div>
-<div class="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30"><b>🗺️ Estratégia</b><br>Agentes viraram produto e infraestrutura: escolha um problema real, comece pequeno, meça e escale com governança.</div>
+<div class="p-3 rounded-xl bg-purple-500/10 border border-purple-500/30"><b>🧠 Raciocínio</b><br>Prompting, CoT, planejamento, function calling e padrões agentic.</div>
+<div class="p-3 rounded-xl bg-cyan-500/10 border border-cyan-500/30"><b>🏗️ Arquitetura</b><br>Tools, RAG, memória, skills, MCP, A2A e multi-agentes.</div>
+<div class="p-3 rounded-xl bg-green-500/10 border border-green-500/30"><b>🛡️ Produção</b><br>Falhas, guardrails, evals, observabilidade, governança e last mile.</div>
+<div class="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30"><b>🌐 Mercado</b><br>Por que coding agents, research agents, enterprise copilots e computer use estão convergindo.</div>
+</div>
+
+---
+
+# 🗺️ A jornada completa — E1 a E4
+
+<div class="grid grid-cols-4 gap-2 text-xs mt-4">
+<div class="p-3 rounded-xl bg-purple-500/10 border border-purple-500/30 text-center"><b>E1</b><br>Fundamentos<br>ReAct<br>primeiras tools</div>
+<div class="p-3 rounded-xl bg-cyan-500/10 border border-cyan-500/30 text-center"><b>E2</b><br>Reasoning<br>planning<br>orquestração</div>
+<div class="p-3 rounded-xl bg-green-500/10 border border-green-500/30 text-center"><b>E3</b><br>Contexto<br>RAG<br>memória/MCP</div>
+<div class="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 text-center"><b>E4</b><br>Falhas<br>eval<br>produção</div>
+</div>
+
+<div class="mt-4 p-3 rounded-xl bg-blue-500/10 border border-blue-500/30 text-sm text-center">Você saiu de “chatbot que responde” para <b>sistema que percebe, decide, age, mede e melhora</b>.</div>
+
+---
+
+# 🔮 O futuro próximo — tese para levar
+
+<div class="grid grid-cols-2 gap-3 text-xs mt-3">
+<div class="p-3 rounded-xl bg-purple-500/10 border border-purple-500/30"><b>Agentes autônomos</b><br>Vão crescer onde erro é barato, ação é reversível e objetivo é mensurável.</div>
+<div class="p-3 rounded-xl bg-cyan-500/10 border border-cyan-500/30"><b>Agentes supervisionados</b><br>Vão dominar áreas reguladas: saúde, finanças, jurídico, RH e operações críticas.</div>
+<div class="p-3 rounded-xl bg-green-500/10 border border-green-500/30"><b>Software vira executor</b><br>Interfaces deixam de ser só telas e passam a ser delegação de tarefas.</div>
+<div class="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30"><b>Fundamentos vencem hype</b><br>Modelos mudam; decomposição, contexto, tools, eval e observabilidade continuam.</div>
+</div>
+
+---
+
+# 🚀 Capstone mental — escolha seu próximo agente
+
+<div class="grid grid-cols-3 gap-3 text-xs mt-3">
+<div class="p-3 rounded-xl bg-green-500/10 border border-green-500/30"><b>1. Dor real</b><br>Uma tarefa repetitiva, frequente, com input/output claros.</div>
+<div class="p-3 rounded-xl bg-cyan-500/10 border border-cyan-500/30"><b>2. Escopo pequeno</b><br>Uma decisão ou workflow. Evite “agente faz tudo”.</div>
+<div class="p-3 rounded-xl bg-purple-500/10 border border-purple-500/30"><b>3. Métrica</b><br>Tempo, qualidade, custo, taxa de escalonamento ou satisfação.</div>
+<div class="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30"><b>4. Risco</b><br>O que acontece se errar? Como detectar, interromper e recuperar?</div>
+<div class="p-3 rounded-xl bg-red-500/10 border border-red-500/30"><b>5. Integração</b><br>Quais dados/tools precisa? API, MCP, banco, arquivo, browser?</div>
+<div class="p-3 rounded-xl bg-blue-500/10 border border-blue-500/30"><b>6. Evidência</b><br>Quais 20 casos provariam que melhorou de verdade?</div>
 </div>
 
 ---
@@ -1227,17 +1233,14 @@ layout: center
 class: text-center
 ---
 
-# 🎓 Fim do Encontro 4
-## E da disciplina!
+# 🎓 Fim da disciplina
 
-<div class="text-xl mt-12 text-cyan-400 font-bold">
-Agora é com você.
+<div class="text-lg opacity-80 mt-6 max-w-2xl mx-auto">
+Em 12 horas, você saiu de <b>“o que é um agente?”</b> para projetar, implementar, avaliar e operar agentes de IA.
 </div>
 
-<div class="text-sm mt-4 opacity-60">
-Construa coisas. Quebre coisas. Compartilhe o que aprender.
-</div>
-
-<div class="text-2xl mt-12">
-🤖 Bem-vindo à era dos agentes.
-</div>
+<v-clicks>
+<div class="mt-8 text-xl text-cyan-400 font-bold">Agora é com você.</div>
+<div class="text-sm mt-4 opacity-70">Construa pequeno. Meça cedo. Faça falhas baratas. Compartilhe o que aprender.</div>
+<div class="text-2xl mt-10">🤖 Bem-vindo à era dos agentes.</div>
+</v-clicks>
