@@ -325,7 +325,7 @@ flowchart TB
 
 A ideia: depois de tentar uma tarefa, o agente **critica seu próprio output** e tenta de novo com a crítica no contexto.
 
-```mermaid {scale: 0.75}
+```mermaid {scale: 0.5}
 flowchart LR
   T[🎯 Tarefa] --> A[🤖 Tentativa 1]
   A --> E{Sucesso?}
@@ -480,7 +480,7 @@ Até agora vimos como o LLM <b>pensa</b>. Agora vamos ver como <b>organizar a ex
 
 # Padrão 1 · Prompt Chaining
 
-```mermaid {scale: 0.75}
+```mermaid {scale: 0.5}
 flowchart LR
   I[Input] --> L1[LLM 1<br/>extrai dados]
   L1 --> G{validação<br/>opcional}
@@ -503,7 +503,7 @@ flowchart LR
 
 # Padrão 2 · Routing
 
-```mermaid {scale: 0.75}
+```mermaid {scale: 0.5}
 flowchart TB
   I[Input] --> C[🔀 Classificador<br/>LLM pequeno/barato]
   C -- pergunta simples --> S[Modelo rápido<br/>Haiku/4o-mini]
@@ -588,7 +588,7 @@ flowchart TB
 
 # Padrão 5 · Evaluator-Optimizer
 
-```mermaid {scale: 0.75}
+```mermaid {scale: 0.5}
 flowchart LR
   I[Tarefa] --> G[Generator]
   G --> E[Evaluator]
@@ -632,7 +632,7 @@ flowchart TD
 
 ReAct decide **passo a passo**. Planning decide a **rota inteira** antes de começar.
 
-```mermaid {scale: 0.75}
+```mermaid {scale: 0.5}
 flowchart TB
   subgraph React["Estratégia: ReAct"]
     R1[Pensa 1 passo] --> R2[Age] --> R3[Observa] --> R1
@@ -910,7 +910,7 @@ def run_agent_fc(pergunta: str, max_steps: int = 6):
 
 # Parallel tool calls — exemplo visual
 
-```mermaid {scale: 0.8}
+```mermaid {scale: 0.5}
 sequenceDiagram
   participant U as Usuário
   participant L as LLM
@@ -943,24 +943,25 @@ LangChain é o framework mais popular para agentes em Python — com **prós e c
 
 ---
 
-# 🎯 Quadrante de frameworks — complexidade vs controle
-```mermaid {scale: 0.5}
-quadrantChart
-    title Frameworks de Agentes (2025)
-    x-axis "Menos controle" --> "Mais controle"
-    y-axis "Menos complexidade" --> "Mais complexidade"
-    quadrant-1 "Enterprise"
-    quadrant-2 "Pesquisa"
-    quadrant-3 "Protótipos"
-    quadrant-4 "Produção"
-    "OpenAI Assistants": [0.3, 0.2]
-    "LangChain": [0.5, 0.6]
-    "LangGraph": [0.75, 0.7]
-    "CrewAI": [0.4, 0.5]
-    "AutoGen": [0.6, 0.8]
-    "smolagents": [0.55, 0.3]
-    "Python puro": [0.9, 0.4]
-```
+# 🎯 Quando usar cada framework?
+
+<div class="text-xs mt-2">
+
+| Framework | Controle | Complexidade | Melhor para |
+|---|---|---|---|
+| **Python puro** | 🟢🟢🟢 Total | 🟡 Média | Agentes simples, aprendizado |
+| **OpenAI Agents SDK** | 🟢🟢 Alto | 🟢 Baixa | Protótipos rápidos, poucos tools |
+| **smolagents** | 🟢🟢 Alto | 🟢 Baixa | HuggingFace ecosystem |
+| **LangChain** | 🟡 Médio | 🟡 Média | RAG, chains complexas |
+| **LangGraph** | 🟢🟢🟢 Total | 🔴 Alta | Produção, HITL, multi-agent |
+| **CrewAI** | 🟡 Médio | 🟡 Média | Multi-agent colaborativo |
+| **AutoGen** | 🟡 Médio | 🔴 Alta | Pesquisa, conversas multi-agent |
+
+</div>
+
+<div class="mt-2 p-2 rounded bg-cyan-500/10 border border-cyan-500/30 text-xs">
+💡 <b>Regra prática:</b> comece com Python puro → migre para LangGraph quando precisar de checkpoints, HITL ou multi-agent.
+</div>
 
 ---
 
@@ -985,64 +986,101 @@ print(executor.invoke({"input": "Qual a capital do Brasil e quanto é 47*13?"}))
 
 ---
 
-# 2.9 LangGraph — state machines explícitas
+# 2.9 LangGraph — controle total com grafos de estado
 
-📅 Lançado pela LangChain em 2024 como **antídoto** ao excesso de abstração.
+LangChain criou o LangGraph em **2024** como resposta à principal crítica: "abstrai demais, não sei o que está acontecendo".
 
-**Ideia central:** seu agente é um **grafo de estados** que você desenha explicitamente.
+**Conceito:** seu agente é um **grafo dirigido** onde cada nó é uma função Python e cada aresta é uma condição.
 
-```mermaid {scale: 0.7}
+```mermaid {scale: 0.45}
 stateDiagram-v2
-  [*] --> Agent
-  Agent --> Tools: tool_calls
-  Tools --> Agent: results
-  Agent --> [*]: final answer
-  
-  state Agent {
-    [*] --> ThinkAct
-  }
-  
-  state Tools {
-    [*] --> Execute
-  }
+  [*] --> agent: entrada do usuário
+  agent --> tools: precisa de tool?
+  agent --> END: resposta pronta
+  tools --> agent: resultado da tool
 ```
 
-<div class="mt-4 text-sm">
-Cada nó é uma função Python. Você controla <b>quando</b> ir para onde. Suporta loops, branches, paralelismo, checkpoints, human-in-the-loop.
+<div class="mt-3 p-2 rounded bg-cyan-500/10 border border-cyan-500/30 text-xs">
+💡 Diferente do LangChain (loop implícito), aqui <b>você desenha o fluxo</b> — cada rota é explícita e debugável.
 </div>
 
 ---
 
-# LangGraph — código mínimo
-
-<div class="mb-2 p-2 rounded bg-sky-500/10 border border-sky-500/30 text-xs">📖 <b>Em palavras:</b> você desenha um nó <code>agent</code> e um nó <code>tools</code>; se houver <code>tool_call</code>, vai para tools, senão termina. É um fluxograma executável com estado.</div>
+# LangGraph — exemplo completo comentado
 
 ```python
+from langgraph.graph import StateGraph
+from langgraph.prebuilt import ToolNode, tools_condition
+from langgraph.graph.message import add_messages
+from langchain_openai import ChatOpenAI
 from typing import Annotated, TypedDict
-from langchain_openai import ChatOpenAI; from langgraph.graph import StateGraph
-from langgraph.graph.message import add_messages; from langgraph.prebuilt import ToolNode, tools_condition
-class State(TypedDict): messages: Annotated[list, add_messages]
-llm = ChatOpenAI(model="gpt-4o-mini").bind_tools([calculadora, busca])
-def agent_node(state: State): return {"messages": [llm.invoke(state["messages"])]}
-graph = StateGraph(State); graph.add_node("agent", agent_node)
-graph.add_node("tools", ToolNode([calculadora, busca])); graph.set_entry_point("agent")
-graph.add_conditional_edges("agent", tools_condition); graph.add_edge("tools", "agent")
+
+class State(TypedDict):
+    messages: Annotated[list, add_messages]
+
+llm = ChatOpenAI(model="gpt-4o-mini").bind_tools([calc, busca])
+
+def agent(state: State):
+    return {"messages": [llm.invoke(state["messages"])]}
+
+# Monta o grafo
+graph = StateGraph(State)
+graph.add_node("agent", agent)
+graph.add_node("tools", ToolNode([calc, busca]))
+graph.set_entry_point("agent")
+graph.add_conditional_edges("agent", tools_condition)
+graph.add_edge("tools", "agent")
+
 app = graph.compile()
-result = app.invoke({"messages": [("user", "Quanto é 17*23?")]})
-print(result["messages"][-1].content)
 ```
 
 ---
 
-# Por que LangGraph está dominando?
+# LangGraph — executando e observando
 
-<div class="grid grid-cols-2 gap-3 mt-3 text-xs">
-<div class="p-2 rounded-xl bg-white/5"><b>🔍 Visibilidade</b><br>Você desenha o fluxo; sem "mágica escondida".</div>
-<div class="p-2 rounded-xl bg-white/5"><b>⏸️ Checkpoints</b><br>Pausa, salva estado e retoma depois.</div>
-<div class="p-2 rounded-xl bg-white/5"><b>🧑‍💻 Human-in-the-loop</b><br>Aprovação humana antes de tools sensíveis.</div>
-<div class="p-2 rounded-xl bg-white/5"><b>🌊 Streaming</b><br>Tokens e eventos em tempo real para UI.</div>
-<div class="p-2 rounded-xl bg-white/5"><b>👥 Multi-agent</b><br>Vários nós = vários agentes especializados.</div>
-<div class="p-2 rounded-xl bg-white/5"><b>🚀 Produção</b><br>LangGraph Cloud + observabilidade via LangSmith.</div>
+```python
+# Executa
+result = app.invoke({
+    "messages": [("user", "Quanto custa um hotel em SP?")]
+})
+print(result["messages"][-1].content)
+
+# Streaming (token a token para UI)
+for event in app.stream({"messages": [("user", "...")]}):
+    print(event)  # mostra cada nó executado
+```
+
+<div class="mt-3 grid grid-cols-2 gap-3 text-xs">
+<div class="p-2 rounded bg-green-500/10 border border-green-500/30"><b>✅ Vantagem</b>: veja exatamente qual nó rodou, em que ordem, com que dados.</div>
+<div class="p-2 rounded bg-purple-500/10 border border-purple-500/30"><b>🔑 Killer feature</b>: checkpoints — pause, salve estado, retome depois (HITL).</div>
+</div>
+
+---
+
+# Por que LangGraph domina em produção (2025)?
+
+<div class="grid grid-cols-3 gap-3 mt-3 text-xs">
+<div class="p-3 rounded-xl bg-purple-500/10 border border-purple-500/30">
+<b>🔍 Transparência</b><br>Fluxo visível — sem mágica. Cada decisão é uma aresta no grafo.
+</div>
+<div class="p-3 rounded-xl bg-cyan-500/10 border border-cyan-500/30">
+<b>⏸️ Checkpoint + HITL</b><br>Pausa antes de ações sensíveis. Humano aprova e o agente continua.
+</div>
+<div class="p-3 rounded-xl bg-green-500/10 border border-green-500/30">
+<b>👥 Multi-agent nativo</b><br>Cada nó pode ser um agente diferente. Supervisor orquestra.
+</div>
+</div>
+
+<div class="mt-3 grid grid-cols-3 gap-3 text-xs">
+<div class="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30">
+<b>🌊 Streaming</b><br>Tokens e eventos em tempo real — essencial para UX.
+</div>
+<div class="p-3 rounded-xl bg-red-500/10 border border-red-500/30">
+<b>☁️ LangGraph Cloud</b><br>Deploy gerenciado + persistência + cron tasks.
+</div>
+<div class="p-3 rounded-xl bg-white/5 border border-white/10">
+<b>📊 LangSmith</b><br>Observabilidade integrada — traces, evals, custos.
+</div>
 </div>
 
 ---

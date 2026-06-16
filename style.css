@@ -1,1 +1,9 @@
-/* Nenhum estilo customizado — navegação controlada por frontmatter (navigation: false) */
+/* Esconder controles de navegação do Slidev sem afetar conteúdo dos slides */
+.slidev-nav,
+.slidev-controls,
+.slidev-navigation,
+.slidev-icon-btn {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
