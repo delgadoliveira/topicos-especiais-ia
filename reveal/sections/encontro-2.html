@@ -124,7 +124,7 @@ Vamos transformar o agente do Encontro 1 em um sistema que <b>decide melhor</b>,
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #172554 100%)">
-<h1>💰 Por que isso importa — o mercado em 2025</h1>
+<h1>💰 Por que isso importa — o mercado em 2026</h1>
 <div class="grid-2 stagger-in text-sm" style="gap:0.8rem;">
 <div class="card card-purple parallax-card"><b>$4.6B</b><br><span class="text-xs">Investimento em startups de AI Agents só em 2024 (Pitchbook). Cognition (Devin): $175M. Cursor: $400M valuation.</span></div>
 <div class="card card-cyan parallax-card"><b>36% das Fortune 500</b><br><span class="text-xs">Já têm pelo menos 1 agente em produção (McKinsey, Jan 2025). Maioria: atendimento, código, análise.</span></div>
@@ -136,26 +136,63 @@ Vamos transformar o agente do Encontro 1 em um sistema que <b>decide melhor</b>,
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
 <h1>🧭 Vocabulário do dia — termos-chave</h1>
-<p class="text-sm">Os conceitos novos que você vai encontrar. Uma frase cada — aprofundamos durante a aula:</p>
-<div class="stagger-in text-xs" style="display:grid; gap:0.4rem; margin-top:0.8rem;">
-<div class="card card-purple parallax-card" style="padding:0.5rem 0.8rem;">
-<b>🧠 Reasoning model</b> — modelo treinado para "pensar em voz alta" antes de responder. <i>Ex: o1, o3, DeepSeek R1.</i>
+<p class="text-sm">Os conceitos novos que você vai encontrar — uma frase cada. <span class="text-cyan">Clique em cada card</span> para ver <b>definição, exemplo e por que importa</b>:</p>
+<div class="grid-2 stagger-in text-xs" style="gap:0.6rem; margin-top:0.8rem;">
+
+<div class="card card-purple expandable parallax-card">
+<b>🧠 Reasoning model</b> — modelo treinado para "pensar em voz alta" antes de responder.
+<div class="card-detail">
+<p><b>O que é:</b> gasta tokens internos ("thinking") raciocinando antes da resposta final, em vez de responder no impulso.</p>
+<p class="detail-example"><b>Exemplo:</b> OpenAI o1/o3, DeepSeek R1, Claude extended thinking.</p>
+<p><b>Por que importa:</b> salto grande em matemática, código e planejamento — ao custo de mais tempo e tokens.</p>
 </div>
-<div class="card card-cyan parallax-card" style="padding:0.5rem 0.8rem;">
-<b>🪜 Chain-of-Thought (CoT)</b> — pedir explicitamente "explique passo a passo". Ganho de 20-40% em raciocínio.
 </div>
-<div class="card card-green parallax-card" style="padding:0.5rem 0.8rem;">
-<b>📋 Planning</b> — plano completo antes de executar. Como escrever o roteiro antes de filmar.
+
+<div class="card card-cyan expandable parallax-card">
+<b>🪜 Chain-of-Thought (CoT)</b> — pedir explicitamente "explique passo a passo".
+<div class="card-detail">
+<p><b>O que é:</b> instruir o modelo a verbalizar o raciocínio antes de dar a resposta final.</p>
+<p class="detail-example"><b>Exemplo:</b> adicionar "mostre seu raciocínio" a qualquer prompt.</p>
+<p><b>Por que importa:</b> +20-40% em tarefas de raciocínio, com custo quase zero (Wei et al., 2022).</p>
 </div>
-<div class="card card-amber parallax-card" style="padding:0.5rem 0.8rem;">
-<b>🔁 Reflexion</b> — agente critica a própria resposta e tenta de novo. Como reler antes de enviar.
 </div>
-<div class="card parallax-card" style="padding:0.5rem 0.8rem; background:rgba(244,114,182,0.08); border:1px solid rgba(244,114,182,0.28);">
-<b>📦 Structured output</b> — forçar resposta em formato fixo (JSON). Essencial para integrar com sistemas.
+
+<div class="card card-green expandable parallax-card">
+<b>📋 Planning</b> — plano completo antes de executar.
+<div class="card-detail">
+<p><b>O que é:</b> criar uma lista explícita de passos e dependências antes de agir. Como o roteiro antes de filmar.</p>
+<p class="detail-example"><b>Exemplo:</b> Devin e Copilot Workspace mostram o plano antes de codar.</p>
+<p><b>Por que importa:</b> reduz loops e erros caros — e o humano pode revisar antes.</p>
 </div>
-<div class="card card-cyan parallax-card" style="padding:0.5rem 0.8rem;">
-<b>🛠️ Function Calling</b> — o modelo retorna qual função chamar + args tipados (não texto livre).
 </div>
+
+<div class="card card-amber expandable parallax-card">
+<b>🔁 Reflexion</b> — agente critica a própria resposta e tenta de novo.
+<div class="card-detail">
+<p><b>O que é:</b> tentar → avaliar (rodar testes, ler erros) → criticar a própria solução → tentar de novo com a crítica no contexto.</p>
+<p class="detail-example"><b>Exemplo:</b> Cursor roda <code>pytest</code>, lê o traceback e corrige sozinho.</p>
+<p><b>Por que importa:</b> +20-30% em benchmarks de código (HumanEval), sem retreinar nada.</p>
+</div>
+</div>
+
+<div class="card expandable parallax-card" style="background:rgba(244,114,182,0.08); border:1px solid rgba(244,114,182,0.28);">
+<b>📦 Structured output</b> — forçar a resposta em formato fixo (JSON).
+<div class="card-detail">
+<p><b>O que é:</b> obrigar o modelo a responder num esquema validável por código (JSON Schema / response_format).</p>
+<p class="detail-example"><b>Exemplo:</b> extrair <code>{nome, valor, data}</code> de um e-mail de forma confiável.</p>
+<p><b>Por que importa:</b> sem formato fixo, a integração com sistemas quebra a cada resposta.</p>
+</div>
+</div>
+
+<div class="card card-cyan expandable parallax-card">
+<b>🛠️ Function Calling</b> — o modelo retorna qual função chamar + args tipados.
+<div class="card-detail">
+<p><b>O que é:</b> em vez de texto livre, o modelo devolve <code>tool_calls</code> estruturados que seu código executa.</p>
+<p class="detail-example"><b>Exemplo:</b> APIs da OpenAI/Anthropic com o campo <code>tools</code> — base de quase todo agente.</p>
+<p><b>Por que importa:</b> transforma intenção em ação executável e auditável.</p>
+</div>
+</div>
+
 </div>
 </section>
 
@@ -340,19 +377,19 @@ R:"""</code></pre>
 <p class="slide-in-left">📄 <b>Wang et al., 2022</b><br>A ideia: gere <b>N respostas</b> com temperatura > 0 e use <b>votação majoritária</b>.</p>
 
 <div style="margin-top:1rem; text-align:center;">
-<div class="flow-node node-purple" style="display:inline-block; margin-bottom:0.5rem;">📝 Mesma pergunta</div>
-<div class="text-xs" style="margin:0.3rem 0;">↙ ↓ ↘</div>
-<div style="display:grid; grid-template-columns:repeat(5,1fr); gap:0.4rem; margin:0.5rem 0;">
+<div class="flow-node node-purple" style="display:inline-block;">📝 Mesma pergunta</div>
+<div class="text-xs" style="margin:0.4rem 0; opacity:0.75;">▼ &nbsp;gera N trilhas independentes (temperatura &gt; 0)</div>
+<div style="display:grid; grid-template-columns:repeat(5,1fr); gap:0.4rem; margin:0.4rem 0;">
 <div class="card card-purple" style="padding:0.4rem; text-align:center; font-size:0.65em;"><b>Run 1</b><br>R: 9</div>
 <div class="card card-purple" style="padding:0.4rem; text-align:center; font-size:0.65em;"><b>Run 2</b><br>R: 9</div>
-<div class="card card-purple" style="padding:0.4rem; text-align:center; font-size:0.65em;"><b>Run 3</b><br>R: 11</div>
+<div class="card" style="padding:0.4rem; text-align:center; font-size:0.65em; opacity:0.5; background:rgba(248,113,113,0.1); border:1px solid rgba(248,113,113,0.3);"><b>Run 3</b><br>R: 11</div>
 <div class="card card-purple" style="padding:0.4rem; text-align:center; font-size:0.65em;"><b>Run 4</b><br>R: 9</div>
 <div class="card card-purple" style="padding:0.4rem; text-align:center; font-size:0.65em;"><b>Run 5</b><br>R: 9</div>
 </div>
-<div class="text-xs" style="margin:0.3rem 0;">↘ ↓ ↙</div>
-<div class="flow-node node-amber" style="display:inline-block; margin:0.3rem;">🗳️ Voto: 4× "9" vs 1× "11"</div>
-<div class="text-xs" style="margin:0.2rem 0;">↓</div>
-<div class="flow-node node-green" style="display:inline-block;">✅ Resposta: 9</div>
+<div class="text-xs" style="margin:0.4rem 0; opacity:0.75;">▼ &nbsp;votação majoritária</div>
+<div class="flow-node node-amber" style="display:inline-block;">🗳️ 4× "9" &nbsp;vs&nbsp; 1× "11"</div>
+<div class="text-xs" style="margin:0.3rem 0; opacity:0.75;">▼</div>
+<div class="flow-node node-green" style="display:inline-block;">✅ Resposta final: 9</div>
 </div>
 
 <div class="grid-2 text-xs" style="gap:0.5rem; margin-top:0.8rem;">
@@ -366,30 +403,30 @@ R:"""</code></pre>
 <p class="slide-in-left">📄 <b>Yao et al., 2023</b><br>Em vez de uma única cadeia, <b>explore múltiplas ramificações</b>, avalie e poda as ruins.</p>
 
 <div style="margin-top:0.8rem; text-align:center; font-size:0.7em;">
-<div class="flow-node node-purple" style="display:inline-block; margin-bottom:0.3rem;">🎯 Problema</div>
-<div style="margin:0.3rem 0;">↙ &nbsp;&nbsp;&nbsp; ↓ &nbsp;&nbsp;&nbsp; ↘</div>
-<div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:0.5rem;">
+<div class="flow-node node-purple" style="display:inline-block;">🎯 Problema</div>
+<div class="text-xs" style="margin:0.35rem 0; opacity:0.75;">▼ &nbsp;ramifica em múltiplos "pensamentos"</div>
+<div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:0.6rem; align-items:start;">
 <div>
 <div class="card card-green" style="padding:0.4rem; text-align:center;"><b>Thought A</b></div>
-<div style="margin:0.2rem 0;">↙ &nbsp; ↘</div>
+<div style="margin:0.25rem 0; opacity:0.6;">▼ expande</div>
 <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.3rem;">
-<div class="card card-green" style="padding:0.3rem; text-align:center; font-size:0.85em;">A.1 ✅<br><span style="opacity:0.7;">score: 8/10</span></div>
-<div class="card" style="padding:0.3rem; text-align:center; font-size:0.85em; opacity:0.5;">A.2<br><span>score: 5/10</span></div>
+<div class="card card-green" style="padding:0.3rem; text-align:center; font-size:0.85em;">A.1 ✅<br><span style="opacity:0.7;">8/10</span></div>
+<div class="card" style="padding:0.3rem; text-align:center; font-size:0.85em; opacity:0.5;">A.2<br><span>5/10</span></div>
 </div>
 </div>
 <div>
 <div class="card" style="padding:0.4rem; text-align:center; background:rgba(248,113,113,0.1); border:1px solid rgba(248,113,113,0.3);"><b>Thought B</b></div>
-<div style="margin:0.2rem 0;">↓</div>
-<div class="card" style="padding:0.3rem; text-align:center; font-size:0.85em; background:rgba(248,113,113,0.1); border:1px solid rgba(248,113,113,0.3);">B.1 ❌ podado<br><span style="opacity:0.7;">score: 2/10</span></div>
+<div style="margin:0.25rem 0; opacity:0.6;">▼</div>
+<div class="card" style="padding:0.3rem; text-align:center; font-size:0.85em; background:rgba(248,113,113,0.1); border:1px solid rgba(248,113,113,0.3);">B.1 ❌ podado<br><span style="opacity:0.7;">2/10</span></div>
 </div>
 <div>
 <div class="card card-cyan" style="padding:0.4rem; text-align:center;"><b>Thought C</b></div>
-<div style="margin:0.2rem 0;">↓</div>
-<div class="card card-cyan" style="padding:0.3rem; text-align:center; font-size:0.85em;">C.1<br><span style="opacity:0.7;">score: 7/10</span></div>
+<div style="margin:0.25rem 0; opacity:0.6;">▼</div>
+<div class="card card-cyan" style="padding:0.3rem; text-align:center; font-size:0.85em;">C.1<br><span style="opacity:0.7;">7/10</span></div>
 </div>
 </div>
-<div style="margin-top:0.4rem;">↓ melhor caminho</div>
-<div class="flow-node node-green" style="display:inline-block; margin-top:0.2rem;">🏆 A.1 vence (score 8/10)</div>
+<div class="text-xs" style="margin:0.4rem 0; opacity:0.75;">▼ &nbsp;escolhe o melhor caminho</div>
+<div class="flow-node node-green" style="display:inline-block;">🏆 A.1 vence (8/10)</div>
 </div>
 
 <div class="grid-2 text-xs" style="gap:0.5rem; margin-top:0.7rem;">
@@ -408,20 +445,23 @@ R:"""</code></pre>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #1f2937 100%)">
 <h1>📈 Reasoning melhora resultados — evidência</h1>
-<div class="typewriter-js text-center text-sm text-cyan animate-shimmer" data-text="Acurácia com e sem Chain-of-Thought (%)"></div><div class="stagger-in" style="display:grid; grid-template-columns: repeat(5, 1fr); gap:0.7rem; margin-top:1rem;"><div class="card card-cyan parallax-card text-center"><div class="text-sm"><b>GSM8K</b></div><div class="mt-1 text-red">Sem CoT: 56%</div><div class="text-green">Com CoT: 78%</div><div class="mt-1 text-xs opacity-70">Δ +22 pts</div></div><div class="card card-cyan parallax-card text-center"><div class="text-sm"><b>MATH</b></div><div class="mt-1 text-red">Sem CoT: 34%</div><div class="text-green">Com CoT: 58%</div><div class="mt-1 text-xs opacity-70">Δ +24 pts</div></div><div class="card card-cyan parallax-card text-center"><div class="text-sm"><b>MMLU</b></div><div class="mt-1 text-red">Sem CoT: 70%</div><div class="text-green">Com CoT: 82%</div><div class="mt-1 text-xs opacity-70">Δ +12 pts</div></div><div class="card card-cyan parallax-card text-center"><div class="text-sm"><b>ARC</b></div><div class="mt-1 text-red">Sem CoT: 75%</div><div class="text-green">Com CoT: 88%</div><div class="mt-1 text-xs opacity-70">Δ +13 pts</div></div><div class="card card-cyan parallax-card text-center"><div class="text-sm"><b>StrategyQA</b></div><div class="mt-1 text-red">Sem CoT: 65%</div><div class="text-green">Com CoT: 81%</div><div class="mt-1 text-xs opacity-70">Δ +16 pts</div></div></div>
+<div class="typewriter-js text-center text-sm text-cyan animate-shimmer" data-text="Acurácia com e sem Chain-of-Thought (%)"></div><div class="stagger-in" style="display:grid; grid-template-columns: repeat(5, 1fr); gap:0.7rem; margin-top:1rem;"><div class="card card-cyan parallax-card text-center"><div class="text-sm"><b>GSM8K</b></div><div class="text-xs opacity-70">matemática escolar</div><div class="mt-1 text-red">Sem CoT: 56%</div><div class="text-green">Com CoT: 78%</div><div class="mt-1 text-xs opacity-70">Δ +22 pts</div></div><div class="card card-cyan parallax-card text-center"><div class="text-sm"><b>MATH</b></div><div class="text-xs opacity-70">matemática de competição</div><div class="mt-1 text-red">Sem CoT: 34%</div><div class="text-green">Com CoT: 58%</div><div class="mt-1 text-xs opacity-70">Δ +24 pts</div></div><div class="card card-cyan parallax-card text-center"><div class="text-sm"><b>MMLU</b></div><div class="text-xs opacity-70">57 disciplinas gerais</div><div class="mt-1 text-red">Sem CoT: 70%</div><div class="text-green">Com CoT: 82%</div><div class="mt-1 text-xs opacity-70">Δ +12 pts</div></div><div class="card card-cyan parallax-card text-center"><div class="text-sm"><b>ARC</b></div><div class="text-xs opacity-70">ciência escolar c/ raciocínio</div><div class="mt-1 text-red">Sem CoT: 75%</div><div class="text-green">Com CoT: 88%</div><div class="mt-1 text-xs opacity-70">Δ +13 pts</div></div><div class="card card-cyan parallax-card text-center"><div class="text-sm"><b>StrategyQA</b></div><div class="text-xs opacity-70">raciocínio implícito multi-passo</div><div class="mt-1 text-red">Sem CoT: 65%</div><div class="text-green">Com CoT: 81%</div><div class="mt-1 text-xs opacity-70">Δ +16 pts</div></div></div>
 <div class="mt-2 text-xs text-center opacity-70">🟥 Sem CoT &nbsp;&nbsp; 🟩 Com CoT — dados ilustrativos do efeito de Chain-of-Thought (cf. Wei et al., 2022)</div>
 <div class="card mt-2 text-sm card-cyan parallax-card">💡 CoT dá ganhos de <b>+15 a +25 pontos percentuais</b> em tarefas de raciocínio.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
 <h1>🧠 Reasoning Models — o paradigma novo (2024+)</h1>
-<p class="slide-in-left">📅 OpenAI <b>o1</b> (set/2024), <b>o3</b> (dez/2024), DeepSeek <b>R1</b> (jan/2025), Anthropic <b>extended thinking</b> (2025).</p>
-<div class="card mt-3 text-sm text-center card-cyan parallax-card">Em vez de "pensar via prompt", o modelo é <b>treinado via RL</b> para <b>pensar muito antes de responder</b> — gerando milhares de tokens internos invisíveis.</div>
-<div class="stagger-in grid-2 text-xs" style="margin-top: 1.5rem; gap: 0.8rem;">
-<div class="card card-purple parallax-card"><b>Modelos clássicos</b><br>Reasoning emergente via prompt (CoT). Latência típica: ~1s.</div>
-<div class="card card-green parallax-card"><b>Reasoning models</b><br>Reasoning treinado; o modelo "pensa" 5–60s; matemática/código podem ganhar <b>+30–50%</b>.</div>
+<p class="slide-in-left text-sm">📅 OpenAI <b>o1</b> (set/2024, 1º reasoning model) → <b>o3</b> (dez/2024 anunciado, recordes em ARC-AGI e matemática) → DeepSeek <b>R1</b> (jan/2025, pesos abertos) → Anthropic <b>extended thinking</b> (2025).</p>
+<div class="card mt-2 text-xs text-center card-cyan parallax-card">Em vez de "pensar via prompt", o modelo é <b>treinado via RL</b> para <b>pensar muito antes de responder</b> — gerando milhares de tokens internos invisíveis.</div>
+<div class="stagger-in grid-2 text-xs" style="margin-top: 0.8rem; gap: 0.7rem;">
+<div class="card card-purple parallax-card"><b>Modelos clássicos</b><br>Reasoning emergente via prompt (CoT). Latência típica ~1s.</div>
+<div class="card card-green parallax-card"><b>Reasoning models</b><br>Reasoning treinado; o modelo "pensa" 5–60s; matemática/código ganham <b>+30–50%</b>.</div>
 </div>
-<div class="card mt-3 text-xs card-amber parallax-card">⚠️ <b>Trade-offs:</b> 5–10× mais caro e 10–100× mais lento. Use para matemática, prova de teoremas, código complexo e planning multi-step — não para chat casual.</div>
+<div class="grid-2 text-xs" style="margin-top: 0.7rem; gap: 0.7rem;">
+<div class="card card-amber parallax-card"><b>📰 O choque de mercado (jan/2025)</b><br>A DeepSeek lançou o <b>R1 com pesos abertos (MIT)</b>, igualando o o1 em AIME/MATH a um custo de API <b>~95% menor</b> (US$ 0,55 vs 15 por milhão de tokens de entrada). Resultado: a <b>Nvidia caiu ~17% num único dia</b> (~US$ 600 bi, a maior perda diária da história) e surgiram <b>500+ derivados</b> no Hugging Face em poucos dias.</div>
+<div class="card card-red parallax-card"><b>⚠️ Trade-offs</b><br>5–10× mais caro e 10–100× mais lento que um LLM comum. Use para matemática, prova de teoremas, código complexo e planning multi-step — <b>não</b> para chat casual.</div>
+</div>
 </section>
 
 <!-- ═══════════════════════════════════════════════════════════════
@@ -430,11 +470,23 @@ R:"""</code></pre>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #0f766e 100%)">
 <h1>🧠 Reasoning Avançado — além do CoT</h1>
-<p class="slide-in-left" style="opacity:0.8; margin-bottom:1rem;">Até aqui: CoT, Self-Consistency e ToT ensinam o agente a <b>pensar melhor</b>.<br>Agora: 3 técnicas que levam o raciocínio ao próximo nível.</p>
-<div class="grid-3 stagger-in text-sm" style="gap:0.7rem;">
-<div class="card card-purple parallax-card"><b>🪞 Self-Reflection</b><br><span class="text-xs">O agente critica seu próprio output e corrige antes de entregar.</span></div>
-<div class="card card-cyan parallax-card"><b>💭 Reasoning Models</b><br><span class="text-xs">Modelos que "pensam" internamente antes de responder (o1, R1).</span></div>
-<div class="card card-green parallax-card"><b>📐 Structured Outputs</b><br><span class="text-xs">Garantir que a resposta saia num formato que código consiga usar.</span></div>
+<p class="slide-in-left text-sm" style="opacity:0.8; margin-bottom:0.8rem;">Até aqui: CoT, Self-Consistency e ToT ensinam o agente a <b>pensar melhor</b>.<br>Agora: 3 técnicas que levam o raciocínio ao próximo nível.</p>
+<div class="grid-3 stagger-in text-xs" style="gap:0.7rem;">
+<div class="card card-purple parallax-card">
+<b>🪞 Self-Reflection</b>
+<div class="mt-1">O agente gera uma resposta, <b>critica o próprio resultado</b> (lê erros, roda testes) e tenta de novo com a crítica no contexto — sem retreinar nada.</div>
+<div class="mt-1 opacity-70">🎯 Resolve: erro na 1ª tentativa<br>📈 +20–30% em código (HumanEval)<br>🏢 Cursor, Devin, Claude Code</div>
+</div>
+<div class="card card-cyan parallax-card">
+<b>💭 Reasoning Models</b>
+<div class="mt-1">Modelos <b>treinados via RL</b> para "pensar" milhares de tokens internos antes de responder — o raciocínio deixa de depender do prompt.</div>
+<div class="mt-1 opacity-70">🎯 Resolve: raciocínio raso<br>📈 +30–50% em matemática/código<br>🏢 o1, o3, DeepSeek R1</div>
+</div>
+<div class="card card-green parallax-card">
+<b>📐 Structured Outputs</b>
+<div class="mt-1">Forçar a saída num <b>esquema fixo (JSON Schema)</b> que o código valida e consome — sem parser frágil quebrando a cada resposta.</div>
+<div class="mt-1 opacity-70">🎯 Resolve: output que quebra integração<br>🛠️ response_format, function calling<br>🏢 base de quase todo agente</div>
+</div>
 </div>
 <div class="tip-box mt-2 text-xs">🎯 <b>O fio condutor:</b> cada técnica resolve uma falha real — respostas erradas na primeira tentativa, raciocínio raso, ou outputs que quebram parsers.</div>
 </section>
@@ -522,24 +574,26 @@ print(ticket.prioridade, ticket.requer_resposta_imediata)  # 5 True</code></pre>
 
 <section data-background-gradient="linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)">
 <h1>🏗️ Pensamos bem — agora, como organizar a execução?</h1>
-<p class="slide-in-left" style="opacity:0.8; margin-bottom:1rem;">Até aqui, o foco foi <b>qualidade do raciocínio</b>. O próximo passo é decidir <b>como o trabalho circula</b> entre prompts, tools e verificadores.</p>
-<div class="grid-3 stagger-in text-sm" style="gap:0.7rem;">
-<div class="card card-purple parallax-card"><b>Pergunta nova</b><br><span class="text-xs">Quem faz o quê? Em que ordem? Em paralelo ou não?</span></div>
-<div class="card card-cyan parallax-card"><b>Ponto central</b><br><span class="text-xs">A maior parte dos agentes úteis é só boa <b>orquestração</b>.</span></div>
-<div class="card card-green parallax-card"><b>Mapa da seção</b><br><span class="text-xs">5 padrões → árvore de decisão → planning.</span></div>
+<p class="slide-in-left text-sm" style="opacity:0.85; margin-bottom:0.8rem;">Até aqui, o foco foi <b>qualidade do raciocínio</b> (CoT, ToT, Reflexion). Mas um agente real não é só "pensar bem" — é <b>coordenar</b> prompts, tools, verificadores e até outros agentes na ordem certa.</p>
+<div class="grid-3 stagger-in text-xs" style="gap:0.7rem;">
+<div class="card card-purple parallax-card"><b>❓ A pergunta nova</b><br>Quem faz o quê, e em que ordem? O que roda em paralelo? Onde colocar checagens? Quando parar?</div>
+<div class="card card-cyan parallax-card"><b>💡 O ponto central</b><br>A maior parte dos agentes úteis <b>não usa modelos mais espertos</b> — usa <b>orquestração melhor</b>. Ex.: um fluxo de suporte que classifica → busca → responde → valida supera um único prompt gigante.</div>
+<div class="card card-green parallax-card"><b>🗺️ Mapa da seção</b><br>1) Os <b>5 padrões</b> canônicos (Anthropic 2024) → 2) <b>árvore de decisão</b> de qual usar → 3) <b>Planning</b> e plan-and-execute.</div>
 </div>
-<div class="tip-box mt-2 text-xs">Ideia-chave: antes de “autonomia”, vem <b>arquitetura de execução</b>.</div>
+<div class="card card-amber parallax-card text-xs mt-2"><b>🍳 Analogia:</b> reasoning é saber cozinhar bem <b>um prato</b>; orquestração é gerir a <b>cozinha inteira</b> de um restaurante — quem corta, quem frita, em que ordem, o que sai junto e quem confere o prato antes de servir.</div>
+<div class="tip-box mt-2 text-xs">Ideia-chave: antes de "autonomia", vem <b>arquitetura de execução</b>. Autonomia sem estrutura vira caos imprevisível.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e293b 100%)">
 <h1>Os 5 padrões agentic — visão geral</h1>
-<div class="grid-2 stagger-in text-sm" style="gap:0.7rem;">
-<div class="card card-purple parallax-card"><b>1. ⛓️ Prompt Chaining</b><br><span class="text-xs">Passos fixos e sequenciais.</span></div>
-<div class="card card-cyan parallax-card"><b>2. 🔀 Routing</b><br><span class="text-xs">Escolhe a rota certa para cada tipo de entrada.</span></div>
-<div class="card card-green parallax-card"><b>3. ⚡ Parallelization</b><br><span class="text-xs">Explora independência para ganhar tempo ou robustez.</span></div>
-<div class="card card-amber parallax-card"><b>4. 🧑‍💼 Orchestrator-Workers</b><br><span class="text-xs">Decompõe dinamicamente e delega.</span></div>
-<div class="card card-red parallax-card"><b>5. 🪞 Evaluator-Optimizer</b><br><span class="text-xs">Gera, critica e melhora em loop.</span></div>
-<div class="card card-cyan parallax-card"><b>Regra prática</b><br><span class="text-xs">Quase todo agente real combina <b>2 ou 3</b> desses padrões.</span></div>
+<p class="slide-in-left text-xs" style="opacity:0.8; margin-bottom:0.7rem;">Catalogados pela Anthropic em <b>"Building Effective Agents" (dez/2024)</b>. Vão do mais simples e previsível (1) ao mais autônomo (5). Veremos cada um em detalhe a seguir.</p>
+<div class="grid-2 stagger-in text-xs" style="gap:0.6rem;">
+<div class="card card-purple parallax-card"><b>1. ⛓️ Prompt Chaining</b><br>Passos fixos e sequenciais; a saída de um vira a entrada do próximo.<br><span class="opacity-70">📌 Ex.: extrair → traduzir → resumir → formatar um documento.</span></div>
+<div class="card card-cyan parallax-card"><b>2. 🔀 Routing</b><br>Um classificador escolhe a rota certa para cada tipo de entrada.<br><span class="opacity-70">📌 Ex.: suporte que manda "reembolso", "bug" e "dúvida" a fluxos diferentes.</span></div>
+<div class="card card-green parallax-card"><b>3. ⚡ Parallelization</b><br>Roda subtarefas independentes ao mesmo tempo (ou vota entre versões).<br><span class="opacity-70">📌 Ex.: revisar um PR checando segurança, estilo e testes em paralelo.</span></div>
+<div class="card card-amber parallax-card"><b>4. 🧑‍💼 Orchestrator-Workers</b><br>Um "gerente" decompõe a tarefa dinamicamente e delega a workers.<br><span class="opacity-70">📌 Ex.: agente de pesquisa que abre N buscas e sintetiza os achados.</span></div>
+<div class="card card-red parallax-card"><b>5. 🪞 Evaluator-Optimizer</b><br>Um gera, outro critica; repete em loop até passar no critério.<br><span class="opacity-70">📌 Ex.: escrever código → rodar testes → corrigir até ficar verde.</span></div>
+<div class="card card-cyan parallax-card"><b>📐 Regra prática</b><br>Quase todo agente real <b>combina 2–3</b> desses padrões. Comece pelo mais simples que resolve; só adicione autonomia quando precisar.</div>
 </div>
 </section>
 
