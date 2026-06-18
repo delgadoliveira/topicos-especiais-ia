@@ -1092,11 +1092,21 @@ print(json.loads(resp.choices[0].message.content))</code></pre>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #0f766e 100%)">
 <h1>O que mudou em relação ao ReAct manual?</h1>
+<p class="slide-in-left text-xs" style="opacity:0.85; margin-bottom:0.7rem;">No ReAct manual, o LLM <b>escrevia a ação em texto livre</b> e o seu código tinha que <b>ler com regex</b>. O <b>Function Calling</b> (OpenAI, jun/2023) transformou isso num <b>contrato nativo</b> do modelo.</p>
 <div class="stagger-in grid-2 text-xs" style="gap:0.8rem;">
-<div class="compare-col bad" style="background: rgba(248, 113, 113, 0.08); border: 1px solid rgba(248, 113, 113, 0.28);"><b>Antes</b><div class="mt-1">❌ parsing de texto<br>❌ argumentos soltos<br>❌ ferramenta inventada quebra fluxo<br>❌ normalmente 1 tool por vez</div></div>
-<div class="compare-col good"><b>Agora</b><div class="mt-1">✅ contrato estruturado<br>✅ argumentos tipados<br>✅ lista explícita de tools<br>✅ múltiplas chamadas na mesma resposta</div></div>
+<div class="compare-col bad" style="background: rgba(248, 113, 113, 0.08); border: 1px solid rgba(248, 113, 113, 0.28);"><b>Antes — ReAct manual</b>
+<pre style="margin:0.4rem 0; font-size:0.8em;"><code class="language-text">Thought: preciso do preço
+Action: buscar_voo("GRU","JFK")</code></pre>
+<div>Seu código faz <b>regex</b> p/ extrair nome + args.</div>
+<div class="mt-1">❌ parsing de texto frágil<br>❌ argumentos soltos, sem tipo<br>❌ pode inventar tool inexistente<br>❌ normalmente 1 tool por vez</div></div>
+<div class="compare-col good"><b>Agora — Function Calling</b>
+<pre style="margin:0.4rem 0; font-size:0.8em;"><code class="language-json">tool_calls: [{ name: "buscar_voo",
+  args: {origem:"GRU", destino:"JFK"} }]</code></pre>
+<div>Validado contra um <b>JSON Schema</b> pelo runtime.</div>
+<div class="mt-1">✅ contrato estruturado<br>✅ argumentos tipados<br>✅ só chama tools registradas<br>✅ várias chamadas na mesma resposta</div></div>
 </div>
-<div class="insight-box mt-2 text-xs">Function Calling troca “convenção textual” por <b>API orientada a contratos</b>.</div>
+<div class="card card-cyan parallax-card text-xs mt-2"><b>🌍 No mundo real:</b> a OpenAI lançou Function Calling em jun/2023; <b>Anthropic</b> (tool use) e <b>Google</b> (Gemini) seguiram. É o que faz o <b>ChatGPT consultar sua agenda</b>, o <b>Zapier AI</b> disparar ações e copilotos lerem <b>CRM/banco de dados</b> — tudo via contrato de tool, não texto solto.</div>
+<div class="insight-box mt-2 text-xs">Function Calling troca "convenção textual" por <b>API orientada a contratos</b> — confiável o bastante para rodar em produção.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #172554 100%)">
@@ -1126,12 +1136,14 @@ print(json.loads(resp.choices[0].message.content))</code></pre>
 
 <section data-background-gradient="linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)">
 <h1>🏭 Do artesanal para produção</h1>
-<p class="slide-in-left" style="opacity:0.8; margin-bottom:1rem;">Já temos raciocínio, planning e tool use. O problema agora não é “conseguir fazer uma demo”; é <b>manter o sistema compreensível, observável e confiável</b>.</p>
-<div class="grid-3 stagger-in text-sm" style="gap:0.7rem;">
-<div class="card card-purple parallax-card"><b>Protótipo</b><br><span class="text-xs">Python puro e poucas tools.</span></div>
-<div class="card card-cyan parallax-card"><b>Escala</b><br><span class="text-xs">Mais estados, mais logs, mais exceções.</span></div>
-<div class="card card-green parallax-card"><b>Resposta da indústria</b><br><span class="text-xs">Frameworks e grafos explícitos.</span></div>
+<p class="slide-in-left text-sm" style="opacity:0.85; margin-bottom:0.8rem;">Já temos raciocínio, planning e tool use. O problema agora não é "conseguir fazer uma demo" — é <b>manter o sistema compreensível, observável e confiável</b> quando ele encontra o mundo real.</p>
+<div class="grid-3 stagger-in text-xs" style="gap:0.7rem;">
+<div class="card card-purple parallax-card"><b>🧪 Protótipo</b><br>Python puro, 2–3 tools, um loop <code>while</code>. Roda no notebook e impressiona na demo.<br><span class="opacity-70">📌 Hackathon, POC interno, script pessoal.</span></div>
+<div class="card card-red parallax-card"><b>📈 O que quebra na escala</b><br>10+ tools, múltiplos estados, APIs que falham de forma intermitente, prompts gigantes e <b>custo descontrolado</b>. E o pior: difícil saber <b>onde</b> o agente errou.</div>
+<div class="card card-green parallax-card"><b>🏗️ Resposta da indústria</b><br>Frameworks com <b>grafos explícitos</b> (LangGraph), observabilidade, retries e guardrails. O fluxo vira um <b>diagrama versionável</b>, não um script frágil.</div>
 </div>
+<div class="card card-cyan parallax-card text-xs mt-2"><b>🌍 Virar produção, na prática, significa:</b> 📊 <b>observabilidade</b> (rastrear cada passo, tool e custo — ex.: LangSmith) · 🔁 <b>retries e timeouts</b> · 🛡️ <b>guardrails</b> (validar output, limitar ações) · 🧪 <b>avaliação contínua</b> (eval datasets) · 💸 <b>controle de custo/latência</b>. Ferramentas comuns: LangGraph, CrewAI, AutoGen, Pydantic AI.</div>
+<div class="tip-box mt-2 text-xs">A passagem do artesanal para produção é menos sobre "modelo mais esperto" e mais sobre <b>engenharia: estrutura, visibilidade e tolerância a falhas</b>.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e293b 100%)">
