@@ -1828,6 +1828,30 @@ Pergunta → [pensa] → [testa hipótese] → [verifica] → [revisa] → Respo
 </div>
 </section>
 
+<section data-background-gradient="linear-gradient(135deg, #111827 0%, #4c1d95 100%)">
+<h1>🔍 O que é "pensar", na prática? — passo a passo</h1>
+<p class="text-sm" style="margin-bottom:0.6rem;">O "pensamento" não é mágica: são <b>tokens que o modelo gera para si mesmo</b> antes da resposta final. Cada etapa abaixo tem um papel — veja num caso onde a intuição erra:</p>
+<div class="grid-2" style="gap:1rem; align-items:start;">
+<div class="agent-trace text-xs">
+<div class="trace-line"><span class="trace-user">Pergunta</span> Um bastão e uma bola custam R$1,10. O bastão custa R$1,00 a mais que a bola. Quanto custa a bola?</div>
+<div class="trace-line"><span class="trace-thought">① Decompõe</span> bola = x · bastão = x + 1,00 · soma = 1,10.</div>
+<div class="trace-line"><span class="trace-thought">② Testa hipótese</span> A intuição grita "0,10". Vou conferir antes de cravar.</div>
+<div class="trace-line"><span class="trace-obs">③ Verifica</span> Se bola=0,10 → bastão=1,10 → soma=1,20 ✗ (deveria dar 1,10).</div>
+<div class="trace-line"><span class="trace-thought">④ Revisa (backtrack)</span> A hipótese furou. Resolvo a equação: 2x + 1 = 1,10 → x = 0,05.</div>
+<div class="trace-line"><span class="trace-obs">⑤ Verifica de novo</span> bola 0,05 + bastão 1,05 = 1,10 ✓.</div>
+<div class="trace-line"><span class="trace-result">Resposta</span> A bola custa R$0,05.</div>
+</div>
+<div class="stagger-in text-xs" style="display:flex; flex-direction:column; gap:0.4rem;">
+<div class="card card-purple parallax-card"><b>① Decompõe</b> — reescreve o problema em sub-passos e nomeia o objetivo e as variáveis ("primeiro eu preciso de…").</div>
+<div class="card card-cyan parallax-card"><b>② Testa hipótese</b> — propõe uma solução candidata; ainda <b>não</b> é a resposta final, é só um palpite a validar.</div>
+<div class="card card-amber parallax-card"><b>③ Verifica</b> — substitui o candidato de volta no enunciado e procura contradição (recalcula, confere unidades, limites).</div>
+<div class="card card-green parallax-card"><b>④ Revisa / backtrack</b> — se a verificação falha, <b>descarta o caminho</b> e tenta outro. Era exatamente isto que o modelo tradicional não fazia: cravava o primeiro palpite.</div>
+<div class="card card-red parallax-card"><b>⑤ Conclui</b> — só entrega a resposta quando a verificação passa.</div>
+</div>
+</div>
+<div class="tip-box text-xs" style="margin-top:0.6rem;">🧾 Esses tokens de raciocínio (①–⑤) ficam <b>ocultos</b> na maioria das APIs — você vê só a resposta, mas <b>paga por eles como tokens de saída</b>. É por isso que "pensar mais" custa mais tempo e dinheiro: é o test-time compute em ação.</div>
+</section>
+
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #1f2937 100%)">
 <h1>Reasoning models: o cérebro do planner</h1>
 <div class="card card-blue text-sm" style="margin-bottom:0.8rem;">A pergunta certa não é “usar reasoning model em tudo?”. É: <b>em qual momento do agente vale pagar para pensar mais?</b></div>
@@ -1943,6 +1967,37 @@ Pergunta → [pensa] → [testa hipótese] → [verifica] → [revisa] → Respo
 <div class="tip-box text-xs" style="margin-top:0.6rem;">📖 <b>Fontes:</b> OpenAI Pricing History (2022-2025); SWE-bench Leaderboard (swebench.com); GAIA Benchmark, Mialon et al. 2023.</div>
 </section>
 
+<section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #7c2d12 100%)">
+<h1>🤔 Mas se ficou barato, por que limitar créditos?</h1>
+<p class="text-sm" style="margin-bottom:0.5rem;">O paradoxo de 2025-26: o preço <b>por token</b> caiu, mas as empresas voltaram a impor <b>cotas de créditos por funcionário</b>. Não é contradição — caíram coisas diferentes:</p>
+<div class="grid-2" style="gap:1rem; align-items:start;">
+<div class="card card-red parallax-card" style="padding:0.8rem;">
+<h3 style="margin:0 0 0.4rem; font-size:0.9em;">📉 Caiu o preço <u>por token</u>…</h3>
+<p class="text-xs" style="opacity:0.85;">US$ 20 → US$ 0,15 por 1M tokens. Uma única pergunta-resposta ficou quase de graça.</p>
+</div>
+<div class="card card-amber parallax-card" style="padding:0.8rem;">
+<h3 style="margin:0 0 0.4rem; font-size:0.9em;">📈 …mas explodiu o consumo <u>por tarefa</u></h3>
+<ul class="text-xs" style="padding-left:1.2em; line-height:1.5; margin:0;">
+<li><b>Reasoning / test-time compute:</b> o modelo "pensa" milhares de tokens antes de responder (vimos isso há 2 slides).</li>
+<li><b>Loops agênticos:</b> 1 tarefa = dezenas de chamadas, tools, retries e replanejamento.</li>
+<li><b>Context grande:</b> RAG, históricos e arquivos inflam os input tokens de cada chamada.</li>
+<li><b>Modelos premium:</b> o3 / Claude Opus custam <b>15-40×</b> o mini — e são os usados no ponto crítico.</li>
+</ul>
+</div>
+</div>
+<div class="grid-2" style="gap:1rem; margin-top:0.6rem; align-items:start;">
+<div class="card card-purple parallax-card" style="padding:0.8rem;">
+<h3 style="margin:0 0 0.3rem; font-size:0.85em;">🔁 Paradoxo de Jevons</h3>
+<p class="text-xs" style="opacity:0.85; margin:0;">Quando algo fica barato <b>e</b> útil, o uso dispara. O custo <b>por unidade</b> cai, mas o custo <b>agregado</b> da empresa sobe — porque agora todo mundo usa o tempo inteiro.</p>
+</div>
+<div class="card card-green parallax-card" style="padding:0.8rem;">
+<h3 style="margin:0 0 0.3rem; font-size:0.85em;">🛡️ Resposta corporativa</h3>
+<p class="text-xs" style="opacity:0.85; margin:0;">Cotas/créditos por pessoa · <b>roteamento</b> (modelo barato p/ tarefa simples, caro só no impasse) · budgets por equipe · observabilidade de custo. É o padrão <b>"planner caro + executor barato"</b> virando política de TI.</p>
+</div>
+</div>
+<div class="insight-box text-xs" style="margin-top:0.6rem;">💡 <b>Lição-chave:</b> barato <b>por token</b> ≠ barato <b>por resultado</b>. A queda do preço não eliminou o custo — ela <b>mudou o jogo</b> de "posso pagar por uma chamada?" para "como controlo o custo de milhões de chamadas?". Engenharia de custo virou disciplina.</div>
+</section>
+
 <section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
 <h1>💰 O business case, na prática — casos reais</h1>
 <p class="text-sm">Não é teoria — empresas já medem ROI concreto de agentes em produção:</p>
@@ -1971,6 +2026,59 @@ Pergunta → [pensa] → [testa hipótese] → [verifica] → [revisa] → Respo
 <div class="insight-box text-xs" style="margin-top:0.6rem;">📊 <b>Gartner (Oct 2024):</b> até 2028, 33% do software empresarial incluirá IA agêntica (&lt;1% em 2024). Mercado projetado em $65B até 2030 (MarketsAndMarkets).</div>
 </section>
 
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%)">
+<h1>⚖️ Produtividade × Emprego — a grande questão</h1>
+<p class="text-sm" style="margin-bottom:0.5rem;">O mesmo agente que multiplica produtividade também automatiza tarefas humanas. Os números de 2025 apontam para os <b>dois lados ao mesmo tempo</b>:</p>
+<div class="grid-3 text-xs" style="gap:0.7rem; margin-bottom:0.6rem;">
+<div class="card card-cyan parallax-card"><b>📈 WEF (2025)</b><br>Até 2030: <b>+170M</b> empregos criados, <b>−92M</b> deslocados → saldo líquido <b>+78M</b>. A maior transformação do trabalho desde a Revolução Industrial.</div>
+<div class="card card-purple parallax-card"><b>💹 Goldman Sachs</b><br><b>+15%</b> de produtividade do trabalho quando totalmente adotada; ~<b>6-7%</b> dos empregos nos EUA deslocados (até 14% em adoção ampla). ~300M de empregos globais expostos.</div>
+<div class="card card-amber parallax-card"><b>🌍 FMI (2024)</b><br><b>40%</b> dos empregos no mundo expostos à IA — <b>60%</b> em economias avançadas. Risco de <b>ampliar a desigualdade</b> se faltar política pública.</div>
+</div>
+<div class="grid-2" style="gap:1rem; align-items:start;">
+<div class="card card-green parallax-card" style="padding:0.8rem;">
+<h3 style="margin:0 0 0.3rem; font-size:0.9em;">✅ A favor (prós)</h3>
+<ul class="text-xs" style="padding-left:1.2em; line-height:1.5; margin:0;">
+<li>Ganhos reais de produtividade já medidos: suporte <b>+14%</b> (Brynjolfsson et al., 2023), devs <b>+55%</b> de velocidade (GitHub Copilot).</li>
+<li>Elimina o trabalho repetitivo (<i>drudge work</i>) e libera tempo para o criativo e estratégico.</li>
+<li>Cria <b>novos papéis</b>: AI engineering, supervisão de agentes, dados, ética, infra.</li>
+<li>Democratiza capacidades antes caras (jurídico, análise, código) para pequenas empresas.</li>
+</ul>
+</div>
+<div class="card card-red parallax-card" style="padding:0.8rem;">
+<h3 style="margin:0 0 0.3rem; font-size:0.9em;">⚠️ Contra (riscos)</h3>
+<ul class="text-xs" style="padding-left:1.2em; line-height:1.5; margin:0;">
+<li>Deslocamento <b>rápido</b> de cargos de entrada (white-collar júnior: jurídico, finanças, consultoria, suporte).</li>
+<li><b>Desigualdade:</b> retorno vai mais ao capital que ao trabalho; economias avançadas largam na frente.</li>
+<li><b>Skills gap:</b> os novos empregos exigem qualificação alta — requalificação não acompanha o ritmo.</li>
+<li>Concentração de poder em poucas empresas donas dos modelos.</li>
+</ul>
+</div>
+</div>
+<div class="tip-box text-xs" style="margin-top:0.5rem;">🧭 <b>Consenso provável:</b> não é "fim do trabalho", é <b>recomposição</b> — quem domina IA substitui quem não domina. O desafio é a <b>velocidade</b> da transição vs. a velocidade da requalificação.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
+<h1>🗣️ O que dizem líderes, tecnologistas e governos</h1>
+<p class="text-sm" style="margin-bottom:0.5rem;">As previsões variam do alarme à euforia — útil para o aluno calibrar o próprio ceticismo:</p>
+<div class="grid-2" style="gap:1rem; align-items:start;">
+<div style="display:flex; flex-direction:column; gap:0.4rem;">
+<h3 style="margin:0; font-size:0.85em;">🔧 Tecnologistas</h3>
+<div class="card card-red parallax-card text-xs"><b>Dario Amodei</b> · CEO Anthropic<br>"A IA pode eliminar <b>metade dos empregos white-collar de entrada</b> e levar o desemprego a 10-20% em 1-5 anos." <span style="opacity:0.7;">(Axios, 2025 — o mais alarmista)</span></div>
+<div class="card card-green parallax-card text-xs"><b>Jensen Huang</b> · CEO NVIDIA<br>"A IA <b>não</b> vai tomar seu emprego — quem <b>usa</b> IA vai." <span style="opacity:0.7;">(visão de aumento, não substituição)</span></div>
+<div class="card card-cyan parallax-card text-xs"><b>Sam Altman</b> · CEO OpenAI<br>"Alguns empregos vão sumir, muitos novos vão surgir; as pessoas farão coisas mais criativas." <span style="opacity:0.7;">(transição rápida exige planejamento)</span></div>
+<div class="card card-amber parallax-card text-xs"><b>Geoffrey Hinton</b> · "padrinho da IA"<br>"Vai tirar muito trabalho braçal, mas tende a <b>ampliar a desigualdade</b> — e muitos perderão o emprego."</div>
+</div>
+<div style="display:flex; flex-direction:column; gap:0.4rem;">
+<h3 style="margin:0; font-size:0.85em;">🏛️ Políticos &amp; instituições</h3>
+<div class="card card-purple parallax-card text-xs"><b>Bernie Sanders</b> · Senador (EUA)<br>Os ganhos de produtividade da IA deveriam virar <b>semana de 32h sem corte de salário</b> — beneficiar o trabalhador, não só o lucro.</div>
+<div class="card card-amber parallax-card text-xs"><b>Kristalina Georgieva</b> · Diretora do FMI<br>"A IA afeta <b>~40% dos empregos</b> no mundo (60% nas economias avançadas). Pode aprofundar a desigualdade sem política adequada."</div>
+<div class="card card-cyan parallax-card text-xs"><b>Fórum Econômico Mundial</b><br>Saldo de <b>+78M</b> empregos até 2030, <b>condicionado</b> a requalificação massiva da força de trabalho.</div>
+<div class="card card-green parallax-card text-xs"><b>Elon Musk</b> · Tesla / xAI<br>"Vai chegar um ponto em que <b>ninguém precisará trabalhar</b>" → defende "renda universal alta". <span style="opacity:0.7;">(cenário de longo prazo)</span></div>
+</div>
+</div>
+<div class="insight-box text-xs" style="margin-top:0.5rem;">📖 <b>Fontes:</b> Amodei (Axios, 2025) · Huang/Altman (keynotes e entrevistas) · Hinton (entrevistas, 2023-24) · Sanders (proposta de 2024) · FMI (Georgieva, jan/2024; WP/25/76) · WEF Future of Jobs 2025 · Goldman Sachs Research (2025).</div>
+</section>
+
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
 <h1>🇨🇳 Case study: como DeepSeek mudou o jogo</h1>
 <p class="text-sm">Em janeiro de 2025, a DeepSeek (startup chinesa) lançou modelos que rivalizavam com GPT-4o a uma fração do custo. Como?</p>
@@ -1997,6 +2105,14 @@ Pergunta → [pensa] → [testa hipótese] → [verifica] → [revisa] → Respo
 </div>
 </div>
 <div class="tip-box text-xs" style="margin-top:0.5rem;">💡 <b>Implicação para o mercado:</b> "é preciso bilhões para competir" deixou de ser verdade. Startups com boas ideias arquiteturais podem rivalizar com labs de $10B. Isso acelera a commoditização do modelo base — o valor migra para orquestração, dados e tooling.</div>
+<div class="card card-cyan parallax-card text-xs" style="margin-top:0.5rem;"><b>🏦 "O governo chinês bancou por trás?" — o debate (e a verdade muda com o tempo)</b>
+<div class="grid-3 mt-2" style="gap:0.5rem;">
+<div class="card card-green" style="padding:0.5rem;"><b>Argumento do "NÃO"</b><br>Na origem (V3/R1, 2024-25) <b>não houve investimento estatal direto</b>. Foi autofinanciada pela <b>High-Flyer</b>, o fundo quant de Liang Wenfeng — daí o número de ~$5.6M.</div>
+<div class="card card-amber" style="padding:0.5rem;"><b>Apoio indireto (sempre existiu)</b><br>Status de <b>"Empresa Nacional de Alta Tecnologia"</b> (benefícios fiscais), infra de estatais (Inspur/Sugon) e fundos provinciais (SASAC) com fatias minoritárias.</div>
+<div class="card card-red" style="padding:0.5rem;"><b>Virada explícita (jun/2026)</b><br>Rodada de <b>~$7.4B</b> liderada pelo <b>fundo estatal de IA / "Big Fund"</b> — o único investidor com direito a voto. DeepSeek vira "<b>campeã nacional</b>" de fato.</div>
+</div>
+<div style="margin-top:0.4rem;">⚖️ <b>Conclusão honesta:</b> "financiada secretamente pelo Estado desde o início" é <b>exagero</b> — começou privada. Mas "hoje é estatalmente apoiada" é <b>fato</b>. O Estado entrou pesado <i>depois</i> do choque, não antes. <span style="opacity:0.7;">(Fontes: American Security Project 2025; Forbes/TechTimes jun/2026.)</span></div>
+</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #1f2937 100%)">
