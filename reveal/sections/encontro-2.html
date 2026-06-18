@@ -782,11 +782,22 @@ print(ticket.prioridade, ticket.requer_resposta_imediata)  # 5 True</code></pre>
 
 <section data-background-gradient="linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)">
 <h1>Plan-and-Execute vs ReWOO</h1>
+<p class="slide-in-left text-xs" style="opacity:0.85; margin-bottom:0.7rem;">Ambos quebram a tarefa em um <b>plano</b>. A diferença central é <b>quando o LLM vê os resultados das tools</b> — e isso muda custo, velocidade e capacidade de adaptação.</p>
 <div class="grid-2 stagger-in text-xs" style="gap:0.8rem;">
-<div class="card card-purple parallax-card"><b>🗺️ Plan-and-Execute</b><br><span class="opacity-80">Planeja, executa, observa e corrige a rota.</span><div class="mt-2">Melhor quando o ambiente muda ou a etapa seguinte depende da anterior.</div></div>
-<div class="card card-cyan parallax-card"><b>🔀 ReWOO</b><br><span class="opacity-80">Planeja as evidências antes de chamar tools.</span><div class="mt-2">Melhor quando várias consultas podem ser preparadas e rodadas em paralelo.</div></div>
+<div class="card card-purple parallax-card"><b>🗺️ Plan-and-Execute</b>
+<div class="mt-1">🔄 <b>Como funciona:</b> planeja → executa 1 passo → <b>vê o resultado</b> → replaneja. O LLM volta ao loop a cada etapa.</div>
+<div class="mt-1">📞 <b>Chamadas ao LLM:</b> muitas (1 por passo + replan).</div>
+<div class="mt-1">💸 <b>Custo/tokens:</b> alto — o contexto cresce a cada observação.</div>
+<div class="mt-1">🛠️ <b>Adapta a imprevistos:</b> <b>sim</b> — corrige a rota ao ver erros ou dados novos.</div>
+<div class="mt-1">✅ <b>Melhor para:</b> passos com dependência, ambiente que muda, erro provável.</div></div>
+<div class="card card-cyan parallax-card"><b>🔀 ReWOO</b> <span class="opacity-70">(Reasoning WithOut Observation)</span>
+<div class="mt-1">🔄 <b>Como funciona:</b> planeja <b>todos</b> os passos de uma vez com variáveis (#E1, #E2…), <b>sem ver</b> resultados intermediários. Um <b>Worker</b> roda as tools; um <b>Solver</b> junta tudo no fim.</div>
+<div class="mt-1">📞 <b>Chamadas ao LLM:</b> poucas (1 plano + 1 solver).</div>
+<div class="mt-1">💸 <b>Custo/tokens:</b> baixo — não reenvia o contexto a cada passo (~5× menos tokens no paper).</div>
+<div class="mt-1">🛠️ <b>Adapta a imprevistos:</b> <b>não</b> — o plano é fixo; se uma tool falha, não há replanejamento.</div>
+<div class="mt-1">✅ <b>Melhor para:</b> coletas independentes/paralelizáveis, cenários sensíveis a custo e latência.</div></div>
 </div>
-<div class="tip-box mt-2 text-xs">Em uma frase: Plan-and-Execute lida melhor com <b>dependência</b>; ReWOO, com <b>coleta paralela</b>.</div>
+<div class="tip-box mt-2 text-xs">Em uma frase: o planner do <b>Plan-and-Execute observa e se adapta</b>; o do <b>ReWOO é "cego"</b> — planeja tudo antes e troca adaptação por <b>menos custo e mais paralelismo</b>.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #064e3b 100%)">
