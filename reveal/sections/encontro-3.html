@@ -213,6 +213,7 @@ O agente do Encontro 2 já raciocina e usa tools. Hoje ele aprende a <b>lembrar<
 </div>
 <div class="tip-box mt-2 text-xs">📌 <b>Conexão com RAG:</b> o objetivo não é "enfiar tudo no contexto" — é <b>selecionar a evidência certa e posicioná-la bem</b>.</div>
 <div class="mt-1 text-xs opacity-70">📚 Liu et al. (2023) — <i>"Lost in the Middle: How Language Models Use Long Contexts"</i></div>
+<div class="tip-box mt-1 text-xs">🧪 <b>No caso condutor:</b> se jogarmos todos os slides + artigos + dúvidas antigas do aluno no prompt, a evidência crítica cai justamente no "meio esquecido". Por isso selecionamos e reposicionamos.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
@@ -373,6 +374,7 @@ print(f&quot;Resumo: {resultado[0][&#x27;content&#x27;]}&quot;)</code></pre>
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #172554 100%)">
 <h1>3.3 RAG — Retrieval-Augmented Generation</h1>
 <p class="text-sm">A ideia central: em vez de confiar só na "memória" do modelo, <b>busque</b> trechos relevantes de uma base externa e <b>injete</b> no prompt antes de responder.</p>
+<div class="tip-box text-xs">🧪 <b>No caso condutor:</b> é assim que o assistente acadêmico responde "com base nos slides e artigos" — ele recupera os trechos certos e cita a fonte, em vez de inventar.</div>
 
 <div class="grid-2 mt-2 text-xs">
   <div class="card card-red">
@@ -547,7 +549,7 @@ print(resultado[&quot;answer&quot;])</code></pre>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
-<h1>RAG_TECHNIQUES · o mapa mental</h1>
+<h1>RAG Techniques · o mapa mental</h1>
 <p class="text-xs" style="opacity:0.8; margin-bottom:0.6rem;">Baseado em <a href="https://github.com/NirDiamant/RAG_TECHNIQUES" style="color:#8b5cf6;">NirDiamant/RAG_TECHNIQUES</a>: coleção pública com 42+ notebooks de RAG, do básico a arquiteturas avançadas.</p>
 <div class="grid-3 stagger-in text-xs" style="gap:0.5rem;">
 <div class="card card-green"><b>🌱 Fundamentos</b><br>Simple RAG, CSV RAG, chunk size, proposition chunking.</div>
@@ -1120,7 +1122,7 @@ chain_stuff = load_summarize_chain(llm, chain_type=&quot;stuff&quot;)</code></pr
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
-<h1>🧠 Além do RAG: memória como arquitetura</h1>
+<h1>🧠 3.5 Além do RAG: memória como arquitetura</h1>
 <div class="card card-cyan mt-3 text-center"><b>RAG</b> responde “o que sei nos documentos?”<br><b>Memória</b> responde “o que este agente precisa carregar ao longo do tempo?”</div>
 <div class="grid-3 mt-3 text-sm">
 <div class="card card-purple"><b>Chatbots pessoais</b><br>ChatGPT Memory, Claude Projects e Copilot lembram preferências, projetos e histórico.</div>
@@ -1128,6 +1130,7 @@ chain_stuff = load_summarize_chain(llm, chain_type=&quot;stuff&quot;)</code></pr
 <div class="card card-amber"><b>Enterprise agents</b><br>Copilot, Glean, Notion AI e ServiceNow combinam documentos, identidade e políticas.</div>
 </div>
 <div class="card card-amber mt-3 text-sm">📌 <b>Por que virou diferencial de produto:</b> memória reduz repetição, personaliza respostas e dá continuidade entre sessões — o usuário sente que o agente "lembra" dele.</div>
+<div class="tip-box mt-2 text-xs">🧪 <b>No caso condutor:</b> é a memória que faz o assistente lembrar as "dúvidas anteriores" e as preferências do aluno entre uma aula e outra — sem ele repetir tudo.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
@@ -1421,6 +1424,7 @@ Lista oficial: <a href="https://github.com/modelcontextprotocol/servers">github.
 <section data-background-gradient="linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)">
 <h1>3.8 Padrões multi-agente</h1>
 <div class="card card-red text-xs mb-2"><b>🚨 Quando um agente não basta:</b> Cursor tentou um único agente para "review + edit + test + deploy". Resultado: contexto estourava, qualidade caía após 10 passos. Solução: supervisor + workers especializados. Cada worker foca em 1 skill com contexto limpo.</div>
+<div class="tip-box text-xs mb-2">🧪 <b>No caso condutor:</b> "explique RAG + cite fontes + sugira exercícios" são três skills distintas — um supervisor delega cada uma a um worker com contexto limpo, em vez de um agente sobrecarregado.</div>
 
 <div class="grid-3 mt-2">
   <div class="card card-purple">

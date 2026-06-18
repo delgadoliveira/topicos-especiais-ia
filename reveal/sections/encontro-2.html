@@ -5,7 +5,7 @@
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%)">
-<h1>💭 Recap — onde paramos no Encontro 1</h1>
+<h1>🔄 Recap — onde paramos no Encontro 1</h1>
 <p class="text-sm">Você construiu um agente funcional com ReAct. Ele percebe, decide e age. <b>Mas...</b></p>
 
 <div class="agent-trace text-xs" style="margin:1rem 0;">
@@ -93,7 +93,7 @@ Vamos transformar o agente do Encontro 1 em um sistema que <b>decide melhor</b>,
 
 <div class="flow-diagram" style="margin-top:0.8rem;">
 <div class="flow-node node-purple">Pensar melhor</div>
-<div class="flow-arrow">→</div>
+<div class="flow-arrow">+</div>
 <div class="flow-node node-cyan">Agir com precisão</div>
 <div class="flow-arrow">=</div>
 <div class="flow-node node-green">Agente estratégico</div>
@@ -203,7 +203,7 @@ Vamos transformar o agente do Encontro 1 em um sistema que <b>decide melhor</b>,
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
-<h1>🧭 Mapa mental — Encontro 2 em perspectiva</h1>
+<h1>🗺️ Mapa mental — Encontro 2 em perspectiva</h1>
 <p class="text-sm">A aula fica mais fácil quando você separa <b>pensar melhor</b> de <b>agir com precisão</b>. O agente moderno precisa dos dois.</p>
 <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.8rem; margin-top:0.9rem;">
 <div style="opacity:1; transform:none; padding:0.75rem; border-radius:0.8rem; background:rgba(167,139,250,0.10); border:1px solid rgba(167,139,250,0.32);">
@@ -409,7 +409,7 @@ R:"""</code></pre>
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #1f2937 100%)">
 <h1>📈 Reasoning melhora resultados — evidência</h1>
 <div class="typewriter-js text-center text-sm text-cyan animate-shimmer" data-text="Acurácia com e sem Chain-of-Thought (%)"></div><div class="stagger-in" style="display:grid; grid-template-columns: repeat(5, 1fr); gap:0.7rem; margin-top:1rem;"><div class="card card-cyan parallax-card text-center"><div class="text-sm"><b>GSM8K</b></div><div class="mt-1 text-red">Sem CoT: 56%</div><div class="text-green">Com CoT: 78%</div><div class="mt-1 text-xs opacity-70">Δ +22 pts</div></div><div class="card card-cyan parallax-card text-center"><div class="text-sm"><b>MATH</b></div><div class="mt-1 text-red">Sem CoT: 34%</div><div class="text-green">Com CoT: 58%</div><div class="mt-1 text-xs opacity-70">Δ +24 pts</div></div><div class="card card-cyan parallax-card text-center"><div class="text-sm"><b>MMLU</b></div><div class="mt-1 text-red">Sem CoT: 70%</div><div class="text-green">Com CoT: 82%</div><div class="mt-1 text-xs opacity-70">Δ +12 pts</div></div><div class="card card-cyan parallax-card text-center"><div class="text-sm"><b>ARC</b></div><div class="mt-1 text-red">Sem CoT: 75%</div><div class="text-green">Com CoT: 88%</div><div class="mt-1 text-xs opacity-70">Δ +13 pts</div></div><div class="card card-cyan parallax-card text-center"><div class="text-sm"><b>StrategyQA</b></div><div class="mt-1 text-red">Sem CoT: 65%</div><div class="text-green">Com CoT: 81%</div><div class="mt-1 text-xs opacity-70">Δ +16 pts</div></div></div>
-<div class="mt-2 text-xs text-center opacity-70">🟦 Sem CoT &nbsp;&nbsp; 🟩 Com CoT — dados aproximados GPT-4 class models</div>
+<div class="mt-2 text-xs text-center opacity-70">🟥 Sem CoT &nbsp;&nbsp; 🟩 Com CoT — dados ilustrativos do efeito de Chain-of-Thought (cf. Wei et al., 2022)</div>
 <div class="card mt-2 text-sm card-cyan parallax-card">💡 CoT dá ganhos de <b>+15 a +25 pontos percentuais</b> em tarefas de raciocínio.</div>
 </section>
 
@@ -443,6 +443,7 @@ R:"""</code></pre>
 <h1>🪞 Self-Reflection & Reflexion</h1>
 <p class="slide-in-left">📄 <b>Shinn et al., 2023</b> — <i>"Reflexion: Language Agents with Verbal Reinforcement Learning"</i></p>
 <p class="slide-in-left">A ideia: depois de tentar uma tarefa, o agente <b>critica seu próprio output</b> e tenta de novo com a crítica no contexto.</p>
+<div class="tip-box text-xs">🔎 <b>Distinção:</b> <i>Self-Reflection</i> é o padrão genérico (gerar → criticar → revisar); <i>Reflexion</i> (Shinn et al.) formaliza isso como <b>reforço verbal</b> — a crítica vira memória que guia as próximas tentativas.</div>
 <div class="flow-diagram"><div class="flow-node node-purple">🎯 Tarefa</div><div class="flow-arrow">→</div><div class="flow-node node-purple">🤖 Tentativa 1</div><div class="flow-arrow">→</div><div class="flow-node node-purple">Sucesso?</div><div class="flow-arrow">→</div><div class="flow-node node-amber">🪞 Auto-crítica<br>'O que falhou?'</div><div class="flow-arrow">→</div><div class="flow-node node-amber">🤖 Tentativa 2<br>contexto + crítica</div><div class="flow-arrow">→</div><div class="flow-node node-green">✅</div></div>
 <div class="grid-2 mt-2 stagger-in text-xs">
 <div class="card card-green"><div class="card-title">📈 Resultado</div><div class="card-desc">Melhora <b>20-30%</b> em HumanEval e ALFWorld, sem retreinar nada — apenas adicionando autocrítica ao loop.</div></div>
@@ -943,6 +944,7 @@ Responda APENAS JSON:
 <li>Seu código executa a função real e devolve o resultado.</li>
 <li>O modelo sintetiza a resposta final.</li>
 </ol>
+<div class="tip-box text-xs">🧪 <b>No caso condutor:</b> é assim que a "viagem para Porto Alegre" sai do raciocínio e vira ação — <code>buscar_hotel()</code>, <code>buscar_voo()</code> e <code>calcular_orcamento()</code> chamadas como tools tipadas e auditáveis.</div>
 <div class="card mt-2 text-xs card-cyan parallax-card">É o mesmo espírito do ReAct, mas com <b>contrato formal</b> entre modelo e aplicação.</div>
 </section>
 
@@ -1035,10 +1037,10 @@ print(json.loads(resp.choices[0].message.content))</code></pre>
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #172554 100%)">
 <h1>Parallel tool calls</h1>
 <div class="agent-trace">
-<div class="trace-line trace-user">Usuário: Compare clima de SP e RJ</div>
-<div class="trace-line trace-action">LLM: tool_calls [clima("SP"), clima("RJ")]</div>
-<div class="trace-line trace-obs">tool: SP = 22°C • RJ = 28°C</div>
-<div class="trace-line trace-result">LLM: "RJ está 6°C mais quente."</div>
+<div class="trace-line trace-user">Usuário: Compare hotéis no Centro e na Cidade Baixa (POA)</div>
+<div class="trace-line trace-action">LLM: tool_calls [hotel("Centro"), hotel("Cidade Baixa")]</div>
+<div class="trace-line trace-obs">tool: Centro = R$ 280/noite • Cidade Baixa = R$ 210/noite</div>
+<div class="trace-line trace-result">LLM: "Cidade Baixa é R$ 70/noite mais barata."</div>
 </div>
 <div class="grid-2 mt-2 stagger-in text-xs" style="gap:0.7rem;">
 <div class="card card-cyan parallax-card"><b>Quando usar</b><br>Quando as consultas são independentes.</div>

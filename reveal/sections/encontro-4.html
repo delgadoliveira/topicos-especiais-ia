@@ -64,10 +64,10 @@
       <div class="card-desc">
         <ul>
           <li>4.1 Falhas comuns de agentes</li>
+          <li>Segurança & prompt injection</li>
           <li>4.2 Custo e latência</li>
-          <li>4.3 Segurança e prompt injection</li>
-          <li>4.4 Avaliação de agentes</li>
-          <li>4.5 Observabilidade</li>
+          <li>4.3 Avaliação de agentes</li>
+          <li>4.4 Observabilidade</li>
         </ul>
       </div>
     </div>
@@ -78,8 +78,9 @@
           <li>4.6 Coding agents: Cursor, Claude Code, Devin</li>
           <li>4.7 Computer Use &amp; General Agents</li>
           <li>4.8 Enterprise: Microsoft, Salesforce, Google</li>
-          <li>4.9 Projeto final</li>
-          <li>4.10 Para onde ir a partir daqui</li>
+          <li>4.9 Anti-patterns & princípios</li>
+          <li>4.10 Projeto final</li>
+          <li>4.11–4.13 Roadmap, conselhos & próximos passos</li>
         </ul>
       </div>
     </div>
@@ -238,7 +239,7 @@
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e293b 100%)">
-  <h1>Falha #7 · Memory Poisoning — ataque silencioso</h1>
+  <h1>Falha #8 · Memory Poisoning — ataque silencioso</h1>
   <div class="text-sm" style="margin-bottom: 0.75rem;">Se o agente tem <b>memória de longo prazo</b> (vector DB), um atacante pode <b>contaminar a memória</b> para alterar comportamento futuro.</div>
   <div class="flow-diagram">
     <div class="flow-node parallax-card" style="background: rgba(248,113,113,.16); border: 1px solid rgba(248,113,113,.4);">🕵️ Atacante envia<br><span class="text-xs">ticket de suporte com<br>instrução escondida</span></div>
@@ -380,7 +381,7 @@
     <div class="card"><div class="card-title">🌡️ Temperatura baixa</div><div class="card-desc">(0–0.3) para tarefas factuais. <b>top_p</b> também ajuda.</div></div>
     <div class="card"><div class="card-title">📚 Citation grounding</div><div class="card-desc">exigir <code>[doc_id]</code> após cada afirmação (visto em 3.x).</div></div>
     <div class="card"><div class="card-title">🛡️ Constrained decoding</div><div class="card-desc">restringe vocabulário a tokens válidos (JSON schema, gramáticas).</div></div>
-    <div class="card"><div class="card-title">🚪 Abstention training</div><div class="card-desc">fine-tuning específico para o modelo aprender a dizer "não sei". GPT-4.5, Claude 4 e Gemini 2.5 são bem melhores nisso.</div></div>
+    <div class="card"><div class="card-title">🚪 Abstention training</div><div class="card-desc">fine-tuning específico para o modelo aprender a dizer "não sei". GPT-4.1/o3, Claude 4 e Gemini 2.5 são bem melhores nisso.</div></div>
   </div>
 </section>
 
@@ -448,16 +449,13 @@
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e293b 100%)">
   <h1>📊 Métricas de avaliação — o que medir</h1>
-  <div class="flow-diagram">
-    <div class="flow-node">Corretude da resposta<br><b>30%</b></div>
-    <div class="flow-arrow">→</div>
-    <div class="flow-node">Uso correto de tools<br><b>25%</b></div>
-    <div class="flow-arrow">→</div>
-    <div class="flow-node">Eficiência (steps/tokens)<br><b>20%</b></div>
-    <div class="flow-arrow">→</div>
-    <div class="flow-node">Segurança/guardrails<br><b>15%</b></div>
-    <div class="flow-arrow">→</div>
-    <div class="flow-node">Latência<br><b>10%</b></div>
+  <div class="text-xs" style="opacity:0.75; margin-bottom:0.4rem;">Pesos relativos — dimensões aplicadas <b>em paralelo</b>, não em sequência:</div>
+  <div class="stagger-in text-xs" style="display:grid; grid-template-columns:repeat(5,1fr); gap:0.5rem;">
+    <div class="card card-green"><div style="font-size:1.7em; font-weight:700;">30%</div>Corretude da resposta</div>
+    <div class="card card-cyan"><div style="font-size:1.7em; font-weight:700;">25%</div>Uso correto de tools</div>
+    <div class="card card-amber"><div style="font-size:1.7em; font-weight:700;">20%</div>Eficiência (steps/tokens)</div>
+    <div class="card card-purple"><div style="font-size:1.7em; font-weight:700;">15%</div>Segurança/guardrails</div>
+    <div class="card card-red"><div style="font-size:1.7em; font-weight:700;">10%</div>Latência</div>
   </div>
   <div class="insight-box">🎯 Não basta a resposta estar certa — um bom agente também é <b>eficiente, seguro e rápido</b>.</div>
 </section>
@@ -580,15 +578,15 @@ Qual responde melhor? A / B / Empate"""</code></pre>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #172554 100%)">
-  <h1>4.5 Observabilidade — visibilidade total</h1>
+  <h1>4.4 Observabilidade — visibilidade total</h1>
   <div class="text-sm">Em produção, você precisa responder:</div>
-  <ul>
+  <div class="card card-cyan mt-1"><div class="card-desc"><ul style="margin:0;">
     <li>🐛 Por que esse agente errou para esse usuário?</li>
     <li>💸 Quem está gastando mais tokens?</li>
     <li>⏱️ Qual o p95 de latência?</li>
     <li>🔄 Quantos passos em média até resposta?</li>
     <li>🛠️ Qual tool falha mais?</li>
-  </ul>
+  </ul></div></div>
   <div class="text-sm">→ Sem observabilidade, agentes em produção são <b>caixa preta</b>.</div>
   <div class="card card-cyan mt-2"><div class="card-desc">🎯 <b>Mínimo viável:</b> log estruturado de cada chamada LLM (input, output, tokens, latência, custo) + ID de trace por sessão. Em ~50 linhas você tem o básico.</div></div>
 </section>
@@ -655,7 +653,7 @@ Qual responde melhor? A / B / Empate"""</code></pre>
     <div class="card"><div class="card-title">🇨🇳 Manus (mar/2025)</div><div class="card-desc">Primeiro "general agent" viral da China. Tarefas longas e abertas em sandbox.</div></div>
     <div class="card"><div class="card-title">🔵 Perplexity Comet</div><div class="card-desc">Browser com agente embutido — substitui a aba para pesquisas complexas.</div></div>
   </div>
-  <div class="tip-box">⚠️ <b>Realidade 2025:</b> general agents ainda erram <b>muito</b> em tarefas longas. SOTA na GAIA: ~50%. Humanos: ~92%. Mas a curva é íngreme.</div>
+  <div class="tip-box">⚠️ <b>Realidade 2025:</b> general agents ainda erram <b>muito</b> em tarefas longas. SOTA na GAIA: ~68% (veja a tabela de benchmarks). Humanos: ~92%. Mas a curva é íngreme.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
@@ -672,7 +670,7 @@ Qual responde melhor? A / B / Empate"""</code></pre>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #172554 100%)">
-<h1>📊 Benchmarks que importam — Junho 2025</h1>
+<h1>📊 Benchmarks que importam — referência (2025)</h1>
 <table class="text-xs">
 <thead><tr><th>Benchmark</th><th>O que mede</th><th>Líder</th><th>Score</th></tr></thead>
 <tbody>
@@ -683,7 +681,7 @@ Qual responde melhor? A / B / Empate"""</code></pre>
 <tr><td><b>MATH (Lvl 5)</b></td><td>Problemas olímpicos de math</td><td>o3</td><td>96.7%</td></tr>
 </tbody>
 </table>
-<div class="insight-box mt-2 text-xs">🔑 Note: em 12 meses, SWE-bench foi de 13% (GPT-4 naive) → 72%. O ritmo de melhoria é <b>exponencial</b> — e ainda não estabilizou.</div>
+<div class="insight-box mt-2 text-xs">🔑 Note: em 12 meses, SWE-bench foi de 13% (GPT-4 naive) → 72%. O ritmo de melhoria é <b>exponencial</b> — e ainda não estabilizou. <span class="opacity-70">⚡ Scores evoluem todo mês; confira paperswithcode.com/sota para valores atuais.</span></div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
@@ -1151,14 +1149,14 @@ print(f"   ({acertos/len(CASOS)*100:.0f}% de acerto)")
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
   <h1>📈 Adoção de agentes — projeção de mercado</h1>
   <div class="stats-row">
-    <div class="stat"><span class="stat-number">2023</span><span class="stat-label">0.5%</span></div>
-    <div class="stat"><span class="stat-number">2024</span><span class="stat-label">2%</span></div>
-    <div class="stat"><span class="stat-number">2025</span><span class="stat-label">8%</span></div>
-    <div class="stat"><span class="stat-number">2026</span><span class="stat-label">15%</span></div>
-    <div class="stat"><span class="stat-number">2027</span><span class="stat-label">25%</span></div>
-    <div class="stat"><span class="stat-number">2028</span><span class="stat-label">33%</span></div>
+    <div class="stat"><span class="stat-number">0.5%</span><span class="stat-label">2023</span></div>
+    <div class="stat"><span class="stat-number">2%</span><span class="stat-label">2024</span></div>
+    <div class="stat"><span class="stat-number">8%</span><span class="stat-label">2025</span></div>
+    <div class="stat"><span class="stat-number">15%</span><span class="stat-label">2026</span></div>
+    <div class="stat"><span class="stat-number">25%</span><span class="stat-label">2027</span></div>
+    <div class="stat"><span class="stat-number">33%</span><span class="stat-label">2028</span></div>
   </div>
-  <div class="insight-box">📊 <b>Gartner (2024):</b> de menos de 1% em 2024 para 33% em 2028. O crescimento exponencial já começou.</div>
+  <div class="insight-box">📊 <b>Gartner (projeção 2024):</b> de menos de 1% em 2024 para 33% em 2028 — crescimento exponencial já em curso (parcialmente confirmado em 2025/26).</div>
 </section>
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #064e3b 100%)">
   <h1>🔮 Para onde os agentes vão — 2025-2027</h1>
@@ -1198,11 +1196,11 @@ print(f"   ({acertos/len(CASOS)*100:.0f}% de acerto)")
     <div class="card card-green"><b>E3</b><br>RAG, memória, MCP, multi-agente</div>
     <div class="card card-amber"><b>E4</b><br>Falhas, avaliação, segurança, SOTA</div>
   </div>
-  <div class="insight-box mt-2 text-xs">Você agora tem o <b>mapa mental completo</b> para construir, avaliar e escalar agentes. O próximo passo é <b>seu</b>.</div>
+  <div class="insight-box mt-2 text-xs">Você agora tem o <b>mapa mental completo</b> para construir, avaliar e escalar agentes. O próximo passo é <b>seu</b>. <span class="text-cyan">Mas em que mundo esse passo acontece? Vamos ao ato final — mercado, empregos e a sua carreira. 👇</span></div>
 </section>
 <section data-background-gradient="linear-gradient(135deg, #450a0a 0%, #1f2937 100%)">
   <h1>📉 As ondas de demissões × a evolução dos modelos</h1>
-  <div class="text-xs">Por que a linha do tempo dos cortes acompanha a dos modelos — e onde está a nuance:</div>
+  <div class="text-xs">No <b>Encontro 1</b> vimos <i>por que</i> isso importa. Agora que você terminou o curso, vejamos <i>como o mercado está reagindo</i> — e a nuance por trás dos números:</div>
   <div class="grid-3 mt-2 stagger-in text-xs">
     <div class="card card-amber"><div class="card-title">2023 · GPT-4</div><div class="card-desc"><b>~240 mil</b> demissões em tech. Causa principal: <b>correção pós-pandemia</b> (excesso de contratação) + juros altos. IA ainda é "pano de fundo".</div></div>
     <div class="card card-purple"><div class="card-title">2024 · Copilot & adoção enterprise</div><div class="card-desc"><b>~100 mil</b>. Fase de <b>transição</b>: empresas colocam IA na estratégia e fazem cortes preparatórios, mas o deslocamento em massa ainda é limitado.</div></div>
@@ -1378,5 +1376,5 @@ print(f"   ({acertos/len(CASOS)*100:.0f}% de acerto)")
     <p class="mt-2"><b>Domine os fundamentos. Construa coisas reais. Compartilhe o que aprender.</b></p>
   </div>
   <div class="mt-3" style="font-size:2rem;">🤖 Bem-vindo à era dos agentes.</div>
-  <div class="text-xs opacity-50 mt-3">Prof. Alan Delgado de Oliveira — 2025</div>
+  <div class="text-xs opacity-50 mt-3">Prof. Alan Delgado de Oliveira — 2025–2026</div>
 </section>
