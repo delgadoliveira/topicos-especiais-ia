@@ -206,51 +206,27 @@ Esse é o problema que vamos resolver hoje: transformar um LLM que <b>conversa</
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
 <h1>🧩 Onde você já viu isso no dia-a-dia</h1>
-<p style="font-size:0.8em;">Mesmo sem perceber, você provavelmente já usou <strong>agentes de IA</strong> nas últimas 24h. <span style="opacity:0.6;">Clique para ver exemplos reais.</span></p>
-<div class="grid-2 stagger-in text-sm" style="gap:0.7rem;">
+<p style="font-size:0.8em;">Mesmo sem perceber, você provavelmente já usou <strong>agentes de IA</strong> nas últimas 24h. <span style="opacity:0.6;">Veja o que cada um faz por baixo.</span></p>
+<div class="grid-2 stagger-in text-xs" style="gap:0.7rem;">
 
-<div class="card expandable parallax-card scale-in">
-<b>📱 Celular</b><br>Meta AI, Siri, ChatGPT app, Google Gemini
-<div class="card-detail">
-<p><b>Caso real — Meta AI no WhatsApp:</b></p>
-<p>Você pergunta: <i>"Quais restaurantes japoneses perto de mim abertos agora?"</i></p>
-<p>O agente faz: ① detecta sua localização via GPS → ② busca no Google Maps API → ③ filtra por horário e tipo de cozinha → ④ formata resposta com links e avaliações.</p>
-<p><b>Por que é um agente?</b> Porque o LLM sozinho não sabe sua localização nem o horário de funcionamento — ele precisa de <em>ferramentas</em> (GPS, Maps, relógio).</p>
-<div class="detail-example">Outros: Siri criando alarmes, Gemini enviando emails, Claude analisando fotos que você tira.</div>
-</div>
+<div class="card parallax-card scale-in">
+<b>📱 Celular</b> — Meta AI, Siri, ChatGPT app, Gemini
+<div class="mt-1"><i>"Restaurantes japoneses abertos perto de mim?"</i> → ① GPS localiza → ② busca Maps API → ③ filtra horário/cozinha → ④ responde com links. <b>É agente</b> porque o LLM sozinho não sabe sua localização nem o horário — precisa de ferramentas.</div>
 </div>
 
-<div class="card expandable parallax-card scale-in">
-<b>💻 Trabalho / Estudo</b><br>Copilot no Office, Gemini no Gmail, Notion AI
-<div class="card-detail">
-<p><b>Caso real — Copilot no PowerPoint:</b></p>
-<p>Você diz: <i>"Crie uma apresentação sobre nosso resultado Q2 com os dados desse Excel"</i></p>
-<p>O agente faz: ① abre o arquivo .xlsx → ② extrai dados de vendas → ③ gera gráficos → ④ cria 8 slides com layout, título e talking points → ⑤ aplica o tema da empresa.</p>
-<p><b>Por que é um agente?</b> Envolve leitura de arquivo, interpretação de dados, geração de visual e escrita — múltiplas ferramentas em sequência.</p>
-<div class="detail-example">Gemini no Gmail: resume threads longas, sugere respostas, agenda reunião no Calendar — tudo num fluxo só.</div>
-</div>
+<div class="card parallax-card scale-in">
+<b>💻 Trabalho / Estudo</b> — Copilot Office, Gemini Gmail, Notion AI
+<div class="mt-1"><i>"Monte um deck do Q2 com esse Excel"</i> → ① abre .xlsx → ② extrai vendas → ③ gera gráficos → ④ cria 8 slides → ⑤ aplica o tema. <b>É agente</b>: lê arquivo, interpreta dados, gera visual e escreve — várias tools em sequência.</div>
 </div>
 
-<div class="card expandable parallax-card scale-in">
-<b>🛒 Consumo / Atendimento</b><br>Nubank, iFood, Magalu, Amazon
-<div class="card-detail">
-<p><b>Caso real — iFood AI:</b></p>
-<p>Você reclama: <i>"Meu pedido veio errado, faltou o suco"</i></p>
-<p>O agente faz: ① busca seu pedido recente (#8834) → ② verifica itens vs. nota fiscal → ③ identifica "suco de laranja" pago mas não entregue → ④ calcula reembolso proporcional → ⑤ aplica crédito de R$12 na sua carteira → ⑥ responde com resumo.</p>
-<p><b>Por que é um agente?</b> Ele tomou uma <em>decisão</em> (reembolso) e <em>executou uma ação</em> (crédito) — não apenas respondeu.</p>
-<div class="detail-example">Nubank: contesta cobrança e abre ticket. Amazon: rastreia pacote e aciona transportadora automaticamente.</div>
-</div>
+<div class="card parallax-card scale-in">
+<b>🛒 Consumo / Atendimento</b> — Nubank, iFood, Magalu, Amazon
+<div class="mt-1"><i>"Meu pedido veio errado, faltou o suco"</i> → ① acha o pedido → ② confere nota → ③ identifica item faltante → ④ calcula reembolso → ⑤ credita R$12. <b>É agente</b>: decidiu (reembolso) e executou ação (crédito), não só respondeu.</div>
 </div>
 
-<div class="card expandable parallax-card scale-in">
-<b>👨‍💻 Programação</b><br>GitHub Copilot, Cursor, Claude Code, v0.dev
-<div class="card-detail">
-<p><b>Caso real — Cursor (agente de código):</b></p>
-<p>Você pede: <i>"Refatore esse componente para usar React hooks e adicione testes"</i></p>
-<p>O agente faz: ① lê o arquivo class-based → ② entende props/state → ③ reescreve com useState/useEffect → ④ cria arquivo .test.tsx → ⑤ roda <code>npm test</code> → ⑥ um teste falha → ⑦ lê o erro → ⑧ corrige o mock → ⑨ testes passam ✅</p>
-<p><b>Por que é um agente?</b> Fez <em>múltiplos loops</em> — escreveu, testou, interpretou erro, corrigiu. Sem intervenção humana entre os passos.</p>
-<div class="detail-example">GitHub Copilot Workspace: planeja mudanças em múltiplos arquivos, implementa, abre PR. Claude Code: navega repos inteiros.</div>
-</div>
+<div class="card parallax-card scale-in">
+<b>👨‍💻 Programação</b> — GitHub Copilot, Cursor, Claude Code, v0
+<div class="mt-1"><i>"Refatore para hooks e adicione testes"</i> → ① lê o código → ② reescreve → ③ cria teste → ④ roda <code>npm test</code> → ⑤ falha → ⑥ corrige → ⑦ passa ✅. <b>É agente</b>: vários loops (escreve, testa, corrige) sem intervenção humana.</div>
 </div>
 
 </div>
@@ -263,55 +239,30 @@ Esse é o problema que vamos resolver hoje: transformar um LLM que <b>conversa</
 
 <div class="grid-2 stagger-in text-xs" style="gap:0.6rem; margin-top:0.8rem; text-align:left;">
 
-<div class="card expandable parallax-card">
+<div class="card parallax-card">
 <b>📱 Siri: "Que tempo faz amanhã em SP?"</b>
-<div class="card-detail">
-<p>① <b>LLM pensa:</b> "Preciso da previsão → vou usar a API de clima"</p>
-<p>② <b>Ferramenta:</b> chama WeatherKit com lat/long de São Paulo</p>
-<p>③ <b>Resultado:</b> JSON → {temp: 24°C, chuva: 60%}</p>
-<p>④ <b>LLM de novo:</b> "Amanhã faz 24° em SP com 60% de chance de chuva. Leve um guarda-chuva!"</p>
-<div class="detail-analogy">O loop aconteceu em ~1 segundo, invisível pra você.</div>
-</div>
+<div class="mt-1">① <b>Pensa:</b> "preciso da previsão → API de clima"<br>② <b>Tool:</b> chama WeatherKit (lat/long de SP)<br>③ <b>Resultado:</b> {temp: 24°C, chuva: 60%}<br>④ <b>Pensa de novo:</b> "Amanhã 24° com 60% de chuva — leve guarda-chuva!"</div>
 </div>
 
-<div class="card expandable parallax-card">
-<b>💻 Copilot no Excel: "Crie um gráfico de vendas por mês"</b>
-<div class="card-detail">
-<p>① <b>LLM pensa:</b> "Preciso identificar a coluna de vendas e a de datas"</p>
-<p>② <b>Ferramenta:</b> lê as células da planilha, identifica colunas B (mês) e D (vendas)</p>
-<p>③ <b>Resultado:</b> tabela com 12 linhas de dados estruturados</p>
-<p>④ <b>LLM de novo:</b> gera o comando de chart e insere um gráfico de barras formatado</p>
-<div class="detail-analogy">O "ferramenta" aqui é acesso direto à planilha — o agente lê E escreve nela.</div>
-</div>
+<div class="card parallax-card">
+<b>💻 Copilot Excel: "Gráfico de vendas por mês"</b>
+<div class="mt-1">① <b>Pensa:</b> "achar coluna de vendas e de datas"<br>② <b>Tool:</b> lê as células → colunas B (mês) e D (vendas)<br>③ <b>Resultado:</b> tabela com 12 linhas estruturadas<br>④ <b>Pensa de novo:</b> gera o comando e insere gráfico de barras</div>
 </div>
 
-<div class="card expandable parallax-card">
+<div class="card parallax-card">
 <b>🛒 Nubank: "Quero contestar essa cobrança"</b>
-<div class="card-detail">
-<p>① <b>LLM pensa:</b> "Preciso identificar a transação e verificar política de contestação"</p>
-<p>② <b>Ferramenta:</b> consulta API interna → transação #4892, R$149.90, loja X, 3 dias atrás</p>
-<p>③ <b>Resultado:</b> transação válida, dentro do prazo de contestação, sem fraude detectada</p>
-<p>④ <b>LLM de novo:</b> "Encontrei a cobrança de R$149.90 na loja X. Quer que eu abra uma contestação formal? O prazo é de 7 dias úteis."</p>
-<div class="detail-analogy">Múltiplas ferramentas: banco de dados, motor de regras, sistema de tickets — tudo orquestrado pelo LLM.</div>
-</div>
+<div class="mt-1">① <b>Pensa:</b> "achar a transação e checar política"<br>② <b>Tool:</b> API interna → #4892, R$149,90, loja X, 3 dias<br>③ <b>Resultado:</b> válida, no prazo, sem fraude<br>④ <b>Pensa de novo:</b> "Achei R$149,90 na loja X. Abro contestação? Prazo 7 dias úteis."</div>
 </div>
 
-<div class="card expandable parallax-card">
+<div class="card parallax-card">
 <b>👨‍💻 Cursor: "Adicione validação nesse form"</b>
-<div class="card-detail">
-<p>① <b>LLM pensa:</b> "Preciso ler o código do form, entender os campos, decidir validações"</p>
-<p>② <b>Ferramenta:</b> lê <code>form.tsx</code>, identifica 4 campos (email, nome, tel, CEP)</p>
-<p>③ <b>Resultado:</b> entende os tipos e regras de negócio do contexto</p>
-<p>④ <b>LLM de novo:</b> escreve código de validação com regex pra email, máscara pra tel, consulta CEP via API dos Correios</p>
-<p>⑤ <b>Loop extra:</b> roda <code>npm test</code> → 1 teste falha → lê o erro → corrige → testes passam ✅</p>
-<div class="detail-analogy">Agentes de código fazem VÁRIOS loops — escrevem, testam, corrigem, até funcionar.</div>
-</div>
+<div class="mt-1">① <b>Pensa:</b> "ler o form, ver campos, decidir regras"<br>② <b>Tool:</b> lê <code>form.tsx</code> → 4 campos (email, nome, tel, CEP)<br>③ <b>Resultado:</b> entende tipos e regras de negócio<br>④ <b>Pensa de novo:</b> escreve validações (regex, máscara, API Correios)<br>⑤ <b>Loop extra:</b> roda teste → falha → corrige → passa ✅</div>
 </div>
 
 </div>
 
 <div class="mt-2 text-xs" style="opacity:0.8;">
-👆 Clique em cada exemplo para ver o loop completo. <b>O padrão é sempre o mesmo — só mudam as ferramentas.</b>
+<b>O padrão é sempre o mesmo — só mudam as ferramentas.</b>
 </div>
 </section>
 
@@ -324,27 +275,11 @@ Esse é o problema que vamos resolver hoje: transformar um LLM que <b>conversa</
 
 <div class="grid-2 stagger-in text-sm">
 
-<div class="card expandable parallax-card scale-in" style="background:rgba(248,113,113,0.08);border-color:rgba(248,113,113,0.28);">
+<div class="card parallax-card scale-in" style="background:rgba(248,113,113,0.08);border-color:rgba(248,113,113,0.28);">
 <b>🚫 LLM puro (sem ser agente)</b><br>
 "Não tenho informações sobre eventos posteriores a janeiro de 2024..."<br>
 <i>Ou pior: inventa uma resposta plausível mas errada (alucinação).</i>
-<div class="card-detail">
-<p><b>Por que ele não sabe?</b> O LLM é um arquivo estático — uma "foto" do conhecimento do mundo no momento em que foi treinado. Depois do treino, ele nunca mais aprende nada novo.</p>
-<p><b>O processo:</b></p>
-<ul>
-<li><b>Treino</b> (meses, milhões de $): lê bilhões de textos até uma data de corte (ex: jan/2024)</li>
-<li><b>Deploy:</b> o modelo "congela" — os pesos nunca mais mudam</li>
-<li><b>Inferência:</b> quando você pergunta algo, ele combina estatisticamente o que já sabe</li>
-</ul>
-<p><b>Consequências práticas:</b></p>
-<ul>
-<li>❌ Não sabe o resultado do Brasileirão 2024 (aconteceu depois do corte)</li>
-<li>❌ Não sabe o preço do dólar HOJE (muda a cada segundo)</li>
-<li>❌ Não pode verificar se uma informação ainda é verdade</li>
-</ul>
-<p><b>E a "alucinação"?</b> Quando não sabe, o LLM não diz "não sei" — ele gera texto que <i>parece</i> correto porque é estatisticamente plausível. Ex: pode dizer "Palmeiras foi campeão" com confiança total, simplesmente porque Palmeiras é frequente em contextos de título.</p>
-<div class="detail-warning">⚠️ <b>Regra de ouro:</b> LLM sem ferramentas = enciclopédia desatualizada que nunca admite ignorância. Por isso precisamos de agentes.</div>
-</div>
+<div class="mt-1 text-xs">O LLM é uma <b>"foto" estática</b> do conhecimento até a data de corte do treino — depois, os pesos congelam e ele nunca mais aprende. Não sabe o Brasileirão 2024 nem o dólar de hoje. E quando não sabe, não diz "não sei": gera texto plausível com confiança total (ex: "Palmeiras foi campeão"). Por isso precisamos de <b>agentes com ferramentas</b>.</div>
 </div>
 
 <div class="card card-green parallax-card scale-in">
@@ -392,43 +327,28 @@ Vamos quebrar essa definição em partes nos próximos slides.
 
 <div class="grid-3 stagger-in" style="gap:0.8rem; margin-top:0.6rem;">
 
-<div class="card expandable" style="border-left:4px solid var(--red); text-align:left;">
+<div class="card" style="border-left:4px solid var(--red); text-align:left;">
   <div style="font-size:0.85em; font-weight:700; color:var(--red);">🔧 Bot</div>
   <div style="font-size:0.7em; margin-top:0.4rem; padding:0.4rem; background:rgba(0,0,0,0.2); border-radius:6px; font-family:var(--font-mono);">
     "Digite 1 para consultar voos<br>Digite 2 para pacotes<br>Digite 3 para falar com atendente"
   </div>
-  <div class="card-detail">
-    <p><b>O que é:</b> Fluxo pré-programado (if/else). Não entende linguagem natural.</p>
-    <p><b>Problema:</b> Se você disser "quero o mais barato pra sexta", ele responde "opção inválida".</p>
-    <p><b>Autonomia:</b> Zero — só segue o script que o programador escreveu.</p>
-    <div class="detail-example">Ex: URA telefônica, bots de WhatsApp com menu numérico, chatbots de FAQ com botões.</div>
-  </div>
+  <div class="mt-1 text-xs">Fluxo <b>if/else</b> pré-programado, não entende linguagem natural. Diga "o mais barato pra sexta" e ele responde "opção inválida". <b>Autonomia zero.</b> Ex: URA, menu de WhatsApp.</div>
 </div>
 
-<div class="card expandable" style="border-left:4px solid var(--amber); text-align:left;">
+<div class="card" style="border-left:4px solid var(--amber); text-align:left;">
   <div style="font-size:0.85em; font-weight:700; color:var(--amber);">💡 Assistente</div>
   <div style="font-size:0.7em; margin-top:0.4rem; padding:0.4rem; background:rgba(0,0,0,0.2); border-radius:6px; font-family:var(--font-mono);">
     "Para encontrar voos baratos, recomendo:<br>1. Acesse Google Flights<br>2. Coloque SP como destino<br>3. Selecione sexta-feira..."
   </div>
-  <div class="card-detail">
-    <p><b>O que é:</b> LLM que entende sua pergunta e responde com informação útil.</p>
-    <p><b>Problema:</b> Te diz <i>como fazer</i>, mas não <i>faz por você</i>. Você ainda precisa agir.</p>
-    <p><b>Autonomia:</b> Baixa — responde e sugere, mas não executa nenhuma ação.</p>
-    <div class="detail-example">Ex: ChatGPT padrão, Alexa respondendo perguntas, Google Assistant em modo informativo.</div>
-  </div>
+  <div class="mt-1 text-xs">LLM que entende e responde com info útil, mas te diz <i>como fazer</i> — não <i>faz por você</i>. <b>Autonomia baixa:</b> sugere, não executa. Ex: ChatGPT padrão, Alexa informativa.</div>
 </div>
 
-<div class="card expandable" style="border-left:4px solid var(--green); text-align:left;">
+<div class="card" style="border-left:4px solid var(--green); text-align:left;">
   <div style="font-size:0.85em; font-weight:700; color:var(--green);">🦾 Agente</div>
   <div style="font-size:0.7em; margin-top:0.4rem; padding:0.4rem; background:rgba(0,0,0,0.2); border-radius:6px; font-family:var(--font-mono);">
     "Encontrei 3 opções. A mais barata é LATAM<br>às 7h por R$289. Reservo no seu cartão<br>final 4421? ✈️"
   </div>
-  <div class="card-detail">
-    <p><b>O que é:</b> LLM + ferramentas + loop. Ele <i>pesquisou</i>, <i>comparou</i>, <i>decidiu</i> e está pronto pra <i>agir</i>.</p>
-    <p><b>Diferencial:</b> Tomou decisões autônomas e pode executar a ação (reservar) se autorizado.</p>
-    <p><b>Autonomia:</b> Alta — planeja, executa, verifica resultado, adapta se algo der errado.</p>
-    <div class="detail-example">Ex: Copilot Workspace, agentes de viagem, Cursor editando código, Devin deployando apps.</div>
-  </div>
+  <div class="mt-1 text-xs">LLM + ferramentas + loop: <i>pesquisou, comparou, decidiu</i> e está pronto pra <i>agir</i> (reservar) se autorizado. <b>Autonomia alta:</b> planeja, executa, verifica, adapta. Ex: Copilot Workspace, Devin.</div>
 </div>
 
 </div>
@@ -485,66 +405,43 @@ Vamos quebrar essa definição em partes nos próximos slides.
 
 <div class="grid-2 stagger-in" style="gap:0.8rem; margin-top:0.6rem;">
 
-<div class="card expandable" style="border-left:4px solid var(--cyan);">
+<div class="card" style="border-left:4px solid var(--cyan);">
 <div style="font-size:0.8em; font-weight:700; color:var(--cyan);">👁️ Por interação com o usuário</div>
 <div style="font-size:0.65em; margin-top:0.3rem; color:rgba(255,255,255,0.7);">
 <b>Surface agents</b> — conversam, explicam, pedem confirmação<br>
-<b>Background agents</b> — trabalham sozinhos, entregam resultado pronto
-</div>
-<div class="card-detail">
-<p><b>Surface agent (interativo):</b> Chatbot do Nubank — conversa com o cliente, pede CPF, explica o que vai fazer, espera confirmação antes de agir. O humano vê cada passo.</p>
-<p><b>Background agent (autônomo):</b> GitHub Copilot Workspace — você abre uma issue, o agente planeja, implementa, testa e abre o PR. Você só vê o resultado final.</p>
-<p><b>Qual usar?</b> Surface para decisões sensíveis (financeiro, saúde). Background para tarefas repetitivas onde o resultado é verificável (CI/CD, data pipelines, código).</p>
-<div class="detail-example">Cursor = surface (mostra diffs, pede approve). Devin = mais background (trabalha sozinho em branches).</div>
+<b>Background agents</b> — trabalham sozinhos, entregam resultado pronto<br>
+<span style="opacity:0.85;">Surface (Nubank, Cursor) p/ decisões sensíveis; background (Copilot Workspace, Devin) p/ tarefas repetitivas e verificáveis.</span>
 </div>
 </div>
 
-<div class="card expandable" style="border-left:4px solid var(--purple);">
+<div class="card" style="border-left:4px solid var(--purple);">
 <div style="font-size:0.8em; font-weight:700; color:var(--purple);">👥 Por quantidade de agentes</div>
 <div style="font-size:0.65em; margin-top:0.3rem; color:rgba(255,255,255,0.7);">
 <b>Single-agent</b> — um cérebro, todas as ferramentas<br>
-<b>Multi-agent</b> — especialistas que colaboram
-</div>
-<div class="card-detail">
-<p><b>Single-agent:</b> Um agente com todas as ferramentas (busca, código, email). Simples de debugar, mas fica sobrecarregado em tarefas complexas.</p>
-<p><b>Multi-agent:</b> Pesquisador + Programador + Revisor, cada um com seu prompt e ferramentas. Coordenados por um "orquestrador".</p>
-<p><b>Quando usar multi-agent?</b> Quando a tarefa envolve papéis muito diferentes (ex: gerar código E testar E fazer deploy) ou quando especialização melhora qualidade.</p>
-<div class="detail-example">CrewAI, AutoGen e LangGraph suportam multi-agent. Vamos praticar no Encontro 3.</div>
+<b>Multi-agent</b> — especialistas que colaboram (Pesquisador + Programador + Revisor) sob um orquestrador<br>
+<span style="opacity:0.85;">Multi quando os papéis são bem distintos. CrewAI, AutoGen, LangGraph — praticamos no Encontro 3.</span>
 </div>
 </div>
 
-<div class="card expandable" style="border-left:4px solid var(--green);">
+<div class="card" style="border-left:4px solid var(--green);">
 <div style="font-size:0.8em; font-weight:700; color:var(--green);">💬 Por formato de ação</div>
 <div style="font-size:0.65em; margin-top:0.3rem; color:rgba(255,255,255,0.7);">
-<b>JSON Agent</b> — saída estruturada em JSON<br>
-<b>Code Agent</b> — gera código executável<br>
-<b>Function-calling</b> — protocolo nativo do modelo
-</div>
-<div class="card-detail">
-<p><b>JSON Agent:</b> O LLM gera <code>{"action": "search", "input": "clima SP"}</code>. Um parser lê e executa. Simples, mas limitado em lógica complexa.</p>
-<p><b>Code Agent:</b> O LLM gera Python completo com loops, condicionais, imports. Mais expressivo — pode fazer cálculos, processar dados, compor lógica. Usado pelo smolagents (HuggingFace).</p>
-<p><b>Function-calling:</b> O modelo foi treinado pra emitir chamadas de função no formato da API (OpenAI, Anthropic). O runtime intercepta e executa. É o mais confiável em produção.</p>
-<div class="detail-example">OpenAI usa function-calling. smolagents usa Code Agent. LangChain suporta ambos.</div>
+<b>JSON Agent</b> — emite <code>{"action":...}</code>; simples, limitado<br>
+<b>Code Agent</b> — gera Python executável; mais expressivo (smolagents)<br>
+<b>Function-calling</b> — chamada nativa da API; mais confiável em produção (OpenAI, Anthropic)
 </div>
 </div>
 
-<div class="card expandable" style="border-left:4px solid var(--amber);">
+<div class="card" style="border-left:4px solid var(--amber);">
 <div style="font-size:0.8em; font-weight:700; color:var(--amber);">⭐ Por nível de agência</div>
-<div style="font-size:0.65em; margin-top:0.3rem; color:rgba(255,255,255,0.7);">
-Do processador simples ao multi-agent autônomo<br>
-<span style="opacity:0.7;">(Espectro HuggingFace/smolagents)</span>
-</div>
-<div class="card-detail">
-<p>Agentes existem num <b>espectro contínuo</b> de autonomia crescente:</p>
-<table style="font-size:0.85em; width:100%;">
-<tr><td>☆☆☆</td><td>Saída do LLM não afeta o fluxo</td><td style="opacity:0.7;">Processador simples</td></tr>
-<tr><td>★☆☆</td><td>Saída escolhe entre caminhos</td><td style="opacity:0.7;">Router (if/else baseado no LLM)</td></tr>
+<table style="font-size:0.6em; width:100%; margin-top:0.3rem;">
+<tr><td>☆☆☆</td><td>Saída não afeta o fluxo</td><td style="opacity:0.7;">Processador simples</td></tr>
+<tr><td>★☆☆</td><td>Saída escolhe o caminho</td><td style="opacity:0.7;">Router (if/else do LLM)</td></tr>
 <tr><td>★★☆</td><td>Saída decide qual função chamar</td><td style="opacity:0.7;">Tool caller</td></tr>
 <tr><td>★★★</td><td>Saída controla iteração e parada</td><td style="opacity:0.7;">Agente multi-step</td></tr>
-<tr><td>★★★+</td><td>Um agente dispara outros agentes</td><td style="opacity:0.7;">Multi-agent system</td></tr>
+<tr><td>★★★+</td><td>Um agente dispara outros</td><td style="opacity:0.7;">Multi-agent system</td></tr>
 </table>
-<div class="detail-example">Fonte: smolagents conceptual guide (HuggingFace). Quanto mais estrelas, mais autonomia e mais risco.</div>
-</div>
+<div style="font-size:0.55em; opacity:0.7; margin-top:0.2rem;">Mais estrelas = mais autonomia e mais risco (espectro smolagents/HuggingFace).</div>
 </div>
 
 </div>
@@ -695,40 +592,22 @@ Exemplos: GPT-4o, Claude Sonnet, Gemini 2.5 Pro, Llama 4, Qwen 3 — todos são 
 <div class="flow-diagram mt-2"><div class="flow-node node-cyan parallax-card">📚 Pré-treino</div><div class="flow-arrow">→</div><div class="flow-node node-green parallax-card">🎯 Fine-tuning</div><div class="flow-arrow">→</div><div class="flow-node node-purple parallax-card">👍 RLHF</div></div>
 
 <div class="stagger-in mt-2 text-xs" style="display: grid; gap: 0.5rem;">
-<div class="card card-cyan expandable parallax-card scale-in">
+<div class="card card-cyan parallax-card scale-in">
 <b>1. Pré-treino (meses, milhões de USD)</b>
-<div class="card-detail">
-<p>O modelo lê <b>trilhões de tokens</b> da web: livros, código, Wikipedia, fóruns, papers, notícias.</p>
-<p><b>Objetivo:</b> prever o próximo token. Esse objetivo simples faz o modelo aprender gramática, fatos, lógica e até raciocínio.</p>
-<p><b>Resultado:</b> um "fundation model" — sabe muito, mas não segue instruções (é um "autocomplete" gigante).</p>
-<p><b>Custo:</b> GPT-4 custou ~$100M em compute. Llama 3.1 usou 16.000 GPUs por meses.</p>
+<div class="mt-1">Lê <b>trilhões de tokens</b> da web prevendo o próximo token → aprende gramática, fatos e lógica. Vira um <i>foundation model</i>: sabe muito, mas não segue instruções (um autocomplete gigante). GPT-4 ≈ $100M em compute.</div>
 </div>
-</div>
-<div class="card card-green expandable parallax-card scale-in">
+<div class="card card-green parallax-card scale-in">
 <b>2. Fine-tuning supervisionado (SFT)</b>
-<div class="card-detail">
-<p>Treina o modelo em exemplos curados de "pergunta → resposta ideal", escritos por humanos.</p>
-<p><b>Objetivo:</b> ensinar o <i>formato</i> de diálogo — como seguir instruções, responder perguntas, recusar pedidos perigosos.</p>
-<p><b>Resultado:</b> o modelo agora conversa. Antes: completava texto. Agora: responde perguntas.</p>
-<p><b>Escala:</b> tipicamente 10K-100K exemplos curados (muito menos que pré-treino).</p>
+<div class="mt-1">Treina em 10K-100K exemplos curados "pergunta → resposta ideal". Ensina o <i>formato</i> de diálogo: seguir instruções, responder, recusar pedidos perigosos. Antes completava texto; agora conversa.</div>
 </div>
-</div>
-<div class="card card-purple expandable parallax-card scale-in">
+<div class="card card-purple parallax-card scale-in">
 <b>3. RLHF (Reinforcement Learning from Human Feedback)</b>
-<div class="card-detail">
-<p>Humanos comparam pares de respostas e escolhem a melhor. Um "reward model" aprende esse ranking.</p>
-<p><b>Objetivo:</b> alinhar o modelo com preferências humanas — respostas mais úteis, seguras, honestas e naturais.</p>
-<p><b>Resultado:</b> o modelo melhora em nuance: não é só correto, é <i>agradável</i> de usar.</p>
-<p><b>Variantes modernas:</b> DPO (Direct Preference Optimization), RLAIF (feedback de outro AI), Constitutional AI.</p>
-</div>
+<div class="mt-1">Humanos comparam pares de respostas e escolhem a melhor; um <i>reward model</i> aprende esse ranking. Alinha o modelo a preferências humanas (útil, seguro, honesto). Variantes: DPO, RLAIF, Constitutional AI.</div>
 </div>
 </div>
 
 <div class="card card-amber mt-2 text-xs">
-🎯 <b>Para agentes:</b> o fine-tuning e RLHF são onde modelos aprendem a usar tools, seguir formatos JSON e "pensar antes de agir" (CoT). Modelos agentic são treinados com exemplos de tool use.
-</div>
-<div class="card card-amber text-xs mt-2">
-🎯 <b>Por que isso importa para agentes?</b> O treinamento define os <i>limites</i> do que o agente pode fazer. Um modelo treinado até 2024 não sabe o que aconteceu em 2025 — por isso precisa de <b>ferramentas</b> (busca web) para informação atual.
+🎯 <b>Para agentes:</b> fine-tuning e RLHF são onde o modelo aprende a usar tools, seguir formatos JSON e "pensar antes de agir" (CoT). E o treino define os <i>limites</i>: um modelo treinado até 2024 não sabe o que aconteceu em 2025 — por isso precisa de <b>ferramentas</b> (busca web) para informação atual.
 </div>
 </section>
 
@@ -739,34 +618,21 @@ Exemplos: GPT-4o, Claude Sonnet, Gemini 2.5 Pro, Llama 4, Qwen 3 — todos são 
 <div class="flow-diagram mt-2"><div class="flow-node node-cyan">Texto</div><div class="flow-arrow">→</div><div class="flow-node node-purple">Tokenização</div><div class="flow-arrow">→</div><div class="flow-node node-purple">Embeddings</div><div class="flow-arrow">→</div><div class="flow-node node-amber parallax-card">Self-Attention</div><div class="flow-arrow">→</div><div class="flow-node node-green">Feed-Forward</div><div class="flow-arrow">→</div><div class="flow-node node-cyan">Próximo token</div></div>
 
 <div class="stagger-in mt-2 text-xs" style="display: grid; gap: 0.5rem;">
-<div class="card card-purple expandable parallax-card">
+<div class="card card-purple parallax-card">
 <b>1. Tokenização</b> — texto vira números
-<div class="card-detail">
-<p>O texto é partido em pedaços (tokens). "Inteligência" → ["Int", "elig", "ência"]. Cada token vira um ID numérico (ex: 15496).</p>
-<p><b>Por que não usar palavras inteiras?</b> Vocabulário finito. Tokens permitem lidar com qualquer idioma, neologismo ou código.</p>
+<div class="mt-1">O texto é partido em pedaços (tokens): "Inteligência" → ["Int","elig","ência"], cada um vira um ID (ex: 15496). Vocabulário finito permite lidar com qualquer idioma, neologismo ou código.</div>
 </div>
-</div>
-<div class="card card-cyan expandable parallax-card">
+<div class="card card-cyan parallax-card">
 <b>2. Embeddings</b> — números viram vetores com significado
-<div class="card-detail">
-<p>Cada token ID é mapeado para um vetor de alta dimensão (ex: 4096 números). Palavras similares ficam próximas nesse espaço.</p>
-<p><b>Exemplo:</b> "rei" - "homem" + "mulher" ≈ "rainha". O modelo aprendeu relações semânticas como geometria.</p>
+<div class="mt-1">Cada ID vira um vetor de alta dimensão (ex: 4096 números); palavras similares ficam próximas. Ex: "rei" − "homem" + "mulher" ≈ "rainha" — o modelo aprendeu semântica como geometria.</div>
 </div>
-</div>
-<div class="card card-amber expandable parallax-card">
+<div class="card card-amber parallax-card">
 <b>3. Self-Attention</b> — cada palavra olha para todas as outras
-<div class="card-detail">
-<p>O mecanismo que tornou Transformers revolucionários. Cada token calcula "quanto atenção devo dar" a cada outro token na sequência.</p>
-<p><b>Exemplo:</b> em "O gato que eu vi ontem <b>dormia</b>", "dormia" presta muita atenção a "gato" (o sujeito) e ignora "eu" e "ontem".</p>
-<p><b>Multi-head:</b> vários "cabeças" de atenção em paralelo capturam relações diferentes (sintaxe, semântica, coreference).</p>
+<div class="mt-1">O mecanismo que revolucionou os Transformers: cada token calcula "quanta atenção dar" a cada outro. Em "O gato que vi ontem <b>dormia</b>", "dormia" foca em "gato". Multi-head: várias cabeças capturam relações diferentes em paralelo.</div>
 </div>
-</div>
-<div class="card card-green expandable parallax-card">
+<div class="card card-green parallax-card">
 <b>4. Feed-Forward</b> — processamento profundo
-<div class="card-detail">
-<p>Após a atenção, cada token passa por redes neurais densas que transformam a representação. É aqui que "conhecimento factual" é armazenado nos pesos.</p>
-<p>Esse bloco (Attention + FFN) é repetido dezenas/centenas de vezes em camadas. Mais camadas = raciocínio mais profundo.</p>
-</div>
+<div class="mt-1">Após a atenção, redes densas transformam a representação — é onde o "conhecimento factual" mora nos pesos. O bloco (Attention + FFN) repete em dezenas/centenas de camadas: mais camadas = raciocínio mais profundo.</div>
 </div>
 </div>
 
@@ -1427,44 +1293,24 @@ JSON: {"decisao": "aprovado|rejeitado", "valor": float,
 <div class="text-xs" style="margin-bottom:0.4rem;">Agentes em produção falham de formas previsíveis. Conhecer esses padrões <b>antes</b> de construir evita dias de debug.</div>
 
 <div class="stagger-in text-xs" style="display:grid; gap:0.4rem;">
-<div class="card card-purple expandable parallax-card scale-in"><b>🧠 LLM alucina argumentos de tool</b>
-<div class="card-detail">
-<p><b>O que acontece:</b> O modelo inventa dados para preencher parâmetros obrigatórios. Ex: chama <code>book_flight(destination="Marte")</code> ou passa um ID que não existe.</p>
-<p><b>Caso real:</b> Um agente de suporte chamou a API de reembolso com um order_id inventado — processou reembolso para pedido errado.</p>
-<p><b>Mitigação:</b> JSON Schema estrito com <code>enum</code> para valores válidos + validação server-side antes de executar.</p>
-</div>
+<div class="card card-purple parallax-card scale-in"><b>🧠 LLM alucina argumentos de tool</b>
+<div class="mt-1">Inventa dados p/ preencher parâmetros: <code>book_flight(destination="Marte")</code> ou um <code>order_id</code> inexistente — um agente de suporte chegou a reembolsar o pedido errado. <b>Mitigação:</b> JSON Schema estrito com <code>enum</code> + validação server-side.</div>
 </div>
 
-<div class="card card-cyan expandable parallax-card scale-in"><b>🛠️ Tool retorna resultado gigante (context overflow)</b>
-<div class="card-detail">
-<p><b>O que acontece:</b> Uma busca SQL retorna 10.000 rows. O agente tenta colocar tudo no contexto → estoura a janela em 1 turno.</p>
-<p><b>Impacto:</b> Custo explode ($2-5 por chamada), latência sobe para 30s+, qualidade cai (informação relevante se perde no meio).</p>
-<p><b>Mitigação:</b> Paginar (LIMIT 10), resumir resultados antes de injetar, truncar com aviso ("mostrando 10 de 847 resultados").</p>
-</div>
+<div class="card card-cyan parallax-card scale-in"><b>🛠️ Tool retorna resultado gigante (context overflow)</b>
+<div class="mt-1">Uma query devolve 10.000 rows e estoura a janela em 1 turno → custo explode, latência 30s+, qualidade cai. <b>Mitigação:</b> paginar (LIMIT 10), resumir antes de injetar, truncar com aviso ("10 de 847").</div>
 </div>
 
-<div class="card card-amber expandable parallax-card scale-in"><b>🔄 Loop infinito (sem condição de parada)</b>
-<div class="card-detail">
-<p><b>O que acontece:</b> Agent A envia arquivo para Agent B. B rejeita. A reprocessa errado e reenvia. Loop roda 500× em 2 min.</p>
-<p><b>Custo real:</b> Empresa reportou $4.700 gastos em 3 minutos por loop não detectado (API tokens + compute).</p>
-<p><b>Mitigação:</b> <code>max_steps=25</code>, watchdog de custo ($0.50 por execução), detecção de repetição (se último output = penúltimo → pare).</p>
-</div>
+<div class="card card-amber parallax-card scale-in"><b>🔄 Loop infinito (sem condição de parada)</b>
+<div class="mt-1">Agent A manda p/ B, B rejeita, A reenvia errado → 500× em 2 min. Uma empresa gastou $4.700 em 3 min. <b>Mitigação:</b> <code>max_steps=25</code>, watchdog de custo, detecção de repetição (output igual ao anterior → pare).</div>
 </div>
 
-<div class="card card-green expandable parallax-card scale-in"><b>🎯 System prompt ambíguo → comportamento errático</b>
-<div class="card-detail">
-<p><b>O que acontece:</b> Prompt diz "seja útil" mas não define limites. Agente aprova despesas irregulares, responde fora do escopo, ou muda de personalidade.</p>
-<p><b>Exemplo:</b> Agente de RH respondeu perguntas médicas porque o prompt dizia "ajude o funcionário em qualquer dúvida".</p>
-<p><b>Mitigação:</b> Definir explicitamente o que NÃO pode. Testar com adversarial prompts. Versionar e fazer A/B test de prompts.</p>
-</div>
+<div class="card card-green parallax-card scale-in"><b>🎯 System prompt ambíguo → comportamento errático</b>
+<div class="mt-1">"Seja útil" sem limites → aprova despesa irregular ou sai do escopo (um agente de RH respondeu dúvidas médicas). <b>Mitigação:</b> definir o que NÃO pode, testar com prompts adversariais, versionar e fazer A/B.</div>
 </div>
 
-<div class="card expandable parallax-card scale-in" style="background:rgba(248,113,113,0.06); border:1px solid rgba(248,113,113,0.3);"><b>🤝 Escolhe a tool errada (tool confusion)</b>
-<div class="card-detail">
-<p><b>O que acontece:</b> Com 15+ tools disponíveis, o LLM confunde <code>search_products</code> com <code>search_orders</code> e retorna dados irrelevantes.</p>
-<p><b>Por que acontece:</b> Descrições das tools são parecidas ou vagas. O modelo não tem exemplos de quando usar cada uma.</p>
-<p><b>Mitigação:</b> Nomes e descrições disjuntas (sem sobreposição), incluir 1-2 exemplos de uso no schema, limitar a ≤7 tools por agente.</p>
-</div>
+<div class="card parallax-card scale-in" style="background:rgba(248,113,113,0.06); border:1px solid rgba(248,113,113,0.3);"><b>🤝 Escolhe a tool errada (tool confusion)</b>
+<div class="mt-1">Com 15+ tools, confunde <code>search_products</code> com <code>search_orders</code> porque as descrições são vagas/parecidas. <b>Mitigação:</b> nomes e descrições disjuntas, 1-2 exemplos no schema, ≤7 tools por agente.</div>
 </div>
 </div>
 
@@ -2308,79 +2154,56 @@ Estudos da Anthropic sugerem que <b>muitas falhas vêm de tools mal descritas</b
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
 <h1>📊 Onde agentes falham — distribuição de erros</h1>
-<div class="text-xs" style="opacity:0.8; margin-bottom:0.5rem;">Dados agregados de produção (Langsmith, 2024). Clique nos cards para expandir.</div>
+<div class="text-xs" style="opacity:0.8; margin-bottom:0.5rem;">Dados agregados de produção (Langsmith, 2024). Cada barra mostra a fatia do tipo de falha.</div>
 
 <div class="stagger-in" style="display:grid; gap:0.5rem;">
 
-<div class="card card-cyan expandable">
+<div class="card card-cyan">
 <div style="display:flex; align-items:center; gap:0.5rem;">
 <div class="text-sm"><b>🔧 Tool description ruim — 35%</b></div>
 <div style="flex:1; height:8px; background:rgba(34,211,238,0.2); border-radius:999px;"><div style="height:100%;width:35%;background:#22d3ee;border-radius:999px;"></div></div>
 </div>
-<div class="card-detail text-xs">
-<p><b>O que acontece:</b> O LLM escolhe a tool errada ou passa argumentos incorretos porque a descrição é vaga, ambígua ou incompleta.</p>
-<p><b>Exemplo real:</b> Uma tool chamada <code>get_data(q)</code> sem docstring — o agente não sabe se <code>q</code> é uma query SQL, uma pergunta em linguagem natural, ou um ID.</p>
-<p><b>Como resolver:</b> Nomes descritivos (verbo+objeto), docstrings com formato de entrada/saída, tipos explícitos, e exemplos de uso na descrição.</p>
-</div>
+<div class="mt-1 text-xs">Descrição vaga → escolhe a tool errada ou passa args errados (ex: <code>get_data(q)</code> sem docstring). <b>Fix:</b> nome verbo+objeto, formato I/O, tipos e exemplos.</div>
 </div>
 
-<div class="card card-purple expandable">
+<div class="card card-purple">
 <div style="display:flex; align-items:center; gap:0.5rem;">
 <div class="text-sm"><b>🧠 Contexto insuficiente — 25%</b></div>
 <div style="flex:1; height:8px; background:rgba(167,139,250,0.2); border-radius:999px;"><div style="height:100%;width:25%;background:#a78bfa;border-radius:999px;"></div></div>
 </div>
-<div class="card-detail text-xs">
-<p><b>O que acontece:</b> O prompt do sistema não dá informação suficiente para o agente decidir. Ele "adivinha" em vez de perguntar ou buscar.</p>
-<p><b>Exemplo real:</b> Agente de suporte sem acesso ao histórico do cliente tenta resolver problema sem contexto → resposta genérica ou errada.</p>
-<p><b>Como resolver:</b> RAG (retrieval), injeção de contexto dinâmico, memory de curto/longo prazo, e instruções explícitas de "pergunte se não sabe".</p>
-</div>
+<div class="mt-1 text-xs">O prompt não dá info suficiente → o agente "adivinha" em vez de buscar (suporte sem histórico do cliente responde genérico). <b>Fix:</b> RAG, contexto dinâmico, memória, "pergunte se não sabe".</div>
 </div>
 
-<div class="card card-amber expandable">
+<div class="card card-amber">
 <div style="display:flex; align-items:center; gap:0.5rem;">
 <div class="text-sm"><b>🔄 Loop/repetição — 15%</b></div>
 <div style="flex:1; height:8px; background:rgba(251,191,36,0.2); border-radius:999px;"><div style="height:100%;width:15%;background:#fbbf24;border-radius:999px;"></div></div>
 </div>
-<div class="card-detail text-xs">
-<p><b>O que acontece:</b> O agente entra em ciclo infinito — chama a mesma tool repetidamente com os mesmos argumentos, ou alterna entre duas ações sem progresso.</p>
-<p><b>Exemplo real:</b> Agente tenta corrigir um bug, roda o teste, falha, faz a mesma correção, roda de novo... 50 vezes.</p>
-<p><b>Como resolver:</b> Limite de iterações (max_steps), detecção de repetição no histórico, e instrução de "se falhou 2x com a mesma abordagem, tente algo diferente".</p>
-</div>
+<div class="mt-1 text-xs">Chama a mesma tool sem progresso (corrige bug, roda teste, falha, repete a mesma correção 50×). <b>Fix:</b> <code>max_steps</code>, detecção de repetição, "se falhou 2× igual, mude de abordagem".</div>
 </div>
 
-<div class="card expandable" style="border-color:rgba(96,165,250,0.3);">
+<div class="card" style="border-color:rgba(96,165,250,0.3);">
 <div style="display:flex; align-items:center; gap:0.5rem;">
 <div class="text-sm"><b>👻 Alucinação de tool — 10%</b></div>
 <div style="flex:1; height:8px; background:rgba(96,165,250,0.2); border-radius:999px;"><div style="height:100%;width:10%;background:#60a5fa;border-radius:999px;"></div></div>
 </div>
-<div class="card-detail text-xs">
-<p><b>O que acontece:</b> O agente inventa uma ferramenta que não existe (ex: chama <code>send_slack_message</code> quando só tem <code>send_email</code>), ou inventa parâmetros que a tool não aceita.</p>
-<p><b>Exemplo real:</b> GPT-4 tentando chamar <code>browser.click()</code> em um ambiente que só tem tools de texto.</p>
-<p><b>Como resolver:</b> Schema estrito (function calling com validação), listar explicitamente as tools disponíveis no system prompt, rejeitar chamadas inválidas com mensagem clara.</p>
-</div>
+<div class="mt-1 text-xs">Inventa uma tool inexistente (<code>send_slack_message</code> quando só há <code>send_email</code>) ou params inválidos. <b>Fix:</b> schema estrito, listar as tools no system prompt, rejeitar chamadas inválidas.</div>
 </div>
 
-<div class="card expandable" style="border-color:rgba(74,222,128,0.3);">
+<div class="card" style="border-color:rgba(74,222,128,0.3);">
 <div style="display:flex; align-items:center; gap:0.5rem;">
 <div class="text-sm"><b>📋 Parsing/formato — 10%</b></div>
 <div style="flex:1; height:8px; background:rgba(74,222,128,0.2); border-radius:999px;"><div style="height:100%;width:10%;background:#4ade80;border-radius:999px;"></div></div>
 </div>
-<div class="card-detail text-xs">
-<p><b>O que acontece:</b> O modelo gera JSON malformado, esquece fechar chaves, mistura texto com JSON, ou retorna formato inesperado que quebra o parser.</p>
-<p><b>Exemplo real:</b> Modelo retorna <code>```json\n{...}\n```</code> com markdown wrapper quando o parser espera JSON puro.</p>
-<p><b>Como resolver:</b> Structured output (modo JSON da API), regex de extração tolerante, retry com feedback do erro de parsing, e few-shot examples no prompt.</p>
-</div>
+<div class="mt-1 text-xs">JSON malformado ou com wrapper markdown (<code>```json…```</code>) quebra o parser. <b>Fix:</b> structured output (modo JSON da API), regex de extração tolerante, retry com o erro, few-shot.</div>
 </div>
 
-<div class="card expandable" style="border-color:rgba(248,113,113,0.3);">
+<div class="card" style="border-color:rgba(248,113,113,0.3);">
 <div style="display:flex; align-items:center; gap:0.5rem;">
 <div class="text-sm"><b>❓ Outros — 5%</b></div>
 <div style="flex:1; height:8px; background:rgba(248,113,113,0.2); border-radius:999px;"><div style="height:100%;width:5%;background:#f87171;border-radius:999px;"></div></div>
 </div>
-<div class="card-detail text-xs">
-<p><b>Inclui:</b> timeout de API, rate limiting, token overflow (contexto excede janela), permissões insuficientes, e falhas de rede.</p>
-<p><b>Como resolver:</b> Retry com backoff, chunking de contexto, graceful degradation, e circuit breakers para APIs externas.</p>
-</div>
+<div class="mt-1 text-xs">Timeout de API, rate limiting, token overflow, permissões insuficientes, falhas de rede. <b>Fix:</b> retry com backoff, chunking de contexto, graceful degradation, circuit breakers.</div>
 </div>
 
 </div>
