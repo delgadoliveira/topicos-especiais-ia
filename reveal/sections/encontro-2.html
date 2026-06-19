@@ -504,40 +504,50 @@ R:"""</code></pre>
 <div class="insight-box mt-2 text-xs">🏢 <b>Na prática:</b> Cursor, Devin e Claude Code usam Reflexion internamente — quando o código não compila, o agente lê o erro, critica sua solução e tenta de novo.</div>
 </section>
 
-<section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
-<h1>Self-Reflection em código</h1>
-<div class="card text-xs card-cyan parallax-card" style="margin-bottom: 0.75rem;">
-<p class="slide-in-left">📖 <b>Em palavras (sem ler código):</b> o agente <b>tenta resolver</b>, depois <b>se critica</b> ("isso de fato responde a pergunta?"), e se a crítica disser que não, ele <b>tenta de novo</b> levando a crítica em consideração. Repete até dar certo ou bater o limite de tentativas.</p>
-</div>
-<pre class="scale-in"><code class="language-python">def agent_with_reflection(tarefa: str, max_tries: int = 3):
-    historico = []
-    for _ in range(max_tries):
-        contexto = f"Tarefa: {tarefa}\n"
-        if historico:
-            contexto += f"Tentativas anteriores e críticas:\n{historico}\n"
-        resposta = llm.invoke(contexto + "Sua resposta:")
-        critica_raw = llm.invoke(f"""
-        Tarefa original: {tarefa}
-        Resposta proposta: {resposta}
-        A resposta resolve a tarefa? Aponte erros específicos.
-        Responda em JSON: {{"ok": bool, "criticas": [str]}}
-        """)</code></pre>
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #115e59 100%)">
+<h1>🔧 Setup do Colab — Hugging Face</h1>
+<div class="card text-xs card-cyan parallax-card" style="margin-bottom: 0.5rem;">📖 <b>Em palavras:</b> rode esta célula <b>uma vez</b> no topo do notebook. Ela cria um <code>client</code> e um helper <code>llm()</code> apontando para um <b>modelo aberto na Hugging Face</b> (API compatível com OpenAI). <b>Todos os próximos slides de código reutilizam</b> esse <code>llm()</code>/<code>client</code> — sem reinstalar nada.</div>
+<pre class="scale-in" style="margin:0;"><code class="language-python"># ▶️ Rode UMA vez. Crie um token em huggingface.co/settings/tokens
+#    e salve no Colab em Secrets (🔑) com o nome HF_TOKEN.
+!pip install -q openai
+from openai import OpenAI
+from google.colab import userdata
+
+MODELO = "Qwen/Qwen2.5-7B-Instruct"
+client = OpenAI(base_url="https://router.huggingface.co/v1",
+                api_key=userdata.get("HF_TOKEN"))
+
+def llm(prompt: str, **kw) -> str:          # helper usado nos próximos slides
+    resp = client.chat.completions.create(
+        model=MODELO,
+        messages=[{"role": "user", "content": prompt}],
+        **kw)
+    return resp.choices[0].message.content.strip()
+
+print(llm("Responda em uma palavra: capital da França?"))</code></pre>
+<div class="card mt-2 text-xs card-amber parallax-card">💡 <b>Sem token / offline?</b> Troque só a função <code>llm()</code> por um <code>transformers.pipeline(...)</code> com um modelo menor (ex.: <code>Qwen/Qwen2.5-1.5B-Instruct</code>). O resto do código dos próximos slides continua igual.</div>
 </section>
 
-<section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
-<h1>Self-Reflection em código — continuação</h1>
-<pre class="scale-in"><code class="language-python">        critica = json.loads(critica_raw)
-        if critica["ok"]:
+<section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
+<h1>Self-Reflection em código <span class="text-xs" style="opacity:0.7;">· rode no Colab</span></h1>
+<div class="card text-xs card-cyan parallax-card" style="margin-bottom: 0.5rem;">📖 <b>Em palavras:</b> o agente <b>tenta</b>, depois <b>se critica</b> ("isso resolve a tarefa?") e, se não, <b>tenta de novo</b> usando a crítica. Repete até acertar ou bater o limite. Reutiliza o <code>llm()</code> do slide <b>Setup do Colab</b>.</div>
+<pre class="scale-in" style="margin:0;"><code class="language-python"># reutiliza o llm() definido no slide "Setup do Colab"
+def agente_reflexivo(tarefa, tentativas=3):
+    critica = ""
+    for i in range(tentativas):
+        p = f"Tarefa: {tarefa}\n"
+        if critica:
+            p += f"Crítica anterior: {critica}\nCorrija.\n"
+        resposta = llm(p + "Responda de forma direta:")
+        aval = llm(f"Tarefa: {tarefa}\nResposta: {resposta}\n"
+                   "Está correta? Responda 'OK' ou aponte o erro.")
+        if aval.upper().startswith("OK"):
             return resposta
-        historico.append({
-            "tentativa": resposta,
-            "criticas": critica["criticas"],
-        })
+        critica = aval                 # vira contexto da próxima tentativa
+    return resposta                    # melhor esforço
 
-    return resposta  # devolve melhor esforço</code></pre>
-<div class="card mt-2 text-xs card-amber parallax-card">
-<p class="slide-in-left">⚠️ <b>Cuidado:</b> usar o <b>mesmo modelo</b> pra gerar e criticar tem viés (overconfidence). Idealmente, use um modelo diferente — ou um <b>maior</b> — como crítico.</p>
-</div>
+print(agente_reflexivo("Quanto é 17 * 24? Responda só o número."))</code></pre>
+<div class="card mt-2 text-xs card-amber parallax-card">⚠️ <b>Cuidado:</b> gerar e criticar com o <b>mesmo modelo</b> tem viés (overconfidence). Em produção, use um modelo <b>diferente ou maior</b> como crítico.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #1e1b4b 100%)">
@@ -558,18 +568,29 @@ pessoa = llm.with_structured_output(Pessoa).invoke("Extraia nome e idade")
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #064e3b 100%)">
-<h1>Pydantic AI — framework type-safe</h1>
-<div class="card text-xs card-cyan parallax-card" style="margin-bottom: 0.75rem;">📖 <b>Em palavras:</b> você descreve a forma do resultado e o framework devolve um objeto Python validado, pronto para DBs, filas e APIs — sem torcer para o JSON vir certo.</div>
-<pre class="scale-in"><code class="language-python">from pydantic import BaseModel; from pydantic_ai import Agent
+<h1>Pydantic AI — framework type-safe <span class="text-xs" style="opacity:0.7;">· Hugging Face grátis</span></h1>
+<div class="card text-xs card-cyan parallax-card" style="margin-bottom: 0.5rem;">📖 <b>Em palavras:</b> você descreve a forma do resultado e o framework devolve um objeto Python validado, pronto para DBs, filas e APIs — sem torcer para o JSON vir certo. Aqui apontamos para um <b>modelo aberto da Hugging Face</b> (mesmo <code>HF_TOKEN</code> do Setup).</div>
+<pre class="scale-in" style="margin:0;"><code class="language-python">!pip install -q pydantic-ai
+from pydantic import BaseModel
+from pydantic_ai import Agent
+from pydantic_ai.models.openai import OpenAIModel
+from pydantic_ai.providers.openai import OpenAIProvider
+from google.colab import userdata
+
+# modelo aberto (grátis) da Hugging Face, via API compatível com OpenAI
+model = OpenAIModel("Qwen/Qwen2.5-7B-Instruct",
+    provider=OpenAIProvider(base_url="https://router.huggingface.co/v1",
+                            api_key=userdata.get("HF_TOKEN")))
 
 class Ticket(BaseModel):
-    titulo: str; prioridade: int; departamento: str; requer_resposta_imediata: bool
+    titulo: str; prioridade: int
+    departamento: str; requer_resposta_imediata: bool
 
-agent = Agent("openai:gpt-4o-mini", result_type=Ticket,
+agent = Agent(model, output_type=Ticket,
               system_prompt="Você classifica tickets de suporte.")
-ticket = agent.run_sync("Cliente diz que servidor caiu, perdemos R$ 10k/h").data
-print(ticket.prioridade, ticket.requer_resposta_imediata)  # 5 True</code></pre>
-<div class="card mt-3 text-xs card-cyan parallax-card">🎯 <b>Por que importa:</b> agentes em produção alimentam <b>outros sistemas</b>. Com schema, você troca parsing defensivo por validação explícita.</div>
+ticket = agent.run_sync("Cliente diz: servidor caiu, perdemos R$ 10k/h").output
+print(ticket.prioridade, ticket.requer_resposta_imediata)  # ex: 5 True</code></pre>
+<div class="card mt-2 text-xs card-amber parallax-card">🎯 <b>Validação de tipos:</b> se o modelo devolver algo fora do schema, o Pydantic AI <b>rejeita e pede retry</b> automaticamente. Use um modelo com <b>tool calling</b> (ex.: Qwen2.5-Instruct) para o structured output funcionar.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)">
