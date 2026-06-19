@@ -872,12 +872,17 @@ Solver(E1, E2, E3) -> recomendação</code></pre>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
-<h1>Agentic Planning — contexto</h1>
+<h1>Agentic Planning — das raízes clássicas aos LLMs</h1>
+<p class="slide-in-left text-xs" style="opacity:0.85; margin-bottom:0.6rem;">Planejar com IA não nasceu com os LLMs. Desde os anos 1970 a IA clássica já formalizava "como chegar do estado atual ao objetivo". Vale entender essas raízes para ver <b>o que os LLMs herdaram e o que mudaram</b>.</p>
 <div class="grid-2 stagger-in text-xs" style="gap:0.8rem;">
-<div class="card card-purple parallax-card"><b>IA clássica</b><div class="mt-1">STRIPS e HTN tratavam o mundo como estado, ações válidas e objetivo.</div></div>
-<div class="card card-cyan parallax-card"><b>Com LLMs</b><div class="mt-1">O plano é plausível, não garantido. Por isso ele precisa de tools, observação e revisão.</div></div>
+<div class="card card-purple parallax-card"><b>📐 STRIPS</b> <span class="opacity-70">(Stanford Research Institute Problem Solver, 1971)</span>
+<div class="mt-1">Descreve o mundo como <b>estados</b> (fatos verdadeiros) e <b>ações</b> com <b>pré-condições</b> (o que precisa ser verdade) e <b>efeitos</b> (o que muda). O planejador <b>busca</b> uma sequência de ações que transforma o estado inicial no objetivo.</div>
+<div class="mt-1">✅ <b>Força:</b> rigoroso e verificável. ⚠️ <b>Limite:</b> exige o mundo todo modelado à mão — frágil fora do domínio.</div></div>
+<div class="card card-cyan parallax-card"><b>🌳 HTN</b> <span class="opacity-70">(Hierarchical Task Network)</span>
+<div class="mt-1">Em vez de buscar ação por ação, <b>decompõe</b> uma tarefa grande ("organizar viagem") em subtarefas, usando <b>métodos</b> pré-definidos por especialistas, até chegar em ações primitivas executáveis.</div>
+<div class="mt-1">✅ <b>Força:</b> captura o "saber-fazer" humano e escala bem. ⚠️ <b>Limite:</b> alguém precisa codificar todos os métodos antes.</div></div>
 </div>
-<div class="card mt-2 text-xs card-green parallax-card"><b>Resumo pedagógico:</b> planning é a ponte entre <b>responder</b> e <b>gerenciar execução</b>.</div>
+<div class="card mt-2 text-xs card-green parallax-card"><b>🤖 Com LLMs, o que muda:</b> o modelo gera o plano em <b>linguagem natural</b>, sem o mundo formalizado à mão — muito mais flexível. O preço: o plano é <b>plausível, não garantido</b> (pode alucinar passos ou pré-condições). Por isso o planning moderno precisa de <b>tools</b> (agir no mundo real), <b>observação</b> (ver o que deu certo) e <b>revisão/replanejamento</b>. É a ponte entre <b>responder</b> e <b>gerenciar execução</b>.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
@@ -989,12 +994,12 @@ Responda APENAS JSON:
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #172554 100%)">
 <h1>🚀 Quatro upgrades modernos</h1>
-<p class="slide-in-left" style="opacity:0.8;">Planejar ajuda muito. Mas, em tarefas difíceis, ainda dá para melhorar <b>durante a execução</b>.</p>
-<div class="grid-2 stagger-in text-sm" style="gap:0.8rem;">
-<div class="card card-purple expandable parallax-card"><b>⚡ Test-time compute</b><div class="card-detail"><p>Gastar mais compute na inferência (não no treino). OpenAI o1/o3 usam isso: pensam mais antes de responder. Resultado: +30% em matemática vs GPT-4. Custo: 3-10x mais tokens.</p></div></div>
-<div class="card card-cyan expandable parallax-card"><b>🌳 LATS</b><div class="card-detail"><p>Language Agent Tree Search: combina MCTS + LLM. Explora múltiplos caminhos, avalia cada um, aprofunda o melhor. Usado em HumanEval: +20% vs CoT simples. Trade-off: 5-50x mais chamadas.</p></div></div>
-<div class="card card-green expandable parallax-card"><b>✅ PRM</b><div class="card-detail"><p>Process Reward Model: treina um modelo para avaliar cada passo do raciocínio. DeepMind usou em MATH: 78% → 92% de acerto. Essencial quando o resultado final pode estar "certo por acaso".</p></div></div>
-<div class="card card-amber expandable parallax-card"><b>🏃 SPRINT</b><div class="card-detail"><p>Speculative Planning with Reified Inference: planeja parcialmente → dispara ondas paralelas → usa resultado para replanejar. Reduz latência em 40-60% em tarefas com muitas tools. Inspiração: Cursor executa edits em paralelo enquanto planeja o próximo.</p></div></div>
+<p class="slide-in-left text-xs" style="opacity:0.8; margin-bottom:0.6rem;">Planejar ajuda muito. Mas, em tarefas difíceis, dá para melhorar a qualidade <b>durante a execução</b> — gastando mais "pensamento", explorando caminhos, verificando passos e paralelizando. Estes quatro são os mais usados em 2024-2025:</p>
+<div class="grid-2 stagger-in text-xs" style="gap:0.7rem;">
+<div class="card card-purple parallax-card"><b>⚡ Test-time compute</b><div class="mt-1">Gastar mais computação na <b>hora de responder</b> (não no treino): o modelo "pensa mais" antes de entregar. o1/o3 fazem isso → <b>+30%</b> em matemática vs GPT-4. Custo: 3-10× mais tokens.</div></div>
+<div class="card card-cyan parallax-card"><b>🌳 LATS</b> <span class="opacity-70">(Language Agent Tree Search)</span><div class="mt-1">Combina <b>busca em árvore</b> (MCTS) com LLM: explora vários caminhos, avalia cada um e aprofunda o melhor. <b>+20%</b> em código vs CoT. Custo: 5-50× mais chamadas.</div></div>
+<div class="card card-green parallax-card"><b>✅ PRM</b> <span class="opacity-70">(Process Reward Model)</span><div class="mt-1">Um modelo que avalia <b>cada passo</b> do raciocínio, não só a resposta final. DeepMind em MATH: <b>78% → 92%</b>. Evita acertar "por acaso" com raciocínio errado.</div></div>
+<div class="card card-amber parallax-card"><b>🏃 SPRINT</b> <span class="opacity-70">(Speculative Planning)</span><div class="mt-1">Planeja <b>parcialmente</b> → dispara ondas de execução paralelas → usa o retorno para replanejar. <b>-40 a -60%</b> de latência com muitas tools. (Cursor edita arquivos em paralelo enquanto planeja.)</div></div>
 </div>
 </section>
 
@@ -1015,13 +1020,14 @@ Responda APENAS JSON:
 
 <section data-background-gradient="linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)">
 <h1>✅ ORM vs PRM + 🏃 SPRINT</h1>
+<p class="slide-in-left text-xs" style="opacity:0.85; margin-bottom:0.6rem;">Como saber se o raciocínio do agente está bom? Há duas filosofias de <b>verificação</b> — e o SPRINT ataca um problema diferente: <b>velocidade</b>.</p>
 <div class="grid-3 stagger-in text-xs" style="gap:0.7rem;">
-<div class="card card-amber parallax-card"><b>ORM</b><br>Julga só o resultado final.<div class="mt-1 opacity-80">“A resposta parece boa?”</div></div>
-<div class="card card-green parallax-card"><b>PRM</b><br>Verifica passo a passo.<div class="mt-1 opacity-80">“A multiplicação está certa?”</div></div>
-<div class="card card-cyan parallax-card"><b>SPRINT</b><br>Planeja o suficiente para disparar ondas paralelas e replanejar com o retorno.</div>
+<div class="card card-amber parallax-card"><b>ORM</b> <span class="opacity-70">(Outcome Reward Model)</span><br><div class="mt-1">Julga <b>só o resultado final</b>. "A resposta parece boa?"</div><div class="mt-1 opacity-80">✅ Barato e simples. ⚠️ Pode aprovar uma resposta certa <b>por acaso</b>, com raciocínio errado no meio.</div></div>
+<div class="card card-green parallax-card"><b>PRM</b> <span class="opacity-70">(Process Reward Model)</span><br><div class="mt-1">Verifica <b>cada passo</b> do raciocínio. "A multiplicação na etapa 3 está certa?"</div><div class="mt-1 opacity-80">✅ Pega erro lógico no meio do caminho. ⚠️ Mais caro de treinar e rodar.</div></div>
+<div class="card card-cyan parallax-card"><b>SPRINT</b> <span class="opacity-70">(Speculative Planning)</span><br><div class="mt-1">Não é sobre acerto, e sim <b>tempo</b>: planeja o suficiente para já disparar <b>ondas paralelas</b> e replaneja com o retorno.</div><div class="mt-1 opacity-80">✅ Corta latência. ⚠️ Pode desperdiçar trabalho especulativo.</div></div>
 </div>
 <div class="flow-diagram mt-2"><div class="flow-node node-purple">Plano parcial</div><div class="flow-arrow">→</div><div class="flow-node node-cyan">Execuções paralelas</div><div class="flow-arrow">→</div><div class="flow-node node-amber">Verificação</div><div class="flow-arrow">→</div><div class="flow-node node-green">Nova onda</div></div>
-<div class="tip-box mt-2 text-xs">Se o gargalo é <b>erro lógico</b>, invista em PRM. Se o gargalo é <b>tempo de coleta</b>, pense em SPRINT.</div>
+<div class="tip-box mt-2 text-xs">Regra prática: se o gargalo é <b>erro lógico</b>, invista em <b>PRM</b> (verificação por passo). Se o gargalo é <b>tempo de coleta</b>, pense em <b>SPRINT</b> (paralelismo especulativo). <b>ORM</b> é o suficiente quando só o resultado importa.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #064e3b 100%)">
@@ -1206,20 +1212,35 @@ Action: buscar_voo("GRU","JFK")</code></pre>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #1f2937 100%)">
 <h1>Comparando frameworks</h1>
-<div class="text-xs mt-2">
-<table>
-<thead><tr><th>Framework</th><th>Controle</th><th>Complexidade</th><th>Melhor para</th></tr></thead>
-<tbody>
-<tr><td><b>Python puro</b></td><td>🟢🟢🟢</td><td>🟡</td><td>Aprender e fluxos simples</td></tr>
-<tr><td><b>OpenAI Agents SDK</b></td><td>🟢🟢</td><td>🟢</td><td>Protótipo com poucas tools</td></tr>
-<tr><td><b>smolagents</b></td><td>🟢🟢</td><td>🟢</td><td>Ecossistema Hugging Face</td></tr>
-<tr><td><b>LangChain</b></td><td>🟡</td><td>🟡</td><td>Integrações e chains</td></tr>
-<tr><td><b>LangGraph</b></td><td>🟢🟢🟢</td><td>🔴</td><td>Produção, HITL, estado</td></tr>
-<tr><td><b>CrewAI / AutoGen</b></td><td>🟡</td><td>🔴</td><td>Multi-agent conversacional</td></tr>
-</tbody>
-</table>
+<p class="slide-in-left text-xs" style="opacity:0.85; margin-bottom:0.6rem;">Todos resolvem o mesmo loop (pensar → agir → observar). Mudam o <b>nível de controle</b> que entregam e o <b>código que você escreve</b>. Veja a "assinatura" de cada um e quando usar:</p>
+<div class="grid-3 stagger-in text-xs" style="gap:0.6rem;">
+<div class="card card-green parallax-card"><b>🐍 Python puro</b> <span class="opacity-70">controle 🟢🟢🟢 · complex. 🟡</span>
+<pre style="margin:0.3rem 0;"><code class="language-python">while True:
+    t, act = parse(llm(msgs))
+    msgs += run_tool(act)</code></pre>
+<div>💼 <b>Use:</b> aprender o loop ReAct; fluxos simples, sem dependências.</div></div>
+<div class="card card-cyan parallax-card"><b>🤖 OpenAI Agents SDK</b> <span class="opacity-70">🟢🟢 · 🟢</span>
+<pre style="margin:0.3rem 0;"><code class="language-python">agent = Agent(tools=[buscar])
+Runner.run(agent, input)</code></pre>
+<div>💼 <b>Use:</b> protótipo rápido com poucas tools no mundo OpenAI.</div></div>
+<div class="card card-amber parallax-card"><b>🤗 smolagents</b> <span class="opacity-70">🟢🟢 · 🟢</span>
+<pre style="margin:0.3rem 0;"><code class="language-python">CodeAgent(tools=[...],
+  model=HfApiModel()).run(q)</code></pre>
+<div>💼 <b>Use:</b> Hugging Face; agentes que escrevem e rodam código.</div></div>
+<div class="card card-purple parallax-card"><b>🔗 LangChain</b> <span class="opacity-70">controle 🟡 · complex. 🟡</span>
+<pre style="margin:0.3rem 0;"><code class="language-python">agent = create_tool_calling_agent(
+  llm, tools, prompt)</code></pre>
+<div>💼 <b>Use:</b> muitas integrações prontas e chains lineares.</div></div>
+<div class="card card-cyan parallax-card"><b>🕸️ LangGraph</b> <span class="opacity-70">🟢🟢🟢 · 🔴</span>
+<pre style="margin:0.3rem 0;"><code class="language-python">g.add_node("agent", fn)
+g.add_conditional_edges(...)</code></pre>
+<div>💼 <b>Use:</b> produção — estado, HITL, checkpoints, auditoria.</div></div>
+<div class="card card-red parallax-card"><b>👥 CrewAI / AutoGen</b> <span class="opacity-70">🟡 · 🔴</span>
+<pre style="margin:0.3rem 0;"><code class="language-python">Crew(agents=[...],
+  tasks=[...]).kickoff()</code></pre>
+<div>💼 <b>Use:</b> vários agentes com papéis conversando entre si.</div></div>
 </div>
-<div class="insight-box mt-2 text-xs">Regra prática: comece simples; suba de nível quando o problema exigir <b>estado, checkpoints ou auditabilidade</b>.</div>
+<div class="insight-box mt-2 text-xs">Regra prática: comece com <b>Python puro</b> para entender o loop; suba para <b>LangGraph</b> quando o problema exigir <b>estado, checkpoints ou auditabilidade</b>.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #064e3b 100%)">

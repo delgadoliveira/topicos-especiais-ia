@@ -2219,16 +2219,27 @@ O loop repete até o modelo achar que tem a resposta. Esse padrão é a base de 
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
 <h1>ReAct em ação — exemplo</h1>
-<p><strong>Pergunta:</strong> <em>"Qual a população do Brasil em milhões, multiplicada por 7?"</em></p>
-<div class="agent-trace mt-2">
-  <div class="trace-line trace-thought">💭 Thought: Preciso primeiro descobrir a população do Brasil, depois multiplicar por 7.</div>
+<p class="text-xs" style="opacity:0.85; margin-bottom:0.5rem;"><strong>Pergunta:</strong> <em>"Qual a população do Brasil em milhões, multiplicada por 7?"</em> — o agente não sabe a resposta de cabeça, então <b>itera</b>: pensa, age com uma tool, observa o retorno e repete até poder concluir.</p>
+<div class="grid-2" style="gap:1rem; align-items:start;">
+<div class="agent-trace text-xs">
+  <div class="trace-line"><span class="trace-thought">Iteração 1 · 💭 Thought</span> Preciso primeiro descobrir a população do Brasil, depois multiplicar por 7.</div>
   <div class="trace-line trace-action">⚡ Action: busca("população do Brasil")</div>
   <div class="trace-line trace-obs">👁️ Observation: "Aproximadamente 215 milhões (IBGE, 2024)."</div>
-  <div class="trace-line trace-thought">💭 Thought: Agora multiplico 215 por 7.</div>
+  <div class="trace-line"><span class="trace-thought">Iteração 2 · 💭 Thought</span> Já tenho 215. Agora multiplico por 7 — uso a calculadora para não errar.</div>
   <div class="trace-line trace-action">⚡ Action: calculadora("215 * 7")</div>
   <div class="trace-line trace-obs">👁️ Observation: 1505</div>
+  <div class="trace-line"><span class="trace-thought">Iteração 3 · 💭 Thought</span> Tenho tudo que preciso. Posso responder.</div>
   <div class="trace-line trace-result">✅ Final Answer: Aproximadamente 1.505 milhões.</div>
 </div>
+<div class="stagger-in text-xs" style="display:flex; flex-direction:column; gap:0.4rem;">
+<div class="card card-purple parallax-card"><b>💭 Thought</b> — o modelo raciocina sobre <b>o que ainda falta</b> e decide qual o próximo passo (não é a resposta).</div>
+<div class="card card-amber parallax-card"><b>⚡ Action</b> — escolhe uma <b>tool</b> e seus argumentos. Aqui o LLM para de "achar" e delega ao mundo real (busca, calculadora).</div>
+<div class="card card-cyan parallax-card"><b>👁️ Observation</b> — o <b>resultado real</b> da tool volta como novo contexto. É o que ancora o agente em fatos.</div>
+<div class="card card-green parallax-card"><b>🔁 Loop</b> — repete Thought → Action → Observation a cada <b>iteração</b>, acumulando informação até ter o suficiente.</div>
+<div class="card card-red parallax-card"><b>✅ Final Answer</b> — só conclui quando <b>nenhum dado falta</b>. Note: foram 2 tools em 3 iterações.</div>
+</div>
+</div>
+<div class="tip-box text-xs" style="margin-top:0.5rem;">🔑 O ReAct não responde de uma vez: ele <b>intercala raciocínio e ação</b> em iterações. Cada Observation pode mudar o plano — é isso que o torna robusto a dados que ele não tinha de início.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #1e3a5f 100%)">
