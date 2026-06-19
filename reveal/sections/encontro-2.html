@@ -1217,12 +1217,15 @@ executor = AgentExecutor(agent=agent, tools=[calculadora], verbose=True)</code><
 
 <section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
 <h1>LangGraph — por que ele apareceu?</h1>
-<p class="slide-in-left" style="opacity:0.8;">A crítica ao LangChain era simples: <b>“abstrai demais”</b>. LangGraph surge para tornar o fluxo explícito.</p>
-<div class="grid-2 stagger-in text-xs" style="gap:0.8rem;">
-<div class="card card-purple parallax-card"><b>Modelo mental</b><br>Cada nó é uma função; cada aresta, uma decisão.</div>
-<div class="card card-green parallax-card"><b>Valor</b><br>Você enxerga estado, caminhos, pausas e retomadas.</div>
+<p class="slide-in-left text-sm" style="opacity:0.88; margin-bottom:0.55rem;">LangChain popularizou <b>chains</b> — sequências lineares (A→B→C). Mas agente real <b>não é linha reta</b>: ele repete tools, ramifica por decisão e às vezes pausa para um humano. As chains <b>escondiam esse controle</b>. O <b>LangGraph</b> (time LangChain, 2024) modela o agente como um <b>grafo de estado explícito</b> — inspirado em computação em grafo (Pregel/Google).</p>
+<div class="grid-2 stagger-in text-xs" style="gap:0.55rem;">
+<div class="card card-purple parallax-card"><b>🗃️ State</b> — a memória compartilhada (um <code>TypedDict</code>) que passa por todos os nós; cada nó <b>lê e atualiza</b> esse estado.</div>
+<div class="card card-cyan parallax-card"><b>⚙️ Nodes</b> — funções (ou agentes inteiros) que fazem <b>um passo</b>: chamar o LLM, rodar uma tool, validar, resumir.</div>
+<div class="card card-green parallax-card"><b>➡️ Edges</b> — para onde ir depois: <b>fixa</b> (sempre A→B) ou <b>condicional</b>, quando o próximo nó <b>depende do estado</b>.</div>
+<div class="card card-amber parallax-card"><b>🔁 Conditional edges</b> — o roteamento que cria <b>ramos e ciclos</b> (ex.: "tem tool_call? → tools; senão → END").</div>
 </div>
-<div class="flow-diagram mt-2"><div class="flow-node node-purple">Entrada</div><div class="flow-arrow">→</div><div class="flow-node node-cyan">Agent</div><div class="flow-arrow">→</div><div class="flow-node node-amber">Tools?</div><div class="flow-arrow">→</div><div class="flow-node node-green">END</div></div>
+<div class="insight-box mt-2 text-xs"><b>O que isso destrava</b> (impossível numa chain linear): <b>ciclos nativos</b> (pensar→agir→observar como grafo, não <code>while</code> solto) · <b>checkpoints</b> (estado durável → pausar, retomar, "time-travel") · <b>human-in-the-loop</b> (interromper antes de ação sensível) · <b>streaming nó-a-nó</b>.</div>
+<div class="flow-diagram mt-2"><div class="flow-node node-purple">Entrada</div><div class="flow-arrow">→</div><div class="flow-node node-cyan">Agent</div><div class="flow-arrow">⇄</div><div class="flow-node node-amber">Tools</div><div class="flow-arrow">→</div><div class="flow-node node-green">END</div></div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
