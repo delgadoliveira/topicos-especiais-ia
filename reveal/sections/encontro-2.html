@@ -1069,37 +1069,23 @@ print(json.loads(resp.choices[0].message.content))</code></pre>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
-<h1>Function Calling — o loop</h1>
-<div class="card text-xs card-cyan parallax-card" style="margin-bottom:0.75rem;">Em produção, o agente fica nesse ciclo: <b>consultar modelo → executar tool → devolver observação → repetir</b>.</div>
-<pre class="scale-in"><code class="language-python">def run_agent_fc(pergunta: str, max_steps: int = 6):
-   msgs = [
-       {"role": "system", "content": SYSTEM_FC},
-       {"role": "user", "content": pergunta},
-   ]
+<h1>Function Calling — o loop completo</h1>
+<p class="text-xs" style="opacity:0.82; margin:0 0 0.4rem;">O ciclo de produção: <b>consultar modelo → se pediu tool, executar e devolver observação → repetir → parar quando houver resposta</b>.</p>
+<pre class="scale-in" style="font-size:0.72em;"><code class="language-python">def run_agent_fc(pergunta: str, max_steps: int = 6):
+   msgs = [{"role": "system", "content": SYSTEM_FC},
+           {"role": "user", "content": pergunta}]
    for _ in range(max_steps):
        resp = client.chat.completions.create(
-           model="Qwen/Qwen2.5-7B-Instruct",
-           messages=msgs,
-           max_tokens=150,
-       )
+           model="Qwen/Qwen2.5-7B-Instruct", messages=msgs, max_tokens=150)
        out = json.loads(resp.choices[0].message.content)
-       if "answer" in out:
+       if "answer" in out:                     # modelo decidiu responder
            return out["answer"]
-       msgs.append({"role": "assistant", "content": json.dumps(out)})</code></pre>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
-<h1>Function Calling — fluxo completo</h1>
-<pre class="scale-in"><code class="language-python">        tool_name = out["tool"]
-       args = out["args"]
+       msgs.append({"role": "assistant", "content": json.dumps(out)})
+       tool_name, args = out["tool"], out["args"]   # senão, roda a tool
        result = TOOLS[tool_name](**args)
-       msgs.append({
-           "role": "tool",
-           "name": tool_name,
-           "content": str(result),
-       })
+       msgs.append({"role": "tool", "name": tool_name, "content": str(result)})
    return "Max steps atingido."</code></pre>
-<div class="grid-2 mt-2 stagger-in text-xs" style="gap:0.7rem;">
+<div class="grid-2 mt-1 stagger-in text-xs" style="gap:0.7rem;">
 <div class="card card-green parallax-card"><b>Ganho</b><br>Sem regex e com dados estruturados.</div>
 <div class="card card-amber parallax-card"><b>Cuidado</b><br>Seu código ainda precisa validar nome da tool e tratar erro.</div>
 </div>
@@ -1107,34 +1093,38 @@ print(json.loads(resp.choices[0].message.content))</code></pre>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #0f766e 100%)">
 <h1>O que mudou em relação ao ReAct manual?</h1>
-<p class="slide-in-left text-xs" style="opacity:0.85; margin-bottom:0.7rem;">No ReAct manual, o LLM <b>escrevia a ação em texto livre</b> e o seu código tinha que <b>ler com regex</b>. O <b>Function Calling</b> (OpenAI, jun/2023) transformou isso num <b>contrato nativo</b> do modelo.</p>
-<div class="stagger-in grid-2 text-xs" style="gap:0.8rem;">
-<div class="compare-col bad" style="background: rgba(248, 113, 113, 0.08); border: 1px solid rgba(248, 113, 113, 0.28);"><b>Antes — ReAct manual</b>
-<pre style="margin:0.4rem 0; font-size:0.8em;"><code class="language-text">Thought: preciso do preço
+<p class="slide-in-left text-sm" style="opacity:0.9; margin-bottom:0.9rem;">No ReAct manual o LLM <b>escrevia a ação em texto livre</b> e seu código tinha que <b>ler com regex</b>. O <b>Function Calling</b> (OpenAI, jun/2023) transformou isso num <b>contrato nativo</b> do modelo.</p>
+<div class="stagger-in grid-2 text-sm" style="gap:1rem;">
+<div class="compare-col bad" style="background: rgba(248, 113, 113, 0.08); border: 1px solid rgba(248, 113, 113, 0.28); padding:0.9rem; font-size:0.82em;"><b>❌ Antes — ReAct manual</b>
+<pre style="margin:0.5rem 0; font-size:0.78em;"><code class="language-text">Thought: preciso do preço
 Action: buscar_voo("GRU","JFK")</code></pre>
-<div>Seu código faz <b>regex</b> p/ extrair nome + args.</div>
-<div class="mt-1">❌ parsing de texto frágil<br>❌ argumentos soltos, sem tipo<br>❌ pode inventar tool inexistente<br>❌ normalmente 1 tool por vez</div></div>
-<div class="compare-col good"><b>Agora — Function Calling</b>
-<pre style="margin:0.4rem 0; font-size:0.8em;"><code class="language-json">tool_calls: [{ name: "buscar_voo",
+<div style="opacity:0.85;">Seu código faz <b>regex</b> p/ extrair nome + args.</div>
+<div class="mt-2" style="line-height:1.7;">❌ parsing de texto frágil<br>❌ argumentos soltos, sem tipo<br>❌ pode inventar tool inexistente<br>❌ normalmente 1 tool por vez</div></div>
+<div class="compare-col good" style="padding:0.9rem; font-size:0.82em;"><b>✅ Agora — Function Calling</b>
+<pre style="margin:0.5rem 0; font-size:0.78em;"><code class="language-json">tool_calls: [{ name: "buscar_voo",
   args: {origem:"GRU", destino:"JFK"} }]</code></pre>
-<div>Validado contra um <b>JSON Schema</b> pelo runtime.</div>
-<div class="mt-1">✅ contrato estruturado<br>✅ argumentos tipados<br>✅ só chama tools registradas<br>✅ várias chamadas na mesma resposta</div></div>
+<div style="opacity:0.85;">Validado contra um <b>JSON Schema</b> pelo runtime.</div>
+<div class="mt-2" style="line-height:1.7;">✅ contrato estruturado<br>✅ argumentos tipados<br>✅ só chama tools registradas<br>✅ várias chamadas na mesma resposta</div></div>
 </div>
-<div class="card card-cyan parallax-card text-xs mt-2"><b>🌍 No mundo real:</b> a OpenAI lançou Function Calling em jun/2023; <b>Anthropic</b> (tool use) e <b>Google</b> (Gemini) seguiram. É o que faz o <b>ChatGPT consultar sua agenda</b>, o <b>Zapier AI</b> disparar ações e copilotos lerem <b>CRM/banco de dados</b> — tudo via contrato de tool, não texto solto.</div>
-<div class="insight-box mt-2 text-xs">Function Calling troca "convenção textual" por <b>API orientada a contratos</b> — confiável o bastante para rodar em produção.</div>
+<div class="insight-box mt-2 text-sm"><b>🌍 No mundo real:</b> Anthropic (tool use) e Google (Gemini) seguiram a OpenAI. É o que faz o <b>ChatGPT consultar sua agenda</b> e copilotos lerem <b>CRM/banco</b> — contrato de tool, não texto solto.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #172554 100%)">
 <h1>Parallel tool calls</h1>
+<p class="slide-in-left text-sm" style="opacity:0.9; margin-bottom:0.6rem;">Quando as consultas <b>não dependem uma da outra</b>, o modelo pode pedir <b>várias tools numa única resposta</b> — em vez de uma por vez. O runtime executa todas <b>ao mesmo tempo</b> e devolve os resultados juntos.</p>
+<div class="grid-2 text-xs" style="gap:0.8rem; margin-bottom:0.6rem;">
+<div class="card card-red parallax-card"><b>🐌 Sequencial</b><br>busca hotel A → espera → busca hotel B → espera. Cada passo soma latência.</div>
+<div class="card card-green parallax-card"><b>⚡ Paralelo</b><br>pede A <b>e</b> B na mesma resposta; as duas rodam juntas e os resultados voltam de uma vez.</div>
+</div>
 <div class="agent-trace">
 <div class="trace-line trace-user">Usuário: Compare hotéis no Centro e na Cidade Baixa (POA)</div>
-<div class="trace-line trace-action">LLM: tool_calls [hotel("Centro"), hotel("Cidade Baixa")]</div>
-<div class="trace-line trace-obs">tool: Centro = R$ 280/noite • Cidade Baixa = R$ 210/noite</div>
+<div class="trace-line trace-action">LLM: tool_calls [hotel("Centro"), hotel("Cidade Baixa")] &nbsp;← 2 chamadas de uma vez</div>
+<div class="trace-line trace-obs">tool: Centro = R$ 280/noite • Cidade Baixa = R$ 210/noite &nbsp;← rodam em paralelo</div>
 <div class="trace-line trace-result">LLM: "Cidade Baixa é R$ 70/noite mais barata."</div>
 </div>
 <div class="grid-2 mt-2 stagger-in text-xs" style="gap:0.7rem;">
-<div class="card card-cyan parallax-card"><b>Quando usar</b><br>Quando as consultas são independentes.</div>
-<div class="card card-green parallax-card"><b>Impacto</b><br>Reduz latência em 40-60% em muitos fluxos reais.</div>
+<div class="card card-cyan parallax-card"><b>Quando usar</b><br>Consultas independentes (preços, clima, múltiplas fontes). <b>Não</b> use se uma depende do resultado da outra.</div>
+<div class="card card-green parallax-card"><b>Impacto</b><br>Reduz latência em 40-60% em muitos fluxos reais — o usuário espera 1 rodada, não N.</div>
 </div>
 </section>
 
