@@ -752,23 +752,15 @@ Qual responde melhor? A / B / Empate"""</code></pre>
     <div class="flow-node">♻️ Refina e repete</div>
   </div>
   <div class="grid-2 mt-2 stagger-in">
-    <div class="card expandable">
+    <div class="card">
       <div class="card-title">🐒 CodeMonkeys</div>
       <div class="card-desc">Em vez de <b>1 agente tentando consertar</b>, rode <b>vários agentes</b> em paralelo e deixe os testes escolherem o melhor patch.</div>
-      <div class="card-detail">
-        <p><b>Ideia central:</b> escalar <i>test-time compute</i>. Mais compute no momento da execução pode comprar qualidade, mesmo sem treinar um modelo novo.</p>
-        <p><b>Analogia:</b> é como pedir para <b>20 monitoras</b> resolverem o mesmo bug e depois aceitar a solução que passa em todos os testes.</p>
-        <div class="detail-example">Exemplo prático: em um bug difícil de backend, 1 agente talvez tente só uma estratégia. 32 agentes podem explorar bibliotecas, refactors e hipóteses diferentes ao mesmo tempo.</div>
-      </div>
+      <div class="text-xs mt-1" style="opacity:0.82;"><b>Ideia:</b> escalar <i>test-time compute</i> — mais compute na execução compra qualidade sem treinar modelo novo. <b>Ex:</b> num bug de backend, 32 agentes exploram bibliotecas e refactors diferentes ao mesmo tempo; aceita o patch que passa em todos os testes.</div>
     </div>
-    <div class="card expandable">
+    <div class="card">
       <div class="card-title">🧬 AlphaEvolve</div>
       <div class="card-desc"><b>Gemini</b> gera variantes de código; uma busca evolutiva mantém as melhores e descarta as piores até surgir um algoritmo melhor.</div>
-      <div class="card-detail">
-        <p><b>Ideia central:</b> combinar LLM + seleção evolutiva. O modelo propõe, o avaliador mede, e a “população” de programas evolui.</p>
-        <p><b>Analogia:</b> pense em <b>seleção natural para software</b>: versões competem, sobrevivem as mais eficientes.</p>
-        <div class="detail-analogy">Se CodeMonkeys parece “muitos estagiários codando”, AlphaEvolve parece “um laboratório de P&amp;D criando gerações sucessivas de protótipos”.</div>
-      </div>
+      <div class="text-xs mt-1" style="opacity:0.82;"><b>Ideia:</b> LLM + seleção evolutiva — o modelo propõe, o avaliador mede, a "população" de programas evolui. <b>Seleção natural para software:</b> versões competem, sobrevivem as mais eficientes (um laboratório de P&amp;D gerando protótipos sucessivos).</div>
     </div>
   </div>
   <div class="text-xs opacity-70 mt-2">📚 Stanford CS329A destaca ambos porque mostram duas alavancas diferentes: <b>paralelismo</b> e <b>busca</b>.</div>
@@ -785,21 +777,15 @@ Qual responde melhor? A / B / Empate"""</code></pre>
     <div class="trace-line"><span class="trace-result">paper:</span> redige resumo, método, resultados, limitações e trabalho futuro</div>
   </div>
   <div class="grid-2 mt-2 stagger-in">
-    <div class="card expandable">
+    <div class="card">
       <div class="card-title">O que torna isso especial?</div>
       <div class="card-desc">Não é só “escrever código”. É um pipeline completo de <b>descoberta científica aberta</b>.</div>
-      <div class="card-detail">
-        <p>O agente propõe hipóteses, desenha experimentos, implementa scripts, roda tudo e fecha o ciclo escrevendo um relatório quase como um paper.</p>
-        <div class="detail-example">Exemplo para iniciantes: imagine um “assistente de iniciação científica” que não só sugere um experimento, mas também programa, executa e organiza os resultados para você revisar.</div>
-      </div>
+      <div class="text-xs mt-1" style="opacity:0.82;">Propõe hipóteses, desenha experimentos, implementa scripts, roda tudo e fecha o ciclo escrevendo um relatório quase como um paper — um "assistente de iniciação científica" que programa, executa e organiza resultados para você revisar.</div>
     </div>
-    <div class="card expandable">
+    <div class="card">
       <div class="card-title">Por que isso importa?</div>
       <div class="card-desc">Mostra que agentes podem atacar tarefas <b>abertas, longas e criativas</b> — onde o caminho não está pré-definido.</div>
-      <div class="card-detail">
-        <p>Esse tipo de sistema empurra a fronteira além de “copilot de produtividade”: vira um parceiro de pesquisa.</p>
-        <div class="detail-warning">Mas cuidado: automação não elimina revisão humana. Em ciência, o custo de um falso positivo elegante pode ser altíssimo.</div>
-      </div>
+      <div class="text-xs mt-1" style="opacity:0.82;">Empurra a fronteira além de "copilot de produtividade": vira um parceiro de pesquisa. <b>Cuidado:</b> automação não elimina revisão humana — em ciência, o custo de um falso positivo elegante pode ser altíssimo.</div>
     </div>
   </div>
   <div class="text-xs opacity-70 mt-2">📚 Paper discutido em Stanford CS329A: <i>The AI Scientist: Towards Fully Automated Open-Ended Scientific Discovery</i>.</div>
@@ -808,29 +794,20 @@ Qual responde melhor? A / B / Empate"""</code></pre>
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #1f2937 100%)">
   <h1>📏 Agentic Evaluations para tarefas longas</h1>
   <div class="grid-3 stagger-in">
-    <div class="card expandable">
+    <div class="card">
       <div class="card-title">⏳ Long-horizon &gt; benchmark curto</div>
       <div class="card-desc">Responder uma pergunta em 30 segundos é diferente de <b>terminar uma tarefa de 30 minutos</b>.</div>
-      <div class="card-detail">
-        <p><b>Analogia:</b> passar numa prova de múltipla escolha não garante que alguém consiga <b>tocar um projeto inteiro</b> do início ao fim.</p>
-        <p>É por isso que papers como <i>Measuring AI Ability to Complete Long Tasks</i> importam: eles medem persistência, recuperação de erro e manutenção de objetivo.</p>
-      </div>
+      <div class="text-xs mt-1" style="opacity:0.82;">Passar numa prova de múltipla escolha não garante tocar um projeto inteiro. Papers como <i>Measuring AI Ability to Complete Long Tasks</i> medem persistência, recuperação de erro e manutenção de objetivo.</div>
     </div>
-    <div class="card expandable">
+    <div class="card">
       <div class="card-title">💰 GDPVal</div>
       <div class="card-desc">A pergunta muda de “acertou?” para <b>“isso gera valor econômico real?”</b></div>
-      <div class="card-detail">
-        <p>GDPVal tenta aproximar benchmark de trabalho útil: quão valiosa é a tarefa para a economia, e quanto da cadeia o agente realmente completa.</p>
-        <div class="detail-example">Exemplo: “gerar um rascunho” vale menos do que “investigar, corrigir, validar e entregar pronto para uso”.</div>
-      </div>
+      <div class="text-xs mt-1" style="opacity:0.82;">Aproxima benchmark de trabalho útil: quão valiosa é a tarefa e quanto da cadeia o agente completa. "Gerar um rascunho" vale menos que "investigar, corrigir, validar e entregar pronto para uso".</div>
     </div>
-    <div class="card expandable">
+    <div class="card">
       <div class="card-title">🧪 O desafio real</div>
       <div class="card-desc">Avaliar agente exige medir <b>qualidade + tempo + custo + autonomia + confiabilidade</b>.</div>
-      <div class="card-detail">
-        <p>Um agente pode terminar a tarefa, mas demorar 45 minutos ou custar caro demais. Outro pode ser rápido, mas frágil a edge cases.</p>
-        <div class="detail-analogy">É como contratar alguém: não basta saber se “acertou uma questão”; importa se entrega bem, no prazo, sem supervisão excessiva.</div>
-      </div>
+      <div class="text-xs mt-1" style="opacity:0.82;">Um agente pode terminar a tarefa mas demorar 45 min ou custar caro; outro é rápido mas frágil a edge cases. Como contratar alguém: importa se entrega bem, no prazo, sem supervisão excessiva.</div>
     </div>
   </div>
   <div class="insight-box">🎯 Mensagem do Stanford CS329A: benchmark de agente precisa se aproximar do <b>trabalho do mundo real</b>, não só de prompts isolados.</div>
@@ -850,29 +827,20 @@ Qual responde melhor? A / B / Empate"""</code></pre>
   </div>
   <div class="tip-box text-xs mt-1">🔁 O segredo é o <b>loop fechado</b>: o ambiente devolve um veredito objetivo (teste passou/falhou) que vira sinal de aprendizado — sem depender só de humano corrigindo.</div>
   <div class="grid-3 mt-2 stagger-in">
-    <div class="card expandable">
+    <div class="card">
       <div class="card-title">📜 Constitutional AI</div>
       <div class="card-desc">O modelo se revisa com base em uma <b>constituição</b>: princípios explícitos de segurança, utilidade e honestidade.</div>
-      <div class="card-detail">
-        <p>Em vez de só depender de humanos corrigindo tudo, o próprio sistema usa regras de alto nível para criticar e refinar respostas.</p>
-        <div class="detail-example">Analogia: um checklist interno de “isso é útil? seguro? honesto?” antes de entregar.</div>
-      </div>
+      <div class="text-xs mt-1" style="opacity:0.82;">Em vez de só depender de humanos corrigindo tudo, o sistema usa regras de alto nível para criticar e refinar respostas — um checklist interno de "isso é útil? seguro? honesto?" antes de entregar.</div>
     </div>
-    <div class="card expandable">
+    <div class="card">
       <div class="card-title">🛠️ RLEF</div>
       <div class="card-desc"><i>RL from Execution Feedback</i>: aprende com o que <b>funcionou na prática</b>, não só com nota humana.</div>
-      <div class="card-detail">
-        <p>Se o código compila, o teste passa e a tarefa fecha, isso vira sinal de aprendizado.</p>
-        <div class="detail-example">Para coding agents, é poderoso porque o ambiente já devolve um veredito objetivo: <code>passou</code> ou <code>falhou</code>.</div>
-      </div>
+      <div class="text-xs mt-1" style="opacity:0.82;">Se o código compila, o teste passa e a tarefa fecha, isso vira sinal de aprendizado. Poderoso para coding agents porque o ambiente já devolve um veredito objetivo: <code>passou</code> ou <code>falhou</code>.</div>
     </div>
-    <div class="card expandable">
+    <div class="card">
       <div class="card-title">🌟 STaR</div>
       <div class="card-desc"><i>Self-Taught Reasoner</i>: o modelo resolve problemas, filtra boas cadeias de raciocínio e usa isso para se treinar.</div>
-      <div class="card-detail">
-        <p>A lógica é bootstrap: “aprendi alguns bons exemplos; agora vou usar esses exemplos para ficar melhor em novos problemas”.</p>
-        <div class="detail-analogy">Como um aluno que guarda as melhores resoluções de exercícios e estuda em cima delas.</div>
-      </div>
+      <div class="text-xs mt-1" style="opacity:0.82;">Lógica bootstrap: "aprendi alguns bons exemplos; agora uso esses exemplos para ficar melhor em novos problemas" — como um aluno que guarda as melhores resoluções e estuda em cima delas.</div>
     </div>
   </div>
 </section>

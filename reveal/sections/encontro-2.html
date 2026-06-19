@@ -136,61 +136,37 @@ Vamos transformar o agente do Encontro 1 em um sistema que <b>decide melhor</b>,
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
 <h1>🧭 Vocabulário do dia — termos-chave</h1>
-<p class="text-sm">Os conceitos novos que você vai encontrar — uma frase cada. <span class="text-cyan">Clique em cada card</span> para ver <b>definição, exemplo e por que importa</b>:</p>
+<p class="text-sm">Os conceitos novos que você vai encontrar — cada card traz <b>o que é · exemplo · por que importa</b>:</p>
 <div class="grid-2 stagger-in text-xs" style="gap:0.6rem; margin-top:0.8rem;">
 
-<div class="card card-purple expandable parallax-card">
-<b>🧠 Reasoning model</b> — modelo treinado para "pensar em voz alta" antes de responder.
-<div class="card-detail">
-<p><b>O que é:</b> gasta tokens internos ("thinking") raciocinando antes da resposta final, em vez de responder no impulso.</p>
-<p class="detail-example"><b>Exemplo:</b> OpenAI o1/o3, DeepSeek R1, Claude extended thinking.</p>
-<p><b>Por que importa:</b> salto grande em matemática, código e planejamento — ao custo de mais tempo e tokens.</p>
-</div>
+<div class="card card-purple parallax-card">
+<b>🧠 Reasoning model</b> — gasta tokens internos ("thinking") raciocinando antes da resposta final, em vez de responder no impulso.
+<div class="mt-1" style="opacity:0.85;"><b>Ex:</b> o1/o3, DeepSeek R1, Claude extended thinking. <b>Importa:</b> salto em matemática, código e planejamento — ao custo de mais tempo e tokens.</div>
 </div>
 
-<div class="card card-cyan expandable parallax-card">
-<b>🪜 Chain-of-Thought (CoT)</b> — pedir explicitamente "explique passo a passo".
-<div class="card-detail">
-<p><b>O que é:</b> instruir o modelo a verbalizar o raciocínio antes de dar a resposta final.</p>
-<p class="detail-example"><b>Exemplo:</b> adicionar "mostre seu raciocínio" a qualquer prompt.</p>
-<p><b>Por que importa:</b> +20-40% em tarefas de raciocínio, com custo quase zero (Wei et al., 2022).</p>
-</div>
+<div class="card card-cyan parallax-card">
+<b>🪜 Chain-of-Thought (CoT)</b> — instruir o modelo a verbalizar o raciocínio ("explique passo a passo") antes da resposta.
+<div class="mt-1" style="opacity:0.85;"><b>Ex:</b> adicionar "mostre seu raciocínio" a qualquer prompt. <b>Importa:</b> +20-40% em raciocínio, custo quase zero (Wei et al., 2022).</div>
 </div>
 
-<div class="card card-green expandable parallax-card">
-<b>📋 Planning</b> — plano completo antes de executar.
-<div class="card-detail">
-<p><b>O que é:</b> criar uma lista explícita de passos e dependências antes de agir. Como o roteiro antes de filmar.</p>
-<p class="detail-example"><b>Exemplo:</b> Devin e Copilot Workspace mostram o plano antes de codar.</p>
-<p><b>Por que importa:</b> reduz loops e erros caros — e o humano pode revisar antes.</p>
-</div>
+<div class="card card-green parallax-card">
+<b>📋 Planning</b> — criar uma lista explícita de passos e dependências antes de agir. Como o roteiro antes de filmar.
+<div class="mt-1" style="opacity:0.85;"><b>Ex:</b> Devin e Copilot Workspace mostram o plano antes de codar. <b>Importa:</b> reduz loops e erros caros — humano revisa antes.</div>
 </div>
 
-<div class="card card-amber expandable parallax-card">
-<b>🔁 Reflexion</b> — agente critica a própria resposta e tenta de novo.
-<div class="card-detail">
-<p><b>O que é:</b> tentar → avaliar (rodar testes, ler erros) → criticar a própria solução → tentar de novo com a crítica no contexto.</p>
-<p class="detail-example"><b>Exemplo:</b> Cursor roda <code>pytest</code>, lê o traceback e corrige sozinho.</p>
-<p><b>Por que importa:</b> +20-30% em benchmarks de código (HumanEval), sem retreinar nada.</p>
-</div>
+<div class="card card-amber parallax-card">
+<b>🔁 Reflexion</b> — tentar → avaliar (rodar testes, ler erros) → criticar a própria solução → tentar de novo com a crítica no contexto.
+<div class="mt-1" style="opacity:0.85;"><b>Ex:</b> Cursor roda <code>pytest</code>, lê o traceback e corrige sozinho. <b>Importa:</b> +20-30% em código (HumanEval), sem retreinar.</div>
 </div>
 
-<div class="card expandable parallax-card" style="background:rgba(244,114,182,0.08); border:1px solid rgba(244,114,182,0.28);">
-<b>📦 Structured output</b> — forçar a resposta em formato fixo (JSON).
-<div class="card-detail">
-<p><b>O que é:</b> obrigar o modelo a responder num esquema validável por código (JSON Schema / response_format).</p>
-<p class="detail-example"><b>Exemplo:</b> extrair <code>{nome, valor, data}</code> de um e-mail de forma confiável.</p>
-<p><b>Por que importa:</b> sem formato fixo, a integração com sistemas quebra a cada resposta.</p>
-</div>
+<div class="card parallax-card" style="background:rgba(244,114,182,0.08); border:1px solid rgba(244,114,182,0.28);">
+<b>📦 Structured output</b> — obrigar o modelo a responder num esquema validável por código (JSON Schema / response_format).
+<div class="mt-1" style="opacity:0.85;"><b>Ex:</b> extrair <code>{nome, valor, data}</code> de um e-mail de forma confiável. <b>Importa:</b> sem formato fixo, a integração quebra.</div>
 </div>
 
-<div class="card card-cyan expandable parallax-card">
-<b>🛠️ Function Calling</b> — o modelo retorna qual função chamar + args tipados.
-<div class="card-detail">
-<p><b>O que é:</b> em vez de texto livre, o modelo devolve <code>tool_calls</code> estruturados que seu código executa.</p>
-<p class="detail-example"><b>Exemplo:</b> APIs da OpenAI/Anthropic com o campo <code>tools</code> — base de quase todo agente.</p>
-<p><b>Por que importa:</b> transforma intenção em ação executável e auditável.</p>
-</div>
+<div class="card card-cyan parallax-card">
+<b>🛠️ Function Calling</b> — em vez de texto livre, o modelo devolve <code>tool_calls</code> estruturados que seu código executa.
+<div class="mt-1" style="opacity:0.85;"><b>Ex:</b> APIs OpenAI/Anthropic com o campo <code>tools</code> — base de quase todo agente. <b>Importa:</b> intenção vira ação auditável.</div>
 </div>
 
 </div>
@@ -200,37 +176,21 @@ Vamos transformar o agente do Encontro 1 em um sistema que <b>decide melhor</b>,
 <h1>🧩 Você já viu isso em produtos reais</h1>
 <p class="text-sm">Cada técnica que vamos estudar já está em produção em ferramentas que você talvez use:</p>
 <div class="grid-2 stagger-in text-xs" style="gap:0.5rem; margin-top:0.8rem;">
-<div class="card card-purple expandable parallax-card">
+<div class="card card-purple parallax-card">
 <b>🧠 Reasoning → ChatGPT o1/o3, Cursor</b>
-<div class="card-detail">
-<p><b>Como funciona:</b> O modelo gasta 5-60 segundos "pensando" internamente (milhares de tokens invisíveis) antes de responder. Você vê "thinking..." na interface.</p>
-<p><b>Caso real:</b> ChatGPT o3 resolve problemas de matemática olímpica que GPT-4 errava. Cursor ativa reasoning mode quando detecta refatoração que toca 10+ arquivos.</p>
-<p><b>Trade-off:</b> 5-10× mais caro e lento. Ideal para planning, código complexo e decisões críticas — não para chat casual.</p>
+<div class="mt-1" style="opacity:0.85;"><b>Como:</b> gasta 5-60s "pensando" (milhares de tokens invisíveis) antes de responder. <b>Real:</b> o3 resolve matemática olímpica que GPT-4 errava; Cursor ativa em refatorações de 10+ arquivos. <b>Trade-off:</b> 5-10× mais caro/lento — para planning e código complexo, não chat casual.</div>
 </div>
-</div>
-<div class="card card-cyan expandable parallax-card">
+<div class="card card-cyan parallax-card">
 <b>🪜 CoT → qualquer prompt, Wolfram Alpha</b>
-<div class="card-detail">
-<p><b>Como funciona:</b> Basta adicionar "explique passo a passo" ou "mostre seu raciocínio" ao prompt. O modelo passa a verbalizar cada etapa antes de dar a resposta final.</p>
-<p><b>Caso real:</b> Google usa CoT internamente em seus agentes de busca. Wolfram Alpha sempre mostrou os passos — o conceito existia antes de ter nome.</p>
-<p><b>Impacto medido:</b> +20-40% de acurácia em tarefas de raciocínio (Wei et al., 2022). Custo: quase zero — só gasta mais tokens de output.</p>
+<div class="mt-1" style="opacity:0.85;"><b>Como:</b> adicionar "explique passo a passo" faz o modelo verbalizar cada etapa antes da resposta. <b>Real:</b> Google usa em agentes de busca; Wolfram sempre mostrou os passos. <b>Impacto:</b> +20-40% de acurácia (Wei 2022), custo quase zero.</div>
 </div>
-</div>
-<div class="card card-green expandable parallax-card">
+<div class="card card-green parallax-card">
 <b>📋 Planning → Devin, Manus, Copilot Workspace</b>
-<div class="card-detail">
-<p><b>Como funciona:</b> Antes de executar qualquer ação, o agente cria um plano explícito (lista de passos, dependências, checkpoints) e mostra ao usuário.</p>
-<p><b>Caso real:</b> Devin mostra um checklist antes de codar. Copilot Workspace gera um "specification → plan → implement" visível. Manus planeja a sequência de cliques no browser antes de iniciar.</p>
-<p><b>Por que funciona:</b> Reduz loops infinitos em ~60% (agente sabe o que falta), permite ao humano intervir antes de erros caros, e facilita debugging.</p>
+<div class="mt-1" style="opacity:0.85;"><b>Como:</b> antes de agir, cria plano explícito (passos, dependências) e mostra ao usuário. <b>Real:</b> Devin mostra checklist; Copilot Workspace gera "spec→plan→implement". <b>Por que:</b> reduz loops ~60%, humano intervém antes de erros caros.</div>
 </div>
-</div>
-<div class="card card-amber expandable parallax-card">
+<div class="card card-amber parallax-card">
 <b>🔁 Reflexion → Cursor, Claude Code, AlphaCode</b>
-<div class="card-detail">
-<p><b>Como funciona:</b> O agente tenta resolver → avalia o resultado (roda testes, lê erros) → critica a própria solução → tenta de novo com a crítica no contexto.</p>
-<p><b>Caso real:</b> Cursor gera código, roda <code>pytest</code>, se falhar lê o traceback e corrige automaticamente. Claude Code faz o mesmo com até 3 tentativas.</p>
-<p><b>Impacto medido:</b> +20-30% em benchmarks de código (HumanEval). Sem retreinar — apenas loop de autocrítica. O custo é 2-3× mais tokens por tarefa.</p>
-</div>
+<div class="mt-1" style="opacity:0.85;"><b>Como:</b> tenta → roda testes/lê erros → critica → tenta de novo com a crítica no contexto. <b>Real:</b> Cursor roda <code>pytest</code> e corrige o traceback; Claude Code tenta até 3×. <b>Impacto:</b> +20-30% (HumanEval), custo 2-3× tokens.</div>
 </div>
 </div>
 
