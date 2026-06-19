@@ -779,27 +779,54 @@ print(ticket.prioridade, ticket.requer_resposta_imediata)  # ex: 5 True</code></
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #1e293b 100%)">
 <h1>Planning — pensar antes de agir</h1>
-<div class="grid-2 stagger-in text-sm" style="gap:0.8rem;">
+<p class="slide-in-left text-xs" style="opacity:0.85; margin-bottom:0.6rem;">Os dois <b>pensam</b> — a diferença é <b>o que</b> cada um pensa: o ReAct raciocina sobre o <b>próximo passo</b> (tático, local); o Planning raciocina sobre a <b>tarefa inteira</b> antes de gastar a primeira ação (estratégico, global).</p>
+<div class="grid-2 stagger-in text-xs" style="gap:0.8rem;">
 <div class="card card-amber parallax-card">
-<b>ReAct</b>
-<div class="mt-1 text-xs">Pensar → agir → observar → decidir o próximo passo.</div>
-<div class="agent-trace mt-2 text-xs">
-<div class="trace-line trace-thought">“Vou buscar opções.”</div>
+<b>🔁 ReAct — pensar para agir</b>
+<div class="mt-1">🧠 <b>O que pensa:</b> "qual a melhor ação <b>agora</b>?" Decide 1 passo, observa o resultado e só então pensa no seguinte.</div>
+<div class="agent-trace mt-1">
+<div class="trace-line trace-thought">"Vou buscar opções."</div>
 <div class="trace-line trace-action">tool: buscar_hotéis()</div>
-<div class="trace-line trace-obs">observação: 12 resultados</div>
+<div class="trace-line trace-obs">obs: 12 resultados → "e agora?"</div>
 </div>
+<div class="mt-1">⚠️ <b>Limite:</b> é <b>míope</b> — sem visão do todo, pode repetir ações, entrar em loop ou perder o objetivo em tarefas longas.</div>
 </div>
 <div class="card card-green parallax-card">
-<b>Planning</b>
-<div class="mt-1 text-xs">Planejar → executar → monitorar → replanejar se necessário.</div>
-<div class="agent-trace mt-2 text-xs">
+<b>🗺️ Planning — pensar para planejar</b>
+<div class="mt-1">🧠 <b>O que pensa:</b> "qual a <b>rota inteira</b> até o objetivo?" Gera o plano todo <b>antes</b> de executar, e revisa se algo desviar.</div>
+<div class="agent-trace mt-1">
 <div class="trace-line trace-thought">1) buscar 2) filtrar 3) comparar 4) justificar</div>
-<div class="trace-line trace-action">executor roda cada etapa</div>
-<div class="trace-line trace-obs">desvio? volta ao planejador</div>
+<div class="trace-line trace-action">executor roda cada etapa do plano</div>
+<div class="trace-line trace-obs">desvio? o planejador replaneja</div>
+</div>
+<div class="mt-1">✅ <b>Ganho:</b> visão global permite <b>orçar, validar e paralelizar</b> antes de gastar tools — e detectar inconsistências cedo.</div>
 </div>
 </div>
+<div class="insight-box mt-2 text-xs">💡 <b>Por que Planning é evolução do ReAct:</b> ele não substitui o ReAct — o <b>envolve</b>. O ciclo "agir → observar → decidir" do ReAct vira a <b>fase de execução</b> dentro de um plano maior, ganhando uma camada de <b>previsão</b> que o ReAct sozinho não tem.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #134e4a 100%)">
+<h1>ReAct ou Planning? — casos reais</h1>
+<p class="slide-in-left text-xs" style="opacity:0.85; margin-bottom:0.6rem;">Nenhum é "melhor": cada um brilha em um tipo de problema. O custo extra de planejar só compensa quando a tarefa é <b>longa, cara ou arriscada</b>.</p>
+<div class="grid-2 stagger-in text-xs" style="gap:0.8rem;">
+<div class="card card-amber parallax-card">
+<b>🔁 Use ReAct quando…</b>
+<div class="mt-1">…o caminho <b>depende</b> do que você descobre no meio — planejar tudo antes seria chute.</div>
+<div class="mt-1">🌍 <b>Casos reais:</b></div>
+<div class="mt-1">• <b>Suporte/atendimento:</b> a próxima pergunta depende da resposta do cliente.</div>
+<div class="mt-1">• <b>Debugging:</b> cada log muda a próxima hipótese.</div>
+<div class="mt-1">• <b>Pesquisa exploratória:</b> "investigue X" — sem rota previsível, poucos passos.</div>
 </div>
-<div class="insight-box mt-2 text-xs">Planning brilha quando a tarefa tem <b>múltiplos passos, custo relevante ou risco de retrabalho</b>.</div>
+<div class="card card-green parallax-card">
+<b>🗺️ Use Planning quando…</b>
+<div class="mt-1">…há <b>muitos passos interdependentes</b>, tools caras ou risco de retrabalho.</div>
+<div class="mt-1">🌍 <b>Casos reais:</b></div>
+<div class="mt-1">• <b>Viagem corporativa:</b> orçamento, políticas e datas que se restringem entre si.</div>
+<div class="mt-1">• <b>Relatório multi-fonte:</b> coletar, cruzar e sintetizar dados de várias APIs.</div>
+<div class="mt-1">• <b>Refatoração em vários arquivos:</b> ordem importa; um passo errado quebra tudo.</div>
+</div>
+</div>
+<div class="tip-box mt-2 text-xs">Em uma frase: <b>ReAct improvisa bem o curto prazo</b>; <b>Planning protege o longo prazo</b>. Na prática, sistemas maduros combinam os dois — planejam a rota e usam ReAct para executar cada trecho.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)">
@@ -838,9 +865,9 @@ E2 = buscar("benchmarks RTX 4060 laptop")
 E3 = buscar("preços no varejo")
 Solver(E1, E2, E3) -> recomendação</code></pre>
 <div class="grid-3 mt-2 stagger-in text-xs" style="gap:0.55rem;">
-<div class="card card-green parallax-card"><b>Escolha Plan-and-Execute</b><br>Quando há dependência ou erro provável.</div>
-<div class="card card-cyan parallax-card"><b>Escolha ReWOO</b><br>Quando a coleta de evidências pode ser paralela.</div>
-<div class="card card-red parallax-card"><b>Escolha nenhum</b><br>Quando uma chamada simples já resolve.</div>
+<div class="card card-green parallax-card"><b>🗺️ Plan-and-Execute brilha</b><div class="mt-1">Passos <b>dependentes</b> e ambiente que muda — o resultado de um passo decide o próximo.</div><div class="mt-1">🌍 <b>Ex.:</b> refatorar código (cada arquivo revela o próximo); provisionar infra que pode falhar e exigir retry; troubleshooting onde cada exame muda a hipótese.</div></div>
+<div class="card card-cyan parallax-card"><b>🔀 ReWOO brilha</b><div class="mt-1">Coletas <b>independentes</b> e paralelizáveis, sensíveis a custo/latência — nada depende do resultado do outro.</div><div class="mt-1">🌍 <b>Ex.:</b> relatório de mercado de N fontes; enriquecer leads (site, CNPJ, notícias por empresa); comparar specs de produtos em várias lojas.</div></div>
+<div class="card card-red parallax-card"><b>🚫 Nenhum dos dois</b><div class="mt-1">Quando <b>uma chamada simples</b> já resolve — planejar só adiciona custo e latência.</div><div class="mt-1">🌍 <b>Ex.:</b> "qual a capital da França?"; um único lookup em banco; responder um FAQ direto.</div></div>
 </div>
 </section>
 
