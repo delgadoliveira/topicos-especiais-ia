@@ -530,22 +530,23 @@ print(llm("Responda em uma palavra: capital da França?"))</code></pre>
 
 <section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
 <h1>Self-Reflection em código <span class="text-xs" style="opacity:0.7;">· rode no Colab</span></h1>
-<div class="card text-xs card-cyan parallax-card" style="margin-bottom: 0.5rem;">📖 <b>Em palavras:</b> o agente <b>tenta</b>, depois <b>se critica</b> ("isso resolve a tarefa?") e, se não, <b>tenta de novo</b> usando a crítica. Repete até acertar ou bater o limite. Reutiliza o <code>llm()</code> do slide <b>Setup do Colab</b>.</div>
-<pre class="scale-in" style="margin:0;"><code class="language-python"># reutiliza o llm() definido no slide "Setup do Colab"
+<div class="card text-xs card-cyan parallax-card" style="margin-bottom: 0.5rem;">📖 <b>Em palavras:</b> o agente <b>tenta</b>, depois <b>se critica</b> ("isso resolve a tarefa?") e, se não, <b>tenta de novo</b> com a crítica no contexto. ✅ <b>Célula autocontida</b>: cole no Colab e rode — <b>sem token</b>, baixa um modelo aberto pequeno.</div>
+<pre class="scale-in" style="margin:0;"><code class="language-python">!pip install -q transformers accelerate
+from transformers import pipeline
+gen = pipeline("text-generation", model="Qwen/Qwen2.5-1.5B-Instruct", device_map="auto")
+def llm(p):
+    out = gen([{"role": "user", "content": p}], max_new_tokens=200)
+    return out[0]["generated_text"][-1]["content"].strip()
 def agente_reflexivo(tarefa, tentativas=3):
     critica = ""
-    for i in range(tentativas):
+    for _ in range(tentativas):
         p = f"Tarefa: {tarefa}\n"
-        if critica:
-            p += f"Crítica anterior: {critica}\nCorrija.\n"
-        resposta = llm(p + "Responda de forma direta:")
-        aval = llm(f"Tarefa: {tarefa}\nResposta: {resposta}\n"
-                   "Está correta? Responda 'OK' ou aponte o erro.")
-        if aval.upper().startswith("OK"):
-            return resposta
+        if critica: p += f"Crítica anterior: {critica}\nCorrija.\n"
+        resp = llm(p + "Responda de forma direta:")
+        aval = llm(f"Tarefa: {tarefa}\nResposta: {resp}\nEstá certa? 'OK' ou o erro.")
+        if aval.upper().startswith("OK"): return resp
         critica = aval                 # vira contexto da próxima tentativa
-    return resposta                    # melhor esforço
-
+    return resp
 print(agente_reflexivo("Quanto é 17 * 24? Responda só o número."))</code></pre>
 <div class="card mt-2 text-xs card-amber parallax-card">⚠️ <b>Cuidado:</b> gerar e criticar com o <b>mesmo modelo</b> tem viés (overconfidence). Em produção, use um modelo <b>diferente ou maior</b> como crítico.</div>
 </section>
@@ -569,7 +570,7 @@ pessoa = llm.with_structured_output(Pessoa).invoke("Extraia nome e idade")
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #064e3b 100%)">
 <h1>Pydantic AI — framework type-safe <span class="text-xs" style="opacity:0.7;">· Hugging Face grátis</span></h1>
-<div class="card text-xs card-cyan parallax-card" style="margin-bottom: 0.5rem;">📖 <b>Em palavras:</b> você descreve a forma do resultado e o framework devolve um objeto Python validado, pronto para DBs, filas e APIs — sem torcer para o JSON vir certo. Aqui apontamos para um <b>modelo aberto da Hugging Face</b> (mesmo <code>HF_TOKEN</code> do Setup).</div>
+<div class="card text-xs card-cyan parallax-card" style="margin-bottom: 0.5rem;">📖 <b>Em palavras:</b> você descreve a forma do resultado e o framework devolve um objeto Python validado, pronto para DBs, filas e APIs — sem torcer para o JSON vir certo. ✅ <b>Célula autocontida</b>: cola no Colab e roda; só precisa do <code>HF_TOKEN</code> nos <b>Secrets</b> (grátis em huggingface.co).</div>
 <pre class="scale-in" style="margin:0;"><code class="language-python">!pip install -q pydantic-ai
 from pydantic import BaseModel
 from pydantic_ai import Agent
@@ -607,14 +608,14 @@ print(ticket.prioridade, ticket.requer_resposta_imediata)  # ex: 5 True</code></
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e293b 100%)">
 <h1>Os 5 padrões agentic — visão geral</h1>
-<p class="slide-in-left text-xs" style="opacity:0.8; margin-bottom:0.7rem;">Catalogados pela Anthropic em <b>"Building Effective Agents" (dez/2024)</b>. Vão do mais simples e previsível (1) ao mais autônomo (5). Veremos cada um em detalhe a seguir.</p>
-<div class="grid-2 stagger-in text-xs" style="gap:0.6rem;">
-<div class="card card-purple parallax-card"><b>1. ⛓️ Prompt Chaining</b><br>Passos fixos e sequenciais; a saída de um vira a entrada do próximo.<br><span class="opacity-70">📌 Ex.: extrair → traduzir → resumir → formatar um documento.</span></div>
-<div class="card card-cyan parallax-card"><b>2. 🔀 Routing</b><br>Um classificador escolhe a rota certa para cada tipo de entrada.<br><span class="opacity-70">📌 Ex.: suporte que manda "reembolso", "bug" e "dúvida" a fluxos diferentes.</span></div>
-<div class="card card-green parallax-card"><b>3. ⚡ Parallelization</b><br>Roda subtarefas independentes ao mesmo tempo (ou vota entre versões).<br><span class="opacity-70">📌 Ex.: revisar um PR checando segurança, estilo e testes em paralelo.</span></div>
-<div class="card card-amber parallax-card"><b>4. 🧑‍💼 Orchestrator-Workers</b><br>Um "gerente" decompõe a tarefa dinamicamente e delega a workers.<br><span class="opacity-70">📌 Ex.: agente de pesquisa que abre N buscas e sintetiza os achados.</span></div>
-<div class="card card-red parallax-card"><b>5. 🪞 Evaluator-Optimizer</b><br>Um gera, outro critica; repete em loop até passar no critério.<br><span class="opacity-70">📌 Ex.: escrever código → rodar testes → corrigir até ficar verde.</span></div>
-<div class="card card-cyan parallax-card"><b>📐 Regra prática</b><br>Quase todo agente real <b>combina 2–3</b> desses padrões. Comece pelo mais simples que resolve; só adicione autonomia quando precisar.</div>
+<p class="slide-in-left text-xs" style="opacity:0.85; margin-bottom:0.55rem;">Catalogados pela Anthropic em <b>"Building Effective Agents" (dez/2024)</b>, do mais previsível (1) ao mais autônomo (5). 💼 <b>Caso único:</b> um <b>assistente de viagens corporativas</b> — para cada padrão, os <b>componentes</b> e como implementá-lo nesse caso.</p>
+<div class="grid-2 stagger-in text-xs" style="gap:0.5rem;">
+<div class="card card-purple parallax-card"><b>1. ⛓️ Prompt Chaining</b> — etapas fixas; a saída de uma alimenta a próxima.<br><b>Componentes:</b> sequência de prompts + <i>gates</i> de validação entre etapas.<br><span class="opacity-70">💼 <b>Viagem:</b> extrair pedido → buscar voo → buscar hotel → montar itinerário, checando cada passo.</span></div>
+<div class="card card-cyan parallax-card"><b>2. 🔀 Routing</b> — classifica a entrada e despacha para o fluxo certo.<br><b>Componentes:</b> um classificador (LLM/regra) + N rotas/handlers especializados.<br><span class="opacity-70">💼 <b>Viagem:</b> separa "voo doméstico", "internacional" e "reembolso", cada um no seu fluxo.</span></div>
+<div class="card card-green parallax-card"><b>3. ⚡ Parallelization</b> — divide, roda em paralelo e agrega.<br><b>Componentes:</b> <i>fork</i> (dividir) + execuções independentes + <i>join</i>/votação.<br><span class="opacity-70">💼 <b>Viagem:</b> cota voo, hotel e carro ao mesmo tempo e junta tudo num orçamento.</span></div>
+<div class="card card-amber parallax-card"><b>4. 🧑‍💼 Orchestrator-Workers</b> — um gerente decompõe e delega.<br><b>Componentes:</b> orquestrador (decompõe em runtime) + workers + síntese final.<br><span class="opacity-70">💼 <b>Viagem:</b> decide quantas cotações pedir por destino, delega a workers e consolida.</span></div>
+<div class="card card-red parallax-card"><b>5. 🪞 Evaluator-Optimizer</b> — gera, critica e refina em loop.<br><b>Componentes:</b> gerador + avaliador (critério) + loop de melhoria.<br><span class="opacity-70">💼 <b>Viagem:</b> monta itinerário → avalia política (preço/antecedência) → ajusta até passar.</span></div>
+<div class="card card-cyan parallax-card"><b>📐 Regra prática</b><br>Um agente real <b>combina 2–3</b> desses padrões. Comece pelo mais simples que resolve; só adicione autonomia quando o problema exigir. Detalhamos cada um a seguir.</div>
 </div>
 </section>
 
