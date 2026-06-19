@@ -584,57 +584,29 @@ Pense em montar um robô: vamos adicionar peça por peça.
 <div class="flow-diagram"><div class="flow-node node-green">👤 Objetivo</div><div class="flow-arrow">→</div><div class="flow-node node-purple parallax-card">🧠 LLM</div><div class="flow-arrow">↔</div><div class="flow-node node-cyan">🛠️ Tools</div><div class="flow-arrow">↔</div><div class="flow-node node-amber">💾 Memória</div><div class="flow-arrow">→</div><div class="flow-node node-green">✅ Resposta</div></div>
 <div class="stagger-in text-xs" style="margin-top: 0.6rem;">
 
-<div class="card card-purple expandable parallax-card scale-in">
+<div class="card card-purple parallax-card scale-in">
 <b>1. 🎭 Persona + Objetivo (System Prompt)</b> — foco e consistência
-<div class="card-detail">
-<p><b>O que é:</b> instruções que definem <i>quem</i> o agente é, <i>o que</i> deve fazer e <i>quais limites</i> respeitar.</p>
-<p><b>Sem ele:</b> o LLM é genérico — responde qualquer coisa, sem identidade nem limites.</p>
-<p><b>Com ele:</b> se comporta como um especialista com missão clara. Ex: "Você é um auditor que NUNCA aprova despesas sem justificativa."</p>
-<p><b>Analogia:</b> é a "descrição de cargo" de um funcionário.</p>
-</div>
+<div class="mt-1">Define <b>quem</b> o agente é, <b>o que</b> faz e seus <b>limites</b>. Ex: "auditor que NUNCA aprova despesa sem justificativa". É a "descrição de cargo" do agente — sem ela, o LLM é genérico e sem limites.</div>
 </div>
 
-<div class="card card-cyan expandable parallax-card scale-in">
+<div class="card card-cyan parallax-card scale-in">
 <b>2. 🧠 Modelo / Reasoning Engine (LLM)</b> — raciocínio e decisão
-<div class="card-detail">
-<p><b>O que é:</b> o motor de raciocínio — GPT-4, Claude, Gemini, Llama...</p>
-<p><b>Capacidade:</b> interpreta contexto, decompõe problemas, planeja e decide qual ação tomar.</p>
-<p><b>Limitação:</b> sozinho, ele só gera texto. Não acessa internet, não faz cálculos precisos, não lembra conversas.</p>
-<p><b>Analogia:</b> um consultor brilhante trancado numa sala — sem telefone, sem computador e sem arquivo.</p>
-</div>
+<div class="mt-1">O motor que interpreta contexto, decompõe problemas e <b>decide a ação</b> (GPT, Claude, Gemini, Llama). Sozinho só gera texto — um consultor brilhante trancado numa sala, sem telefone nem internet.</div>
 </div>
 
-<div class="card card-green expandable parallax-card scale-in">
+<div class="card card-green parallax-card scale-in">
 <b>3. 💾 Memória</b> — continuidade e contexto
-<div class="card-detail">
-<p><b>O que é:</b> sistema que armazena e recupera informações entre turnos e sessões.</p>
-<p><b>Curto prazo:</b> histórico da conversa atual. <b>Longo prazo:</b> vector DB com docs e preferências.</p>
-<p><b>Sem memória:</b> cada interação começa do zero.</p>
-<p><b>Com memória:</b> "Na semana passada você disse que prefere hotéis centrais. Mantendo."</p>
-<p><b>Analogia:</b> médico que vê seu prontuário vs um que nunca te viu.</p>
-</div>
+<div class="mt-1">Guarda e recupera info <b>entre turnos e sessões</b>. Curto prazo = conversa atual; longo prazo = vector DB com docs/preferências. Sem ela, cada interação começa do zero.</div>
 </div>
 
-<div class="card card-amber expandable parallax-card scale-in">
+<div class="card card-amber parallax-card scale-in">
 <b>4. 🛠️ Tools + Executor</b> — ação no mundo real
-<div class="card-detail">
-<p><b>O que é:</b> funções externas (APIs, DB, browser, calculadora) que o agente invoca.</p>
-<p><b>Sem tools:</b> inventa respostas e não faz nada concreto.</p>
-<p><b>Com tools:</b> consulta cotação real, envia email, cria arquivo, reserva hotel.</p>
-<p><b>O executor</b> chama a função e devolve o resultado para o LLM continuar.</p>
-<p><b>Analogia:</b> dar mãos, telefone e internet ao consultor trancado na sala.</p>
-</div>
+<div class="mt-1">Funções externas (APIs, DB, browser, calculadora) que o agente invoca; o <b>executor</b> roda e devolve o resultado para o LLM continuar. Sem tools, inventa respostas e não faz nada concreto.</div>
 </div>
 
-<div class="card card-purple expandable parallax-card scale-in">
+<div class="card card-purple parallax-card scale-in">
 <b>5. 🔄 Loop de Controle</b> — autonomia e iteração
-<div class="card-detail">
-<p><b>O que é:</b> o ciclo <b>Observe → Think → Act → Reflect</b> que se repete até concluir.</p>
-<p><b>Sem loop:</b> chatbot — 1 pergunta, 1 resposta, fim.</p>
-<p><b>Com loop:</b> tenta, falha, ajusta e tenta de novo. 10+ passos autônomos.</p>
-<p><b>Inclui:</b> condição de parada, limite de iterações, detecção de loops infinitos.</p>
-<p><b>Analogia:</b> "escreva um artigo" vs "pesquise, escreva, revise, corrija e publique".</p>
-</div>
+<div class="mt-1">O ciclo <b>Observe → Think → Act → Reflect</b> que repete até concluir, com condição de parada e detecção de loop. Sem ele, é um chatbot: 1 pergunta → 1 resposta → fim.</div>
 </div>
 
 </div>
@@ -1075,23 +1047,14 @@ Sem tools bem descritas, ele vira um ótimo narrador de intenções.
 
 <div class="text-xs" style="margin-top:0.5rem;"><b>3 categorias de tools:</b></div>
 <div class="grid-3 stagger-in text-xs" style="gap:0.4rem;">
-<div class="card card-cyan expandable parallax-card scale-in"><b>📖 Retrieval (leitura)</b>
-<div class="card-detail">
-<p>Busca informação que o LLM não tem. Ex: busca web, consulta a banco de dados, RAG sobre documentos internos, consulta de FAQ.</p>
-<p><b>Risco:</b> baixo — apenas lê dados. Atenção à exposição de dados sensíveis.</p>
+<div class="card card-cyan parallax-card scale-in"><b>📖 Retrieval (leitura)</b>
+<div class="mt-1">Busca info que o LLM não tem: web, banco de dados, RAG sobre docs internos, FAQ. <b>Risco baixo</b> — só lê; atenção a dados sensíveis.</div>
 </div>
+<div class="card card-green parallax-card scale-in"><b>⚡ Computação / I/O</b>
+<div class="mt-1">Executa cálculos ou manipula arquivos: rodar Python, gerar gráfico, converter PDF, query SQL de leitura. <b>Risco médio</b> — consome recursos / acessa o filesystem.</div>
 </div>
-<div class="card card-green expandable parallax-card scale-in"><b>⚡ Computação / I/O</b>
-<div class="card-detail">
-<p>Executa cálculos ou manipula arquivos. Ex: rodar Python, gerar gráfico, converter PDF, fazer query SQL de leitura.</p>
-<p><b>Risco:</b> médio — pode consumir recursos ou acessar sistema de arquivos.</p>
-</div>
-</div>
-<div class="card card-amber expandable parallax-card scale-in"><b>🚀 Ação (escrita)</b>
-<div class="card-detail">
-<p>Modifica o mundo real. Ex: enviar email, criar PR no GitHub, fazer deploy, deletar registro, transferir dinheiro.</p>
-<p><b>Risco:</b> alto — ações irreversíveis. Requer <b>confirmação humana</b> ou guardrails rigorosos.</p>
-</div>
+<div class="card card-amber parallax-card scale-in"><b>🚀 Ação (escrita)</b>
+<div class="mt-1">Modifica o mundo real: enviar email, criar PR, deploy, deletar registro, transferir dinheiro. <b>Risco alto</b> — irreversível; exige confirmação humana ou guardrails.</div>
 </div>
 </div>
 
@@ -1114,31 +1077,14 @@ Catálogos: Composio, Arcade, Zapier (1000+ integrações prontas)
 <div class="flow-diagram" style="font-size:0.7em;"><div class="flow-node node-purple">⚡ Curto prazo</div><div class="flow-arrow">↔</div><div class="flow-node node-amber">📝 Working memory</div><div class="flow-arrow">↔</div><div class="flow-node node-green">🗄️ Longo prazo</div></div>
 
 <div class="grid-3 stagger-in text-xs" style="gap:0.4rem; margin-top:0.5rem;">
-<div class="card card-purple expandable parallax-card scale-in"><b>⚡ Curto prazo (in-context)</b>
-<div class="card-detail">
-<p><b>O que é:</b> as mensagens da conversa atual que vão no prompt. Tudo que está na "janela de contexto".</p>
-<p><b>Limite:</b> quando enche, as mensagens mais antigas são descartadas (sliding window) ou resumidas.</p>
-<p><b>Exemplo:</b> ChatGPT lembra o que você disse 10 mensagens atrás — mas esquece se a conversa for longa demais.</p>
-<p><b>Custo:</b> cresce linearmente. 128K tokens de contexto = ~$2-6 por chamada com GPT-4.</p>
+<div class="card card-purple parallax-card scale-in"><b>⚡ Curto prazo (in-context)</b>
+<div class="mt-1">As mensagens da conversa atual que vão no prompt (a "janela de contexto"). Quando enche, as mais antigas são descartadas (sliding window) ou resumidas. Custo cresce linear: 128K tokens ≈ $2-6/chamada no GPT-4.</div>
 </div>
+<div class="card card-amber parallax-card scale-in"><b>📝 Working memory (scratchpad)</b>
+<div class="mt-1">Espaço estruturado para anotar decisões intermediárias sem inflar o histórico. Ex: "Plano: 1) buscar dados ✓ 2) calcular média → 3) formatar". São os post-its na mesa — em LangGraph, o <code>state</code>.</div>
 </div>
-<div class="card card-amber expandable parallax-card scale-in"><b>📝 Working memory (scratchpad)</b>
-<div class="card-detail">
-<p><b>O que é:</b> espaço estruturado que o agente usa para anotar decisões intermediárias sem inflar o histórico inteiro.</p>
-<p><b>Exemplo:</b> "Plano atual: 1) buscar dados ✓ 2) calcular média → em andamento 3) formatar relatório"</p>
-<p><b>Implementação:</b> variável separada no prompt, atualizada a cada turno. Frameworks como LangGraph usam <code>state</code>.</p>
-<p><b>Analogia:</b> post-its na mesa enquanto trabalha — não vai pro arquivo permanente.</p>
-</div>
-</div>
-<div class="card card-green expandable parallax-card scale-in"><b>🗄️ Longo prazo (persistente)</b>
-<div class="card-detail">
-<p><b>O que é:</b> banco de dados externo (vector DB, SQL, grafos) que persiste entre sessões.</p>
-<p><b>3 subtipos:</b></p>
-<p>• <b>Episódica:</b> o que aconteceu ("usuário cancelou pedido em 12/jan")</p>
-<p>• <b>Semântica:</b> fatos ("política de reembolso: até 30 dias")</p>
-<p>• <b>Procedural:</b> como fazer ("para cancelar, chame API X com param Y")</p>
-<p><b>Tecnologias:</b> Pinecone, Weaviate, Qdrant, pgvector, ChromaDB.</p>
-</div>
+<div class="card card-green parallax-card scale-in"><b>🗄️ Longo prazo (persistente)</b>
+<div class="mt-1">Banco externo (vector DB, SQL, grafos) que persiste entre sessões. 3 tipos: <b>episódica</b> (o que houve), <b>semântica</b> (fatos), <b>procedural</b> (como fazer). Ex: Pinecone, Qdrant, pgvector.</div>
 </div>
 </div>
 
@@ -1172,23 +1118,22 @@ Catálogos: Composio, Arcade, Zapier (1000+ integrações prontas)
 </div>
 
 <div class="grid-2 stagger-in text-xs" style="gap:0.5rem; margin-top:0.6rem;">
-<div class="card card-purple expandable parallax-card scale-in"><b>O que acontece em cada iteração</b>
-<div class="card-detail">
-<p><b>1. Think:</b> LLM analisa o contexto e decide: "já tenho a resposta final?" ou "preciso de mais uma ação?"</p>
-<p><b>2. Act:</b> Se precisa agir, gera um tool_call com nome + argumentos em JSON.</p>
-<p><b>3. Observe:</b> Sistema executa a tool, captura o resultado (ou erro) e injeta no histórico.</p>
-<p><b>4. Repeat:</b> Com a nova observação, volta ao passo 1. Continua até: resposta final, max_steps ou erro fatal.</p>
-<p><b>Exemplo real:</b> "Reserve um voo barato para SP" → pesquisa (3 resultados) → compara preços → seleciona → confirma → responde ao usuário. 5 iterações.</p>
+<div class="card card-purple parallax-card scale-in"><b>O que acontece em cada iteração</b>
+<div class="mt-1">
+<b>① Think:</b> o LLM analisa o contexto — "já tenho a resposta ou preciso agir?"<br>
+<b>② Act:</b> se precisa agir, gera um tool_call (nome + argumentos em JSON).<br>
+<b>③ Observe:</b> o sistema executa a tool e injeta o resultado (ou erro) no histórico.<br>
+<b>④ Repeat:</b> volta ao ① até resposta final, max_steps ou erro fatal.<br>
+<span class="opacity-80">Ex: "Reserve um voo barato p/ SP" → pesquisa → compara → seleciona → confirma → responde (5 iterações).</span>
 </div>
 </div>
-<div class="card card-amber expandable parallax-card scale-in"><b>Condições de parada (guardrails)</b>
-<div class="card-detail">
-<p><b>✅ Resposta final:</b> o LLM decide que tem informação suficiente para responder.</p>
-<p><b>🛑 max_steps:</b> limite fixo (ex: 25 iterações). Previne loops infinitos.</p>
-<p><b>💸 Orçamento:</b> cap de tokens ou custo em dólar. Ex: "pare se gastar > $0.50".</p>
-<p><b>💥 Erro fatal:</b> tool retorna erro irrecuperável (API fora do ar, permissão negada).</p>
-<p><b>⏰ Timeout:</b> tempo máximo de execução total (ex: 60s).</p>
-<p><b>Sem esses limites:</b> em produção, um loop infinito pode custar milhares de dólares em minutos.</p>
+<div class="card card-amber parallax-card scale-in"><b>Condições de parada (guardrails)</b>
+<div class="mt-1">
+<b>✅ Resposta final:</b> o LLM julga ter info suficiente.<br>
+<b>🛑 max_steps:</b> limite fixo (ex: 25) contra loop infinito.<br>
+<b>💸 Orçamento:</b> cap de tokens/custo (ex: pare se &gt; $0,50).<br>
+<b>💥 Erro fatal:</b> tool com erro irrecuperável (API fora, permissão negada).<br>
+<b>⏰ Timeout:</b> tempo máximo total (ex: 60s). <span class="opacity-80">Sem limites, um loop pode custar milhares em minutos.</span>
 </div>
 </div>
 </div>
