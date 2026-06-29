@@ -530,9 +530,12 @@ pessoa = llm.with_structured_output(Pessoa).invoke("Extraia nome e idade")
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #064e3b 100%)">
 <h1>Pydantic AI — framework type-safe <span class="text-xs" style="opacity:0.7;">· Hugging Face grátis</span></h1>
-<div class="card text-xs card-cyan parallax-card" style="margin-bottom: 0.5rem;">📖 <b>Em palavras:</b> você descreve a forma do resultado e o framework devolve um objeto Python validado, pronto para DBs, filas e APIs — sem torcer para o JSON vir certo. ✅ <b>Célula autocontida</b>: cola no Colab e roda; só precisa do <code>HF_TOKEN</code> nos <b>Secrets</b> (grátis em huggingface.co).</div>
-<pre class="scale-in" style="margin:0;"><code class="language-python">!pip install -q pydantic-ai
-from pydantic import BaseModel
+<div class="card text-xs card-cyan parallax-card" style="margin-bottom: 0.5rem;">📖 <b>Em palavras:</b> você descreve a forma do resultado e o framework devolve um objeto Python validado, pronto para DBs, filas e APIs — sem torcer para o JSON vir certo. ✅ <b>Roda no Colab</b>: só precisa do <code>HF_TOKEN</code> nos <b>Secrets</b> (grátis em huggingface.co).</div>
+<div class="text-xs" style="opacity:0.75; margin:0 0 0.15rem;">① <b>Instale e reinicie a sessão</b> (o Colab já vem com um <code>pydantic</code> antigo; sem reiniciar dá <code>replace_wrapped_methods</code>):</div>
+<pre class="scale-in" style="margin:0 0 0.4rem;"><code class="language-python">!pip install -q -U "pydantic-ai-slim[openai]"
+# ⚠️ Ambiente de execução ▸ Reiniciar sessão — depois rode a célula ② abaixo</code></pre>
+<div class="text-xs" style="opacity:0.75; margin:0 0 0.15rem;">② <b>Após reiniciar</b>, rode o código:</div>
+<pre class="scale-in" style="margin:0;"><code class="language-python">from pydantic import BaseModel
 from pydantic_ai import Agent
 from pydantic_ai.models.openai import OpenAIModel
 from pydantic_ai.providers.openai import OpenAIProvider
