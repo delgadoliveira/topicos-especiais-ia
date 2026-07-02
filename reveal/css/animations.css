@@ -100,11 +100,10 @@
   display: inline-block;
 }
 
-/* ─── Stagger children animation ─── */
+/* ─── Stagger children animation (visible at rest; animation is additive) ─── */
 .reveal .stagger-in .card,
 .reveal .stagger-in > * {
-  opacity: 0;
-  transform: translateY(20px);
+  opacity: 1;
 }
 
 .reveal .present .stagger-in .card,

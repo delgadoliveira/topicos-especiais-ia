@@ -90,7 +90,7 @@
 
 <section data-background-gradient="linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)">
   <h1>🧭 Vocabulário do dia — em 1 frase cada</h1>
-  <div class="stagger-in mt-2" style="grid-template-columns: 1fr;">
+  <div class="stagger-in mt-2 text-xs" style="gap:0.5rem;">
     <div class="card"><div class="card-title">👻 Alucinação</div><div class="card-desc">o LLM responde com confiança <b>algo que é falso</b>. Não é "mentir" (não há intenção); é a natureza estatística do modelo gerando o que <i>parece</i> certo. <i>Ex: um chatbot jurídico citou casos que não existiam (Mata v. Avianca, 2023).</i></div></div>
     <div class="card"><div class="card-title">💉 Prompt injection</div><div class="card-desc">alguém esconde uma instrução maliciosa em um dado que o agente vai ler (ex: comentário em HTML), e o agente <b>obedece</b>. O equivalente moderno do SQL injection.</div></div>
     <div class="card"><div class="card-title">⚖️ LLM-as-judge</div><div class="card-desc">usar um LLM <b>como juiz</b> para avaliar a saída de outro LLM. Acurácia ~80-85% comparado a humanos — barato e escalável.</div></div>
@@ -144,10 +144,12 @@
   <h1>Falha #1 · Loops infinitos — mitigações</h1>
   <div class="explanation-box text-xs">📖 <b>Em palavras:</b> combine <code>max_steps</code>, detecção de repetição da mesma tool e timeout/orçamento global para impedir loops caros.</div>
   <pre><code class="language-python">def run_with_safety(pergunta, max_steps=10, max_same_tool=3):
-    msgs, tool_call_history = [...], []
+    msgs = [{"role": "user", "content": pergunta}]
+    tool_call_history = []
     for step in range(max_steps):
         resp = call_llm(msgs)
-        if not resp.tool_calls: return resp.content
+        if not resp.tool_calls:
+            return resp.content
         for tc in resp.tool_calls:
             sig = f"{tc.function.name}({tc.function.arguments})"
             tool_call_history.append(sig)
@@ -155,7 +157,11 @@
             if len(recent) == max_same_tool and len(set(recent)) == 1:
                 return f"❌ Agente em loop chamando {sig}. Abortando."
             result = execute(tc)
-            msgs.append(...)
+            msgs.append({
+                "role": "tool",
+                "tool_call_id": tc.id,
+                "content": str(result),
+            })
     return "❌ max_steps atingido."</code></pre>
   <div class="insight-box">🎯 Boas práticas: <code>max_steps</code>, <code>max_same_tool</code>, <code>timeout</code> global e <b>orçamento de tokens</b>.</div>
 </section>
@@ -317,15 +323,8 @@
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #064e3b 100%)">
   <h1>Por que LLMs alucinam — causas raiz</h1>
-  <p class="text-sm">A alucinação não tem uma causa única. O survey de Huang et al. (2023) organiza os fatores em <b>3 estágios</b> do ciclo de vida do modelo:</p>
-  <div class="flow-diagram mt-2">
-    <div class="flow-node node-red">📚 Dados (treino)</div>
-    <div class="flow-arrow">→</div>
-    <div class="flow-node node-amber">🎯 Treinamento</div>
-    <div class="flow-arrow">→</div>
-    <div class="flow-node node-purple">🎲 Inferência</div>
-  </div>
-  <div class="grid-3 mt-2 text-xs">
+  <p class="text-xs">A alucinação não tem uma causa única. O survey de Huang et al. (2023) organiza os fatores em <b>3 estágios</b> do ciclo de vida do modelo — <b>📚 Dados → 🎯 Treinamento → 🎲 Inferência</b>:</p>
+  <div class="grid-3 mt-1 text-xs">
     <div class="card card-red">
       <div class="card-title">📚 Dados</div>
       <ul style="line-height:1.6;">
@@ -355,22 +354,19 @@
 
 <section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
   <h1>Mitigação · pilha de defesa em camadas</h1>
-  <div class="flow-diagram">
-    <div class="flow-node">Pergunta</div>
-    <div class="flow-arrow">→</div>
-    <div class="flow-node" style="background: rgba(167,139,250,.14); border: 1px solid rgba(167,139,250,.35);">1. RAG / Grounding<br>dá fatos atualizados</div>
-    <div class="flow-arrow">→</div>
-    <div class="flow-node">2. Prompt defensivo<br>'só responda se souber'</div>
-    <div class="flow-arrow">→</div>
-    <div class="flow-node">3. Structured output<br>schema valida</div>
-    <div class="flow-arrow">→</div>
-    <div class="flow-node" style="background: rgba(251,191,36,.14); border: 1px solid rgba(251,191,36,.35);">4. Self-check<br>LLM verifica próprio output</div>
-    <div class="flow-arrow">→</div>
-    <div class="flow-node" style="background: rgba(34,211,238,.14); border: 1px solid rgba(34,211,238,.35);">5. External verifier<br>tool, regra, segundo LLM</div>
-    <div class="flow-arrow">→</div>
-    <div class="flow-node">Resposta</div>
+  <div class="text-xs" style="text-align:center; margin-bottom:0.4rem;">Cada pergunta atravessa <b>5 camadas</b> antes de virar resposta. Cada camada filtra um tipo de erro:</div>
+  <div style="display:flex; flex-direction:column; gap:0.35rem; max-width:640px; margin:0 auto;">
+    <div class="card" style="padding:0.4rem 0.8rem; background:rgba(148,163,184,.12);"><b>❓ Pergunta do usuário</b></div>
+    <div style="text-align:center; opacity:.6;">↓</div>
+    <div class="card" style="padding:0.4rem 0.8rem; background:rgba(167,139,250,.14); border:1px solid rgba(167,139,250,.35);"><b>1. RAG / Grounding</b> <span class="text-xs opacity-80">— injeta fatos atualizados no contexto</span></div>
+    <div class="card" style="padding:0.4rem 0.8rem;"><b>2. Prompt defensivo</b> <span class="text-xs opacity-80">— "só responda se souber; senão, diga que não sabe"</span></div>
+    <div class="card" style="padding:0.4rem 0.8rem;"><b>3. Structured output</b> <span class="text-xs opacity-80">— schema/JSON valida o formato e os campos</span></div>
+    <div class="card" style="padding:0.4rem 0.8rem; background:rgba(251,191,36,.14); border:1px solid rgba(251,191,36,.35);"><b>4. Self-check</b> <span class="text-xs opacity-80">— o LLM revisa o próprio output antes de entregar</span></div>
+    <div class="card" style="padding:0.4rem 0.8rem; background:rgba(34,211,238,.14); border:1px solid rgba(34,211,238,.35);"><b>5. External verifier</b> <span class="text-xs opacity-80">— tool, regra ou um segundo LLM confirma</span></div>
+    <div style="text-align:center; opacity:.6;">↓</div>
+    <div class="card" style="padding:0.4rem 0.8rem; background:rgba(74,222,128,.14); border:1px solid rgba(74,222,128,.35);"><b>✅ Resposta confiável</b></div>
   </div>
-  <div class="insight-box">Nenhuma camada sozinha resolve. Combinadas, derrubam alucinação de ~30% para <b>&lt; 5%</b> em domínios fechados.</div>
+  <div class="insight-box text-xs mt-2">Nenhuma camada sozinha resolve. Combinadas, derrubam alucinação de ~30% para <b>&lt; 5%</b> em domínios fechados.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
@@ -503,25 +499,48 @@ Qual responde melhor? A / B / Empate"""</code></pre>
     <div class="card"><div class="card-title">📦 Como construir</div><div class="card-desc">Casos reais anonimizados · edge cases que já quebraram · labels revisados por especialista.</div></div>
     <div class="card"><div class="card-title">🎯 Como usar</div><div class="card-desc">Regression test a cada deploy · A/B de prompt/modelo · CI falha se o score cai.</div></div>
   </div>
-  <pre><code class="language-python">def test_agente_responde_sobre_devolucao():
-    output = agente.run("Quero devolver pedido #123")
-    assert_relevancy(output, threshold=0.8)
-    assert_faithfulness(output, context=docs, threshold=0.9)
-    assert_no_pii(output)</code></pre>
+  <pre><code class="language-python"># Golden dataset = casos congelados que rodam a cada deploy (regression test)
+import re
+
+GOLDEN = [
+    {"pergunta": "Quero devolver o pedido #123",
+     "deve_conter": ["devolu", "prazo"], "contexto": "Devoluções em até 30 dias."},
+    {"pergunta": "Qual o prazo de entrega?",
+     "deve_conter": ["entrega"], "contexto": "Entrega em 5 dias úteis."},
+]
+
+def agente(pergunta: str, contexto: str) -> str:
+    """Stub determinístico p/ o teste (troque pela chamada real ao seu agente)."""
+    return f"Sobre '{pergunta}': {contexto}"
+
+def assert_relevancy(saida, termos, threshold=0.5):
+    hits = sum(t.lower() in saida.lower() for t in termos)
+    score = hits / len(termos)
+    assert score >= threshold, f"Relevância {score:.2f} < {threshold}"
+
+def assert_no_pii(saida):
+    assert not re.search(r"\d{3}\.\d{3}\.\d{3}-\d{2}", saida), "Vazou CPF!"
+
+for caso in GOLDEN:
+    out = agente(caso["pergunta"], caso["contexto"])
+    assert_relevancy(out, caso["deve_conter"])
+    assert_no_pii(out)
+    print("✅", caso["pergunta"])
+print("Todos os casos do golden dataset passaram.")</code></pre>
   <div class="tip-box">📌 Sem dataset, não existe evolução confiável.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
   <h1>🎚️ Determinismo &amp; Reprodutibilidade (1/2)</h1>
   <div class="text-sm">LLMs são <b>estocásticos por default</b>; isso atrapalha avaliação, debug e comparação entre versões.</div>
-  <div class="flow-diagram">
-    <div class="flow-node">Mesmo prompt</div>
-    <div class="flow-arrow">→</div>
-    <div class="flow-node">Resposta 1</div>
-    <div class="flow-arrow">↘</div>
-    <div class="flow-node">Resposta 2</div>
-    <div class="flow-arrow">↗</div>
-    <div class="flow-node">Resposta 3</div>
+  <div style="display:flex; align-items:center; justify-content:center; gap:1rem; margin:1rem 0;">
+    <div class="card" style="padding:0.5rem 1rem; background:rgba(148,163,184,.14);"><b>Mesmo prompt</b><br><span class="text-xs opacity-70">(rodado 3×)</span></div>
+    <div style="font-size:1.5em; opacity:.6;">→</div>
+    <div style="display:flex; flex-direction:column; gap:0.35rem;">
+      <div class="card card-cyan" style="padding:0.3rem 0.8rem;">Resposta 1 <span class="text-xs opacity-70">— "26 estados"</span></div>
+      <div class="card card-amber" style="padding:0.3rem 0.8rem;">Resposta 2 <span class="text-xs opacity-70">— "27 unidades"</span></div>
+      <div class="card card-purple" style="padding:0.3rem 0.8rem;">Resposta 3 <span class="text-xs opacity-70">— "26 + DF"</span></div>
+    </div>
   </div>
   <div class="insight-box">🎯 O objetivo não é “zerar” a variação; é reduzir ruído o suficiente para medir mudanças reais.</div>
 </section>
@@ -545,21 +564,21 @@ Qual responde melhor? A / B / Empate"""</code></pre>
     <div class="card-desc">Padrão aberto para agentes de <b>diferentes vendors/frameworks se descobrirem e colaborarem</b>.</div>
   </div>
   <div style="text-align:center; margin-top:0.5rem;">
-    <div class="flow-node" style="display:inline-block; background: rgba(167,139,250,.14); border: 1px solid rgba(167,139,250,.35); margin-bottom:0.4rem;">🧑‍💼 Agente Orquestrador (LangGraph)</div>
-    <div class="text-xs" style="margin:0.3rem 0;">↙ &nbsp;&nbsp; ↓ &nbsp;&nbsp; ↘</div>
-    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:0.5rem; font-size:0.75em;">
+    <div class="flow-node" style="display:inline-block; background: rgba(167,139,250,.14); border: 1px solid rgba(167,139,250,.35);">🧑‍💼 Agente Orquestrador (LangGraph)</div>
+    <div style="opacity:.6; margin:0.2rem 0;">↓ &nbsp; distribui a tarefa entre agentes especializados &nbsp; ↓</div>
+    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:0.5rem; font-size:0.75em; max-width:620px; margin:0 auto;">
       <div class="card card-cyan" style="padding:0.4rem; text-align:center;">🎯 Recruiter<br><span class="text-xs opacity-70">Salesforce</span></div>
       <div class="card card-green" style="padding:0.4rem; text-align:center;">📅 Scheduler<br><span class="text-xs opacity-70">Google</span></div>
       <div class="card card-purple" style="padding:0.4rem; text-align:center;">🔍 Background<br><span class="text-xs opacity-70">ServiceNow</span></div>
     </div>
-    <div class="text-xs" style="margin:0.3rem 0;">↘ &nbsp;&nbsp; ↓ &nbsp;&nbsp; ↙</div>
+    <div style="opacity:.6; margin:0.2rem 0;">↓ &nbsp; cada agente usa suas próprias tools &nbsp; ↓</div>
     <div class="flow-node node-amber" style="display:inline-block;">🔧 Tools / APIs (via MCP)</div>
   </div>
-  <div class="grid-2 text-xs mt-2">
-    <div class="card"><div class="card-desc"><b>Stack:</b> HTTP + JSON-RPC 2.0 + SSE</div></div>
-    <div class="card"><div class="card-desc"><b>Agent Cards:</b> JSON descrevendo skills + auth + endpoint</div></div>
-    <div class="card"><div class="card-desc"><b>Modalidades:</b> texto, arquivos, dados estruturados</div></div>
-    <div class="card"><div class="card-desc"><b>Suporta:</b> async, human-in-the-loop, long-running tasks</div></div>
+  <div class="grid-2 mt-2" style="gap:0.5rem;">
+    <div class="card"><div class="card-title">🌐 Stack de comunicação</div><div class="card-desc text-xs">Roda sobre <b>HTTP</b> (a web comum), com mensagens no formato <b>JSON-RPC 2.0</b> (um padrão simples de "chamar função remota") e <b>SSE</b> para receber atualizações em tempo real de tarefas longas.</div></div>
+    <div class="card"><div class="card-title">🪪 Agent Cards</div><div class="card-desc text-xs">Cada agente publica um "cartão" em JSON que funciona como um <b>currículo</b>: diz o que ele sabe fazer (skills), como autenticar e em qual endereço ele atende. Outros agentes leem o cartão para decidir se o chamam.</div></div>
+    <div class="card"><div class="card-title">📦 Modalidades</div><div class="card-desc text-xs">Os agentes trocam não só <b>texto</b>, mas também <b>arquivos</b> (PDF, imagem) e <b>dados estruturados</b> (tabelas, JSON) — o que permite colaboração muito mais rica do que só chat.</div></div>
+    <div class="card"><div class="card-title">⏳ Feito para o mundo real</div><div class="card-desc text-xs">Suporta tarefas <b>assíncronas</b> (não trava esperando), <b>human-in-the-loop</b> (uma pessoa aprova passos críticos) e <b>long-running tasks</b> (processos que levam minutos ou horas).</div></div>
   </div>
 </section>
 
@@ -609,6 +628,12 @@ Qual responde melhor? A / B / Empate"""</code></pre>
   <h1>🌍 State-of-the-Art</h1>
   <h2>Os produtos que estão definindo a era dos agentes</h2>
   <div class="text-sm opacity-70 mt-2">Vimos como proteger e avaliar. Agora vamos ver <b>quem está fazendo isso melhor</b> — e o que podemos aprender.</div>
+  <div class="grid-4 mt-3 text-xs" style="gap:0.5rem;">
+    <div class="card card-cyan"><div class="card-title">💻 Coding agents</div><div class="card-desc text-xs">Cursor, Claude Code, Devin — o setor mais quente.</div></div>
+    <div class="card card-purple"><div class="card-title">🖱️ Computer use</div><div class="card-desc text-xs">Agentes que operam qualquer software como um humano.</div></div>
+    <div class="card card-green"><div class="card-title">🏢 Enterprise</div><div class="card-desc text-xs">Copilot, Agentforce, Bedrock — onde está o dinheiro.</div></div>
+    <div class="card card-amber"><div class="card-title">📊 Benchmarks</div><div class="card-desc text-xs">SWE-bench, GAIA — como medimos o topo da área.</div></div>
+  </div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #1f2937 100%)">
@@ -625,22 +650,23 @@ Qual responde melhor? A / B / Empate"""</code></pre>
 
 <section data-background-gradient="linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)">
   <h1>Anatomia de um coding agent moderno</h1>
-  <div class="flow-diagram">
+  <div style="display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:0.3rem; margin:0.8rem 0; font-size:0.9em;">
     <div class="flow-node">👤 Tarefa do dev</div>
     <div class="flow-arrow">→</div>
     <div class="flow-node" style="background: rgba(167,139,250,.14); border: 1px solid rgba(167,139,250,.35);">📋 Planner</div>
     <div class="flow-arrow">→</div>
-    <div class="flow-node">🔍 Read codebase<br>RAG ou full-context</div>
+    <div class="flow-node">🔍 Read codebase<br><span class="text-xs opacity-70">RAG / full-context</span></div>
     <div class="flow-arrow">→</div>
-    <div class="flow-node">✏️ Edit files<br>apply diff</div>
+    <div class="flow-node">✏️ Edit files<br><span class="text-xs opacity-70">apply diff</span></div>
     <div class="flow-arrow">→</div>
     <div class="flow-node">🧪 Run tests</div>
-    <div class="flow-arrow">→</div>
-    <div class="flow-node" style="background: rgba(251,191,36,.14); border: 1px solid rgba(251,191,36,.35);">Passou?</div>
-    <div class="flow-arrow">↘</div>
-    <div class="flow-node" style="background: rgba(74,222,128,.14); border: 1px solid rgba(74,222,128,.35);">✅ Commit + PR</div>
-    <div class="flow-arrow">↺</div>
-    <div class="flow-node">🐛 Debug</div>
+  </div>
+  <div style="display:flex; align-items:center; justify-content:center; gap:0.6rem; margin-bottom:0.4rem; font-size:0.9em;">
+    <div class="flow-node" style="background: rgba(251,191,36,.14); border: 1px solid rgba(251,191,36,.35);">Passou nos testes?</div>
+    <div class="text-xs">✅ sim →</div>
+    <div class="flow-node" style="background: rgba(74,222,128,.14); border: 1px solid rgba(74,222,128,.35);">Commit + PR</div>
+    <div class="text-xs">❌ não ↺</div>
+    <div class="flow-node">🐛 Debug &amp; volta ao Edit</div>
   </div>
   <div class="text-sm mt-2"><b>Os 4 ingredientes secretos:</b> (1) leitura inteligente do código, (2) edição precisa (diffs, não rewrite), (3) loop com testes, (4) checkpoints para rollback.</div>
 </section>
@@ -863,15 +889,16 @@ Qual responde melhor? A / B / Empate"""</code></pre>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #134e4a 100%)">
-  <h1>🎯 4.10 Projeto Final · O agente que você construiu ao longo do curso</h1>
-  <div class="card card-cyan parallax-card"><div class="card-title">📌 Evolução do Strict Manager → Agente de Produção</div><div class="card-desc">Seu projeto final é a <b>evolução natural</b> do agente que você construiu desde o Exercício 1.5. A cada encontro, você adicionou uma camada:</div></div>
-  <div class="grid-4 mt-2 stagger-in text-xs" style="gap:0.4rem;">
-    <div class="card card-purple"><b>E1</b><br>Prompt CO-STAR<br>+ JSON estruturado<br>+ 5 casos de teste</div>
-    <div class="card card-cyan"><b>E2</b><br>+ CoT reasoning<br>+ Function Calling<br>+ planning antes de agir</div>
-    <div class="card card-green"><b>E3</b><br>+ RAG (regras em vectorDB)<br>+ Memória (histórico)<br>+ MCP para tools externas</div>
-    <div class="card card-amber"><b>E4</b><br>+ Guardrails<br>+ Eval automatizado<br>+ Tracing/observabilidade</div>
+  <h1>🎯 4.10 Projeto Final · Construa um agente de produção</h1>
+  <div class="card card-cyan parallax-card"><div class="card-title">📌 Um projeto novo e autônomo — do zero, no domínio que você escolher</div><div class="card-desc">O projeto final é <b>independente</b>: escolha um problema real (suporte, finanças, saúde, educação, jurídico…) e construa um agente completo para ele. Não é a continuação de nenhum exercício — é a sua obra própria, aplicando as competências do curso.</div></div>
+  <div class="text-xs mt-2" style="opacity:0.8;">🧰 Competências que você vai aplicar (adquiridas ao longo dos 4 encontros):</div>
+  <div class="grid-4 mt-1 stagger-in text-xs" style="gap:0.4rem;">
+    <div class="card card-purple"><b>Fundamentos</b><br>Prompt CO-STAR<br>+ JSON estruturado<br>+ casos de teste</div>
+    <div class="card card-cyan"><b>Raciocínio</b><br>CoT / Reflexion<br>+ Function Calling<br>+ planning</div>
+    <div class="card card-green"><b>Contexto</b><br>RAG (vectorDB)<br>+ Memória<br>+ MCP / tools</div>
+    <div class="card card-amber"><b>Produção</b><br>Guardrails<br>+ Eval automatizado<br>+ Tracing</div>
   </div>
-  <div class="insight-box mt-2 text-xs">O projeto final é <b>entregar o agente completo</b> com todas as camadas — não começar do zero.</div>
+  <div class="insight-box mt-2 text-xs">🎯 Você escolhe o <b>domínio</b> e as <b>tools</b>. O que avaliamos é o agente <b>funcionando, avaliado e instrumentado</b> — não de qual exercício ele veio.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
@@ -902,18 +929,21 @@ Qual responde melhor? A / B / Empate"""</code></pre>
       </div>
     </div>
   </div>
-  <div class="tip-box mt-2 text-xs">💡 <b>Dica:</b> se você completou os exercícios de cada encontro, você já tem 80% do projeto pronto. O restante é polir e documentar.</div>
+  <div class="tip-box mt-2 text-xs">💡 <b>Dica:</b> comece pequeno — 1 domínio, 2 tools, 10 casos. Um agente simples que roda, é avaliado e instrumentado vale mais que um ambicioso que não fecha o loop.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
   <h1>📋 Esqueleto do Projeto Final — preencha os TODOs</h1>
   <div class="text-xs" style="margin-bottom:0.3rem; opacity:0.7;">📋 <b>Copie para o Google Colab</b> — o esqueleto já funciona, você completa com o que aprendeu</div>
   <pre><code class="language-python">## === SETUP (já pronto) ===
-from huggingface_hub import InferenceClient
+from openai import OpenAI
 from google.colab import userdata
 import json, time
 
-client = InferenceClient(token=userdata.get("HF_TOKEN"))
+client = OpenAI(
+    base_url="https://router.huggingface.co/v1",
+    api_key=userdata.get("HF_TOKEN"),
+)
 MODEL = "Qwen/Qwen2.5-7B-Instruct"
 
 ## === TODO 1: Defina suas regras de negócio (E1) ===
@@ -1000,14 +1030,14 @@ print(f"   ({acertos/len(CASOS)*100:.0f}% de acerto)")
 
 ## === TODO 6: Escreva 1 parágrafo de reflexão ===
 # O que funcionou? O que você mudaria? Qual a limitação principal?</code></pre>
-  <div class="insight-box mt-2 text-xs">🎯 Os TODOs correspondem ao que você aprendeu em cada encontro. Se completou os exercícios, é só copiar e adaptar.</div>
+  <div class="insight-box mt-2 text-xs">🎯 Cada TODO cobre uma competência do curso. Preencha com o <b>seu</b> domínio — o esqueleto roda de ponta a ponta assim que você completa os TODOs.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #1f2937 100%)">
   <h1>Projeto Final · Alternativas de tema</h1>
   <p class="text-sm" style="opacity:0.8;">Use o mesmo esqueleto — mude apenas o <b>domínio</b> e as <b>tools</b></p>
   <div class="grid-2 stagger-in" style="gap:0.5rem;">
-    <div class="card card-purple"><div class="card-title">🅰️ Gestor de Despesas</div><div class="card-desc text-xs">O agente do curso (padrão). Analisa despesas, aplica regras, decide aprovação. Tools: validar_recibo, consultar_policy.</div></div>
+    <div class="card card-purple"><div class="card-title">🅰️ Gestor de Despesas</div><div class="card-desc text-xs">Analisa despesas, aplica regras de política e decide aprovação. Tools: validar_recibo, consultar_policy.</div></div>
     <div class="card card-cyan"><div class="card-title">🅱️ Assistente de Pesquisa</div><div class="card-desc text-xs">Recebe um tema, busca na web, lê fontes, sintetiza briefing com citações. Tools: search_web, fetch_url.</div></div>
     <div class="card card-green"><div class="card-title">🅲 Agente de Dados</div><div class="card-desc text-xs">Usuário pergunta em PT-BR, agente gera SQL, executa, retorna resultado + explicação. Tools: executar_sql, gerar_grafico.</div></div>
     <div class="card card-amber"><div class="card-title">🅳 Sua Ideia</div><div class="card-desc text-xs">Proponha um agente que resolva uma dor real sua. Mesmo esqueleto: CO-STAR + ≥2 tools + 10 casos de teste.</div></div>
@@ -1116,26 +1146,26 @@ print(f"   ({acertos/len(CASOS)*100:.0f}% de acerto)")
 </section>
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
   <h1>📈 Adoção de agentes — projeção de mercado</h1>
-  <div class="stats-row">
-    <div class="stat"><span class="stat-number">0.5%</span><span class="stat-label">2023</span></div>
-    <div class="stat"><span class="stat-number">2%</span><span class="stat-label">2024</span></div>
-    <div class="stat"><span class="stat-number">8%</span><span class="stat-label">2025</span></div>
-    <div class="stat"><span class="stat-number">15%</span><span class="stat-label">2026</span></div>
-    <div class="stat"><span class="stat-number">25%</span><span class="stat-label">2027</span></div>
-    <div class="stat"><span class="stat-number">33%</span><span class="stat-label">2028</span></div>
+  <div style="display:flex; align-items:flex-end; justify-content:center; gap:1.2rem; height:300px; margin:1rem 0;">
+    <div style="text-align:center;"><div style="font-weight:800; color:var(--cyan); font-size:0.7em;">0.5%</div><div style="width:48px; height:8px; background:linear-gradient(180deg,var(--cyan),rgba(34,211,238,.3)); border-radius:4px 4px 0 0; margin:0 auto;"></div><div style="font-size:0.5em; color:var(--text-muted); margin-top:4px;">2023</div></div>
+    <div style="text-align:center;"><div style="font-weight:800; color:var(--cyan); font-size:0.7em;">2%</div><div style="width:48px; height:26px; background:linear-gradient(180deg,var(--cyan),rgba(34,211,238,.3)); border-radius:4px 4px 0 0; margin:0 auto;"></div><div style="font-size:0.5em; color:var(--text-muted); margin-top:4px;">2024</div></div>
+    <div style="text-align:center;"><div style="font-weight:800; color:var(--cyan); font-size:0.7em;">8%</div><div style="width:48px; height:70px; background:linear-gradient(180deg,var(--cyan),rgba(34,211,238,.3)); border-radius:4px 4px 0 0; margin:0 auto;"></div><div style="font-size:0.5em; color:var(--text-muted); margin-top:4px;">2025</div></div>
+    <div style="text-align:center;"><div style="font-weight:800; color:var(--cyan); font-size:0.7em;">15%</div><div style="width:48px; height:130px; background:linear-gradient(180deg,var(--cyan),rgba(34,211,238,.3)); border-radius:4px 4px 0 0; margin:0 auto;"></div><div style="font-size:0.5em; color:var(--text-muted); margin-top:4px;">2026</div></div>
+    <div style="text-align:center;"><div style="font-weight:800; color:var(--cyan); font-size:0.7em;">25%</div><div style="width:48px; height:200px; background:linear-gradient(180deg,var(--cyan),rgba(34,211,238,.3)); border-radius:4px 4px 0 0; margin:0 auto;"></div><div style="font-size:0.5em; color:var(--text-muted); margin-top:4px;">2027</div></div>
+    <div style="text-align:center;"><div style="font-weight:800; color:var(--amber); font-size:0.7em;">33%</div><div style="width:48px; height:260px; background:linear-gradient(180deg,var(--amber),rgba(251,191,36,.3)); border-radius:4px 4px 0 0; margin:0 auto;"></div><div style="font-size:0.5em; color:var(--text-muted); margin-top:4px;">2028</div></div>
   </div>
-  <div class="insight-box">📊 <b>Gartner (projeção 2024):</b> de menos de 1% em 2024 para 33% em 2028 — crescimento exponencial já em curso (parcialmente confirmado em 2025/26).</div>
+  <div class="insight-box text-xs">📊 <b>Gartner (projeção 2024):</b> de menos de 1% em 2024 para 33% em 2028 — crescimento exponencial já em curso (parcialmente confirmado em 2025/26).</div>
 </section>
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #064e3b 100%)">
   <h1>🔮 Para onde os agentes vão — 2025-2027</h1>
   <p class="text-sm" style="opacity:0.85;">Três forças empurram a fronteira ao mesmo tempo — e nenhuma delas é "um modelo maior".</p>
-  <div class="grid-2 mt-2 text-sm" style="gap:0.7rem;">
-    <div class="card card-purple"><div class="card-title">🤖 Autonomia com limites</div><div class="card-desc text-xs">Devin, Manus e Claude Code já resolvem tarefas de horas em minutos. O salto de 2025-26 não é "mais autônomo", é <b>autônomo com freios</b>: guardrails, supervisão e saber <b>quando parar</b>. Pesquisa: tarefas long-horizon e test-time compute.</div></div>
-    <div class="card card-cyan"><div class="card-title">🌐 Ecossistemas interoperáveis</div><div class="card-desc text-xs">MCP (Anthropic) + A2A (Google) formam a <b>"internet dos agentes"</b>: agentes de empresas diferentes descobrindo e chamando uns aos outros por protocolo aberto, em vez de integrações sob medida.</div></div>
-    <div class="card card-green"><div class="card-title">💻 Computer use generalizado</div><div class="card-desc text-xs">Agentes que operam <b>qualquer software</b> como um humano — tela, mouse, teclado (Claude, GPT-4o, Gemini). Hoje frágil e lento; tende a virar commodity e abrir o software legado sem API.</div></div>
-    <div class="card card-amber"><div class="card-title">🧠 Reasoning sob demanda</div><div class="card-desc text-xs">Modelos que "pensam por horas" quando preciso (o3, Gemini Deep Think). O gargalo deixa de ser <b>inteligência</b> e passa a ser <b>custo e latência</b> — escolher quanto raciocínio comprar por tarefa.</div></div>
+  <div class="grid-2 mt-2" style="gap:0.7rem;">
+    <div class="card card-purple"><div class="card-title">🤖 Autonomia com limites</div><div class="card-desc text-sm">Devin, Manus e Claude Code já resolvem tarefas de horas em minutos. O salto de 2025-26 não é "mais autônomo", é <b>autônomo com freios</b>: guardrails, supervisão e saber <b>quando parar</b>.</div></div>
+    <div class="card card-cyan"><div class="card-title">🌐 Ecossistemas interoperáveis</div><div class="card-desc text-sm">MCP + A2A formam a <b>"internet dos agentes"</b>: agentes de empresas diferentes descobrindo e chamando uns aos outros por protocolo aberto, em vez de integrações sob medida.</div></div>
+    <div class="card card-green"><div class="card-title">💻 Computer use generalizado</div><div class="card-desc text-sm">Agentes que operam <b>qualquer software</b> como um humano — tela, mouse, teclado. Hoje frágil e lento; tende a virar commodity e abrir o software legado sem API.</div></div>
+    <div class="card card-amber"><div class="card-title">🧠 Reasoning sob demanda</div><div class="card-desc text-sm">Modelos que "pensam por horas" quando preciso (o3, Gemini Deep Think). O gargalo deixa de ser <b>inteligência</b> e passa a ser <b>custo e latência</b>.</div></div>
   </div>
-  <div class="insight-box text-xs mt-2">🎯 Lendo por <b>três eixos</b>: <b>pesquisa</b> (long-horizon, test-time compute, world models) · <b>produto</b> (computer use, voice, vertical SaaS com agente nativo) · <b>negócio</b> (pricing por outcome, service-as-software, agent ops). O diferencial deixou de ser "saber chamar uma API" — é <b>desenhar o loop, instrumentar, avaliar e operar</b> agentes.</div>
+  <div class="insight-box text-xs mt-2">🎯 Três eixos: <b>pesquisa</b> (long-horizon, test-time compute) · <b>produto</b> (computer use, SaaS com agente nativo) · <b>negócio</b> (pricing por outcome, agent ops). O diferencial não é "chamar uma API" — é <b>desenhar o loop, instrumentar, avaliar e operar</b> agentes.</div>
 </section>
 <section data-background-gradient="linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)">
   <h1>🔄 Recap — O que você domina agora</h1>
@@ -1258,15 +1288,41 @@ print(f"   ({acertos/len(CASOS)*100:.0f}% de acerto)")
 <section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
   <h1>4.13 Para onde ir a partir daqui (1/2)</h1>
   <div class="grid-2">
-    <div class="card card-purple"><div class="card-title">📚 Papers fundamentais</div><div class="card-desc"><i>Attention Is All You Need</i> · <i>ReAct</i> · <i>Chain-of-Thought</i> · <i>Tree of Thoughts</i> · <i>Toolformer</i> · <i>MemGPT</i></div></div>
-    <div class="card card-cyan"><div class="card-title">🌐 Recursos contínuos</div><div class="card-desc">Anthropic Cookbook · OpenAI Cookbook · LangChain Academy · LangGraph docs · Hugging Face Agents Course · r/LocalLLaMA</div></div>
+    <div class="card card-purple"><div class="card-title">📚 Papers fundamentais (leia o abstract hoje)</div><div class="card-desc" style="font-size:0.55em; line-height:1.55;">
+      <a href="https://arxiv.org/abs/1706.03762">Attention Is All You Need</a> ·
+      <a href="https://arxiv.org/abs/2201.11903">Chain-of-Thought</a> ·
+      <a href="https://arxiv.org/abs/2210.03629">ReAct</a> ·
+      <a href="https://arxiv.org/abs/2305.10601">Tree of Thoughts</a> ·
+      <a href="https://arxiv.org/abs/2302.04761">Toolformer</a> ·
+      <a href="https://arxiv.org/abs/2310.08560">MemGPT</a>
+    </div></div>
+    <div class="card card-cyan"><div class="card-title">🌐 Recursos contínuos (favorite agora)</div><div class="card-desc" style="font-size:0.55em; line-height:1.55;">
+      <a href="https://github.com/anthropics/anthropic-cookbook">Anthropic Cookbook</a> ·
+      <a href="https://cookbook.openai.com/">OpenAI Cookbook</a> ·
+      <a href="https://academy.langchain.com/">LangChain Academy</a> ·
+      <a href="https://langchain-ai.github.io/langgraph/">LangGraph docs</a> ·
+      <a href="https://huggingface.co/learn/agents-course">HF Agents Course</a> ·
+      <a href="https://www.reddit.com/r/LocalLLaMA/">r/LocalLLaMA</a>
+    </div></div>
   </div>
+  <div class="tip-box mt-2 text-xs">▶️ <b>Faça de cara:</b> abra o <a href="https://huggingface.co/learn/agents-course">Hugging Face Agents Course</a> (grátis, só precisa do <code>HF_TOKEN</code>) e rode a Unidade 1 hoje, ~30 min.</div>
 </section>
 <section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
   <h1>4.13 Para onde ir a partir daqui (2/2)</h1>
   <div class="grid-2">
-    <div class="card card-green"><div class="card-title">🛠️ Frameworks pra aprofundar</div><div class="card-desc">LangGraph · Pydantic AI · DSPy · smolagents · Letta.</div></div>
-    <div class="card card-amber"><div class="card-title">📰 Onde acompanhar a área</div><div class="card-desc">Latent Space · Simon Willison · changelogs da Anthropic/OpenAI · Papers with Code · @karpathy · @hwchase17 · @swyx.</div></div>
+    <div class="card card-green"><div class="card-title">🛠️ Frameworks pra aprofundar (open source)</div><div class="card-desc" style="font-size:0.55em; line-height:1.55;">
+      <a href="https://langchain-ai.github.io/langgraph/">LangGraph</a> ·
+      <a href="https://ai.pydantic.dev/">Pydantic AI</a> ·
+      <a href="https://dspy.ai/">DSPy</a> ·
+      <a href="https://huggingface.co/docs/smolagents">smolagents</a> ·
+      <a href="https://docs.letta.com/">Letta</a></div></div>
+    <div class="card card-amber"><div class="card-title">📰 Onde acompanhar a área</div><div class="card-desc" style="font-size:0.55em; line-height:1.55;">
+      <a href="https://www.latent.space/">Latent Space</a> ·
+      <a href="https://simonwillison.net/">Simon Willison</a> ·
+      <a href="https://paperswithcode.com/">Papers with Code</a> ·
+      <a href="https://x.com/karpathy">@karpathy</a> ·
+      <a href="https://x.com/hwchase17">@hwchase17</a> ·
+      <a href="https://x.com/swyx">@swyx</a></div></div>
   </div>
   <div class="insight-box">📌 Estratégia prática: estude fundamentos estáveis e acompanhe tendências pelos changelogs e benchmarks.</div>
   <div class="grid-3 text-xs mt-2" style="gap:0.4rem;">
@@ -1276,9 +1332,14 @@ print(f"   ({acertos/len(CASOS)*100:.0f}% de acerto)")
   </div>
 </section>
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #172554 100%)">
-  <h1>📚 Referências públicas — Encontro 4 (1/2)</h1>
+  <style>
+    .refbig .card-desc { font-size: 0.64em; line-height: 1.5; }
+    .refbig .card-desc li { margin-bottom: 0.3rem; }
+    .refbig .card-title { font-size: 0.85em; margin-bottom: 0.45rem; }
+  </style>
+  <h1>📚 Referências públicas — Encontro 4 (1/3)</h1>
   <div class="grid-2">
-    <div class="card card-purple text-xs">
+    <div class="card card-purple refbig">
       <div class="card-title">Alucinações</div>
       <div class="card-desc">
         <ul>
@@ -1289,7 +1350,7 @@ print(f"   ({acertos/len(CASOS)*100:.0f}% de acerto)")
         </ul>
       </div>
     </div>
-    <div class="card card-cyan text-xs">
+    <div class="card card-cyan refbig">
       <div class="card-title">Avaliação</div>
       <div class="card-desc">
         <ul>
@@ -1297,41 +1358,42 @@ print(f"   ({acertos/len(CASOS)*100:.0f}% de acerto)")
           <li>LMSYS Chatbot Arena · <a href="https://lmarena.ai/">lmarena.ai</a></li>
           <li>Jimenez et al. (2024) — <i>SWE-bench</i> · <a href="https://arxiv.org/abs/2310.06770">arXiv:2310.06770</a></li>
           <li>Mialon et al. (2023) — <i>GAIA Benchmark</i> · <a href="https://arxiv.org/abs/2311.12983">arXiv:2311.12983</a></li>
-          <li>RAGAS Docs · <a href="https://docs.ragas.io/">docs.ragas.io</a> · DeepEval · <a href="https://docs.confident-ai.com/">docs.confident-ai.com</a></li>
+          <li>RAGAS · <a href="https://docs.ragas.io/">docs.ragas.io</a> · DeepEval · <a href="https://docs.confident-ai.com/">docs.confident-ai.com</a></li>
         </ul>
       </div>
     </div>
   </div>
 </section>
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e293b 100%)">
-  <h1>📚 Referências públicas — Encontro 4 (2/2)</h1>
-  <div class="grid-2">
-    <div class="card card-green text-xs">
-      <div class="card-title">Protocolos &amp; SOTA</div>
-      <div class="card-desc">
-        <ul>
-          <li>Stanford CS329A — materiais do curso sobre agentes e long-horizon tasks</li>
-          <li><i>CodeMonkeys: Scaling Test-Time Compute for Software Engineering</i></li>
-          <li><i>AlphaEvolve</i> — agente de código com busca evolutiva guiada por Gemini</li>
-          <li><i>The AI Scientist</i> — descoberta científica automatizada</li>
-          <li><i>Measuring AI Ability to Complete Long Tasks</i> · <i>GDPVal</i></li>
-          <li>Google (2025) — <i>Announcing A2A Protocol</i> · <a href="https://developers.googleblog.com/en/a2a-a-new-era-of-agent-interoperability/">developers.googleblog.com</a></li>
-          <li>A2A Spec (Linux Foundation) · <a href="https://a2a-protocol.org/">a2a-protocol.org</a> · <a href="https://github.com/a2aproject/A2A">github.com/a2aproject/A2A</a></li>
-          <li>Anthropic (2024) — <i>Computer Use</i> · <a href="https://www.anthropic.com/news/3-5-models-and-computer-use">anthropic.com/news</a></li>
-          <li>Anthropic — <i>MCP</i> · <a href="https://modelcontextprotocol.io/">modelcontextprotocol.io</a></li>
-        </ul>
-      </div>
+  <h1>📚 Referências públicas — Encontro 4 (2/3)</h1>
+  <div class="card card-green refbig">
+    <div class="card-title">Protocolos &amp; SOTA</div>
+    <div class="card-desc">
+      <ul style="columns: 2; column-gap: 1.6rem;">
+        <li>Stanford CS329A — agentes e long-horizon tasks</li>
+        <li><i>CodeMonkeys</i> — Scaling Test-Time Compute for SWE</li>
+        <li><i>AlphaEvolve</i> — busca evolutiva guiada por Gemini</li>
+        <li><i>The AI Scientist</i> — descoberta científica automatizada</li>
+        <li><i>Measuring AI Ability to Complete Long Tasks</i> · <i>GDPVal</i></li>
+        <li>Google (2025) — <i>A2A Protocol</i> · <a href="https://developers.googleblog.com/en/a2a-a-new-era-of-agent-interoperability/">developers.googleblog.com</a></li>
+        <li>A2A Spec (Linux Foundation) · <a href="https://a2a-protocol.org/">a2a-protocol.org</a> · <a href="https://github.com/a2aproject/A2A">github.com/a2aproject/A2A</a></li>
+        <li>Anthropic (2024) — <i>Computer Use</i> · <a href="https://www.anthropic.com/news/3-5-models-and-computer-use">anthropic.com/news</a></li>
+        <li>Anthropic — <i>MCP</i> · <a href="https://modelcontextprotocol.io/">modelcontextprotocol.io</a></li>
+      </ul>
     </div>
-    <div class="card card-amber text-xs">
-      <div class="card-title">Observabilidade &amp; Produtos</div>
-      <div class="card-desc">
-        <ul>
-          <li>LangSmith · <a href="https://docs.smith.langchain.com/">docs.smith.langchain.com</a></li>
-          <li>Langfuse (OSS) · <a href="https://langfuse.com/docs">langfuse.com/docs</a></li>
-          <li>Arize Phoenix (OSS) · <a href="https://docs.arize.com/phoenix">docs.arize.com/phoenix</a></li>
-          <li>Cursor · <a href="https://cursor.com/">cursor.com</a> · Claude Code · <a href="https://docs.anthropic.com/en/docs/claude-code">docs.anthropic.com/claude-code</a></li>
-        </ul>
-      </div>
+  </div>
+</section>
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e293b 100%)">
+  <h1>📚 Referências públicas — Encontro 4 (3/3)</h1>
+  <div class="card card-amber refbig">
+    <div class="card-title">Observabilidade &amp; Produtos</div>
+    <div class="card-desc">
+      <ul>
+        <li>LangSmith · <a href="https://docs.smith.langchain.com/">docs.smith.langchain.com</a></li>
+        <li>Langfuse (OSS) · <a href="https://langfuse.com/docs">langfuse.com/docs</a></li>
+        <li>Arize Phoenix (OSS) · <a href="https://docs.arize.com/phoenix">docs.arize.com/phoenix</a></li>
+        <li>Cursor · <a href="https://cursor.com/">cursor.com</a> · Claude Code · <a href="https://docs.anthropic.com/en/docs/claude-code">docs.anthropic.com/claude-code</a></li>
+      </ul>
     </div>
   </div>
   <div class="text-xs opacity-70 mt-2">⚖️ Conteúdo de domínio público, uso exclusivamente educacional, sem endosso das marcas citadas.</div>
