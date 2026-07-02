@@ -1202,13 +1202,16 @@ g.add_conditional_edges(...)</code></pre>
 <pre class="scale-in"><code class="language-python">from langchain_openai import ChatOpenAI
 from langchain.agents import create_agent
 from langchain_core.tools import tool
+from google.colab import userdata
 
 @tool
 def calculadora(expr: str) -&gt; str:
    """Avalia uma expressão aritmética simples."""
    return str(eval(expr, {"__builtins__": {}}, {}))
 
-llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+# modelo aberto (grátis) via router da Hugging Face — compatível com OpenAI
+llm = ChatOpenAI(model="Qwen/Qwen2.5-7B-Instruct", temperature=0,
+   base_url="https://router.huggingface.co/v1", api_key=userdata.get("HF_TOKEN"))
 agent = create_agent(llm, [calculadora],
    system_prompt="Você é um agente útil. Use as ferramentas quando precisar.")
 
@@ -1239,7 +1242,9 @@ from langgraph.prebuilt import ToolNode, tools_condition
 class State(TypedDict):
    messages: Annotated[list, add_messages]
 
-llm = ChatOpenAI(model="gpt-4o-mini").bind_tools([calc, busca])
+llm = ChatOpenAI(model="Qwen/Qwen2.5-7B-Instruct",
+   base_url="https://router.huggingface.co/v1",
+   api_key=userdata.get("HF_TOKEN")).bind_tools([calc, busca])
 
 def agent(state: State):
    return {"messages": [llm.invoke(state["messages"])]}
