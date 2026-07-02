@@ -1562,12 +1562,12 @@ Hoje: Claude, ChatGPT, VS Code, Cursor, Cline, Continue…
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #172554 100%)">
 <h1>MCP — o que ele expõe</h1>
-<div class="grid-3 mt-3 text-xs">
-<div class="card card-cyan"><div class="card-title">📚 Resources</div><div class="card-desc">Dados que o agente pode ler: arquivos locais, bases SQL, Notion, Google Drive, calendários, documentação interna.</div></div>
-<div class="card card-purple"><div class="card-title">🛠️ Tools</div><div class="card-desc">Ações executáveis: buscar na web, criar issue, consultar API, rodar cálculo, abrir PR, manipular Blender ou Figma.</div></div>
-<div class="card card-green"><div class="card-title">🧩 Prompts / workflows</div><div class="card-desc">Templates especializados e fluxos reutilizáveis: triagem, análise de dados, revisão de código, atendimento, pesquisa.</div></div>
+<div class="grid-3 mt-2 text-sm">
+<div class="card card-cyan"><div class="card-title">📚 Resources</div><div class="card-desc"><b>Dados que o agente pode LER.</b><br>Arquivos, SQL, Notion, Drive, calendários.<br><br>💡 <i>Ex.:</i> um servidor MCP do <b>Notion</b> expõe a página "Roadmap Q3"; o agente lê para responder "o que está atrasado?" sem você colar nada.</div></div>
+<div class="card card-purple"><div class="card-title">🛠️ Tools</div><div class="card-desc"><b>Ações que o agente pode EXECUTAR.</b><br>Buscar web, criar issue, chamar API, abrir PR.<br><br>💡 <i>Ex.:</i> um servidor MCP do <b>GitHub</b> oferece <code>criar_issue()</code>; o agente abre a issue "bug no login" sozinho.</div></div>
+<div class="card card-green"><div class="card-title">🧩 Prompts / workflows</div><div class="card-desc"><b>Templates e fluxos REUTILIZÁVEIS.</b><br>Triagem, análise, revisão de código.<br><br>💡 <i>Ex.:</i> o servidor traz um prompt <b>"revisar-PR"</b> pronto; qualquer cliente reusa o mesmo fluxo de revisão sem reescrevê-lo.</div></div>
 </div>
-<div class="tip-box mt-3 text-xs"><b>Modelo mental oficial:</b> MCP não é “mais uma tool”. É a camada de compatibilidade entre <b>clientes de IA</b> e <b>servidores que expõem contexto e ações</b>. O mesmo servidor pode servir muitos clientes.</div>
+<div class="tip-box mt-2 text-sm"><b>Modelo mental oficial:</b> MCP não é "mais uma tool". É a <b>camada de compatibilidade</b> (tipo "USB-C da IA") entre <b>clientes</b> (Claude, Cursor) e <b>servidores</b> que expõem contexto e ações. 🔌 <i>Ex.:</i> escrevo <b>um</b> servidor MCP do Jira e ele funciona no Claude Desktop, no Cursor e no VS Code — sem integração custom para cada um.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
@@ -1689,28 +1689,38 @@ Lista oficial: <a href="https://github.com/modelcontextprotocol/servers">github.
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #064e3b 100%)">
 <h1>Quando usar multi-agente?</h1>
 <p class="text-sm">Multi-agente <b>adiciona complexidade</b> (mais chamadas, mais custo, mais latência, mais pontos de falha). Só compensa quando a tarefa realmente pede divisão.</p>
-<div class="grid-2 mt-2 text-xs">
+<div class="grid-2 mt-2 text-sm">
 <div class="tip-box">
   <div class="card-title">✅ Use quando</div>
-  <ul style="line-height:1.7;">
-    <li><b>Fases bem diferentes</b> (pesquisar → escrever → revisar)</li>
-    <li>Cada etapa precisa de <b>prompt/contexto distinto</b></li>
-    <li>Especialistas com <b>ferramentas próprias</b> (um busca, outro calcula)</li>
-    <li><b>Paralelismo</b> gera ganho real de tempo</li>
+  <ul style="line-height:1.6;">
+    <li><b>Fases bem diferentes</b> — ex.: <i>pesquisar → escrever → revisar</i> um artigo</li>
+    <li>Cada etapa precisa de <b>prompt/contexto distinto</b> — ex.: o revisor tem regras que atrapalhariam o escritor</li>
+    <li><b>Especialistas com ferramentas próprias</b> — ex.: um agente só busca na web, outro só roda SQL</li>
+    <li><b>Paralelismo</b> real — ex.: analisar 10 documentos ao mesmo tempo, um agente por doc</li>
   </ul>
 </div>
 <div class="card card-red">
   <div class="card-title">❌ Evite quando</div>
-  <ul style="line-height:1.7;">
-    <li>Um único agente já resolve com bom contexto</li>
-    <li><b>Latência</b> é crítica (cada agente = +1 round-trip)</li>
+  <ul style="line-height:1.6;">
+    <li>Um <b>único agente</b> já resolve com bom contexto — ex.: responder um FAQ</li>
+    <li><b>Latência</b> é crítica — ex.: chat ao vivo, cada agente = +1 round-trip</li>
     <li>O <b>custo</b> precisa ser previsível e baixo</li>
-    <li>Você ainda <b>não mediu</b> o benefício real</li>
+    <li>Você ainda <b>não mediu</b> o benefício real do single-agent</li>
   </ul>
 </div>
 </div>
-<div class="card card-amber mt-2 text-xs">🎯 <b>Regra prática:</b> single-agent com bom contexto costuma vencer; só vá de multi-agent quando a tarefa pedir <b>especialização</b> ou <b>paralelismo</b> — e meça antes de adotar.</div>
-<div class="insight-box mt-2 text-xs">🏢 <b>Realidade do mercado (2025):</b> segundo a Anthropic, <b>~90% dos agentes em produção são single-agent</b>. Multi-agent brilha em: coding assistants (planner + coder + reviewer), research (pesquisador + escritor), e customer support (router + especialistas).</div>
+<div class="card card-amber mt-2 text-sm">🎯 <b>Regra prática:</b> single-agent com bom contexto costuma vencer; só vá de multi-agent quando a tarefa pedir <b>especialização</b> ou <b>paralelismo</b> — e meça antes de adotar.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #064e3b 100%)">
+<h1>Multi-agente · onde ele brilha de verdade</h1>
+<div class="insight-box text-sm">🏢 <b>Realidade do mercado (2025):</b> segundo a Anthropic, <b>~90% dos agentes em produção ainda são single-agent</b>. Multi-agent não é "mais avançado logo melhor" — é uma escolha para casos específicos.</div>
+<div class="grid-3 mt-2 text-sm">
+  <div class="card card-purple"><b>💻 Coding assistants</b><br><b>planner + coder + reviewer</b><br><i>Ex.:</i> o planner quebra a feature em passos, o coder escreve cada arquivo, o reviewer roda testes e aponta bugs antes do PR.</div>
+  <div class="card card-cyan"><b>🔬 Research</b><br><b>pesquisador + escritor</b><br><i>Ex.:</i> o pesquisador coleta e cita fontes; o escritor transforma em relatório coeso — cada um com prompt e ferramentas próprios.</div>
+  <div class="card card-green"><b>🎧 Customer support</b><br><b>router + especialistas</b><br><i>Ex.:</i> o router classifica o chamado ("cobrança" vs "técnico") e encaminha ao agente especialista com as tools daquele domínio.</div>
+</div>
+<div class="card card-amber mt-2 text-sm">🧵 No nosso fio condutor: o <b>assistente acadêmico</b> só precisaria de multi-agente se, por exemplo, um agente <b>pesquisasse</b> referências e outro <b>montasse o plano de estudo</b> em paralelo. Para tirar uma dúvida pontual, um agente basta.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
@@ -1767,55 +1777,83 @@ Lista oficial: <a href="https://github.com/modelcontextprotocol/servers">github.
 <div class="text-sm">
 📖 <b>Em palavras:</b> imagine uma <b>equipe de funcionários</b>. Cada <code>Agent</code> tem um cargo (role), um objetivo e um "currículo" (backstory) — isso vira parte do prompt dele. Cada <code>Task</code> é uma entrega esperada, atribuída a um agente. O <code>Crew</code> orquestra: o pesquisador entrega, o escritor pega o resultado dele como contexto e produz o artigo. <b>Divisão de trabalho automatizada.</b>
 </div>
-<pre><code class="language-python">from crewai import Agent, Task, Crew
-pesquisador = Agent(
-    role=&quot;Pesquisador&quot;,
-    goal=&quot;Encontrar informações precisas sobre o tema&quot;,
-    backstory=&quot;Você é um analista meticuloso.&quot;,
-    tools=[busca_web, leitor_pdf],
-)
-escritor = Agent(
-    role=&quot;Escritor técnico&quot;,
-    goal=&quot;Transformar pesquisa em artigo claro&quot;,
-    backstory=&quot;Você escreve para devs juniores.&quot;,
-)</code></pre>
+<pre style="font-size:0.5em; line-height:1.24; margin:0;"><code class="language-python"># 📋 Colab: !pip install -q crewai
+from crewai import Agent, Crew, Task, LLM
+from crewai.tools import tool
+from google.colab import userdata
+
+# LLM gratuito: HuggingFace router é compatível com OpenAI → prefixo "openai/"
+llm = LLM(model="openai/Qwen/Qwen2.5-7B-Instruct",
+          base_url="https://router.huggingface.co/v1",
+          api_key=userdata.get("HF_TOKEN"))
+
+# 🛠️ tools precisam existir e ter docstring (vira a descrição p/ o agente)
+@tool("busca_web")
+def busca_web(query: str) -> str:
+    """Busca informações na web sobre a query."""
+    return f"[resultado simulado] fatos recentes sobre: {query}"
+
+@tool("leitor_pdf")
+def leitor_pdf(caminho: str) -> str:
+    """Lê e retorna o texto de um arquivo PDF."""
+    return "[conteúdo simulado do PDF]"
+
+pesquisador = Agent(role="Pesquisador",
+    goal="Encontrar informações precisas sobre o tema",
+    backstory="Você é um analista meticuloso.",
+    tools=[busca_web, leitor_pdf], llm=llm)
+escritor = Agent(role="Escritor técnico",
+    goal="Transformar pesquisa em artigo claro",
+    backstory="Você escreve para devs juniores.", llm=llm)</code></pre>
+<div class="card card-amber mt-1 text-xs" style="padding:0.3rem 0.6rem;">🛠️ <code>busca_web</code> e <code>leitor_pdf</code> são <b>stubs didáticos</b> — troque o corpo por uma API real (SerpAPI, PyPDF). O <b>docstring</b> é obrigatório: é ele que o agente lê para saber quando usar a tool.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
 <h1>Exemplo: Crew com CrewAI — continuação</h1>
-<pre><code class="language-python">t1 = Task(description=&quot;Pesquise tudo sobre {tema}&quot;, agent=pesquisador)
-t2 = Task(description=&quot;Escreva artigo de 500 palavras baseado na pesquisa&quot;,
-          agent=escritor, context=[t1])
+<pre style="font-size:0.55em; line-height:1.3; margin:0;"><code class="language-python"># ▶️ Continua do slide anterior (reusa pesquisador e escritor)
+# ⚠️ toda Task exige expected_output no CrewAI atual
+t1 = Task(description="Pesquise tudo sobre {tema}",
+          expected_output="Resumo com os pontos-chave sobre o tema",
+          agent=pesquisador)
+t2 = Task(description="Escreva um artigo de 500 palavras baseado na pesquisa",
+          expected_output="Artigo em PT-BR, claro, com ~500 palavras",
+          agent=escritor, context=[t1])   # context=[t1] → handoff: escritor recebe a pesquisa
+
 crew = Crew(agents=[pesquisador, escritor], tasks=[t1, t2])
-print(crew.kickoff(inputs={&quot;tema&quot;: &quot;agentes de IA&quot;}))</code></pre>
+resultado = crew.kickoff(inputs={"tema": "agentes de IA"})
+print(resultado)</code></pre>
+<div class="card card-cyan mt-2 text-xs" style="padding:0.35rem 0.6rem;">🔗 <b>O handoff acontece em <code>context=[t1]</code>:</b> o CrewAI injeta a saída do pesquisador no prompt do escritor. Sem isso, o escritor não veria a pesquisa. 🐢 Em Colab o download do CrewAI + as chamadas ao modelo grátis levam ~1-2 min.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
 <h1>3.9 Hands-on integrado — agente com RAG + memória</h1>
-<div class="text-xs" style="margin-bottom:0.3rem; opacity:0.7;">📋 <b>Colab-ready</b> — usa HuggingFace InferenceClient (token gratuito)</div>
-<pre><code class="language-python"># 📋 Execute no Google Colab — requer client do setup
+<div class="text-xs" style="margin-bottom:0.3rem; opacity:0.7;">📋 <b>Colab-ready</b> — HuggingFace router (token gratuito). ▶️ O <b>main</b> (<code>run_rag_agent()</code> + prints) está no <b>próximo slide</b>.</div>
+<pre style="font-size:0.46em; line-height:1.2; margin:0;"><code class="language-python"># 📋 Colab: !pip install -q openai
+from openai import OpenAI
+from google.colab import userdata
 from typing import TypedDict
+client = OpenAI(base_url="https://router.huggingface.co/v1", api_key=userdata.get("HF_TOKEN"))
 
 # --- Base de conhecimento local (simula vector store) ---
 KNOWLEDGE_BASE = [
-    &quot;RAG combina retrieval com geração para reduzir alucinações.&quot;,
-    &quot;Memória persistente permite continuidade entre sessões.&quot;,
-    &quot;Vector stores indexam documentos por similaridade semântica.&quot;,
-    &quot;ChromaDB é um vector store open-source em Python.&quot;,
+    "RAG combina retrieval com geração para reduzir alucinações.",
+    "Memória persistente permite continuidade entre sessões.",
+    "Vector stores indexam documentos por similaridade semântica.",
+    "ChromaDB é um vector store open-source em Python.",
 ]
 
-def retrieve(query: str) -&gt; list[str]:
-    &quot;&quot;&quot;Busca por keyword (em produção: embeddings + similaridade).&quot;&quot;&quot;
+def retrieve(query: str) -> list[str]:
+    """Busca por keyword (em produção: embeddings + similaridade)."""
     return [d for d in KNOWLEDGE_BASE if any(w in d.lower() for w in query.lower().split())] or KNOWLEDGE_BASE[:2]
 
-def generate(context: list[str], question: str) -&gt; str:
-    &quot;&quot;&quot;Gera resposta usando HuggingFace com contexto injetado.&quot;&quot;&quot;
-    ctx = &quot;\n&quot;.join(f&quot;- {d}&quot; for d in context)
+def generate(context: list[str], question: str) -> str:
+    """Gera resposta usando HuggingFace com contexto injetado."""
+    ctx = "\n".join(f"- {d}" for d in context)
     resp = client.chat.completions.create(
-        model=&quot;Qwen/Qwen2.5-7B-Instruct&quot;,
+        model="Qwen/Qwen2.5-7B-Instruct",
         messages=[
-            {&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: f&quot;Responda baseado APENAS neste contexto:\n{ctx}&quot;},
-            {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: question},
+            {"role": "system", "content": f"Responda baseado APENAS neste contexto:\n{ctx}"},
+            {"role": "user", "content": question},
         ],
         max_tokens=200,
     )
@@ -1825,11 +1863,11 @@ class State(TypedDict):
     messages: list[dict]
     context_docs: list[str]
 
-def retrieve_node(state: State) -&gt; dict:
-    q = state[&quot;messages&quot;][-1][&quot;content&quot;]
+def retrieve_node(state: State) -> dict:
+    q = state["messages"][-1]["content"]
     docs = retrieve(q)
-    print(f&quot;🔍 Recuperados {len(docs)} docs para: {q[:40]}&quot;)
-    return {&quot;context_docs&quot;: docs}</code></pre>
+    print(f"🔍 Recuperados {len(docs)} docs para: {q[:40]}")
+    return {"context_docs": docs}</code></pre>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #0f766e 100%)">
