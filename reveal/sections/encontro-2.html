@@ -919,10 +919,10 @@ Defina critérios de replanning <b>no momento do plano</b>, não quando a falha 
 </div>
 </section>
 
-<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
-<h1>💻 Implementação — create_plan</h1>
-<div class="text-xs opacity-70" style="margin-bottom:0.3rem;">Colab-ready · o LLM devolve JSON com passos ordenados</div>
-<pre class="scale-in"><code class="language-python">import json
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #0f766e 100%)">
+<h1>💻 Implementação — create_plan + execute com replanning</h1>
+<div class="text-xs opacity-70" style="margin-bottom:0.2rem;">① Colab-ready · o LLM devolve JSON com passos ordenados</div>
+<pre class="scale-in" style="margin:0 0 0.4rem;"><code class="language-python">import json
 
 def create_plan(objective: str) -&gt; list[dict]:
    resp = client.chat.completions.create(
@@ -939,12 +939,8 @@ Responda APENAS JSON:
        temperature=0.1,
    )
    return json.loads(resp.choices[0].message.content)["passos"]</code></pre>
-</section>
-
-<section data-background-gradient="linear-gradient(135deg, #111827 0%, #0f766e 100%)">
-<h1>💻 Implementação — execute com replanning</h1>
-<div class="text-xs opacity-70" style="margin-bottom:0.3rem;">Fluxo mínimo: planejar → executar → detectar desvio → corrigir</div>
-<pre class="scale-in"><code class="language-python">def execute_with_replanning(objective: str, max_retries: int = 2):
+<div class="text-xs opacity-70" style="margin:0 0 0.2rem;">② Fluxo mínimo: planejar → executar → detectar desvio → corrigir</div>
+<pre class="scale-in" style="margin:0;"><code class="language-python">def execute_with_replanning(objective: str, max_retries: int = 2):
    plan = create_plan(objective)
    for step in plan:
        result = execute_step(step)
