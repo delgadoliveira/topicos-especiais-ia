@@ -1,0 +1,306 @@
+<section data-background-gradient="linear-gradient(135deg, #0e2d1b 0%, #0f172a 100%)">
+  <h1>🛠️ Encontro 5</h1>
+  <h2>Do zero ao agente: construindo o Portal Multi-Agente</h2>
+  <div class="text-sm opacity-70 mt-2 typewriter-js" data-speed="24">Imersão · Parte 1 de 2 · Ideação → escopo → construção → rodar local</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #0e2d1b 0%, #1e3a5f 100%)">
+  <h1>🎯 O que você será capaz de fazer ao final</h1>
+  <div class="stagger-in" style="margin-top: 1.2rem;">
+    <div class="card card-green parallax-card" style="padding: 0.7rem 1.1rem; margin-bottom: 0.55rem;">
+      <span style="font-size: 1.2em;">✅</span> <b>Escopar</b> um agente de tarefa única, útil e verificável
+    </div>
+    <div class="card card-green parallax-card" style="padding: 0.7rem 1.1rem; margin-bottom: 0.55rem;">
+      <span style="font-size: 1.2em;">✅</span> <b>Implementar</b> o agente cumprindo um contrato comum
+    </div>
+    <div class="card card-green parallax-card" style="padding: 0.7rem 1.1rem; margin-bottom: 0.55rem;">
+      <span style="font-size: 1.2em;">✅</span> <b>Plugá-lo</b> num portal que descobre agentes automaticamente
+    </div>
+    <div class="card card-green parallax-card" style="padding: 0.7rem 1.1rem; margin-bottom: 0.55rem;">
+      <span style="font-size: 1.2em;">✅</span> <b>Rodar tudo local</b> e offline, sem gastar um centavo
+    </div>
+  </div>
+  <div class="text-xs opacity-70 text-center" style="margin-top: 0.9rem;">Tudo open source. Modelo gratuito via Hugging Face. Deploy grátis no próximo encontro.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #111827 100%)" class="text-center">
+  <h1>💭 A virada</h1>
+  <div class="text-sm mt-3">
+    Nos Encontros 1–4 você <b>entendeu</b> agentes: reasoning, tools, memória, avaliação.<br>
+    Agora você vai <b>construir e publicar</b> um.
+  </div>
+  <div class="insight-box typewriter-js" data-speed="30" data-text="Em 2 encontros: da ideia a um portal no ar que qualquer um pode usar."></div>
+  <div class="text-xs opacity-70 mt-2">Cada aluno entrega <b>um</b> agente. Juntos, formamos <b>um portal</b>.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e293b 100%)">
+  <h1>🗺️ O produto: Portal Multi-Agente</h1>
+  <div class="text-sm" style="margin: 0.4rem 0 0.8rem;">Um site único onde <b>cada aluno pluga seu próprio agente</b>. O portal descobre, lista e conversa com cada um.</div>
+  <div class="agent-trace scale-in" style="font-size: 0.92em;">
+    <div class="trace-line"><span class="trace-user">usuário</span> → escolhe um agente no menu 🧠 ✂️ 🧮 ⚖️</div>
+    <div class="trace-line"><span class="trace-system">[portal]</span> descobre <code>agents/*.py</code> automaticamente</div>
+    <div class="trace-line"><span class="trace-system">[portal]</span> se um agente quebra, os outros seguem de pé</div>
+    <div class="trace-line"><span class="trace-agent">agente</span> responde + mostra passos, fontes e latência</div>
+  </div>
+  <div class="text-xs opacity-70 mt-2">Você trabalha em <b>um único arquivo</b>: <code>agents/&lt;seu-slug&gt;.py</code>. O resto da infraestrutura já está pronto.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #1e293b 0%, #0f172a 100%)">
+  <h1>📜 Regras do jogo</h1>
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.7rem; margin-top:0.8rem;">
+    <div class="card card-blue" style="padding:0.7rem 1rem;">🆓 <b>100% open source e gratuito.</b> Modelo aberto (Qwen) via Hugging Face, token grátis.</div>
+    <div class="card card-blue" style="padding:0.7rem 1rem;">🎯 <b>Um agente por aluno.</b> Tarefa única, bem definida e verificável.</div>
+    <div class="card card-blue" style="padding:0.7rem 1rem;">🤝 <b>Contrato comum.</b> Todo agente "fala a mesma língua" do portal.</div>
+    <div class="card card-blue" style="padding:0.7rem 1rem;">🧪 <b>Roda offline.</b> Modo <code>MOCK_LLM=1</code> para desenvolver sem rede.</div>
+    <div class="card card-blue" style="padding:0.7rem 1rem;">🧹 <b>Só o seu arquivo.</b> Não mexa em <code>portal/</code> nem no agente dos colegas.</div>
+    <div class="card card-blue" style="padding:0.7rem 1rem;">🚀 <b>Deploy no E6.</b> Publica grátis no Hugging Face Spaces.</div>
+  </div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
+  <h1>🤝 O contrato — a "língua comum"</h1>
+  <p class="text-xs" style="opacity:0.85; margin:0 0 0.3rem;">A <b>única</b> regra: seu agente é um objeto com 4 metadados + um método <code>run()</code> que devolve um <code>AgentResult</code>.</p>
+  <pre style="font-size:0.5em; line-height:1.28; margin:0;"><code class="language-python">from portal.base import AgentResult
+
+class MeuAgente:
+    slug = "meu-agente"      # id único, minúsculo, sem espaço
+    name = "Meu Agente"      # nome amigável (aparece no menu)
+    emoji = "🧠"              # um emoji para a UI
+    description = "O que ele faz, em uma frase."
+
+    def run(self, message, history):
+        # message  -> str  (o que o usuário digitou)
+        # history  -> lista de {"role", "content"} (turnos anteriores)
+        return AgentResult(
+            answer="a resposta ao usuário",   # obrigatório
+            steps=["passo 1", "passo 2"],      # opcional (observabilidade)
+            citations=["fonte A"],             # opcional (se usar RAG)
+        )
+
+AGENT = MeuAgente()          # o portal descobre o agente por esta variável</code></pre>
+  <div class="text-xs opacity-70 mt-2">Sem herança obrigatória: basta ter esses atributos e o <code>run()</code>. Simples de propósito.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #1e293b 0%, #0f172a 100%)">
+  <h1>🏗️ Como o portal funciona por dentro</h1>
+  <div class="agent-trace scale-in" style="font-size:0.85em;">
+    <div class="trace-line"><span class="trace-system">agents/</span> cada aluno cria <code>&lt;slug&gt;.py</code> com uma variável <code>AGENT</code></div>
+    <div class="trace-line">⬇</div>
+    <div class="trace-line"><span class="trace-system">registry.py</span> importa cada arquivo, valida o contrato, ignora os quebrados</div>
+    <div class="trace-line">⬇</div>
+    <div class="trace-line"><span class="trace-system">runner.py</span> roda <code>run()</code> com timeout + captura de erro + log</div>
+    <div class="trace-line">⬇</div>
+    <div class="trace-line"><span class="trace-agent">app.py</span> UI Gradio: menu de agentes + chat</div>
+  </div>
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.6rem; margin-top:0.7rem;">
+    <div class="card card-purple" style="padding:0.55rem 0.9rem;">🛡️ <b>Tolerante a falhas:</b> um agente com bug não derruba a turma. O erro aparece na tela.</div>
+    <div class="card card-purple" style="padding:0.55rem 0.9rem;">🔌 <b>Zero config:</b> salvou o arquivo, o agente já aparece no portal.</div>
+  </div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #0e2d1b 0%, #1e293b 100%)">
+  <h1>💡 Passo 1 — Ideação: escolha um arquétipo</h1>
+  <p class="text-xs" style="opacity:0.85; margin:0 0 0.5rem;">Não sabe o que fazer? Comece por um destes moldes e adapte ao seu domínio (área, hobby, trabalho).</p>
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.55rem;">
+    <div class="card card-green" style="padding:0.55rem 0.9rem;">📝 <b>Transformador:</b> resume, traduz, reescreve, formata (ex: resumo de artigo, e-mail formal → informal)</div>
+    <div class="card card-green" style="padding:0.55rem 0.9rem;">🔎 <b>Explicador:</b> explica um conceito no nível do usuário (ex: termo jurídico, erro de código)</div>
+    <div class="card card-green" style="padding:0.55rem 0.9rem;">🧮 <b>Analisador:</b> recebe dados e devolve um veredito (ex: revisa uma query SQL, avalia um currículo)</div>
+    <div class="card card-green" style="padding:0.55rem 0.9rem;">🛠️ <b>Gerador:</b> produz um artefato pronto (ex: mensagem de commit a partir de um diff, plano de estudo)</div>
+    <div class="card card-green" style="padding:0.55rem 0.9rem;">🧭 <b>Tutor:</b> guia o usuário por passos (ex: monta uma receita, corrige exercício)</div>
+    <div class="card card-green" style="padding:0.55rem 0.9rem;">📚 <b>Consultor c/ fontes (RAG):</b> responde citando um material que você forneceu</div>
+  </div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #1e293b 0%, #312e81 100%)">
+  <h1>✂️ Passo 2 — Escopo em UMA frase</h1>
+  <div class="insight-box" style="font-size:0.95em;">
+    "Meu agente ajuda <b>[usuário]</b> a fazer <b>[tarefa específica]</b><br>
+    usando <b>[entrada]</b> e entregando <b>[saída verificável]</b>."
+  </div>
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.6rem; margin-top:0.7rem;">
+    <div class="card card-green" style="padding:0.6rem 0.95rem;">✅ <b>Bom:</b> "ajuda <i>estudantes de SQL</i> a <i>corrigir uma query que dá erro</i> usando <i>a query + a mensagem de erro</i> e entregando <i>a query corrigida + a explicação</i>."</div>
+    <div class="card card-red" style="padding:0.6rem 0.95rem;">❌ <b>Vago:</b> "um assistente que responde qualquer pergunta", "ajuda com produtividade", "um chatbot legal". Sem tarefa nem saída verificável.</div>
+  </div>
+  <div class="text-xs opacity-70 mt-2">Regra de ouro: se você <b>não sabe como testar</b> se a saída está certa, o escopo ainda está vago.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e293b 100%)">
+  <h1>⚙️ Passo 3 — Setup (5 minutos)</h1>
+  <pre style="font-size:0.52em; line-height:1.3; margin:0;"><code class="language-bash"># 1. Pegue o projeto e entre na pasta
+git clone &lt;repo-do-portal&gt;.git
+cd projeto-portal
+
+# 2. Instale as dependências
+pip install -r requirements.txt
+
+# 3. Configure o token (gratuito, role "read"):
+#    https://huggingface.co/settings/tokens
+cp .env.example .env      # edite e cole seu HF_TOKEN
+
+# 4. Rode o portal com o agente de exemplo
+python app.py             # abre em http://localhost:7860</code></pre>
+  <div class="card card-yellow" style="padding:0.6rem 1rem; margin-top:0.7rem;">🧪 <b>Sem token ainda?</b> Rode offline: <code>MOCK_LLM=1 python app.py</code>. O modelo devolve uma resposta simulada — perfeito para testar contrato e UI sem rede.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #1e293b 0%, #0f172a 100%)">
+  <h1>📋 Passo 4 — Copie o template</h1>
+  <pre style="font-size:0.55em; line-height:1.3; margin:0;"><code class="language-bash"># Copie o molde para o SEU arquivo (escolha um slug único)
+cp agents/_template_agent.py agents/tutor-sql.py</code></pre>
+  <div class="text-xs" style="margin:0.5rem 0 0.3rem; opacity:0.85;">O template já vem com a estrutura pronta. Você só preenche os <code>TODO</code>:</div>
+  <pre style="font-size:0.5em; line-height:1.26; margin:0;"><code class="language-python">from portal.base import AgentResult
+from portal import llm
+
+class MeuAgente:
+    slug = "meu-agente"      # TODO: slug único
+    name = "Meu Agente"      # TODO
+    emoji = "🧠"              # TODO
+    description = "..."       # TODO: uma frase
+
+    def run(self, message, history):
+        if not message.strip():                # guardrail simples
+            return AgentResult(answer="Envie um texto para eu processar.")
+        # TODO: monte o prompt da SUA tarefa
+        resposta = llm.chat([
+            {"role": "system", "content": "TODO: instrua o modelo"},
+            {"role": "user", "content": message},
+        ], max_tokens=250)
+        return AgentResult(answer=resposta, steps=["recebi", "respondi"])
+
+AGENT = MeuAgente()</code></pre>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
+  <h1>✂️ Passo 5 — Implemente <code>run()</code> (exemplo completo)</h1>
+  <p class="text-xs" style="opacity:0.85; margin:0 0 0.3rem;">Um agente <b>Resumidor</b> real e funcional. Estude cada linha — é o molde do seu.</p>
+  <pre style="font-size:0.5em; line-height:1.28; margin:0;"><code class="language-python">from portal.base import AgentResult
+from portal import llm
+
+class ResumidorAgent:
+    slug = "resumidor"
+    name = "Resumidor de Textos"
+    emoji = "✂️"
+    description = "Resume um texto longo em até 3 tópicos curtos."
+
+    def run(self, message, history):
+        steps = ["Recebi o texto", "Pedi um resumo em 3 tópicos"]
+        resumo = llm.chat([
+            {"role": "system",
+             "content": "Você resume em português. Máx. 3 tópicos, cada um em '- '."},
+            {"role": "user", "content": f"Resuma:\n\n{message}"},
+        ], max_tokens=200)
+        return AgentResult(answer=resumo, steps=steps)
+
+AGENT = ResumidorAgent()</code></pre>
+  <div class="text-xs opacity-70 mt-2"><code>llm.chat()</code> já cuida de token, retry, timeout e modo MOCK. Você só pensa no <b>prompt</b> e na <b>tarefa</b>.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #1e293b 0%, #0f172a 100%)">
+  <h1>🛠️ Opcional — Dando "ferramentas" ao agente</h1>
+  <p class="text-xs" style="opacity:0.85; margin:0 0 0.3rem;">Precisa calcular, buscar ou consultar algo? Chame uma função Python normal dentro do <code>run()</code>. Simples assim.</p>
+  <pre style="font-size:0.5em; line-height:1.28; margin:0;"><code class="language-python">import re
+from portal.base import AgentResult
+from portal import llm
+
+def calcular(expr: str) -> str:               # "ferramenta" = função Python
+    if not re.fullmatch(r"[0-9+\-*/(). ]+", expr):
+        return "expressão inválida"
+    return str(eval(expr))                      # ok: entrada já validada
+
+class CalculadoraAgent:
+    slug = "calc"; name = "Calculadora Explicada"; emoji = "🧮"
+    description = "Resolve uma conta e explica o passo a passo."
+
+    def run(self, message, history):
+        conta = re.search(r"[0-9+\-*/(). ]+", message)
+        resultado = calcular(conta.group()) if conta else "não achei uma conta"
+        explicacao = llm.chat([
+            {"role": "system", "content": "Explique a conta em 1 frase simples."},
+            {"role": "user", "content": f"{message}\nResultado: {resultado}"},
+        ], max_tokens=80)
+        return AgentResult(answer=f"**{resultado}**\n\n{explicacao}",
+                           steps=[f"calculei: {conta.group() if conta else '-'}"])
+
+AGENT = CalculadoraAgent()</code></pre>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e293b 100%)">
+  <h1>📚 Opcional — RAG mínimo (responder com fontes)</h1>
+  <p class="text-xs" style="opacity:0.85; margin:0 0 0.3rem;">Quer que o agente responda com base num material seu? Comece <b>simples</b>: um dicionário de trechos. Vetores só se precisar.</p>
+  <pre style="font-size:0.5em; line-height:1.28; margin:0;"><code class="language-python">from portal.base import AgentResult
+from portal import llm
+
+BASE = {                                        # sua "base de conhecimento"
+  "devolução": "Trocas em até 7 dias com nota fiscal (art. 49 CDC).",
+  "frete":     "Frete grátis acima de R$199 para todo o Brasil.",
+}
+
+class FAQAgent:
+    slug = "faq-loja"; name = "FAQ da Loja"; emoji = "📚"
+    description = "Responde dúvidas citando a política oficial."
+
+    def run(self, message, history):
+        # recuperação ingênua: acha os trechos cuja chave aparece na pergunta
+        achados = [v for k, v in BASE.items() if k in message.lower()]
+        contexto = "\n".join(achados) or "(nenhum trecho relevante)"
+        resp = llm.chat([
+            {"role": "system", "content": "Responda SÓ com base no contexto. "
+             "Se não houver, diga que não sabe."},
+            {"role": "user", "content": f"Contexto:\n{contexto}\n\nPergunta: {message}"},
+        ], max_tokens=150)
+        return AgentResult(answer=resp, citations=achados)   # 👈 fontes na UI
+
+AGENT = FAQAgent()</code></pre>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #1e293b 0%, #0e2d1b 100%)">
+  <h1>✅ Passo 6 — Valide antes de subir</h1>
+  <p class="text-xs" style="opacity:0.85; margin:0 0 0.3rem;">O <code>check_agent.py</code> roda um <b>preflight offline</b>: confere o contrato e faz um smoke test. Sem gastar rede.</p>
+  <pre style="font-size:0.52em; line-height:1.3; margin:0;"><code class="language-bash">python check_agent.py agents/tutor-sql.py</code></pre>
+  <pre style="font-size:0.5em; line-height:1.3; margin:0.4rem 0 0;"><code class="language-text">🔍 Verificando agents/tutor-sql.py
+✅ Expõe AGENT
+✅ Contrato ok — slug='tutor-sql', nome='Tutor de SQL'
+✅ Smoke test ok — respondeu em 0.01s
+🎉 Tudo certo! Seu agente está pronto para o portal.</code></pre>
+  <div class="card card-yellow" style="padding:0.55rem 1rem; margin-top:0.6rem;">Se algo estiver errado, ele diz <b>exatamente o quê</b> (slug com espaço, faltou <code>AGENT</code>, resposta vazia…). Conserte e rode de novo.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #0e2d1b 0%, #0f172a 100%)">
+  <h1>▶️ Passo 7 — Rode o portal com o seu agente</h1>
+  <pre style="font-size:0.55em; line-height:1.3; margin:0;"><code class="language-bash">python app.py        # http://localhost:7860</code></pre>
+  <div class="agent-trace scale-in" style="font-size:0.9em; margin-top:0.6rem;">
+    <div class="trace-line">1. abra o navegador → seu agente já está no menu 🎉</div>
+    <div class="trace-line">2. selecione-o e mande uma mensagem de teste</div>
+    <div class="trace-line">3. veja a resposta + passos + latência</div>
+    <div class="trace-line">4. iterou o prompt? é só salvar e recarregar</div>
+  </div>
+  <div class="text-xs opacity-70 mt-2">Rodou local e respondeu? <b>Você já tem um agente funcional.</b> No Encontro 6 vamos endurecer e publicar.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #1e293b 0%, #0f172a 100%)">
+  <h1>🤝 Regras de convivência (evita 90% dos problemas)</h1>
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.6rem; margin-top:0.7rem;">
+    <div class="card card-blue" style="padding:0.6rem 0.95rem;">📁 Edite <b>só</b> <code>agents/&lt;seu-slug&gt;.py</code>. Nunca mexa em <code>portal/</code>.</div>
+    <div class="card card-blue" style="padding:0.6rem 0.95rem;">🏷️ <b>Slug único</b>, minúsculo, sem espaço. Combine com a turma para não repetir.</div>
+    <div class="card card-blue" style="padding:0.6rem 0.95rem;">🌐 <b>Nada de rede no import.</b> Chamadas só dentro de <code>run()</code> (senão trava o portal).</div>
+    <div class="card card-blue" style="padding:0.6rem 0.95rem;">🔑 <b>Sem segredos no código.</b> Token vem do ambiente (<code>HF_TOKEN</code>), nunca hardcoded.</div>
+    <div class="card card-blue" style="padding:0.6rem 0.95rem;">⏱️ <b>Seja rápido.</b> <code>max_tokens</code> baixo, uma chamada só quando possível.</div>
+    <div class="card card-blue" style="padding:0.6rem 0.95rem;">🧪 <b>Sempre rode o preflight</b> antes de commitar.</div>
+  </div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
+  <h1>🎒 Definition of Done — Encontro 5</h1>
+  <div class="stagger-in" style="margin-top:1rem;">
+    <div class="card card-green" style="padding:0.6rem 1rem; margin-bottom:0.5rem;">☑️ Escopo escrito em uma frase (usuário / tarefa / entrada / saída verificável)</div>
+    <div class="card card-green" style="padding:0.6rem 1rem; margin-bottom:0.5rem;">☑️ Arquivo <code>agents/&lt;slug&gt;.py</code> criado a partir do template</div>
+    <div class="card card-green" style="padding:0.6rem 1rem; margin-bottom:0.5rem;">☑️ <code>python check_agent.py</code> passando (contrato + smoke test)</div>
+    <div class="card card-green" style="padding:0.6rem 1rem; margin-bottom:0.5rem;">☑️ Agente aparece no portal local e responde a um teste</div>
+  </div>
+  <div class="text-xs opacity-70 text-center mt-2">Chegou aqui? Perfeito. Traga seu agente rodando para o Encontro 6 — vamos deixá-lo robusto e no ar.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #0e2d1b 0%, #1e293b 100%)" class="text-center">
+  <h1>🚀 Próximo: Encontro 6</h1>
+  <div class="text-sm mt-3">Avaliação sistemática · guardrails · observabilidade · <b>deploy grátis no Hugging Face Spaces</b> · demo de 2 minutos.</div>
+  <div class="insight-box typewriter-js" data-speed="30" data-text="Traga seu agente rodando local. Sai daqui com ele no ar."></div>
+</section>

@@ -1,0 +1,258 @@
+<section data-background-gradient="linear-gradient(135deg, #2d0e1b 0%, #0f172a 100%)">
+  <h1>🚀 Encontro 6</h1>
+  <h2>Endurecer &amp; publicar: seu agente no ar</h2>
+  <div class="text-sm opacity-70 mt-2 typewriter-js" data-speed="24">Imersão · Parte 2 de 2 · Debug → avaliação → guardrails → deploy → demo</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #2d0e1b 0%, #1e3a5f 100%)">
+  <h1>🎯 O que você será capaz de fazer ao final</h1>
+  <div class="stagger-in" style="margin-top: 1.2rem;">
+    <div class="card card-green parallax-card" style="padding: 0.7rem 1.1rem; margin-bottom: 0.55rem;">
+      <span style="font-size: 1.2em;">✅</span> <b>Depurar</b> seu agente com um preflight e erros claros
+    </div>
+    <div class="card card-green parallax-card" style="padding: 0.7rem 1.1rem; margin-bottom: 0.55rem;">
+      <span style="font-size: 1.2em;">✅</span> <b>Avaliar</b> a qualidade de forma sistemática (checks + juiz LLM)
+    </div>
+    <div class="card card-green parallax-card" style="padding: 0.7rem 1.1rem; margin-bottom: 0.55rem;">
+      <span style="font-size: 1.2em;">✅</span> <b>Proteger</b> o agente com pelo menos um guardrail
+    </div>
+    <div class="card card-green parallax-card" style="padding: 0.7rem 1.1rem; margin-bottom: 0.55rem;">
+      <span style="font-size: 1.2em;">✅</span> <b>Publicar</b> grátis no Hugging Face Spaces e <b>demonstrar</b> em 2 min
+    </div>
+  </div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #111827 100%)" class="text-center">
+  <h1>💭 Onde paramos</h1>
+  <div class="text-sm mt-3">
+    Você tem um agente que <b>roda local</b> e passa no preflight.<br>
+    Mas rodar no seu notebook ≠ estar pronto para o mundo.
+  </div>
+  <div class="insight-box typewriter-js" data-speed="30" data-text="Hoje: robustez, avaliação e deploy. Do 'funciona em mim' ao 'está no ar'."></div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e293b 100%)">
+  <h1>🗺️ Roteiro do dia</h1>
+  <div class="agent-trace scale-in" style="font-size:0.9em;">
+    <div class="trace-line">1️⃣ <b>Preflight &amp; debug</b> — deixe o agente rodando sem erros</div>
+    <div class="trace-line">2️⃣ <b>Avaliação</b> — 3 casos de teste + scorecard</div>
+    <div class="trace-line">3️⃣ <b>Guardrail</b> — adicione 1 proteção de entrada/saída</div>
+    <div class="trace-line">4️⃣ <b>Observabilidade</b> — logs para saber o que aconteceu</div>
+    <div class="trace-line">5️⃣ <b>Deploy</b> — Hugging Face Spaces (grátis)</div>
+    <div class="trace-line">6️⃣ <b>Demo</b> — 2 minutos, com plano B</div>
+  </div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #1e293b 0%, #0f172a 100%)">
+  <h1>1️⃣ Preflight &amp; debugging</h1>
+  <p class="text-xs" style="opacity:0.85; margin:0 0 0.3rem;">Sempre comece rodando o preflight <b>offline</b>. Ele isola o seu agente dos demais e diz o que está errado.</p>
+  <pre style="font-size:0.52em; line-height:1.3; margin:0;"><code class="language-bash">python check_agent.py agents/&lt;seu-slug&gt;.py</code></pre>
+  <div class="text-xs" style="margin:0.5rem 0 0.3rem; opacity:0.85;">O portal também é <b>tolerante a falhas</b>: se seu agente quebra, ele aparece na lista de erros — mas os outros seguem funcionando.</div>
+  <div class="card card-yellow" style="padding:0.6rem 1rem; margin-top:0.4rem;">🔍 <b>Dica de debug:</b> rode com <code>MOCK_LLM=1</code> primeiro. Se funciona no mock e falha "de verdade", o problema é <b>token/rede/prompt</b>, não o seu código.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #2d0e1b 100%)">
+  <h1>🐞 Erros comuns e como resolver</h1>
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.55rem; margin-top:0.5rem;">
+    <div class="card card-red" style="padding:0.55rem 0.9rem;"><b>ModuleNotFoundError</b> → dependência faltando. <code>pip install -r requirements.txt</code>.</div>
+    <div class="card card-red" style="padding:0.55rem 0.9rem;"><b>HF_TOKEN não encontrado</b> → configure o <code>.env</code> ou rode com <code>MOCK_LLM=1</code>.</div>
+    <div class="card card-red" style="padding:0.55rem 0.9rem;"><b>slug duplicado</b> → dois alunos usaram o mesmo. Combine e renomeie.</div>
+    <div class="card card-red" style="padding:0.55rem 0.9rem;"><b>resposta vazia</b> → <code>max_tokens</code> muito baixo ou prompt ambíguo.</div>
+    <div class="card card-red" style="padding:0.55rem 0.9rem;"><b>timeout / 503</b> → modelo "acordando". O <code>llm.chat</code> já tenta de novo; espere e repita.</div>
+    <div class="card card-red" style="padding:0.55rem 0.9rem;"><b>trava tudo</b> → você fez chamada de rede no <i>import</i>. Mova para dentro do <code>run()</code>.</div>
+  </div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #1e293b 0%, #312e81 100%)" class="text-center">
+  <h1>2️⃣ Por que avaliar?</h1>
+  <div class="text-sm mt-3">"Funcionou quando eu testei" não é medida. Um agente pode acertar hoje e <b>regredir</b> quando você muda o prompt amanhã.</div>
+  <div class="insight-box" style="font-size:0.95em;">Avaliar = ter um conjunto de casos que roda sempre e diz, objetivamente, se melhorou ou piorou.</div>
+  <div class="text-xs opacity-70 mt-2">Duas camadas: <b>checks determinísticos</b> (rápidos, offline) + <b>juiz LLM</b> (opcional, para qualidade).</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e293b 100%)">
+  <h1>2️⃣ Escreva 3 casos de teste</h1>
+  <p class="text-xs" style="opacity:0.85; margin:0 0 0.3rem;">Crie <code>eval/cases/&lt;seu-slug&gt;.yaml</code>. Cada caso: uma entrada + o que esperar da saída.</p>
+  <pre style="font-size:0.5em; line-height:1.3; margin:0;"><code class="language-yaml">agent: tutor-sql
+cases:
+  - input: "SELECT * FORM usuarios"          # erro de digitação proposital
+    max_latency_s: 30
+    must_contain: ["FROM"]                    # a correção precisa aparecer
+    judge: "A query corrigida está sintaticamente correta?"
+
+  - input: "SELECT nome FROM users WHERE id = "
+    max_latency_s: 30
+    must_not_contain: ["Traceback", "Exception"]
+
+  - input: "obrigado!"                         # entrada fora do escopo
+    max_latency_s: 30
+    judge: "O agente responde educadamente sem inventar uma query?"</code></pre>
+  <div class="text-xs opacity-70 mt-2">Inclua sempre: <b>1 caso feliz</b>, <b>1 caso difícil/borda</b> e <b>1 fora do escopo</b>.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #1e293b 0%, #0f172a 100%)">
+  <h1>2️⃣ Rode o scorecard</h1>
+  <pre style="font-size:0.52em; line-height:1.3; margin:0;"><code class="language-bash">python eval/run_eval.py tutor-sql</code></pre>
+  <pre style="font-size:0.5em; line-height:1.3; margin:0.4rem 0 0;"><code class="language-text">=== tutor-sql (3 casos) ===
+✅ caso 1: juiz: SIM
+✅ caso 2: ok
+❌ caso 3: juiz: NÃO
+
+📊 2/3 casos passaram.</code></pre>
+  <div class="card card-yellow" style="padding:0.6rem 1rem; margin-top:0.6rem;">Um ❌ não é fracasso: é <b>informação</b>. Ajuste o prompt, rode de novo, veja o número subir. É assim que se melhora um agente de verdade.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
+  <h1>2️⃣ Camada 2 — o juiz LLM</h1>
+  <p class="text-xs" style="opacity:0.85; margin:0 0 0.3rem;">Checks pegam o objetivo (contém? rápido?). Para <b>qualidade</b>, um modelo faz de juiz, respondendo SIM/NÃO.</p>
+  <pre style="font-size:0.5em; line-height:1.28; margin:0;"><code class="language-python"># (já embutido em eval/run_eval.py — conceito)
+verdict = llm.chat([
+    {"role": "system",
+     "content": "Você é um avaliador rigoroso. Responda APENAS 'SIM' ou 'NÃO'."},
+    {"role": "user",
+     "content": f"{pergunta_do_caso}\n\nResposta avaliada:\n{resposta}"},
+], max_tokens=5, temperature=0.0)
+passou = verdict.strip().upper().startswith("SIM")</code></pre>
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.55rem; margin-top:0.6rem;">
+    <div class="card card-green" style="padding:0.55rem 0.9rem;">✅ Roda só com token e sem <code>MOCK</code>. No mock, é pulado (não trava a aula).</div>
+    <div class="card card-yellow" style="padding:0.55rem 0.9rem;">⚠️ Juiz LLM não é perfeito: use perguntas objetivas e <code>temperature=0</code>.</div>
+  </div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #1e293b 0%, #2d0e1b 100%)">
+  <h1>3️⃣ Adicione 1 guardrail</h1>
+  <p class="text-xs" style="opacity:0.85; margin:0 0 0.3rem;">Guardrail = uma checagem na <b>entrada</b> ou na <b>saída</b> que evita comportamento ruim. Comece com um só.</p>
+  <pre style="font-size:0.5em; line-height:1.28; margin:0;"><code class="language-python">MAX_CHARS = 4000
+
+def run(self, message, history):
+    # 🛡️ guardrail de ENTRADA: tamanho e vazio
+    if not message.strip():
+        return AgentResult(answer="Envie um texto para eu processar.")
+    if len(message) &gt; MAX_CHARS:
+        return AgentResult(answer=f"Texto muito longo (máx {MAX_CHARS} caracteres).")
+
+    resposta = llm.chat([...], max_tokens=250)
+
+    # 🛡️ guardrail de SAÍDA: nunca devolva vazio
+    if not resposta.strip():
+        return AgentResult(answer="Não consegui gerar uma resposta. Tente reformular.")
+    return AgentResult(answer=resposta)</code></pre>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e293b 100%)">
+  <h1>3️⃣ Menu de guardrails úteis</h1>
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.55rem; margin-top:0.5rem;">
+    <div class="card card-purple" style="padding:0.55rem 0.9rem;">📏 <b>Tamanho:</b> rejeite entradas gigantes (custo/latência).</div>
+    <div class="card card-purple" style="padding:0.55rem 0.9rem;">🚫 <b>Fora de escopo:</b> se não for a sua tarefa, responda educadamente e não invente.</div>
+    <div class="card card-purple" style="padding:0.55rem 0.9rem;">🔒 <b>PII:</b> não repita CPF/e-mail/telefone na resposta (regex simples).</div>
+    <div class="card card-purple" style="padding:0.55rem 0.9rem;">🔁 <b>Anti-loop:</b> limite de passos/chamadas se o agente iterar.</div>
+    <div class="card card-purple" style="padding:0.55rem 0.9rem;">🧯 <b>Fallback:</b> se o modelo falhar, mensagem clara em vez de stack trace.</div>
+    <div class="card card-purple" style="padding:0.55rem 0.9rem;">✅ <b>Formato:</b> valide que a saída tem o formato prometido (ex: JSON, lista).</div>
+  </div>
+  <div class="text-xs opacity-70 mt-2">O portal já te dá o <b>fallback</b> global (runner captura exceções). Você adiciona os específicos da <b>sua</b> tarefa.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #1e293b 0%, #0f172a 100%)">
+  <h1>4️⃣ Observabilidade — saber o que aconteceu</h1>
+  <p class="text-xs" style="opacity:0.85; margin:0 0 0.3rem;">O portal já registra cada interação em <code>logs/interactions.jsonl</code> (uma linha por chamada). Segredos são redigidos automaticamente.</p>
+  <pre style="font-size:0.5em; line-height:1.3; margin:0;"><code class="language-json">{"ts":"2026-10-14T20:11:03","slug":"tutor-sql","status":"ok",
+ "latency_s":1.87,"input_preview":"SELECT * FORM usuarios",
+ "answer_len":142,"error":null}</code></pre>
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.55rem; margin-top:0.6rem;">
+    <div class="card card-blue" style="padding:0.55rem 0.9rem;">📊 <b>O que medir:</b> latência, taxa de erro, tamanho da resposta, casos sem resposta.</div>
+    <div class="card card-blue" style="padding:0.55rem 0.9rem;">🔐 <b>O que NÃO logar:</b> tokens, dados sensíveis do usuário. Guarde só o necessário.</div>
+  </div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
+  <h1>5️⃣ Deploy no Hugging Face Spaces (grátis)</h1>
+  <div class="agent-trace scale-in" style="font-size:0.86em;">
+    <div class="trace-line">1. <b>huggingface.co/new-space</b> → SDK <b>Gradio</b>, visibilidade pública</div>
+    <div class="trace-line">2. suba a pasta: <code>app.py</code>, <code>requirements.txt</code>, <code>README.md</code>, <code>portal/</code>, <code>agents/</code></div>
+    <div class="trace-line">3. Settings → <b>Variables and secrets</b> → adicione o secret <code>HF_TOKEN</code></div>
+    <div class="trace-line">4. o Space <b>builda sozinho</b> e publica a URL 🎉</div>
+  </div>
+  <pre style="font-size:0.5em; line-height:1.3; margin:0.5rem 0 0;"><code class="language-yaml"># o topo do README.md diz ao Spaces como rodar:
+---
+title: Portal Multi-Agente
+sdk: gradio
+app_file: app.py
+---</code></pre>
+  <div class="text-xs opacity-70 mt-2">Sem Dockerfile. Sem servidor. Sem cartão de crédito. O Gradio + esse cabeçalho é tudo que o Spaces precisa.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #1e293b 0%, #0f172a 100%)">
+  <h1>5️⃣ Seu agente no portal comum</h1>
+  <p class="text-xs" style="opacity:0.85; margin:0 0 0.3rem;">Duas formas de entregar. A da turma é a <b>2</b>: um Pull Request com <b>um arquivo</b>.</p>
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.6rem; margin-top:0.4rem;">
+    <div class="card card-green" style="padding:0.6rem 0.95rem;"><b>Opção A — seu próprio Space.</b> Você publica seu portal com o seu agente. Bom para portfólio.</div>
+    <div class="card card-green" style="padding:0.6rem 0.95rem;"><b>Opção B — portal da turma.</b> PR adicionando <code>agents/&lt;slug&gt;.py</code> + <code>eval/cases/&lt;slug&gt;.yaml</code>. Todos num só site.</div>
+  </div>
+  <pre style="font-size:0.5em; line-height:1.3; margin:0.5rem 0 0;"><code class="language-bash">git checkout -b agente-&lt;slug&gt;
+git add agents/&lt;slug&gt;.py eval/cases/&lt;slug&gt;.yaml
+git commit -m "feat: agente &lt;slug&gt;"
+git push origin agente-&lt;slug&gt;      # abra o Pull Request</code></pre>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #2d0e1b 100%)">
+  <h1>6️⃣ A demo de 2 minutos</h1>
+  <div class="agent-trace scale-in" style="font-size:0.9em;">
+    <div class="trace-line">⏱️ <b>0:00–0:20</b> — o problema: quem usa e por quê (a sua frase de escopo)</div>
+    <div class="trace-line">⏱️ <b>0:20–1:20</b> — demo ao vivo: 1 caso feliz + 1 caso difícil</div>
+    <div class="trace-line">⏱️ <b>1:20–1:45</b> — o número: quantos casos de eval passam</div>
+    <div class="trace-line">⏱️ <b>1:45–2:00</b> — 1 aprendizado + o que melhoraria</div>
+  </div>
+  <div class="text-xs opacity-70 mt-2">Curto é difícil. Ensaie uma vez. Tenha os inputs prontos para colar (não digite na hora).</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #1e293b 0%, #0f172a 100%)">
+  <h1>6️⃣ Plano B da demo (sempre tenha um)</h1>
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.6rem; margin-top:0.7rem;">
+    <div class="card card-yellow" style="padding:0.6rem 0.95rem;">🌐 <b>Wi-Fi caiu / modelo lento?</b> Rode com <code>MOCK_LLM=1</code> para mostrar o fluxo sem depender da rede.</div>
+    <div class="card card-yellow" style="padding:0.6rem 0.95rem;">🖼️ <b>Nada funciona?</b> Tenha <b>2 screenshots</b> (caso feliz + scorecard) prontos para mostrar.</div>
+    <div class="card card-yellow" style="padding:0.6rem 0.95rem;">💾 <b>Inputs de teste</b> salvos num arquivo, prontos para colar.</div>
+    <div class="card card-yellow" style="padding:0.6rem 0.95rem;">🔗 <b>URL do Space</b> aberta em outra aba antes de começar.</div>
+  </div>
+  <div class="text-xs opacity-70 mt-2">Demos falham. Quem se prepara para a falha passa confiança — é uma lição de produção, não só de aula.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
+  <h1>🏁 Definition of Done — Encontro 6</h1>
+  <div class="stagger-in" style="margin-top:0.9rem;">
+    <div class="card card-green" style="padding:0.55rem 1rem; margin-bottom:0.45rem;">☑️ Preflight passa e o agente roda sem erros no portal</div>
+    <div class="card card-green" style="padding:0.55rem 1rem; margin-bottom:0.45rem;">☑️ 3 casos em <code>eval/cases/&lt;slug&gt;.yaml</code> e scorecard rodando</div>
+    <div class="card card-green" style="padding:0.55rem 1rem; margin-bottom:0.45rem;">☑️ Pelo menos 1 guardrail de entrada/saída</div>
+    <div class="card card-green" style="padding:0.55rem 1rem; margin-bottom:0.45rem;">☑️ Deploy no Hugging Face Spaces (ou PR no portal da turma)</div>
+    <div class="card card-green" style="padding:0.55rem 1rem; margin-bottom:0.45rem;">☑️ Demo de 2 minutos ensaiada, com plano B</div>
+  </div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #1e293b 0%, #0f172a 100%)">
+  <h1>📋 Como você será avaliado</h1>
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.55rem; margin-top:0.5rem;">
+    <div class="card card-blue" style="padding:0.55rem 0.9rem;"><b>Escopo (20%)</b> — tarefa clara, útil e verificável, na frase de escopo.</div>
+    <div class="card card-blue" style="padding:0.55rem 0.9rem;"><b>Funciona (25%)</b> — roda no portal, cumpre o contrato, sem quebrar.</div>
+    <div class="card card-blue" style="padding:0.55rem 0.9rem;"><b>Avaliação (20%)</b> — 3 casos e uso do scorecard para iterar.</div>
+    <div class="card card-blue" style="padding:0.55rem 0.9rem;"><b>Robustez (15%)</b> — guardrail(s) e boas mensagens de erro.</div>
+    <div class="card card-blue" style="padding:0.55rem 0.9rem;"><b>Deploy (10%)</b> — publicado e acessível por URL.</div>
+    <div class="card card-blue" style="padding:0.55rem 0.9rem;"><b>Demo (10%)</b> — clara, no tempo, com plano B.</div>
+  </div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e293b 100%)">
+  <h1>🌱 Para além do curso</h1>
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.6rem; margin-top:0.7rem;">
+    <div class="card card-purple" style="padding:0.6rem 0.95rem;">🧠 <b>Melhore o reasoning:</b> multi-passo, ReAct, ferramentas de verdade (busca, código).</div>
+    <div class="card card-purple" style="padding:0.6rem 0.95rem;">📚 <b>RAG de verdade:</b> embeddings + um vector DB (FAISS, Chroma) quando a base crescer.</div>
+    <div class="card card-purple" style="padding:0.6rem 0.95rem;">🔗 <b>Multi-agente:</b> agentes que se chamam via um protocolo (MCP, A2A).</div>
+    <div class="card card-purple" style="padding:0.6rem 0.95rem;">📈 <b>Observabilidade pro:</b> Langfuse / Phoenix (OSS) para traços e métricas.</div>
+  </div>
+  <div class="text-xs opacity-70 mt-2">Os fundamentos não mudam: <b>reasoning, tools, memória, avaliação</b>. Você já os domina.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #2d0e1b 0%, #0f172a 100%)" class="text-center">
+  <h1>🎉 Você construiu e publicou um agente</h1>
+  <div class="text-sm mt-3">Da ideia ao deploy, 100% open source, do seu jeito.<br>Agora é usar isso no mundo real.</div>
+  <div class="insight-box typewriter-js" data-speed="30" data-text="Domine os fundamentos. Construa coisas reais. Compartilhe o que aprender."></div>
+  <div class="text-xs opacity-70 mt-3">Prof. Alan Delgado de Oliveira — 2025–2026</div>
+</section>

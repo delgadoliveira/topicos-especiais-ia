@@ -9,6 +9,8 @@ document.addEventListener('DOMContentLoaded', () => {
     { id: 'encontro-2', file: 'reveal/sections/encontro-2.html' },
     { id: 'encontro-3', file: 'reveal/sections/encontro-3.html' },
     { id: 'encontro-4', file: 'reveal/sections/encontro-4.html' },
+    { id: 'encontro-5', file: 'reveal/sections/encontro-5.html' },
+    { id: 'encontro-6', file: 'reveal/sections/encontro-6.html' },
   ];
 
   const loadPromises = sectionFiles.map(({ id, file }) => 

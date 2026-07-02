@@ -656,42 +656,45 @@ print("\n🤖 Resposta sintetizada:\n", resp.choices[0].message.content)</code><
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #1f2937 100%)">
 <h1>Hands-on: RAG completo com Chroma — E2E</h1>
 <p class="text-xs" style="opacity:0.85; margin:0 0 0.3rem;">100% grátis no Colab: embeddings locais (<code>sentence-transformers</code>) + vector DB <b>Chroma</b> + síntese com <b>Qwen 2.5</b> via HF router. <b>retrieve → inject → generate</b>.</p>
-<pre style="font-size:0.5em; line-height:1.24; margin:0;"><code class="language-python"># 📋 Colab: !pip install -q langchain-chroma langchain-huggingface sentence-transformers chromadb openai
-from langchain_core.documents import Document
-from langchain_huggingface import HuggingFaceEmbeddings
-from langchain_chroma import Chroma
+<pre style="font-size:0.5em; line-height:1.24; margin:0;"><code class="language-python"># 📋 Colab (rode ISTO primeiro, numa célula própria):
+#     !pip install -q chromadb sentence-transformers openai
+import chromadb
+from chromadb.utils import embedding_functions
 from openai import OpenAI
 from google.colab import userdata
 
 # 1. Documentos (em produção: carregados de PDF/txt e fatiados em chunks)
-docs = [Document(page_content=t) for t in [
-   "Para cancelar o Plano Premium: Config → Assinatura → Cancelar (vale no fim do ciclo).",
-   "Reembolsos são processados em até 5 dias úteis após a solicitação.",
-   "O Plano Premium inclui suporte prioritário e relatórios avançados.",
-   "Para trocar a forma de pagamento: Config → Pagamento.",
-]]
+docs = [
+    "Para cancelar o Plano Premium: Config → Assinatura → Cancelar (vale no fim do ciclo).",
+    "Reembolsos são processados em até 5 dias úteis após a solicitação.",
+    "O Plano Premium inclui suporte prioritário e relatórios avançados.",
+    "Para trocar a forma de pagamento: Config → Pagamento.",
+]
 
-# 2. Embeddings locais (grátis) + índice vetorial Chroma
-embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
-vstore = Chroma.from_documents(docs, embeddings)
-retriever = vstore.as_retriever(search_kwargs={"k": 2})
+# 2. Embeddings locais (grátis) + índice vetorial Chroma (API nativa, sem LangChain)
+ef = embedding_functions.SentenceTransformerEmbeddingFunction(
+    model_name="sentence-transformers/all-MiniLM-L6-v2")
+db = chromadb.Client()
+col = db.get_or_create_collection("faq", embedding_function=ef)
+col.upsert(documents=docs, ids=[f"d{i}" for i in range(len(docs))])  # upsert = re-run seguro
 
 # 3. Busca semântica: recupera os 2 chunks mais próximos ("ground data")
 pergunta = "Como cancelo minha assinatura?"
-encontrados = retriever.invoke(pergunta)
+res = col.query(query_texts=[pergunta], n_results=2)
+encontrados = res["documents"][0]
 print("📚 Chunks recuperados:")
 for d in encontrados:
-   print("  •", d.page_content)
+    print("  •", d)
 
 # 4. Injeta o contexto no prompt e sintetiza (Qwen grátis via HF router)
-contexto = "\n".join(d.page_content for d in encontrados)
+contexto = "\n".join(encontrados)
 client = OpenAI(base_url="https://router.huggingface.co/v1", api_key=userdata.get("HF_TOKEN"))
 resp = client.chat.completions.create(
-   model="Qwen/Qwen2.5-7B-Instruct", max_tokens=120,
-   messages=[{"role": "user",
-       "content": f"Responda usando SÓ o contexto:\n{contexto}\n\nPergunta: {pergunta}"}])
+    model="Qwen/Qwen2.5-7B-Instruct", max_tokens=120,
+    messages=[{"role": "user",
+        "content": f"Responda usando SÓ o contexto:\n{contexto}\n\nPergunta: {pergunta}"}])
 print("\n🤖 Resposta:", resp.choices[0].message.content)</code></pre>
-<div class="card card-amber mt-1 text-xs" style="padding:0.35rem 0.6rem;">⚠️ O antigo <code>langchain.chains</code> / <code>create_retrieval_chain</code> saiu do LangChain 1.x. O padrão atual: <code>retriever.invoke()</code> + montar o prompt na mão. Rate limit do modelo grátis: ~5 req/min.</div>
+<div class="card card-amber mt-1 text-xs" style="padding:0.35rem 0.6rem;">⚠️ Use a <b>API nativa do Chroma</b> (<code>chromadb</code>) — os wrappers <code>langchain-huggingface</code>/<code>langchain-chroma</code> quebram fácil no Colab por conflito de versão. Rode o <code>!pip install</code> numa célula separada <b>antes</b>. Rate limit do modelo grátis: ~5 req/min.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #064e3b 100%)">
@@ -786,7 +789,8 @@ print("\n🤖 Resposta:", resp.choices[0].message.content)</code></pre>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
 <h1>🌪️ O funil de recuperação — do barato ao preciso</h1>
-<div class="flow-diagram mt-2">
+<p class="text-xs" style="opacity:0.85; margin:0 0 0.4rem;">Nenhum método é <b>bom e barato</b> ao mesmo tempo. A solução é um <b>funil</b>: começa amplo e barato (alto <b>recall</b>) e afunila com etapas mais caras e precisas, até sobrar só o essencial para o LLM.</p>
+<div class="flow-diagram mt-1" style="font-size:0.82em;">
   <div class="flow-node node-purple">Pergunta</div>
   <div class="flow-arrow">→</div>
   <div class="flow-node node-cyan">Busca barata<br>top 100</div>
@@ -799,11 +803,15 @@ print("\n🤖 Resposta:", resp.choices[0].message.content)</code></pre>
   <div class="flow-arrow">→</div>
   <div class="flow-node node-cyan">Compression</div>
 </div>
-<div class="grid-3 mt-3 text-xs">
-<div class="card card-cyan"><b>Recall</b><br>não perder o documento certo.</div>
-<div class="card card-amber"><b>Precision</b><br>não mandar lixo para o LLM.</div>
-<div class="card card-green"><b>Compression</b><br>reduzir ruído sem remover evidência.</div>
+<div class="text-xs" style="text-align:center; opacity:0.6; margin:0.2rem 0 0.4rem;">← mais barato, mais amplo, mais recall &nbsp;·&nbsp; mais caro, mais estreito, mais precisão →</div>
+<div style="display:grid; grid-template-columns:1fr 1fr; gap:0.4rem;" class="text-xs">
+  <div class="card card-cyan" style="padding:0.4rem 0.6rem;"><b>🔍 Busca barata (top 100)</b><br>Varredura rápida de tudo com BM25 + vetorial. Objetivo: <b>recall</b> — não deixar o doc certo de fora. Aceita trazer lixo junto.</div>
+  <div class="card card-green" style="padding:0.4rem 0.6rem;"><b>🧹 Filtros</b><br>Corta por <b>metadados</b> (data, permissão, idioma, fonte). Elimina o que nem deveria ser considerado — barato e seguro.</div>
+  <div class="card card-purple" style="padding:0.4rem 0.6rem;"><b>🔀 Hybrid / fusion (top 40)</b><br>Combina o ranking <b>léxico</b> (palavra exata) com o <b>semântico</b> (significado) via RRF. Pega o melhor dos dois mundos.</div>
+  <div class="card card-amber" style="padding:0.4rem 0.6rem;"><b>🎯 Reranker (top 8)</b><br>Um <b>cross-encoder</b> lê pergunta + chunk <b>juntos</b> e reordena. Caro (roda um modelo por par), mas muito <b>preciso</b>.</div>
+  <div class="card card-cyan" style="padding:0.4rem 0.6rem; grid-column:1 / span 2;"><b>🗜️ Compression</b><br>Extrai <b>só as frases relevantes</b> de cada chunk antes de enviar. Menos ruído, menos tokens e menor custo no LLM — sem remover a evidência.</div>
 </div>
+<div class="tip-box mt-2 text-xs">🎯 <b>Recall</b> nas etapas iniciais (não perder o certo) → <b>precision</b> nas finais (não mandar lixo). Cada etapa é mais cara que a anterior, então só o que passou merece o custo.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)">

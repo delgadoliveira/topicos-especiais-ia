@@ -29,6 +29,14 @@ from portal import registry, runner, llm
 AGENTS, ERRORS = registry.discover("agents")
 
 
+def _make_chatbot(**kwargs):
+    # gradio 4/5 usam type="messages"; gradio 6 já é messages por padrão.
+    try:
+        return gr.Chatbot(type="messages", **kwargs)
+    except TypeError:
+        return gr.Chatbot(**kwargs)
+
+
 def _choices():
     return [(f"{a.emoji} {a.name}", slug) for slug, a in AGENTS.items()]
 
@@ -76,7 +84,7 @@ with gr.Blocks(title="Portal Multi-Agente") as demo:
         first = list(AGENTS)[0]
         slug = gr.Dropdown(choices=_choices(), value=first, label="Agente")
         desc = gr.Markdown(f"_{AGENTS[first].description}_")
-        chat = gr.Chatbot(type="messages", height=380)
+        chat = _make_chatbot(height=380)
         msg = gr.Textbox(placeholder="Digite sua mensagem...", label="Mensagem")
         with gr.Row():
             enviar = gr.Button("Enviar", variant="primary")
