@@ -323,52 +323,49 @@ O agente do Encontro 2 já raciocina e usa tools. Hoje ele aprende a <b>lembrar<
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
-<h1>Exemplo: sumarização automática</h1>
-<div class="text-xs">📖 <b>Em palavras:</b> conte os tokens; se passar do limite, preserve as últimas 4 mensagens e resuma o restante em 200 palavras.</div>
-<pre><code class="language-python"># 📋 Execute no Google Colab — usa HuggingFace (token gratuito)
+<h1>Sumarização automática — E2E com o contexto crescendo</h1>
+<p class="text-xs" style="opacity:0.85; margin:0 0 0.3rem;">Rode no Colab (grátis, <code>HF_TOKEN</code>): a conversa cresce turno a turno; quando estoura o limite de tokens, as mensagens antigas viram um <b>resumo</b> e o contexto <b>encolhe</b>.</p>
+<pre style="font-size:0.5em; line-height:1.24; margin:0;"><code class="language-python"># 📋 Cole no Google Colab — usa Hugging Face (token gratuito HF_TOKEN)
+from openai import OpenAI
+from google.colab import userdata
 
-def count_tokens_approx(messages: list) -&gt; int:
-    &quot;&quot;&quot;Conta tokens de forma aproximada (1 token ≈ 4 chars em PT-BR).&quot;&quot;&quot;
-    return sum(len(m[&quot;content&quot;]) // 4 for m in messages)
+client = OpenAI(base_url="https://router.huggingface.co/v1",
+                api_key=userdata.get("HF_TOKEN"))
 
-def summarize(messages: list) -&gt; str:
-    &quot;&quot;&quot;Sumariza mensagens usando HuggingFace Inference API.&quot;&quot;&quot;
-    texto = &quot;\n&quot;.join(f&quot;{m[&#x27;role&#x27;]}: {m[&#x27;content&#x27;]}&quot; for m in messages)
-    resp = client.chat.completions.create(
-        model=&quot;Qwen/Qwen2.5-7B-Instruct&quot;,
-        messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: f&quot;Resuma em 200 palavras:\n{texto}&quot;}],
-        max_tokens=250,
-    )
-    return resp.choices[0].message.content
-</code></pre>
-</section>
+def count_tokens(msgs):                        # ~4 chars ≈ 1 token (PT-BR)
+   return sum(len(m["content"]) // 4 for m in msgs)
 
-<section data-background-gradient="linear-gradient(135deg, #111827 0%, #0f766e 100%)">
-<h1>Exemplo: sumarização automática — continuação</h1>
-<pre><code class="language-python">def manage_context(messages: list, max_tokens: int = 8000):
-    &quot;&quot;&quot;Se passar do limite, sumariza mensagens antigas e preserva as recentes.&quot;&quot;&quot;
-    if count_tokens_approx(messages) &lt; max_tokens:
-        return messages
+def summarize(msgs):                           # chamada REAL ao Qwen (grátis)
+   texto = "\n".join(f'{m["role"]}: {m["content"]}' for m in msgs)
+   r = client.chat.completions.create(
+       model="Qwen/Qwen2.5-7B-Instruct", max_tokens=60,
+       messages=[{"role": "user", "content": f"Resuma em até 20 palavras:\n{texto}"}])
+   return r.choices[0].message.content
 
-    keep = messages[-4:]
-    to_summarize = messages[:-4]
-    summary = summarize(to_summarize)  # ← chamada real ao HuggingFace!
-    return [{&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: f&quot;Resumo do histórico anterior:\n{summary}&quot;}, *keep]
+def manage_context(msgs, limite=35):
+   tok = count_tokens(msgs)
+   if tok &lt;= limite:
+       print(f"   contexto: {len(msgs)} msgs / {tok} tokens  ✅ cabe")
+       return msgs
+   print(f"   contexto: {len(msgs)} msgs / {tok} tokens  ⚠️ estourou → sumarizando")
+   resumo = summarize(msgs[:-2])              # resume tudo menos as 2 últimas
+   novo = [{"role": "system", "content": f"Resumo do histórico: {resumo}"}, *msgs[-2:]]
+   print(f"   → compactado para {len(novo)} msgs / {count_tokens(novo)} tokens")
+   return novo
 
-# --- Teste ---
-historico = [
-    {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Quero analisar vendas do Q1&quot;},
-    {&quot;role&quot;: &quot;assistant&quot;, &quot;content&quot;: &quot;Claro! Vou buscar os dados...&quot;},
-    {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Agora compare com Q2&quot;},
-    {&quot;role&quot;: &quot;assistant&quot;, &quot;content&quot;: &quot;Q1: R$2M, Q2: R$2.8M — crescimento de 40%.&quot;},
-    {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Projete Q3&quot;},
-    {&quot;role&quot;: &quot;assistant&quot;, &quot;content&quot;: &quot;Com base na tendência, Q3 ≈ R$3.2M.&quot;},
-] * 50  # Simula conversa longa (300 mensagens)
+turnos = [("user", "Quero analisar as vendas do Q1"),
+         ("assistant", "Claro! O Q1 fechou em R$2M."),
+         ("user", "Compare com o Q2"),
+         ("assistant", "Q2: R$2.8M, crescimento de 40% sobre o Q1."),
+         ("user", "E a projeção do Q3?"),
+         ("assistant", "Pela tendência, o Q3 deve ficar em ~R$3.2M."),
+         ("user", "Resuma tudo para a diretoria")]
 
-resultado = manage_context(historico, max_tokens=500)
-print(f&quot;Original: {len(historico)} msgs → Comprimido: {len(resultado)} msgs&quot;)
-print(f&quot;Resumo: {resultado[0][&#x27;content&#x27;]}&quot;)</code></pre>
-<div class="card card-cyan mt-3 text-xs">✅ Resultado: o histórico não cresce sem controle, mas as decisões importantes continuam acessíveis.</div>
+conversa = []
+for role, content in turnos:                   # a conversa cresce a cada turno
+   conversa.append({"role": role, "content": content})
+   print(f"+ {role}: {content}")
+   conversa = manage_context(conversa, limite=35)</code></pre>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #172554 100%)">
@@ -436,6 +433,102 @@ print(f&quot;Resumo: {resultado[0][&#x27;content&#x27;]}&quot;)</code></pre>
 <div class="tip-box mt-2 text-xs">💡 É isso que diferencia RAG de um Ctrl+F: busca por <b>significado</b>, não por palavra exata. "Carro" encontra "automóvel".</div>
 </section>
 
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #0e7490 100%)">
+<h1>🧭 Busca semântica na prática — experimente</h1>
+<p class="text-xs" style="opacity:0.85; margin:0 0 0.4rem;">Um <b>Vector DB</b> guarda cada texto como um vetor e acha os <b>vizinhos mais próximos</b>. Aqui os embeddings são <b>de verdade</b> (modelo multilíngue rodando no seu navegador). Digite duas palavras e veja a <b>distância semântica</b>.</p>
+<div class="grid-2" style="gap:0.9rem; align-items:start;">
+  <div>
+    <svg id="emb-plot" viewBox="0 0 400 320" style="width:100%; background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.12); border-radius:8px;"></svg>
+    <div class="text-xs" style="opacity:0.6; margin-top:0.2rem;">Projeção 2D <b>aproximada</b> (eixos didáticos: animal↔objeto, pequeno↔grande). Palavras próximas ≈ significados próximos.</div>
+  </div>
+  <div>
+    <div style="display:flex; gap:0.4rem; flex-wrap:wrap; align-items:center;">
+      <input id="emb-word-a" value="gato" placeholder="palavra 1" style="width:8rem; padding:0.4rem 0.5rem; border-radius:6px; border:1px solid rgba(255,255,255,.25); background:rgba(255,255,255,.06); color:#fff; font-size:0.9rem;">
+      <input id="emb-word-b" value="cachorro" placeholder="palavra 2" style="width:8rem; padding:0.4rem 0.5rem; border-radius:6px; border:1px solid rgba(255,255,255,.25); background:rgba(255,255,255,.06); color:#fff; font-size:0.9rem;">
+      <button id="emb-run" style="padding:0.4rem 0.9rem; border-radius:6px; border:none; background:#22d3ee; color:#0f172a; font-weight:700; cursor:pointer;">comparar</button>
+    </div>
+    <div id="emb-status" class="text-xs" style="opacity:0.75; margin-top:0.4rem; min-height:1.1rem;">Clique em <b>comparar</b> para carregar o modelo multilíngue (~120MB na 1ª vez, depois fica em cache) e calcular.</div>
+    <div id="emb-output" class="text-xs" style="margin-top:0.5rem;"></div>
+  </div>
+</div>
+<div class="tip-box mt-2 text-xs">💡 <b>Cosseno</b> ≈ 1 → muito parecido; ≈ 0 → sem relação. É exatamente essa conta que o Vector DB faz para achar os <b>top-k</b> chunks de um RAG. Palavras ambíguas ("banco", "manga") dependem de contexto.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #0e7490 100%)">
+<h1>Da pergunta à resposta — busca, ranking e síntese</h1>
+<p class="text-xs" style="opacity:0.85; margin:0 0 0.4rem;">A pergunta vira vetor, medimos a <b>similaridade</b> contra cada chunk, ordenamos, pegamos o <b>top-k</b> como <b>ground data</b> e o modelo <b>sintetiza</b> a resposta a partir DELE.</p>
+<div class="grid-2" style="gap:0.8rem; align-items:start;">
+  <div>
+    <div class="text-xs" style="opacity:0.8; margin-bottom:0.25rem;">🔎 <b>"Como cancelo minha assinatura?"</b> → <code>[0.12, -0.4, 0.9, …]</code></div>
+    <div class="text-xs" style="opacity:0.8; margin-bottom:0.3rem;">Ranking por similaridade de cosseno (−1 a 1):</div>
+    <table style="width:100%; border-collapse:collapse; font-size:0.7em;">
+      <tr style="background:rgba(52,211,153,.18);"><td style="padding:3px 6px;"><b>0.83</b></td><td style="padding:3px 6px;">"Para cancelar o Plano Premium: Config → Assinatura → Cancelar." ✅</td></tr>
+      <tr style="background:rgba(52,211,153,.12);"><td style="padding:3px 6px;"><b>0.71</b></td><td style="padding:3px 6px;">"O cancelamento vale até o fim do ciclo de cobrança." ✅</td></tr>
+      <tr style="opacity:0.5;"><td style="padding:3px 6px;">0.34</td><td style="padding:3px 6px;">"Para trocar a forma de pagamento: Config → Pagamento."</td></tr>
+      <tr style="opacity:0.4;"><td style="padding:3px 6px;">0.12</td><td style="padding:3px 6px;">"O Plano Premium inclui suporte prioritário."</td></tr>
+      <tr style="opacity:0.35;"><td style="padding:3px 6px;">-0.08</td><td style="padding:3px 6px;">"A central atende de segunda a sexta, 9h-18h."</td></tr>
+    </table>
+    <div class="text-xs" style="opacity:0.7; margin-top:0.3rem;">Só os <b>top-2</b> (verdes) entram no contexto — o resto é descartado.</div>
+  </div>
+  <div>
+    <div class="card card-amber text-xs" style="margin-bottom:0.5rem;">
+      <div class="card-title">📚 Ground data (top-2 injetado no prompt)</div>
+      <div style="font-family:monospace; font-size:0.9em; line-height:1.5;">• Para cancelar o Plano Premium: Config → Assinatura → Cancelar.<br>• O cancelamento vale até o fim do ciclo de cobrança.</div>
+    </div>
+    <div style="text-align:center; opacity:0.7;">⬇️ LLM sintetiza <b>só com isso</b></div>
+    <div class="card card-green text-xs" style="margin-top:0.5rem;">
+      <div class="card-title">🤖 Resposta gerada</div>
+      <div>"Para cancelar, vá em <b>Config → Assinatura → Cancelar</b>. O cancelamento continua válido até o <b>fim do ciclo de cobrança</b> atual."</div>
+    </div>
+  </div>
+</div>
+<div class="tip-box mt-2 text-xs">🎯 O modelo <b>não inventou</b>: cada afirmação veio de um chunk recuperado. Trocar o ranking (melhor embedding, reranker) muda o que entra no ground data — e portanto a resposta.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #155e75 100%)">
+<h1>RAG do zero — ranking + síntese (E2E no Colab)</h1>
+<p class="text-xs" style="opacity:0.85; margin:0 0 0.3rem;">Sem framework: <code>sentence-transformers</code> gera os vetores, <code>numpy</code> rankeia por cosseno e o Qwen (grátis) sintetiza. Os <b>logs</b> mostram embedding, ranking e ground data.</p>
+<pre style="font-size:0.5em; line-height:1.24; margin:0;"><code class="language-python"># 📋 Colab:  !pip install -q sentence-transformers numpy openai
+from sentence_transformers import SentenceTransformer
+import numpy as np
+from openai import OpenAI
+from google.colab import userdata
+
+# 1. Base de conhecimento (em produção: seus documentos fatiados em chunks)
+chunks = [
+   "Para cancelar o Plano Premium: Config → Assinatura → Cancelar (vale no fim do ciclo).",
+   "Reembolsos são processados em até 5 dias úteis após a solicitação.",
+   "O Plano Premium inclui suporte prioritário e relatórios avançados.",
+   "A central de ajuda atende de segunda a sexta, das 9h às 18h.",
+   "Para trocar a forma de pagamento: Config → Pagamento.",
+]
+
+# 2. Cada frase vira um vetor de 384 números (embedding local, grátis)
+embedder = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
+base = embedder.encode(chunks, normalize_embeddings=True)
+
+# 3. A pergunta também vira vetor → rankeia por similaridade de cosseno
+pergunta = "Como cancelo minha assinatura?"
+q = embedder.encode([pergunta], normalize_embeddings=True)[0]
+scores = base @ q                               # 1 número por chunk (−1 a 1)
+ranking = np.argsort(scores)[::-1]
+
+print(f"Pergunta → embedding: {q[:3].round(2)}...  (384 dims)\n")
+print("Ranking (vizinhos mais próximos):")
+for i in ranking:
+   print(f"  {scores[i]:.2f}  {chunks[i]}")
+
+# 4. Top-2 = ground data injetado no prompt; o modelo sintetiza SÓ com ele
+contexto = [chunks[i] for i in ranking[:2]]
+print("\n📚 Ground data:", *contexto, sep="\n  • ")
+client = OpenAI(base_url="https://router.huggingface.co/v1", api_key=userdata.get("HF_TOKEN"))
+resp = client.chat.completions.create(
+   model="Qwen/Qwen2.5-7B-Instruct", max_tokens=120,
+   messages=[{"role": "user", "content":
+       "Responda usando APENAS o contexto:\n- " + "\n- ".join(contexto) + f"\n\nPergunta: {pergunta}"}])
+print("\n🤖 Resposta sintetizada:\n", resp.choices[0].message.content)</code></pre>
+</section>
+
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e293b 100%)">
 <h1>RAG — anatomia da indexação (offline)</h1>
 <p class="text-sm">Antes de responder qualquer pergunta, preparamos a base <b>uma vez</b> (offline): carregar → quebrar em pedaços → transformar em vetores → guardar.</p>
@@ -477,52 +570,44 @@ print(f&quot;Resumo: {resultado[0][&#x27;content&#x27;]}&quot;)</code></pre>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #1f2937 100%)">
-<h1>Hands-on: RAG completo com Chroma</h1>
-<div class="card card-cyan text-xs">☁️ <b>100% gratuito:</b> usa embeddings locais (<code>sentence-transformers</code>) e o modelo <b>Qwen 2.5</b> via HuggingFace Inference API (grátis). Sem chave paga!</div>
-<pre><code class="language-python">from langchain_community.document_loaders import TextLoader
-from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_huggingface import HuggingFaceEmbeddings, HuggingFaceEndpoint
+<h1>Hands-on: RAG completo com Chroma — E2E</h1>
+<p class="text-xs" style="opacity:0.85; margin:0 0 0.3rem;">100% grátis no Colab: embeddings locais (<code>sentence-transformers</code>) + vector DB <b>Chroma</b> + síntese com <b>Qwen 2.5</b> via HF router. <b>retrieve → inject → generate</b>.</p>
+<pre style="font-size:0.5em; line-height:1.24; margin:0;"><code class="language-python"># 📋 Colab: !pip install -q langchain-chroma langchain-huggingface sentence-transformers chromadb openai
+from langchain_core.documents import Document
+from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_chroma import Chroma
-from langchain.chains import create_retrieval_chain
-from langchain.chains.combine_documents import create_stuff_documents_chain
-from langchain_core.prompts import ChatPromptTemplate
+from openai import OpenAI
+from google.colab import userdata
 
-# 1. Carregar e dividir o documento
-docs = TextLoader(&quot;manual.txt&quot;).load()
-chunks = RecursiveCharacterTextSplitter(
-    chunk_size=500, chunk_overlap=50
-).split_documents(docs)
+# 1. Documentos (em produção: carregados de PDF/txt e fatiados em chunks)
+docs = [Document(page_content=t) for t in [
+   "Para cancelar o Plano Premium: Config → Assinatura → Cancelar (vale no fim do ciclo).",
+   "Reembolsos são processados em até 5 dias úteis após a solicitação.",
+   "O Plano Premium inclui suporte prioritário e relatórios avançados.",
+   "Para trocar a forma de pagamento: Config → Pagamento.",
+]]
 
-# 2. Criar embeddings LOCAIS (gratuito, roda na sua máquina)
-embeddings = HuggingFaceEmbeddings(model_name=&quot;sentence-transformers/all-MiniLM-L6-v2&quot;)
-vstore = Chroma.from_documents(chunks, embeddings)</code></pre>
-<div class="card card-amber mt-2 text-xs">💡 <b>all-MiniLM-L6-v2:</b> modelo de 80MB, rápido, bom para português. Alternativa: <code>intfloat/multilingual-e5-small</code> para melhor cobertura multilíngue.</div>
-</section>
+# 2. Embeddings locais (grátis) + índice vetorial Chroma
+embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
+vstore = Chroma.from_documents(docs, embeddings)
+retriever = vstore.as_retriever(search_kwargs={"k": 2})
 
-<section data-background-gradient="linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)">
-<h1>Hands-on: RAG completo com Chroma — continuação</h1>
-<pre><code class="language-python"># 3. Configurar retriever (busca os 4 chunks mais similares)
-retriever = vstore.as_retriever(search_kwargs={&quot;k&quot;: 4})
+# 3. Busca semântica: recupera os 2 chunks mais próximos ("ground data")
+pergunta = "Como cancelo minha assinatura?"
+encontrados = retriever.invoke(pergunta)
+print("📚 Chunks recuperados:")
+for d in encontrados:
+   print("  •", d.page_content)
 
-# 4. Criar o prompt com contexto injetado
-prompt = ChatPromptTemplate.from_template(
-    &quot;Responda baseado APENAS no contexto:\n\n{context}\n\nPergunta: {input}&quot;
-)
-
-# 5. Usar Qwen via HuggingFace (gratuito)
-llm = HuggingFaceEndpoint(
-    repo_id=&quot;Qwen/Qwen2.5-7B-Instruct&quot;,
-    huggingfacehub_api_token=&quot;hf_SEU_TOKEN_GRATUITO&quot;,  # huggingface.co/settings/tokens
-)
-combine = create_stuff_documents_chain(llm, prompt)
-chain = create_retrieval_chain(retriever, combine)
-
-resultado = chain.invoke({&quot;input&quot;: &quot;Como configuro o produto?&quot;})
-print(resultado[&quot;answer&quot;])</code></pre>
-<div class="grid-2 mt-2 text-xs" style="gap:0.5rem;">
-<div class="card card-green">✅ <b>O que esperar:</b> a resposta cita e usa o conteúdo do <code>manual.txt</code>. Se a info não está no arquivo, o prompt instrui o agente a admitir que não sabe.</div>
-<div class="card card-amber">⚠️ <b>Limitações do modelo gratuito:</b> rate limit (~5 req/min), contexto menor (~4K tokens). Para produção: use modelo local com Ollama ou API paga.</div>
-</div>
+# 4. Injeta o contexto no prompt e sintetiza (Qwen grátis via HF router)
+contexto = "\n".join(d.page_content for d in encontrados)
+client = OpenAI(base_url="https://router.huggingface.co/v1", api_key=userdata.get("HF_TOKEN"))
+resp = client.chat.completions.create(
+   model="Qwen/Qwen2.5-7B-Instruct", max_tokens=120,
+   messages=[{"role": "user",
+       "content": f"Responda usando SÓ o contexto:\n{contexto}\n\nPergunta: {pergunta}"}])
+print("\n🤖 Resposta:", resp.choices[0].message.content)</code></pre>
+<div class="card card-amber mt-1 text-xs" style="padding:0.35rem 0.6rem;">⚠️ O antigo <code>langchain.chains</code> / <code>create_retrieval_chain</code> saiu do LangChain 1.x. O padrão atual: <code>retriever.invoke()</code> + montar o prompt na mão. Rate limit do modelo grátis: ~5 req/min.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #064e3b 100%)">
@@ -545,7 +630,7 @@ print(resultado[&quot;answer&quot;])</code></pre>
   </tbody>
 </table>
 
-<div class="tip-box mt-2 text-xs">🔎 <b>Hybrid search</b> (detalhado adiante) = vetor (significado) + BM25/full-text (termos exatos: CPF, SKU, código de erro, datas). Cada estágio adiciona +5-15% em benchmarks (BEIR, MS MARCO) — use <b>só os que sua falha pede</b>.</div>
+<div class="tip-box mt-2 text-xs">🔎 <b>Hybrid search</b> (detalhado adiante) = busca por <b>vetor</b> (significado) + <b>BM25/full-text</b> (ranking lexical clássico que conta <b>termos exatos</b> e dá mais peso a palavras raras: CPF, SKU, código de erro, datas). Cada estágio adiciona +5-15% em benchmarks (BEIR, MS MARCO) — use <b>só os que sua falha pede</b>.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
@@ -598,14 +683,21 @@ print(resultado[&quot;answer&quot;])</code></pre>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #172554 100%)">
-<h1>🔪 Chunking — vai muito além do tamanho</h1>
-<div class="grid-4 text-xs mt-3">
-  <div class="card card-red"><b>Chunk fixo</b><br>barato, mas corta ideias</div>
-  <div class="card card-cyan"><b>Semantic chunking</b><br>respeita tópicos</div>
-  <div class="card card-purple"><b>Proposition chunking</b><br>uma afirmação por unidade</div>
-  <div class="card card-green"><b>Parent-child</b><br>busca pequena, contexto grande</div>
+<h1>🔪 Chunking — o que é um chunk e por que importa</h1>
+<div class="card card-cyan text-xs"><b>O que é um chunk?</b> É um <b>pedaço de texto</b> em que quebramos cada documento <i>antes</i> de gerar embeddings. O RAG nunca busca "o documento inteiro" — ele indexa, recupera e cita <b>chunks</b>. Cada chunk vira <b>um vetor</b> no Vector DB e é a <b>menor unidade</b> que pode ser recuperada.</div>
+<div class="card card-amber text-xs mt-2">
+  <div class="card-title">📄 Exemplo — o manual do Plano Premium quebrado em chunks</div>
+  <div style="font-family:monospace; font-size:0.92em; line-height:1.5;"><b>chunk_1</b> · "Para cancelar o Plano Premium: Config → Assinatura → Cancelar."<br><b>chunk_2</b> · "O cancelamento vale até o fim do ciclo de cobrança."<br><b>chunk_3</b> · "Reembolsos são processados em até 5 dias úteis."</div>
+  <div class="mt-1">A pergunta <i>"Como cancelo?"</i> vira vetor e bate forte em <b>chunk_1</b> e <b>chunk_2</b> — só esses dois entram no contexto do LLM. Se o corte tivesse grudado o passo de cancelar com o horário da central, o match ficaria diluído.</div>
 </div>
-<div class="card card-purple mt-3 text-xs">🎨 <b>Analogia:</b> pense num PDF como uma régua. <b>Chunk fixo</b> corta em blocos iguais (rápido, mas separa ideias). <b>Semantic</b> corta nas junções de tópico. <b>Parent-child</b> mantém uma "moldura" maior ao redor do trecho encontrado — assim o LLM recebe o contexto vizinho e não responde fora de contexto.</div>
+<p class="text-sm mt-2">O <b>tamanho</b> e <b>onde cortar</b> mudam tudo. Quatro estratégias:</p>
+<div class="grid-4 text-xs mt-1">
+  <div class="card card-red"><b>Chunk fixo</b><br>corta a cada N tokens: barato, mas separa ideias no meio</div>
+  <div class="card card-cyan"><b>Semantic chunking</b><br>corta nas <b>junções de tópico</b>: cada chunk = uma ideia coesa</div>
+  <div class="card card-purple"><b>Proposition chunking</b><br><b>uma afirmação</b> por unidade ("o prazo é 30 dias")</div>
+  <div class="card card-green"><b>Parent-child</b><br>busca pelo pedaço pequeno, devolve o bloco grande (adiante)</div>
+</div>
+<div class="card card-purple mt-2 text-xs">🎨 <b>Analogia:</b> um PDF é uma régua. <b>Fixo</b> corta em blocos iguais (rápido, mas parte frases). <b>Semantic</b> corta nas junções de assunto. <b>Parent-child</b> mantém uma "moldura" maior ao redor do trecho encontrado — o LLM recebe o contexto vizinho e não responde fora de contexto.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
@@ -632,13 +724,14 @@ print(resultado[&quot;answer&quot;])</code></pre>
 
 <section data-background-gradient="linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)">
 <h1>🏗️ Arquiteturas avançadas de RAG</h1>
-<div class="grid-2 text-xs mt-3">
-<div class="card card-purple"><b>🕸️ GraphRAG</b><br>Transforma documentos em entidades e relações. Bom para perguntas multi-hop: “quem influencia quem?”</div>
-<div class="card card-green"><b>🌳 RAPTOR</b><br>Cria árvore de resumos. Busca pode subir/descer níveis: detalhe local ou visão global.</div>
-<div class="card card-cyan"><b>🧠 MemoRAG</b><br>Usa memória para recuperar contexto relevante de interações e documentos anteriores.</div>
-<div class="card card-red"><b>🩺 Self-RAG / CRAG</b><br>O sistema critica a própria recuperação: “preciso buscar?”, “o que veio é suficiente?”, “devo corrigir?”</div>
+<p class="text-sm">Quando o RAG simples (chunk → embed → top-k → gerar) falha, estas arquiteturas atacam <b>falhas específicas</b>: relações entre entidades, visão global de muitos docs, memória entre sessões e auto-crítica da recuperação.</p>
+<div class="grid-2 text-xs mt-2">
+<div class="card card-purple"><b>🕸️ GraphRAG</b><br>Transforma documentos em um <b>grafo de entidades e relações</b>. <b>Resolve:</b> perguntas <b>multi-hop</b> ("quem influencia quem?", "que cláusulas dependem da 14.3?") que o top-k plano não conecta, porque a resposta está espalhada em vários docs.</div>
+<div class="card card-green"><b>🌳 RAPTOR</b><br>Constrói uma <b>árvore de resumos</b> (folhas = chunks; nós = resumos de resumos). A busca <b>sobe/desce níveis</b>. <b>Resolve:</b> perguntas que exigem <b>visão global</b> ("resuma o contrato inteiro") sem estourar o context window.</div>
+<div class="card card-cyan"><b>🧠 MemoRAG</b><br>Mantém uma <b>memória</b> de interações e documentos passados e a usa como pista para recuperar. <b>Resolve:</b> continuidade entre sessões ("como no caso que discutimos semana passada").</div>
+<div class="card card-red"><b>🩺 Self-RAG / CRAG</b><br>O sistema <b>critica a própria recuperação</b>: "preciso buscar?", "o que veio é suficiente?", "devo corrigir/rebuscar?". <b>Resolve:</b> chunks irrelevantes e alucinação por contexto ruim — descarta ou refaz a busca antes de responder.</div>
 </div>
-<div class="card card-amber mt-3 text-xs">⚠️ Arquitetura avançada não é prêmio por sofisticação. Use quando o diagnóstico mostrar que o RAG simples não resolve.</div>
+<div class="card card-amber mt-2 text-xs">⚠️ Arquitetura avançada não é prêmio por sofisticação. Cada uma <b>custa</b> ingestão/latência. Use quando o <b>diagnóstico</b> mostrar que o RAG simples não resolve aquela falha específica.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e293b 100%)">
@@ -675,55 +768,72 @@ print(resultado[&quot;answer&quot;])</code></pre>
 </div>
 
 </div>
-<pre><code class="language-python">def reescrever_query(historico, pergunta):
-    return llm.invoke(f&quot;&quot;&quot;
-    Histórico: {historico}
-    Pergunta atual: {pergunta}
-    Reescreva como query de busca standalone, com todos os termos técnicos.
-    &quot;&quot;&quot;)</code></pre>
+<pre style="font-size:0.5em; line-height:1.24; margin:0;"><code class="language-python"># 📋 Colab: !pip install -q openai
+from openai import OpenAI
+from google.colab import userdata
+client = OpenAI(base_url="https://router.huggingface.co/v1", api_key=userdata.get("HF_TOKEN"))
+
+def reescrever_query(historico, pergunta):
+    r = client.chat.completions.create(model="Qwen/Qwen2.5-7B-Instruct", max_tokens=60,
+        messages=[{"role": "user", "content":
+            f"Histórico: {historico}\nPergunta atual: {pergunta}\n"
+            "Reescreva como UMA query de busca standalone, com todos os termos técnicos."}])
+    return r.choices[0].message.content.strip()
+
+hist = "Ontem relatei erro 504 timeout no endpoint /api/login."
+print(reescrever_query(hist, "e aquele problema, ainda tá acontecendo?"))
+# → "erro 504 timeout no endpoint /api/login ainda ocorre?"</code></pre>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
 <h1>Padrão 2 · Multi-Query &amp; HyDE</h1>
 <div class="card card-purple text-sm"><b>🔁 Multi-Query</b><br>Gere <b>N reformulações</b> da pergunta e busque com todas para aumentar <b>recall</b>.</div>
-<pre><code class="language-python">queries = llm.invoke(f&quot;&quot;&quot;
-Gere 4 reformulações da pergunta:
-{pergunta}
-&quot;&quot;&quot;
-).split(&quot;\\n&quot;)
+<pre style="font-size:0.5em; line-height:1.24; margin:0;"><code class="language-python"># 📋 Colab: !pip install -q openai  (reusa o client do slide anterior)
+def multi_query(pergunta, n=4):
+    r = client.chat.completions.create(model="Qwen/Qwen2.5-7B-Instruct", max_tokens=120,
+        messages=[{"role": "user", "content":
+            f"Gere {n} reformulações da pergunta, uma por linha, sem numerar:\n{pergunta}"}])
+    return [q.strip("-• ") for q in r.choices[0].message.content.split("\n") if q.strip()]
+
+queries = multi_query("Como cancelo o Plano Premium?")
 docs = []
 for q in queries:
-    docs += vectordb.search(q, k=5)
-docs = dedupe(docs)</code></pre>
+    docs += vectordb.search(q, k=5)   # busca com TODAS → mais recall
+docs = list({d.id: d for d in docs}.values())   # dedupe por id
+print(queries)</code></pre>
 <div class="card card-cyan mt-3 text-xs">📈 Na prática, costuma melhorar o <b>recall</b> em 20–40%.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
 <h1>Padrão 2 · Multi-Query &amp; HyDE — continuação</h1>
 <div class="card card-cyan text-sm"><b>🎭 HyDE</b> (<i>Hypothetical Document Embeddings</i>) cria uma <b>resposta hipotética</b> e usa o embedding dela para buscar.</div>
-<pre><code class="language-python">hipo = llm.invoke(f&quot;&quot;&quot;
-Escreva um trecho que responderia:
-{pergunta}
-&quot;&quot;&quot;
-)
-docs = vectordb.search(hipo, k=5)</code></pre>
+<pre style="font-size:0.5em; line-height:1.24; margin:0;"><code class="language-python"># 📋 reusa o client. HyDE: gera resposta hipotética e busca com o embedding DELA
+def hyde(pergunta):
+    r = client.chat.completions.create(model="Qwen/Qwen2.5-7B-Instruct", max_tokens=80,
+        messages=[{"role": "user", "content":
+            f"Escreva um parágrafo curto que RESPONDERIA a pergunta:\n{pergunta}"}])
+    return r.choices[0].message.content.strip()
+
+hipo = hyde("Como cancelo o Plano Premium?")
+docs = vectordb.search(hipo, k=5)   # embedding da resposta hipotética → busca
+print(hipo)</code></pre>
 <div class="card card-amber mt-3 text-xs">💡 Funciona porque “resposta → resposta” costuma ficar mais perto no espaço vetorial que “pergunta → resposta”.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
 <h1>Padrão 3 · Parent-Child Chunks &amp; Agentic RAG</h1>
-<div class="card card-purple text-sm"><b>👨‍👦 Parent-Child Chunks</b><br>Indexe pedaços <b>pequenos</b> para busca precisa, mas devolva ao LLM o pedaço <b>grande</b> para manter contexto rico.</div>
-
-<div class="flow-diagram mt-2">
-  <div class="flow-node node-purple">Pergunta</div>
-  <div class="flow-arrow">→</div>
-  <div class="flow-node node-cyan">chunks 200 tokens</div>
-  <div class="flow-arrow">→</div>
-  <div class="flow-node node-green">parent 2000 tokens</div>
-  <div class="flow-arrow">→</div>
-  <div class="flow-node node-purple">LLM</div>
-</div>
-<div class="card card-cyan mt-3 text-xs">🎯 O índice trabalha com alta precisão; a resposta final recebe contexto suficiente para sintetizar.</div>
+<div class="card card-purple text-sm"><b>👨‍👦 Parent-Child Chunks</b><br>Indexe pedaços <b>pequenos</b> (child) para busca precisa, mas devolva ao LLM o pedaço <b>grande</b> (parent) para manter contexto rico.</div>
+<div class="card card-amber mt-2 text-xs"><b>❓ O que é o "parent"?</b> É o <b>bloco original grande</b> de onde o child foi recortado — por exemplo a <b>seção inteira do manual</b>. O child ("Para cancelar: Config → Assinatura") é ótimo para <i>casar</i> com a pergunta, mas curto demais para <i>responder</i>. Guardamos o vínculo <code>child.parent_id → parent</code> e, ao achar o child, entregamos o <b>parent inteiro</b> ao LLM.</div>
+<pre style="font-size:0.5em; line-height:1.2; margin:0;"><code class="language-python"># parent = seção grande;  children = frases pequenas indexadas
+parent = {"id": "sec_cancelamento", "text": "CANCELAMENTO. Para cancelar acesse "
+          "Config → Assinatura → Cancelar. Vale até o fim do ciclo. Reembolso em 5 dias."}
+children = [{"text": t, "parent_id": parent["id"]} for t in
+            ["Para cancelar: Config → Assinatura → Cancelar.",
+             "O cancelamento vale até o fim do ciclo de cobrança."]]
+# busca casa no CHILD (preciso) → devolve o PARENT (contexto) ao LLM
+achou = children[0]                       # match do retriever
+contexto = parent["text"] if achou["parent_id"] == parent["id"] else achou["text"]
+print(contexto)   # LLM recebe a seção inteira, não só a frase curta</code></pre>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #0f766e 100%)">
@@ -816,12 +926,14 @@ docs = vectordb.search(hipo, k=5)</code></pre>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e293b 100%)">
 <h1>Search híbrido — porque puro vetor não basta</h1>
-<p class="text-sm" style="opacity:0.8;">Busca semântica é boa com conceitos, mas falha em termos exatos: IDs, datas, códigos, siglas. A solução: <b>combinar semântico + lexical</b>.</p>
+<p class="text-sm">Busca semântica entende <b>significado</b>, mas tropeça em <b>termos exatos</b>: IDs, datas, códigos, siglas. A solução: combinar <b>semântico</b> (vetor) + <b>lexical</b> (BM25).</p>
+
+<div class="card card-red text-xs mt-1"><b>🧪 Onde o vetor sozinho falha:</b> a pergunta <i>"status do chamado 504-A?"</i>. O embedding aproxima "chamado" de "ticket/atendimento", mas <b>não sabe</b> que "504-A" é um código literal — pode devolver o chamado 502 ou 540. O BM25 casa <b>exatamente</b> o token "504-A" e traz o documento certo.</div>
 
 <div class="flow-diagram mt-2">
   <div class="flow-node node-purple">Pergunta</div>
   <div class="flow-arrow">→</div>
-  <div class="flow-node node-cyan">Busca semântica</div>
+  <div class="flow-node node-cyan">Busca semântica<br>(vetor · cosseno)</div>
   <div class="flow-arrow">+</div>
   <div class="flow-node node-green">Busca lexical<br>BM25 / full-text</div>
   <div class="flow-arrow">→</div>
@@ -829,50 +941,77 @@ docs = vectordb.search(hipo, k=5)</code></pre>
   <div class="flow-arrow">→</div>
   <div class="flow-node node-amber">Top-K final</div>
 </div>
-<div class="grid-2 mt-3 text-xs">
-<div class="card"><b>Semântico</b><br>Entende conceitos e sinônimos; falha em termos exatos, números e códigos.</div>
-<div class="card"><b>Lexical (BM25)</b><br>Acerta termos exatos e IDs; não entende paráfrases.</div>
+<div class="grid-2 mt-2 text-xs">
+<div class="card card-cyan"><b>🧠 Semântico (vetor)</b><br>Compara o <b>significado</b> via cosseno entre embeddings. Acerta sinônimos e paráfrases ("cancelar" ≈ "encerrar plano"). <b>Falha</b> em números, códigos e nomes próprios raros, que viram vetores parecidos.</div>
+<div class="card card-green"><b>🔤 Lexical / BM25</b><br>É um Ctrl+F turbinado: pontua o doc pela <b>presença dos termos exatos</b> da pergunta, dando <b>mais peso a palavras raras</b> (um "504-A" vale mais que um "o"). Acerta "CPF 123", "SKU-9", "erro 504". <b>Falha</b> em paráfrases: "carro" não encontra "automóvel".</div>
 </div>
-<div class="card card-amber mt-3 text-xs">🥇 <b>Reranker:</b> reordena os top-20 com um cross-encoder (Cohere Rerank, BGE-reranker) e costuma melhorar a resposta final.</div>
+<div class="card card-amber mt-2 text-xs"><b>🔀 Merge + rerank:</b> unimos as duas listas (ex.: <i>Reciprocal Rank Fusion</i>) e um <b>reranker</b> cross-encoder (Cohere Rerank, BGE-reranker) relê a pergunta + cada trecho e reordena os top-20 pela relevância <b>real</b>. Cada estágio soma +5-15% em benchmarks (BEIR, MS MARCO). Use só os que sua falha pedir.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #1f2937 100%)">
-<h1>📊 RAG vs Fine-tuning vs Prompt — quando usar</h1>
+<h1>📊 RAG vs Fine-tuning vs Prompt — o que cada um conserta</h1>
+<table class="text-xs mt-2" style="width:100%; border-collapse:collapse;">
+  <thead><tr style="border-bottom:2px solid rgba(255,255,255,0.25);">
+    <th style="text-align:left; padding:0.35rem;">Técnica</th>
+    <th style="text-align:left; padding:0.35rem;">Que problema resolve</th>
+    <th style="text-align:left; padding:0.35rem;">Como resolve</th>
+    <th style="text-align:left; padding:0.35rem;">Exemplo</th>
+  </tr></thead>
+  <tbody>
+    <tr style="border-bottom:1px solid rgba(255,255,255,0.1);"><td style="padding:0.35rem;"><b>RAG</b></td><td style="padding:0.35rem;">o modelo não conhece <b>seus</b> dados / os dados <b>mudam</b></td><td style="padding:0.35rem;">busca trechos e <b>injeta no prompt</b> na hora de responder — <b>não</b> altera os pesos</td><td style="padding:0.35rem;">assistente responde sobre o contrato/manual atual, citando a fonte</td></tr>
+    <tr style="border-bottom:1px solid rgba(255,255,255,0.1);"><td style="padding:0.35rem;"><b>Fine-tuning</b></td><td style="padding:0.35rem;">o modelo não segue um <b>comportamento/formato</b> consistente</td><td style="padding:0.35rem;"><b>reajusta os pesos</b> com exemplos entrada→saída até internalizar o padrão</td><td style="padding:0.35rem;">classificar e-mails de suporte em 5 categorias, sempre no mesmo JSON</td></tr>
+    <tr style="border-bottom:1px solid rgba(255,255,255,0.1);"><td style="padding:0.35rem;"><b>Prompt eng.</b></td><td style="padding:0.35rem;">o modelo <b>sabe</b>, mas precisa de instrução/estilo</td><td style="padding:0.35rem;">muda só o <b>texto do prompt</b> (instruções, exemplos few-shot)</td><td style="padding:0.35rem;">"responda em 3 bullets, tom formal"</td></tr>
+    <tr><td style="padding:0.35rem;"><b>RAG + FT</b></td><td style="padding:0.35rem;">precisa de dados <b>frescos</b> E estilo/decisão especializada</td><td style="padding:0.35rem;">o FT ensina o formato/raciocínio; o RAG traz a evidência atual</td><td style="padding:0.35rem;">parecer jurídico: estilo treinado + jurisprudência recuperada</td></tr>
+  </tbody>
+</table>
+<div class="insight-box text-xs">🎯 <b>Regra prática:</b> a informação muda toda semana? → <b>RAG</b>. O comportamento/formato é sempre o mesmo? → <b>Fine-tuning</b>. Problema simples e pontual? → <b>Prompt</b>. Precisa dos dois? → <b>RAG + FT</b>. Em uma frase: <b>RAG dá conhecimento; fine-tuning dá comportamento.</b></div>
+</section>
 
-<div class="grid-2 mt-2">
-  <div class="card card-cyan"><b>RAG</b><br><span class="text-xs">Dados dinâmicos + tarefa relativamente genérica<br>Ex: FAQ empresa, news agent</span></div>
-  <div class="card card-purple"><b>Fine-tuning</b><br><span class="text-xs">Tarefa específica + comportamento repetitivo<br>Ex: classificação de emails</span></div>
-  <div class="card card-green"><b>Prompt engineering</b><br><span class="text-xs">Poucos dados, problema simples, baixo custo</span></div>
-  <div class="card card-amber"><b>RAG + Fine-tune</b><br><span class="text-xs">Busca dinâmica + estilo/decisão muito especializada<br>Ex: pesquisa docs legais</span></div>
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #4c1d95 100%)">
+<h1>🔧 Como se faz fine-tuning de LLM hoje</h1>
+<p class="text-sm">Ninguém retreina os bilhões de pesos do zero. O padrão moderno é <b>PEFT</b> (Parameter-Efficient Fine-Tuning): <b>congela</b> o modelo base e treina só um <b>adaptador</b> minúsculo por cima.</p>
+<div class="grid-2 text-xs mt-2" style="gap:0.5rem;">
+  <div class="card card-purple"><b>1️⃣ Monte um dataset de exemplos</b><br>Pares <code>{entrada → saída ideal}</code>. Ex.: 500 e-mails já rotulados, ou 300 pares pergunta→resposta no seu tom. <b>Qualidade &gt; quantidade</b> (algumas centenas de bons exemplos já mudam muito).</div>
+  <div class="card card-cyan"><b>2️⃣ SFT com LoRA / QLoRA</b><br><b>SFT</b> (Supervised Fine-Tuning): o modelo vê a entrada, compara sua saída com a ideal e ajusta. <b>LoRA</b> treina matrizes pequenas "coladas" nas camadas (0,1–2% dos pesos). <b>QLoRA</b> = LoRA + base em 4-bit → cabe numa GPU grátis do Colab.</div>
+  <div class="card card-green"><b>3️⃣ (Opcional) Alinhamento por preferência</b><br><b>DPO / RLHF</b>: em vez de "a resposta certa", você dá pares <i>"esta é melhor que aquela"</i> e o modelo aprende a <b>preferir</b> o estilo/decisão desejado.</div>
+  <div class="card card-amber"><b>4️⃣ Sirva o adaptador</b><br>O adaptador LoRA tem <b>poucos MB</b>. Você carrega o modelo base + adaptador. Ferramentas: HF <code>peft</code> / <code>trl</code>, Axolotl, Unsloth; ou APIs gerenciadas (OpenAI, Together).</div>
 </div>
-<div class="insight-box">🎯 <b>Regra prática:</b> a informação muda toda semana? → <b>RAG</b>. O comportamento/formato é sempre o mesmo? → <b>Fine-tuning</b>. Problema simples e pontual? → <b>Prompt engineering</b>. Precisa de dados frescos <i>e</i> de um estilo muito especializado? → <b>RAG + Fine-tune</b>.</div>
+<div class="tip-box text-xs mt-2">💡 <b>Ordem na prática:</b> comece com prompt engineering. Só parta para fine-tuning quando (a) o comportamento precisa ser consistente em escala, (b) você tem exemplos rotulados e (c) o prompt já não dá conta. Para <b>conhecimento factual que muda</b>, use <b>RAG</b> — fine-tuning não "decora fatos" de forma confiável.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e293b 100%)">
 <h1>🔗 Recuperar não basta — precisamos de atribuição</h1>
-<div class="grid-2 mt-3 text-sm">
+<div class="grid-2 mt-2 text-sm">
   <div class="card card-cyan"><b>Retrieval responde:</b><br>“quais trechos parecem relevantes para a pergunta?”</div>
   <div class="card card-red"><b>Atribuição responde:</b><br>“qual trecho sustenta cada afirmação da resposta?”</div>
 </div>
-<div class="card card-amber mt-3 text-sm">📌 RAG sem atribuição é como uma redação com bibliografia no fim, mas sem nota de rodapé: parece acadêmico, mas você não sabe qual frase veio de qual fonte.</div>
+<div class="card card-amber mt-2 text-sm">📌 RAG sem atribuição é como uma redação com bibliografia no fim, mas sem nota de rodapé: parece acadêmico, mas você não sabe qual frase veio de qual fonte.</div>
+<div class="grid-2 mt-2 text-xs">
+  <div class="card card-red"><b>❌ Só retrieval</b><br>Pergunta: <i>"Como cancelo e quando param de cobrar?"</i><br>Resposta: "Vá em Config → Assinatura e o valor deixa de ser cobrado."<br><span style="opacity:.7">Fontes: chunk_1, chunk_2, chunk_5 (lista solta no fim — não dá para saber o que veio de onde)</span></div>
+  <div class="card card-green"><b>✅ Com atribuição</b><br>"Cancele em <b>Config → Assinatura → Cancelar</b> <code>[chunk_1]</code>. A cobrança para no <b>fim do ciclo atual</b> <code>[chunk_2]</code>."<br><span style="opacity:.7">Cada afirmação aponta para o trecho exato que a sustenta — dá para clicar e conferir.</span></div>
+</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
 <h1>Caso concreto · resposta bonita, evidência fraca</h1>
-<div class="grid-2 mt-3 text-xs">
+<div class="card card-purple text-xs"><b>❓ Pergunta do usuário:</b> <i>"Qual é o prazo de aviso prévio para cancelar o contrato com um fornecedor?"</i></div>
+<div class="grid-2 mt-2 text-xs">
   <div class="card">
-    <b>Contexto recuperado</b><br>
-    <code>[doc_1]</code> Contrato v2: aviso prévio de 30 dias.<br><br>
-    <code>[doc_2]</code> Contrato v3: aviso prévio de 60 dias para fornecedores críticos.<br><br>
-    <code>[doc_3]</code> E-mail antigo: “podemos tentar 45 dias”.
+    <b>📚 Contexto recuperado (3 chunks, 3 fontes diferentes)</b><br>
+    <code>[doc_1]</code> Contrato <b>v2</b> (2022): "aviso prévio de <b>30 dias</b>." <span style="opacity:.65">← versão antiga, substituída</span><br><br>
+    <code>[doc_2]</code> Contrato <b>v3</b> (2024, vigente): "aviso prévio de <b>60 dias</b> para <b>fornecedores críticos</b>." <span style="opacity:.65">← vigente, mas com escopo restrito</span><br><br>
+    <code>[doc_3]</code> E-mail informal: "podemos tentar 45 dias." <span style="opacity:.65">← negociação, não é contrato</span>
   </div>
   <div class="card card-red">
-    <b>Resposta ruim</b><br>
-    “O contrato exige aviso prévio de 45 dias.”<br><br>
-    Problemas: misturou versões, usou e-mail como contrato, não indicou cláusula e parece confiante sem ser auditável.
+    <b>🤖 Resposta ruim (o que o modelo gerou)</b><br>
+    "O contrato exige aviso prévio de <b>45 dias</b>."<br><br>
+    <b>Por que é ruim:</b><br>• pegou o número do <b>e-mail</b>, que não é fonte oficial;<br>• misturou as versões v2 e v3;<br>• ignorou o escopo "fornecedores críticos";<br>• não citou cláusula → <b>não é auditável</b>.
   </div>
 </div>
-<div class="card card-cyan mt-3 text-xs">🎯 Pergunta que o aluno deve fazer: “eu consigo clicar na evidência e verificar a frase?” Se não, ainda não há grounding suficiente.</div>
+<div class="grid-2 mt-2 text-xs">
+  <div class="card card-green"><b>✅ Síntese correta e auditável</b><br>"Para <b>fornecedores críticos</b>, o contrato vigente (v3) exige <b>60 dias</b> de aviso prévio [contrato_v3, cláusula 14.3]. Para os demais fornecedores, o contexto recuperado não traz regra — é preciso confirmar antes de afirmar."</div>
+  <div class="card card-cyan"><b>🎯 Pergunta que o aluno deve fazer</b><br>"Eu consigo <b>clicar na evidência</b> e verificar a frase?" Se não, ainda não há grounding suficiente. Boa síntese escolhe a <b>fonte certa</b> (vigente e oficial), <b>respeita o escopo</b> e <b>admite</b> o que não sabe.</div>
+</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)">
@@ -894,9 +1033,16 @@ docs = vectordb.search(hipo, k=5)</code></pre>
   <div class="flow-node node-purple">Resposta<br>com citações</div><div class="flow-arrow">→</div>
   <div class="flow-node node-amber">Claims + verifier</div>
 </div>
-<div class="grid-2 mt-3 text-xs">
-  <div class="card card-green"><b>Boa UX</b><br>Mostrar a frase, a fonte e o trecho exato que sustenta a frase.</div>
-  <div class="card card-red"><b>Má UX</b><br>Mostrar apenas “Fontes: doc_1, doc_2” no final. Isso não prova qual afirmação veio de onde.</div>
+<div class="grid-2 mt-2 text-xs">
+  <div class="card card-green"><b>✅ Boa UX — atribuição inline (frase → fonte → trecho)</b>
+    <div style="line-height:1.5; margin-top:.3rem;">"Para <b>fornecedores críticos</b>, o aviso prévio é de <b>60 dias</b>. <sup style="color:#34d399;">[1]</sup>"</div>
+    <div style="opacity:.8; border-left:2px solid #34d399; padding-left:.4rem; margin-top:.3rem;"><b>[1]</b> contrato_v3.pdf · p.12 · cláusula 14.3<br><i>"…fornecedores classificados como críticos deverão observar aviso prévio de 60 (sessenta) dias…"</i> 🔗</div>
+  </div>
+  <div class="card card-red"><b>❌ Má UX — fontes soltas no fim</b>
+    <div style="line-height:1.5; margin-top:.3rem;">"O contrato exige 60 dias de aviso prévio para cancelamento."</div>
+    <div style="opacity:.8; margin-top:.3rem;">Fontes: contrato_v2.pdf, contrato_v3.pdf, email_fornecedor.eml</div>
+    <div style="margin-top:.3rem;">→ Qual das 3 fontes sustenta os 60 dias? O escopo "críticos" sumiu. Não dá para <b>clicar e conferir</b>.</div>
+  </div>
 </div>
 </section>
 
@@ -923,7 +1069,7 @@ docs = vectordb.search(hipo, k=5)</code></pre>
   <div class="card card-red"><b>3. Citação decorativa</b><br>O modelo coloca [doc_2] no fim da frase, mas doc_2 não sustenta aquela afirmação.</div>
   <div class="card card-red"><b>4. Síntese mistura fontes</b><br>Combina número de uma fonte, escopo de outra e conclusão inventada.</div>
 </div>
-<div class="card card-amber mt-3 text-xs">⚖️ Casos reais como <i>Mata v. Avianca</i> mostram o risco: citações plausíveis, mas inexistentes ou não verificáveis, podem gerar dano jurídico.</div>
+<div class="card card-amber mt-3 text-xs">⚖️ <b>Caso real — Mata v. Avianca (2023):</b> advogados usaram o ChatGPT para escrever uma petição e ele <b>inventou 6 precedentes</b> (ex.: "Varghese v. China Southern Airlines") que <b>não existem</b>. Quando o juiz pediu as íntegras, o modelo <b>fabricou</b> as decisões, e os advogados as entregaram. O juiz P. Kevin Castel os <b>multou em US$ 5.000</b> (S.D.N.Y., 22/06/2023, caso 1:22-cv-01461). Citação plausível ≠ citação verdadeira — por isso grounding <b>mede</b>, não confia. <a href="https://en.wikipedia.org/wiki/Mata_v._Avianca,_Inc." style="color:#93c5fd;">↗ fonte</a></div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
@@ -937,36 +1083,57 @@ docs = vectordb.search(hipo, k=5)</code></pre>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
-<h1>Camada 1 · prompt com evidências rastreáveis</h1>
-<pre><code class="language-python">SYSTEM = &quot;&quot;&quot;Responda APENAS com base no contexto.
-Regras:
-1. Cite a fonte após cada afirmação verificável: [doc_id, pagina, secao].
-2. Se a fonte tiver escopo limitado, mencione o escopo.
-3. Se a resposta não estiver no contexto, diga: &quot;Não encontrei nos documentos.&quot;
-4. Não use conhecimento externo para preencher lacunas.&quot;&quot;&quot;
+<h1>Camada 1 · prompt com evidências rastreáveis (E2E)</h1>
+<pre style="font-size:0.5em; line-height:1.24; margin:0;"><code class="language-python"># 📋 Colab: !pip install -q openai
+from openai import OpenAI
+from google.colab import userdata
+client = OpenAI(base_url="https://router.huggingface.co/v1", api_key=userdata.get("HF_TOKEN"))
 
-contexto = &quot;\n\n&quot;.join(
-    f&quot;[{d.id}, p.{d.page}, {d.section}] {d.text}&quot;
-    for d in docs_retrieved
-)
-resposta = llm.invoke(f&quot;{SYSTEM}\n\n{contexto}\n\nPergunta: {q}&quot;)</code></pre>
+SYSTEM = """Responda APENAS com base no contexto.
+1. Cite a fonte após cada afirmação: [doc_id, pagina, secao].
+2. Se a fonte tiver escopo limitado, mencione o escopo.
+3. Se não estiver no contexto, diga: "Não encontrei nos documentos."
+4. Não use conhecimento externo."""
+
+# em produção, estes docs vêm do retriever (top-k)
+docs = [
+   {"id": "contrato_v3", "page": 12, "sec": "14.3",
+    "text": "Fornecedores críticos: aviso prévio de 60 dias."},
+   {"id": "contrato_v2", "page": 9, "sec": "12.1",
+    "text": "Aviso prévio de 30 dias (versão 2022, revogada)."},
+]
+contexto = "\n".join(f"[{d['id']}, p.{d['page']}, {d['sec']}] {d['text']}" for d in docs)
+pergunta = "Qual o aviso prévio para cancelar contrato de fornecedor crítico?"
+
+resp = client.chat.completions.create(
+   model="Qwen/Qwen2.5-7B-Instruct", max_tokens=160,
+   messages=[{"role": "system", "content": SYSTEM},
+             {"role": "user", "content": f"Contexto:\n{contexto}\n\nPergunta: {pergunta}"}])
+resposta = resp.choices[0].message.content
+print(resposta)   # → cita [contrato_v3, p.12, 14.3] e respeita o escopo "críticos"</code></pre>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
-<h1>Camada 2 · verificador de claims</h1>
-<pre><code class="language-python">verificacao = judge.invoke(f&quot;&quot;&quot;
-Você é auditor de grounding.
-Contexto: {contexto}
-Resposta: {resposta}
+<h1>Camada 2 · verificador de claims (E2E)</h1>
+<pre style="font-size:0.52em; line-height:1.26; margin:0;"><code class="language-python"># ▶️ Continua da Camada 1: reusa client, contexto e resposta
+import json, re
 
-Extraia cada afirmação factual e classifique:
-- SUPORTADA: existe evidência direta no contexto
-- PARCIAL: contexto apoia só parte da afirmação
-- NAO_SUPORTADA: não há evidência suficiente
+audit = client.chat.completions.create(
+   model="Qwen/Qwen2.5-7B-Instruct", max_tokens=350,
+   messages=[{"role": "user", "content":
+       f"Você é auditor de grounding.\nContexto:\n{contexto}\n\nResposta:\n{resposta}\n\n"
+       "Para cada afirmação factual da resposta, classifique como "
+       "SUPORTADA, PARCIAL ou NAO_SUPORTADA.\n"
+       'Devolva SÓ JSON: {"claims":[{"claim":"","fonte":"","status":"","motivo":""}]}'}])
 
-Retorne JSON com claim, fonte_usada, status e explicação curta.
-&quot;&quot;&quot;)</code></pre>
-<div class="card card-cyan mt-2 text-xs">💡 O verificador não substitui humano em domínio crítico; ele cria uma fila priorizada do que revisar.</div>
+raw = audit.choices[0].message.content
+try:
+   claims = json.loads(re.search(r"\{.*\}", raw, re.S).group())["claims"]
+   for c in claims:
+       print(f"[{c['status']}] {c['claim']}  ← {c['fonte']}")
+except Exception:
+   print(raw)   # fallback: mostra o texto bruto do auditor</code></pre>
+<div class="card card-cyan mt-1 text-xs" style="padding:0.35rem 0.6rem;">💡 O verificador não substitui humano em domínio crítico; ele cria uma <b>fila priorizada</b> do que revisar. Rate limit do modelo grátis: ~5 req/min.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
@@ -996,7 +1163,6 @@ Retorne JSON com claim, fonte_usada, status e explicação curta.
 <tr><td><b>Vertex AI / Azure grounding</b></td><td>grounding com busca/web e citações gerenciadas</td></tr>
 </tbody>
 </table>
-<div class="card card-cyan mt-2 text-xs">📌 Para o projeto final: mostre pelo menos uma resposta com claims, fontes e um caso em que o agente recusa responder por falta de evidência.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #312e81 0%, #0f172a 100%)" class="text-center">
@@ -1047,29 +1213,40 @@ Variante: <b>Refine</b> — atualiza resposta incrementalmente conforme lê cada
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #1e293b 100%)">
-<h1>Padrão 2 · Resolução de conflitos</h1>
-<p class="text-sm">Quando fontes discordam, o agente <b>não pode</b> simplesmente escolher uma.</p>
-<pre><code class="language-python">SYNTH_PROMPT = &quot;&quot;&quot;Sintetize a resposta usando os trechos abaixo.
+<h1>Padrão 2 · Resolução de conflitos (E2E)</h1>
+<p class="text-sm">Quando fontes discordam, o agente <b>não pode</b> simplesmente escolher uma nem tirar média.</p>
+<pre style="font-size:0.5em; line-height:1.24; margin:0;"><code class="language-python"># 📋 Colab: !pip install -q openai
+from openai import OpenAI
+from google.colab import userdata
+client = OpenAI(base_url="https://router.huggingface.co/v1", api_key=userdata.get("HF_TOKEN"))
+
+SYNTH_PROMPT = """Sintetize a resposta usando SÓ os trechos.
 REGRAS:
-1. Se fontes CONCORDAM, afirme com confiança e cite todas.
-2. Se fontes DISCORDAM, apresente as visões DIVERGENTES explicitamente:
-   &quot;Segundo [A], X = 30%. Já [B] reporta X = 40%.&quot;
-3. Se a divergência tem causa identificável (data, escopo), explique:
-   &quot;A diferença pode se dever a [A] ser de 2023 e [B] de 2024.&quot;
-&quot;&quot;&quot;</code></pre>
+1. Fontes CONCORDAM: afirme com confiança e cite todas.
+2. Fontes DISCORDAM: mostre as visões divergentes ("Segundo [A]... Já [B]...").
+3. Causa identificável (data/escopo): explique ("[A] é de 2023, [B] de 2024").
+4. NUNCA invente uma média entre fontes contraditórias.
+5. Cite [doc_id] após cada afirmação."""
+
+trechos = [
+   "[rel_2023] Rotatividade de fornecedores: 30%.",
+   "[rel_2024] Rotatividade de fornecedores: 40%.",
+   "[nota_interna] O aumento veio de novos fornecedores sazonais.",
+]
+pergunta = "Como evoluiu a rotatividade de fornecedores?"
+resp = client.chat.completions.create(
+   model="Qwen/Qwen2.5-7B-Instruct", max_tokens=200,
+   messages=[{"role": "user", "content":
+       SYNTH_PROMPT + "\n\nTrechos:\n" + "\n".join(trechos) + f"\n\nPergunta: {pergunta}"}])
+print(resp.choices[0].message.content)</code></pre>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #1f2937 100%)">
-<h1>Padrão 2 · Resolução de conflitos — continuação</h1>
-<pre><code class="language-python">SYNTH_PROMPT = &quot;&quot;&quot;
-4. NUNCA invente uma &#x27;média&#x27; entre fontes contraditórias.
-5. Cite com [doc_id] após cada afirmação.
-Trechos:
-{contexto}
-Pergunta: {pergunta}
-&quot;&quot;&quot;</code></pre>
-<div class="card card-amber mt-3 text-sm">
-⚠️ <b>Anti-padrão clássico:</b> "média de alucinações" — pegar 3 números diferentes e dar a média. Pior que escolher um.
+<h1>Padrão 2 · Resolução de conflitos — o resultado</h1>
+<div class="card card-green text-xs"><b>🤖 Saída esperada (o Qwen sintetiza sem escolher lado nem tirar média):</b><br><i>"A rotatividade passou de <b>30% em 2023</b> [rel_2023] para <b>40% em 2024</b> [rel_2024]. Parte do aumento é atribuída a <b>novos fornecedores sazonais</b> [nota_interna]."</i></div>
+<div class="grid-2 mt-2 text-xs">
+  <div class="card card-cyan"><b>✅ O que ele fez certo</b><br>Mostrou as duas fontes <b>com datas</b>, ligou cada número ao seu <code>[doc_id]</code> e apontou a <b>causa provável</b> da divergência — sem inventar um valor único.</div>
+  <div class="card card-red"><b>⚠️ Anti-padrão clássico</b><br>"Média de alucinações": pegar 30% e 40% e responder <b>"35%"</b>. Pior que escolher um: inventa um dado que <b>nenhuma fonte afirma</b> e parece confiante.</div>
 </div>
 </section>
 
@@ -1093,32 +1270,66 @@ Usado em: <b>Claude Projects</b>, <b>NotebookLM</b>, <b>Cursor codebase indexing
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #064e3b 100%)">
-<h1>Synthesis na prática · LangChain</h1>
-<pre><code class="language-python">from langchain.chains.combine_documents import create_stuff_documents_chain
-from langchain.chains import create_retrieval_chain
+<h1>Synthesis na prática · Map-Reduce (E2E)</h1>
+<pre style="font-size:0.5em; line-height:1.24; margin:0;"><code class="language-python"># 📋 Colab: !pip install -q openai
+from openai import OpenAI
+from google.colab import userdata
+client = OpenAI(base_url="https://router.huggingface.co/v1", api_key=userdata.get("HF_TOKEN"))
+def llm(msg, mx=180):
+   return client.chat.completions.create(model="Qwen/Qwen2.5-7B-Instruct",
+       max_tokens=mx, messages=[{"role": "user", "content": msg}]).choices[0].message.content.strip()
 
-# 1) Map-reduce nativo
-from langchain.chains.summarize import load_summarize_chain
-chain = load_summarize_chain(llm, chain_type=&quot;map_reduce&quot;)
-
-# 2) Refine — resposta evolui doc a doc
-chain_refine = load_summarize_chain(llm, chain_type=&quot;refine&quot;)
-
-# 3) Stuff — joga tudo no contexto (só se cabe)
-chain_stuff = load_summarize_chain(llm, chain_type=&quot;stuff&quot;)</code></pre>
-<table>
-<thead><tr>
-<th>Chain type</th>
-<th>Quando usar</th>
-<th>Pro</th>
-<th>Contra</th>
-</tr></thead>
+docs = [
+   "Rel. 2023: rotatividade de fornecedores foi de 30%.",
+   "Rel. 2024: rotatividade subiu para 40%.",
+   "Nota interna: parte do aumento veio de fornecedores sazonais.",
+]
+# MAP: extrai o essencial de cada doc (barato, paralelizável)
+mapa = [llm(f"Extraia em 1 frase o dado central:\n{d}", 50) for d in docs]
+print("MAP:", *mapa, sep="\n  • ")
+# REDUCE: combina, resolve conflito e cita [doc_x]
+ctx = "\n".join(f"[doc_{i+1}] {m}" for i, m in enumerate(mapa))
+print("\nREDUCE:\n", llm("Sintetize citando [doc_x]. Se houver conflito, mostre as duas "
+                        f"visões e a causa provável.\n{ctx}\n\nPergunta: Como evoluiu a rotatividade?"))</code></pre>
+<div class="card card-amber mt-1 text-xs" style="padding:0.35rem 0.6rem;">⚠️ O antigo <code>load_summarize_chain</code> / <code>create_retrieval_chain</code> saiu do LangChain 1.x. O padrão atual é <b>montar map/reduce na mão</b> — o que também deixa cada passo transparente.</div>
+<table class="mt-1 text-xs">
+<thead><tr><th>Chain type</th><th>Quando usar</th><th>Pro</th><th>Contra</th></tr></thead>
 <tbody>
 <tr><td><b>Stuff</b></td><td>Cabem todos os docs</td><td>Simples</td><td>Limitado por context window</td></tr>
 <tr><td><b>Map-Reduce</b></td><td>Muitos docs</td><td>Paralelizável</td><td>Perde contexto cross-doc</td></tr>
 <tr><td><b>Refine</b></td><td>Docs sequenciais</td><td>Mantém contexto</td><td>Sequencial, sem paralelizar</td></tr>
 </tbody>
 </table>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #155e75 100%)">
+<h1>🔎 Onde o prompt de síntese roda dentro do agente</h1>
+<p class="text-sm">A síntese não é uma etapa à parte: é a <b>última chamada</b> do agente de RAG. Retrieve e augment só <b>preparam</b> o prompt; a síntese é o <b>GENERATE</b> destacado abaixo.</p>
+<pre style="font-size:0.5em; line-height:1.22; margin:0;"><code class="language-python"># 📋 Colab: !pip install -q sentence-transformers numpy openai
+from sentence_transformers import SentenceTransformer
+import numpy as np
+from openai import OpenAI
+from google.colab import userdata
+
+embedder = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
+client = OpenAI(base_url="https://router.huggingface.co/v1", api_key=userdata.get("HF_TOKEN"))
+BASE = ["Para cancelar: Config → Assinatura → Cancelar.",
+        "O cancelamento vale até o fim do ciclo de cobrança.",
+        "Reembolsos são processados em até 5 dias úteis."]
+VEC = embedder.encode(BASE, normalize_embeddings=True)
+
+def agente_rag(pergunta):
+    q = embedder.encode([pergunta], normalize_embeddings=True)[0]
+    top = np.argsort(VEC @ q)[::-1][:2]                 # 1) RETRIEVE (vizinhos próximos)
+    contexto = "\n".join(BASE[i] for i in top)           # 2) AUGMENT (monta o contexto)
+    prompt = f"Responda usando SÓ o contexto:\n{contexto}\n\nPergunta: {pergunta}"
+    resp = client.chat.completions.create(               # 3) GENERATE ← aqui roda a SÍNTESE
+        model="Qwen/Qwen2.5-7B-Instruct", max_tokens=120,
+        messages=[{"role": "user", "content": prompt}])
+    return resp.choices[0].message.content
+
+print(agente_rag("Como cancelo minha assinatura?"))</code></pre>
+<div class="card card-amber mt-1 text-xs" style="padding:0.35rem 0.6rem;">🎯 A <b>síntese</b> é a etapa <b>GENERATE</b>: montamos o prompt (contexto + pergunta + regras de citação) e chamamos o LLM. Reranking, grounding e resolução de conflito são <b>variações desse prompt</b> ou passos <b>antes</b> desta chamada.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
