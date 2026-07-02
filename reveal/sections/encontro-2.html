@@ -537,12 +537,12 @@ pessoa = llm.with_structured_output(Pessoa).invoke("Extraia nome e idade")
 <div class="text-xs" style="opacity:0.75; margin:0 0 0.15rem;">② <b>Após reiniciar</b>, rode o código:</div>
 <pre class="scale-in" style="margin:0;"><code class="language-python">from pydantic import BaseModel
 from pydantic_ai import Agent
-from pydantic_ai.models.openai import OpenAIModel
+from pydantic_ai.models.openai import OpenAIChatModel
 from pydantic_ai.providers.openai import OpenAIProvider
 from google.colab import userdata
 
 # modelo aberto (grátis) da Hugging Face, via API compatível com OpenAI
-model = OpenAIModel("Qwen/Qwen2.5-7B-Instruct",
+model = OpenAIChatModel("Qwen/Qwen2.5-7B-Instruct",
     provider=OpenAIProvider(base_url="https://router.huggingface.co/v1",
                             api_key=userdata.get("HF_TOKEN")))
 
@@ -1181,8 +1181,8 @@ Runner.run(agent, input)</code></pre>
   model=HfApiModel()).run(q)</code></pre>
 <div>💼 <b>Use:</b> Hugging Face; agentes que escrevem e rodam código.</div></div>
 <div class="card card-purple parallax-card"><b>🔗 LangChain</b> <span class="opacity-70">controle 🟡 · complex. 🟡</span>
-<pre style="margin:0.3rem 0;"><code class="language-python">agent = create_tool_calling_agent(
-  llm, tools, prompt)</code></pre>
+<pre style="margin:0.3rem 0;"><code class="language-python">agent = create_agent(
+   llm, tools, system_prompt=...)</code></pre>
 <div>💼 <b>Use:</b> muitas integrações prontas e chains lineares.</div></div>
 <div class="card card-cyan parallax-card"><b>🕸️ LangGraph</b> <span class="opacity-70">🟢🟢🟢 · 🔴</span>
 <pre style="margin:0.3rem 0;"><code class="language-python">g.add_node("agent", fn)
@@ -1198,24 +1198,22 @@ g.add_conditional_edges(...)</code></pre>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #064e3b 100%)">
 <h1>Exemplo em LangChain</h1>
-<div class="card text-xs card-cyan parallax-card" style="margin-bottom:0.75rem;">O framework esconde o loop, o parsing e parte do error handling. <span style="opacity:0.7;">(langchain ≥ 0.3, langchain-openai ≥ 0.2)</span></div>
+<div class="card text-xs card-cyan parallax-card" style="margin-bottom:0.75rem;">O framework esconde o loop, o parsing e parte do error handling. <span style="opacity:0.7;">(langchain ≥ 1.0 · <code>create_agent</code> devolve um agente LangGraph pronto)</span></div>
 <pre class="scale-in"><code class="language-python">from langchain_openai import ChatOpenAI
-from langchain.agents import AgentExecutor, create_tool_calling_agent
-from langchain_core.prompts import ChatPromptTemplate
+from langchain.agents import create_agent
 from langchain_core.tools import tool
 
 @tool
 def calculadora(expr: str) -&gt; str:
+   """Avalia uma expressão aritmética simples."""
    return str(eval(expr, {"__builtins__": {}}, {}))
 
 llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
-prompt = ChatPromptTemplate.from_messages([
-   ("system", "Você é um agente útil. Use as ferramentas quando precisar."),
-   ("user", "{input}"),
-   ("placeholder", "{agent_scratchpad}"),
-])
-agent = create_tool_calling_agent(llm, [calculadora], prompt)
-executor = AgentExecutor(agent=agent, tools=[calculadora], verbose=True)</code></pre>
+agent = create_agent(llm, [calculadora],
+   system_prompt="Você é um agente útil. Use as ferramentas quando precisar.")
+
+r = agent.invoke({"messages": [{"role": "user", "content": "Quanto é 23*19?"}]})
+print(r["messages"][-1].content)</code></pre>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #1f2937 0%, #3b0764 100%)">
