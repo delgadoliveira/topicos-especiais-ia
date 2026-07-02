@@ -920,35 +920,45 @@ Defina critérios de replanning <b>no momento do plano</b>, não quando a falha 
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #0f766e 100%)">
-<h1>💻 Implementação — create_plan + execute com replanning</h1>
-<div class="text-xs opacity-70" style="margin-bottom:0.2rem;">① Colab-ready · o LLM devolve JSON com passos ordenados</div>
-<pre class="scale-in" style="margin:0 0 0.4rem;"><code class="language-python">import json
+<h1>💻 Plan &amp; Execute com replanning — E2E</h1>
+<div class="text-xs opacity-70" style="margin-bottom:0.2rem;">Colab-ready · roda de ponta a ponta com <code>HF_TOKEN</code> (grátis) · planejar → executar → detectar desvio → replanejar → sintetizar</div>
+<pre class="scale-in" style="margin:0; font-size:0.62em; line-height:1.28;"><code class="language-python">import json
+from openai import OpenAI
+from google.colab import userdata
 
-def create_plan(objective: str) -&gt; list[dict]:
-   resp = client.chat.completions.create(
-       model="Qwen/Qwen2.5-7B-Instruct",
-       messages=[
-           {"role": "system", "content": """
-Decomponha o objetivo em 3-5 passos.
-Responda APENAS JSON:
-{"passos": [{"id": 1, "acao": "...", "tool": "busca|calculadora|escrita", "depende_de": []}]}
-"""},
-           {"role": "user", "content": objective},
-       ],
-       max_tokens=300,
-       temperature=0.1,
-   )
-   return json.loads(resp.choices[0].message.content)["passos"]</code></pre>
-<div class="text-xs opacity-70" style="margin:0 0 0.2rem;">② Fluxo mínimo: planejar → executar → detectar desvio → corrigir</div>
-<pre class="scale-in" style="margin:0;"><code class="language-python">def execute_with_replanning(objective: str, max_retries: int = 2):
-   plan = create_plan(objective)
-   for step in plan:
-       result = execute_step(step)
-       if result.failed and step.get("retries", 0) &lt; max_retries:
-           plan = replan(objective, plan, step, result.error)
+client = OpenAI(base_url="https://router.huggingface.co/v1",
+                api_key=userdata.get("HF_TOKEN"))
+MODEL = "Qwen/Qwen2.5-7B-Instruct"
+
+def ask_json(prompt: str) -&gt; dict:                    # 1 chamada ao LLM -&gt; JSON
+   r = client.chat.completions.create(model=MODEL, temperature=0.1,
+       messages=[{"role": "user", "content": prompt + "\nResponda APENAS JSON."}])
+   return json.loads(r.choices[0].message.content)
+
+def create_plan(objetivo: str) -&gt; list[dict]:         # decompõe em passos
+   r = ask_json(f'Objetivo: {objetivo}. Decomponha em 2-4 passos. '
+                'Formato {"passos":[{"id":1,"acao":"..."}]}')
+   return r["passos"]
+
+def execute_step(step: dict) -&gt; dict:                 # executa 1 passo
+   return ask_json(f'Execute o passo: {step["acao"]}. '
+                   'Formato {"ok":true,"resultado":"..."} ou {"ok":false,"erro":"..."}')
+
+def run(objetivo: str, max_replans: int = 2) -&gt; str:
+   plan, feitos, i = create_plan(objetivo), [], 0
+   while i &lt; len(plan):
+       res = execute_step(plan[i])
+       if not res["ok"] and max_replans:              # desvio -&gt; replaneja
+           max_replans -= 1
+           plan, feitos, i = create_plan(
+               f'{objetivo} (o passo "{plan[i]["acao"]}" falhou: {res["erro"]})'), [], 0
            continue
-   return synthesize(plan)</code></pre>
-<div class="tip-box mt-2 text-xs">A inteligência do sistema está menos em “chamar o modelo” e mais em <b>decidir quando recalcular a rota</b>.</div>
+       feitos.append(res.get("resultado", res.get("erro")))
+       i += 1
+   return " | ".join(feitos)                          # síntese final
+
+print(run("Planeje um jantar italiano para 4 pessoas com R$150"))</code></pre>
+<div class="tip-box mt-1 text-xs" style="margin-top:0.35rem;">A inteligência do sistema está menos em “chamar o modelo” e mais em <b>decidir quando recalcular a rota</b>.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #172554 100%)">
@@ -1069,25 +1079,40 @@ print(json.loads(resp.choices[0].message.content))</code></pre>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
 <h1>Function Calling — o loop completo</h1>
-<p class="text-xs" style="opacity:0.82; margin:0 0 0.4rem;">O ciclo de produção: <b>consultar modelo → se pediu tool, executar e devolver observação → repetir → parar quando houver resposta</b>.</p>
-<pre class="scale-in" style="font-size:0.72em;"><code class="language-python">def run_agent_fc(pergunta: str, max_steps: int = 6):
+<p class="text-xs" style="opacity:0.82; margin:0 0 0.35rem;">E2E Colab (grátis, <code>HF_TOKEN</code>): <b>consultar modelo → se pediu tool, executar e devolver observação → repetir → parar quando houver resposta</b>.</p>
+<pre class="scale-in" style="font-size:0.6em; line-height:1.28; margin:0;"><code class="language-python">import json
+from openai import OpenAI
+from google.colab import userdata
+
+client = OpenAI(base_url="https://router.huggingface.co/v1",
+                api_key=userdata.get("HF_TOKEN"))
+
+def calculadora(expr): return str(eval(expr, {"__builtins__": {}}, {}))
+def busca(query):      return f"(resultado simulado para '{query}')"
+TOOLS = {"calculadora": calculadora, "busca": busca}
+
+SYSTEM_FC = """Você resolve a tarefa em passos. A cada turno responda APENAS JSON:
+para usar ferramenta -&gt; {"tool": "calculadora"|"busca", "args": {...}}
+para finalizar       -&gt; {"answer": "resposta final"}
+Ferramentas: calculadora(expr), busca(query)"""
+
+def run_agent_fc(pergunta: str, max_steps: int = 6):
    msgs = [{"role": "system", "content": SYSTEM_FC},
            {"role": "user", "content": pergunta}]
    for _ in range(max_steps):
        resp = client.chat.completions.create(
-           model="Qwen/Qwen2.5-7B-Instruct", messages=msgs, max_tokens=150)
+           model="Qwen/Qwen2.5-7B-Instruct", messages=msgs,
+           max_tokens=150, temperature=0)
        out = json.loads(resp.choices[0].message.content)
-       if "answer" in out:                     # modelo decidiu responder
+       if "answer" in out:                          # modelo decidiu responder
            return out["answer"]
        msgs.append({"role": "assistant", "content": json.dumps(out)})
-       tool_name, args = out["tool"], out["args"]   # senão, roda a tool
-       result = TOOLS[tool_name](**args)
-       msgs.append({"role": "tool", "name": tool_name, "content": str(result)})
-   return "Max steps atingido."</code></pre>
-<div class="grid-2 mt-1 stagger-in text-xs" style="gap:0.7rem;">
-<div class="card card-green parallax-card"><b>Ganho</b><br>Sem regex e com dados estruturados.</div>
-<div class="card card-amber parallax-card"><b>Cuidado</b><br>Seu código ainda precisa validar nome da tool e tratar erro.</div>
-</div>
+       result = TOOLS[out["tool"]](**out["args"])   # senão, roda a tool
+       msgs.append({"role": "user", "content": f'Observação: {result}'})
+   return "Max steps atingido."
+
+print(run_agent_fc("Quanto é (17 * 23) + 41?"))</code></pre>
+<div class="tip-box text-xs" style="margin-top:0.35rem;">Sem regex, dados estruturados. Seu código ainda valida o nome da tool e trata erro.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #0f766e 100%)">
@@ -1230,10 +1255,23 @@ print(r["messages"][-1].content)</code></pre>
 
 <section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
 <h1>LangGraph — código + execução</h1>
-<pre class="scale-in"><code class="language-python">from typing import Annotated, TypedDict
+<pre class="scale-in" style="font-size:0.56em; line-height:1.26; margin:0;"><code class="language-python">from typing import Annotated, TypedDict
+from langchain_openai import ChatOpenAI
+from langchain_core.tools import tool
 from langgraph.graph import StateGraph
 from langgraph.graph.message import add_messages
 from langgraph.prebuilt import ToolNode, tools_condition
+from google.colab import userdata
+
+@tool
+def calc(expr: str) -&gt; str:
+   """Avalia uma expressão aritmética."""
+   return str(eval(expr, {"__builtins__": {}}, {}))
+
+@tool
+def busca(query: str) -&gt; str:
+   """Busca simulada de informação."""
+   return f"(resultado simulado para '{query}')"
 
 class State(TypedDict):
    messages: Annotated[list, add_messages]
@@ -1253,7 +1291,8 @@ graph.add_conditional_edges("agent", tools_condition)
 graph.add_edge("tools", "agent")
 app = graph.compile()
 
-result = app.invoke({"messages": [("user", "Quanto custa um hotel em SP?")]})</code></pre>
+result = app.invoke({"messages": [("user", "Quanto é 34 * 12?")]})
+print(result["messages"][-1].content)</code></pre>
 <div class="grid-2 mt-2 stagger-in text-xs" style="gap:0.7rem;">
 <div class="card card-green parallax-card"><b>Streaming</b><br><code>app.stream(...)</code> mostra cada nó em execução.</div>
 <div class="card card-purple parallax-card"><b>Checkpoints</b><br>Pausar e retomar vira parte nativa da arquitetura.</div>
