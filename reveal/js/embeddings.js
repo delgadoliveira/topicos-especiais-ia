@@ -96,8 +96,12 @@
     // axes cross
     el += `<line x1="${PAD}" y1="${H - PAD}" x2="${W - PAD}" y2="${H - PAD}" stroke="rgba(255,255,255,.25)"/>`;
     el += `<line x1="${PAD}" y1="${PAD}" x2="${PAD}" y2="${H - PAD}" stroke="rgba(255,255,255,.25)"/>`;
-    el += `<text x="${W - PAD}" y="${H - PAD + 16}" fill="rgba(255,255,255,.5)" font-size="10" text-anchor="end">objeto →</text>`;
-    el += `<text x="${PAD - 6}" y="${PAD - 6}" fill="rgba(255,255,255,.5)" font-size="10">↑ menor</text>`;
+    // axis labels (both ends, so the meaning is explicit)
+    el += `<text x="${PAD}" y="${H - PAD + 16}" fill="rgba(255,255,255,.55)" font-size="10" text-anchor="start">← animal</text>`;
+    el += `<text x="${W - PAD}" y="${H - PAD + 16}" fill="rgba(255,255,255,.55)" font-size="10" text-anchor="end">objeto →</text>`;
+    el += `<text x="${PAD - 6}" y="${PAD - 6}" fill="rgba(255,255,255,.55)" font-size="10">↑ menor</text>`;
+    el += `<text x="${PAD - 6}" y="${H - PAD - 4}" fill="rgba(255,255,255,.55)" font-size="10">maior</text>`;
+    el += `<text x="${(PAD + W - PAD) / 2}" y="${H - 6}" fill="rgba(255,255,255,.4)" font-size="9" text-anchor="middle">eixo X: animal ↔ objeto  ·  eixo Y: tamanho</text>`;
     // connecting line for the user pair
     if (pair) {
       const a = points.find(p => p.id === 'A'), b = points.find(p => p.id === 'B');

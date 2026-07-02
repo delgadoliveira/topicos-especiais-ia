@@ -1,0 +1,13 @@
+agent: resumidor
+cases:
+  - input: >
+      A inteligência artificial evoluiu muito na última década. Modelos de
+      linguagem passaram a escrever, resumir e programar. Agentes combinam
+      esses modelos com ferramentas e memória para executar tarefas de várias
+      etapas de forma cada vez mais autônoma.
+    max_latency_s: 30
+    judge: "O texto é um resumo fiel, em português, com no máximo 3 tópicos curtos?"
+
+  - input: "Explique em poucas linhas o que é fotossíntese."
+    max_latency_s: 30
+    must_not_contain: ["Traceback", "Exception"]

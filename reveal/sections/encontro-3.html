@@ -439,7 +439,12 @@ for role, content in turnos:                   # a conversa cresce a cada turno
 <div class="grid-2" style="gap:0.9rem; align-items:start;">
   <div>
     <svg id="emb-plot" viewBox="0 0 400 320" style="width:100%; background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.12); border-radius:8px;"></svg>
-    <div class="text-xs" style="opacity:0.6; margin-top:0.2rem;">Projeção 2D <b>aproximada</b> (eixos didáticos: animal↔objeto, pequeno↔grande). Palavras próximas ≈ significados próximos.</div>
+    <div class="text-xs" style="opacity:0.75; margin-top:0.3rem;">
+      O embedding real tem <b>384 dimensões</b> (sem rótulo humano). Aqui projetamos em <b>2 direções didáticas</b> só para ver:
+      <br>• <b>Eixo X →</b> mede <b>animal ↔ objeto</b> (esquerda = animal, direita = objeto)
+      <br>• <b>Eixo Y ↑</b> mede <b>tamanho</b> (topo = menor, base = maior)
+      <br><span style="opacity:0.7;">A posição = o quanto o vetor da palavra "aponta" para cada direção. Palavras próximas ≈ significados próximos.</span>
+    </div>
   </div>
   <div>
     <div style="display:flex; gap:0.4rem; flex-wrap:wrap; align-items:center;">
@@ -483,6 +488,85 @@ for role, content in turnos:                   # a conversa cresce a cada turno
   </div>
 </div>
 <div class="tip-box mt-2 text-xs">🎯 O modelo <b>não inventou</b>: cada afirmação veio de um chunk recuperado. Trocar o ranking (melhor embedding, reranker) muda o que entra no ground data — e portanto a resposta.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #155e75 100%)">
+<h1>🧩 O prompt-template com placeholders — como o RAG preenche</h1>
+<p class="text-xs" style="opacity:0.85; margin:0 0 0.4rem;">O prompt é um <b>molde fixo</b> (um framework escrito uma vez) com <b>lacunas</b> <code>{ }</code>. A cada pergunta, o RAG <b>busca</b> os trechos certos e <b>substitui</b> as lacunas — só então o prompt vai ao LLM.</p>
+<div class="grid-2" style="gap:0.8rem; align-items:start;">
+  <div>
+    <div class="text-xs" style="opacity:0.8; margin-bottom:0.2rem;">📝 <b>PROMPT_TEMPLATE</b> (fixo)</div>
+    <pre style="font-size:0.56em; line-height:1.4; margin:0; background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.12); border-radius:8px; padding:0.6rem;"># CONTEXTO
+<span style="color:#fbbf24; font-weight:700;">{contexto}</span>
+
+# PERGUNTA
+<span style="color:#22d3ee; font-weight:700;">{pergunta}</span>
+
+# INSTRUÇÕES
+- Responda usando APENAS o contexto.
+- Cite a fonte [n] após cada frase.
+- Fora do contexto? Diga "não encontrei".</pre>
+    <div class="text-xs" style="opacity:0.75; margin-top:0.3rem;"><span style="color:#fbbf24;">■</span> lacuna preenchida pelo <b>RAG</b> &nbsp;·&nbsp; <span style="color:#22d3ee;">■</span> preenchida pelo <b>usuário</b></div>
+  </div>
+  <div>
+    <div class="text-xs" style="opacity:0.8; margin-bottom:0.2rem;">🔄 <b>Cada etapa, a cada pergunta</b></div>
+    <div style="display:flex; flex-direction:column; gap:0.28rem;" class="text-xs">
+      <div class="card" style="padding:0.35rem 0.6rem;"><b>①</b> Usuário pergunta: <i>"Como cancelo minha assinatura?"</i></div>
+      <div class="card" style="padding:0.35rem 0.6rem;"><b>②</b> RAG transforma a pergunta em <b>embedding</b> e busca no Vector DB</div>
+      <div class="card" style="padding:0.35rem 0.6rem;"><b>③</b> Recupera os <b>top-k chunks</b> mais similares</div>
+      <div class="card card-amber" style="padding:0.35rem 0.6rem;"><b>④</b> Substitui <code>{contexto}</code> pelos chunks e <code>{pergunta}</code> pela pergunta</div>
+      <div class="card card-green" style="padding:0.35rem 0.6rem;"><b>⑤</b> O <b>prompt já preenchido</b> vai ao LLM → resposta com fonte</div>
+    </div>
+  </div>
+</div>
+<div class="tip-box mt-2 text-xs">🎯 O template <b>nunca muda</b>; muda só o <b>conteúdo das lacunas</b> a cada pergunta. É o que separa um "prompt fixo" de um prompt <b>alimentado por RAG</b>.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #155e75 100%)">
+<h1>🧩 Substituição na prática — de molde a prompt final (E2E)</h1>
+<p class="text-xs" style="opacity:0.85; margin:0 0 0.3rem;">O passo ④ é literalmente <code>.format()</code>: as lacunas viram texto real. Rode e veja o <b>prompt final</b> impresso antes de ir ao LLM.</p>
+<pre style="font-size:0.5em; line-height:1.24; margin:0;"><code class="language-python"># 📋 Colab:  !pip install -q openai
+from openai import OpenAI
+from google.colab import userdata
+
+# 1. Template FIXO com placeholders — escrito UMA vez
+PROMPT_TEMPLATE = """# CONTEXTO
+{contexto}
+
+# PERGUNTA
+{pergunta}
+
+# INSTRUÇÕES
+- Responda usando APENAS o contexto acima.
+- Cite a fonte [n] após cada afirmação.
+- Se não estiver no contexto, diga "não encontrei"."""
+
+# 2. Busca do RAG (aqui por palavra-chave; a versão com embeddings está no próximo slide)
+BASE = [
+    "Para cancelar o Plano Premium: Config → Assinatura → Cancelar.",
+    "O cancelamento vale até o fim do ciclo de cobrança.",
+    "Reembolsos são processados em até 5 dias úteis.",
+    "O Plano Premium inclui suporte prioritário.",
+]
+def retrieve(pergunta, k=2):
+    palavras = pergunta.lower().split()
+    return sorted(BASE, key=lambda c: sum(p in c.lower() for p in palavras), reverse=True)[:k]
+
+# 3. A busca PREENCHE os placeholders (substituição = .format)
+pergunta = "Como faço para cancelar minha assinatura?"
+chunks = retrieve(pergunta)
+contexto = "\n".join(f"[{i+1}] {c}" for i, c in enumerate(chunks))
+prompt_final = PROMPT_TEMPLATE.format(contexto=contexto, pergunta=pergunta)
+
+print("===== PROMPT FINAL (ja preenchido, enviado ao LLM) =====")
+print(prompt_final)
+
+# 4. So agora o prompt preenchido vai ao modelo
+client = OpenAI(base_url="https://router.huggingface.co/v1", api_key=userdata.get("HF_TOKEN"))
+resp = client.chat.completions.create(
+    model="Qwen/Qwen2.5-7B-Instruct", max_tokens=120,
+    messages=[{"role": "user", "content": prompt_final}])
+print("\n===== RESPOSTA =====\n", resp.choices[0].message.content)</code></pre>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #155e75 100%)">
@@ -818,6 +902,85 @@ hipo = hyde("Como cancelo o Plano Premium?")
 docs = vectordb.search(hipo, k=5)   # embedding da resposta hipotética → busca
 print(hipo)</code></pre>
 <div class="card card-amber mt-3 text-xs">💡 Funciona porque “resposta → resposta” costuma ficar mais perto no espaço vetorial que “pergunta → resposta”.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #172554 100%)">
+<h1>🔀 Query rewriting + fan-out — passo a passo</h1>
+<p class="text-xs" style="opacity:0.85; margin:0 0 0.4rem;">Uma pergunta <b>vaga</b> vira <b>várias</b> queries melhores; cada uma busca no Vector DB; os resultados são <b>unidos</b>. Mais formas de perguntar = mais <b>recall</b>.</p>
+<div class="grid-2" style="gap:0.8rem; align-items:start;">
+  <div>
+    <div class="text-xs" style="opacity:0.8; margin-bottom:0.2rem;">🧭 <b>Cada etapa</b></div>
+    <div style="display:flex; flex-direction:column; gap:0.28rem;" class="text-xs">
+      <div class="card card-red" style="padding:0.35rem 0.6rem;"><b>①</b> Pergunta vaga: <i>"como paro de pagar?"</i> → vetor pobre, retrieval fraco</div>
+      <div class="card" style="padding:0.35rem 0.6rem;"><b>②</b> LLM <b>reescreve</b> e faz <b>fan-out</b> em 3 variações ricas</div>
+      <div class="card card-amber" style="padding:0.35rem 0.6rem;"><b>③</b> Cada query busca <b>top-k</b> no Vector DB</div>
+      <div class="card" style="padding:0.35rem 0.6rem;"><b>④</b> <b>União + dedupe</b> dos chunks de todas as queries</div>
+      <div class="card card-green" style="padding:0.35rem 0.6rem;"><b>⑤</b> Reranker ordena → contexto final mais completo</div>
+    </div>
+  </div>
+  <div>
+    <div class="text-xs" style="opacity:0.8; margin-bottom:0.2rem;">🌱 <b>Fan-out</b> (o que o LLM gera)</div>
+    <div style="font-family:monospace; font-size:0.72em; line-height:1.6; background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.12); border-radius:8px; padding:0.6rem;">
+      "como paro de pagar?"<br>
+      &nbsp;├─ "como cancelar o Plano Premium"<br>
+      &nbsp;├─ "interromper renovação automática da assinatura"<br>
+      &nbsp;└─ "encerrar conta e parar a cobrança"
+    </div>
+    <div class="card card-green text-xs mt-2" style="padding:0.4rem 0.6rem;">
+      <b>União recuperada (3 queries):</b><br>
+      [0] Config → Assinatura → Cancelar &nbsp;·&nbsp; [1] vale até o fim do ciclo &nbsp;·&nbsp; [3] interromper renovação
+      <div style="opacity:0.75; margin-top:0.2rem;">A query original sozinha só achava [0]. O fan-out trouxe [1] e [3] também.</div>
+    </div>
+  </div>
+</div>
+<div class="tip-box mt-2 text-xs">🎯 <b>Rewriting</b> conserta a query ruim; <b>fan-out</b> cobre as várias formas de perguntar. Custo: +N buscas e +1 chamada ao LLM — vale quando recall importa.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #0b1120 0%, #1d4ed8 100%)">
+<h1>🔀 Fan-out executado de ponta a ponta (E2E no Colab)</h1>
+<p class="text-xs" style="opacity:0.85; margin:0 0 0.3rem;">Rewriting + fan-out + busca real por embeddings + união. Os <b>logs</b> mostram cada query gerada e os chunks que ela trouxe.</p>
+<pre style="font-size:0.5em; line-height:1.24; margin:0;"><code class="language-python"># 📋 Colab: !pip install -q sentence-transformers numpy openai
+from sentence_transformers import SentenceTransformer
+import numpy as np
+from openai import OpenAI
+from google.colab import userdata
+client = OpenAI(base_url="https://router.huggingface.co/v1", api_key=userdata.get("HF_TOKEN"))
+
+BASE = [
+    "Para cancelar o Plano Premium: Config → Assinatura → Cancelar.",
+    "O encerramento vale até o fim do ciclo de cobrança.",
+    "Reembolsos são processados em até 5 dias úteis.",
+    "Como interromper a renovação automática da assinatura.",
+    "O Plano Premium inclui suporte prioritário.",
+]
+embedder = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
+M = embedder.encode(BASE, normalize_embeddings=True)
+
+def buscar(query, k=2):
+    q = embedder.encode([query], normalize_embeddings=True)[0]
+    return list(np.argsort(M @ q)[::-1][:k])
+
+# 1. Fan-out: 1 pergunta vaga vira varias reformulacoes (LLM reescreve)
+def fan_out(pergunta, n=3):
+    r = client.chat.completions.create(model="Qwen/Qwen2.5-7B-Instruct", max_tokens=100,
+        messages=[{"role": "user", "content":
+            f"Reescreva a pergunta como {n} queries de busca, uma por linha, sem numerar:\n{pergunta}"}])
+    return [l.strip("-• ") for l in r.choices[0].message.content.splitlines() if l.strip()]
+
+pergunta = "como paro de pagar?"
+queries = [pergunta] + fan_out(pergunta)          # original + variacoes
+
+# 2. Executa a busca para CADA query e une os resultados (dedupe por indice)
+uniao = {}
+for q in queries:
+    ids = buscar(q)
+    for i in ids:
+        uniao[i] = BASE[i]
+    print(f"🔎 {q[:42]:42} -> {ids}")
+
+print("\n📚 Uniao (recall maior que uma query so):")
+for i, texto in uniao.items():
+    print(f"  [{i}] {texto}")</code></pre>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
