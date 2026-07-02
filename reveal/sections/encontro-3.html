@@ -1252,26 +1252,26 @@ print(resp.choices[0].message.content)</code></pre>
 
 <section data-background-gradient="linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)">
 <h1>Padrão 3 · Hierarchical Summarization</h1>
-<p class="text-sm">Para corpora gigantes (livros, repositórios, milhares de tickets):</p>
-
+<p class="text-sm">Quando o corpus é <b>grande demais para caber no context window</b> (um livro, um repositório inteiro, milhares de tickets), não dá para "jogar tudo no prompt". A ideia é <b>resumir em níveis</b>: comprimir muitos chunks em poucos sumários, e esses em um sumário ainda menor, até caber.</p>
 <div class="flow-diagram mt-2">
-  <div class="flow-node node-cyan">Chunks</div>
+  <div class="flow-node node-cyan">Chunks<br><span style="font-size:0.7em;">milhares</span></div>
   <div class="flow-arrow">→</div>
-  <div class="flow-node node-green">Sumário lvl 1</div>
+  <div class="flow-node node-green">Sumário lvl 1<br><span style="font-size:0.7em;">1 por seção</span></div>
   <div class="flow-arrow">→</div>
-  <div class="flow-node node-amber">Sumário lvl 2</div>
+  <div class="flow-node node-amber">Sumário lvl 2<br><span style="font-size:0.7em;">1 por documento</span></div>
   <div class="flow-arrow">→</div>
-  <div class="flow-node node-purple">Resposta final<br>citando origens</div>
+  <div class="flow-node node-purple">Resposta final<br><span style="font-size:0.7em;">citando origens</span></div>
 </div>
-<div class="mt-3 text-sm">
-Cada nível mantém <b>ponteiros</b> para o nível anterior — assim a resposta final ainda pode citar chunks específicos.<br>
-Usado em: <b>Claude Projects</b>, <b>NotebookLM</b>, <b>Cursor codebase indexing</b>.
+<div class="grid-2 mt-2 text-xs">
+  <div class="card card-cyan"><b>🧱 Exemplo concreto (repositório)</b><br><b>lvl 0:</b> cada arquivo vira chunks. <b>lvl 1:</b> "este arquivo faz autenticação JWT". <b>lvl 2:</b> "este módulo cuida de login e sessão". A pergunta "onde valido o token?" desce do lvl 2 → lvl 1 → chunk exato.</div>
+  <div class="card card-green"><b>🔗 Ponteiros preservam a origem</b><br>Cada sumário guarda o <b>id do nível anterior</b> que o gerou. Assim a resposta final não cita "o resumo", e sim o <b>chunk original</b> (arquivo, linha, cláusula) — mantendo grounding auditável mesmo após 2 níveis de compressão.</div>
 </div>
+<div class="card card-amber mt-2 text-xs">🏭 Usado em produção: <b>Claude Projects</b> e <b>NotebookLM</b> (resumo de dezenas de docs), <b>Cursor codebase indexing</b> (mapa hierárquico do repo). 🎯 Escolha o nível pela pergunta: visão global → lvl 2; detalhe pontual → desça até o chunk.</div>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #064e3b 100%)">
 <h1>Synthesis na prática · Map-Reduce (E2E)</h1>
-<pre style="font-size:0.5em; line-height:1.24; margin:0;"><code class="language-python"># 📋 Colab: !pip install -q openai
+<pre style="font-size:0.46em; line-height:1.2; margin:0;"><code class="language-python"># 📋 Colab: !pip install -q openai
 from openai import OpenAI
 from google.colab import userdata
 client = OpenAI(base_url="https://router.huggingface.co/v1", api_key=userdata.get("HF_TOKEN"))
@@ -1285,13 +1285,20 @@ docs = [
    "Nota interna: parte do aumento veio de fornecedores sazonais.",
 ]
 # MAP: extrai o essencial de cada doc (barato, paralelizável)
-mapa = [llm(f"Extraia em 1 frase o dado central:\n{d}", 50) for d in docs]
-print("MAP:", *mapa, sep="\n  • ")
-# REDUCE: combina, resolve conflito e cita [doc_x]
-ctx = "\n".join(f"[doc_{i+1}] {m}" for i, m in enumerate(mapa))
-print("\nREDUCE:\n", llm("Sintetize citando [doc_x]. Se houver conflito, mostre as duas "
-                        f"visões e a causa provável.\n{ctx}\n\nPergunta: Como evoluiu a rotatividade?"))</code></pre>
-<div class="card card-amber mt-1 text-xs" style="padding:0.35rem 0.6rem;">⚠️ O antigo <code>load_summarize_chain</code> / <code>create_retrieval_chain</code> saiu do LangChain 1.x. O padrão atual é <b>montar map/reduce na mão</b> — o que também deixa cada passo transparente.</div>
+mapa = []
+for i, d in enumerate(docs, 1):
+   frase = llm(f"Extraia em 1 frase o dado central:\n{d}", 50)
+   mapa.append(frase)
+   print(f"[MAP doc_{i}] {frase}")                      # 👀 log por documento
+
+# REDUCE: junta os sumários e sintetiza citando [doc_x]
+ctx = "\n".join(f"[doc_{i}] {m}" for i, m in enumerate(mapa, 1))
+print(f"\n[CONTEXTO montado — {len(ctx)} chars]\n{ctx}")   # 👀 log do contexto crescendo
+final = llm("Sintetize citando [doc_x]. Se houver conflito, mostre as duas "
+            f"visões e a causa provável.\n{ctx}\n\nPergunta: Como evoluiu a rotatividade?")
+print(f"\n[REDUCE — resposta final]\n{final}")           # 👀 log da síntese</code></pre>
+<div class="card card-green mt-1 text-xs" style="padding:0.3rem 0.6rem;">🖥️ <b>Saída no console (didática):</b> <code>[MAP doc_1] ... [MAP doc_2] ... [CONTEXTO montado — 118 chars] ... [REDUCE] "A rotatividade subiu de 30% [doc_1] para 40% [doc_2], em parte por fornecedores sazonais [doc_3]."</code></div>
+<div class="card card-amber mt-1 text-xs" style="padding:0.3rem 0.6rem;">⚠️ O antigo <code>load_summarize_chain</code> / <code>create_retrieval_chain</code> saiu do LangChain 1.x. O padrão atual é <b>montar map/reduce na mão</b> — o que também deixa cada passo transparente.</div>
 <table class="mt-1 text-xs">
 <thead><tr><th>Chain type</th><th>Quando usar</th><th>Pro</th><th>Contra</th></tr></thead>
 <tbody>
@@ -1356,19 +1363,38 @@ print(agente_rag("Como cancelo minha assinatura?"))</code></pre>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #111827 0%, #7c2d12 100%)">
-<h1>Memória em camadas: mesa, armário e arquivo</h1>
-
+<h1>Memória em camadas: mesa, armário e biblioteca</h1>
+<p class="text-sm">Um agente não tem "uma memória só". Ele tem <b>camadas</b> com custos e durações diferentes — como um trabalhador que tem a <b>mesa</b> à frente, um <b>armário</b> ao lado e uma <b>biblioteca</b> no prédio.</p>
 <div class="flow-diagram mt-2">
   <div class="flow-node node-purple">Usuário / tarefa</div><div class="flow-arrow">→</div>
   <div class="flow-node node-cyan">Working memory<br>context window</div><div class="flow-arrow">↔</div>
   <div class="flow-node node-green">Long-term memory</div><div class="flow-arrow">↔</div>
   <div class="flow-node node-amber">Políticas<br>salvar / esquecer</div>
 </div>
-<div class="grid-3 mt-3 text-sm">
-  <div class="card card-cyan"><b>Mesa</b><br>contexto ativo: caro, limitado, útil agora.</div>
-  <div class="card card-green"><b>Armário</b><br>memória persistente: recuperável entre sessões.</div>
-  <div class="card card-purple"><b>Biblioteca</b><br>RAG: conhecimento externo com evidências.</div>
+<div class="grid-3 mt-2 text-xs">
+  <div class="card card-cyan"><b>🪑 Mesa = Working memory</b><br>O <b>context window</b>: o que está ativo <b>agora</b>. Rápido de usar, mas <b>caro e limitado</b> (poucos milhares de tokens) e some ao fim da sessão. Só cabe o essencial do momento.</div>
+  <div class="card card-green"><b>🗄️ Armário = Long-term memory</b><br>Memória <b>persistente do agente</b> sobre este usuário/projeto: fica salva entre sessões e é <b>recuperada quando relevante</b>. É o que faz o agente "lembrar de você" amanhã.</div>
+  <div class="card card-purple"><b>📚 Biblioteca = RAG</b><br>Conhecimento <b>externo</b> (documentos da empresa, manuais) que não é "sobre você", mas é buscado sob demanda <b>com evidências/citação</b>. Grande, compartilhado, versionado.</div>
 </div>
+<div class="card card-amber mt-2 text-xs">🔄 As <b>políticas</b> decidem o fluxo entre camadas: o que <b>promover</b> da mesa para o armário (salvar), o que <b>trazer</b> do armário/biblioteca para a mesa (recuperar) e o que <b>esquecer</b>. Sem política, a mesa entope ou o agente esquece o que importa.</div>
+</section>
+
+<section data-background-gradient="linear-gradient(135deg, #1e1b4b 0%, #4c1d95 100%)">
+<h1>Camadas × tipos: onde mora ≠ o que é</h1>
+<p class="text-sm">Duas classificações diferentes que confundem porque falam de coisas distintas:</p>
+<div class="grid-2 mt-2 text-sm">
+  <div class="card card-cyan"><b>🏠 Camadas (mesa/armário/biblioteca)</b><br>Respondem <b>ONDE</b> a informação vive e <b>por quanto tempo/custo</b>: working memory, long-term, RAG externo. É uma dimensão de <b>infraestrutura</b>.</div>
+  <div class="card card-green"><b>🏷️ Tipos (episódica/semântica/procedural)</b><br>Respondem <b>QUE tipo de conteúdo</b> é guardado: um evento, um fato estável, um procedimento. É uma dimensão de <b>conteúdo</b>.</div>
+</div>
+<div class="card card-amber mt-2 text-xs"><b>🔗 A relação:</b> qualquer <b>tipo</b> pode ser guardado no <b>armário</b> (long-term) e trazido para a <b>mesa</b> quando útil. Exemplos concretos:</div>
+<table class="mt-1 text-xs">
+<thead><tr><th>Tipo de conteúdo</th><th>Exemplo (assistente acadêmico)</th><th>Onde costuma morar</th></tr></thead>
+<tbody>
+<tr><td><b>📖 Episódica</b></td><td>"na aula passada o grupo decidiu usar Qdrant"</td><td>Armário → puxada para a Mesa ao retomar o projeto</td></tr>
+<tr><td><b>🧠 Semântica</b></td><td>"o aluno prefere Python e PT-BR"</td><td>Armário (estável) → injetada na Mesa em toda sessão</td></tr>
+<tr><td><b>⚙️ Procedural</b></td><td>"para deploy: build, versão, commit, push"</td><td>Armário/skill → carregada na Mesa ao executar a tarefa</td></tr>
+</tbody>
+</table>
 </section>
 
 <section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #312e81 100%)">
