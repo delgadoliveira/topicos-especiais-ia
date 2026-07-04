@@ -1,0 +1,289 @@
+{
+  "type": "excalidraw",
+  "version": 2,
+  "source": "claude",
+  "elements": [
+    {
+      "type": "text",
+      "id": "title",
+      "x": 250,
+      "y": 10,
+      "width": 760,
+      "height": 45,
+      "text": "Arquitetura do Portal Multi-Agente",
+      "fontSize": 28,
+      "fontFamily": 1,
+      "strokeColor": "#000000",
+      "textAlign": "center",
+      "verticalAlign": "top"
+    },
+
+    {
+      "type": "rectangle",
+      "id": "users",
+      "x": 490, "y": 80, "width": 220, "height": 64,
+      "strokeColor": "#1864ab", "backgroundColor": "#a5d8ff",
+      "fillStyle": "solid", "strokeWidth": 2, "roundness": { "type": 3 },
+      "boundElements": [{ "type": "text", "id": "users_t" }]
+    },
+    {
+      "type": "text", "id": "users_t", "containerId": "users",
+      "x": 500, "y": 100, "width": 200, "height": 25,
+      "text": "👥 Usuários", "fontSize": 18, "fontFamily": 1,
+      "strokeColor": "#000000", "textAlign": "center", "verticalAlign": "middle"
+    },
+
+    {
+      "type": "rectangle",
+      "id": "portal",
+      "x": 430, "y": 190, "width": 340, "height": 84,
+      "strokeColor": "#0c8599", "backgroundColor": "#99e9f2",
+      "fillStyle": "solid", "strokeWidth": 2, "roundness": { "type": 3 },
+      "boundElements": [{ "type": "text", "id": "portal_t" }]
+    },
+    {
+      "type": "text", "id": "portal_t", "containerId": "portal",
+      "x": 440, "y": 210, "width": 320, "height": 45,
+      "text": "🖥️ Portal (Gradio · app.py)\nUI de chat única",
+      "fontSize": 16, "fontFamily": 1,
+      "strokeColor": "#000000", "textAlign": "center", "verticalAlign": "middle"
+    },
+
+    {
+      "type": "rectangle",
+      "id": "registry",
+      "x": 440, "y": 320, "width": 320, "height": 72,
+      "strokeColor": "#862e9c", "backgroundColor": "#f3d9fa",
+      "fillStyle": "solid", "strokeWidth": 2, "roundness": { "type": 3 },
+      "boundElements": [{ "type": "text", "id": "registry_t" }]
+    },
+    {
+      "type": "text", "id": "registry_t", "containerId": "registry",
+      "x": 450, "y": 336, "width": 300, "height": 40,
+      "text": "🔌 registry.discover()\nvarre agents/*.py",
+      "fontSize": 16, "fontFamily": 1,
+      "strokeColor": "#000000", "textAlign": "center", "verticalAlign": "middle"
+    },
+
+    {
+      "type": "rectangle",
+      "id": "contract",
+      "x": 800, "y": 320, "width": 330, "height": 72,
+      "strokeColor": "#e67700", "backgroundColor": "#fff3bf",
+      "fillStyle": "solid", "strokeWidth": 2, "roundness": { "type": 3 },
+      "boundElements": [{ "type": "text", "id": "contract_t" }]
+    },
+    {
+      "type": "text", "id": "contract_t", "containerId": "contract",
+      "x": 810, "y": 336, "width": 310, "height": 40,
+      "text": "📦 Contrato: AgentResult\nanswer · steps · citations · error",
+      "fontSize": 14, "fontFamily": 1,
+      "strokeColor": "#000000", "textAlign": "center", "verticalAlign": "middle"
+    },
+
+    {
+      "type": "rectangle",
+      "id": "agentA",
+      "x": 90, "y": 440, "width": 280, "height": 120,
+      "strokeColor": "#2f9e44", "backgroundColor": "#b2f2bb",
+      "fillStyle": "solid", "strokeWidth": 2, "roundness": { "type": 3 },
+      "boundElements": [{ "type": "text", "id": "agentA_t" }]
+    },
+    {
+      "type": "text", "id": "agentA_t", "containerId": "agentA",
+      "x": 100, "y": 465, "width": 260, "height": 70,
+      "text": "🧑 Agente do Aluno A\nslug: resumidor\nrun(message, history)",
+      "fontSize": 15, "fontFamily": 1,
+      "strokeColor": "#000000", "textAlign": "center", "verticalAlign": "middle"
+    },
+    {
+      "type": "rectangle",
+      "id": "agentB",
+      "x": 460, "y": 440, "width": 280, "height": 120,
+      "strokeColor": "#2f9e44", "backgroundColor": "#b2f2bb",
+      "fillStyle": "solid", "strokeWidth": 2, "roundness": { "type": 3 },
+      "boundElements": [{ "type": "text", "id": "agentB_t" }]
+    },
+    {
+      "type": "text", "id": "agentB_t", "containerId": "agentB",
+      "x": 470, "y": 465, "width": 260, "height": 70,
+      "text": "🧑 Agente do Aluno B\nslug: tutor-sql\nrun(message, history)",
+      "fontSize": 15, "fontFamily": 1,
+      "strokeColor": "#000000", "textAlign": "center", "verticalAlign": "middle"
+    },
+    {
+      "type": "rectangle",
+      "id": "agentC",
+      "x": 830, "y": 440, "width": 280, "height": 120,
+      "strokeColor": "#2f9e44", "backgroundColor": "#b2f2bb",
+      "fillStyle": "solid", "strokeWidth": 2, "roundness": { "type": 3 },
+      "boundElements": [{ "type": "text", "id": "agentC_t" }]
+    },
+    {
+      "type": "text", "id": "agentC_t", "containerId": "agentC",
+      "x": 840, "y": 465, "width": 260, "height": 70,
+      "text": "🧑 Agente do Aluno C\nslug: explicador\nrun(message, history)",
+      "fontSize": 15, "fontFamily": 1,
+      "strokeColor": "#000000", "textAlign": "center", "verticalAlign": "middle"
+    },
+
+    {
+      "type": "rectangle",
+      "id": "infra_box",
+      "x": 90, "y": 630, "width": 680, "height": 175,
+      "strokeColor": "#495057", "backgroundColor": "transparent",
+      "fillStyle": "solid", "strokeWidth": 2, "roundness": { "type": 3 }
+    },
+    {
+      "type": "text", "id": "infra_label",
+      "x": 110, "y": 640, "width": 640, "height": 28,
+      "text": "🧰 Infra comum do portal — você NÃO reescreve",
+      "fontSize": 16, "fontFamily": 1,
+      "strokeColor": "#000000", "textAlign": "left", "verticalAlign": "top"
+    },
+    {
+      "type": "rectangle",
+      "id": "runner",
+      "x": 110, "y": 685, "width": 200, "height": 100,
+      "strokeColor": "#e67700", "backgroundColor": "#fff3bf",
+      "fillStyle": "solid", "strokeWidth": 2, "roundness": { "type": 3 },
+      "boundElements": [{ "type": "text", "id": "runner_t" }]
+    },
+    {
+      "type": "text", "id": "runner_t", "containerId": "runner",
+      "x": 120, "y": 710, "width": 180, "height": 50,
+      "text": "runner.safe_run()\nerro + latência",
+      "fontSize": 14, "fontFamily": 1,
+      "strokeColor": "#000000", "textAlign": "center", "verticalAlign": "middle"
+    },
+    {
+      "type": "rectangle",
+      "id": "llm",
+      "x": 330, "y": 685, "width": 200, "height": 100,
+      "strokeColor": "#e67700", "backgroundColor": "#fff3bf",
+      "fillStyle": "solid", "strokeWidth": 2, "roundness": { "type": 3 },
+      "boundElements": [{ "type": "text", "id": "llm_t" }]
+    },
+    {
+      "type": "text", "id": "llm_t", "containerId": "llm",
+      "x": 340, "y": 710, "width": 180, "height": 50,
+      "text": "llm.chat()\ntoken · retry · MOCK",
+      "fontSize": 14, "fontFamily": 1,
+      "strokeColor": "#000000", "textAlign": "center", "verticalAlign": "middle"
+    },
+    {
+      "type": "rectangle",
+      "id": "obs",
+      "x": 550, "y": 685, "width": 200, "height": 100,
+      "strokeColor": "#495057", "backgroundColor": "#dee2e6",
+      "fillStyle": "solid", "strokeWidth": 2, "roundness": { "type": 3 },
+      "boundElements": [{ "type": "text", "id": "obs_t" }]
+    },
+    {
+      "type": "text", "id": "obs_t", "containerId": "obs",
+      "x": 560, "y": 710, "width": 180, "height": 50,
+      "text": "observability\nlogs JSONL",
+      "fontSize": 14, "fontFamily": 1,
+      "strokeColor": "#000000", "textAlign": "center", "verticalAlign": "middle"
+    },
+
+    {
+      "type": "rectangle",
+      "id": "hf",
+      "x": 850, "y": 690, "width": 250, "height": 95,
+      "strokeColor": "#2f9e44", "backgroundColor": "#b2f2bb",
+      "fillStyle": "solid", "strokeWidth": 2, "roundness": { "type": 3 },
+      "boundElements": [{ "type": "text", "id": "hf_t" }]
+    },
+    {
+      "type": "text", "id": "hf_t", "containerId": "hf",
+      "x": 860, "y": 712, "width": 230, "height": 50,
+      "text": "🤗 HF Router (grátis)\nQwen2.5-7B-Instruct",
+      "fontSize": 14, "fontFamily": 1,
+      "strokeColor": "#000000", "textAlign": "center", "verticalAlign": "middle"
+    },
+
+    {
+      "type": "arrow", "id": "a_users_portal",
+      "x": 600, "y": 144, "width": 0, "height": 46,
+      "strokeColor": "#495057", "strokeWidth": 2,
+      "points": [[0, 0], [0, 46]],
+      "startBinding": { "elementId": "users", "focus": 0, "gap": 1 },
+      "endBinding": { "elementId": "portal", "focus": 0, "gap": 1 },
+      "endArrowhead": "arrow"
+    },
+    {
+      "type": "arrow", "id": "a_portal_registry",
+      "x": 600, "y": 274, "width": 0, "height": 46,
+      "strokeColor": "#495057", "strokeWidth": 2,
+      "points": [[0, 0], [0, 46]],
+      "startBinding": { "elementId": "portal", "focus": 0, "gap": 1 },
+      "endBinding": { "elementId": "registry", "focus": 0, "gap": 1 },
+      "endArrowhead": "arrow"
+    },
+    {
+      "type": "arrow", "id": "a_reg_a",
+      "x": 500, "y": 390, "width": 270, "height": 50,
+      "strokeColor": "#862e9c", "strokeWidth": 2,
+      "points": [[0, 0], [-270, 50]],
+      "startBinding": { "elementId": "registry", "focus": 0, "gap": 1 },
+      "endBinding": { "elementId": "agentA", "focus": 0, "gap": 1 },
+      "endArrowhead": "arrow"
+    },
+    {
+      "type": "arrow", "id": "a_reg_b",
+      "x": 600, "y": 390, "width": 0, "height": 50,
+      "strokeColor": "#862e9c", "strokeWidth": 2,
+      "points": [[0, 0], [0, 50]],
+      "startBinding": { "elementId": "registry", "focus": 0, "gap": 1 },
+      "endBinding": { "elementId": "agentB", "focus": 0, "gap": 1 },
+      "endArrowhead": "arrow"
+    },
+    {
+      "type": "arrow", "id": "a_reg_c",
+      "x": 700, "y": 390, "width": 270, "height": 50,
+      "strokeColor": "#862e9c", "strokeWidth": 2,
+      "points": [[0, 0], [270, 50]],
+      "startBinding": { "elementId": "registry", "focus": 0, "gap": 1 },
+      "endBinding": { "elementId": "agentC", "focus": 0, "gap": 1 },
+      "endArrowhead": "arrow"
+    },
+    {
+      "type": "arrow", "id": "a_a_runner",
+      "x": 210, "y": 560, "width": 0, "height": 125,
+      "strokeColor": "#2f9e44", "strokeWidth": 2,
+      "points": [[0, 0], [0, 125]],
+      "startBinding": { "elementId": "agentA", "focus": 0, "gap": 1 },
+      "endBinding": { "elementId": "runner", "focus": 0, "gap": 1 },
+      "endArrowhead": "arrow"
+    },
+    {
+      "type": "arrow", "id": "a_b_llm",
+      "x": 600, "y": 560, "width": 170, "height": 125,
+      "strokeColor": "#2f9e44", "strokeWidth": 2,
+      "points": [[0, 0], [-170, 125]],
+      "startBinding": { "elementId": "agentB", "focus": 0, "gap": 1 },
+      "endBinding": { "elementId": "llm", "focus": 0, "gap": 1 },
+      "endArrowhead": "arrow"
+    },
+    {
+      "type": "arrow", "id": "a_c_obs",
+      "x": 970, "y": 560, "width": 320, "height": 125,
+      "strokeColor": "#2f9e44", "strokeWidth": 2,
+      "points": [[0, 0], [-320, 125]],
+      "startBinding": { "elementId": "agentC", "focus": 0, "gap": 1 },
+      "endBinding": { "elementId": "obs", "focus": 0, "gap": 1 },
+      "endArrowhead": "arrow"
+    },
+    {
+      "type": "arrow", "id": "a_llm_hf",
+      "x": 530, "y": 735, "width": 320, "height": 0,
+      "strokeColor": "#e67700", "strokeWidth": 2,
+      "points": [[0, 0], [320, 0]],
+      "startBinding": { "elementId": "llm", "focus": 0, "gap": 1 },
+      "endBinding": { "elementId": "hf", "focus": 0, "gap": 1 },
+      "endArrowhead": "arrow"
+    }
+  ],
+  "appState": { "viewBackgroundColor": "#ffffff" }
+}

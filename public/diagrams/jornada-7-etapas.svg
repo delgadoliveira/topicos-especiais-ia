@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2396" height="1462" viewBox="-4 -14 1198 731">
+<rect x="-4" y="-14" width="1198" height="731" fill="#ffffff"/>
+<text x="630" y="35.2" font-family="'Segoe Print','Segoe UI','Segoe UI Emoji',sans-serif" font-size="28" fill="#000000" text-anchor="middle" xml:space="preserve">A Jornada em 7 Etapas — do zero ao deploy</text>
+<rect x="20" y="110" width="1150" height="220" rx="24" ry="24" fill="none" stroke="#2f9e44" stroke-width="2"/>
+<text x="40" y="136.2" font-family="'Segoe Print','Segoe UI','Segoe UI Emoji',sans-serif" font-size="18" fill="#000000" text-anchor="start" xml:space="preserve">🛠️ ENCONTRO 5 · CONSTRUIR</text>
+<rect x="40" y="165" width="250" height="130" rx="23.4" ry="23.4" fill="#b2f2bb" stroke="#2f9e44" stroke-width="2"/>
+<text x="165" y="223.12" font-family="'Segoe Print','Segoe UI','Segoe UI Emoji',sans-serif" font-size="16" fill="#000000" text-anchor="middle" xml:space="preserve">① Idear &amp; escopar</text><text x="165" y="243.12" font-family="'Segoe Print','Segoe UI','Segoe UI Emoji',sans-serif" font-size="16" fill="#000000" text-anchor="middle" xml:space="preserve">→ frase de escopo</text>
+<rect x="330" y="165" width="250" height="130" rx="23.4" ry="23.4" fill="#b2f2bb" stroke="#2f9e44" stroke-width="2"/>
+<text x="455" y="223.12" font-family="'Segoe Print','Segoe UI','Segoe UI Emoji',sans-serif" font-size="16" fill="#000000" text-anchor="middle" xml:space="preserve">② Configurar ambiente</text><text x="455" y="243.12" font-family="'Segoe Print','Segoe UI','Segoe UI Emoji',sans-serif" font-size="16" fill="#000000" text-anchor="middle" xml:space="preserve">→ portal abre no navegador</text>
+<rect x="620" y="165" width="250" height="130" rx="23.4" ry="23.4" fill="#b2f2bb" stroke="#2f9e44" stroke-width="2"/>
+<text x="745" y="223.12" font-family="'Segoe Print','Segoe UI','Segoe UI Emoji',sans-serif" font-size="16" fill="#000000" text-anchor="middle" xml:space="preserve">③ Implementar agente</text><text x="745" y="243.12" font-family="'Segoe Print','Segoe UI','Segoe UI Emoji',sans-serif" font-size="16" fill="#000000" text-anchor="middle" xml:space="preserve">→ agents/&lt;slug&gt;.py</text>
+<rect x="910" y="165" width="250" height="130" rx="23.4" ry="23.4" fill="#b2f2bb" stroke="#2f9e44" stroke-width="2"/>
+<text x="1035" y="223.12" font-family="'Segoe Print','Segoe UI','Segoe UI Emoji',sans-serif" font-size="16" fill="#000000" text-anchor="middle" xml:space="preserve">④ Validar &amp; rodar local</text><text x="1035" y="243.12" font-family="'Segoe Print','Segoe UI','Segoe UI Emoji',sans-serif" font-size="16" fill="#000000" text-anchor="middle" xml:space="preserve">→ agente responde no portal</text>
+<rect x="20" y="420" width="1150" height="220" rx="24" ry="24" fill="none" stroke="#1864ab" stroke-width="2"/>
+<text x="40" y="446.2" font-family="'Segoe Print','Segoe UI','Segoe UI Emoji',sans-serif" font-size="18" fill="#000000" text-anchor="start" xml:space="preserve">🚀 ENCONTRO 6 · PUBLICAR</text>
+<rect x="185" y="475" width="250" height="130" rx="23.4" ry="23.4" fill="#a5d8ff" stroke="#1864ab" stroke-width="2"/>
+<text x="310" y="533.12" font-family="'Segoe Print','Segoe UI','Segoe UI Emoji',sans-serif" font-size="16" fill="#000000" text-anchor="middle" xml:space="preserve">⑤ Avaliar (3 casos)</text><text x="310" y="553.12" font-family="'Segoe Print','Segoe UI','Segoe UI Emoji',sans-serif" font-size="16" fill="#000000" text-anchor="middle" xml:space="preserve">→ scorecard passando</text>
+<rect x="475" y="475" width="250" height="130" rx="23.4" ry="23.4" fill="#a5d8ff" stroke="#1864ab" stroke-width="2"/>
+<text x="600" y="533.12" font-family="'Segoe Print','Segoe UI','Segoe UI Emoji',sans-serif" font-size="16" fill="#000000" text-anchor="middle" xml:space="preserve">⑥ Endurecer</text><text x="600" y="553.12" font-family="'Segoe Print','Segoe UI','Segoe UI Emoji',sans-serif" font-size="16" fill="#000000" text-anchor="middle" xml:space="preserve">→ guardrail + logs</text>
+<rect x="765" y="475" width="250" height="130" rx="23.4" ry="23.4" fill="#a5d8ff" stroke="#1864ab" stroke-width="2"/>
+<text x="890" y="533.12" font-family="'Segoe Print','Segoe UI','Segoe UI Emoji',sans-serif" font-size="16" fill="#000000" text-anchor="middle" xml:space="preserve">⑦ Publicar &amp; demo</text><text x="890" y="553.12" font-family="'Segoe Print','Segoe UI','Segoe UI Emoji',sans-serif" font-size="16" fill="#000000" text-anchor="middle" xml:space="preserve">→ URL pública</text>
+<polyline points="290,230 330,230" fill="none" stroke="#2f9e44" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="317.39374056706254,236.08951747755722 330,230 317.39374056706254,223.91048252244278" fill="none" stroke="#2f9e44" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="580,230 620,230" fill="none" stroke="#2f9e44" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="607.3937405670625,236.08951747755722 620,230 607.3937405670625,223.91048252244278" fill="none" stroke="#2f9e44" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="870,230 910,230" fill="none" stroke="#2f9e44" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="897.3937405670625,236.08951747755722 910,230 897.3937405670625,223.91048252244278" fill="none" stroke="#2f9e44" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="1035,295 310,475" fill="none" stroke="#495057" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="322.30569459451334,464.7740584518312 310,475 325.65959761740226,478.2828345162449" fill="none" stroke="#495057" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="720" y="363.5" font-family="'Segoe Print','Segoe UI','Segoe UI Emoji',sans-serif" font-size="15" fill="#000000" text-anchor="middle" xml:space="preserve">fim do E5 → início do E6</text>
+<polyline points="435,540 475,540" fill="none" stroke="#1864ab" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="462.39374056706254,546.0895174775573 475,540 462.39374056706254,533.9104825224427" fill="none" stroke="#1864ab" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="725,540 765,540" fill="none" stroke="#1864ab" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="752.3937405670625,546.0895174775573 765,540 752.3937405670625,533.9104825224427" fill="none" stroke="#1864ab" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="630" y="678.5" font-family="'Segoe Print','Segoe UI','Segoe UI Emoji',sans-serif" font-size="15" fill="#000000" text-anchor="middle" xml:space="preserve">Recurso comum: template projeto-portal/ + modelo aberto gratuito · Custo: R$ 0</text>
+</svg>

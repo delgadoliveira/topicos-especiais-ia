@@ -1,0 +1,219 @@
+{
+  "type": "excalidraw",
+  "version": 2,
+  "source": "claude",
+  "elements": [
+    {
+      "type": "text",
+      "id": "title",
+      "x": 230,
+      "y": 10,
+      "width": 800,
+      "height": 45,
+      "text": "A Jornada em 7 Etapas — do zero ao deploy",
+      "fontSize": 28,
+      "fontFamily": 1,
+      "strokeColor": "#000000",
+      "textAlign": "center",
+      "verticalAlign": "top"
+    },
+
+    {
+      "type": "rectangle", "id": "e5_box",
+      "x": 20, "y": 110, "width": 1150, "height": 220,
+      "strokeColor": "#2f9e44", "backgroundColor": "transparent",
+      "fillStyle": "solid", "strokeWidth": 2, "roundness": { "type": 3 }
+    },
+    {
+      "type": "text", "id": "e5_label",
+      "x": 40, "y": 120, "width": 500, "height": 28,
+      "text": "🛠️ ENCONTRO 5 · CONSTRUIR",
+      "fontSize": 18, "fontFamily": 1,
+      "strokeColor": "#000000", "textAlign": "left", "verticalAlign": "top"
+    },
+
+    {
+      "type": "rectangle", "id": "s1",
+      "x": 40, "y": 165, "width": 250, "height": 130,
+      "strokeColor": "#2f9e44", "backgroundColor": "#b2f2bb",
+      "fillStyle": "solid", "strokeWidth": 2, "roundness": { "type": 3 },
+      "boundElements": [{ "type": "text", "id": "s1_t" }]
+    },
+    {
+      "type": "text", "id": "s1_t", "containerId": "s1",
+      "x": 50, "y": 200, "width": 230, "height": 60,
+      "text": "① Idear & escopar\n→ frase de escopo",
+      "fontSize": 16, "fontFamily": 1,
+      "strokeColor": "#000000", "textAlign": "center", "verticalAlign": "middle"
+    },
+    {
+      "type": "rectangle", "id": "s2",
+      "x": 330, "y": 165, "width": 250, "height": 130,
+      "strokeColor": "#2f9e44", "backgroundColor": "#b2f2bb",
+      "fillStyle": "solid", "strokeWidth": 2, "roundness": { "type": 3 },
+      "boundElements": [{ "type": "text", "id": "s2_t" }]
+    },
+    {
+      "type": "text", "id": "s2_t", "containerId": "s2",
+      "x": 340, "y": 200, "width": 230, "height": 60,
+      "text": "② Configurar ambiente\n→ portal abre no navegador",
+      "fontSize": 16, "fontFamily": 1,
+      "strokeColor": "#000000", "textAlign": "center", "verticalAlign": "middle"
+    },
+    {
+      "type": "rectangle", "id": "s3",
+      "x": 620, "y": 165, "width": 250, "height": 130,
+      "strokeColor": "#2f9e44", "backgroundColor": "#b2f2bb",
+      "fillStyle": "solid", "strokeWidth": 2, "roundness": { "type": 3 },
+      "boundElements": [{ "type": "text", "id": "s3_t" }]
+    },
+    {
+      "type": "text", "id": "s3_t", "containerId": "s3",
+      "x": 630, "y": 200, "width": 230, "height": 60,
+      "text": "③ Implementar agente\n→ agents/<slug>.py",
+      "fontSize": 16, "fontFamily": 1,
+      "strokeColor": "#000000", "textAlign": "center", "verticalAlign": "middle"
+    },
+    {
+      "type": "rectangle", "id": "s4",
+      "x": 910, "y": 165, "width": 250, "height": 130,
+      "strokeColor": "#2f9e44", "backgroundColor": "#b2f2bb",
+      "fillStyle": "solid", "strokeWidth": 2, "roundness": { "type": 3 },
+      "boundElements": [{ "type": "text", "id": "s4_t" }]
+    },
+    {
+      "type": "text", "id": "s4_t", "containerId": "s4",
+      "x": 920, "y": 200, "width": 230, "height": 60,
+      "text": "④ Validar & rodar local\n→ agente responde no portal",
+      "fontSize": 16, "fontFamily": 1,
+      "strokeColor": "#000000", "textAlign": "center", "verticalAlign": "middle"
+    },
+
+    {
+      "type": "rectangle", "id": "e6_box",
+      "x": 20, "y": 420, "width": 1150, "height": 220,
+      "strokeColor": "#1864ab", "backgroundColor": "transparent",
+      "fillStyle": "solid", "strokeWidth": 2, "roundness": { "type": 3 }
+    },
+    {
+      "type": "text", "id": "e6_label",
+      "x": 40, "y": 430, "width": 500, "height": 28,
+      "text": "🚀 ENCONTRO 6 · PUBLICAR",
+      "fontSize": 18, "fontFamily": 1,
+      "strokeColor": "#000000", "textAlign": "left", "verticalAlign": "top"
+    },
+
+    {
+      "type": "rectangle", "id": "s5",
+      "x": 185, "y": 475, "width": 250, "height": 130,
+      "strokeColor": "#1864ab", "backgroundColor": "#a5d8ff",
+      "fillStyle": "solid", "strokeWidth": 2, "roundness": { "type": 3 },
+      "boundElements": [{ "type": "text", "id": "s5_t" }]
+    },
+    {
+      "type": "text", "id": "s5_t", "containerId": "s5",
+      "x": 195, "y": 510, "width": 230, "height": 60,
+      "text": "⑤ Avaliar (3 casos)\n→ scorecard passando",
+      "fontSize": 16, "fontFamily": 1,
+      "strokeColor": "#000000", "textAlign": "center", "verticalAlign": "middle"
+    },
+    {
+      "type": "rectangle", "id": "s6",
+      "x": 475, "y": 475, "width": 250, "height": 130,
+      "strokeColor": "#1864ab", "backgroundColor": "#a5d8ff",
+      "fillStyle": "solid", "strokeWidth": 2, "roundness": { "type": 3 },
+      "boundElements": [{ "type": "text", "id": "s6_t" }]
+    },
+    {
+      "type": "text", "id": "s6_t", "containerId": "s6",
+      "x": 485, "y": 510, "width": 230, "height": 60,
+      "text": "⑥ Endurecer\n→ guardrail + logs",
+      "fontSize": 16, "fontFamily": 1,
+      "strokeColor": "#000000", "textAlign": "center", "verticalAlign": "middle"
+    },
+    {
+      "type": "rectangle", "id": "s7",
+      "x": 765, "y": 475, "width": 250, "height": 130,
+      "strokeColor": "#1864ab", "backgroundColor": "#a5d8ff",
+      "fillStyle": "solid", "strokeWidth": 2, "roundness": { "type": 3 },
+      "boundElements": [{ "type": "text", "id": "s7_t" }]
+    },
+    {
+      "type": "text", "id": "s7_t", "containerId": "s7",
+      "x": 775, "y": 510, "width": 230, "height": 60,
+      "text": "⑦ Publicar & demo\n→ URL pública",
+      "fontSize": 16, "fontFamily": 1,
+      "strokeColor": "#000000", "textAlign": "center", "verticalAlign": "middle"
+    },
+
+    {
+      "type": "arrow", "id": "a12",
+      "x": 290, "y": 230, "width": 40, "height": 0,
+      "strokeColor": "#2f9e44", "strokeWidth": 2,
+      "points": [[0, 0], [40, 0]],
+      "startBinding": { "elementId": "s1", "focus": 0, "gap": 1 },
+      "endBinding": { "elementId": "s2", "focus": 0, "gap": 1 },
+      "endArrowhead": "arrow"
+    },
+    {
+      "type": "arrow", "id": "a23",
+      "x": 580, "y": 230, "width": 40, "height": 0,
+      "strokeColor": "#2f9e44", "strokeWidth": 2,
+      "points": [[0, 0], [40, 0]],
+      "startBinding": { "elementId": "s2", "focus": 0, "gap": 1 },
+      "endBinding": { "elementId": "s3", "focus": 0, "gap": 1 },
+      "endArrowhead": "arrow"
+    },
+    {
+      "type": "arrow", "id": "a34",
+      "x": 870, "y": 230, "width": 40, "height": 0,
+      "strokeColor": "#2f9e44", "strokeWidth": 2,
+      "points": [[0, 0], [40, 0]],
+      "startBinding": { "elementId": "s3", "focus": 0, "gap": 1 },
+      "endBinding": { "elementId": "s4", "focus": 0, "gap": 1 },
+      "endArrowhead": "arrow"
+    },
+    {
+      "type": "arrow", "id": "a45",
+      "x": 1035, "y": 295, "width": 725, "height": 180,
+      "strokeColor": "#495057", "strokeWidth": 3,
+      "points": [[0, 0], [-725, 180]],
+      "startBinding": { "elementId": "s4", "focus": 0, "gap": 1 },
+      "endBinding": { "elementId": "s5", "focus": 0, "gap": 1 },
+      "endArrowhead": "arrow"
+    },
+    {
+      "type": "text", "id": "a45_label",
+      "x": 560, "y": 350, "width": 320, "height": 28,
+      "text": "fim do E5 → início do E6",
+      "fontSize": 15, "fontFamily": 1,
+      "strokeColor": "#000000", "textAlign": "center", "verticalAlign": "top"
+    },
+    {
+      "type": "arrow", "id": "a56",
+      "x": 435, "y": 540, "width": 40, "height": 0,
+      "strokeColor": "#1864ab", "strokeWidth": 2,
+      "points": [[0, 0], [40, 0]],
+      "startBinding": { "elementId": "s5", "focus": 0, "gap": 1 },
+      "endBinding": { "elementId": "s6", "focus": 0, "gap": 1 },
+      "endArrowhead": "arrow"
+    },
+    {
+      "type": "arrow", "id": "a67",
+      "x": 725, "y": 540, "width": 40, "height": 0,
+      "strokeColor": "#1864ab", "strokeWidth": 2,
+      "points": [[0, 0], [40, 0]],
+      "startBinding": { "elementId": "s6", "focus": 0, "gap": 1 },
+      "endBinding": { "elementId": "s7", "focus": 0, "gap": 1 },
+      "endArrowhead": "arrow"
+    },
+    {
+      "type": "text", "id": "footer",
+      "x": 230, "y": 665, "width": 800, "height": 28,
+      "text": "Recurso comum: template projeto-portal/ + modelo aberto gratuito · Custo: R$ 0",
+      "fontSize": 15, "fontFamily": 1,
+      "strokeColor": "#000000", "textAlign": "center", "verticalAlign": "top"
+    }
+  ],
+  "appState": { "viewBackgroundColor": "#ffffff" }
+}

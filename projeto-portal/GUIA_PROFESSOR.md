@@ -116,3 +116,59 @@ demo de 2 min ensaiada.
 - RAG com embeddings + FAISS/Chroma quando a base de conhecimento crescer.
 - Multi-agente: um agente orquestrador que chama os dos colegas.
 - Observabilidade profissional com Langfuse ou Arize Phoenix (OSS).
+
+
+---
+
+## 🗺️ Diagramas
+
+Fontes editáveis em `public/diagrams/` (abra em https://aka.ms/excalidraw):
+`portal-arquitetura.excalidraw` e `jornada-7-etapas.excalidraw`.
+Exports renderizados (`.png` e `.svg`) estão na mesma pasta.
+Abaixo, os PNGs renderizados e as versões Mermaid (renderizam direto no GitHub).
+
+### Arquitetura do Portal Multi-Agente
+
+![Arquitetura do Portal Multi-Agente](../public/diagrams/portal-arquitetura.png)
+
+```mermaid
+flowchart TD
+    U["👥 Usuários"] --> P["🖥️ Portal (Gradio · app.py)<br/>UI de chat única"]
+    P --> R["🔌 registry.discover()<br/>varre agents/*.py"]
+    R --> A["🧑 Agente Aluno A<br/>slug: resumidor<br/>run(message, history)"]
+    R --> B["🧑 Agente Aluno B<br/>slug: tutor-sql<br/>run(message, history)"]
+    R --> C["🧑 Agente Aluno C<br/>slug: explicador<br/>run(message, history)"]
+    A --> RN["runner.safe_run()<br/>erro + latência"]
+    B --> LL["llm.chat()<br/>token · retry · MOCK"]
+    C --> OB["observability<br/>logs JSONL"]
+    LL --> HF["🤗 HF Router (grátis)<br/>Qwen2.5-7B-Instruct"]
+    R -. "cada agente devolve" .-> CT["📦 Contrato: AgentResult<br/>answer · steps · citations · error"]
+
+    subgraph INFRA["🧰 Infra comum do portal — você NÃO reescreve"]
+        RN
+        LL
+        OB
+    end
+```
+
+### A jornada em 7 etapas — do zero ao deploy
+
+![A jornada em 7 etapas](../public/diagrams/jornada-7-etapas.png)
+
+```mermaid
+flowchart LR
+    subgraph E5["🛠️ ENCONTRO 5 · CONSTRUIR"]
+        direction LR
+        S1["① Idear & escopar<br/>→ frase de escopo"] --> S2["② Configurar ambiente<br/>→ portal abre"]
+        S2 --> S3["③ Implementar agente<br/>→ agents/&lt;slug&gt;.py"]
+        S3 --> S4["④ Validar & rodar local<br/>→ agente responde"]
+    end
+    subgraph E6["🚀 ENCONTRO 6 · PUBLICAR"]
+        direction LR
+        S5["⑤ Avaliar (3 casos)<br/>→ scorecard passando"] --> S6["⑥ Endurecer<br/>→ guardrail + logs"]
+        S6 --> S7["⑦ Publicar & demo<br/>→ URL pública"]
+    end
+    S4 --> S5
+```
+
+> Recurso comum a todas as etapas: o template `projeto-portal/` (já pronto) + modelo aberto gratuito. Custo total: **R$ 0**.
