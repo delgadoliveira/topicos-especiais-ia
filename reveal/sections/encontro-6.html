@@ -254,11 +254,12 @@ resultado: <span class="failed">2 de 3 casos passaram</span></pre>
   <table class="imm-table">
     <thead><tr><th>Modo</th><th>Quando usar</th><th>Vantagem</th><th>Atenção</th></tr></thead>
     <tbody>
-      <tr><td><span class="imm-pill ok">Simulador</span></td><td>Construir, praticar e testar a estrutura</td><td>Sem modelo, API, token ou internet</td><td>Não entende o prompt nem mede qualidade</td></tr>
+      <tr><td><span class="imm-pill ok">Simulador</span></td><td>Responder: “o sistema funciona?”</td><td>Resultado previsível para validar fluxo, guardrails e testes</td><td>Não entende o prompt nem mede qualidade semântica</td></tr>
       <tr><td><span class="imm-pill attention">API + Qwen</span></td><td>Validar poucas hipóteses importantes</td><td>Resposta de IA real via Hugging Face</td><td>Tem limite, rede e variação</td></tr>
       <tr><td><span class="imm-pill">Cache</span></td><td>Rever uma resposta já obtida</td><td>Economiza chamadas e permite comparar</td><td>Não é uma nova execução</td></tr>
     </tbody>
   </table>
+  <div class="imm-contract"><em>Site público + IA real exige backend.</em> O navegador nunca recebe o token; o servidor controla cota, tamanho, timeout, cache e abuso.</div>
   <div class="imm-activity"><div class="label">Se a API falhar</div><h3>Volte ao simulador, registre a limitação e continue.</h3><p>O objetivo da aula é aprender o método, não depender de uma credencial.</p></div>
   <span class="imm-page">13 / 16</span>
 </section>

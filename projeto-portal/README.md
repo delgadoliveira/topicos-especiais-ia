@@ -12,6 +12,45 @@ Tutorial completo:
 Laboratorio no navegador, sem instalacao:
 [`../public/tutorials/simulador-agente.html`](../public/tutorials/simulador-agente.html)
 
+### Para que serve o simulador
+
+O simulador separa duas perguntas que seriam dificeis de investigar ao mesmo
+tempo para quem esta comecando:
+
+1. **O sistema funciona?** Entrada, contrato, guardrails, formato, passos e
+   testes podem ser validados com uma resposta deterministica.
+2. **A resposta da IA e boa?** Interpretacao, raciocinio e qualidade semantica
+   so podem ser avaliados com o modelo real.
+
+Por isso, o simulador nao tenta imitar inteligencia. Ele torna o comportamento
+do software previsivel para que erros de codigo nao sejam confundidos com
+variacao do modelo, indisponibilidade de rede ou limite da API.
+
+### API real no laboratorio publico
+
+E tecnicamente possivel conectar a interface do navegador a uma IA real, mas o
+GitHub Pages nao pode proteger `HF_TOKEN`. A chave nunca deve aparecer no HTML,
+JavaScript, URL ou armazenamento do navegador.
+
+Uma implantacao publica segura precisaria do seguinte fluxo:
+
+```text
+navegador -> backend autenticado -> validacao e cota -> Hugging Face/Qwen
+```
+
+O backend deve aplicar, no minimo:
+
+- autenticacao ou codigo temporario da turma;
+- cota por usuario e cota global;
+- entrada de ate 4.000 caracteres e saida de ate 300 tokens;
+- timeout, cache e bloqueio de novas tentativas apos erros recorrentes;
+- moderacao, registros sem conteudo sensivel e monitoramento de custo;
+- segredo somente no servidor, nunca devolvido ao navegador.
+
+Nesta versao, o GitHub Pages permanece deterministico e sem backend. A API real
+continua disponivel no portal Python local, com `MAX_REAL_CALLS=3`, cache e
+timeout.
+
 Guia local do professor:
 [`../public/tutorials/guia-professor-imersao.html`](../public/tutorials/guia-professor-imersao.html)
 

@@ -319,7 +319,7 @@
       <div>
         <span class="eyebrow">Laboratório zero instalação</span>
         <h1>Experimente o agente antes de programar.</h1>
-        <p class="lead">Esta página reproduz no navegador o Organizador de Estudos e o simulador determinístico usado no projeto. Nada é enviado para um servidor.</p>
+        <p class="lead">Esta página reproduz no navegador o Organizador de Estudos para você observar como um agente recebe, valida, processa e devolve uma resposta. Nada é enviado para um servidor.</p>
       </div>
       <aside class="mode-card">
         <div class="status"><span class="status-dot"></span>Simulador ativo</div>
@@ -360,7 +360,10 @@
     </section>
 
     <div class="notice">
-      <strong>O que este teste comprova?</strong> Integração, guardrails, formato, observabilidade e comportamento previsível. Ele não comprova raciocínio, interpretação do prompt ou qualidade generativa.
+      <strong>Para que serve este simulador?</strong>
+      Ele permite aprender e testar a estrutura do agente sem misturar dois problemas ao mesmo tempo: fazer o sistema funcionar e avaliar a qualidade de um modelo de IA.
+      Aqui você consegue conferir entrada, guardrails, formato da saída, passos executados e tratamento de erros. Como a resposta é previsível, uma mudança no resultado aponta para uma mudança no código.
+      <strong>Ele não substitui uma IA real:</strong> não interpreta o pedido, não raciocina e não avalia se o plano de estudos é semanticamente bom.
     </div>
 
     <details>
@@ -372,9 +375,16 @@
     return "[MOCK · modo offline] Resposta simulada para: " + trecho</code></pre>
     </details>
 
+    <div class="notice">
+      <strong>Este laboratório poderia usar uma API real?</strong>
+      Sim, mas não chamando o provedor diretamente desta página. Em um site público, o token ficaria visível no navegador.
+      A arquitetura segura é: navegador → backend controlado → API do modelo. Esse backend deve validar a entrada, limitar chamadas e tamanho da resposta, aplicar timeout, reutilizar cache e nunca devolver o token ao aluno.
+      Nesta versão pública, mantemos somente o simulador para garantir acesso sem conta, custo ou coleta de dados. A comparação com Qwen é feita no portal local, em um checkpoint orientado pelo professor.
+    </div>
+
     <section class="next">
       <h2>Funcionou no navegador. Agora construa o seu.</h2>
-      <p>O laboratório mostra o produto pronto. O tutorial ensina como recriar o fluxo em Python e modificar o agente.</p>
+      <p>O laboratório mostra o fluxo pronto. No tutorial, você recria essa estrutura em Python, testa seus limites e, somente depois, pode comparar o mesmo caso com o modelo Qwen pela API.</p>
       <a href="imersao-agente-local.html#encontro5">Continuar no passo a passo →</a>
     </section>
   </main>

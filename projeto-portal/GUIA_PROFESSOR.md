@@ -22,6 +22,35 @@ um agente — escopo, construcao, teste, guardrail, observabilidade e limite.
   OpenAI-compatible do Hugging Face. Esse modo requer internet e `HF_TOKEN`.
 - "OpenAI-compatible" descreve o formato da API, nao o fornecedor do modelo.
 
+### Funcao pedagogica do simulador
+
+Apresente o simulador como um instrumento para separar duas perguntas:
+
+1. **O sistema funciona?** A resposta deterministica permite verificar entrada,
+   contrato, guardrails, formato, observabilidade e testes.
+2. **A resposta da IA e boa?** Interpretacao e qualidade semantica ficam para a
+   comparacao opcional com o modelo real.
+
+Essa separacao reduz a carga cognitiva de iniciantes e evita confundir erro de
+codigo com variacao do modelo, falha de rede ou limite do provedor. O simulador
+nao imita inteligencia e nao deve ser avaliado por criatividade.
+
+### Se a interface publica receber IA real
+
+Nao coloque `HF_TOKEN` no HTML ou JavaScript. O GitHub Pages nao executa backend
+e qualquer segredo enviado ao navegador pode ser copiado.
+
+Uma futura versao publica deve chamar um backend autenticado, responsavel por:
+
+- limitar por usuario e por turma, alem de manter uma cota global;
+- aceitar ate 4.000 caracteres e gerar no maximo 300 tokens;
+- aplicar timeout, cache, moderacao e bloqueio de abuso;
+- monitorar custo sem registrar conteudo sensivel;
+- guardar o token exclusivamente no servidor.
+
+Para a imersao atual, prefira o simulador publico para a exploracao inicial e o
+portal Python local para as ate tres chamadas reais do checkpoint coletivo.
+
 Material do aluno:
 [`../public/tutorials/imersao-agente-local.html`](../public/tutorials/imersao-agente-local.html)
 

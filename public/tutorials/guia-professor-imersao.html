@@ -211,9 +211,17 @@
           <p><strong>Offline:</strong> nenhum modelo de IA. Uma funcao Python previsivel simula a resposta para validar fluxo, formato, guardrails e testes.</p>
           <p><strong>API opcional:</strong> <code>Qwen/Qwen2.5-7B-Instruct</code> roda no Hugging Face e exige internet e <code>HF_TOKEN</code>.</p>
         </article>
+        <article class="card">
+          <h2>Por que usar o simulador</h2>
+          <p>Ele separa duas dimensoes da atividade: <strong>engenharia do sistema</strong> e <strong>qualidade da resposta generativa</strong>.</p>
+          <p>O resultado deterministico permite localizar erros no fluxo antes que variacao, rede ou limite de API entrem na investigacao.</p>
+        </article>
       </div>
       <div class="notice warning">
-        <strong>Nao chame o mock de IA local.</strong> Ele e um simulador sem modelo. Erros 429, 503, timeout ou token ausente nao reduzem a nota: volte ao simulador e continue.
+        <strong>Nao chame o mock de IA local.</strong> Ele e um instrumento didatico sem modelo: comprova que o sistema funciona, mas nao que a resposta seja inteligente. Erros 429, 503, timeout ou token ausente nao reduzem a nota: volte ao simulador e continue.
+      </div>
+      <div class="notice warning">
+        <strong>Nunca coloque <code>HF_TOKEN</code> no HTML ou JavaScript.</strong> O GitHub Pages e estatico e nao protege segredos. Uma versao publica com IA real exigiria um backend autenticado com cota por usuario ou turma, limite de entrada e saida, timeout, cache, moderacao e monitoramento de custo. Para esta imersao, use a API apenas no portal local e sob orientacao.
       </div>
       <h3>Evidencias ao final</h3>
       <table>

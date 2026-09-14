@@ -216,11 +216,25 @@
       </article>
     </div>
     <div class="step warning">
+      <strong>Por que o laboratório público não chama a API?</strong>
+      <p>O GitHub Pages entrega apenas arquivos estáticos. Colocar <code>HF_TOKEN</code> no HTML ou JavaScript exporia a chave para qualquer visitante. Uma versão pública com IA real precisa de um backend intermediário que proteja o token e aplique autenticação, cota, limite de entrada e saída, timeout, cache e bloqueio de abuso.</p>
+    </div>
+    <div class="step warning">
       <strong>Importante:</strong>
       <p>O mock não “pensa”, não interpreta o prompt e não mede a qualidade da IA. Ele é um simulador para aprender a construir e testar o sistema. A qualidade generativa só pode ser comparada no modo de API real.</p>
     </div>
+    <div class="box">
+      <h3>Por que começar pelo simulador?</h3>
+      <p>Porque construir um agente envolve duas perguntas diferentes: <strong>o sistema funciona?</strong> e <strong>a resposta do modelo é boa?</strong> O simulador isola a primeira pergunta.</p>
+      <ul>
+        <li><strong>Construir:</strong> conectar entrada, agente, guardrails e saída sem depender de serviços externos.</li>
+        <li><strong>Testar:</strong> repetir o mesmo caso e obter um resultado previsível, facilitando encontrar erros no código.</li>
+        <li><strong>Observar:</strong> enxergar os passos, a latência e o número de chamadas antes de usar uma API real.</li>
+      </ul>
+      <p>Depois que essa base estiver estável, a API opcional isola a segunda pergunta: o modelo entende o pedido e produz uma resposta útil?</p>
+    </div>
     <div class="try-now">
-      <p><strong>Quer experimentar antes de instalar?</strong><br>Abra o Organizador de Estudos no navegador. Ele reproduz o modo offline sem Python, API, token ou login.</p>
+      <p><strong>Quer experimentar antes de instalar?</strong><br>Abra o Organizador de Estudos no navegador e identifique entrada, guardrail, simulador, resposta e evidências. Ele reproduz o modo offline sem Python, API, token ou login.</p>
       <a href="simulador-agente.html">Abrir laboratório →</a>
     </div>
     <h3>1. Abra a pasta certa</h3>
