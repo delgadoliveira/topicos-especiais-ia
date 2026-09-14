@@ -156,6 +156,21 @@
       font-weight: 800;
       text-decoration: none;
     }
+    .architecture-map {
+      margin: 1.5rem 0;
+      padding: .75rem;
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      background: #fbfaf8;
+      box-shadow: var(--cp-shadow);
+    }
+    .architecture-map img { display: block; width: 100%; height: auto; }
+    .architecture-map figcaption {
+      padding: .75rem .5rem .25rem;
+      color: var(--cp-text-muted);
+      font-size: .95rem;
+      text-align: center;
+    }
     @media (max-width: 680px) { .case-grid { grid-template-columns: 1fr; } }
     @media (max-width: 680px) { .mode-paths { grid-template-columns: 1fr; } }
     @media (max-width: 680px) { .try-now { align-items: flex-start; flex-direction: column; } }
@@ -215,6 +230,12 @@
         </ul>
       </article>
     </div>
+    <h3>O mapa completo do agente</h3>
+    <p>Use as cores para separar responsabilidades: <strong>rosa</strong> é o que sua dupla cria; <strong>azul</strong> já vem no framework; <strong>amarelo</strong> é opcional; <strong>verde</strong> é a evidência que será observada.</p>
+    <figure class="architecture-map">
+      <img src="../diagrams/componentes-do-agente.svg" alt="Fluxo completo do agente: pessoa e portal levam a mensagem ao agente do aluno, que define identidade, guardrails, instrução e resposta; o framework seleciona simulador, API ou cache; testes e observabilidade alimentam a avaliação e o registro da nota.">
+      <figcaption>Você não precisa construir o portal nem integrar a API. Seu trabalho está no bloco rosa e nos casos de teste.</figcaption>
+    </figure>
     <div class="step warning">
       <strong>Por que o laboratório público não chama a API?</strong>
       <p>O GitHub Pages entrega apenas arquivos estáticos. Colocar <code>HF_TOKEN</code> no HTML ou JavaScript exporia a chave para qualquer visitante. Uma versão pública com IA real precisa de um backend intermediário que proteja o token e aplique autenticação, cota, limite de entrada e saída, timeout, cache e bloqueio de abuso.</p>

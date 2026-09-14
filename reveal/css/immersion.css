@@ -201,6 +201,23 @@
 .imm-pill.attention { border-color: var(--cp-warning); color: var(--cp-warning); }
 .imm-pill.no { border-color: var(--cp-danger); color: var(--cp-danger); }
 
+.imm-architecture-image {
+  width: 100%;
+  height: 390px;
+  margin: 18px 0 12px;
+  overflow: hidden;
+  border: 1px solid var(--cp-border);
+  border-radius: 16px;
+  background: #fbfaf8;
+}
+
+.imm-architecture-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
 .imm-cover {
   display: flex !important;
   flex-direction: column;

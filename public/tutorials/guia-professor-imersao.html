@@ -162,6 +162,16 @@
       margin-right: 8px;
       padding: 4px 8px;
     }
+    .architecture-map {
+      margin: 20px 0;
+      padding: 12px;
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      background: #fbfaf8;
+      box-shadow: 0 1px 2px var(--cp-border);
+    }
+    .architecture-map img { display: block; width: 100%; height: auto; }
+    .architecture-map figcaption { padding: 10px 6px 2px; color: var(--cp-text-muted); text-align: center; }
     @media print {
       .tabs, .actions { display: none; }
       .panel { display: block; break-before: page; }
@@ -222,6 +232,14 @@
       </div>
       <div class="notice warning">
         <strong>Nunca coloque <code>HF_TOKEN</code> no HTML ou JavaScript.</strong> O GitHub Pages e estatico e nao protege segredos. Uma versao publica com IA real exigiria um backend autenticado com cota por usuario ou turma, limite de entrada e saida, timeout, cache, moderacao e monitoramento de custo. Para esta imersao, use a API apenas no portal local e sob orientacao.
+      </div>
+      <h3>Diagrama para apresentar em sala</h3>
+      <figure class="architecture-map">
+        <img src="../diagrams/componentes-do-agente.svg" alt="Mapa dos componentes do agente e das responsabilidades do aluno, do framework e da avaliação.">
+        <figcaption>Fala sugerida: “Vocês constroem o bloco rosa e os casos de teste. O azul já vem pronto. O amarelo só entra depois que o offline funciona. O verde é a evidência que sustenta a avaliação.”</figcaption>
+      </figure>
+      <div class="notice">
+        <strong>Leitura em quatro movimentos:</strong> acompanhe primeiro a mensagem da esquerda para a direita; pare no bloco rosa para delimitar a autoria; compare simulador, API e cache; termine nas evidencias e no registro da nota.
       </div>
       <h3>Evidencias ao final</h3>
       <table>

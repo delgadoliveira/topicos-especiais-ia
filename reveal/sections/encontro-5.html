@@ -59,24 +59,11 @@
 <section class="imm-slide">
   <span class="imm-type">Modelo mental</span>
   <div class="imm-kicker">Arquitetura do agente</div>
-  <h2>O modo escolhido define quem produz a resposta.</h2>
-  <div class="imm-diagram">
-    <div class="imm-architecture">
-      <div class="imm-node"><b>1 · Pessoa</b><span>Conta matérias, prazo e tempo disponível.</span></div>
-      <div class="imm-arrow">→</div>
-      <div class="imm-node"><b>2 · Portal + agente</b><span>Aplicam identidade, instrução e limites.</span></div>
-      <div class="imm-arrow">→</div>
-      <div class="imm-node"><b>3 · Motor</b><span>Simulador local ou Qwen pela API.</span></div>
-      <div class="imm-arrow">→</div>
-      <div class="imm-node"><b>4 · Resposta</b><span>Devolve três prioridades e o próximo passo.</span></div>
-    </div>
-    <div class="imm-mode-rail">
-      <div class="imm-mode"><b>Mock · nenhum modelo de IA</b><span>Função Python local. Sem API, token ou internet.</span></div>
-      <div class="imm-mode optional"><b>API · Qwen2.5-7B-Instruct</b><span>Portal local protege o token. Até três chamadas.</span></div>
-      <div class="imm-mode reuse"><b>Cache · reaproveitar</b><span>Revê resultados sem gastar outra chamada.</span></div>
-    </div>
-  </div>
-  <div class="imm-contract"><em>O simulador separa duas perguntas:</em> “o sistema funciona?” e “a resposta da IA é boa?”. Primeiro validamos fluxo, guardrails, formato e testes; depois usamos a API opcional no portal local. Nunca colocamos o token no site público.</div>
+  <h2>Você constrói o bloco rosa. O restante sustenta seu experimento.</h2>
+  <figure class="imm-architecture-image">
+    <img src="diagrams/componentes-do-agente.svg" alt="Mapa dos componentes do agente, destacando em rosa identidade, guardrails, instrução, resposta e casos desenvolvidos pelo aluno.">
+  </figure>
+  <div class="imm-contract"><em>Siga a mensagem da esquerda para a direita:</em> a pessoa pergunta, seu agente decide como agir, o framework escolhe o motor e as evidências mostram se a promessa foi cumprida.</div>
   <span class="imm-page">04 / 15</span>
 </section>
 
