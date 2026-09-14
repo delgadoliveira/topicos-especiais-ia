@@ -20,7 +20,7 @@ from dataclasses import dataclass, field
 class AgentResult:
     """O que todo agente devolve. Só `answer` é obrigatório."""
     answer: str
-    steps: list[str] = field(default_factory=list)      # passos/raciocínio (observabilidade)
+    steps: list[str] = field(default_factory=list)      # eventos de execução observáveis
     citations: list[str] = field(default_factory=list)  # fontes, se houver (RAG)
     error: str | None = None                            # preenchido só em caso de falha
 

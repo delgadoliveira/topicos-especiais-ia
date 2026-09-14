@@ -58,12 +58,12 @@
 
 <section class="imm-slide">
   <span class="imm-type">Modelo mental</span>
-  <div class="imm-kicker">Arquitetura do agente</div>
-  <h2>Você constrói o bloco rosa. O restante sustenta seu experimento.</h2>
+  <div class="imm-kicker">Da teoria à prática</div>
+  <h2>Os cinco componentes das aulas anteriores agora viram código.</h2>
   <figure class="imm-architecture-image">
-    <img src="diagrams/componentes-do-agente.svg" alt="Mapa dos componentes do agente, destacando em rosa identidade, guardrails, instrução, resposta e casos desenvolvidos pelo aluno.">
+    <img src="diagrams/componentes-do-agente.svg" alt="Arquitetura com Persona e Objetivo, Modelo, Memória, Tools mais Executor e Loop de Controle.">
   </figure>
-  <div class="imm-contract"><em>Siga a mensagem da esquerda para a direita:</em> a pessoa pergunta, seu agente decide como agir, o framework escolhe o motor e as evidências mostram se a promessa foi cumprida.</div>
+  <div class="imm-contract"><em>Ponte curricular:</em> E1 apresentou Persona e ReAct; E2 aprofundou modelo, tools e loops; E3 trouxe memória; E4 mostrou falhas e avaliação. E5 integra os blocos; E6 testa o loop e suas condições de parada.</div>
   <span class="imm-page">04 / 15</span>
 </section>
 
@@ -90,7 +90,7 @@
   <div class="imm-kicker">Antes de programar</div>
   <h2>Escreva a promessa que seu agente precisa cumprir.</h2>
   <div class="imm-contract">
-    Quando receber <em>matérias, data da prova e tempo disponível</em>, o agente deve responder com <em>três prioridades</em>, uma <em>justificativa curta</em> e um <em>próximo passo</em>.
+    Quando receber <em>uma matéria ou tarefa, tempo disponível e prazo quando houver</em>, o agente deve responder com <em>três prioridades</em>, uma <em>justificativa curta</em> e um <em>próximo passo</em>.
   </div>
   <div class="imm-grid three">
     <div class="imm-card accent"><h3>Útil</h3><p>A pessoa sabe o que fazer agora.</p></div>
@@ -110,16 +110,16 @@
       <div class="imm-lane-steps">
         <div class="imm-node"><b>1 · Definir</b><span>problema e promessa</span></div>
         <div class="imm-node"><b>2 · Preparar</b><span>ambiente e simulador</span></div>
-        <div class="imm-node"><b>3 · Criar</b><span>identidade e instrução</span></div>
-        <div class="imm-node"><b>4 · Usar</b><span>preflight e portal</span></div>
+        <div class="imm-node"><b>3 · Criar</b><span>persona + memória curta</span></div>
+        <div class="imm-node"><b>4 · Agir</b><span>modelo + tool + executor</span></div>
       </div>
     </div>
     <div class="imm-bridge">a resposta que falha vira material para aprender</div>
     <div class="imm-lane">
       <div class="imm-lane-title"><b>Encontro 6</b><span>testar, melhorar e entregar</span></div>
       <div class="imm-lane-steps three">
-        <div class="imm-node"><b>5 · Testar</b><span>três casos em YAML</span></div>
-        <div class="imm-node"><b>6 · Melhorar</b><span>uma mudança por vez</span></div>
+        <div class="imm-node"><b>5 · Controlar</b><span>loop, reflexão e parada</span></div>
+        <div class="imm-node"><b>6 · Avaliar</b><span>casos + uma mudança por vez</span></div>
         <div class="imm-node"><b>7 · Entregar</b><span>ZIP + avaliação automática</span></div>
       </div>
     </div>
@@ -151,63 +151,60 @@
 </section>
 
 <section class="imm-slide">
-  <span class="imm-type">Identidade</span>
+  <span class="imm-type">Persona + Modelo</span>
   <div class="imm-kicker">Passo 3</div>
-  <h2>Quatro campos fazem seu agente aparecer no portal.</h2>
+  <h2>A persona orienta; o motor produz uma resposta.</h2>
   <div class="imm-code-window">
-    <div class="imm-code-title"><span>agents/meu-agente.py</span><span>edite somente as linhas destacadas</span></div>
-    <pre class="imm-code-body">class MeuAgente:
-<span class="focus">    slug = "meu-agente"</span>
-<span class="focus">    name = "Meu Agente"</span>
-<span class="focus">    emoji = "📚"</span>
-<span class="focus">    description = "Cria um plano curto."</span>
+    <div class="imm-code-title"><span>dois papéis diferentes</span><span>não confunda instrução com motor</span></div>
+    <pre class="imm-code-body"><span class="focus">system_prompt = "Você é um organizador acolhedor..."</span>
 
-    def run(self, message, history):
-        ...
+resposta = llm.chat([
+    {"role": "system", "content": system_prompt},
+    {"role": "user", "content": instrucao},
+])
 
-AGENT = MeuAgente()</pre>
+# MOCK_LLM=1 → simulador determinístico, sem IA
+# MOCK_LLM=0 → Qwen remoto, opcional</pre>
   </div>
   <div class="imm-grid four">
-    <div class="imm-card"><h3>slug</h3><p>Nome técnico sem espaço.</p></div>
-    <div class="imm-card"><h3>name</h3><p>Nome que a pessoa vê.</p></div>
-    <div class="imm-card"><h3>emoji</h3><p>Símbolo fácil de reconhecer.</p></div>
-    <div class="imm-card"><h3>description</h3><p>O que ele faz em uma linha.</p></div>
+    <div class="imm-card"><h3>Persona</h3><p>Papel, objetivo, formato e limites.</p></div>
+    <div class="imm-card"><h3>Simulador</h3><p>Valida o sistema; não interpreta o prompt.</p></div>
+    <div class="imm-card"><h3>Qwen</h3><p>IA real opcional via Hugging Face.</p></div>
+    <div class="imm-card"><h3>Roteador</h3><p><code>llm.chat()</code> escolhe o modo.</p></div>
   </div>
   <span class="imm-page">09 / 15</span>
 </section>
 
 <section class="imm-slide">
-  <span class="imm-type">Instrução</span>
+  <span class="imm-type">Memória curta</span>
   <div class="imm-kicker">Passo 4</div>
-  <h2>Uma boa instrução responde a quatro perguntas.</h2>
+  <h2>O agente recupera contexto recente — sem banco vetorial.</h2>
   <div class="imm-grid four">
-    <div class="imm-card accent"><span class="imm-index">1</span><h3>Quem?</h3><p>“Você é um organizador de estudos acolhedor.”</p></div>
-    <div class="imm-card accent"><span class="imm-index">2</span><h3>O quê?</h3><p>“Transforme as informações em três prioridades.”</p></div>
-    <div class="imm-card accent"><span class="imm-index">3</span><h3>Como?</h3><p>“Use título, motivo e próximo passo.”</p></div>
-    <div class="imm-card accent"><span class="imm-index">4</span><h3>Até onde?</h3><p>“Não invente datas ou matérias ausentes.”</p></div>
+    <div class="imm-card accent"><span class="imm-index">1</span><h3>Receber</h3><p><code>history</code> traz turnos anteriores.</p></div>
+    <div class="imm-card accent"><span class="imm-index">2</span><h3>Filtrar</h3><p>Guardar só mensagens recentes da pessoa.</p></div>
+    <div class="imm-card accent"><span class="imm-index">3</span><h3>Combinar</h3><p>Juntar lembrança e pedido atual.</p></div>
+    <div class="imm-card accent"><span class="imm-index">4</span><h3>Limitar</h3><p>Duas mensagens bastam neste exercício.</p></div>
   </div>
-  <div class="imm-contract"><em>Papel + tarefa + formato + limite.</em> Esta é a fórmula que vamos testar.</div>
+  <div class="imm-contract"><em>Memória ≠ cache:</em> memória recupera contexto da conversa; cache reaproveita uma resposta pronta para uma entrada idêntica.</div>
   <span class="imm-page">10 / 15</span>
 </section>
 
 <section class="imm-slide">
-  <span class="imm-type">Código</span>
-  <div class="imm-kicker">Sua primeira versão</div>
-  <h2>Escreva como se estivesse orientando uma pessoa nova.</h2>
+  <span class="imm-type">Tool + Executor</span>
+  <div class="imm-kicker">Agir com segurança</div>
+  <h2>A tool calcula. O executor decide o que pode rodar.</h2>
   <div class="imm-code-window">
-    <div class="imm-code-title"><span>mensagem com role “system”</span><span>instrução completa</span></div>
-    <pre class="imm-code-body">{"role": "system", "content": """Você é um organizador de estudos acolhedor.
+    <div class="imm-code-title"><span>tool local previsível</span><span>allowlist explícita</span></div>
+    <pre class="imm-code-body">def planejar_blocos(minutos):
+    quantidade = max(1, min(3, minutos // 10))
+    return f"{quantidade} bloco(s)"
 
-Receba matérias, data da prova e tempo disponível.
-Crie exatamente 3 prioridades.
+TOOLS = {"planejar_blocos": planejar_blocos}
 
-Para cada prioridade, mostre:
-- assunto;
-- motivo;
-- próximo passo de até 20 minutos.
-
-Não invente informações. Se faltar algo essencial,
-faça uma pergunta curta antes de criar o plano."""}</pre>
+def executar_tool(nome, argumento):
+    if nome not in TOOLS:
+        raise ValueError("Tool não permitida")
+    return TOOLS[nome](argumento)</pre>
   </div>
   <span class="imm-page">11 / 15</span>
 </section>

@@ -318,4 +318,16 @@ def format_result(result: dict) -> str:
             marker = "PASSOU" if case["passed"] else "AJUSTAR"
             notes = "; ".join(case["notes"]) or "sem observacoes"
             lines.append(f"- Caso {case['case']}: **{marker}** — {notes}")
+    if result.get("component_evidence"):
+        labels = {
+            "persona_modelo": "Persona + Modelo",
+            "memoria": "Memória",
+            "tools_executor": "Tools + Executor",
+            "loop_controle": "Loop de Controle",
+        }
+        lines.extend(["", "### Evidências formativas"])
+        for key, label in labels.items():
+            marker = "PRESENTE" if result["component_evidence"].get(key) else "A DESENVOLVER"
+            lines.append(f"- {label}: **{marker}**")
+        lines.append("_Estes indicadores orientam o feedback e não alteram o conceito._")
     return "\n".join(lines)

@@ -203,7 +203,7 @@
       <div class="grid">
         <article class="card">
           <h2>Objetivo didatico</h2>
-          <p>Tornar visivel o ciclo de um agente: escopo, contrato, construcao, teste, guardrail, observabilidade e limite de recursos.</p>
+          <p>Transformar a teoria dos encontros 1–4 em uma implementação mínima de Persona, Modelo, Memória, Tools + Executor e Loop de Controle.</p>
           <p><strong>Nao e objetivo:</strong> ensinar infraestrutura, Git ou deploy durante a imersao.</p>
         </article>
         <article class="card">
@@ -230,25 +230,28 @@
       <div class="notice warning">
         <strong>Nao chame o mock de IA local.</strong> Ele e um instrumento didatico sem modelo: comprova que o sistema funciona, mas nao que a resposta seja inteligente. Erros 429, 503, timeout ou token ausente nao reduzem a nota: volte ao simulador e continue.
       </div>
+      <div class="notice">
+        <strong>Progressão curricular:</strong> E1 apresentou Persona e ReAct; E2 aprofundou modelo, tools e loops; E3 trouxe memória; E4 mostrou falhas, avaliação e observabilidade. No E5 a turma integra os cinco componentes; no E6 testa o loop e melhora o sistema com evidências.
+      </div>
       <div class="notice warning">
         <strong>Nunca coloque <code>HF_TOKEN</code> no HTML ou JavaScript.</strong> O GitHub Pages e estatico e nao protege segredos. Uma versao publica com IA real exigiria um backend autenticado com cota por usuario ou turma, limite de entrada e saida, timeout, cache, moderacao e monitoramento de custo. Para esta imersao, use a API apenas no portal local e sob orientacao.
       </div>
       <h3>Diagrama para apresentar em sala</h3>
       <figure class="architecture-map">
-        <img src="../diagrams/componentes-do-agente.svg" alt="Mapa dos componentes do agente e das responsabilidades do aluno, do framework e da avaliação.">
-        <figcaption>Fala sugerida: “Vocês constroem o bloco rosa e os casos de teste. O azul já vem pronto. O amarelo só entra depois que o offline funciona. O verde é a evidência que sustenta a avaliação.”</figcaption>
+        <img src="../diagrams/componentes-do-agente.svg" alt="Mapa de Persona, Modelo, Memória, Tools mais Executor e Loop de Controle.">
+        <figcaption>Fala sugerida: “O agente observa o pedido e a memória, usa a persona para preparar a ação, consulta uma tool permitida, chama o motor e verifica se já pode parar.”</figcaption>
       </figure>
       <div class="notice">
-        <strong>Leitura em quatro movimentos:</strong> acompanhe primeiro a mensagem da esquerda para a direita; pare no bloco rosa para delimitar a autoria; compare simulador, API e cache; termine nas evidencias e no registro da nota.
+        <strong>Alertas conceituais:</strong> memória curta não é cache nem banco vetorial; o simulador não interpreta o system prompt; a seleção da tool é feita pelo código; loop interno não é o ciclo humano; retry de API não é controle da tarefa.
       </div>
       <h3>Evidencias ao final</h3>
       <table>
         <thead><tr><th>Evidencia</th><th>Como observar</th></tr></thead>
         <tbody>
           <tr><td>Contrato valido</td><td><code>check_agent.py</code> conclui sem erro.</td></tr>
-          <tr><td>Tres casos</td><td>Normal, dificil e vazio/muito longo em YAML.</td></tr>
+          <tr><td>Casos</td><td>Três obrigatórios; um caso mult turnos recomendado para evidenciar memória.</td></tr>
           <tr><td>Guardrail</td><td>Entrada inadequada e tratada antes do modelo.</td></tr>
-          <tr><td>Observabilidade</td><td><code>AgentResult.steps</code> explica o fluxo.</td></tr>
+          <tr><td>Observabilidade</td><td><code>AgentResult.steps</code> registra eventos operacionais, não chain-of-thought.</td></tr>
           <tr><td>Entrega</td><td>ZIP avaliado no portal e registrado em SQLite/CSV.</td></tr>
         </tbody>
       </table>
@@ -261,11 +264,11 @@
         <tbody>
           <tr><td>0–15</td><td>Demonstrar o produto pronto</td><td>Entrada, saida e passos reconhecidos</td></tr>
           <tr><td>15–35</td><td>Criar ambiente e instalar</td><td>Checkpoint 0</td></tr>
-          <tr><td>35–75</td><td>Escrever escopo e criterios</td><td>Uma tarefa verificavel</td></tr>
+          <tr><td>35–75</td><td>Mapear Persona, Modelo, Memória, Tool/Executor e Loop</td><td>Uma tarefa verificavel e cinco componentes localizados</td></tr>
           <tr><td>75–90</td><td>Pausa e atendimento</td><td>Dificuldades agrupadas</td></tr>
-          <tr><td>90–125</td><td>Copiar e editar o template</td><td>Arquivo individual</td></tr>
+          <tr><td>90–125</td><td>Editar persona, memória curta e tool do template</td><td>Arquivo individual com executor permitido</td></tr>
           <tr><td>125–145</td><td>Preflight e depuracao em dupla</td><td>Checkpoint 1</td></tr>
-          <tr><td>145–170</td><td>Testar no portal</td><td>Checkpoint 2</td></tr>
+          <tr><td>145–170</td><td>Testar no portal e ler eventos do loop</td><td>Checkpoint 2</td></tr>
           <tr><td>170–180</td><td>Exit ticket</td><td>Uma melhoria para a aula seguinte</td></tr>
         </tbody>
       </table>
@@ -294,18 +297,18 @@ python app.py</code></pre>
         <thead><tr><th>Tempo</th><th>Atividade</th><th>Evidencia</th></tr></thead>
         <tbody>
           <tr><td>0–15</td><td>Retomar a Definition of Done</td><td>Base comum</td></tr>
-          <tr><td>15–45</td><td>Criar tres casos YAML</td><td>Normal, dificil e borda</td></tr>
-          <tr><td>45–70</td><td>Executar e interpretar</td><td>Checkpoint 3</td></tr>
+          <tr><td>15–45</td><td>Criar três casos e uma extensão mult turnos</td><td>Normal, dificil, borda e memória recomendada</td></tr>
+          <tr><td>45–70</td><td>Executar e distinguir loop interno, ciclo humano e retry</td><td>Checkpoint 3</td></tr>
           <tr><td>70–90</td><td>Melhorar a partir de uma falha</td><td>Antes/depois</td></tr>
           <tr><td>90–105</td><td>Pausa</td><td>—</td></tr>
-          <tr><td>105–140</td><td>Guardrail, passos e logs</td><td>Robustez visivel</td></tr>
-          <tr><td>140–160</td><td>API opcional</td><td>Ate tres tentativas</td></tr>
+          <tr><td>105–140</td><td>Guardrail, condição de parada e eventos observáveis</td><td>Robustez visivel</td></tr>
+          <tr><td>140–160</td><td>Validação opcional com IA real</td><td>Ate tres chamadas</td></tr>
           <tr><td>160–175</td><td>Empacotar e enviar</td><td>Conceito registrado</td></tr>
           <tr><td>175–180</td><td>Fechamento</td><td>Limitacao explicada</td></tr>
         </tbody>
       </table>
       <div class="notice">
-        <strong>Protocolo da API:</strong> explique que o modelo e Qwen e roda no Hugging Face. Libere somente depois de preflight e testes offline. Use a mesma entrada no simulador e na API, repita para observar cache e pare no primeiro erro recorrente.
+        <strong>Protocolo da API:</strong> explique que o modelo e Qwen e roda no Hugging Face. Libere somente depois de preflight e testes offline. Use a mesma entrada no simulador e na API. Diferencie as duas tentativas do loop do agente, as três chamadas do orçamento e qualquer retry técnico de rede.
       </div>
     </section>
 
@@ -346,6 +349,9 @@ python app.py</code></pre>
       <div class="notice success">
         <strong>Conceitos:</strong> A = 90–100; B = 75–89; C = entrega parcial. D e reservado a quem nao entregou. A nota automatica apoia, mas nao substitui a revisao do professor.
       </div>
+      <div class="notice">
+        <strong>Evidência formativa:</strong> o relatório também procura Persona/Modelo, Memória, Tools/Executor e Loop. Esses indicadores ajudam o feedback, mas não somam pontos nesta atividade introdutória.
+      </div>
       <div class="notice warning">
         <strong>Seguranca:</strong> o avaliador bloqueia imports e operacoes perigosas, remove credenciais do ambiente e executa em subprocesso offline com timeout. Isso reduz riscos, mas nao e uma sandbox completa: use apenas no computador local da aula e nunca publique a aba de upload.
       </div>
@@ -360,7 +366,7 @@ python app.py</code></pre>
           <li><input type="checkbox" id="c2"><label for="c2">Seguir apenas o tutorial do aluno e instalar dependencias.</label></li>
           <li><input type="checkbox" id="c3"><label for="c3">Criar um agente novo e passar no preflight offline.</label></li>
           <li><input type="checkbox" id="c4"><label for="c4">Abrir o portal e confirmar “simulador local · nenhum modelo de IA”.</label></li>
-          <li><input type="checkbox" id="c5"><label for="c5">Criar tres casos e observar ao menos uma falha util.</label></li>
+          <li><input type="checkbox" id="c5"><label for="c5">Criar três casos, experimentar um quarto com histórico e observar ao menos uma falha util.</label></li>
           <li><input type="checkbox" id="c6"><label for="c6">Adicionar guardrail e repetir os testes.</label></li>
           <li><input type="checkbox" id="c7"><label for="c7">Simular token ausente, cache e limite local.</label></li>
           <li><input type="checkbox" id="c8"><label for="c8">Gerar o ZIP com <code>prepare_submission.py</code>.</label></li>

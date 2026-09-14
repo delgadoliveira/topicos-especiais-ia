@@ -28,7 +28,10 @@ def _judge(question: str, answer: str) -> bool | None:
 def run_case_details(agent, case: dict) -> tuple[bool, list[str], object]:
     notes: list[str] = []
     ok = True
-    result, latency, status = runner.safe_run(agent, case["input"], [])
+    history = case.get("history", [])
+    if not isinstance(history, list):
+        raise ValueError("history precisa ser uma lista")
+    result, latency, status = runner.safe_run(agent, case["input"], history)
 
     if status != "ok":
         return False, [f"execucao falhou: {result.error}"], result
@@ -57,6 +60,11 @@ def run_case_details(agent, case: dict) -> tuple[bool, list[str], object]:
         if needle.lower() in answer.lower():
             ok = False
             notes.append(f"nao deveria conter: {needle!r}")
+
+    for prefix in case.get("must_have_step_prefixes", []):
+        if not any(str(step).startswith(prefix) for step in result.steps):
+            ok = False
+            notes.append(f"faltou evento observavel: {prefix!r}")
 
     if case.get("judge"):
         verdict = _judge(case["judge"], answer)

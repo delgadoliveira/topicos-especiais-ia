@@ -4,6 +4,7 @@ import importlib.util
 import json
 import os
 import pathlib
+import re
 import sys
 
 os.environ["MOCK_LLM"] = "1"
@@ -97,6 +98,39 @@ def evaluate(folder: pathlib.Path) -> dict:
     if has_steps:
         criteria["observabilidade"] = 10
 
+    source = (folder / "agent.py").read_text(encoding="utf-8")
+    component_evidence = {
+        "persona_modelo": bool(
+            re.search(r"""["']role["']\s*:\s*["']system["']""", source)
+            and "llm.chat" in source
+            and callable(getattr(agent, "run", None))
+        ),
+        "memoria": False,
+        "tools_executor": False,
+        "loop_controle": False,
+    }
+    probe_case = next((case for case in cases if case.get("history")), None)
+    if probe_case is None:
+        probe_case = next((case for case in cases if case["input"].strip()), None)
+    evidence_result, _, evidence_status = safe_run(
+        agent,
+        probe_case["input"] if probe_case else "Teste offline da entrega.",
+        probe_case.get("history", []) if probe_case else [],
+    )
+    if evidence_status == "ok":
+        event_names = [str(step).split(" ", 1)[0] for step in evidence_result.steps]
+        component_evidence["memoria"] = (
+            "MEMORY" in event_names and "history" in source
+        )
+        component_evidence["tools_executor"] = (
+            "ACT" in event_names and "TOOLS" in source and "executar_tool" in source
+        )
+        component_evidence["loop_controle"] = bool(
+            "REFLECT" in event_names
+            and "STOP" in event_names
+            and re.search(r"\bfor\b.+\brange\s*\(", source)
+        )
+
     score = sum(criteria.values())
     concept = _concept(score)
     detail = [
@@ -118,6 +152,7 @@ def evaluate(folder: pathlib.Path) -> dict:
         "criteria": criteria,
         "cases": case_results,
         "problems": problems,
+        "component_evidence": component_evidence,
     }
 
 

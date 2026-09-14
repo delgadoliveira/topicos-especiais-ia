@@ -17,3 +17,13 @@ cases:
     max_chars: 300
     must_contain: ["Envie"]
     must_not_contain: ["Traceback", "Exception"]
+
+  - input: "Monte um plano para o tempo que informei."
+    history:
+      - role: user
+        content: "Tenho prova de frações na sexta e 30 minutos hoje."
+    max_latency_s: 5
+    max_chars: 900
+    must_contain: ["Plano de estudo", "Próximo passo"]
+    must_have_step_prefixes: ["MEMORY", "ACT", "REFLECT", "STOP"]
+    must_not_contain: ["Traceback", "Exception"]

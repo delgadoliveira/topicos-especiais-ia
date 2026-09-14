@@ -9,10 +9,40 @@ Regras:
        "Meu agente ajuda [usuário] a fazer [tarefa específica]
         usando [entrada] e entregando [saída verificável]."
 
+Este template mostra os cinco componentes em versão mínima:
+persona, modelo/simulador, memória curta, uma tool com executor e loop limitado.
 Arquivos com nome iniciado por "_" são ignorados pelo portal (como este).
 """
 from portal.base import AgentResult
 from portal import llm
+
+
+def minha_tool(texto):
+    """TODO: faça um cálculo ou transformação pequena e previsível."""
+    return len(texto.split())
+
+
+TOOLS = {"contar_palavras": minha_tool}
+
+
+def executar_tool(nome, argumento):
+    if nome not in TOOLS:
+        raise ValueError(f"Tool não permitida: {nome}")
+    return TOOLS[nome](argumento)
+
+
+def memoria_curta(history, limite=2):
+    mensagens = [
+        item.get("content", "").strip()
+        for item in history
+        if item.get("role") == "user" and item.get("content", "").strip()
+    ]
+    return "\n".join(mensagens[-limite:])
+
+
+def resposta_valida(resposta):
+    """TODO: adapte esta condição de sucesso à promessa do seu agente."""
+    return bool(resposta) and len(resposta) <= 900
 
 
 class MeuAgente:
@@ -22,23 +52,46 @@ class MeuAgente:
     description = "Descreva em uma frase o que ele faz."  # TODO
 
     def run(self, message, history):
-        # Guardrail simples: entrada vazia não vira chamada ao modelo.
-        if not message.strip():
-            return AgentResult(answer="Envie um texto para eu processar.")
+        text = message.strip()
+        events = ["OBSERVE · validei a entrada"]
+        if not text:
+            return AgentResult(
+                answer="Envie um texto para eu processar.",
+                steps=events + ["STOP · entrada vazia recusada"],
+            )
 
-        steps = ["Recebi a mensagem"]  # TODO: registre seus passos
+        lembranca = memoria_curta(history)
+        contexto = "\n".join(parte for parte in (lembranca, text) if parte)
+        events.append("MEMORY · contexto recente preparado")
+        resultado_tool = executar_tool("contar_palavras", contexto)
+        events.append(f"ACT · contar_palavras devolveu {resultado_tool}")
 
-        # TODO: monte o prompt da SUA tarefa.
-        resposta = llm.chat(
-            [
-                {"role": "system", "content": "TODO: instrua o modelo para a sua tarefa."},
-                {"role": "user", "content": message},
-            ],
-            max_tokens=250,
+        resposta = ""
+        instrucao = (
+            f"Contexto recente:\n{contexto}\n\n"
+            f"A tool contou {resultado_tool} palavras."
         )
-        steps.append("Gerei a resposta")
+        for tentativa in range(1, 3):
+            events.append(f"THINK · tentativa {tentativa}")
+            resposta = llm.chat(
+                [
+                    {"role": "system", "content": "TODO: defina persona, tarefa, formato e limite."},
+                    {"role": "user", "content": instrucao},
+                ],
+                max_tokens=250,
+            ).strip()
+            events.append(f"REFLECT · tentativa {tentativa}")
+            if resposta_valida(resposta):
+                events.append("STOP · resposta válida")
+                break
+            instrucao += "\nResponda de forma não vazia e com até 900 caracteres."
+        else:
+            return AgentResult(
+                answer="Não consegui produzir uma resposta curta.",
+                steps=events + ["STOP · limite de tentativas atingido"],
+            )
 
-        return AgentResult(answer=resposta, steps=steps, citations=[])
+        return AgentResult(answer=resposta, steps=events, citations=[])
 
 
 AGENT = MeuAgente()

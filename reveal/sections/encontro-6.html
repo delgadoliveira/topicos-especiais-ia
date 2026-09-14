@@ -37,27 +37,27 @@
 </section>
 
 <section class="imm-slide">
-  <span class="imm-type">Ciclo</span>
-  <div class="imm-kicker">Método de hoje</div>
-  <h2>Construir IA é aprender com o que ela faz.</h2>
+  <span class="imm-type">Ciclo humano</span>
+  <div class="imm-kicker">Método de desenvolvimento</div>
+  <h2>Nós testamos, observamos, mudamos e repetimos.</h2>
   <div class="imm-loop">
     <div class="imm-loop-item"><b>Testar</b><span>dar uma entrada</span></div>
     <div class="imm-loop-item"><b>Observar</b><span>comparar com o esperado</span></div>
     <div class="imm-loop-item"><b>Melhorar</b><span>mudar uma coisa</span></div>
     <div class="imm-loop-item"><b>Repetir</b><span>rodar os mesmos testes</span></div>
   </div>
-  <div class="imm-contract"><em>Regra de ouro:</em> mude uma coisa por vez. Assim você descobre o que realmente melhorou o resultado.</div>
+  <div class="imm-contract"><em>Não é o loop interno do agente:</em> este ciclo é conduzido pela dupla entre execuções. O agente terá seu próprio Observe → Act → Reflect → Stop dentro de uma execução.</div>
   <span class="imm-page">03 / 17</span>
 </section>
 
 <section class="imm-slide">
   <span class="imm-type">Mapa completo</span>
-  <div class="imm-kicker">Onde melhorar</div>
-  <h2>Cada evidência aponta para uma parte do agente.</h2>
+  <div class="imm-kicker">Loop interno do agente</div>
+  <h2>Uma execução pode observar, agir, verificar e parar.</h2>
   <figure class="imm-architecture-image">
     <img src="diagrams/componentes-do-agente.svg" alt="Mapa dos componentes do agente conectando as partes criadas pelo aluno aos testes, observabilidade e avaliação automática.">
   </figure>
-  <div class="imm-contract">Falhou no <em>formato</em>? Ajuste a instrução ou a resposta. Falhou com entrada inadequada? Ajuste o guardrail. A API caiu? Volte ao simulador — seu agente continua testável.</div>
+  <div class="imm-contract"><em>Máximo de duas tentativas:</em> faltou dado → pergunta e para; resposta válida → para; resposta vazia/longa → tenta uma vez; falhou novamente → encerra com mensagem clara. Retry de rede é técnico e não substitui esse controle.</div>
   <span class="imm-page">04 / 17</span>
 </section>
 
@@ -205,11 +205,11 @@ resultado: <span class="failed">2 de 3 casos passaram</span></pre>
 <section class="imm-slide">
   <span class="imm-type">Observabilidade</span>
   <div class="imm-kicker">Ver sem adivinhar</div>
-  <h2>Três números contam a história de cada resposta.</h2>
+  <h2>Eventos verificáveis contam a história de cada resposta.</h2>
   <div class="imm-grid three">
-    <div class="imm-card accent"><span class="imm-index">1</span><h3>Motor</h3><p>Simulador, Qwen pela API ou resposta em cache?</p></div>
-    <div class="imm-card accent"><span class="imm-index">2</span><h3>Tempo</h3><p>Quantos segundos a pessoa esperou.</p></div>
-    <div class="imm-card accent"><span class="imm-index">3</span><h3>Tamanho</h3><p>Quantos caracteres foram necessários.</p></div>
+    <div class="imm-card accent"><span class="imm-index">1</span><h3>Eventos</h3><p>OBSERVE, MEMORY, ACT, REFLECT e STOP.</p></div>
+    <div class="imm-card accent"><span class="imm-index">2</span><h3>Motor + tempo</h3><p>Simulador, Qwen ou cache; duração da execução.</p></div>
+    <div class="imm-card accent"><span class="imm-index">3</span><h3>Sem pensamento privado</h3><p>Registramos operações, não chain-of-thought.</p></div>
   </div>
   <div class="imm-app" style="grid-template-columns: 1fr; min-height: 220px;">
     <div class="imm-app-main">
@@ -239,7 +239,7 @@ resultado: <span class="failed">2 de 3 casos passaram</span></pre>
 </section>
 
 <section class="imm-slide">
-  <span class="imm-type">Experimento opcional</span>
+  <span class="imm-type">Validação opcional com IA real</span>
   <div class="imm-kicker">API com orçamento</div>
   <h2>Três chamadas reais. Cada uma precisa responder uma pergunta.</h2>
   <div class="imm-budget">
