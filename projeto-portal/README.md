@@ -1,143 +1,192 @@
----
-title: Portal Multi-Agente
-emoji: 🤖
-colorFrom: indigo
-colorTo: purple
-sdk: gradio
-app_file: app.py
-pinned: false
----
+# Portal Multi-Agente — imersao offline-first
 
-# 🤖 Portal Multi-Agente
+Projeto didatico dos encontros 5 e 6. Cada aluno cria um agente de tarefa unica,
+valida o contrato, executa casos de teste e apresenta o resultado localmente.
+A API real e opcional e limitada a um checkpoint coletivo.
 
-Um portal onde **cada aluno pluga o seu próprio agente** de tarefa única.
-Todos os agentes falam a mesma "língua" (um contrato simples), então o portal
-descobre e roda cada um automaticamente. 100% open source, roda no Google
-Colab / Hugging Face Spaces com um **token gratuito** do Hugging Face.
+Tutorial completo:
+[`../public/tutorials/imersao-agente-local.html`](../public/tutorials/imersao-agente-local.html)
 
-Feito para os Encontros 5 e 6 de *Tópicos Especiais em IA* (Prof. Alan Delgado).
+Guia local do professor:
+[`../public/tutorials/guia-professor-imersao.html`](../public/tutorials/guia-professor-imersao.html)
 
----
+## O que o aluno entrega
 
-## 🗺️ Como funciona
+- `agents/<slug>.py`, criado a partir de `agents/_template_agent.py`;
+- `eval/cases/<slug>.yaml`, com tres casos de teste;
+- uma demonstracao de dois minutos que tambem funciona sem internet.
 
-```
-projeto-portal/
-├── app.py              # o portal (UI Gradio) — não precisa editar
-├── check_agent.py      # valide seu agente antes de subir
-├── portal/             # infraestrutura comum — NÃO edite
-│   ├── base.py         #   contrato: AgentResult + validate_agent
-│   ├── llm.py          #   acesso ao modelo (HF router, MOCK, retry)
-│   ├── registry.py     #   descoberta automática dos agentes
-│   ├── runner.py       #   fronteira de erro + latência + log
-│   └── observability.py#   log local em JSONL
-├── agents/             # 👈 VOCÊ trabalha AQUI (um arquivo por aluno)
-│   ├── _template_agent.py   # copie este
-│   └── example_resumidor.py # exemplo completo e funcional
-└── eval/               # avaliação (checks + juiz LLM opcional)
-    ├── run_eval.py
-    └── cases/<slug>.yaml
+## 1. Preparar o ambiente
+
+Abra esta pasta no VS Code e crie um terminal.
+
+### Windows PowerShell
+
+```powershell
+py -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install -r requirements.txt
 ```
 
-**O contrato** (a única regra): seu agente é um objeto com
-`slug`, `name`, `emoji`, `description` e um método
-`run(message, history) -> AgentResult`.
+### macOS ou Linux
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+```
+
+Valide a instalacao sem usar rede:
+
+```bash
+python check_agent.py agents/example_resumidor.py
+```
+
+## 2. Criar o agente
+
+Copie `agents/_template_agent.py` para `agents/<slug>.py`. O slug deve usar apenas
+letras minusculas, numeros e hifens.
+
+Altere `slug`, `name`, `description` e o prompt dentro de `run()`. Preserve o contrato:
 
 ```python
-from portal.base import AgentResult
-
 class MeuAgente:
-    slug = "meu-agente"; name = "Meu Agente"; emoji = "🧠"
-    description = "O que ele faz, em uma frase."
+    slug = "organizador-estudos"
+    name = "Organizador de Estudos"
+    emoji = "📚"
+    description = "Transforma anotacoes em um plano de estudo curto."
+
     def run(self, message, history):
-        return AgentResult(answer="olá!", steps=[], citations=[])
+        # Preserve a estrutura do template e troque a instrucao do sistema.
+        ...
+
 
 AGENT = MeuAgente()
 ```
 
----
-
-## 🚀 Começando (5 minutos)
+Rode o preflight:
 
 ```bash
-pip install -r requirements.txt
-cp .env.example .env        # e cole seu HF_TOKEN (ou deixe MOCK_LLM=1)
-python app.py               # abre o portal em http://localhost:7860
+python check_agent.py agents/organizador-estudos.py
 ```
 
-Sem token ainda? Rode **offline**:
+## 3. Abrir o portal
 
 ```bash
-MOCK_LLM=1 python app.py
+python app.py
 ```
 
-Pegue um token gratuito (role **read**) em
-<https://huggingface.co/settings/tokens>.
+Abra <http://127.0.0.1:7860>. O modo padrao e offline e nao requer token.
 
----
+## 4. Avaliar
 
-## 🧑‍🎓 Fluxo do aluno
+Copie `eval/cases/_template.yaml` para `eval/cases/<slug>.yaml` e escreva:
 
-1. **Escope** seu agente em uma frase:
-   > "Meu agente ajuda **[usuário]** a fazer **[tarefa]** usando **[entrada]**
-   > e entregando **[saída verificável]**."
+1. um caso normal;
+2. um caso dificil;
+3. um caso inadequado ou vazio.
 
-   Exemplos bons: *tutor de SQL que corrige uma query*, *gerador de mensagem
-   de commit a partir de um diff*, *explicador de termos jurídicos*.
-   Evite escopos vagos ("assistente geral", "responde qualquer coisa").
-
-2. **Copie o template**: `agents/_template_agent.py` → `agents/<seu-slug>.py`.
-   Escolha um `slug` único.
-
-3. **Implemente `run()`**. Use `from portal import llm` e `llm.chat([...])`.
-
-4. **Valide** (offline, sem gastar rede):
-   ```bash
-   python check_agent.py agents/<seu-slug>.py
-   ```
-
-5. **Teste no portal**: `python app.py`, escolha seu agente no menu.
-
-6. **Avalie** (Encontro 6): crie `eval/cases/<seu-slug>.yaml` com 2-3 casos e
-   rode `python eval/run_eval.py <seu-slug>`.
-
-> ⚠️ Regras de convivência: edite **só o seu arquivo** em `agents/`. Não faça
-> chamadas de rede no import (só dentro de `run()`). Um agente que quebra
-> **não derruba** o portal, mas aparece na lista de erros.
-
----
-
-## ✅ Avaliação (duas camadas)
-
-- **Determinística** (sempre roda, offline): resposta não-vazia, latência
-  dentro do limite, substrings obrigatórias/proibidas.
-- **Juiz LLM** (opcional): uma pergunta sim/não sobre a qualidade. Só roda
-  com token e sem `MOCK_LLM`.
+Execute:
 
 ```bash
-python eval/run_eval.py            # todos os agentes
-python eval/run_eval.py resumidor  # só um
+python eval/run_eval.py organizador-estudos
 ```
 
----
+O avaliador deterministico verifica conteudo obrigatorio, tamanho, latencia e
+erros. O juiz por LLM e opcional.
 
-## 🌐 Deploy no Hugging Face Spaces (grátis)
+## 5. Usar a API real com limite
 
-1. Crie um Space novo em <https://huggingface.co/new-space> → SDK **Gradio**.
-2. Suba o conteúdo desta pasta (`app.py`, `requirements.txt`, este `README.md`
-   com o cabeçalho YAML, `portal/`, `agents/`).
-3. Em *Settings → Variables and secrets*, adicione o secret **HF_TOKEN**.
-4. O Space builda sozinho e publica a URL. Pronto: portal no ar. 🎉
+Somente no checkpoint orientado pelo professor, copie `.env.example` para
+`.env` e configure:
 
-> O cabeçalho YAML no topo deste README é o que diz ao Spaces para usar Gradio
-> e rodar `app.py`.
+```dotenv
+HF_TOKEN=seu_token
+MOCK_LLM=0
+MAX_REAL_CALLS=3
+LLM_CACHE=1
+```
 
----
+- Cada tentativa ao provedor consome uma chamada.
+- Erros transitorios podem gerar nova tentativa, sem ultrapassar o orcamento.
+- Entradas identicas usam o cache em memoria enquanto o processo estiver ativo.
+- Ao atingir o limite, o portal mostra um erro claro. Volte para
+  `MOCK_LLM=1` e reinicie.
+- Nunca coloque o token em codigo, prints, screenshots ou commits.
 
-## 🧰 Modo offline / aula
+## 6. Empacotar e entregar
 
-`MOCK_LLM=1` faz o `llm.chat()` devolver uma resposta determinística sem tocar
-a rede. Use para desenvolver o contrato, a UI e os evals sem depender de
-internet, token ou rate limit — essencial para a aula não travar.
+Crie um unico ZIP com identificacao, agente e casos:
 
-⚖️ Uso educacional. Modelos e ferramentas de terceiros pertencem aos seus donos.
+```powershell
+python prepare_submission.py `
+  --id "12345" `
+  --nome "Nome Sobrenome" `
+  --agente "organizador-estudos"
+```
+
+O arquivo aparece em `entregas/`. No portal, abra **Entregar trabalho**, envie o
+ZIP e clique em **Avaliar e registrar**. A avaliacao:
+
+- valida uma politica restrita de Python, remove credenciais do ambiente,
+  executa em subprocesso somente com `MOCK_LLM=1` e aplica timeout;
+- calcula contrato, smoke test, casos, guardrail e observabilidade;
+- registra cada tentativa em `submissions/grades.db`;
+- disponibiliza `submissions/notas.csv` para download.
+
+A politica bloqueia imports externos, acesso a atributos privados e funcoes como
+`open`, `exec` e `eval`. O subprocesso reduz o impacto de travamentos, mas nao e
+uma sandbox completa. O professor deve usar essa funcao apenas localmente, sem
+publicar a aba na internet.
+
+## Configuracao
+
+| Variavel | Padrao | Funcao |
+|---|---:|---|
+| `MOCK_LLM` | `1` | Usa respostas locais deterministicas |
+| `HF_TOKEN` | vazio | Token usado apenas com `MOCK_LLM=0` |
+| `MODEL_ID` | `openai/gpt-oss-120b:fastest` | Modelo OpenAI-compatible |
+| `MAX_REAL_CALLS` | `3` | Orcamento por processo; `0` remove o limite |
+| `LLM_CACHE` | `1` | Reaproveita respostas identicas em memoria |
+| `JUDGE_ENABLED` | `0` | Habilita juiz LLM opcional |
+| `MAX_WORKERS` | `4` | Paralelismo do portal |
+| `REQUEST_TIMEOUT_S` | `60` | Timeout das chamadas |
+
+## Solucao rapida de problemas
+
+| Problema | Acao |
+|---|---|
+| `python` nao encontrado | No Windows, tente `py`; confirme Python 3.10+ |
+| PowerShell bloqueou ativacao | `Set-ExecutionPolicy -Scope Process Bypass` |
+| Modulo ausente | Ative `.venv` e reinstale `requirements.txt` |
+| Agente nao aparece | Rode `check_agent.py` e confira se existe `AGENT` |
+| HTTP 429 | Limite do provedor; volte para `MOCK_LLM=1` |
+| HTTP 503 ou timeout | Servico indisponivel; use a demonstracao offline |
+| Limite local atingido | Nao reinicie para contornar; consulte o professor |
+
+## Estrutura
+
+```text
+projeto-portal/
+├── app.py
+├── check_agent.py
+├── prepare_submission.py
+├── agents/
+│   ├── _template_agent.py
+│   └── example_resumidor.py
+├── eval/
+│   ├── run_eval.py
+│   └── cases/
+├── portal/
+│   ├── base.py
+│   ├── evaluation.py
+│   ├── llm.py
+│   ├── submission_worker.py
+│   └── submissions.py
+└── .env.example
+```
+
+## Privacidade
+
+Nao envie dados pessoais, sigilosos ou de terceiros. O log local registra
+metadados operacionais, nao o texto completo da conversa.

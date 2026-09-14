@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Guia local do professor — Imersao em agentes</title>
+  <script>
+    (() => {
+      const param = new URLSearchParams(window.location.search).get("clawpilotTheme");
+      const theme =
+        param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+  <style>
+    :root {
+      color-scheme: light;
+      --cp-bg: #f7f4ef;
+      --cp-bg-elevated: #fcfbf8;
+      --cp-surface: #ffffff;
+      --cp-surface-soft: #f5f5f5;
+      --cp-border: #dedede;
+      --cp-border-strong: #919191;
+      --cp-text: #242424;
+      --cp-text-muted: #5c5c5c;
+      --cp-text-soft: #6f6f6f;
+      --cp-accent: #b11f4b;
+      --cp-accent-hover: #9a1a41;
+      --cp-accent-soft: rgba(177, 31, 75, 0.08);
+      --cp-accent-fg: #ffffff;
+      --cp-success: #16a34a;
+      --cp-danger: #dc2626;
+      --cp-warning: #f59e0b;
+      --cp-link: #0078d4;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+      --cp-overlay: rgba(255, 255, 255, 0.8);
+      --cp-panel: rgba(255, 255, 255, 0.86);
+      --cp-panel-strong: rgba(255, 255, 255, 0.96);
+      --cp-sheen: rgba(255, 255, 255, 0.55);
+      --cp-highlight: rgba(177, 31, 75, 0.12);
+    }
+    html[data-theme="dark"] {
+      color-scheme: dark;
+      --cp-bg: #3d3b3a;
+      --cp-bg-elevated: #343231;
+      --cp-surface: #292929;
+      --cp-surface-soft: #2e2e2e;
+      --cp-border: #474747;
+      --cp-border-strong: #5f5f5f;
+      --cp-text: #dedede;
+      --cp-text-muted: #919191;
+      --cp-text-soft: #b0b0b0;
+      --cp-accent: #fd8ea1;
+      --cp-accent-hover: #fb7b91;
+      --cp-accent-soft: rgba(253, 142, 161, 0.14);
+      --cp-accent-fg: #1a1a1a;
+      --cp-success: #4ade80;
+      --cp-danger: #f87171;
+      --cp-warning: #fbbf24;
+      --cp-link: #4da6ff;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+      --cp-overlay: rgba(41, 41, 41, 0.88);
+      --cp-panel: rgba(41, 41, 41, 0.72);
+      --cp-panel-strong: rgba(41, 41, 41, 0.96);
+      --cp-sheen: rgba(255, 255, 255, 0.04);
+      --cp-highlight: rgba(253, 142, 161, 0.12);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--cp-bg);
+      color: var(--cp-text);
+      font-family: "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.55;
+    }
+    a { color: var(--cp-link); }
+    button, input { font: inherit; }
+    code, pre { font-family: Consolas, "Courier New", Courier, monospace; }
+    header {
+      background: var(--cp-bg-elevated);
+      border-bottom: 1px solid var(--cp-border);
+      padding: 32px 20px;
+    }
+    header > div, main { max-width: 1080px; margin: auto; }
+    h1 { margin: 4px 0 8px; font-size: clamp(2rem, 5vw, 3.25rem); line-height: 1.1; }
+    h2 { margin: 0 0 16px; }
+    h3 { margin: 24px 0 8px; }
+    p { margin: 8px 0 16px; }
+    .eyebrow { color: var(--cp-accent); font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+    .muted { color: var(--cp-text-muted); }
+    main { padding: 24px 20px 64px; }
+    .tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+    .tab {
+      border: 1px solid var(--cp-border);
+      border-radius: 0.625rem;
+      background: var(--cp-surface);
+      color: var(--cp-text);
+      cursor: pointer;
+      padding: 10px 14px;
+    }
+    .tab:hover { border-color: var(--cp-accent); }
+    .tab[aria-selected="true"] {
+      background: var(--cp-accent);
+      border-color: var(--cp-accent);
+      color: var(--cp-accent-fg);
+    }
+    .panel { display: none; }
+    .panel.active { display: block; }
+    .grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+    .card {
+      background: var(--cp-surface);
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 1px 2px var(--cp-border);
+    }
+    .notice {
+      background: var(--cp-accent-soft);
+      border-left: 4px solid var(--cp-accent);
+      border-radius: 0.625rem;
+      padding: 12px 16px;
+      margin: 16px 0;
+    }
+    .warning { border-left-color: var(--cp-warning); }
+    .success { border-left-color: var(--cp-success); }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid var(--cp-border); padding: 10px; text-align: left; vertical-align: top; }
+    th { background: var(--cp-surface-soft); }
+    pre {
+      background: var(--cp-surface-soft);
+      border: 1px solid var(--cp-border);
+      border-radius: 0.625rem;
+      color: var(--cp-text);
+      overflow: auto;
+      padding: 14px;
+    }
+    .checklist { list-style: none; padding: 0; }
+    .checklist li {
+      align-items: flex-start;
+      border-bottom: 1px solid var(--cp-border);
+      display: flex;
+      gap: 10px;
+      padding: 10px 0;
+    }
+    .checklist input { accent-color: var(--cp-accent); margin-top: 5px; }
+    .actions { display: flex; gap: 8px; margin-top: 16px; }
+    .primary {
+      background: var(--cp-accent);
+      border: 1px solid var(--cp-accent);
+      border-radius: 0.625rem;
+      color: var(--cp-accent-fg);
+      cursor: pointer;
+      padding: 10px 14px;
+    }
+    .primary:hover { background: var(--cp-accent-hover); }
+    .pill {
+      background: var(--cp-accent-soft);
+      border-radius: 0.625rem;
+      color: var(--cp-accent);
+      display: inline-block;
+      font-weight: 700;
+      margin-right: 8px;
+      padding: 4px 8px;
+    }
+    @media print {
+      .tabs, .actions { display: none; }
+      .panel { display: block; break-before: page; }
+      .panel:first-of-type { break-before: auto; }
+      body { background: var(--cp-surface); }
+      .card { box-shadow: none; break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <div class="eyebrow">Encontros 5 e 6 · uso local</div>
+      <h1>Guia do professor</h1>
+      <p class="muted">Roteiro de duas aulas para iniciantes: construir offline, testar, proteger, entregar e avaliar.</p>
+      <span class="pill">Offline-first</span><span class="pill">3 chamadas no maximo</span><span class="pill">Conceitos A–D</span>
+    </div>
+  </header>
+  <main>
+    <nav class="tabs" aria-label="Secoes do guia">
+      <button class="tab" aria-selected="true" data-target="visao">Visao geral</button>
+      <button class="tab" aria-selected="false" data-target="e5">Encontro 5</button>
+      <button class="tab" aria-selected="false" data-target="e6">Encontro 6</button>
+      <button class="tab" aria-selected="false" data-target="avaliacao">Entrega e avaliacao</button>
+      <button class="tab" aria-selected="false" data-target="ensaio">Ensaio local</button>
+    </nav>
+
+    <section id="visao" class="panel active">
+      <div class="grid">
+        <article class="card">
+          <h2>Objetivo didatico</h2>
+          <p>Tornar visivel o ciclo de um agente: escopo, contrato, construcao, teste, guardrail, observabilidade e limite de recursos.</p>
+          <p><strong>Nao e objetivo:</strong> ensinar infraestrutura, Git ou deploy durante a imersao.</p>
+        </article>
+        <article class="card">
+          <h2>Regras da experiencia</h2>
+          <ol>
+            <li>Toda entrega funciona com <code>MOCK_LLM=1</code>.</li>
+            <li>O agente executa uma tarefa verificavel.</li>
+            <li>A turma avanca por checkpoints coletivos.</li>
+            <li>Falhas geram uma melhoria observavel.</li>
+            <li>A API e opcional: ate tres tentativas por grupo.</li>
+          </ol>
+        </article>
+      </div>
+      <div class="notice warning">
+        <strong>Plano B e o plano principal.</strong> Erros 429, 503, timeout ou token ausente nao reduzem a nota. Volte ao mock e continue.
+      </div>
+      <h3>Evidencias ao final</h3>
+      <table>
+        <thead><tr><th>Evidencia</th><th>Como observar</th></tr></thead>
+        <tbody>
+          <tr><td>Contrato valido</td><td><code>check_agent.py</code> conclui sem erro.</td></tr>
+          <tr><td>Tres casos</td><td>Normal, dificil e vazio/muito longo em YAML.</td></tr>
+          <tr><td>Guardrail</td><td>Entrada inadequada e tratada antes do modelo.</td></tr>
+          <tr><td>Observabilidade</td><td><code>AgentResult.steps</code> explica o fluxo.</td></tr>
+          <tr><td>Entrega</td><td>ZIP avaliado no portal e registrado em SQLite/CSV.</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="e5" class="panel">
+      <h2>Encontro 5 — construir offline (180 min)</h2>
+      <table>
+        <thead><tr><th>Tempo</th><th>Atividade</th><th>Evidencia</th></tr></thead>
+        <tbody>
+          <tr><td>0–15</td><td>Demonstrar o produto pronto</td><td>Entrada, saida e passos reconhecidos</td></tr>
+          <tr><td>15–35</td><td>Criar ambiente e instalar</td><td>Checkpoint 0</td></tr>
+          <tr><td>35–75</td><td>Escrever escopo e criterios</td><td>Uma tarefa verificavel</td></tr>
+          <tr><td>75–90</td><td>Pausa e atendimento</td><td>Dificuldades agrupadas</td></tr>
+          <tr><td>90–125</td><td>Copiar e editar o template</td><td>Arquivo individual</td></tr>
+          <tr><td>125–145</td><td>Preflight e depuracao em dupla</td><td>Checkpoint 1</td></tr>
+          <tr><td>145–170</td><td>Testar no portal</td><td>Checkpoint 2</td></tr>
+          <tr><td>170–180</td><td>Exit ticket</td><td>Uma melhoria para a aula seguinte</td></tr>
+        </tbody>
+      </table>
+      <div class="grid">
+        <article class="card">
+          <h3>Intervencoes</h3>
+          <ul>
+            <li>Se o escopo tiver “tudo”, reduza para um verbo.</li>
+            <li>Se a saida nao puder ser conferida, peca formato e limite.</li>
+            <li>Se metade travar, pare e resolva coletivamente.</li>
+            <li>Nao introduza token, Git ou deploy.</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Comandos de referencia</h3>
+          <pre><code>python check_agent.py agents/example_resumidor.py
+python check_agent.py agents/&lt;slug&gt;.py
+python app.py</code></pre>
+        </article>
+      </div>
+    </section>
+
+    <section id="e6" class="panel">
+      <h2>Encontro 6 — avaliar e proteger (180 min)</h2>
+      <table>
+        <thead><tr><th>Tempo</th><th>Atividade</th><th>Evidencia</th></tr></thead>
+        <tbody>
+          <tr><td>0–15</td><td>Retomar a Definition of Done</td><td>Base comum</td></tr>
+          <tr><td>15–45</td><td>Criar tres casos YAML</td><td>Normal, dificil e borda</td></tr>
+          <tr><td>45–70</td><td>Executar e interpretar</td><td>Checkpoint 3</td></tr>
+          <tr><td>70–90</td><td>Melhorar a partir de uma falha</td><td>Antes/depois</td></tr>
+          <tr><td>90–105</td><td>Pausa</td><td>—</td></tr>
+          <tr><td>105–140</td><td>Guardrail, passos e logs</td><td>Robustez visivel</td></tr>
+          <tr><td>140–160</td><td>API opcional</td><td>Ate tres tentativas</td></tr>
+          <tr><td>160–175</td><td>Empacotar e enviar</td><td>Conceito registrado</td></tr>
+          <tr><td>175–180</td><td>Fechamento</td><td>Limitacao explicada</td></tr>
+        </tbody>
+      </table>
+      <div class="notice">
+        <strong>Protocolo da API:</strong> libere somente depois de preflight e testes offline. Use a mesma entrada offline/online, repita para observar cache e pare no primeiro erro recorrente.
+      </div>
+    </section>
+
+    <section id="avaliacao" class="panel">
+      <h2>Entrega e avaliacao automatica</h2>
+      <div class="grid">
+        <article class="card">
+          <h3>Aluno: criar o ZIP</h3>
+          <pre><code>python prepare_submission.py ^
+  --id "12345" ^
+  --nome "Nome Sobrenome" ^
+  --agente "organizador-estudos"</code></pre>
+          <p>O pacote contem apenas <code>submission.yaml</code>, <code>agent.py</code> e <code>cases.yaml</code>.</p>
+        </article>
+        <article class="card">
+          <h3>Professor: avaliar</h3>
+          <ol>
+            <li>Execute <code>python app.py</code>.</li>
+            <li>Abra a aba <strong>Entregar trabalho</strong>.</li>
+            <li>Selecione o ZIP e avalie.</li>
+            <li>Baixe <code>notas.csv</code>.</li>
+          </ol>
+          <p>O historico completo fica em <code>submissions/grades.db</code>.</p>
+        </article>
+      </div>
+      <h3>Rubrica automatica</h3>
+      <table>
+        <thead><tr><th>Criterio</th><th>Pontos</th></tr></thead>
+        <tbody>
+          <tr><td>Contrato do agente</td><td>20</td></tr>
+          <tr><td>Smoke test offline</td><td>20</td></tr>
+          <tr><td>Tres casos presentes</td><td>15</td></tr>
+          <tr><td>Taxa de aprovacao dos casos</td><td>25</td></tr>
+          <tr><td>Guardrail vazio ou acima de 4.000 caracteres</td><td>10</td></tr>
+          <tr><td>Passos de observabilidade</td><td>10</td></tr>
+        </tbody>
+      </table>
+      <div class="notice success">
+        <strong>Conceitos:</strong> A = 90–100; B = 75–89; C = entrega parcial. D e reservado a quem nao entregou. A nota automatica apoia, mas nao substitui a revisao do professor.
+      </div>
+      <div class="notice warning">
+        <strong>Seguranca:</strong> o avaliador bloqueia imports e operacoes perigosas, remove credenciais do ambiente e executa em subprocesso offline com timeout. Isso reduz riscos, mas nao e uma sandbox completa: use apenas no computador local da aula e nunca publique a aba de upload.
+      </div>
+    </section>
+
+    <section id="ensaio" class="panel">
+      <h2>Checklist do ensaio local</h2>
+      <p class="muted">As marcacoes ficam salvas apenas neste navegador.</p>
+      <article class="card">
+        <ul class="checklist">
+          <li><input type="checkbox" id="c1"><label for="c1">Copiar o projeto sem ambiente, token, caches ou logs.</label></li>
+          <li><input type="checkbox" id="c2"><label for="c2">Seguir apenas o tutorial do aluno e instalar dependencias.</label></li>
+          <li><input type="checkbox" id="c3"><label for="c3">Criar um agente novo e passar no preflight offline.</label></li>
+          <li><input type="checkbox" id="c4"><label for="c4">Abrir o portal e confirmar modo offline no rodape.</label></li>
+          <li><input type="checkbox" id="c5"><label for="c5">Criar tres casos e observar ao menos uma falha util.</label></li>
+          <li><input type="checkbox" id="c6"><label for="c6">Adicionar guardrail e repetir os testes.</label></li>
+          <li><input type="checkbox" id="c7"><label for="c7">Simular token ausente, cache e limite local.</label></li>
+          <li><input type="checkbox" id="c8"><label for="c8">Gerar o ZIP com <code>prepare_submission.py</code>.</label></li>
+          <li><input type="checkbox" id="c9"><label for="c9">Avaliar o ZIP no portal e conferir SQLite/CSV.</label></li>
+          <li><input type="checkbox" id="c10"><label for="c10">Anotar comandos confusos e corrigir o material.</label></li>
+        </ul>
+        <div class="actions">
+          <button class="primary" id="clear-checklist">Limpar checklist</button>
+          <button class="primary" onclick="window.print()">Imprimir guia</button>
+        </div>
+      </article>
+    </section>
+  </main>
+  <script>
+    const tabs = document.querySelectorAll(".tab");
+    const panels = document.querySelectorAll(".panel");
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        tabs.forEach((item) => item.setAttribute("aria-selected", "false"));
+        panels.forEach((panel) => panel.classList.remove("active"));
+        tab.setAttribute("aria-selected", "true");
+        document.getElementById(tab.dataset.target).classList.add("active");
+      });
+    });
+
+    const checklist = document.querySelectorAll('.checklist input[type="checkbox"]');
+    checklist.forEach((item) => {
+      item.checked = localStorage.getItem(`guia-professor-${item.id}`) === "1";
+      item.addEventListener("change", () => {
+        localStorage.setItem(`guia-professor-${item.id}`, item.checked ? "1" : "0");
+      });
+    });
+    document.getElementById("clear-checklist").addEventListener("click", () => {
+      checklist.forEach((item) => {
+        item.checked = false;
+        localStorage.removeItem(`guia-professor-${item.id}`);
+      });
+    });
+  </script>
+</body>
+</html>

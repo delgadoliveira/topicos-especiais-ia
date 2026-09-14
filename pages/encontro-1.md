@@ -65,7 +65,7 @@ layout: two-cols
 
 # 1.1 Roadmap da disciplina
 
-Em **4 encontros** vamos sair de *"não sei o que é um agente"* para *"sei desenhar, implementar, avaliar e debugar agentes"*.
+Em **6 encontros** vamos sair de *"não sei o que é um agente"* para *"sei desenhar, implementar, avaliar, proteger e entregar agentes"*.
 
 **Filosofia da disciplina:**
 - 🛠️ Toda aula tem código rodando

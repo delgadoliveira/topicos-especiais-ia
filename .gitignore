@@ -4,6 +4,9 @@ vendor/
 .DS_Store
 *.log
 .env
+__pycache__/
+*.py[cod]
+.venv/
 
 shot.js
 shot-*.png

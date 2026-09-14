@@ -1,6 +1,8 @@
 # Tópicos Especiais em IA — Agentes de IA (Zero to Hero)
 
-Apresentação em **Slidev** para a disciplina *Tópicos Especiais em IA — Agentes de IA*, ministrada em **4 encontros de 3h** (assíncrono).
+Material da disciplina *Tópicos Especiais em IA — Agentes de IA*, organizada em
+**6 encontros de 3h**. Os encontros 5 e 6 formam uma imersão prática
+offline-first: cada aluno constrói, avalia e demonstra um agente de tarefa única.
 
 ## Como rodar
 
@@ -56,6 +58,8 @@ Cores e estilos custom estão em `slides.md` (bloco `<style>`).
 | Encontro 1 | 3h | Fundamentos, anatomia, ReAct, primeiro agente em Python |
 | Encontro 2 | 3h | Chain-of-Thought, Tree-of-Thoughts, Planning, Function Calling, frameworks |
 | Encontro 3 | 3h | Skills, MCP, context window, RAG, memória, multi-agentes |
-| Encontro 4 | 3h | Falhas comuns, avaliação, observabilidade, Cursor/Claude Code/Devin, projeto final |
+| Encontro 4 | 3h | Falhas comuns, avaliação, observabilidade, Cursor/Claude Code/Devin |
+| Encontro 5 | 3h | Imersão I: escopo, prompt, contrato, portal local e testes offline |
+| Encontro 6 | 3h | Imersão II: avaliação, guardrails, limites de API, logs e apresentação |
 
 Linguagem: **Português**. Código: **Python**.

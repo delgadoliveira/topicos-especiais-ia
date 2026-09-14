@@ -785,7 +785,7 @@ class: text-center
 # 🎓 Hora de integrar tudo
 
 <div class="text-xl mt-6 opacity-90">
-Ao longo de 4 encontros, você aprendeu a:<br>
+Nos quatro primeiros encontros, você aprendeu a:<br>
 <b>construir</b> → <b>pensar</b> → <b>lembrar</b> → <b>proteger</b> agentes.
 </div>
 
@@ -1236,7 +1236,7 @@ class: text-center
 # 🎓 Fim da disciplina
 
 <div class="text-lg opacity-80 mt-6 max-w-2xl mx-auto">
-Em 12 horas, você saiu de <b>“o que é um agente?”</b> para projetar, implementar, avaliar e operar agentes de IA.
+Nos quatro primeiros encontros (12 horas), você saiu de <b>“o que é um agente?”</b> para projetar, implementar, avaliar e operar agentes de IA.
 </div>
 
 <v-clicks>

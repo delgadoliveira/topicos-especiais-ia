@@ -1,174 +1,183 @@
-# 🎓 Guia do Professor — Encontros 5 & 6 (Imersão)
+# Guia do professor — imersao local em dois encontros
 
-Roteiro passo a passo para conduzir os dois encontros de imersão em que os
-alunos constroem e publicam um agente no **Portal Multi-Agente**.
+Roteiro para duas aulas de 3h com alunos sem experiencia previa em computacao.
+O objetivo nao e ensinar infraestrutura: e tornar visivel o ciclo de produto de
+um agente — escopo, construcao, teste, guardrail, observabilidade e limite.
 
-- **Formato:** 2 encontros (sugestão: 3–4h cada).
-- **Entrega:** cada aluno pluga **um** agente de tarefa única no portal comum.
-- **Stack:** 100% open source. Modelo aberto (Qwen) via Hugging Face, token
-  gratuito. Deploy grátis no Hugging Face Spaces.
-- **Material de apoio:** slides `reveal/sections/encontro-5.html` e
-  `encontro-6.html`; template de código nesta pasta (`projeto-portal/`).
+## Principios
 
----
+1. **Offline-first:** toda entrega deve funcionar com `MOCK_LLM=1`.
+2. **Uma tarefa:** o agente tem entrada e saida verificaveis.
+3. **Checkpoint coletivo:** a turma avanca junta nas partes tecnicas.
+4. **Erro como dado:** cada falha deve levar a uma mudanca observavel.
+5. **API e comparacao:** no maximo tres chamadas reais por grupo.
+6. **Plano B pronto:** indisponibilidade externa nao interrompe a aula.
 
-## ✅ Antes da aula (checklist do professor)
+Material do aluno:
+[`../public/tutorials/imersao-agente-local.html`](../public/tutorials/imersao-agente-local.html)
 
-- [ ] Suba o `projeto-portal/` num repositório Git acessível aos alunos.
-- [ ] Rode você mesmo o fluxo completo uma vez (setup → agente → deploy).
-- [ ] Crie um token HF gratuito e teste `python app.py` com e sem `MOCK_LLM=1`.
-- [ ] Publique um Space de demonstração (mostra o resultado final logo no início).
-- [ ] Prepare uma **planilha de slugs** compartilhada (evita nomes duplicados).
-- [ ] Tenha 2–3 ideias de agente na manga para alunos travados na ideação.
-- [ ] Peça (opcional) que instalem Python + Git antes; ou use Google Colab.
+Versao local navegavel deste guia:
+[`../public/tutorials/guia-professor-imersao.html`](../public/tutorials/guia-professor-imersao.html)
 
-> 💡 Plano B de infraestrutura: se a rede/HF estiver instável, **todo o
-> desenvolvimento roda offline com `MOCK_LLM=1`**. Só o juiz LLM e o deploy
-> precisam de token/rede.
+## Preparacao antes da aula
 
----
+- Execute o ensaio do zero em Windows e, se houver alunos usando macOS, valide
+  tambem esse caminho.
+- Tenha uma copia local ou ZIP do repositorio; Git nao e pre-requisito.
+- Confirme Python 3.10+ e VS Code nos computadores.
+- Deixe o portal funcionando com `MOCK_LLM=1`.
+- Prepare um exemplo completo e um exemplo propositalmente quebrado.
+- Projete o tutorial e mantenha seu link curto acessivel.
+- Se usar API, confirme o token apenas no computador do professor e defina
+  `MAX_REAL_CALLS=3`.
 
-## 📅 Encontro 5 — Construir (roteiro)
+## Encontro 5 — construir offline (180 min)
 
-| Tempo | Bloco | O que fazer |
-|------:|-------|-------------|
-| 0:00–0:15 | **Abertura** | Mostre o Space de demo pronto. "No fim do E6, o SEU agente estará assim, no ar." Apresente a regra: 1 aluno = 1 agente. |
-| 0:15–0:35 | **Contrato & arquitetura** | Slides do contrato (`AgentResult` + `run`) e do fluxo `agents/ → registry → app`. Enfatize: "vocês editam UM arquivo". |
-| 0:35–1:05 | **Ideação + escopo** | Cada aluno escolhe um arquétipo e escreve a **frase de escopo**. Circule e valide 1 a 1. Rejeite escopos vagos na hora. |
-| 1:05–1:20 | **Setup guiado** | Todos rodam `pip install`, configuram `.env` (ou `MOCK_LLM=1`) e sobem o portal com o agente de exemplo. Ninguém avança sem o portal abrindo. |
-| 1:20–1:30 | ☕ Intervalo | — |
-| 1:30–2:30 | **Implementação** | Copiam o template, implementam `run()`. Você circula. Use o exemplo Resumidor/Calculadora/FAQ conforme o arquétipo de cada um. |
-| 2:30–2:50 | **Validação** | Todos rodam `check_agent.py` e veem o agente no portal local. |
-| 2:50–3:00 | **Fechamento** | Revise a *Definition of Done* do E5. Tarefa: deixar o agente rodando e trazer para o E6. |
+| Tempo | Atividade | Evidencia |
+|---:|---|---|
+| 0–15 | Mostrar o produto pronto em modo offline | Turma entende entrada, saida e passos |
+| 15–35 | Abrir pasta, criar `.venv`, instalar dependencias | Checkpoint 0 passa |
+| 35–55 | Escrever a frase de escopo em linguagem comum | Entrada e saida verificaveis |
+| 55–75 | Definir obrigatorios, proibido e exemplo | Criterio de qualidade escrito |
+| 75–90 | Pausa e atendimento | Dificuldades agrupadas no quadro |
+| 90–125 | Copiar template e editar quatro campos | Arquivo individual criado |
+| 125–145 | Rodar preflight e depurar em dupla | Checkpoint 1 passa |
+| 145–170 | Abrir portal e testar | Checkpoint 2 demonstrado |
+| 170–180 | Exit ticket | Uma melhoria para o encontro 6 |
 
-### Objetivos de saída do E5
-Todo aluno termina com: escopo em 1 frase · `agents/<slug>.py` criado ·
-`check_agent.py` passando · agente respondendo no portal local.
+### Conducao dos checkpoints
 
-### Erros que você vai ver (e a resposta rápida)
-- **Escopo vago** → devolva a frase-modelo e peça a "saída verificável".
-- **Slug com espaço/maiúscula** → o preflight avisa; renomeie.
-- **`HF_TOKEN` não encontrado** → mande rodar com `MOCK_LLM=1` e seguir.
-- **Chamada de rede no import** → mova para dentro do `run()`.
+- **Checkpoint 0:** ninguem edita codigo antes de a instalacao funcionar.
+- **Checkpoint 1:** alunos com preflight verde ajudam uma dupla, sem assumir o
+  teclado dela.
+- **Checkpoint 2:** cada dupla mostra escopo, entrada e resposta. Nao avaliar
+  “criatividade” do mock; avaliar se o contrato esta compreendido.
 
----
+### Intervencoes recomendadas
 
-## 📅 Encontro 6 — Endurecer & publicar (roteiro)
+- Se o escopo tiver “qualquer”, “tudo” ou varias tarefas, reduza para um verbo.
+- Se a saida nao puder ser conferida, peca formato, quantidade e limites.
+- Se metade da turma travar no mesmo ponto, pause e resolva coletivamente.
+- Nao introduza Git, deploy ou token neste encontro.
 
-| Tempo | Bloco | O que fazer |
-|------:|-------|-------------|
-| 0:00–0:15 | **Retomada** | Todos abrem o portal local com o próprio agente. Quem não conseguiu, resolve agora (pareie com você/monitor). |
-| 0:15–0:40 | **Preflight & debug** | Percorra os erros comuns. Garanta que 100% da turma tem o agente rodando sem exceção antes de avançar. |
-| 0:40–1:20 | **Avaliação** | Cada aluno escreve 3 casos (`eval/cases/<slug>.yaml`: feliz, borda, fora de escopo) e roda `run_eval.py`. Discuta um scorecard com ❌ e como iterar. |
-| 1:20–1:30 | ☕ Intervalo | — |
-| 1:30–1:55 | **Guardrail** | Cada aluno adiciona pelo menos 1 guardrail de entrada/saída. Menu de guardrails no slide. |
-| 1:55–2:10 | **Observabilidade** | Mostre `logs/interactions.jsonl`. O que medir, o que nunca logar. |
-| 2:10–2:50 | **Deploy** | Passo a passo do HF Spaces (SDK Gradio + secret `HF_TOKEN`). Alternativa: PR no portal da turma (um arquivo). |
-| 2:50–3:20 | **Demos** | 2 min por aluno, com plano B. Use um timer visível. |
-| 3:20–3:30 | **Encerramento** | Rubrica, próximos passos, "para além do curso". |
+## Encontro 6 — avaliar e proteger (180 min)
 
-### Objetivos de saída do E6
-Preflight ok · 3 casos de eval · ≥1 guardrail · deploy no Spaces (ou PR) ·
-demo de 2 min ensaiada.
+| Tempo | Atividade | Evidencia |
+|---:|---|---|
+| 0–15 | Retomar demo offline e Definition of Done | Base comum restabelecida |
+| 15–45 | Criar caso normal, dificil e inadequado | Tres casos legiveis |
+| 45–70 | Rodar avaliador e interpretar falhas | Checkpoint 3 executado |
+| 70–90 | Melhorar prompt a partir de uma falha | Antes/depois registrado |
+| 90–105 | Pausa | — |
+| 105–125 | Adicionar entrada vazia e limite de tamanho | Guardrail demonstravel |
+| 125–140 | Ler passos, latencia e log JSON | Evidencia de observabilidade |
+| 140–160 | Checkpoint opcional com API | Ate tres chamadas por grupo |
+| 160–175 | Empacotar, enviar e ler o resultado | Conceito registrado |
+| 175–180 | Fechamento | Produto e limitacao explicados |
 
----
+## Protocolo da API
 
-## 🗂️ Duas formas de entrega (escolha uma para a turma)
+1. Explique antes que cada tentativa, inclusive retry, consome o orcamento.
+2. Libere a API apenas quando preflight e avaliacao offline passarem.
+3. Use a mesma entrada offline e online; depois repita para observar o cache.
+4. Pare no primeiro 429 recorrente, 503 ou timeout. Nao transforme a aula em
+   depuracao do provedor.
+5. Volte para `MOCK_LLM=1`, reinicie e prossiga com a demo.
+6. Token nunca e compartilhado em chat, projetor, codigo ou repositorio.
 
-1. **Space individual** — cada aluno publica o próprio portal com seu agente.
-   Melhor para portfólio. Mais Spaces para acompanhar.
-2. **Portal da turma (recomendado)** — um repositório único; cada aluno abre um
-   PR adicionando `agents/<slug>.py` + `eval/cases/<slug>.yaml`. Você faz o
-   merge e publica **um** Space com todos os agentes. Reforça Git + revisão.
+O objetivo do checkpoint e comparar variabilidade, custo e dependencia externa,
+nao conseguir uma resposta “mais bonita”.
 
----
+## Pontos de parada
 
-## 📋 Rubrica sugerida (100 pts)
+Pode encerrar cada bloco quando:
 
-| Critério | Peso | O que observar |
-|----------|-----:|----------------|
-| Escopo | 20 | Tarefa clara, útil e **verificável**; frase de escopo completa. |
-| Funciona | 25 | Roda no portal, cumpre o contrato, não quebra a UI. |
-| Avaliação | 20 | 3 casos relevantes; usou o scorecard para iterar. |
-| Robustez | 15 | Guardrail(s) e boas mensagens de erro. |
-| Deploy | 10 | Publicado e acessível por URL (ou PR mergeado). |
-| Demo | 10 | Clara, dentro do tempo, com plano B. |
+- ambiente: o exemplo passa no preflight;
+- construcao: o agente individual passa no preflight;
+- avaliacao: tres casos foram executados, mesmo que algum falhe;
+- robustez: um guardrail e visivel;
+- apresentacao: a demo funciona em modo offline.
 
----
+## Rubrica sugerida
 
-## 🧯 Kit de sobrevivência da aula
+| Criterio | Evidencia | Peso |
+|---|---|---:|
+| Escopo e utilidade | Uma tarefa, usuario, entrada e saida claros | 20% |
+| Funcionamento | Preflight e portal offline | 25% |
+| Avaliacao | Tres casos e melhoria baseada em falha | 25% |
+| Responsabilidade | Guardrail, privacidade e limitacao | 20% |
+| Comunicacao | Demo objetiva de dois minutos | 10% |
 
-- **Rede/HF caiu:** `MOCK_LLM=1` para tudo, menos deploy/juiz. O fluxo inteiro
-  (contrato, UI, evals determinísticos) continua demonstrável.
-- **Aluno muito travado na ideia:** ofereça um arquétipo pronto (Resumidor,
-  Tutor de SQL, Explicador de erro, Gerador de commit) e mande adaptar ao
-  domínio dele.
-- **"Não passa no eval":** ótimo momento pedagógico — mostre a iteração
-  prompt → rodar → número sobe. É o coração da engenharia de agentes.
-- **Space não builda:** confira o cabeçalho YAML do `README.md` (sdk: gradio,
-  app_file: app.py) e o secret `HF_TOKEN`.
+Nao penalize indisponibilidade de API. Ela e uma condicao externa coberta pelo
+plano B.
 
----
+## Entrega e registro automatico
 
-## 🔭 Extensões (para turmas mais avançadas)
+O aluno gera um ZIP padronizado:
 
-- Ferramentas de verdade (busca web, execução de código) com um loop ReAct.
-- RAG com embeddings + FAISS/Chroma quando a base de conhecimento crescer.
-- Multi-agente: um agente orquestrador que chama os dos colegas.
-- Observabilidade profissional com Langfuse ou Arize Phoenix (OSS).
-
-
----
-
-## 🗺️ Diagramas
-
-Fontes editáveis em `public/diagrams/` (abra em https://aka.ms/excalidraw):
-`portal-arquitetura.excalidraw` e `jornada-7-etapas.excalidraw`.
-Exports renderizados (`.png` e `.svg`) estão na mesma pasta.
-Abaixo, os PNGs renderizados e as versões Mermaid (renderizam direto no GitHub).
-
-### Arquitetura do Portal Multi-Agente
-
-![Arquitetura do Portal Multi-Agente](../public/diagrams/portal-arquitetura.png)
-
-```mermaid
-flowchart TD
-    U["👥 Usuários"] --> P["🖥️ Portal (Gradio · app.py)<br/>UI de chat única"]
-    P --> R["🔌 registry.discover()<br/>varre agents/*.py"]
-    R --> A["🧑 Agente Aluno A<br/>slug: resumidor<br/>run(message, history)"]
-    R --> B["🧑 Agente Aluno B<br/>slug: tutor-sql<br/>run(message, history)"]
-    R --> C["🧑 Agente Aluno C<br/>slug: explicador<br/>run(message, history)"]
-    A --> RN["runner.safe_run()<br/>erro + latência"]
-    B --> LL["llm.chat()<br/>token · retry · MOCK"]
-    C --> OB["observability<br/>logs JSONL"]
-    LL --> HF["🤗 HF Router (grátis)<br/>Qwen2.5-7B-Instruct"]
-    R -. "cada agente devolve" .-> CT["📦 Contrato: AgentResult<br/>answer · steps · citations · error"]
-
-    subgraph INFRA["🧰 Infra comum do portal — você NÃO reescreve"]
-        RN
-        LL
-        OB
-    end
+```powershell
+python prepare_submission.py `
+  --id "12345" `
+  --nome "Nome Sobrenome" `
+  --agente "organizador-estudos"
 ```
 
-### A jornada em 7 etapas — do zero ao deploy
+No portal, use a aba **Entregar trabalho**. O avaliador abre somente os tres
+arquivos esperados, executa o agente offline em subprocesso com timeout e grava
+o resultado em `submissions/grades.db`. A interface tambem fornece
+`submissions/notas.csv`.
 
-![A jornada em 7 etapas](../public/diagrams/jornada-7-etapas.png)
+| Criterio automatico | Pontos |
+|---|---:|
+| Contrato | 20 |
+| Smoke test offline | 20 |
+| Tres casos | 15 |
+| Taxa de aprovacao | 25 |
+| Guardrail vazio ou acima de 4.000 caracteres | 10 |
+| Passos de observabilidade | 10 |
 
-```mermaid
-flowchart LR
-    subgraph E5["🛠️ ENCONTRO 5 · CONSTRUIR"]
-        direction LR
-        S1["① Idear & escopar<br/>→ frase de escopo"] --> S2["② Configurar ambiente<br/>→ portal abre"]
-        S2 --> S3["③ Implementar agente<br/>→ agents/&lt;slug&gt;.py"]
-        S3 --> S4["④ Validar & rodar local<br/>→ agente responde"]
-    end
-    subgraph E6["🚀 ENCONTRO 6 · PUBLICAR"]
-        direction LR
-        S5["⑤ Avaliar (3 casos)<br/>→ scorecard passando"] --> S6["⑥ Endurecer<br/>→ guardrail + logs"]
-        S6 --> S7["⑦ Publicar & demo<br/>→ URL pública"]
-    end
-    S4 --> S5
-```
+Conversao: A = 90–100; B = 75–89; C = entrega parcial. D e reservado para
+ausencia de entrega. Use a justificativa por criterio como apoio e faca revisao
+manual quando o resultado nao representar a aprendizagem observada.
 
-> Recurso comum a todas as etapas: o template `projeto-portal/` (já pronto) + modelo aberto gratuito. Custo total: **R$ 0**.
+O avaliador bloqueia imports e operacoes perigosas, remove credenciais do
+ambiente e usa subprocesso offline com timeout. Essas medidas oferecem
+isolamento parcial, nao uma sandbox completa. Nao publique a aba de upload na
+internet; use-a apenas no computador de aula.
+
+## Ensaio local obrigatorio
+
+Use uma pasta temporaria e aja como iniciante:
+
+1. Copie o projeto sem `.venv`, `.env`, caches ou logs.
+2. Siga apenas o tutorial, sem conhecimento implicito.
+3. Crie ambiente e instale dependencias.
+4. Rode o exemplo, crie um agente e valide.
+5. Abra o portal e confirme o rodape offline.
+6. Crie tres casos e rode a avaliacao.
+7. Adicione o guardrail e repita os testes.
+8. Simule token ausente, limite local e resposta em cache.
+9. Gere um ZIP, avalie no portal e confira o registro SQLite/CSV.
+10. Registre comandos confusos, corrija o material e repita os trechos afetados.
+
+## Diagnostico durante a aula
+
+| Sintoma | Diagnostico | Resposta didatica |
+|---|---|---|
+| `python` nao encontrado | Instalacao/PATH | Tentar `py`; usar dupla de apoio |
+| Ativacao bloqueada | Politica do PowerShell | Liberar somente o processo atual |
+| Modulo ausente | Ambiente nao ativo | Ativar `.venv` e reinstalar |
+| Agente nao aparece | Contrato/import | Rodar preflight, nao adivinhar |
+| YAML invalido | Sintaxe | Validar recuo, dois-pontos e hifens |
+| 429 | Cota do provedor | Voltar ao mock imediatamente |
+| 503/timeout | Instabilidade externa | Executar plano B offline |
+| Limite local | Controle funcionando | Discutir custo; nao contornar |
+
+## Definition of Done da imersao
+
+- todos conseguem executar um agente offline;
+- cada entrega tem tres testes;
+- ao menos uma melhoria surgiu de uma falha observada;
+- ha um guardrail explicavel;
+- API real nao e dependencia da avaliacao;
+- cada aluno consegue explicar uma limitacao do proprio agente.

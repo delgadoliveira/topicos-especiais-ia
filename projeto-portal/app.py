@@ -24,7 +24,7 @@ except Exception:
 
 import gradio as gr
 
-from portal import registry, runner, llm
+from portal import llm, registry, runner, submissions
 
 AGENTS, ERRORS = registry.discover("agents")
 
@@ -59,10 +59,21 @@ def responder(slug, message, history):
     if result.citations:
         partes.append("\n\n📎 **Fontes:** " + "; ".join(result.citations))
     partes.append(
-        f"\n\n<sub>⏱️ {latency:.1f}s · modelo: {llm.get_model()} · status: {status}</sub>"
+        f"\n\n<sub>⏱️ {latency:.1f}s · modelo: {llm.get_model()} · "
+        f"{llm.usage_summary()} · status: {status}</sub>"
     )
     history.append({"role": "assistant", "content": "".join(partes)})
     return history, ""
+
+
+def avaliar_entrega(package):
+    if not package:
+        raise gr.Error("Selecione um arquivo ZIP.")
+    try:
+        result, report = submissions.evaluate_submission(package)
+    except ValueError as exc:
+        raise gr.Error(str(exc)) from exc
+    return submissions.format_result(result), str(report)
 
 
 with gr.Blocks(title="Portal Multi-Agente") as demo:
@@ -71,29 +82,48 @@ with gr.Blocks(title="Portal Multi-Agente") as demo:
         "Cada agente foi construído por um aluno. Escolha um e converse."
     )
 
-    if ERRORS:
-        with gr.Accordion(f"⚠️ {len(ERRORS)} agente(s) com erro de carga", open=False):
-            gr.Markdown("\n".join(f"- `{e.module}`: {e.reason}" for e in ERRORS))
+    with gr.Tab("Experimentar agentes"):
+        if ERRORS:
+            with gr.Accordion(
+                f"⚠️ {len(ERRORS)} agente(s) com erro de carga", open=False
+            ):
+                gr.Markdown("\n".join(f"- `{e.module}`: {e.reason}" for e in ERRORS))
 
-    if not AGENTS:
+        if not AGENTS:
+            gr.Markdown(
+                "### Nenhum agente carregado ainda.\n"
+                "Crie `agents/<seu-slug>.py` a partir de `agents/_template_agent.py`."
+            )
+        else:
+            first = list(AGENTS)[0]
+            slug = gr.Dropdown(choices=_choices(), value=first, label="Agente")
+            desc = gr.Markdown(f"_{AGENTS[first].description}_")
+            chat = _make_chatbot(height=380)
+            msg = gr.Textbox(placeholder="Digite sua mensagem...", label="Mensagem")
+            with gr.Row():
+                enviar = gr.Button("Enviar", variant="primary")
+                limpar = gr.Button("Limpar")
+
+            slug.change(lambda s: f"_{AGENTS[s].description}_", slug, desc)
+            enviar.click(responder, [slug, msg, chat], [chat, msg])
+            msg.submit(responder, [slug, msg, chat], [chat, msg])
+            limpar.click(lambda: [], None, chat)
+
+    with gr.Tab("Entregar trabalho"):
         gr.Markdown(
-            "### Nenhum agente carregado ainda.\n"
-            "Crie `agents/<seu-slug>.py` a partir de `agents/_template_agent.py`."
+            "Envie o ZIP criado por `prepare_submission.py`. A avaliacao aplica "
+            "uma politica restrita, roda **somente offline** e registra o conceito "
+            "localmente.\n\n"
+            "⚠️ O professor deve abrir esta funcao apenas em um computador de aula: "
+            "a protecao por subprocesso e timeout nao substitui uma sandbox completa."
         )
-    else:
-        first = list(AGENTS)[0]
-        slug = gr.Dropdown(choices=_choices(), value=first, label="Agente")
-        desc = gr.Markdown(f"_{AGENTS[first].description}_")
-        chat = _make_chatbot(height=380)
-        msg = gr.Textbox(placeholder="Digite sua mensagem...", label="Mensagem")
-        with gr.Row():
-            enviar = gr.Button("Enviar", variant="primary")
-            limpar = gr.Button("Limpar")
-
-        slug.change(lambda s: f"_{AGENTS[s].description}_", slug, desc)
-        enviar.click(responder, [slug, msg, chat], [chat, msg])
-        msg.submit(responder, [slug, msg, chat], [chat, msg])
-        limpar.click(lambda: [], None, chat)
+        package = gr.File(
+            label="Entrega (.zip)", file_types=[".zip"], type="filepath"
+        )
+        evaluate = gr.Button("Avaliar e registrar", variant="primary")
+        result = gr.Markdown()
+        report = gr.File(label="Planilha CSV consolidada")
+        evaluate.click(avaliar_entrega, package, [result, report])
 
 
 if __name__ == "__main__":

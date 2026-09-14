@@ -3,7 +3,7 @@ theme: apple-basic
 title: Tópicos Especiais em IA — Agentes de IA
 info: |
   ## Tópicos Especiais em IA — Agentes de IA (Zero to Hero)
-  Disciplina assíncrona em 4 encontros de 3h.
+  Disciplina assíncrona em 6 encontros de 3h.
   Da história dos primeiros modelos até agentes em produção.
 class: text-center
 highlighter: shiki
@@ -24,7 +24,7 @@ colorSchema: dark
 ## 🤖 Agentes de IA — *Zero to Hero*
 
 <div class="text-xl opacity-80 mt-4">
-4 encontros · 3h cada · 100% prático
+6 encontros · 3h cada · 100% prático
 </div>
 
 <div class="abs-bl mx-14 my-12 flex gap-2 items-center opacity-60 text-sm">
@@ -37,14 +37,14 @@ colorSchema: dark
 
 <!--
 Bem-vindos! Esta disciplina vai te levar de zero ao estado-da-arte em Agentes de IA.
-São 4 encontros de 3h, mais uma sessão histórica opcional.
+São 6 encontros de 3h, incluindo dois encontros de imersão prática.
 -->
 
 ---
 
 # 🗺️ Mapa do curso — visão geral
 
-<div class="text-xs mb-2">Use este mapa como referência ao longo dos 4 encontros.</div>
+<div class="text-xs mb-2">Use este mapa como referência ao longo dos 6 encontros.</div>
 
 ```mermaid {scale: 0.45}
 mindmap
@@ -272,7 +272,7 @@ class: text-center
 # Antes de começarmos…
 
 <div class="text-2xl mt-12 text-center opacity-90">
-Quase tudo que você vai ouvir nas próximas 12h<br>
+Quase tudo que você vai ouvir nas próximas 18h<br>
 <span class="text-cyan-400 font-bold">existe há menos de 3 anos.</span>
 </div>
 

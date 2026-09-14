@@ -1,6 +1,6 @@
 /**
  * Build script — copies reveal presentation to dist/ for GitHub Pages deployment.
- * Bundles: index.html, CSS, JS, exercises, node_modules assets (reveal.js, gsap, highlight.js)
+ * Bundles: index.html, CSS, JS, exercises, tutorials, diagrams and vendor assets.
  */
 const fs = require('fs');
 const path = require('path');
@@ -50,6 +50,9 @@ copyDir('reveal/sections', path.join(DIST, 'reveal/sections'));
 
 // Copy exercises
 copyDir('public/exercises', path.join(DIST, 'exercises'));
+
+// Copy step-by-step tutorials
+copyDir('public/tutorials', path.join(DIST, 'tutorials'));
 
 // Copy diagrams
 copyDir('public/diagrams', path.join(DIST, 'diagrams'));
