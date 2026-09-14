@@ -122,7 +122,21 @@
     .case-phase b { display: block; color: var(--cp-accent); margin-bottom: .35rem; }
     .case-phase p { margin: 0; }
     .evidence { border: 1px dashed var(--cp-border-strong); padding: .8rem; border-radius: .625rem; }
+    .mode-paths { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0; }
+    .mode-path {
+      background: var(--cp-surface);
+      border: 1px solid var(--cp-border);
+      border-top: 5px solid var(--cp-accent);
+      border-radius: 16px;
+      padding: 1rem 1.2rem;
+    }
+    .mode-path.optional { border-top-color: var(--cp-warning); }
+    .mode-path h4 { margin: 0 0 .5rem; color: var(--cp-accent); }
+    .mode-path.optional h4 { color: var(--cp-text); }
+    .mode-path .flow { font-family: Consolas, "Courier New", Courier, monospace; font-weight: 700; }
+    .mode-path ul { margin-bottom: 0; }
     @media (max-width: 680px) { .case-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 680px) { .mode-paths { grid-template-columns: 1fr; } }
     @media print {
       body { background: var(--cp-surface); }
       header { color: var(--cp-text); background: var(--cp-surface); padding: 1rem 0; }
@@ -136,7 +150,7 @@
   <div>
     <div class="tag">Encontros 5 e 6</div><div class="tag">Offline-first</div><div class="tag">Para iniciantes</div>
     <h1>Meu primeiro agente local</h1>
-    <p>Um tutorial passo a passo para construir, testar e demonstrar um agente sem depender da API.</p>
+    <p>Um tutorial passo a passo com simulador local e uma comparação opcional com IA real.</p>
   </div>
 </header>
 <main>
@@ -153,7 +167,34 @@
     <h2>Antes de comecar</h2>
     <div class="box">
       <p><strong>Produto final:</strong> um agente de tarefa unica que recebe texto, devolve uma resposta verificavel, recusa entradas inadequadas e registra o que aconteceu.</p>
-      <p><strong>Regra principal:</strong> tudo deve funcionar com <code>MOCK_LLM=1</code>. A API real e apenas uma comparacao controlada no final.</p>
+      <p><strong>Regra principal:</strong> tudo deve funcionar com <code>MOCK_LLM=1</code>. Nesse modo, nenhum modelo de IA e executado. A API real e apenas uma comparacao controlada no final.</p>
+    </div>
+    <h3>0. Entenda de onde vem cada resposta</h3>
+    <div class="mode-paths">
+      <article class="mode-path">
+        <h4>Modo padrão — simulador local</h4>
+        <p class="flow">entrada → agente → função Python → resposta [MOCK]</p>
+        <ul>
+          <li><strong>Modelo de IA:</strong> nenhum.</li>
+          <li><strong>API, token ou internet:</strong> não precisa.</li>
+          <li><strong>O que faz:</strong> repete parte da entrada de forma previsível.</li>
+          <li><strong>O que comprova:</strong> código, fluxo, formato, guardrails e testes.</li>
+        </ul>
+      </article>
+      <article class="mode-path optional">
+        <h4>Modo opcional — IA real</h4>
+        <p class="flow">entrada → agente → API Hugging Face → Qwen → resposta</p>
+        <ul>
+          <li><strong>Modelo:</strong> <code>Qwen/Qwen2.5-7B-Instruct</code>.</li>
+          <li><strong>Onde roda:</strong> infraestrutura do Hugging Face.</li>
+          <li><strong>O que precisa:</strong> internet e <code>HF_TOKEN</code>.</li>
+          <li><strong>Limite da aula:</strong> até três chamadas planejadas.</li>
+        </ul>
+      </article>
+    </div>
+    <div class="step warning">
+      <strong>Importante:</strong>
+      <p>O mock não “pensa”, não interpreta o prompt e não mede a qualidade da IA. Ele é um simulador para aprender a construir e testar o sistema. A qualidade generativa só pode ser comparada no modo de API real.</p>
     </div>
     <h3>1. Abra a pasta certa</h3>
     <p>No VS Code, use <strong>Arquivo &gt; Abrir Pasta</strong> e escolha a pasta <code>projeto-portal</code>. Depois abra <strong>Terminal &gt; Novo Terminal</strong>.</p>
@@ -185,7 +226,7 @@ python -m pip install -r requirements.txt</code></pre>
     <div class="case-grid">
       <div class="case-phase"><b>1 · Situação</b><p>Ana tem prova, várias matérias e pouco tempo. Ela não precisa de “uma IA que sabe tudo”; precisa decidir por onde começar.</p></div>
       <div class="case-phase"><b>2 · Promessa</b><p>Receber matérias, prazo e tempo disponível. Devolver um plano curto com prioridades e próximo passo.</p></div>
-      <div class="case-phase"><b>3 · Primeira versão</b><p>Definir identidade, validar a entrada, escrever a instrução e chamar o modelo em modo offline.</p></div>
+      <div class="case-phase"><b>3 · Primeira versão</b><p>Definir identidade, validar a entrada, escrever a instrução e chamar o simulador local.</p></div>
       <div class="case-phase"><b>4 · Evidência</b><p>Rodar um caso normal, um difícil e um vazio. Cada teste traduz uma parte da promessa.</p></div>
       <div class="case-phase"><b>5 · Melhoria</b><p>Adicionar limites para entrada vazia e texto muito longo; depois executar os mesmos testes novamente.</p></div>
       <div class="case-phase"><b>6 · Reflexão</b><p>O mock prova fluxo e formato, mas não prova a qualidade semântica de uma API real. Essa limitação deve ser explicada.</p></div>
@@ -383,12 +424,13 @@ if len(text) &gt; 4000:
 
     <h3>9. Observe antes de corrigir</h3>
     <pre><code>python app.py</code></pre>
-    <p>No portal, confira os passos e a latencia. No terminal, observe o log JSON: agente, modo, duracao e resultado. O rodape informa <strong>modo offline</strong> ou o numero de chamadas reais.</p>
+    <p>No portal, confira os passos e a latencia. No terminal, observe o log JSON: agente, modo, duracao e resultado. O rodape informa <strong>simulador local · nenhum modelo de IA</strong> ou identifica o modelo real e o numero de chamadas.</p>
 
     <h3>10. Compare com a API real — opcional e coletiva</h3>
     <div class="step warning">
-      <p><strong>Orcamento: no maximo tres chamadas por grupo.</strong> O professor libera este passo. Se houver erro 429, 503, token ausente ou rede instavel, volte ao modo offline; a atividade continua valida.</p>
+      <p><strong>Orcamento: no maximo tres chamadas por grupo.</strong> O professor libera este passo. Se houver erro 429, 503, token ausente ou rede instavel, volte ao simulador local; a atividade continua valida.</p>
     </div>
+    <p>A API OpenAI-compatible descreve o formato técnico da chamada; isso <strong>não significa usar um modelo da OpenAI</strong>. O modelo configurado e o <code>Qwen/Qwen2.5-7B-Instruct</code>, servido pelo Hugging Face.</p>
     <p>Crie um arquivo <code>.env</code> baseado em <code>.env.example</code> e altere:</p>
     <pre><code>HF_TOKEN=seu_token
 MOCK_LLM=0
@@ -452,7 +494,7 @@ LLM_CACHE=1</code></pre>
         <tr><td><code>ModuleNotFoundError</code></td><td>Ative <code>.venv</code> e rode <code>python -m pip install -r requirements.txt</code>.</td></tr>
         <tr><td>Meu agente nao aparece</td><td>Confira se esta em <code>agents</code>, termina em <code>.py</code> e expoe <code>AGENT</code>. Rode o preflight.</td></tr>
         <tr><td>Erro 429</td><td>Limite do provedor. Nao insista: defina <code>MOCK_LLM=1</code> e reinicie.</td></tr>
-        <tr><td>Erro 503 ou demora</td><td>Servico indisponivel. Volte ao modo offline e use a demo preparada.</td></tr>
+        <tr><td>Erro 503 ou demora</td><td>Servico indisponivel. Volte ao simulador local e use a demo preparada.</td></tr>
         <tr><td>Limite de chamadas atingido</td><td>Resultado esperado do controle de custo. Reinicie apenas com autorizacao do professor.</td></tr>
         <tr><td>YAML invalido</td><td>Confira recuo, dois-pontos e hifens no arquivo de casos.</td></tr>
       </tbody>

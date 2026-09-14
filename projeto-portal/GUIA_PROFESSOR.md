@@ -13,6 +13,15 @@ um agente — escopo, construcao, teste, guardrail, observabilidade e limite.
 5. **API e comparacao:** no maximo tres chamadas reais por grupo.
 6. **Plano B pronto:** indisponibilidade externa nao interrompe a aula.
 
+## Dois modos, sem ambiguidade
+
+- Com `MOCK_LLM=1`, nenhum modelo de IA e executado. Uma funcao Python local
+  devolve uma resposta previsivel para validar fluxo, formato, guardrails e
+  testes. Nao apresente esse modo como "IA local".
+- Com `MOCK_LLM=0`, o modelo `Qwen/Qwen2.5-7B-Instruct` e acessado pela API
+  OpenAI-compatible do Hugging Face. Esse modo requer internet e `HF_TOKEN`.
+- "OpenAI-compatible" descreve o formato da API, nao o fornecedor do modelo.
+
 Material do aluno:
 [`../public/tutorials/imersao-agente-local.html`](../public/tutorials/imersao-agente-local.html)
 
@@ -77,13 +86,14 @@ Versao local navegavel deste guia:
 
 ## Protocolo da API
 
-1. Explique antes que cada tentativa, inclusive retry, consome o orcamento.
-2. Libere a API apenas quando preflight e avaliacao offline passarem.
-3. Use a mesma entrada offline e online; depois repita para observar o cache.
-4. Pare no primeiro 429 recorrente, 503 ou timeout. Nao transforme a aula em
+1. Explique que o modelo e Qwen e roda na infraestrutura do Hugging Face.
+2. Explique antes que cada tentativa, inclusive retry, consome o orcamento.
+3. Libere a API apenas quando preflight e avaliacao offline passarem.
+4. Use a mesma entrada no simulador e na API; depois repita para observar o cache.
+5. Pare no primeiro 429 recorrente, 503 ou timeout. Nao transforme a aula em
    depuracao do provedor.
-5. Volte para `MOCK_LLM=1`, reinicie e prossiga com a demo.
-6. Token nunca e compartilhado em chat, projetor, codigo ou repositorio.
+6. Volte para `MOCK_LLM=1`, reinicie e prossiga com a demo.
+7. Token nunca e compartilhado em chat, projetor, codigo ou repositorio.
 
 O objetivo do checkpoint e comparar variabilidade, custo e dependencia externa,
 nao conseguir uma resposta “mais bonita”.

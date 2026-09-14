@@ -41,6 +41,22 @@ def _choices():
     return [(f"{a.emoji} {a.name}", slug) for slug, a in AGENTS.items()]
 
 
+def _mode_explanation():
+    if llm.is_mock_mode():
+        return (
+            "### 🧪 Simulador local ativo\n"
+            "**Nenhum modelo de IA está rodando.** Uma função Python devolve uma "
+            "resposta previsível para testar o agente, a interface e os guardrails "
+            "sem API, token ou internet."
+        )
+    return (
+        "### 🌐 API real ativa\n"
+        f"As respostas vêm do modelo **`{llm.get_model()}`**, acessado pela API "
+        "OpenAI-compatible do **Hugging Face**. Este modo usa internet, `HF_TOKEN` "
+        "e o orçamento de chamadas."
+    )
+
+
 def responder(slug, message, history):
     history = history or []
     if not slug:
@@ -59,7 +75,7 @@ def responder(slug, message, history):
     if result.citations:
         partes.append("\n\n📎 **Fontes:** " + "; ".join(result.citations))
     partes.append(
-        f"\n\n<sub>⏱️ {latency:.1f}s · modelo: {llm.get_model()} · "
+        f"\n\n<sub>⏱️ {latency:.1f}s · {llm.runtime_summary()} · "
         f"{llm.usage_summary()} · status: {status}</sub>"
     )
     history.append({"role": "assistant", "content": "".join(partes)})
@@ -81,6 +97,7 @@ with gr.Blocks(title="Portal Multi-Agente") as demo:
         "# 🤖 Portal Multi-Agente\n"
         "Cada agente foi construído por um aluno. Escolha um e converse."
     )
+    gr.Markdown(_mode_explanation())
 
     with gr.Tab("Experimentar agentes"):
         if ERRORS:

@@ -6,7 +6,7 @@
   <h1>Seu primeiro agente útil, do zero</h1>
   <p class="imm-lead">Hoje você transforma um problema real de estudo em uma ferramenta que funciona no seu computador.</p>
   <div class="imm-meta">
-    <span class="imm-pill">100% local</span>
+    <span class="imm-pill">Simulador local</span>
     <span class="imm-pill">Passo a passo</span>
     <span class="imm-pill">Em dupla</span>
     <a class="imm-pill" href="tutorials/imersao-agente-local.html" target="_blank" rel="noopener">Abrir tutorial ↗</a>
@@ -58,24 +58,24 @@
 <section class="imm-slide">
   <span class="imm-type">Modelo mental</span>
   <div class="imm-kicker">Arquitetura do agente</div>
-  <h2>Uma pergunta atravessa quatro peças até virar um plano.</h2>
+  <h2>O modo escolhido define quem produz a resposta.</h2>
   <div class="imm-diagram">
     <div class="imm-architecture">
       <div class="imm-node"><b>1 · Pessoa</b><span>Conta matérias, prazo e tempo disponível.</span></div>
       <div class="imm-arrow">→</div>
-      <div class="imm-node"><b>2 · Portal</b><span>Entrega a mensagem ao agente escolhido.</span></div>
+      <div class="imm-node"><b>2 · Portal + agente</b><span>Aplicam identidade, instrução e limites.</span></div>
       <div class="imm-arrow">→</div>
-      <div class="imm-node"><b>3 · Agente</b><span>Aplica papel, tarefa, formato e limite.</span></div>
+      <div class="imm-node"><b>3 · Motor</b><span>Simulador local ou Qwen pela API.</span></div>
       <div class="imm-arrow">→</div>
       <div class="imm-node"><b>4 · Resposta</b><span>Devolve três prioridades e o próximo passo.</span></div>
     </div>
     <div class="imm-mode-rail">
-      <div class="imm-mode"><b>Mock · padrão da aula</b><span>Local, gratuito e repetível.</span></div>
-      <div class="imm-mode optional"><b>API · experimento opcional</b><span>Até três chamadas planejadas.</span></div>
+      <div class="imm-mode"><b>Mock · nenhum modelo de IA</b><span>Função Python local. Sem API, token ou internet.</span></div>
+      <div class="imm-mode optional"><b>API · Qwen2.5-7B-Instruct</b><span>Roda no Hugging Face. Até três chamadas.</span></div>
       <div class="imm-mode reuse"><b>Cache · reaproveitar</b><span>Revê resultados sem gastar outra chamada.</span></div>
     </div>
   </div>
-  <div class="imm-contract"><em>Você constrói só o agente.</em> O portal e os três modos já estão prontos para apoiar o experimento.</div>
+  <div class="imm-contract"><em>O mock não pensa nem entende o prompt.</em> Ele prova o encanamento; a API opcional permite comparar a qualidade da IA real.</div>
   <span class="imm-page">04 / 15</span>
 </section>
 
@@ -121,7 +121,7 @@
       <div class="imm-lane-title"><b>Encontro 5</b><span>construir uma primeira versão útil</span></div>
       <div class="imm-lane-steps">
         <div class="imm-node"><b>1 · Definir</b><span>problema e promessa</span></div>
-        <div class="imm-node"><b>2 · Preparar</b><span>ambiente e modelo</span></div>
+        <div class="imm-node"><b>2 · Preparar</b><span>ambiente e simulador</span></div>
         <div class="imm-node"><b>3 · Criar</b><span>identidade e instrução</span></div>
         <div class="imm-node"><b>4 · Usar</b><span>preflight e portal</span></div>
       </div>
@@ -234,7 +234,7 @@ faça uma pergunta curta antes de criar o plano."""}</pre>
 
 <span class="passed">✓ Python compatível</span>
 <span class="passed">✓ Dependências instaladas</span>
-<span class="passed">✓ Modo mock ativo</span>
+<span class="passed">✓ Simulador ativo · nenhum modelo de IA</span>
 <span class="passed">✓ AGENT encontrado</span>
 
 <span class="passed">PRONTO PARA COMEÇAR</span></pre>

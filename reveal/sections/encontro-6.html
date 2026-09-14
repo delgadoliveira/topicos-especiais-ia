@@ -195,14 +195,14 @@ resultado: <span class="failed">2 de 3 casos passaram</span></pre>
   <div class="imm-kicker">Ver sem adivinhar</div>
   <h2>Três números contam a história de cada resposta.</h2>
   <div class="imm-grid three">
-    <div class="imm-card accent"><span class="imm-index">1</span><h3>Modo</h3><p>Mock, API ou cache? Mostra de onde veio a resposta.</p></div>
+    <div class="imm-card accent"><span class="imm-index">1</span><h3>Motor</h3><p>Simulador, Qwen pela API ou resposta em cache?</p></div>
     <div class="imm-card accent"><span class="imm-index">2</span><h3>Tempo</h3><p>Quantos segundos a pessoa esperou.</p></div>
     <div class="imm-card accent"><span class="imm-index">3</span><h3>Tamanho</h3><p>Quantos caracteres foram necessários.</p></div>
   </div>
   <div class="imm-app" style="grid-template-columns: 1fr; min-height: 220px;">
     <div class="imm-app-main">
-      <div class="imm-chat"><span class="who">IA</span><div class="imm-bubble answer">Seu plano tem três prioridades e um próximo passo para hoje.</div></div>
-      <div class="imm-status-row"><span class="imm-pill ok">modo: mock</span><span class="imm-pill">latência: 0,18 s</span><span class="imm-pill">tamanho: 486 caracteres</span><span class="imm-pill ok">cache: não</span></div>
+      <div class="imm-chat"><span class="who">Mock</span><div class="imm-bubble answer">[MOCK · modo offline] Resposta simulada para: Tenho prova sexta...</div></div>
+      <div class="imm-status-row"><span class="imm-pill ok">simulador local</span><span class="imm-pill no">nenhum modelo de IA</span><span class="imm-pill">latência: 0,01 s</span><span class="imm-pill ok">0 chamadas</span></div>
     </div>
   </div>
   <span class="imm-page">10 / 16</span>
@@ -253,12 +253,12 @@ resultado: <span class="failed">2 de 3 casos passaram</span></pre>
   <table class="imm-table">
     <thead><tr><th>Modo</th><th>Quando usar</th><th>Vantagem</th><th>Atenção</th></tr></thead>
     <tbody>
-      <tr><td><span class="imm-pill ok">Mock</span></td><td>Construir, praticar e testar a estrutura</td><td>Rápido, gratuito e repetível</td><td>Não representa toda a variação de um modelo real</td></tr>
-      <tr><td><span class="imm-pill attention">API</span></td><td>Validar poucas hipóteses importantes</td><td>Mostra o comportamento real</td><td>Tem limite, custo e variação</td></tr>
+      <tr><td><span class="imm-pill ok">Simulador</span></td><td>Construir, praticar e testar a estrutura</td><td>Sem modelo, API, token ou internet</td><td>Não entende o prompt nem mede qualidade</td></tr>
+      <tr><td><span class="imm-pill attention">API + Qwen</span></td><td>Validar poucas hipóteses importantes</td><td>Resposta de IA real via Hugging Face</td><td>Tem limite, rede e variação</td></tr>
       <tr><td><span class="imm-pill">Cache</span></td><td>Rever uma resposta já obtida</td><td>Economiza chamadas e permite comparar</td><td>Não é uma nova execução</td></tr>
     </tbody>
   </table>
-  <div class="imm-activity"><div class="label">Se a API falhar</div><h3>Volte ao mock, registre a limitação e continue.</h3><p>O objetivo da aula é aprender o método, não depender de uma credencial.</p></div>
+  <div class="imm-activity"><div class="label">Se a API falhar</div><h3>Volte ao simulador, registre a limitação e continue.</h3><p>O objetivo da aula é aprender o método, não depender de uma credencial.</p></div>
   <span class="imm-page">13 / 16</span>
 </section>
 

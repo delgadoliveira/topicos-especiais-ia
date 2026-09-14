@@ -51,6 +51,18 @@ class LlmTests(unittest.TestCase):
         self.assertIn("modo offline", answer.lower())
         self.assertEqual(llm._real_calls, 0)
 
+    def test_runtime_summary_identifies_local_simulator(self):
+        os.environ["MOCK_LLM"] = "1"
+        summary = llm.runtime_summary()
+        self.assertIn("nenhum modelo de IA", summary)
+        self.assertIn("sem API", summary)
+
+    def test_runtime_summary_identifies_real_model_and_provider(self):
+        os.environ["MODEL"] = "modelo/teste"
+        summary = llm.runtime_summary()
+        self.assertIn("modelo/teste", summary)
+        self.assertIn("Hugging Face", summary)
+
     def test_identical_request_uses_cache(self):
         messages = [{"role": "user", "content": "ola"}]
         first = llm.chat(messages, retries=0)

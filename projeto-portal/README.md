@@ -2,7 +2,9 @@
 
 Projeto didatico dos encontros 5 e 6. Cada aluno cria um agente de tarefa unica,
 valida o contrato, executa casos de teste e apresenta o resultado localmente.
-A API real e opcional e limitada a um checkpoint coletivo.
+No modo padrao, uma funcao Python simula a resposta: nenhum modelo de IA e
+executado. A IA real e opcional e usa `Qwen/Qwen2.5-7B-Instruct` pela API do
+Hugging Face, limitada a um checkpoint coletivo.
 
 Tutorial completo:
 [`../public/tutorials/imersao-agente-local.html`](../public/tutorials/imersao-agente-local.html)
@@ -77,6 +79,9 @@ python app.py
 ```
 
 Abra <http://127.0.0.1:7860>. O modo padrao e offline e nao requer token.
+Ele usa um simulador deterministico, nao um modelo de IA local. O simulador
+repete parte da entrada para que a turma valide o fluxo, o formato, os
+guardrails e os testes sem depender da qualidade de uma resposta generativa.
 
 ## 4. Avaliar
 
@@ -143,9 +148,9 @@ publicar a aba na internet.
 
 | Variavel | Padrao | Funcao |
 |---|---:|---|
-| `MOCK_LLM` | `1` | Usa respostas locais deterministicas |
+| `MOCK_LLM` | `1` | Usa um simulador Python; nenhum modelo de IA ou API |
 | `HF_TOKEN` | vazio | Token usado apenas com `MOCK_LLM=0` |
-| `MODEL_ID` | `openai/gpt-oss-120b:fastest` | Modelo OpenAI-compatible |
+| `MODEL` | `Qwen/Qwen2.5-7B-Instruct` | Modelo real acessado pela API do Hugging Face |
 | `MAX_REAL_CALLS` | `3` | Orcamento por processo; `0` remove o limite |
 | `LLM_CACHE` | `1` | Reaproveita respostas identicas em memoria |
 | `JUDGE_ENABLED` | `0` | Habilita juiz LLM opcional |

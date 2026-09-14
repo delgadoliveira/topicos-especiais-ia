@@ -1,14 +1,12 @@
 """
-Acesso ao modelo — 100% open source e gratuito via Hugging Face.
+Dois motores de resposta para a imersão.
 
-Regras de ouro (para a aula não travar):
-  - MOCK_LLM=1  -> não chama a rede; devolve resposta determinística.
-                   Use para testar contrato/UI/evals sem gastar chamadas.
-  - Sem token   -> erro claro e amigável (não uma stack trace).
-  - Falha de rede -> tenta de novo (retry com backoff) e usa timeout curto.
+  - MOCK_LLM=1: simulador Python local. Nenhum modelo de IA é executado,
+    nenhuma API é chamada e nenhum token é necessário.
+  - MOCK_LLM=0: modelo Qwen pela API OpenAI-compatible do Hugging Face.
 
-Token: pegue um gratuito em https://huggingface.co/settings/tokens (role "read")
-e exporte como HF_TOKEN (ou, no Colab, use userdata).
+O simulador serve para validar código, interface, guardrails e testes
+determinísticos. A API real é opcional e serve para comparar qualidade.
 """
 from __future__ import annotations
 
@@ -49,6 +47,13 @@ def get_token() -> str | None:
 
 def get_model() -> str:
     return os.getenv("MODEL", DEFAULT_MODEL)
+
+
+def runtime_summary() -> str:
+    """Explica sem ambiguidade qual motor produz a resposta."""
+    if _is_mock():
+        return "simulador local · nenhum modelo de IA · sem API"
+    return f"modelo real: {get_model()} · API do Hugging Face"
 
 
 def _env_int(name: str, default: int) -> int:
@@ -96,7 +101,7 @@ def _reserve_real_call() -> None:
 def usage_summary() -> str:
     """Texto curto para mostrar aos alunos o consumo da sessão."""
     if _is_mock():
-        return "modo offline · 0 chamadas reais"
+        return "simulador local · 0 chamadas reais"
     limit = _env_int("MAX_REAL_CALLS", 3)
     with _STATE_LOCK:
         used = _real_calls
@@ -104,7 +109,7 @@ def usage_summary() -> str:
 
 
 def _mock_answer(messages: list[dict]) -> str:
-    """Resposta determinística para modo offline/aula."""
+    """Resposta determinística do simulador; não executa um modelo de IA."""
     user = next((m["content"] for m in reversed(messages) if m["role"] == "user"), "")
     palavras = user.split()
     trecho = " ".join(palavras[:25])

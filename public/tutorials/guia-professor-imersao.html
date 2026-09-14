@@ -206,9 +206,14 @@
             <li>A API e opcional: ate tres tentativas por grupo.</li>
           </ol>
         </article>
+        <article class="card">
+          <h2>O que roda em cada modo</h2>
+          <p><strong>Offline:</strong> nenhum modelo de IA. Uma funcao Python previsivel simula a resposta para validar fluxo, formato, guardrails e testes.</p>
+          <p><strong>API opcional:</strong> <code>Qwen/Qwen2.5-7B-Instruct</code> roda no Hugging Face e exige internet e <code>HF_TOKEN</code>.</p>
+        </article>
       </div>
       <div class="notice warning">
-        <strong>Plano B e o plano principal.</strong> Erros 429, 503, timeout ou token ausente nao reduzem a nota. Volte ao mock e continue.
+        <strong>Nao chame o mock de IA local.</strong> Ele e um simulador sem modelo. Erros 429, 503, timeout ou token ausente nao reduzem a nota: volte ao simulador e continue.
       </div>
       <h3>Evidencias ao final</h3>
       <table>
@@ -274,7 +279,7 @@ python app.py</code></pre>
         </tbody>
       </table>
       <div class="notice">
-        <strong>Protocolo da API:</strong> libere somente depois de preflight e testes offline. Use a mesma entrada offline/online, repita para observar cache e pare no primeiro erro recorrente.
+        <strong>Protocolo da API:</strong> explique que o modelo e Qwen e roda no Hugging Face. Libere somente depois de preflight e testes offline. Use a mesma entrada no simulador e na API, repita para observar cache e pare no primeiro erro recorrente.
       </div>
     </section>
 
@@ -328,7 +333,7 @@ python app.py</code></pre>
           <li><input type="checkbox" id="c1"><label for="c1">Copiar o projeto sem ambiente, token, caches ou logs.</label></li>
           <li><input type="checkbox" id="c2"><label for="c2">Seguir apenas o tutorial do aluno e instalar dependencias.</label></li>
           <li><input type="checkbox" id="c3"><label for="c3">Criar um agente novo e passar no preflight offline.</label></li>
-          <li><input type="checkbox" id="c4"><label for="c4">Abrir o portal e confirmar modo offline no rodape.</label></li>
+          <li><input type="checkbox" id="c4"><label for="c4">Abrir o portal e confirmar “simulador local · nenhum modelo de IA”.</label></li>
           <li><input type="checkbox" id="c5"><label for="c5">Criar tres casos e observar ao menos uma falha util.</label></li>
           <li><input type="checkbox" id="c6"><label for="c6">Adicionar guardrail e repetir os testes.</label></li>
           <li><input type="checkbox" id="c7"><label for="c7">Simular token ausente, cache e limite local.</label></li>
