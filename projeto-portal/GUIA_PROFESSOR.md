@@ -25,6 +25,9 @@ um agente — escopo, construcao, teste, guardrail, observabilidade e limite.
 Material do aluno:
 [`../public/tutorials/imersao-agente-local.html`](../public/tutorials/imersao-agente-local.html)
 
+Laboratorio no navegador:
+[`../public/tutorials/simulador-agente.html`](../public/tutorials/simulador-agente.html)
+
 Versao local navegavel deste guia:
 [`../public/tutorials/guia-professor-imersao.html`](../public/tutorials/guia-professor-imersao.html)
 
@@ -37,6 +40,8 @@ Versao local navegavel deste guia:
 - Deixe o portal funcionando com `MOCK_LLM=1`.
 - Prepare um exemplo completo e um exemplo propositalmente quebrado.
 - Projete o tutorial e mantenha seu link curto acessivel.
+- Abra o laboratorio no navegador para a demonstracao inicial; ele funciona no
+  GitHub Pages sem Python, API, token ou login.
 - Se usar API, confirme o token apenas no computador do professor e defina
   `MAX_REAL_CALLS=3`.
 

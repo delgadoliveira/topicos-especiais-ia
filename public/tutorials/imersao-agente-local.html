@@ -135,8 +135,30 @@
     .mode-path.optional h4 { color: var(--cp-text); }
     .mode-path .flow { font-family: Consolas, "Courier New", Courier, monospace; font-weight: 700; }
     .mode-path ul { margin-bottom: 0; }
+    .try-now {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 1rem 1.2rem;
+      border: 1px solid var(--cp-border);
+      border-left: 6px solid var(--cp-accent);
+      border-radius: .625rem;
+      background: var(--cp-accent-soft);
+    }
+    .try-now p { margin: 0; }
+    .try-now a {
+      flex: 0 0 auto;
+      padding: .55rem .8rem;
+      border-radius: .625rem;
+      color: var(--cp-accent-fg);
+      background: var(--cp-accent);
+      font-weight: 800;
+      text-decoration: none;
+    }
     @media (max-width: 680px) { .case-grid { grid-template-columns: 1fr; } }
     @media (max-width: 680px) { .mode-paths { grid-template-columns: 1fr; } }
+    @media (max-width: 680px) { .try-now { align-items: flex-start; flex-direction: column; } }
     @media print {
       body { background: var(--cp-surface); }
       header { color: var(--cp-text); background: var(--cp-surface); padding: 1rem 0; }
@@ -157,6 +179,7 @@
   <nav>
     <strong>Mapa da imersao:</strong>
     <a href="#antes">antes de comecar</a> ·
+    <a href="simulador-agente.html">experimentar agora</a> ·
     <a href="#caso-resolvido">caso resolvido</a> ·
     <a href="#encontro5">encontro 5</a> ·
     <a href="#encontro6">encontro 6</a> ·
@@ -195,6 +218,10 @@
     <div class="step warning">
       <strong>Importante:</strong>
       <p>O mock não “pensa”, não interpreta o prompt e não mede a qualidade da IA. Ele é um simulador para aprender a construir e testar o sistema. A qualidade generativa só pode ser comparada no modo de API real.</p>
+    </div>
+    <div class="try-now">
+      <p><strong>Quer experimentar antes de instalar?</strong><br>Abra o Organizador de Estudos no navegador. Ele reproduz o modo offline sem Python, API, token ou login.</p>
+      <a href="simulador-agente.html">Abrir laboratório →</a>
     </div>
     <h3>1. Abra a pasta certa</h3>
     <p>No VS Code, use <strong>Arquivo &gt; Abrir Pasta</strong> e escolha a pasta <code>projeto-portal</code>. Depois abra <strong>Terminal &gt; Novo Terminal</strong>.</p>

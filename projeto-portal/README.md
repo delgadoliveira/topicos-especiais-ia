@@ -9,6 +9,9 @@ Hugging Face, limitada a um checkpoint coletivo.
 Tutorial completo:
 [`../public/tutorials/imersao-agente-local.html`](../public/tutorials/imersao-agente-local.html)
 
+Laboratorio no navegador, sem instalacao:
+[`../public/tutorials/simulador-agente.html`](../public/tutorials/simulador-agente.html)
+
 Guia local do professor:
 [`../public/tutorials/guia-professor-imersao.html`](../public/tutorials/guia-professor-imersao.html)
 

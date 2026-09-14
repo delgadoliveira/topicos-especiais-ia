@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    (() => {
+      const param = new URLSearchParams(window.location.search).get("clawpilotTheme");
+      const theme =
+        param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+  <title>Laboratório do agente — simulador no navegador</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --cp-bg: #f7f4ef;
+      --cp-bg-elevated: #fcfbf8;
+      --cp-surface: #ffffff;
+      --cp-surface-soft: #f5f5f5;
+      --cp-border: #dedede;
+      --cp-border-strong: #919191;
+      --cp-text: #242424;
+      --cp-text-muted: #5c5c5c;
+      --cp-text-soft: #6f6f6f;
+      --cp-accent: #b11f4b;
+      --cp-accent-hover: #9a1a41;
+      --cp-accent-soft: rgba(177, 31, 75, 0.08);
+      --cp-accent-fg: #ffffff;
+      --cp-success: #16a34a;
+      --cp-danger: #dc2626;
+      --cp-warning: #f59e0b;
+      --cp-link: #0078d4;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+      --cp-overlay: rgba(255, 255, 255, 0.8);
+      --cp-panel: rgba(255, 255, 255, 0.86);
+      --cp-panel-strong: rgba(255, 255, 255, 0.96);
+      --cp-sheen: rgba(255, 255, 255, 0.55);
+      --cp-highlight: rgba(177, 31, 75, 0.12);
+    }
+    html[data-theme="dark"] {
+      color-scheme: dark;
+      --cp-bg: #3d3b3a;
+      --cp-bg-elevated: #343231;
+      --cp-surface: #292929;
+      --cp-surface-soft: #2e2e2e;
+      --cp-border: #474747;
+      --cp-border-strong: #5f5f5f;
+      --cp-text: #dedede;
+      --cp-text-muted: #919191;
+      --cp-text-soft: #b0b0b0;
+      --cp-accent: #fd8ea1;
+      --cp-accent-hover: #fb7b91;
+      --cp-accent-soft: rgba(253, 142, 161, 0.14);
+      --cp-accent-fg: #1a1a1a;
+      --cp-success: #4ade80;
+      --cp-danger: #f87171;
+      --cp-warning: #fbbf24;
+      --cp-link: #4da6ff;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+      --cp-overlay: rgba(41, 41, 41, 0.88);
+      --cp-panel: rgba(41, 41, 41, 0.72);
+      --cp-panel-strong: rgba(41, 41, 41, 0.96);
+      --cp-sheen: rgba(255, 255, 255, 0.04);
+      --cp-highlight: rgba(253, 142, 161, 0.12);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--cp-bg);
+      color: var(--cp-text);
+      font-family: "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.5;
+    }
+    button, textarea { font: inherit; }
+    a { color: var(--cp-link); }
+    code, pre { font-family: Consolas, "Courier New", Courier, monospace; }
+    .topbar {
+      border-bottom: 1px solid var(--cp-border);
+      background: var(--cp-surface);
+    }
+    .topbar-inner, main {
+      width: min(1120px, calc(100% - 32px));
+      margin: auto;
+    }
+    .topbar-inner {
+      min-height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .brand { font-weight: 800; }
+    .back { font-weight: 700; text-decoration: none; }
+    main { padding: 40px 0 64px; }
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(280px, .65fr);
+      gap: 24px;
+      align-items: stretch;
+    }
+    .hero h1 {
+      margin: 8px 0 12px;
+      max-width: 760px;
+      font-size: clamp(2.25rem, 5vw, 4rem);
+      line-height: 1.03;
+      letter-spacing: -.04em;
+    }
+    .eyebrow {
+      color: var(--cp-accent);
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .lead {
+      max-width: 720px;
+      margin: 0;
+      color: var(--cp-text-muted);
+      font-size: 1.15rem;
+    }
+    .mode-card, .panel, .flow-step, details {
+      border: 1px solid var(--cp-border);
+      background: var(--cp-surface);
+      border-radius: 16px;
+    }
+    .mode-card {
+      padding: 24px;
+      border-top: 6px solid var(--cp-accent);
+    }
+    .mode-card strong { display: block; font-size: 1.15rem; }
+    .mode-card p { margin: 8px 0 0; color: var(--cp-text-muted); }
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 16px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      color: var(--cp-success);
+      background: var(--cp-surface-soft);
+      font-weight: 800;
+      font-size: .86rem;
+    }
+    .status-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--cp-success);
+    }
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin: 32px 0;
+    }
+    .flow-step { padding: 16px; }
+    .flow-step span {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--cp-accent);
+      font-weight: 800;
+    }
+    .flow-step p { margin: 0; color: var(--cp-text-muted); font-size: .94rem; }
+    .workspace {
+      display: grid;
+      grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
+      gap: 20px;
+    }
+    .panel { padding: 24px; }
+    .panel h2 { margin: 0 0 4px; font-size: 1.35rem; }
+    .panel-intro { margin: 0 0 20px; color: var(--cp-text-muted); }
+    label { display: block; margin-bottom: 8px; font-weight: 800; }
+    textarea {
+      width: 100%;
+      min-height: 176px;
+      resize: vertical;
+      padding: 14px;
+      border: 1px solid var(--cp-border-strong);
+      border-radius: .625rem;
+      outline: none;
+      background: var(--cp-bg-elevated);
+      color: var(--cp-text);
+    }
+    textarea:focus {
+      border-color: var(--cp-accent);
+      box-shadow: 0 0 0 3px var(--cp-highlight);
+    }
+    .counter {
+      margin-top: 6px;
+      color: var(--cp-text-muted);
+      text-align: right;
+      font-size: .84rem;
+    }
+    .presets {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 16px 0;
+    }
+    button {
+      cursor: pointer;
+      border: 1px solid var(--cp-border-strong);
+      border-radius: .625rem;
+      padding: 10px 14px;
+      background: var(--cp-surface);
+      color: var(--cp-text);
+      font-weight: 750;
+    }
+    button:hover { border-color: var(--cp-accent); }
+    button.primary {
+      width: 100%;
+      border-color: var(--cp-accent);
+      background: var(--cp-accent);
+      color: var(--cp-accent-fg);
+    }
+    button.primary:hover { background: var(--cp-accent-hover); }
+    .output {
+      min-height: 176px;
+      padding: 16px;
+      white-space: pre-wrap;
+      border: 1px solid var(--cp-border);
+      border-radius: .625rem;
+      background: var(--cp-surface-soft);
+    }
+    .output.empty {
+      display: grid;
+      place-items: center;
+      color: var(--cp-text-muted);
+      text-align: center;
+    }
+    .trace {
+      display: grid;
+      gap: 8px;
+      margin-top: 16px;
+    }
+    .trace-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border: 1px solid var(--cp-border);
+      border-radius: .625rem;
+      background: var(--cp-bg-elevated);
+    }
+    .trace-icon { color: var(--cp-success); font-weight: 900; }
+    .metrics {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+    .metric {
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: var(--cp-accent-soft);
+      color: var(--cp-text);
+      font-size: .82rem;
+      font-weight: 750;
+    }
+    .notice {
+      margin: 24px 0 0;
+      padding: 16px 18px;
+      border-left: 5px solid var(--cp-warning);
+      border-radius: .625rem;
+      background: var(--cp-surface-soft);
+    }
+    details { margin-top: 24px; padding: 18px; }
+    summary { cursor: pointer; font-weight: 800; }
+    pre {
+      overflow: auto;
+      margin: 16px 0 0;
+      padding: 16px;
+      border: 1px solid var(--cp-border);
+      border-radius: .625rem;
+      background: var(--cp-surface-soft);
+      color: var(--cp-text);
+    }
+    .next {
+      margin-top: 24px;
+      padding: 24px;
+      border-radius: 16px;
+      background: var(--cp-accent);
+      color: var(--cp-accent-fg);
+    }
+    .next h2 { margin: 0 0 6px; }
+    .next p { margin: 0 0 14px; }
+    .next a {
+      display: inline-block;
+      padding: 9px 13px;
+      border: 1px solid var(--cp-accent-fg);
+      border-radius: .625rem;
+      color: var(--cp-accent-fg);
+      font-weight: 800;
+      text-decoration: none;
+    }
+    @media (max-width: 820px) {
+      .hero, .workspace { grid-template-columns: 1fr; }
+      .flow { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 520px) {
+      .topbar-inner { align-items: flex-start; flex-direction: column; padding: 12px 0; }
+      .flow { grid-template-columns: 1fr; }
+      main { padding-top: 28px; }
+      .panel { padding: 18px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <span class="brand">Tópicos Especiais em IA</span>
+      <a class="back" href="imersao-agente-local.html">← Voltar ao tutorial</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div>
+        <span class="eyebrow">Laboratório zero instalação</span>
+        <h1>Experimente o agente antes de programar.</h1>
+        <p class="lead">Esta página reproduz no navegador o Organizador de Estudos e o simulador determinístico usado no projeto. Nada é enviado para um servidor.</p>
+      </div>
+      <aside class="mode-card">
+        <div class="status"><span class="status-dot"></span>Simulador ativo</div>
+        <strong>Nenhum modelo de IA está rodando</strong>
+        <p>Sem Python, API, token, login ou instalação. A resposta é produzida por JavaScript no seu navegador.</p>
+      </aside>
+    </section>
+
+    <section class="flow" aria-label="Fluxo do simulador">
+      <article class="flow-step"><span>1 · Entrada</span><p>Você descreve matérias, prazo e tempo.</p></article>
+      <article class="flow-step"><span>2 · Guardrail</span><p>O agente verifica vazio e tamanho.</p></article>
+      <article class="flow-step"><span>3 · Simulador</span><p>Uma função repete até 25 palavras.</p></article>
+      <article class="flow-step"><span>4 · Resposta</span><p>O agente adiciona formato e próximo passo.</p></article>
+    </section>
+
+    <section class="workspace">
+      <article class="panel">
+        <h2>Sua entrada</h2>
+        <p class="panel-intro">Escolha um exemplo ou escreva uma situação de estudo.</p>
+        <label for="student-input">Matérias, prazo e tempo disponível</label>
+        <textarea id="student-input" maxlength="4100" placeholder="Ex.: Tenho prova de matemática na sexta e 40 minutos hoje. Preciso revisar frações e equações."></textarea>
+        <div class="counter" id="counter">0 / 4.000 caracteres</div>
+        <div class="presets" aria-label="Entradas de exemplo">
+          <button type="button" data-preset="normal">Caso normal</button>
+          <button type="button" data-preset="dificil">Caso difícil</button>
+          <button type="button" data-preset="vazio">Caso vazio</button>
+        </div>
+        <button class="primary" id="run-button" type="button">Executar o agente</button>
+      </article>
+
+      <article class="panel">
+        <h2>Resultado observado</h2>
+        <p class="panel-intro">Compare a saída com a promessa e acompanhe cada etapa.</p>
+        <div class="output empty" id="output" role="status" aria-live="polite">Execute um caso para ver a resposta.</div>
+        <div class="trace" id="trace" aria-label="Passos executados"></div>
+        <div class="metrics" id="metrics"></div>
+      </article>
+    </section>
+
+    <div class="notice">
+      <strong>O que este teste comprova?</strong> Integração, guardrails, formato, observabilidade e comportamento previsível. Ele não comprova raciocínio, interpretação do prompt ou qualidade generativa.
+    </div>
+
+    <details>
+      <summary>Veja a função equivalente ao simulador Python</summary>
+      <pre><code>def _mock_answer(messages):
+    user = próxima_mensagem_do_usuario(messages)
+    palavras = user.split()
+    trecho = " ".join(palavras[:25])
+    return "[MOCK · modo offline] Resposta simulada para: " + trecho</code></pre>
+    </details>
+
+    <section class="next">
+      <h2>Funcionou no navegador. Agora construa o seu.</h2>
+      <p>O laboratório mostra o produto pronto. O tutorial ensina como recriar o fluxo em Python e modificar o agente.</p>
+      <a href="imersao-agente-local.html#encontro5">Continuar no passo a passo →</a>
+    </section>
+  </main>
+
+  <script>
+    (() => {
+      const input = document.getElementById("student-input");
+      const output = document.getElementById("output");
+      const trace = document.getElementById("trace");
+      const metrics = document.getElementById("metrics");
+      const counter = document.getElementById("counter");
+      const runButton = document.getElementById("run-button");
+
+      const presets = {
+        normal: "Tenho prova de matemática na sexta-feira. Preciso revisar frações e equações e tenho 40 minutos hoje.",
+        dificil: "Tenho prova amanhã de história, biologia, matemática e inglês. Só tenho 20 minutos para estudar e ainda não comecei.",
+        vazio: ""
+      };
+
+      function updateCounter() {
+        counter.textContent = `${input.value.length.toLocaleString("pt-BR")} / 4.000 caracteres`;
+      }
+
+      function mockAnswer(userMessage) {
+        const words = userMessage.trim().split(/\s+/).filter(Boolean);
+        const excerpt = words.slice(0, 25).join(" ");
+        return `[MOCK · modo offline] Resposta simulada para: ${excerpt}${words.length > 25 ? "..." : ""}`;
+      }
+
+      function renderTrace(steps) {
+        trace.replaceChildren();
+        steps.forEach((step) => {
+          const item = document.createElement("div");
+          item.className = "trace-item";
+          const icon = document.createElement("span");
+          icon.className = "trace-icon";
+          icon.textContent = "✓";
+          const text = document.createElement("span");
+          text.textContent = step;
+          item.append(icon, text);
+          trace.append(item);
+        });
+      }
+
+      function renderMetrics(status, elapsed) {
+        metrics.replaceChildren();
+        [
+          `status: ${status}`,
+          `latência: ${elapsed.toFixed(1)} ms`,
+          "0 chamadas reais",
+          "dados enviados: nenhum"
+        ].forEach((label) => {
+          const item = document.createElement("span");
+          item.className = "metric";
+          item.textContent = label;
+          metrics.append(item);
+        });
+      }
+
+      function runAgent() {
+        const startedAt = performance.now();
+        const text = input.value.trim();
+        let answer;
+        let steps;
+        let status = "ok";
+
+        if (!text) {
+          answer = "Envie matérias, prazo e tempo disponível para eu organizar.";
+          steps = ["Entrada vazia recusada"];
+          status = "guardrail";
+        } else if (text.length > 4000) {
+          answer = "O texto é muito longo. Envie até 4.000 caracteres.";
+          steps = ["Limite de tamanho aplicado"];
+          status = "guardrail";
+        } else {
+          const userPrompt = `Crie um plano para estas informações:\n${text}`;
+          const simulated = mockAnswer(userPrompt);
+          answer = `Plano de estudo\n\n${simulated}\n\nPróximo passo: escolha a primeira prioridade e comece agora.`;
+          steps = [
+            "Validei a entrada",
+            "Pedi três prioridades ao simulador",
+            "Organizei a resposta no formato combinado"
+          ];
+        }
+
+        output.classList.remove("empty");
+        output.textContent = answer;
+        renderTrace(steps);
+        renderMetrics(status, performance.now() - startedAt);
+      }
+
+      document.querySelectorAll("[data-preset]").forEach((button) => {
+        button.addEventListener("click", () => {
+          input.value = presets[button.dataset.preset];
+          updateCounter();
+          input.focus();
+        });
+      });
+      input.addEventListener("input", updateCounter);
+      runButton.addEventListener("click", runAgent);
+      updateCounter();
+    })();
+  </script>
+</body>
+</html>
