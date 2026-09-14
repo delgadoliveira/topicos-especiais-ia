@@ -1,0 +1,19 @@
+agent: organizador-estudos-referencia
+cases:
+  - input: "Tenho prova sexta de frações e equações. Tenho 40 minutos hoje."
+    max_latency_s: 5
+    max_chars: 900
+    must_contain: ["Plano de estudo", "Próximo passo"]
+    must_not_contain: ["Traceback", "Exception"]
+
+  - input: "Preciso revisar sete matérias e só tenho dez minutos."
+    max_latency_s: 5
+    max_chars: 900
+    must_contain: ["Plano de estudo", "Próximo passo"]
+    must_not_contain: ["Traceback", "Exception"]
+
+  - input: ""
+    max_latency_s: 5
+    max_chars: 300
+    must_contain: ["Envie"]
+    must_not_contain: ["Traceback", "Exception"]

@@ -3,33 +3,132 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    (() => {
+      const param = new URLSearchParams(window.location.search).get("clawpilotTheme");
+      const theme =
+        param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
   <title>Imersao: meu primeiro agente local</title>
   <style>
-    :root { --ink:#172033; --muted:#58657a; --bg:#f5f7fb; --card:#fff; --blue:#2457d6; --green:#087a55; --amber:#9a5b00; --red:#b42318; --line:#d9e0ec; }
-    * { box-sizing:border-box; }
-    body { margin:0; color:var(--ink); background:var(--bg); font-family:Arial, sans-serif; line-height:1.55; }
-    header { padding:3rem 1.25rem; color:#fff; background:linear-gradient(135deg,#162a62,#2457d6); }
-    header div, main { max-width:920px; margin:auto; }
-    h1 { margin:0 0 .4rem; font-size:clamp(2rem,5vw,3.3rem); }
-    h2 { margin-top:2.8rem; border-bottom:2px solid var(--line); padding-bottom:.35rem; }
-    h3 { margin-top:1.8rem; }
-    main { padding:1rem 1.25rem 4rem; }
-    nav, .box, .step { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:1rem 1.2rem; margin:1rem 0; }
-    .step { border-left:6px solid var(--blue); }
-    .check { border-left-color:var(--green); background:#effbf6; }
-    .warning { border-left-color:var(--amber); background:#fff8e8; }
-    .error { border-left-color:var(--red); background:#fff3f2; }
-    code, pre { font-family:Consolas, monospace; }
-    pre { padding:1rem; overflow:auto; color:#e9efff; background:#10182b; border-radius:8px; }
-    code { background:#e8edf7; padding:.12rem .3rem; border-radius:4px; }
-    pre code { background:transparent; padding:0; }
-    table { width:100%; border-collapse:collapse; background:#fff; }
-    th, td { border:1px solid var(--line); padding:.65rem; text-align:left; vertical-align:top; }
-    th { background:#eaf0ff; }
-    a { color:var(--blue); }
-    .tag { display:inline-block; margin:.2rem .3rem .2rem 0; padding:.2rem .6rem; border-radius:999px; background:#dfe8ff; font-weight:bold; }
-    li { margin:.35rem 0; }
-    @media print { body { background:#fff; } header { color:#000; background:#fff; padding:1rem 0; } nav { display:none; } .step,.box { break-inside:avoid; } }
+    :root {
+      color-scheme: light;
+      --cp-bg: #f7f4ef;
+      --cp-bg-elevated: #fcfbf8;
+      --cp-surface: #ffffff;
+      --cp-surface-soft: #f5f5f5;
+      --cp-border: #dedede;
+      --cp-border-strong: #919191;
+      --cp-text: #242424;
+      --cp-text-muted: #5c5c5c;
+      --cp-text-soft: #6f6f6f;
+      --cp-accent: #b11f4b;
+      --cp-accent-hover: #9a1a41;
+      --cp-accent-soft: rgba(177, 31, 75, 0.08);
+      --cp-accent-fg: #ffffff;
+      --cp-success: #16a34a;
+      --cp-danger: #dc2626;
+      --cp-warning: #f59e0b;
+      --cp-link: #0078d4;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+      --cp-overlay: rgba(255, 255, 255, 0.8);
+      --cp-panel: rgba(255, 255, 255, 0.86);
+      --cp-panel-strong: rgba(255, 255, 255, 0.96);
+      --cp-sheen: rgba(255, 255, 255, 0.55);
+      --cp-highlight: rgba(177, 31, 75, 0.12);
+    }
+    html[data-theme="dark"] {
+      color-scheme: dark;
+      --cp-bg: #3d3b3a;
+      --cp-bg-elevated: #343231;
+      --cp-surface: #292929;
+      --cp-surface-soft: #2e2e2e;
+      --cp-border: #474747;
+      --cp-border-strong: #5f5f5f;
+      --cp-text: #dedede;
+      --cp-text-muted: #919191;
+      --cp-text-soft: #b0b0b0;
+      --cp-accent: #fd8ea1;
+      --cp-accent-hover: #fb7b91;
+      --cp-accent-soft: rgba(253, 142, 161, 0.14);
+      --cp-accent-fg: #1a1a1a;
+      --cp-success: #4ade80;
+      --cp-danger: #f87171;
+      --cp-warning: #fbbf24;
+      --cp-link: #4da6ff;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+      --cp-overlay: rgba(41, 41, 41, 0.88);
+      --cp-panel: rgba(41, 41, 41, 0.72);
+      --cp-panel-strong: rgba(41, 41, 41, 0.96);
+      --cp-sheen: rgba(255, 255, 255, 0.04);
+      --cp-highlight: rgba(253, 142, 161, 0.12);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--cp-text);
+      background: var(--cp-bg);
+      font-family: "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.6;
+    }
+    header { padding: 3rem 1.25rem; color: var(--cp-accent-fg); background: var(--cp-accent); }
+    header div, main { max-width: 960px; margin: auto; }
+    h1 { margin: 0 0 .4rem; font-size: clamp(2rem, 5vw, 3.3rem); line-height: 1.08; }
+    h2 { margin-top: 3rem; border-bottom: 2px solid var(--cp-border); padding-bottom: .4rem; }
+    h3 { margin-top: 1.8rem; }
+    main { padding: 1rem 1.25rem 4rem; }
+    nav, .box, .step, .case-phase {
+      background: var(--cp-surface);
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      padding: 1rem 1.2rem;
+      margin: 1rem 0;
+    }
+    .step { border-left: 6px solid var(--cp-accent); border-radius: .625rem; }
+    .check { border-left-color: var(--cp-success); background: var(--cp-surface-soft); }
+    .warning { border-left-color: var(--cp-warning); background: var(--cp-surface-soft); }
+    .error { border-left-color: var(--cp-danger); background: var(--cp-surface-soft); }
+    code, pre { font-family: Consolas, "Courier New", Courier, monospace; }
+    pre {
+      padding: 1rem;
+      overflow: auto;
+      color: var(--cp-text);
+      background: var(--cp-surface-soft);
+      border: 1px solid var(--cp-border);
+      border-radius: .625rem;
+    }
+    code { background: var(--cp-surface-soft); padding: .12rem .3rem; border-radius: .25rem; }
+    pre code { background: transparent; padding: 0; }
+    table { width: 100%; border-collapse: collapse; background: var(--cp-surface); }
+    th, td { border: 1px solid var(--cp-border); padding: .7rem; text-align: left; vertical-align: top; }
+    th { background: var(--cp-accent-soft); }
+    a { color: var(--cp-link); }
+    .tag {
+      display: inline-block;
+      margin: .2rem .3rem .2rem 0;
+      padding: .2rem .6rem;
+      border-radius: 999px;
+      background: var(--cp-accent-soft);
+      font-weight: 700;
+    }
+    header .tag { color: var(--cp-accent-fg); border: 1px solid var(--cp-accent-fg); background: transparent; }
+    li { margin: .35rem 0; }
+    .case-intro { font-size: 1.08rem; color: var(--cp-text-muted); }
+    .case-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+    .case-phase { margin: 0; border-top: 5px solid var(--cp-accent); }
+    .case-phase b { display: block; color: var(--cp-accent); margin-bottom: .35rem; }
+    .case-phase p { margin: 0; }
+    .evidence { border: 1px dashed var(--cp-border-strong); padding: .8rem; border-radius: .625rem; }
+    @media (max-width: 680px) { .case-grid { grid-template-columns: 1fr; } }
+    @media print {
+      body { background: var(--cp-surface); }
+      header { color: var(--cp-text); background: var(--cp-surface); padding: 1rem 0; }
+      nav { display: none; }
+      .step, .box, .case-phase { break-inside: avoid; }
+    }
   </style>
 </head>
 <body>
@@ -44,6 +143,7 @@
   <nav>
     <strong>Mapa da imersao:</strong>
     <a href="#antes">antes de comecar</a> ·
+    <a href="#caso-resolvido">caso resolvido</a> ·
     <a href="#encontro5">encontro 5</a> ·
     <a href="#encontro6">encontro 6</a> ·
     <a href="#socorro">socorro</a>
@@ -76,6 +176,98 @@ python -m pip install -r requirements.txt</code></pre>
       <pre><code>python check_agent.py agents/example_resumidor.py</code></pre>
       <p>Continue somente quando aparecer <strong>Tudo certo</strong>. Esse teste e offline e nao usa token.</p>
     </div>
+  </section>
+
+  <section id="caso-resolvido">
+    <h2>Caso pedagógico resolvido — Organizador de Estudos</h2>
+    <p class="case-intro">Antes de criar seu próprio agente, acompanhe uma solução completa para o problema de Ana. O objetivo não é copiar o tema: é enxergar como uma ideia vira contrato, código, teste, melhoria e evidência.</p>
+
+    <div class="case-grid">
+      <div class="case-phase"><b>1 · Situação</b><p>Ana tem prova, várias matérias e pouco tempo. Ela não precisa de “uma IA que sabe tudo”; precisa decidir por onde começar.</p></div>
+      <div class="case-phase"><b>2 · Promessa</b><p>Receber matérias, prazo e tempo disponível. Devolver um plano curto com prioridades e próximo passo.</p></div>
+      <div class="case-phase"><b>3 · Primeira versão</b><p>Definir identidade, validar a entrada, escrever a instrução e chamar o modelo em modo offline.</p></div>
+      <div class="case-phase"><b>4 · Evidência</b><p>Rodar um caso normal, um difícil e um vazio. Cada teste traduz uma parte da promessa.</p></div>
+      <div class="case-phase"><b>5 · Melhoria</b><p>Adicionar limites para entrada vazia e texto muito longo; depois executar os mesmos testes novamente.</p></div>
+      <div class="case-phase"><b>6 · Reflexão</b><p>O mock prova fluxo e formato, mas não prova a qualidade semântica de uma API real. Essa limitação deve ser explicada.</p></div>
+    </div>
+
+    <h3>A implementação completa</h3>
+    <p>O exemplo executável está em <code>agents/organizador-estudos-referencia.py</code>. Leia de cima para baixo e localize identidade, guardrails, instrução, chamada ao modelo e resposta.</p>
+    <pre><code>from portal import llm
+from portal.base import AgentResult
+
+
+class OrganizadorEstudosReferencia:
+    slug = "organizador-estudos-referencia"
+    name = "Organizador de Estudos (referência)"
+    emoji = "📚"
+    description = "Exemplo resolvido: transforma anotações em um plano curto."
+
+    def run(self, message, history):
+        text = message.strip()
+        if not text:
+            return AgentResult(
+                answer="Envie matérias, prazo e tempo disponível para eu organizar.",
+                steps=["Entrada vazia recusada"],
+            )
+        if len(text) &gt; 4000:
+            return AgentResult(
+                answer="O texto é muito longo. Envie até 4.000 caracteres.",
+                steps=["Limite de tamanho aplicado"],
+            )
+
+        steps = ["Validei a entrada", "Pedi três prioridades ao modelo"]
+        resposta = llm.chat(
+            [
+                {
+                    "role": "system",
+                    "content": (
+                        "Você é um organizador de estudos acolhedor. "
+                        "Transforme as informações em exatamente três prioridades. "
+                        "Para cada uma, informe assunto, motivo e uma ação de até "
+                        "20 minutos. Não invente dados ausentes."
+                    ),
+                },
+                {
+                    "role": "user",
+                    "content": f"Crie um plano para estas informações:\n{text}",
+                },
+            ],
+            max_tokens=250,
+        )
+        steps.append("Organizei a resposta no formato combinado")
+
+        return AgentResult(
+            answer=(
+                "Plano de estudo\n\n"
+                f"{resposta}\n\n"
+                "Próximo passo: escolha a primeira prioridade e comece agora."
+            ),
+            steps=steps,
+        )
+
+
+AGENT = OrganizadorEstudosReferencia()</code></pre>
+
+    <h3>Execute o caso antes de modificá-lo</h3>
+    <pre><code>python check_agent.py agents/organizador-estudos-referencia.py
+python eval/run_eval.py organizador-estudos-referencia</code></pre>
+    <div class="step check">
+      <strong>Resultado esperado</strong>
+      <p>O preflight termina com <strong>Tudo certo</strong> e a avaliação mostra <strong>3/3 casos passaram</strong>, sem token e sem internet.</p>
+    </div>
+
+    <h3>O que reutilizar — e o que criar</h3>
+    <table>
+      <thead><tr><th>Pode usar como referência</th><th>Sua dupla precisa decidir</th></tr></thead>
+      <tbody>
+        <tr><td>A estrutura da classe e do método <code>run()</code></td><td>Uma pessoa e um problema diferentes</td></tr>
+        <tr><td>O padrão papel + tarefa + formato + limite</td><td>A instrução adequada à sua tarefa</td></tr>
+        <tr><td>Os tipos de teste: normal, difícil e inválido</td><td>Entradas e critérios que comprovem sua promessa</td></tr>
+        <tr><td>A ideia de registrar passos e uma limitação</td><td>Os guardrails necessários para seu contexto</td></tr>
+      </tbody>
+    </table>
+    <p class="evidence"><strong>Evidência de aprendizagem:</strong> sua entrega não precisa ser mais complexa que o exemplo. Ela precisa ser autoral, funcionar offline e permitir que outra pessoa verifique a promessa.</p>
   </section>
 
   <section id="encontro5">

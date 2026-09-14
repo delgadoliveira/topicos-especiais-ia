@@ -57,28 +57,25 @@
 
 <section class="imm-slide">
   <span class="imm-type">Modelo mental</span>
-  <div class="imm-kicker">Anatomia do agente</div>
-  <h2>Todo agente desta aula tem apenas três partes.</h2>
-  <div class="imm-flow">
-    <div class="imm-flow-card">
-      <span>Entrada</span>
-      <h3>O pedido</h3>
-      <p>O que a pessoa conta para o agente.</p>
+  <div class="imm-kicker">Arquitetura do agente</div>
+  <h2>Uma pergunta atravessa quatro peças até virar um plano.</h2>
+  <div class="imm-diagram">
+    <div class="imm-architecture">
+      <div class="imm-node"><b>1 · Pessoa</b><span>Conta matérias, prazo e tempo disponível.</span></div>
+      <div class="imm-arrow">→</div>
+      <div class="imm-node"><b>2 · Portal</b><span>Entrega a mensagem ao agente escolhido.</span></div>
+      <div class="imm-arrow">→</div>
+      <div class="imm-node"><b>3 · Agente</b><span>Aplica papel, tarefa, formato e limite.</span></div>
+      <div class="imm-arrow">→</div>
+      <div class="imm-node"><b>4 · Resposta</b><span>Devolve três prioridades e o próximo passo.</span></div>
     </div>
-    <div class="imm-arrow">→</div>
-    <div class="imm-flow-card">
-      <span>Instrução</span>
-      <h3>As regras</h3>
-      <p>Como pensar, responder e respeitar limites.</p>
-    </div>
-    <div class="imm-arrow">→</div>
-    <div class="imm-flow-card">
-      <span>Saída</span>
-      <h3>A resposta</h3>
-      <p>O plano que a pessoa realmente consegue usar.</p>
+    <div class="imm-mode-rail">
+      <div class="imm-mode"><b>Mock · padrão da aula</b><span>Local, gratuito e repetível.</span></div>
+      <div class="imm-mode optional"><b>API · experimento opcional</b><span>Até três chamadas planejadas.</span></div>
+      <div class="imm-mode reuse"><b>Cache · reaproveitar</b><span>Revê resultados sem gastar outra chamada.</span></div>
     </div>
   </div>
-  <div class="imm-contract"><em>Agente = instrução clara + entrada real + saída verificável.</em></div>
+  <div class="imm-contract"><em>Você constrói só o agente.</em> O portal e os três modos já estão prontos para apoiar o experimento.</div>
   <span class="imm-page">04 / 15</span>
 </section>
 
@@ -117,21 +114,32 @@
 
 <section class="imm-slide">
   <span class="imm-type">Roteiro</span>
-  <div class="imm-kicker">O caminho de hoje</div>
-  <h2>Sete passos. Um resultado visível a cada etapa.</h2>
-  <div class="imm-journey">
-    <div class="imm-step"><b>1</b><span>Abrir a pasta</span></div>
-    <div class="imm-step"><b>2</b><span>Preparar o ambiente</span></div>
-    <div class="imm-step"><b>3</b><span>Copiar o modelo</span></div>
-    <div class="imm-step"><b>4</b><span>Dar identidade</span></div>
-    <div class="imm-step"><b>5</b><span>Escrever a instrução</span></div>
-    <div class="imm-step"><b>6</b><span>Validar</span></div>
-    <div class="imm-step"><b>7</b><span>Usar no portal</span></div>
+  <div class="imm-kicker">Mapa das duas imersões</div>
+  <h2>Primeiro construímos. Depois usamos evidências para melhorar.</h2>
+  <div class="imm-diagram">
+    <div class="imm-lane">
+      <div class="imm-lane-title"><b>Encontro 5</b><span>construir uma primeira versão útil</span></div>
+      <div class="imm-lane-steps">
+        <div class="imm-node"><b>1 · Definir</b><span>problema e promessa</span></div>
+        <div class="imm-node"><b>2 · Preparar</b><span>ambiente e modelo</span></div>
+        <div class="imm-node"><b>3 · Criar</b><span>identidade e instrução</span></div>
+        <div class="imm-node"><b>4 · Usar</b><span>preflight e portal</span></div>
+      </div>
+    </div>
+    <div class="imm-bridge">a resposta que falha vira material para aprender</div>
+    <div class="imm-lane">
+      <div class="imm-lane-title"><b>Encontro 6</b><span>testar, melhorar e entregar</span></div>
+      <div class="imm-lane-steps three">
+        <div class="imm-node"><b>5 · Testar</b><span>três casos em YAML</span></div>
+        <div class="imm-node"><b>6 · Melhorar</b><span>uma mudança por vez</span></div>
+        <div class="imm-node"><b>7 · Entregar</b><span>ZIP + avaliação automática</span></div>
+      </div>
+    </div>
   </div>
   <div class="imm-activity">
     <div class="label">Regra da imersão</div>
-    <h3>Não avance com erro vermelho.</h3>
-    <p>Compare sua tela com o exemplo, leia a mensagem e peça ajuda cedo.</p>
+    <h3>Cada etapa deixa uma evidência visível.</h3>
+    <p>Uma frase, uma tela funcionando, um teste ou um relatório: sempre sabemos onde estamos.</p>
   </div>
   <span class="imm-page">07 / 15</span>
 </section>
@@ -145,11 +153,11 @@
     <pre class="imm-terminal-body"><span class="prompt">&gt;</span> py -m venv .venv
 <span class="prompt">&gt;</span> .\.venv\Scripts\Activate.ps1
 <span class="prompt">&gt;</span> pip install -r requirements.txt
-<span class="prompt">&gt;</span> Copy-Item agents\_template_agent.py agents\organizador_estudos.py</pre>
+<span class="prompt">&gt;</span> Copy-Item agents\_template_agent.py agents\meu-agente.py</pre>
   </div>
   <div class="imm-explain">
     <div class="imm-command"><span class="num">A</span><div><h3>Ambiente virtual</h3><p>Uma caixa separada para as ferramentas desta aula.</p></div></div>
-    <div class="imm-command"><span class="num">B</span><div><h3>Cópia do modelo</h3><p>Você personaliza sem apagar o exemplo original.</p></div></div>
+    <div class="imm-command"><span class="num">B</span><div><h3>Cópia do modelo</h3><p>Compare com <code>organizador-estudos-referencia.py</code>, o caso resolvido.</p></div></div>
   </div>
   <span class="imm-page">08 / 15</span>
 </section>
@@ -159,14 +167,17 @@
   <div class="imm-kicker">Passo 3</div>
   <h2>Quatro campos fazem seu agente aparecer no portal.</h2>
   <div class="imm-code-window">
-    <div class="imm-code-title"><span>agents/organizador_estudos.py</span><span>edite somente as linhas destacadas</span></div>
-    <pre class="imm-code-body">AGENT = {
-<span class="focus">    "slug": "organizador_estudos",</span>
-<span class="focus">    "name": "Organizador de Estudos",</span>
-<span class="focus">    "emoji": "📚",</span>
-<span class="focus">    "description": "Cria um plano curto e possível.",</span>
-    "system": """..."""
-}</pre>
+    <div class="imm-code-title"><span>agents/meu-agente.py</span><span>edite somente as linhas destacadas</span></div>
+    <pre class="imm-code-body">class MeuAgente:
+<span class="focus">    slug = "meu-agente"</span>
+<span class="focus">    name = "Meu Agente"</span>
+<span class="focus">    emoji = "📚"</span>
+<span class="focus">    description = "Cria um plano curto."</span>
+
+    def run(self, message, history):
+        ...
+
+AGENT = MeuAgente()</pre>
   </div>
   <div class="imm-grid four">
     <div class="imm-card"><h3>slug</h3><p>Nome técnico sem espaço.</p></div>
@@ -196,8 +207,8 @@
   <div class="imm-kicker">Sua primeira versão</div>
   <h2>Escreva como se estivesse orientando uma pessoa nova.</h2>
   <div class="imm-code-window">
-    <div class="imm-code-title"><span>campo “system”</span><span>instrução completa</span></div>
-    <pre class="imm-code-body">"""Você é um organizador de estudos acolhedor.
+    <div class="imm-code-title"><span>mensagem com role “system”</span><span>instrução completa</span></div>
+    <pre class="imm-code-body">{"role": "system", "content": """Você é um organizador de estudos acolhedor.
 
 Receba matérias, data da prova e tempo disponível.
 Crie exatamente 3 prioridades.
@@ -208,7 +219,7 @@ Para cada prioridade, mostre:
 - próximo passo de até 20 minutos.
 
 Não invente informações. Se faltar algo essencial,
-faça uma pergunta curta antes de criar o plano."""</pre>
+faça uma pergunta curta antes de criar o plano."""}</pre>
   </div>
   <span class="imm-page">11 / 15</span>
 </section>
@@ -219,12 +230,12 @@ faça uma pergunta curta antes de criar o plano."""</pre>
   <h2>O preflight encontra problemas antes de abrir o portal.</h2>
   <div class="imm-terminal">
     <div class="imm-terminal-head"><span>PowerShell</span><span>checagem local</span></div>
-    <pre class="imm-terminal-body"><span class="prompt">&gt;</span> python preflight.py
+    <pre class="imm-terminal-body"><span class="prompt">&gt;</span> python check_agent.py agents\meu-agente.py
 
 <span class="passed">✓ Python compatível</span>
 <span class="passed">✓ Dependências instaladas</span>
 <span class="passed">✓ Modo mock ativo</span>
-<span class="passed">✓ Agente organizador_estudos carregado</span>
+<span class="passed">✓ AGENT encontrado</span>
 
 <span class="passed">PRONTO PARA COMEÇAR</span></pre>
   </div>

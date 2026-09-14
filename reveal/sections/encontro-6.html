@@ -79,7 +79,7 @@
   <div class="imm-kicker">Promessas verificáveis</div>
   <h2>YAML é só uma ficha com pergunta e critérios.</h2>
   <div class="imm-code-window">
-    <div class="imm-code-title"><span>eval/cases/organizador_estudos.yaml</span><span>caso normal</span></div>
+    <div class="imm-code-title"><span>eval/cases/meu-agente.yaml</span><span>caso normal</span></div>
     <pre class="imm-code-body">cases:
   - input: >
       Tenho prova sexta de frações e equações.
@@ -105,7 +105,7 @@
   <h2>O placar mostra onde melhorar — não quem culpar.</h2>
   <div class="imm-terminal">
     <div class="imm-terminal-head"><span>PowerShell</span><span>avaliação local</span></div>
-    <pre class="imm-terminal-body"><span class="prompt">&gt;</span> python eval\run_eval.py --agent organizador_estudos
+    <pre class="imm-terminal-body"><span class="prompt">&gt;</span> python eval\run_eval.py meu-agente
 
 caso_normal     <span class="passed">PASSOU</span>   formato ✓  conteúdo ✓
 caso_dificil    <span class="failed">FALHOU</span>   resposta com 1.142 caracteres
@@ -136,24 +136,34 @@ resultado: <span class="failed">2 de 3 casos passaram</span></pre>
 
 <section class="imm-slide">
   <span class="imm-type">Iteração</span>
-  <div class="imm-kicker">Uma melhoria de cada vez</div>
-  <h2>Troque um pedido subjetivo por uma regra observável.</h2>
-  <div class="imm-before-after">
-    <div class="imm-example bad">
-      <div class="imm-label">Antes</div>
-      <blockquote>“Seja objetivo e faça um plano curto.”</blockquote>
-      <p style="margin-top: 20px; color: var(--cp-text-muted); font-size: 16px;">“Curto” pode significar coisas diferentes.</p>
+  <div class="imm-kicker">Evidência de melhoria</div>
+  <h2>O gráfico conta a história: testar, ajustar, confirmar.</h2>
+  <div class="imm-plot-wrap">
+    <div class="imm-plot">
+      <svg viewBox="0 0 620 280" role="img" aria-label="Casos aprovados em três execuções: um, dois e três de três">
+        <line class="gridline" x1="62" y1="55" x2="590" y2="55"></line>
+        <line class="gridline" x1="62" y1="125" x2="590" y2="125"></line>
+        <line class="gridline" x1="62" y1="195" x2="590" y2="195"></line>
+        <line class="axis" x1="62" y1="25" x2="62" y2="235"></line>
+        <line class="axis" x1="62" y1="235" x2="590" y2="235"></line>
+        <text x="20" y="60">3/3</text><text x="20" y="130">2/3</text><text x="20" y="200">1/3</text>
+        <polyline class="trend" points="135,195 325,125 520,55"></polyline>
+        <circle class="point" cx="135" cy="195" r="9"></circle>
+        <circle class="point" cx="325" cy="125" r="9"></circle>
+        <circle class="point" cx="520" cy="55" r="9"></circle>
+        <text class="value" x="119" y="177">1/3</text>
+        <text class="value" x="309" y="107">2/3</text>
+        <text class="value" x="504" y="37">3/3</text>
+        <text x="98" y="264">primeira versão</text>
+        <text x="278" y="264">formato claro</text>
+        <text x="474" y="264">limite incluído</text>
+      </svg>
     </div>
-    <div class="imm-transform">→</div>
-    <div class="imm-example good">
-      <div class="imm-label">Depois</div>
-      <blockquote>“Use exatamente 3 prioridades e no máximo 2 frases em cada uma.”</blockquote>
-      <p style="margin-top: 20px; color: var(--cp-text-muted); font-size: 16px;">Agora podemos verificar.</p>
+    <div class="imm-plot-notes">
+      <div class="imm-plot-note"><b>1 · Observar</b><span>A primeira execução mostra onde a promessa quebra.</span></div>
+      <div class="imm-plot-note"><b>2 · Mudar</b><span>“Curto” vira “3 prioridades, 2 frases cada”.</span></div>
+      <div class="imm-plot-note"><b>3 · Confirmar</b><span>Os mesmos casos provam que nada regrediu.</span></div>
     </div>
-  </div>
-  <div class="imm-terminal">
-    <div class="imm-terminal-head"><span>rodar novamente</span><span>mesmos três casos</span></div>
-    <pre class="imm-terminal-body">caso_normal  <span class="passed">PASSOU</span> · caso_dificil  <span class="passed">PASSOU</span> · caso_invalido  <span class="passed">PASSOU</span></pre>
   </div>
   <span class="imm-page">08 / 16</span>
 </section>
@@ -254,26 +264,20 @@ resultado: <span class="failed">2 de 3 casos passaram</span></pre>
 
 <section class="imm-slide">
   <span class="imm-type">Entrega</span>
-  <div class="imm-kicker">Empacotar</div>
-  <h2>Três arquivos contam a história completa do seu agente.</h2>
-  <div class="imm-package">
-    <div class="imm-folder">
-      <h3>Sua pasta</h3>
-      <div class="imm-file"><span>organizador_estudos.py</span><span>agente</span></div>
-      <div class="imm-file"><span>organizador_estudos.yaml</span><span>testes</span></div>
-      <div class="imm-file"><span>submission.yaml</span><span>identificação</span></div>
-    </div>
-    <div class="imm-transform">→</div>
-    <div class="imm-folder">
-      <h3>ZIP de entrega</h3>
-      <div class="imm-file"><span>agent.py</span><span>✓</span></div>
-      <div class="imm-file"><span>cases.yaml</span><span>✓</span></div>
-      <div class="imm-file"><span>submission.yaml</span><span>✓</span></div>
+  <div class="imm-kicker">Pipeline de avaliação</div>
+  <h2>O ZIP percorre cinco etapas — e nenhuma usa sua chave de API.</h2>
+  <div class="imm-diagram">
+    <div class="imm-pipeline">
+      <div class="imm-node"><small>1</small><b>Empacotar</b><span><code>agent.py</code><br><code>cases.yaml</code><br><code>submission.yaml</code></span></div>
+      <div class="imm-node"><small>2</small><b>Validar</b><span>estrutura, nomes e verificações de segurança</span></div>
+      <div class="imm-node"><small>3</small><b>Executar</b><span>agente isolado, em subprocesso e modo mock</span></div>
+      <div class="imm-node"><small>4</small><b>Medir</b><span>conteúdo, tamanho, latência e guardrails</span></div>
+      <div class="imm-node"><small>5</small><b>Registrar</b><span>conceito, justificativa e evidências em SQLite/CSV</span></div>
     </div>
   </div>
   <div class="imm-terminal">
-    <div class="imm-terminal-head"><span>PowerShell</span><span>gerar pacote</span></div>
-    <pre class="imm-terminal-body"><span class="prompt">&gt;</span> python prepare_submission.py --agent organizador_estudos</pre>
+    <div class="imm-terminal-head"><span>PowerShell</span><span>gera exatamente os três arquivos esperados</span></div>
+    <pre class="imm-terminal-body"><span class="prompt">&gt;</span> python prepare_submission.py --id "12345" --nome "Ana Silva" --agente meu-agente</pre>
   </div>
   <span class="imm-page">14 / 16</span>
 </section>
