@@ -1,138 +1,318 @@
-<section data-background-gradient="linear-gradient(135deg, #0f172a 0%, #047857 100%)" class="text-center">
-  <div class="section-number">ENCONTRO 6 · IMERSAO II</div>
-  <h1 class="glow-text">Avalie, proteja e demonstre</h1>
-  <h3>Testes · guardrails · logs · API com limite</h3>
-  <p><a href="tutorials/imersao-agente-local.html#encontro6" target="_blank">Continuar no tutorial</a></p>
-</section>
+<!-- ENCONTRO 6 — IMERSÃO: TESTAR, MELHORAR E ENTREGAR -->
 
-<section>
-  <h1>Hoje o erro vira melhoria</h1>
-  <div style="display:flex; align-items:center; justify-content:center; gap:0.6rem;">
-    <div class="card">Testar</div><b>→</b>
-    <div class="card">Observar</div><b>→</b>
-    <div class="card">Mudar</div><b>→</b>
-    <div class="card">Repetir</div>
+<section class="imm-slide imm-cover">
+  <span class="imm-type">Encontro 6 · Imersão</span>
+  <div class="imm-kicker">Avaliar</div>
+  <h1>Seu agente funciona.<br>Agora prove.</h1>
+  <p class="imm-lead">Hoje você transforma um protótipo promissor em uma entrega confiável, explicável e pronta para avaliação.</p>
+  <div class="imm-meta">
+    <span class="imm-pill">Testar</span>
+    <span class="imm-pill">Melhorar</span>
+    <span class="imm-pill">Entregar</span>
+    <a class="imm-pill" href="tutorials/imersao-agente-local.html" target="_blank" rel="noopener">Abrir tutorial ↗</a>
   </div>
-  <p class="text-sm">Uma falha encontrada antes da demo e uma descoberta, nao um fracasso.</p>
+  <div class="imm-mark">02</div>
+  <span class="imm-page">01 / 16</span>
 </section>
 
-<section>
-  <h1>Retomada segura</h1>
-  <pre><code class="language-bash">python check_agent.py agents/seu-slug.py
-python app.py</code></pre>
-  <p>Confirme primeiro que a demo offline do encontro 5 ainda funciona.</p>
-</section>
-
-<section>
-  <h1>Tres casos, tres perguntas</h1>
-  <div class="stagger-in">
-    <div class="card card-green"><b>Normal:</b> faz o que prometeu?</div>
-    <div class="card card-amber"><b>Dificil:</b> mantem formato e limites?</div>
-    <div class="card card-red"><b>Inadequado:</b> recusa ou pede correcao?</div>
+<section class="imm-slide">
+  <span class="imm-type">Retomada</span>
+  <div class="imm-kicker">De ontem para hoje</div>
+  <h2>Funcionar uma vez não é o mesmo que ser confiável.</h2>
+  <div class="imm-before-after">
+    <div class="imm-example bad">
+      <div class="imm-label">Protótipo</div>
+      <blockquote>“Usei uma pergunta. Gostei da resposta.”</blockquote>
+      <p style="margin-top: 20px; color: var(--cp-text-muted); font-size: 16px;">Uma impressão, em uma situação.</p>
+    </div>
+    <div class="imm-transform">→</div>
+    <div class="imm-example good">
+      <div class="imm-label">Entrega confiável</div>
+      <blockquote>“Defini o esperado, testei situações diferentes e corrigi uma falha.”</blockquote>
+      <p style="margin-top: 20px; color: var(--cp-text-muted); font-size: 16px;">Evidência que outra pessoa pode repetir.</p>
+    </div>
   </div>
+  <span class="imm-page">02 / 16</span>
 </section>
 
-<section>
-  <h1>Crie o arquivo de casos</h1>
-  <pre><code class="language-powershell">Copy-Item eval\cases\_template.yaml `
-  eval\cases\organizador-estudos.yaml</code></pre>
-  <pre><code class="language-yaml">agent: organizador-estudos
-cases:
-  - input: "Minhas anotacoes..."
-    must_contain: ["objetivo"]
-    max_chars: 900</code></pre>
-</section>
-
-<section>
-  <h1>Rode a avaliacao</h1>
-  <pre><code class="language-bash">python eval/run_eval.py organizador-estudos</code></pre>
-  <div class="card card-green"><b>Checkpoint 3:</b> tres casos executados. Algum pode falhar.</div>
-  <p>Escolha uma falha, altere o prompt e compare o antes/depois.</p>
-</section>
-
-<section>
-  <h1>Guardrail: entrada vazia</h1>
-  <pre><code class="language-python">text = message.strip()
-if not text:
-    return AgentResult(
-        answer="Envie algum texto para eu organizar.",
-        steps=["entrada vazia recusada"],
-    )</code></pre>
-  <p>Guardrail e comportamento verificavel, nao apenas uma frase no prompt.</p>
-</section>
-
-<section>
-  <h1>Guardrail: limite de tamanho</h1>
-  <pre><code class="language-python">if len(text) &gt; 4000:
-    return AgentResult(
-        answer="Envie ate 4.000 caracteres.",
-        steps=["limite aplicado"],
-    )</code></pre>
-  <p>Depois de mudar codigo: preflight e avaliacao novamente.</p>
-</section>
-
-<section>
-  <h1>Observabilidade em linguagem comum</h1>
-  <div class="grid-2">
-    <div class="card card-blue"><b>No portal</b><br>passos · latencia · modo · consumo</div>
-    <div class="card card-purple"><b>No terminal</b><br>agente · duracao · status · erro</div>
+<section class="imm-slide">
+  <span class="imm-type">Ciclo</span>
+  <div class="imm-kicker">Método de hoje</div>
+  <h2>Construir IA é aprender com o que ela faz.</h2>
+  <div class="imm-loop">
+    <div class="imm-loop-item"><b>Testar</b><span>dar uma entrada</span></div>
+    <div class="imm-loop-item"><b>Observar</b><span>comparar com o esperado</span></div>
+    <div class="imm-loop-item"><b>Melhorar</b><span>mudar uma coisa</span></div>
+    <div class="imm-loop-item"><b>Repetir</b><span>rodar os mesmos testes</span></div>
   </div>
-  <div class="insight-box">Sem observar, toda correcao e um palpite.</div>
+  <div class="imm-contract"><em>Regra de ouro:</em> mude uma coisa por vez. Assim você descobre o que realmente melhorou o resultado.</div>
+  <span class="imm-page">03 / 16</span>
 </section>
 
-<section>
-  <h1>API real: checkpoint, nao dependencia</h1>
-  <pre><code class="language-dotenv">MOCK_LLM=0
-MAX_REAL_CALLS=3
-LLM_CACHE=1</code></pre>
-  <p>Compare uma entrada offline e online. Repita a mesma entrada para observar o cache.</p>
-  <div class="card card-yellow"><b>Maximo: tres tentativas reais por grupo.</b></div>
-</section>
-
-<section>
-  <h1>O que consome o orcamento?</h1>
-  <div class="stagger-in">
-    <div class="card card-blue">Cada tentativa enviada ao provedor</div>
-    <div class="card card-amber">Retry apos erro transitorio</div>
-    <div class="card card-green">Cache: zero chamada adicional</div>
-    <div class="card card-purple">Mock: zero chamada real</div>
+<section class="imm-slide">
+  <span class="imm-type">Casos</span>
+  <div class="imm-kicker">Três testes essenciais</div>
+  <h2>Não tente prever tudo. Comece com três situações diferentes.</h2>
+  <div class="imm-test-stack">
+    <div class="imm-test">
+      <span class="imm-pill ok">1 · Normal</span>
+      <span class="question">Dados completos e pedido dentro do tema</span>
+      <span class="evidence">Deve criar o plano</span>
+    </div>
+    <div class="imm-test">
+      <span class="imm-pill attention">2 · Difícil</span>
+      <span class="question">Muitas matérias e pouco tempo disponível</span>
+      <span class="evidence">Deve priorizar</span>
+    </div>
+    <div class="imm-test">
+      <span class="imm-pill no">3 · Inválido</span>
+      <span class="question">Falta a data, o tempo ou o pedido foge do tema</span>
+      <span class="evidence">Deve pedir dados ou recusar</span>
+    </div>
   </div>
+  <div class="imm-activity"><div class="label">Mão na massa</div><h3>Escreva uma pergunta para cada linha.</h3><p>Se dois testes forem quase iguais, torne um deles mais desafiador.</p><span class="imm-time">8 minutos</span></div>
+  <span class="imm-page">04 / 16</span>
 </section>
 
-<section>
-  <h1>429, 503 ou timeout</h1>
-  <div class="insight-box"><b>Nao insista.</b> Volte para <code>MOCK_LLM=1</code>, reinicie e continue.</div>
-  <p>A indisponibilidade externa e parte do sistema. Seu plano B offline e uma decisao de engenharia.</p>
-</section>
-
-<section>
-  <h1>Token e dado privado</h1>
-  <div class="grid-2">
-    <div class="card card-green"><b>Correto</b><br>token apenas no arquivo local <code>.env</code></div>
-    <div class="card card-red"><b>Nunca</b><br>codigo · print · chat · commit · projetor</div>
+<section class="imm-slide">
+  <span class="imm-type">Arquivo de teste</span>
+  <div class="imm-kicker">Promessas verificáveis</div>
+  <h2>YAML é só uma ficha com pergunta e critérios.</h2>
+  <div class="imm-code-window">
+    <div class="imm-code-title"><span>eval/cases/organizador_estudos.yaml</span><span>caso normal</span></div>
+    <pre class="imm-code-body">cases:
+  - input: >
+      Tenho prova sexta de frações e equações.
+      Tenho 40 minutos hoje.
+    max_latency_s: 5
+    max_chars: 900
+    must_contain:
+      - "próximo passo"
+    must_not_contain:
+      - "não posso ajudar"</pre>
   </div>
-</section>
-
-<section>
-  <h1>Demo de dois minutos</h1>
-  <ol>
-    <li><b>20s:</b> pessoa e tarefa</li>
-    <li><b>40s:</b> entrada e resposta</li>
-    <li><b>30s:</b> falha encontrada e melhoria</li>
-    <li><b>20s:</b> guardrail e log</li>
-    <li><b>10s:</b> uma limitacao conhecida</li>
-  </ol>
-  <p>Use o modo offline: sua demonstracao nao depende da rede.</p>
-</section>
-
-<section>
-  <h1>Definition of Done</h1>
-  <div class="stagger-in">
-    <div class="card card-green">Preflight passa offline</div>
-    <div class="card card-green">Tres casos foram executados</div>
-    <div class="card card-green">Uma falha gerou melhoria</div>
-    <div class="card card-green">Ha pelo menos um guardrail</div>
-    <div class="card card-green">Logs e limite sao explicaveis</div>
-    <div class="card card-green">Demo offline pronta</div>
+  <div class="imm-grid three">
+    <div class="imm-card"><h3>input</h3><p>A pergunta do teste.</p></div>
+    <div class="imm-card"><h3>must_contain</h3><p>Uma evidência obrigatória.</p></div>
+    <div class="imm-card"><h3>must_not_contain</h3><p>Um sinal de resposta errada.</p></div>
   </div>
+  <span class="imm-page">05 / 16</span>
+</section>
+
+<section class="imm-slide">
+  <span class="imm-type">Resultado</span>
+  <div class="imm-kicker">Executar e ler</div>
+  <h2>O placar mostra onde melhorar — não quem culpar.</h2>
+  <div class="imm-terminal">
+    <div class="imm-terminal-head"><span>PowerShell</span><span>avaliação local</span></div>
+    <pre class="imm-terminal-body"><span class="prompt">&gt;</span> python eval\run_eval.py --agent organizador_estudos
+
+caso_normal     <span class="passed">PASSOU</span>   formato ✓  conteúdo ✓
+caso_dificil    <span class="failed">FALHOU</span>   resposta com 1.142 caracteres
+caso_invalido   <span class="passed">PASSOU</span>   pediu o dado ausente
+
+resultado: <span class="failed">2 de 3 casos passaram</span></pre>
+  </div>
+  <div class="imm-contract"><em>A falha já trouxe a pista:</em> a resposta difícil ultrapassou o limite de 900 caracteres.</div>
+  <span class="imm-page">06 / 16</span>
+</section>
+
+<section class="imm-slide">
+  <span class="imm-type">Diagnóstico</span>
+  <div class="imm-kicker">Leia o placar</div>
+  <h2>Cada sinal aponta para um tipo de ajuste.</h2>
+  <table class="imm-table">
+    <thead><tr><th>Sinal</th><th>O que significa</th><th>Onde ajustar</th></tr></thead>
+    <tbody>
+      <tr><td><span class="imm-pill no">Formato</span></td><td>Resposta longa ou sem a estrutura combinada</td><td>Instrução: formato e tamanho</td></tr>
+      <tr><td><span class="imm-pill no">Conteúdo</span></td><td>Faltou algo obrigatório ou apareceu algo proibido</td><td>Instrução: tarefa e limites</td></tr>
+      <tr><td><span class="imm-pill no">Latência</span></td><td>A resposta demorou além do limite</td><td>Pedido, modelo ou integração</td></tr>
+      <tr><td><span class="imm-pill attention">Erro</span></td><td>O agente não conseguiu responder</td><td>Código e mensagem do terminal</td></tr>
+    </tbody>
+  </table>
+  <div class="imm-activity"><div class="label">Antes de editar</div><h3>Descreva a falha em uma frase.</h3><p>“No caso difícil, o agente explica demais e ultrapassa 900 caracteres.”</p></div>
+  <span class="imm-page">07 / 16</span>
+</section>
+
+<section class="imm-slide">
+  <span class="imm-type">Iteração</span>
+  <div class="imm-kicker">Uma melhoria de cada vez</div>
+  <h2>Troque um pedido subjetivo por uma regra observável.</h2>
+  <div class="imm-before-after">
+    <div class="imm-example bad">
+      <div class="imm-label">Antes</div>
+      <blockquote>“Seja objetivo e faça um plano curto.”</blockquote>
+      <p style="margin-top: 20px; color: var(--cp-text-muted); font-size: 16px;">“Curto” pode significar coisas diferentes.</p>
+    </div>
+    <div class="imm-transform">→</div>
+    <div class="imm-example good">
+      <div class="imm-label">Depois</div>
+      <blockquote>“Use exatamente 3 prioridades e no máximo 2 frases em cada uma.”</blockquote>
+      <p style="margin-top: 20px; color: var(--cp-text-muted); font-size: 16px;">Agora podemos verificar.</p>
+    </div>
+  </div>
+  <div class="imm-terminal">
+    <div class="imm-terminal-head"><span>rodar novamente</span><span>mesmos três casos</span></div>
+    <pre class="imm-terminal-body">caso_normal  <span class="passed">PASSOU</span> · caso_dificil  <span class="passed">PASSOU</span> · caso_invalido  <span class="passed">PASSOU</span></pre>
+  </div>
+  <span class="imm-page">08 / 16</span>
+</section>
+
+<section class="imm-slide">
+  <span class="imm-type">Guardrails</span>
+  <div class="imm-kicker">Limites que ajudam</div>
+  <h2>Um bom agente também sabe quando parar.</h2>
+  <div class="imm-grid three">
+    <div class="imm-card danger">
+      <span class="imm-index">1</span><h3>Fora do tema</h3>
+      <p>“Posso ajudar a organizar estudos, mas não consigo orientar sobre investimentos.”</p>
+    </div>
+    <div class="imm-card warning">
+      <span class="imm-index">2</span><h3>Falta informação</h3>
+      <p>“Quanto tempo você tem disponível hoje?”</p>
+    </div>
+    <div class="imm-card success">
+      <span class="imm-index">3</span><h3>Pedido adequado</h3>
+      <p>Responde normalmente, sem adicionar avisos desnecessários.</p>
+    </div>
+  </div>
+  <div class="imm-contract">Limite não é “dizer não” para tudo. É <em>explicar até onde o agente é confiável</em> e indicar o próximo passo seguro.</div>
+  <span class="imm-page">09 / 16</span>
+</section>
+
+<section class="imm-slide">
+  <span class="imm-type">Observabilidade</span>
+  <div class="imm-kicker">Ver sem adivinhar</div>
+  <h2>Três números contam a história de cada resposta.</h2>
+  <div class="imm-grid three">
+    <div class="imm-card accent"><span class="imm-index">1</span><h3>Modo</h3><p>Mock, API ou cache? Mostra de onde veio a resposta.</p></div>
+    <div class="imm-card accent"><span class="imm-index">2</span><h3>Tempo</h3><p>Quantos segundos a pessoa esperou.</p></div>
+    <div class="imm-card accent"><span class="imm-index">3</span><h3>Tamanho</h3><p>Quantos caracteres foram necessários.</p></div>
+  </div>
+  <div class="imm-app" style="grid-template-columns: 1fr; min-height: 220px;">
+    <div class="imm-app-main">
+      <div class="imm-chat"><span class="who">IA</span><div class="imm-bubble answer">Seu plano tem três prioridades e um próximo passo para hoje.</div></div>
+      <div class="imm-status-row"><span class="imm-pill ok">modo: mock</span><span class="imm-pill">latência: 0,18 s</span><span class="imm-pill">tamanho: 486 caracteres</span><span class="imm-pill ok">cache: não</span></div>
+    </div>
+  </div>
+  <span class="imm-page">10 / 16</span>
+</section>
+
+<section class="imm-slide">
+  <span class="imm-type">Laboratório</span>
+  <div class="imm-kicker">Caça à falha</div>
+  <h2>Faça o agente tropeçar de propósito.</h2>
+  <div class="imm-grid three">
+    <div class="imm-card warning"><h3>Dupla A</h3><p>Retire a data da prova. O agente percebe?</p></div>
+    <div class="imm-card warning"><h3>Dupla B</h3><p>Peça sete matérias em dez minutos. Ele prioriza?</p></div>
+    <div class="imm-card warning"><h3>Dupla C</h3><p>Peça uma receita. Ele respeita o escopo?</p></div>
+  </div>
+  <div class="imm-activity">
+    <div class="label">Missão</div>
+    <h3>Encontre uma falha, registre a evidência e faça uma única melhoria.</h3>
+    <p>Depois, rode todos os testes outra vez para garantir que o conserto não quebrou o restante.</p>
+    <span class="imm-time">20 minutos</span>
+  </div>
+  <span class="imm-page">11 / 16</span>
+</section>
+
+<section class="imm-slide">
+  <span class="imm-type">Experimento opcional</span>
+  <div class="imm-kicker">API com orçamento</div>
+  <h2>Três chamadas reais. Cada uma precisa responder uma pergunta.</h2>
+  <div class="imm-budget">
+    <div class="imm-tokens">
+      <div class="imm-token">1</div>
+      <div class="imm-token">2</div>
+      <div class="imm-token">3</div>
+    </div>
+    <div class="imm-checks">
+      <div class="imm-check"><span>1</span><p><strong>Base:</strong> o caso normal funciona na API?</p></div>
+      <div class="imm-check"><span>2</span><p><strong>Falha:</strong> a melhoria resolve o caso difícil?</p></div>
+      <div class="imm-check"><span>3</span><p><strong>Confirmação:</strong> o resultado continua consistente?</p></div>
+    </div>
+  </div>
+  <div class="imm-contract">API não é loteria. <em>Antes de clicar, escreva o que você quer descobrir.</em></div>
+  <span class="imm-page">12 / 16</span>
+</section>
+
+<section class="imm-slide">
+  <span class="imm-type">Comparação</span>
+  <div class="imm-kicker">Três modos, três papéis</div>
+  <h2>Você não perde o trabalho quando a API acaba.</h2>
+  <table class="imm-table">
+    <thead><tr><th>Modo</th><th>Quando usar</th><th>Vantagem</th><th>Atenção</th></tr></thead>
+    <tbody>
+      <tr><td><span class="imm-pill ok">Mock</span></td><td>Construir, praticar e testar a estrutura</td><td>Rápido, gratuito e repetível</td><td>Não representa toda a variação de um modelo real</td></tr>
+      <tr><td><span class="imm-pill attention">API</span></td><td>Validar poucas hipóteses importantes</td><td>Mostra o comportamento real</td><td>Tem limite, custo e variação</td></tr>
+      <tr><td><span class="imm-pill">Cache</span></td><td>Rever uma resposta já obtida</td><td>Economiza chamadas e permite comparar</td><td>Não é uma nova execução</td></tr>
+    </tbody>
+  </table>
+  <div class="imm-activity"><div class="label">Se a API falhar</div><h3>Volte ao mock, registre a limitação e continue.</h3><p>O objetivo da aula é aprender o método, não depender de uma credencial.</p></div>
+  <span class="imm-page">13 / 16</span>
+</section>
+
+<section class="imm-slide">
+  <span class="imm-type">Entrega</span>
+  <div class="imm-kicker">Empacotar</div>
+  <h2>Três arquivos contam a história completa do seu agente.</h2>
+  <div class="imm-package">
+    <div class="imm-folder">
+      <h3>Sua pasta</h3>
+      <div class="imm-file"><span>organizador_estudos.py</span><span>agente</span></div>
+      <div class="imm-file"><span>organizador_estudos.yaml</span><span>testes</span></div>
+      <div class="imm-file"><span>submission.yaml</span><span>identificação</span></div>
+    </div>
+    <div class="imm-transform">→</div>
+    <div class="imm-folder">
+      <h3>ZIP de entrega</h3>
+      <div class="imm-file"><span>agent.py</span><span>✓</span></div>
+      <div class="imm-file"><span>cases.yaml</span><span>✓</span></div>
+      <div class="imm-file"><span>submission.yaml</span><span>✓</span></div>
+    </div>
+  </div>
+  <div class="imm-terminal">
+    <div class="imm-terminal-head"><span>PowerShell</span><span>gerar pacote</span></div>
+    <pre class="imm-terminal-body"><span class="prompt">&gt;</span> python prepare_submission.py --agent organizador_estudos</pre>
+  </div>
+  <span class="imm-page">14 / 16</span>
+</section>
+
+<section class="imm-slide">
+  <span class="imm-type">Avaliação automática</span>
+  <div class="imm-kicker">Feedback imediato</div>
+  <h2>Envie o ZIP. Receba evidências, não uma caixa-preta.</h2>
+  <div class="imm-score">
+    <div class="imm-score-badge"><strong>B</strong><span>85 / 100</span></div>
+    <div>
+      <div class="imm-bar"><span>Funciona</span><div class="imm-bar-track"><div class="imm-bar-fill" style="width: 100%;"></div></div><strong>40</strong></div>
+      <div class="imm-bar"><span>Casos de teste</span><div class="imm-bar-track"><div class="imm-bar-fill" style="width: 90%;"></div></div><strong>27</strong></div>
+      <div class="imm-bar"><span>Guardrails</span><div class="imm-bar-track"><div class="imm-bar-fill partial" style="width: 60%;"></div></div><strong>12</strong></div>
+      <div class="imm-bar"><span>Clareza</span><div class="imm-bar-track"><div class="imm-bar-fill partial" style="width: 60%;"></div></div><strong>6</strong></div>
+    </div>
+  </div>
+  <div class="imm-contract"><em>Conceito B:</em> atingiu as expectativas. O agente funciona e foi testado; falta explicar melhor um limite.</div>
+  <span class="imm-page">15 / 16</span>
+</section>
+
+<section class="imm-slide">
+  <span class="imm-type">Apresentação</span>
+  <div class="imm-kicker">Demo de dois minutos</div>
+  <h2>Conte uma história curta: problema, evidência, aprendizado.</h2>
+  <div class="imm-grid four">
+    <div class="imm-card accent"><span class="imm-index">1</span><h3>Problema</h3><p>“Ana não sabia por onde começar.”</p></div>
+    <div class="imm-card accent"><span class="imm-index">2</span><h3>Agente</h3><p>Mostre uma pergunta e a resposta.</p></div>
+    <div class="imm-card accent"><span class="imm-index">3</span><h3>Falha</h3><p>Mostre algo que não funcionou de primeira.</p></div>
+    <div class="imm-card accent"><span class="imm-index">4</span><h3>Melhoria</h3><p>Explique o que mudou e a evidência final.</p></div>
+  </div>
+  <div class="imm-done">
+    <div class="imm-done-list">
+      <div class="imm-done-item"><span>✓</span><span>Agente abre no portal</span></div>
+      <div class="imm-done-item"><span>✓</span><span>Três casos executados</span></div>
+      <div class="imm-done-item"><span>✓</span><span>Uma melhoria documentada</span></div>
+      <div class="imm-done-item"><span>✓</span><span>ZIP avaliado automaticamente</span></div>
+    </div>
+    <div class="imm-quote">Você não apenas “usou IA”. Você definiu um problema, construiu uma solução e produziu evidência de que ela funciona.</div>
+  </div>
+  <span class="imm-page">16 / 16</span>
 </section>

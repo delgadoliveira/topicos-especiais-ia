@@ -18,8 +18,8 @@
   --red: #f87171;
   --pink: #f472b6;
   --blue: #60a5fa;
-  --font-sans: 'Inter', -apple-system, sans-serif;
-  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+  --font-sans: "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: Consolas, "Courier New", Courier, monospace;
   --radius: 14px;
   --radius-sm: 8px;
 }

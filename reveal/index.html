@@ -4,14 +4,75 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tópicos Especiais em IA — Agentes (Zero to Hero)</title>
+  <script>
+    (() => {
+      const param = new URLSearchParams(window.location.search).get("clawpilotTheme");
+      const theme =
+        param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+  <style>
+    :root {
+      color-scheme: light;
+      --cp-bg: #f7f4ef;
+      --cp-bg-elevated: #fcfbf8;
+      --cp-surface: #ffffff;
+      --cp-surface-soft: #f5f5f5;
+      --cp-border: #dedede;
+      --cp-border-strong: #919191;
+      --cp-text: #242424;
+      --cp-text-muted: #5c5c5c;
+      --cp-text-soft: #6f6f6f;
+      --cp-accent: #b11f4b;
+      --cp-accent-hover: #9a1a41;
+      --cp-accent-soft: rgba(177, 31, 75, 0.08);
+      --cp-accent-fg: #ffffff;
+      --cp-success: #16a34a;
+      --cp-danger: #dc2626;
+      --cp-warning: #f59e0b;
+      --cp-link: #0078d4;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+      --cp-overlay: rgba(255, 255, 255, 0.8);
+      --cp-panel: rgba(255, 255, 255, 0.86);
+      --cp-panel-strong: rgba(255, 255, 255, 0.96);
+      --cp-sheen: rgba(255, 255, 255, 0.55);
+      --cp-highlight: rgba(177, 31, 75, 0.12);
+    }
+    html[data-theme="dark"] {
+      color-scheme: dark;
+      --cp-bg: #3d3b3a;
+      --cp-bg-elevated: #343231;
+      --cp-surface: #292929;
+      --cp-surface-soft: #2e2e2e;
+      --cp-border: #474747;
+      --cp-border-strong: #5f5f5f;
+      --cp-text: #dedede;
+      --cp-text-muted: #919191;
+      --cp-text-soft: #b0b0b0;
+      --cp-accent: #fd8ea1;
+      --cp-accent-hover: #fb7b91;
+      --cp-accent-soft: rgba(253, 142, 161, 0.14);
+      --cp-accent-fg: #1a1a1a;
+      --cp-success: #4ade80;
+      --cp-danger: #f87171;
+      --cp-warning: #fbbf24;
+      --cp-link: #4da6ff;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+      --cp-overlay: rgba(41, 41, 41, 0.88);
+      --cp-panel: rgba(41, 41, 41, 0.72);
+      --cp-panel-strong: rgba(41, 41, 41, 0.96);
+      --cp-sheen: rgba(255, 255, 255, 0.04);
+      --cp-highlight: rgba(253, 142, 161, 0.12);
+    }
+  </style>
   <link rel="stylesheet" href="vendor/reveal/reveal.css">
   <link rel="stylesheet" href="vendor/reveal/theme/black.css" id="theme">
   <link rel="stylesheet" href="vendor/reveal/plugin/highlight/monokai.css">
   <link rel="stylesheet" href="reveal/css/theme.css">
+  <link rel="stylesheet" href="reveal/css/immersion.css">
   <link rel="stylesheet" href="reveal/css/animations.css">
   <link rel="stylesheet" href="reveal/css/presentation-tools.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
   <div class="reveal">
@@ -416,14 +477,13 @@ echo "OPENAI_API_KEY=sk-..." > .env</code></pre>
               <span class="sidebar-label">Encontro 5 — Imersão: Construir</span>
             </div>
             <ul class="sidebar-topics">
-              <li data-section="6" data-slide="2">Regra offline-first</li>
-              <li data-section="6" data-slide="3">Mapa em 7 passos</li>
-              <li data-section="6" data-slide="4">Preparar ambiente</li>
-              <li data-section="6" data-slide="5">Escopo em uma frase</li>
-              <li data-section="6" data-slide="8">Editar o template</li>
-              <li data-section="6" data-slide="10">Validar (preflight)</li>
-              <li data-section="6" data-slide="11">Abrir o portal</li>
-              <li data-section="6" data-slide="13">Definition of Done</li>
+              <li data-section="6" data-slide="2">A história de Ana</li>
+              <li data-section="6" data-slide="3">Anatomia do agente</li>
+              <li data-section="6" data-slide="5">Contrato de qualidade</li>
+              <li data-section="6" data-slide="7">Preparar o laboratório</li>
+              <li data-section="6" data-slide="9">Escrever a instrução</li>
+              <li data-section="6" data-slide="12">Testar no portal</li>
+              <li data-section="6" data-slide="14">Missão concluída</li>
             </ul>
           </li>
           <li class="sidebar-group">
@@ -432,13 +492,14 @@ echo "OPENAI_API_KEY=sk-..." > .env</code></pre>
               <span class="sidebar-label">Encontro 6 — Imersão: Avaliar</span>
             </div>
             <ul class="sidebar-topics">
-              <li data-section="7" data-slide="3">Avaliação: 3 casos</li>
-              <li data-section="7" data-slide="5">Executar e melhorar</li>
-              <li data-section="7" data-slide="6">Guardrails</li>
-              <li data-section="7" data-slide="8">Observabilidade</li>
-              <li data-section="7" data-slide="9">Checkpoint com API</li>
-              <li data-section="7" data-slide="11">Plano B offline</li>
-              <li data-section="7" data-slide="13">Demo de 2 minutos</li>
+              <li data-section="7" data-slide="2">Do protótipo ao produto</li>
+              <li data-section="7" data-slide="3">Três testes essenciais</li>
+              <li data-section="7" data-slide="5">Ler o resultado</li>
+              <li data-section="7" data-slide="7">Criar um guardrail</li>
+              <li data-section="7" data-slide="9">Observar sem adivinhar</li>
+              <li data-section="7" data-slide="10">Experimento com API</li>
+              <li data-section="7" data-slide="13">Entrega automática</li>
+              <li data-section="7" data-slide="15">Demo de 2 minutos</li>
             </ul>
           </li>
         </ul>
