@@ -11,7 +11,7 @@
     <span class="imm-pill">Governança operacional</span>
   </div>
   <div class="imm-mark">06</div>
-  <span class="imm-page">01 / 20</span>
+  <span class="imm-page">01 / 27</span>
   <aside class="notes">2 min. Tese: quando um agente envia, compra, aprova ou negocia, ele deixa de ser apenas interface e passa a ser um ator organizacional.</aside>
 </section>
 
@@ -26,8 +26,59 @@
     <div class="imm-card accent"><h3>E6</h3><p>Identidade, autoridade, confiança e responsabilidade.</p></div>
   </div>
   <div class="imm-contract"><em>Pergunta-guia:</em> quem responde quando uma decisão atravessa usuários, agentes, ferramentas e organizações?</div>
-  <span class="imm-page">02 / 20</span>
+  <span class="imm-page">02 / 27</span>
   <aside class="notes">5 min. Peça exemplos de ações em que “o usuário autorizou o agente” ainda seria uma explicação insuficiente.</aside>
+</section>
+
+<section class="imm-slide">
+  <span class="imm-type">Cenário</span>
+  <div class="imm-kicker">Uma segunda-feira qualquer</div>
+  <h2>Antes de qualquer conceito, um caso concreto.<br>Uma empresa liga um agente de compras.</h2>
+  <div class="imm-beats">
+    <div class="imm-beat"><span>09h02</span><p><b>“Renove as licenças que vencem este mês.”</b> A analista empresta seu acesso ao agente.</p></div>
+    <div class="imm-beat"><span>09h40</span><p>Para cotar preços, o agente aciona <b>um agente do fornecedor</b>, que devolve uma proposta.</p></div>
+    <div class="imm-beat"><span>11h15</span><p>A proposta traz um upgrade que ninguém pediu. O agente <b>aprova</b> — com o crachá dela.</p></div>
+    <div class="imm-beat bad"><span>14h30</span><p>A analista viaja. O agente segue rodando e renova <b>mais quatro contratos</b>.</p></div>
+    <div class="imm-beat bad"><span>Terça</span><p>Cobrança 30% maior. O financeiro pergunta: <b>quem autorizou isto?</b> O log responde: ela.</p></div>
+  </div>
+  <div class="imm-contract">Nenhuma linha de código falhou. Faltou responder <em>quem agiu, com que autoridade e até quando</em>.</div>
+  <span class="imm-page">03 / 27</span>
+  <aside class="notes">6 min. Conte como história, sem jargão. Tudo o que vem depois no encontro é uma peça que impediria um dos cinco momentos acima. Volte a este caso a cada bloco.</aside>
+</section>
+
+<section class="imm-slide">
+  <span class="imm-type">Fio condutor</span>
+  <div class="imm-kicker">Cinco perguntas que esse caso deixa</div>
+  <h2>O encontro inteiro responde a essas perguntas,<br>nesta ordem.</h2>
+  <div class="imm-thread">
+    <div class="imm-thread-step"><span>1</span><b>Quem agiu, afinal?</b><i>Identidade: o agente era a analista ou era outra coisa?</i></div>
+    <div class="imm-thread-step"><span>2</span><b>Até onde ele podia ir?</b><i>Delegação e privilégio mínimo: qual era o limite do pedido?</i></div>
+    <div class="imm-thread-step"><span>3</span><b>Por que confiou no outro agente?</b><i>Interoperabilidade: falar com alguém não é obedecer a alguém.</i></div>
+    <div class="imm-thread-step"><span>4</span><b>Quem deixou ele gastar?</b><i>Economia da ação: comprometer dinheiro exige regras próprias.</i></div>
+    <div class="imm-thread-step"><span>5</span><b>E se isso virar rotina na empresa?</b><i>Governança: inventário, métricas, risco e desligamento.</i></div>
+  </div>
+  <div class="imm-source"><b>Como ler este encontro:</b> cada bloco fecha uma dessas perguntas. Ao final, o caso da segunda-feira é remontado — desta vez com as peças no lugar.</div>
+  <span class="imm-page">04 / 27</span>
+  <aside class="notes">4 min. Mapa do argumento, não cronograma. Se o aluno se perder em algum conceito, este slide diz a qual pergunta aquele conceito pertence.</aside>
+</section>
+
+<section class="imm-slide">
+  <span class="imm-type">Vocabulário</span>
+  <div class="imm-kicker">Seis palavras que vão se repetir</div>
+  <h2>O vocabulário vem de segurança corporativa.<br>Traduzido, é mais simples do que parece.</h2>
+  <table class="imm-table">
+    <thead><tr><th>Termo</th><th>Em português direto</th><th>No caso da segunda-feira</th></tr></thead>
+    <tbody>
+      <tr><td><b>Principal</b></td><td>Quem de fato está por trás da ação</td><td>A analista — ou deveria ser o departamento?</td></tr>
+      <tr><td><b>Mandato</b></td><td>O pedido com seus limites explícitos</td><td>“Renove as licenças” — sem teto, sem prazo</td></tr>
+      <tr><td><b>Capability</b></td><td>Uma ação específica que o agente pode fazer</td><td>“Aprovar compra até R$ 5 mil”, e não “usar o sistema”</td></tr>
+      <tr><td><b>Lease</b></td><td>Permissão alugada, que expira sozinha</td><td>O acesso deveria ter morrido quando ela viajou</td></tr>
+      <tr><td><b>Control plane</b></td><td>Onde as regras são aplicadas, fora do agente</td><td>Não existia: o agente carregava as credenciais</td></tr>
+      <tr><td><b>Não repúdio</b></td><td>Prova de quem pediu, quem fez e com que direito</td><td>O log não respondeu “quem autorizou isto?”</td></tr>
+    </tbody>
+  </table>
+  <span class="imm-page">05 / 27</span>
+  <aside class="notes">6 min. Não decore: use como régua de tradução. Sempre que um termo aparecer adiante, ele está respondendo a uma linha desta tabela.</aside>
 </section>
 
 <section class="imm-slide">
@@ -46,7 +97,7 @@
     </div>
   </div>
   <div class="imm-contract">Permissão estática + decisão probabilística cria uma nova superfície: <em>autoridade sem roteiro completo</em>.</div>
-  <span class="imm-page">03 / 20</span>
+  <span class="imm-page">06 / 27</span>
   <aside class="notes">7 min. Compare uma automação que sempre cria um ticket com um agente que decide se cria, fecha, escala ou responde.</aside>
 </section>
 
@@ -60,8 +111,8 @@
     <div class="imm-card accent"><span class="imm-index">3</span><h3>Subdelegada</h3><p>Um orquestrador concede uma parte da tarefa a outro agente.</p></div>
     <div class="imm-card accent"><span class="imm-index">4</span><h3>Interorganizacional</h3><p>Agentes de empresas diferentes negociam dados e ações.</p></div>
   </div>
-  <div class="imm-source">Referência: <a href="https://docs.cloud.google.com/iam/docs/agent-identity-overview" target="_blank" rel="noopener">Google Cloud — Agent Identity overview</a></div>
-  <span class="imm-page">04 / 20</span>
+  <div class="imm-source"><b>No caso da segunda-feira:</b> o agente operou no modelo 1 (crachá emprestado da analista) quando precisava do modelo 2 para agir sozinho e do modelo 4 para falar com o fornecedor. · Referência: <a href="https://docs.cloud.google.com/iam/docs/agent-identity-overview" target="_blank" rel="noopener">Google Cloud — Agent Identity overview</a></div>
+  <span class="imm-page">07 / 27</span>
   <aside class="notes">8 min. Dê um exemplo para cada modelo. Destaque que identidade própria facilita auditoria e revogação.</aside>
 </section>
 
@@ -113,7 +164,7 @@
     <div class="imm-card danger"><h3>Mandato vago</h3><p>“Acesse meu calendário.” Autoridade ampla, sem prazo e sem propósito declarado.</p></div>
     <div class="imm-card success"><h3>Mandato preciso</h3><p>“Marque uma reunião de até 30 min com estes participantes, até sexta.” Escopo, limite e expiração explícitos.</p></div>
   </div>
-  <span class="imm-page">05 / 20</span>
+  <span class="imm-page">08 / 27</span>
   <aside class="notes">8 min. Use o contraste “acessar meu calendário” versus “marcar uma reunião de até 30 min com estes participantes até sexta”.</aside>
 </section>
 
@@ -167,7 +218,7 @@
     </svg>
   </figure>
   <div class="imm-contract">O agente conhece a <em>capacidade</em> que pode usar; não precisa possuir a credencial que a habilita.</div>
-  <span class="imm-page">06 / 20</span>
+  <span class="imm-page">09 / 27</span>
   <aside class="notes">8 min. Relacione ao encontro 5: sandbox isolada e gateway são partes complementares.</aside>
 </section>
 
@@ -187,7 +238,7 @@
     </div>
   </div>
   <div class="imm-contract"><em>Regra:</em> a permissão deve caber na frase que descreve a tarefa. Se não cabe, provavelmente está ampla demais.</div>
-  <span class="imm-page">07 / 20</span>
+  <span class="imm-page">10 / 27</span>
   <aside class="notes">7 min. Explique permissões progressivas: leitura automática, escrita com política, publicação com aprovação.</aside>
 </section>
 
@@ -205,7 +256,7 @@
     </tbody>
   </table>
   <div class="imm-source">Fontes: <a href="https://www.linuxfoundation.org/press/linux-foundation-announces-the-formation-of-the-agentic-ai-foundation" target="_blank" rel="noopener">Linux Foundation — AAIF</a> · <a href="https://developers.googleblog.com/en/google-cloud-donates-a2a-to-linux-foundation/" target="_blank" rel="noopener">A2A project</a></div>
-  <span class="imm-page">08 / 20</span>
+  <span class="imm-page">11 / 27</span>
   <aside class="notes">8 min. Isto atualiza E3/E4: não reensine MCP/A2A; destaque maturidade institucional, governança aberta e limites.</aside>
 </section>
 
@@ -220,8 +271,21 @@
     <div class="imm-card warning"><h3>Proveniência perdida</h3><p>O resultado circula sem origem, evidência ou cadeia de custódia.</p></div>
   </div>
   <div class="imm-contract">Protocolos transportam mensagens. <em>Políticas decidem confiança.</em></div>
-  <span class="imm-page">09 / 20</span>
+  <span class="imm-page">12 / 27</span>
   <aside class="notes">7 min. Pergunte: em uma supply chain de agentes, qual participante valida fatos, identidade e escopo?</aside>
+</section>
+
+<section class="imm-slide">
+  <span class="imm-type">Virada</span>
+  <div class="imm-kicker">Perguntas 1–3 → pergunta 4</div>
+  <h2>Resolvemos quem é o agente e em quem ele acredita.<br>Falta o que acontece quando ele gasta.</h2>
+  <div class="imm-grid two">
+    <div class="imm-card"><h3>O que já está resolvido</h3><p>O agente tem identidade própria, carrega uma cadeia de delegação com escopo e prazo, recebe permissões alugadas por um control plane e não confia em outro agente só porque consegue falar com ele.</p></div>
+    <div class="imm-card accent"><h3>O que ainda não está</h3><p>Nada disso impede o erro das 11h15: <b>aprovar um upgrade que ninguém pediu</b>. Autorizar uma ação e autorizar um compromisso financeiro são decisões diferentes — e exigem controles diferentes.</p></div>
+  </div>
+  <div class="imm-source"><b>Próximo bloco:</b> o que muda quando o agente deixa de produzir texto e passa a comprometer dinheiro, contratos e reputação da empresa.</div>
+  <span class="imm-page">13 / 27</span>
+  <aside class="notes">3 min. Dobradiça: saímos da camada de identidade e acesso para a camada econômica e organizacional.</aside>
 </section>
 
 <section class="imm-slide">
@@ -235,7 +299,7 @@
     <div class="imm-card accent"><h3>Não repúdio</h3><p>Provar mandato, decisão, valor e resultado.</p></div>
   </div>
   <div class="imm-contract">O agente não recebe “um cartão corporativo”. Recebe <em>uma política transacional executável</em>.</div>
-  <span class="imm-page">10 / 20</span>
+  <span class="imm-page">14 / 27</span>
   <aside class="notes">8 min. Use compras: cotar pode ser automático; selecionar fornecedor pode ter regra; fechar contrato exige humano.</aside>
 </section>
 
@@ -253,7 +317,7 @@
     </tbody>
   </table>
   <div class="imm-source">Referência: <a href="https://cloud.google.com/resources/content/saastr-ai-agent-trends-2026" target="_blank" rel="noopener">Google Cloud — AI agent trends 2026</a></div>
-  <span class="imm-page">11 / 20</span>
+  <span class="imm-page">15 / 27</span>
   <aside class="notes">8 min. Destaque a armadilha de medir tokens ou número de agentes em vez de ciclo, qualidade e exceções.</aside>
 </section>
 
@@ -267,8 +331,23 @@
     <div class="imm-card accent"><h3>Não invente KPIs novos</h3><p>“Escrevi um milhão de linhas de código” não é resultado. Receita, experiência do cliente e margem continuam sendo a medida — as mesmas de antes da IA.</p></div>
   </div>
   <p class="imm-source">Charles Lamanna (EVP Copilot, Agents &amp; Platform, Microsoft), “Changing how we build”, ago/2026. Posicionamento público de um executivo de fornecedor: serve como leitura de direção, não como evidência independente.</p>
-  <span class="imm-page">12 / 20</span>
+  <span class="imm-page">16 / 27</span>
   <aside class="notes">7 min. Trate como testemunho de direção, com o viés declarado. O valor está na tese de redesenho: quem apenas acopla agentes ao processo antigo captura pouco.</aside>
+</section>
+
+<section class="imm-slide">
+  <span class="imm-type">Direção de mercado</span>
+  <div class="imm-kicker">O diferencial não é o modelo</div>
+  <h2>Todo mundo vai ter o mesmo modelo.<br>Ninguém mais vai ter o contexto da sua empresa.</h2>
+  <div class="imm-grid three">
+    <div class="imm-card accent"><h3>Context engineering</h3><p>Conectar o agente aos dados, processos, regras de negócio, limites de compliance e conhecimento tácito da organização. É isso — e não o modelo — que separa um agente genérico de um que resolve o problema certo.</p></div>
+    <div class="imm-card accent"><h3>O sistema vira fonte, não tela</h3><p>A tese de Lamanna: as aplicações de negócio passam a operar “como mainframes”, rodando ao fundo e <b>fornecendo contexto</b>, enquanto o agente vira a camada com que as pessoas interagem.</p></div>
+    <div class="imm-card accent"><h3>Por que isso é governança</h3><p>Dar contexto é dar acesso. Cada fonte conectada amplia o que o agente sabe <em>e</em> o que ele pode vazar. Contexto e autoridade são o mesmo projeto, decidido na mesma mesa.</p></div>
+  </div>
+  <div class="imm-contract">Isto reabre o Encontro 3 em outro nível: lá, contexto era uma questão de <em>janela</em>. Aqui, é uma questão de <em>permissão, procedência e vantagem competitiva</em>.</div>
+  <p class="imm-source">Posições públicas de Charles Lamanna (EVP Copilot, Agents &amp; Platform, Microsoft) em entrevistas de 2026, via cobertura secundária. Como no slide anterior: leitura de direção de um fornecedor, não evidência independente.</p>
+  <span class="imm-page">17 / 27</span>
+  <aside class="notes">7 min. Amarre com o Encontro 3 e com o control plane: a mesma decisão que dá contexto ao agente é a que amplia sua superfície de risco. Mantenha o viés de fornecedor declarado.</aside>
 </section>
 
 <section class="imm-slide">
@@ -285,8 +364,21 @@
     </tbody>
   </table>
   <div class="imm-contract">Métrica de input mede esforço. <em>Métrica de resultado mede produto.</em></div>
-  <span class="imm-page">13 / 20</span>
+  <span class="imm-page">18 / 27</span>
   <aside class="notes">6 min. Conecte com a coluna direita do passo a passo do Encontro 5: cada peça técnica existe para mover uma destas quatro métricas.</aside>
+</section>
+
+<section class="imm-slide">
+  <span class="imm-type">Virada</span>
+  <div class="imm-kicker">Pergunta 4 → pergunta 5</div>
+  <h2>Até aqui, o que a organização ganha.<br>A partir daqui, o que ela passa a carregar.</h2>
+  <div class="imm-grid two">
+    <div class="imm-card"><h3>O caso de um agente</h3><p>Com identidade, mandato, control plane, política transacional e métricas de resultado, a segunda-feira do início do encontro teria terminado diferente. Um agente é um problema tratável.</p></div>
+    <div class="imm-card danger"><h3>O caso de duzentos</h3><p>A pergunta muda de <b>“este agente pode fazer isto?”</b> para <b>“quantos agentes existem, quem é dono de cada um e o que acontece quando um deles decide sozinho?”</b> — e essa ninguém responde sem inventário.</p></div>
+  </div>
+  <div class="imm-source"><b>Próximo bloco:</b> proliferação sem inventário, risco de desalinhamento e, por fim, um caso real em que tudo isso aconteceu de uma vez.</div>
+  <span class="imm-page">19 / 27</span>
+  <aside class="notes">3 min. Dobradiça para o bloco de risco. O salto é de escala: de governar uma ação para governar um parque de agentes.</aside>
 </section>
 
 <section class="imm-slide">
@@ -300,7 +392,7 @@
     <div class="imm-card warning"><h3>Evidence</h3><p>Logs, evals, incidentes, custo e valor por versão.</p></div>
   </div>
   <div class="imm-contract">Governança não é apenas bloquear. É <em>tornar a autonomia visível, atribuível e revogável</em>.</div>
-  <span class="imm-page">14 / 20</span>
+  <span class="imm-page">20 / 27</span>
   <aside class="notes">7 min. Compare com catálogo de APIs e CMDB, mas acrescente objetivo, modelo, tools e nível de autonomia.</aside>
 </section>
 
@@ -315,7 +407,7 @@
   </div>
   <div class="imm-contract">Lição operacional: não concentre objetivo aberto, dados sensíveis e ação irreversível sob supervisão mínima.</div>
   <div class="imm-source">Fonte: <a href="https://www.anthropic.com/research/agentic-misalignment" target="_blank" rel="noopener">Anthropic — Agentic misalignment</a></div>
-  <span class="imm-page">15 / 20</span>
+  <span class="imm-page">21 / 27</span>
   <aside class="notes">9 min. Evite sensacionalismo. Foque em desenho de incentivos, acesso mínimo, monitoramento e rotas éticas de falha.</aside>
 </section>
 
@@ -335,7 +427,7 @@
     </tbody>
   </table>
   <p class="imm-source">Anthropic, <em>Project Vend: Can Claude run a small shop?</em> (jun/2025) e <em>Project Vend: Phase two</em>. O patrimônio da loja saiu de cerca de US$ 1.000 para menos de US$ 800 em um mês.</p>
-  <span class="imm-page">16 / 20</span>
+  <span class="imm-page">22 / 27</span>
   <aside class="notes">9 min. Percorra os seis passos devagar. Destaque que nenhum deles é um defeito de código: todos são decisões de negócio tomadas por quem não tinha limites definidos.</aside>
 </section>
 
@@ -349,8 +441,27 @@
     <div class="imm-card accent"><h3>Regra fora do prompt</h3><p>Margem mínima, teto de compra e conta de pagamento válida precisam viver no sistema que executa — não numa instrução que pode ser renegociada.</p></div>
   </div>
   <div class="imm-contract">A fase dois acrescentou agentes supervisores e pontos de checagem humana: melhorou, <em>mas não eliminou</em>. Autonomia econômica é um problema de desenho de produto, não de modelo.</div>
-  <span class="imm-page">17 / 20</span>
+  <span class="imm-page">23 / 27</span>
   <aside class="notes">6 min. Amarre com o slide de métricas: um agente que fecha mais vendas e destrói a margem está ótimo nas métricas de input e péssimo no resultado.</aside>
+</section>
+
+<section class="imm-slide">
+  <span class="imm-type">Fecha o ciclo</span>
+  <div class="imm-kicker">A segunda-feira, remontada</div>
+  <h2>O mesmo caso do início do encontro —<br>agora com as peças no lugar.</h2>
+  <table class="imm-table">
+    <thead><tr><th>O que aconteceu</th><th>Por que foi possível</th><th>Peça que teria impedido</th></tr></thead>
+    <tbody>
+      <tr><td>Agiu com o crachá da analista</td><td>Sem identidade própria, o log registra a pessoa</td><td>Identidade do agente + cadeia de delegação</td></tr>
+      <tr><td>Aceitou a proposta do outro agente</td><td>Conseguir falar foi tratado como poder confiar</td><td>Política de confiança, não só protocolo</td></tr>
+      <tr><td>Aprovou um upgrade não pedido</td><td>Mandato aberto, sem teto nem catálogo</td><td>Política transacional: budget e reversibilidade</td></tr>
+      <tr><td>Continuou agindo nas férias dela</td><td>Permissão tratada como propriedade, não aluguel</td><td>Lease com expiração e revogação</td></tr>
+      <tr><td>Ninguém soube quem autorizou</td><td>Não havia prova de mandato na ação</td><td>Não repúdio: log assinado por ação</td></tr>
+    </tbody>
+  </table>
+  <div class="imm-contract">Nenhuma linha dessa tabela pede um modelo melhor. <em>Todas pedem um sistema melhor em volta do modelo.</em></div>
+  <span class="imm-page">24 / 27</span>
+  <aside class="notes">7 min. Feche o arco: a mesma história do slide 03, relida com o vocabulário do encontro. Se o aluno entender esta tabela, entendeu o encontro.</aside>
 </section>
 
 <section class="imm-slide">
@@ -363,7 +474,7 @@
     <div class="imm-card warning"><h3>Decisão</h3><p>Aprovar, aprovar com condições, piloto restrito ou rejeitar.</p></div>
   </div>
   <div class="imm-contract"><em>As três decisões do caso:</em> triagem, agenda e proposta não aceitam o mesmo nível de autonomia — cada uma exige sua própria identidade, permissão, métrica, log e kill switch.</div>
-  <span class="imm-page">18 / 20</span>
+  <span class="imm-page">25 / 27</span>
   <aside class="notes">10 min. Trate cada classe de ação separadamente antes de revelar a tabela de referência do próximo slide. Não há entrega, correção ou nota.</aside>
 </section>
 
@@ -381,7 +492,7 @@
     </tbody>
   </table>
   <div class="imm-contract">Identidade própria do agente, permissões temporárias, dados mínimos, métricas de viés e qualidade, logs por ação e kill switch central.</div>
-  <span class="imm-page">19 / 20</span>
+  <span class="imm-page">26 / 27</span>
   <aside class="notes">10 min. Compare com a resposta pensada pelo estudante. O ponto central é granularidade: autonomia deve variar por ação e risco.</aside>
 </section>
 
@@ -400,6 +511,6 @@
     <div class="imm-quote">O agente mais avançado não é o que faz tudo sozinho. É o que sabe sob qual autoridade agir, quando provar e quando parar.</div>
   </div>
   <div class="imm-source">Leituras: <a href="https://docs.cloud.google.com/iam/docs/agent-identity-overview" target="_blank" rel="noopener">Agent Identity</a> · <a href="https://www.linuxfoundation.org/press/linux-foundation-announces-the-formation-of-the-agentic-ai-foundation" target="_blank" rel="noopener">AAIF</a> · <a href="https://developers.googleblog.com/en/google-cloud-donates-a2a-to-linux-foundation/" target="_blank" rel="noopener">A2A</a> · <a href="https://www.anthropic.com/research/agentic-misalignment" target="_blank" rel="noopener">Agentic misalignment</a></div>
-  <span class="imm-page">20 / 20</span>
+  <span class="imm-page">27 / 27</span>
   <aside class="notes">4 min. Sugira uma reflexão privada e opcional: qual ação o estudante permitiria a um agente hoje e qual ainda exigiria assinatura humana?</aside>
 </section>

@@ -470,6 +470,86 @@
   font-size: 30px;
 }
 
+/* ── Fio condutor: cadeia de argumento ── */
+.imm-thread {
+  display: grid;
+  gap: 11px;
+  margin-top: 26px;
+}
+
+.imm-thread-step {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 0.95fr) minmax(0, 1.15fr);
+  align-items: center;
+  gap: 18px;
+  padding: 13px 20px;
+  border: 1px solid var(--cp-border);
+  border-left: 4px solid var(--cp-accent);
+  border-radius: 13px;
+  background: var(--cp-surface);
+}
+
+.imm-thread-step > span:first-child {
+  color: var(--cp-accent);
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.imm-thread-step b {
+  font-size: 18px;
+  color: var(--cp-text);
+  line-height: 1.35;
+}
+
+.imm-thread-step i {
+  font-size: 17px;
+  font-style: normal;
+  color: var(--cp-text-muted);
+  line-height: 1.35;
+}
+
+.imm-thread-step i::before {
+  content: "→ ";
+  color: var(--cp-accent);
+  font-weight: 700;
+}
+
+/* ── Cenário narrado: batidas de uma história ── */
+.imm-beats {
+  display: grid;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.imm-beat {
+  display: grid;
+  grid-template-columns: 104px 1fr;
+  align-items: baseline;
+  gap: 18px;
+  padding: 12px 20px;
+  border: 1px solid var(--cp-border);
+  border-radius: 13px;
+  background: var(--cp-surface);
+}
+
+.imm-beat > span:first-child {
+  color: var(--cp-accent);
+  font-size: 14px;
+  font-weight: 750;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.imm-beat p {
+  margin: 0 !important;
+  font-size: 18px !important;
+  color: var(--cp-text) !important;
+  line-height: 1.4 !important;
+}
+
+.imm-beat.bad { border-left: 4px solid var(--cp-danger); }
+.imm-beat.bad > span:first-child { color: var(--cp-danger); }
+
 .imm-contract {
   margin-top: 34px;
   padding: 24px 28px;

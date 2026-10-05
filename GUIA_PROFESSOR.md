@@ -544,29 +544,45 @@ Para cada um:
 
 | Bloco | Tempo | Conteúdo |
 |---|---:|---|
-| 1 | 12' | Casos reais nos dois mundos (OpenClaw, Project Vend, agentes de codificação, Deep Research) |
-| 2 | 20' | Tarefa longa, o que muda no produto e a nova fronteira |
-| 3 | 25' | Avaliação técnica, horizonte, anatomia e da falha ao sintoma |
+| 1 | 8' | Fio condutor do encontro + casos reais nos dois mundos |
+| 2 | 18' | O que é tarefa longa, a escada de resultados e por que isso importa agora |
+| 3 | 20' | **Virada:** o que quebra no caminho — falhas, tradução e sintoma de produto |
 | — | 10' | Intervalo |
-| 4 | 25' | Continuidade, sandbox, credenciais, assíncrono e verificação |
+| 4 | 30' | **Virada:** a arquitetura derivada das falhas (sessão, harness, papéis, sandbox, verificação) |
 | 5 | 18' | Sessão real passo a passo + a mesma sessão vista pelo usuário |
-| 6 | 10' | Estudo de caso, arquitetura de referência e fechamento |
+| 6 | 12' | Estudo de caso, arquitetura de referência, síntese e fechamento |
 
-Não há mais slide de agenda: abra direto pelos casos concretos — OpenClaw e
-Project Vend no mundo pessoal, agentes de codificação assíncronos e Deep
-Research no mundo corporativo. O ponto comum é que em nenhum deles o problema
-foi a qualidade da resposta — foi sustentar o trabalho ao longo do tempo.
+### Como o encontro se sustenta narrativamente
 
-Antes de apresentar harnesses, estabeleça que tarefa longa não significa “o
-modelo pensar por horas”: significa trabalho com etapas dependentes, estado
+O encontro inteiro responde a **uma** pergunta: *por que agentes que já respondem
+bem ainda falham em concluir um trabalho?* O terceiro slide apresenta essa
+pergunta decomposta em cinco movimentos, e cada bloco fecha um deles. Se algum
+conceito parecer solto durante a exposição, volte a esse slide e diga a qual
+movimento ele pertence.
+
+A regra de ouro da sequência: **nenhuma peça técnica aparece antes do problema
+que ela resolve.** Por isso a anatomia do sistema não abre o bloco técnico — ela
+vem depois das falhas, precedida por uma tabela que liga cada falha nomeada ao
+componente que responde por ela. Resista à tentação de antecipar componentes.
+
+Há dois slides de **virada**, e eles são a articulação do encontro. O primeiro
+fecha a discussão de capacidade e abre a de consequência. O segundo fecha as
+falhas e autoriza a arquitetura a existir. Narre-os explicitamente: "o que já
+estabelecemos" e "a pergunta que isso abre".
+
+Abra pelos casos concretos — OpenClaw e Project Vend no mundo pessoal, agentes
+de codificação assíncronos e Deep Research no corporativo. O ponto comum é que
+em nenhum deles o problema foi a qualidade da resposta.
+
+Antes de apresentar harnesses, estabeleça que tarefa longa não significa "o
+modelo pensar por horas": significa trabalho com etapas dependentes, estado
 acumulado, esperas externas e prova de conclusão.
 
-O bloco 5 é a espinha do encontro: percorra os nove passos de uma sessão real de
-agente de codificação assíncrono, mostrando em cada etapa qual peça já estudada
-entra em ação e o que o time de produto enxerga quando ela falta. Os passos 1 a 5
-fazem o agente trabalhar; os passos 6 a 9 fazem o trabalho poder ser aceito — e
-são justamente os que costumam ser cortados. Feche com a linha do tempo vista
-pelo usuário, que responde as quatro perguntas de produto abertas no bloco 2.
+O bloco 5 é a comprovação do argumento: percorra os nove passos de uma sessão
+real de agente de codificação assíncrono, mostrando em cada etapa qual peça já
+estudada entra em ação. Os passos 1 a 5 fazem o agente trabalhar; os passos 6 a 9
+fazem o trabalho poder ser aceito — e são justamente os que costumam ser
+cortados. Feche com a linha do tempo vista pelo usuário.
 
 Conduza o caso sem escolher frameworks. Percorra as perguntas do caso na própria
 exposição e, em seguida, apresente a arquitetura de referência. Não há entrega,
@@ -578,35 +594,63 @@ correção ou nota.
 
 ## 🎯 Objetivos de aprendizagem
 
-1. Diferenciar autoridade delegada, própria, subdelegada e interorganizacional.
-2. Modelar uma cadeia de delegação com escopo, expiração e auditoria.
-3. Explicar os papéis de registry, gateway e vault.
-4. Separar interoperabilidade técnica de confiança e autorização.
-5. Distinguir métricas de resultado de métricas de input ao avaliar agentes em produção.
-6. Analisar uma operação real conduzida por agente e identificar onde o controle faltou.
-7. Propor um modelo operacional para governar agentes em escala.
+1. Reconstruir um incidente concreto de agente corporativo e nomear o que faltou nele.
+2. Traduzir o vocabulário de segurança corporativa (principal, mandato, capability, lease, control plane, não repúdio).
+3. Diferenciar autoridade delegada, própria, subdelegada e interorganizacional.
+4. Modelar uma cadeia de delegação com escopo, expiração e auditoria.
+5. Explicar os papéis de registry, gateway e vault.
+6. Separar interoperabilidade técnica de confiança e autorização.
+7. Explicar por que o contexto do negócio — e não o modelo — é o diferencial competitivo, e por que dar contexto é dar acesso.
+8. Distinguir métricas de resultado de métricas de input ao avaliar agentes em produção.
+9. Analisar uma operação real conduzida por agente e identificar onde o controle faltou.
+10. Propor um modelo operacional para governar agentes em escala.
 
 ## ⏱️ Cronograma (120 min)
 
 | Bloco | Tempo | Conteúdo |
 |---|---:|---|
-| 1 | 30' | Identidade, delegação e privilégio mínimo |
-| 2 | 22' | MCP, A2A, AGENTS.md, AAIF e confiança |
+| 1 | 14' | O caso da segunda-feira, o fio condutor e o vocabulário mínimo |
+| 2 | 26' | Identidade, cadeia de delegação, control plane e privilégio mínimo |
+| 3 | 14' | Protocolos abertos e por que interoperável não é autorizado |
 | — | 10' | Intervalo |
-| 3 | 25' | Economia da ação, redesenho do trabalho, direção de mercado e métricas de produto |
-| 4 | 18' | Agent sprawl, risco emergente e Project Vend passo a passo |
-| 5 | 15' | Estudo de caso + resposta de referência e fechamento |
+| 4 | 24' | **Virada:** economia da ação, redesenho do trabalho, contexto como diferencial e métricas |
+| 5 | 20' | **Virada:** agent sprawl, desalinhamento e Project Vend passo a passo |
+| 6 | 12' | A segunda-feira remontada, estudo de caso e fechamento |
 
-Não há mais slide de agenda. Entre direto na mudança de status: software
-tradicional executa permissões, agentes interpretam intenção antes de usá-las.
+### Como o encontro se sustenta narrativamente
 
-No bloco 3, trate o artigo de Charles Lamanna como testemunho de direção de um
-executivo de fornecedor — com o viés declarado — e use-o para introduzir a tese
-de redesenho e o argumento de não inventar KPIs novos. Emende na tabela de
-métricas: contenção, aceitação na primeira revisão, custo por caso resolvido e
-reincidência.
+Este encontro foi reescrito para **não abrir com abstração**. O terceiro slide
+conta um caso concreto: uma analista pede a um agente que renove licenças, e na
+terça-feira o financeiro descobre uma cobrança 30% maior sem conseguir responder
+quem autorizou. Nenhuma linha de código falhou. Conte essa história devagar e
+sem jargão — ela é o chão de todo o resto.
 
-No bloco 4, percorra os seis passos do Project Vend como uma sessão real de um
+Em seguida vêm dois slides de apoio que existem para evitar que o aluno se
+perca: o **fio condutor**, que converte o caso em cinco perguntas na ordem em que
+serão respondidas, e o **vocabulário mínimo**, que traduz os seis termos de
+segurança corporativa que vão se repetir. Sempre que um termo reaparecer, aponte
+de volta para a linha correspondente dessa tabela.
+
+Daí em diante, **todo bloco deve ser amarrado ao caso**. Ao falar de identidade,
+lembre que o agente usou o crachá da analista. Ao falar de lease, lembre que a
+permissão sobreviveu às férias dela. Os dois slides de **virada** marcam as
+transições: da camada de identidade para a camada econômica, e da camada
+econômica para a de escala.
+
+O penúltimo movimento fecha o arco: **a segunda-feira remontada** relê os cinco
+momentos do caso de abertura, agora com o vocabulário do encontro, mostrando qual
+peça teria impedido cada um. Se o aluno entender essa tabela, entendeu o
+encontro.
+
+Trate as posições de Charles Lamanna como testemunho de direção de um executivo
+de fornecedor — com o viés declarado. Use a tese de redesenho ("eletricidade numa
+fábrica desenhada para vapor") e a de context engineering: todos terão o mesmo
+modelo, ninguém mais terá o contexto da sua empresa. Esse segundo slide reabre o
+Encontro 3 em outro nível — lá, contexto era janela; aqui, é permissão,
+procedência e vantagem competitiva. Emende na tabela de métricas: contenção,
+aceitação na primeira revisão, custo por caso resolvido e reincidência.
+
+No bloco 5, percorra os seis passos do Project Vend como uma sessão real de um
 mês. O ponto a sustentar é que nenhuma das falhas foi um defeito de código:
 todas foram decisões de negócio tomadas por um agente sem margem mínima, teto de
 compra ou conta de pagamento válida definidos no sistema que executa.
