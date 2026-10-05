@@ -98,7 +98,7 @@
   </div>
   <div class="imm-source"><b>Ideia-chave:</b> um erro inicial pode contaminar todas as etapas seguintes.</div>
   <span class="imm-page">06 / 23</span>
-  <aside class="notes">7 min. Oriente o estudante a pausar e classificar mentalmente outros exemplos. Uma tarefa curta pode ter muitos tokens; um workflow longo pode passar boa parte do tempo esperando.</aside>
+  <aside class="notes">7 min. Classifique em voz alta outros exemplos nessa mesma escada. Uma tarefa curta pode ter muitos tokens; um workflow longo pode passar boa parte do tempo esperando.</aside>
 </section>
 
 <section class="imm-slide">
@@ -136,7 +136,7 @@
     </tbody>
   </table>
   <span class="imm-page">08 / 23</span>
-  <aside class="notes">3 min. Explique que não haverá laboratório nem entrega. As pausas servem apenas para o estudante organizar o próprio raciocínio antes de ver a resposta de referência.</aside>
+  <aside class="notes">3 min. Explique que não haverá laboratório nem entrega. O caso do final é analisado na própria exposição, seguido da arquitetura de referência.</aside>
 </section>
 
 <section class="imm-slide">
@@ -158,22 +158,25 @@
   <span class="imm-type">Avaliação técnica</span>
   <div class="imm-kicker">Antes de olhar o gráfico</div>
   <h2>Modelo, agente e sistema respondem a perguntas diferentes.</h2>
-  <div class="imm-grid three">
-    <div class="imm-card accent">
-      <span class="imm-index">M</span><h3>Avaliar o modelo</h3>
-      <p>Entrada → saída, geralmente sem tools. Mede conhecimento, reasoning, linguagem ou uma capacidade específica.</p>
-    </div>
-    <div class="imm-card accent">
-      <span class="imm-index">A</span><h3>Avaliar o agente</h3>
-      <p>Modelo + loop + tools + ambiente. Mede se consegue concluir uma tarefa observável.</p>
-    </div>
-    <div class="imm-card accent">
-      <span class="imm-index">S</span><h3>Avaliar o sistema</h3>
-      <p>Inclui custo, latência, recuperação, permissões e operação. Mede se funciona com segurança no mundo real.</p>
-    </div>
-  </div>
+  <figure class="imm-figure">
+    <svg viewBox="0 0 1080 236" role="img" aria-label="Três camadas concêntricas: o modelo dentro do agente, e o agente dentro do sistema.">
+      <rect class="imm-svg-box soft" x="1" y="1" width="1078" height="234" rx="18"/>
+      <text class="imm-svg-tag" x="26" y="32">SISTEMA</text>
+      <text class="imm-svg-sub" x="26" y="53">custo · latência · permissões · recuperação · operação</text>
+      <text class="imm-svg-sub" x="1054" y="221" text-anchor="end">funciona com segurança no mundo real?</text>
+
+      <rect class="imm-svg-box accent" x="100" y="68" width="880" height="118" rx="16"/>
+      <text class="imm-svg-tag" x="124" y="96">AGENTE</text>
+      <text class="imm-svg-sub" x="124" y="117">loop · tools · ambiente</text>
+      <text class="imm-svg-sub" x="956" y="172" text-anchor="end">conclui a tarefa observável?</text>
+
+      <rect class="imm-svg-box" x="400" y="92" width="280" height="70" rx="14"/>
+      <text class="imm-svg-label" x="540" y="122" text-anchor="middle">MODELO</text>
+      <text class="imm-svg-sub" x="540" y="145" text-anchor="middle">entrada → saída · escolhe a ação</text>
+    </svg>
+    <figcaption>Cada camada herda os problemas da camada de dentro e acrescenta os seus. Avaliação técnica do artefato — não é prova, entrega ou nota do estudante.</figcaption>
+  </figure>
   <div class="imm-contract">Um modelo melhor pode produzir um agente pior se o harness for fraco. E um bom agente ainda pode formar um sistema inseguro.</div>
-  <div class="imm-source">Avaliação técnica do artefato — não é prova, entrega ou nota do estudante.</div>
   <span class="imm-page">10 / 23</span>
   <aside class="notes">7 min. Dê um exemplo único nos três níveis: modelo escolhe uma ação; agente conclui a tarefa; sistema conclui dentro de custo, política e recuperação aceitáveis.</aside>
 </section>
@@ -202,14 +205,53 @@
   <span class="imm-type">Anatomia</span>
   <div class="imm-kicker">As quatro peças</div>
   <h2>Um agente de horizonte longo precisa separar memória, controle e execução.</h2>
-  <div class="imm-pipeline">
-    <div class="imm-node"><small>1</small><b>Sessão</b><span>log durável e append-only do que aconteceu</span></div>
-    <div class="imm-node"><small>2</small><b>Harness</b><span>loop que chama o modelo e roteia ações</span></div>
-    <div class="imm-node"><small>3</small><b>Sandbox</b><span>ambiente descartável para código e arquivos</span></div>
-    <div class="imm-node"><small>4</small><b>Gateway</b><span>tools e credenciais fora do alcance do código</span></div>
-  </div>
+  <figure class="imm-figure">
+    <svg viewBox="0 0 1080 252" role="img" aria-label="O harness no centro, ligado à sessão durável, ao modelo, ao sandbox efêmero e ao gateway de credenciais.">
+      <defs>
+        <marker id="g5-ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0 0 L10 5 L0 10 z" class="imm-svg-fill-accent"/>
+        </marker>
+      </defs>
+
+      <rect class="imm-svg-box" x="0" y="80" width="250" height="96" rx="14"/>
+      <text class="imm-svg-label" x="125" y="116" text-anchor="middle">SESSÃO</text>
+      <text class="imm-svg-sub" x="125" y="138" text-anchor="middle">log durável</text>
+      <text class="imm-svg-sub" x="125" y="157" text-anchor="middle">append-only</text>
+
+      <rect class="imm-svg-box soft" x="400" y="0" width="280" height="54" rx="12"/>
+      <text class="imm-svg-label" x="540" y="25" text-anchor="middle">MODELO</text>
+      <text class="imm-svg-sub" x="540" y="44" text-anchor="middle">só enxerga o contexto enviado agora</text>
+
+      <rect class="imm-svg-box accent" x="400" y="80" width="280" height="96" rx="14"/>
+      <text class="imm-svg-label" x="540" y="116" text-anchor="middle">HARNESS</text>
+      <text class="imm-svg-sub" x="540" y="138" text-anchor="middle">loop · roteia ações</text>
+      <text class="imm-svg-sub" x="540" y="157" text-anchor="middle">decide reset e retomada</text>
+
+      <rect class="imm-svg-zone" x="820" y="4" width="260" height="110" rx="14"/>
+      <text class="imm-svg-label" x="950" y="46" text-anchor="middle">SANDBOX</text>
+      <text class="imm-svg-sub" x="950" y="68" text-anchor="middle">descartável · código</text>
+      <text class="imm-svg-sub" x="950" y="87" text-anchor="middle">zona não confiável</text>
+
+      <rect class="imm-svg-box success" x="820" y="142" width="260" height="106" rx="14"/>
+      <text class="imm-svg-label" x="950" y="182" text-anchor="middle">GATEWAY</text>
+      <text class="imm-svg-sub" x="950" y="204" text-anchor="middle">tools e credenciais</text>
+      <text class="imm-svg-sub" x="950" y="223" text-anchor="middle">fora do alcance do código</text>
+
+      <path class="imm-svg-flow" d="M250 128 H388" marker-start="url(#g5-ar)" marker-end="url(#g5-ar)"/>
+      <text class="imm-svg-sub" x="319" y="118" text-anchor="middle">estado</text>
+
+      <path class="imm-svg-flow" d="M524 78 V58" marker-end="url(#g5-ar)"/>
+      <path class="imm-svg-flow" d="M556 58 V78" marker-end="url(#g5-ar)"/>
+
+      <path class="imm-svg-flow" d="M680 110 H808" marker-end="url(#g5-ar)"/>
+      <text class="imm-svg-sub" x="744" y="100" text-anchor="middle">executa</text>
+
+      <path class="imm-svg-flow" d="M680 150 H808" marker-end="url(#g5-ar)"/>
+      <text class="imm-svg-sub" x="744" y="172" text-anchor="middle">age</text>
+    </svg>
+    <figcaption>Fonte: <a href="https://www.anthropic.com/engineering/managed-agents" target="_blank" rel="noopener">Anthropic — Scaling Managed Agents</a></figcaption>
+  </figure>
   <div class="imm-contract"><em>Princípio:</em> qualquer peça deve poder falhar ou ser substituída sem apagar o projeto.</div>
-  <div class="imm-source">Fonte: <a href="https://www.anthropic.com/engineering/managed-agents" target="_blank" rel="noopener">Anthropic — Scaling Managed Agents</a></div>
   <span class="imm-page">12 / 23</span>
   <aside class="notes">8 min. Diferencie sessão de context window: sessão é o registro completo; contexto é só a seleção enviada ao modelo agora.</aside>
 </section>
@@ -335,21 +377,16 @@
 
 <section class="imm-slide">
   <span class="imm-type">Estudo de caso</span>
-  <div class="imm-kicker">Pausa individual</div>
+  <div class="imm-kicker">Caso para análise</div>
   <h2>Um agente deve migrar 40 serviços para uma nova API em cinco dias.</h2>
   <div class="imm-grid three">
     <div class="imm-card warning"><h3>Condições</h3><p>Repositórios diferentes, CI lento, documentação incompleta e deploy proibido sem aprovação.</p></div>
     <div class="imm-card accent"><h3>Decisões</h3><p>Onde persistir estado? Quando resetar? Quem avalia? Quais ações exigem humano?</p></div>
     <div class="imm-card danger"><h3>Riscos</h3><p>Duplicar PRs, vazar tokens, declarar sucesso cedo ou repetir deploy.</p></div>
   </div>
-  <div class="imm-activity">
-    <div class="label">Pare antes de avançar</div>
-    <h3>Responda em cinco linhas: sessão, harness, sandbox, verificação e aprovação.</h3>
-    <p>Inclua como o trabalho retoma após uma falha. Depois, compare com a resposta seguinte.</p>
-    <span class="imm-time">Pausa sugerida: 8 minutos</span>
-  </div>
+  <div class="imm-contract"><em>As cinco perguntas do caso:</em> onde vive a sessão, o que o harness controla, o que roda no sandbox, quem verifica e o que exige aprovação humana — e como o trabalho retoma depois de uma falha.</div>
   <span class="imm-page">20 / 23</span>
-  <aside class="notes">8 min. Oriente o estudante a pausar o vídeo ou os slides. A resposta não é enviada; ela apenas prepara a comparação com a arquitetura de referência.</aside>
+  <aside class="notes">8 min. Percorra as cinco perguntas em voz alta antes de revelar a arquitetura de referência do próximo slide. Não há entrega, correção ou nota.</aside>
 </section>
 
 <section class="imm-slide">
@@ -384,7 +421,7 @@
 <section class="imm-slide">
   <span class="imm-type">Fechamento</span>
   <div class="imm-kicker">Checklist de arquitetura</div>
-  <h2>Antes de chamar algo de agente de horizonte longo, responda:</h2>
+  <h2>Antes de chamar algo de agente de horizonte longo, estas são as perguntas:</h2>
   <div class="imm-done">
     <div class="imm-done-list">
       <div class="imm-done-item"><span>1</span><span>Onde está o registro durável da sessão?</span></div>

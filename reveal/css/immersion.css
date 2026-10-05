@@ -148,6 +148,69 @@
   text-decoration: underline;
 }
 
+/* --- Figuras: diagramas e gráficos SVG inline, adaptáveis ao tema --- */
+.imm-figure {
+  width: 100%;
+  margin: 22px 0 0;
+}
+
+.imm-figure svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.imm-figure figcaption {
+  margin-top: 10px;
+  color: var(--cp-text-muted);
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.imm-figure figcaption a {
+  color: var(--cp-link);
+  text-decoration: none;
+}
+
+.imm-figure figcaption a:hover { text-decoration: underline; }
+
+.imm-split {
+  display: grid;
+  grid-template-columns: 1.25fr 1fr;
+  gap: 26px;
+  align-items: center;
+  margin-top: 22px;
+}
+
+.imm-split .imm-figure { margin-top: 0; }
+.imm-split .imm-checks { gap: 10px; }
+
+/* Primitivas usadas dentro dos SVGs */
+.imm-svg-box { fill: var(--cp-surface); stroke: var(--cp-border-strong); stroke-width: 1.5; }
+.imm-svg-box.soft { fill: var(--cp-surface-soft); }
+.imm-svg-box.accent { stroke: var(--cp-accent); stroke-width: 2; }
+.imm-svg-box.success { stroke: var(--cp-success); stroke-width: 2; }
+.imm-svg-box.danger { stroke: var(--cp-danger); stroke-width: 2; }
+.imm-svg-box.warning { stroke: var(--cp-warning); stroke-width: 2; }
+.imm-svg-zone { fill: var(--cp-accent-soft); stroke: var(--cp-accent); stroke-width: 1.5; stroke-dasharray: 7 5; }
+.imm-svg-zone.neutral { fill: none; stroke: var(--cp-border-strong); }
+.imm-svg-title { fill: var(--cp-text); font-size: 17px; font-weight: 700; }
+.imm-svg-label { fill: var(--cp-text); font-size: 15px; font-weight: 650; }
+.imm-svg-sub { fill: var(--cp-text-muted); font-size: 13px; font-weight: 500; }
+.imm-svg-tag { fill: var(--cp-accent); font-size: 12px; font-weight: 750; letter-spacing: 0.08em; }
+.imm-svg-line { stroke: var(--cp-border-strong); stroke-width: 1.5; fill: none; }
+.imm-svg-flow { stroke: var(--cp-accent); stroke-width: 2; fill: none; }
+.imm-svg-flow.muted { stroke: var(--cp-text-muted); stroke-width: 1.5; }
+.imm-svg-flow.success { stroke: var(--cp-success); }
+.imm-svg-flow.danger { stroke: var(--cp-danger); }
+.imm-svg-grid { stroke: var(--cp-border); stroke-width: 1; }
+.imm-svg-fill-accent { fill: var(--cp-accent); }
+.imm-svg-fill-success { fill: var(--cp-success); }
+.imm-svg-fill-danger { fill: var(--cp-danger); }
+.imm-svg-fill-warning { fill: var(--cp-warning); }
+.imm-svg-fill-muted { fill: var(--cp-text-muted); }
+
 .imm-grid {
   display: grid;
   gap: 16px;

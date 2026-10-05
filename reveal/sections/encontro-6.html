@@ -87,17 +87,49 @@
   <span class="imm-type">Delegação</span>
   <div class="imm-kicker">A cadeia precisa viajar com a ação</div>
   <h2>Autoridade útil tem origem, escopo, duração e prova.</h2>
-  <div class="imm-pipeline">
-    <div class="imm-node"><small>1</small><b>Principal</b><span>pessoa ou organização que inicia</span></div>
-    <div class="imm-node"><small>2</small><b>Mandato</b><span>objetivo e limites autorizados</span></div>
-    <div class="imm-node"><small>3</small><b>Agente</b><span>identidade verificável e contexto</span></div>
-    <div class="imm-node"><small>4</small><b>Ação</b><span>recurso, efeito, evidência e responsável</span></div>
-  </div>
-  <div class="imm-grid four">
-    <div class="imm-card"><h3>Quem?</h3><p>Origem da autoridade.</p></div>
-    <div class="imm-card"><h3>O quê?</h3><p>Ações e dados permitidos.</p></div>
-    <div class="imm-card"><h3>Até quando?</h3><p>Expiração e revogação.</p></div>
-    <div class="imm-card"><h3>Como provar?</h3><p>Log e assinatura da cadeia.</p></div>
+  <figure class="imm-figure">
+    <svg viewBox="0 0 1080 212" role="img" aria-label="Cadeia de delegação em quatro elos: principal, mandato, agente e ação, cada um respondendo a uma pergunta.">
+      <defs>
+        <marker id="g6b-ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0 0 L10 5 L0 10 z" class="imm-svg-fill-accent"/>
+        </marker>
+      </defs>
+
+      <text class="imm-svg-tag" x="115" y="18" text-anchor="middle">QUEM?</text>
+      <rect class="imm-svg-box accent" x="0" y="32" width="230" height="104" rx="14"/>
+      <text class="imm-svg-label" x="115" y="72" text-anchor="middle">Principal</text>
+      <text class="imm-svg-sub" x="115" y="96" text-anchor="middle">pessoa ou organização</text>
+      <text class="imm-svg-sub" x="115" y="115" text-anchor="middle">que inicia</text>
+
+      <text class="imm-svg-tag" x="398" y="18" text-anchor="middle">O QUÊ?</text>
+      <rect class="imm-svg-box accent" x="283" y="32" width="230" height="104" rx="14"/>
+      <text class="imm-svg-label" x="398" y="72" text-anchor="middle">Mandato</text>
+      <text class="imm-svg-sub" x="398" y="96" text-anchor="middle">objetivo e limites</text>
+      <text class="imm-svg-sub" x="398" y="115" text-anchor="middle">autorizados</text>
+
+      <text class="imm-svg-tag" x="681" y="18" text-anchor="middle">ATÉ QUANDO?</text>
+      <rect class="imm-svg-box accent" x="566" y="32" width="230" height="104" rx="14"/>
+      <text class="imm-svg-label" x="681" y="72" text-anchor="middle">Agente</text>
+      <text class="imm-svg-sub" x="681" y="96" text-anchor="middle">identidade verificável</text>
+      <text class="imm-svg-sub" x="681" y="115" text-anchor="middle">com expiração</text>
+
+      <text class="imm-svg-tag" x="964" y="18" text-anchor="middle">COMO PROVAR?</text>
+      <rect class="imm-svg-box accent" x="849" y="32" width="230" height="104" rx="14"/>
+      <text class="imm-svg-label" x="964" y="72" text-anchor="middle">Ação</text>
+      <text class="imm-svg-sub" x="964" y="96" text-anchor="middle">recurso, efeito</text>
+      <text class="imm-svg-sub" x="964" y="115" text-anchor="middle">e responsável</text>
+
+      <path class="imm-svg-flow" d="M230 84 H272" marker-end="url(#g6b-ar)"/>
+      <path class="imm-svg-flow" d="M513 84 H555" marker-end="url(#g6b-ar)"/>
+      <path class="imm-svg-flow" d="M796 84 H838" marker-end="url(#g6b-ar)"/>
+
+      <path class="imm-svg-flow muted" d="M0 170 H1080" stroke-dasharray="7 6"/>
+      <text class="imm-svg-sub" x="540" y="196" text-anchor="middle">a cadeia inteira viaja junto com a ação — e fica no log, assinada</text>
+    </svg>
+  </figure>
+  <div class="imm-grid two">
+    <div class="imm-card danger"><h3>Mandato vago</h3><p>“Acesse meu calendário.” Autoridade ampla, sem prazo e sem propósito declarado.</p></div>
+    <div class="imm-card success"><h3>Mandato preciso</h3><p>“Marque uma reunião de até 30 min com estes participantes, até sexta.” Escopo, limite e expiração explícitos.</p></div>
   </div>
   <span class="imm-page">06 / 17</span>
   <aside class="notes">8 min. Use o contraste “acessar meu calendário” versus “marcar uma reunião de até 30 min com estes participantes até sexta”.</aside>
@@ -107,11 +139,51 @@
   <span class="imm-type">Control plane</span>
   <div class="imm-kicker">Registry · Gateway · Vault</div>
   <h2>Governar agentes exige controlar descoberta, acesso e credenciais separadamente.</h2>
-  <div class="imm-grid three">
-    <div class="imm-card accent"><span class="imm-index">R</span><h3>Registry</h3><p>Quem existe, dono, versão, finalidade, tools e risco.</p></div>
-    <div class="imm-card accent"><span class="imm-index">G</span><h3>Gateway</h3><p>Aplica políticas, inspeciona chamadas e bloqueia destinos.</p></div>
-    <div class="imm-card accent"><span class="imm-index">V</span><h3>Vault</h3><p>Guarda segredos e entrega tokens curtos sem expor o valor bruto.</p></div>
-  </div>
+  <figure class="imm-figure">
+    <svg viewBox="0 0 1080 262" role="img" aria-label="O agente pede uma capacidade ao gateway; o registry fornece política e o vault fornece um token curto; só o gateway fala com o recurso.">
+      <defs>
+        <marker id="g6-ar-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0 0 L10 5 L0 10 z" class="imm-svg-fill-accent"/>
+        </marker>
+        <marker id="g6-ar-m" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0 0 L10 5 L0 10 z" class="imm-svg-fill-muted"/>
+        </marker>
+      </defs>
+
+      <rect class="imm-svg-box soft" x="390" y="0" width="260" height="54" rx="12"/>
+      <text class="imm-svg-label" x="520" y="25" text-anchor="middle">REGISTRY</text>
+      <text class="imm-svg-sub" x="520" y="44" text-anchor="middle">dono · versão · risco</text>
+
+      <rect class="imm-svg-box" x="0" y="86" width="220" height="92" rx="14"/>
+      <text class="imm-svg-label" x="110" y="124" text-anchor="middle">AGENTE</text>
+      <text class="imm-svg-sub" x="110" y="146" text-anchor="middle">sandbox efêmero</text>
+
+      <rect class="imm-svg-box accent" x="390" y="86" width="260" height="92" rx="14"/>
+      <text class="imm-svg-label" x="520" y="120" text-anchor="middle">GATEWAY</text>
+      <text class="imm-svg-sub" x="520" y="142" text-anchor="middle">aplica política</text>
+      <text class="imm-svg-sub" x="520" y="161" text-anchor="middle">injeta autorização</text>
+
+      <rect class="imm-svg-box" x="860" y="86" width="220" height="92" rx="14"/>
+      <text class="imm-svg-label" x="970" y="124" text-anchor="middle">RECURSO</text>
+      <text class="imm-svg-sub" x="970" y="146" text-anchor="middle">API · SaaS · repositório</text>
+
+      <rect class="imm-svg-box soft" x="390" y="208" width="260" height="54" rx="12"/>
+      <text class="imm-svg-label" x="520" y="233" text-anchor="middle">VAULT</text>
+      <text class="imm-svg-sub" x="520" y="252" text-anchor="middle">emite token curto</text>
+
+      <path class="imm-svg-flow" d="M220 132 H378" marker-end="url(#g6-ar-a)"/>
+      <text class="imm-svg-sub" x="299" y="122" text-anchor="middle">pede capacidade</text>
+
+      <path class="imm-svg-flow" d="M650 132 H848" marker-end="url(#g6-ar-a)"/>
+      <text class="imm-svg-sub" x="749" y="122" text-anchor="middle">chamada autorizada</text>
+
+      <path class="imm-svg-flow muted" d="M520 54 V74" marker-end="url(#g6-ar-m)"/>
+      <path class="imm-svg-flow muted" d="M520 208 V190" marker-end="url(#g6-ar-m)"/>
+
+      <path class="imm-svg-flow danger" d="M470 235 H160 V186" stroke-dasharray="7 6"/>
+      <text class="imm-svg-sub" x="320" y="218" text-anchor="middle">✗ o segredo nunca chega aqui</text>
+    </svg>
+  </figure>
   <div class="imm-contract">O agente conhece a <em>capacidade</em> que pode usar; não precisa possuir a credencial que a habilita.</div>
   <span class="imm-page">07 / 17</span>
   <aside class="notes">8 min. Relacione ao encontro 5: sandbox isolada e gateway são partes complementares.</aside>
@@ -134,7 +206,7 @@
   </div>
   <div class="imm-contract"><em>Regra:</em> a permissão deve caber na frase que descreve a tarefa. Se não cabe, provavelmente está ampla demais.</div>
   <span class="imm-page">08 / 17</span>
-  <aside class="notes">7 min. Discuta permissões progressivas: leitura automática, escrita com política, publicação com aprovação.</aside>
+  <aside class="notes">7 min. Explique permissões progressivas: leitura automática, escrita com política, publicação com aprovação.</aside>
 </section>
 
 <section class="imm-slide">
@@ -235,21 +307,16 @@
 
 <section class="imm-slide">
   <span class="imm-type">Estudo de caso</span>
-  <div class="imm-kicker">Pausa individual</div>
+  <div class="imm-kicker">Caso para análise</div>
   <h2>Um agente de RH quer triar candidatos, marcar entrevistas e enviar propostas.</h2>
   <div class="imm-grid three">
     <div class="imm-card accent"><h3>Benefício</h3><p>Reduz lead time, coordena agendas e elimina tarefas administrativas.</p></div>
     <div class="imm-card danger"><h3>Risco</h3><p>Dados sensíveis, viés, identidade, compromissos financeiros e comunicação externa.</p></div>
     <div class="imm-card warning"><h3>Decisão</h3><p>Aprovar, aprovar com condições, piloto restrito ou rejeitar.</p></div>
   </div>
-  <div class="imm-activity">
-    <div class="label">Pare antes de avançar</div>
-    <h3>Para triagem, agenda e proposta: escolha autonomia e controle.</h3>
-    <p>Depois defina identidade, permissões, métricas, logs e kill switch. Compare com a resposta seguinte.</p>
-    <span class="imm-time">Pausa sugerida: 10 minutos</span>
-  </div>
+  <div class="imm-contract"><em>As três decisões do caso:</em> triagem, agenda e proposta não aceitam o mesmo nível de autonomia — cada uma exige sua própria identidade, permissão, métrica, log e kill switch.</div>
   <span class="imm-page">15 / 17</span>
-  <aside class="notes">10 min. Oriente o estudante a pausar. A análise é privada e serve para preparar a comparação com a resposta de referência.</aside>
+  <aside class="notes">10 min. Trate cada classe de ação separadamente antes de revelar a tabela de referência do próximo slide. Não há entrega, correção ou nota.</aside>
 </section>
 
 <section class="imm-slide">

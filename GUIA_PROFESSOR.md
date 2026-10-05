@@ -547,7 +547,7 @@ Para cada um:
 | 3 | 27' | Avaliação técnica, horizonte e continuidade |
 | — | 10' | Intervalo |
 | 4 | 28' | Sandbox, credenciais, retomada e verificação |
-| 5 | 15' | Estudo de caso individual + resposta de referência |
+| 5 | 15' | Estudo de caso + arquitetura de referência |
 | 6 | 5' | Síntese e fechamento |
 
 Abra pelos casos concretos antes de qualquer definição: OpenClaw e Project Vend
@@ -558,8 +558,8 @@ resposta — foi sustentar o trabalho ao longo do tempo.
 Antes de apresentar harnesses, estabeleça que tarefa longa não significa “o
 modelo pensar por horas”: significa trabalho com etapas dependentes, estado
 acumulado, esperas externas e prova de conclusão. Conduza o caso sem escolher
-frameworks. Oriente uma pausa individual e, em seguida, apresente a resposta de
-referência. Não há entrega, correção ou nota.
+frameworks. Percorra as perguntas do caso na própria exposição e, em seguida,
+apresente a arquitetura de referência. Não há entrega, correção ou nota.
 
 ---
 
@@ -581,12 +581,12 @@ referência. Não há entrega, correção ou nota.
 | 2 | 25' | MCP, A2A, AGENTS.md, AAIF e confiança |
 | — | 10' | Intervalo |
 | 3 | 30' | Economia da ação, workflow redesign e agent sprawl |
-| 4 | 20' | Estudo de caso individual + resposta de referência |
+| 4 | 20' | Estudo de caso + resposta de referência |
 | 5 | 5' | Fechamento |
 
-No caso final, peça ao estudante que considere individualmente as perspectivas
-de Produto, RH, Segurança, Jurídico e candidato. Depois apresente a resposta de
-referência. Não há entrega, correção ou nota.
+No caso final, percorra as perspectivas de Produto, RH, Segurança, Jurídico e
+candidato na própria exposição. Depois apresente a resposta de referência. Não
+há entrega, correção ou nota.
 
 ---
 
