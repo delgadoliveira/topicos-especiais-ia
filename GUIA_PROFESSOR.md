@@ -529,24 +529,31 @@ Para cada um:
 
 ## 🎯 Objetivos de aprendizagem
 
-1. Definir tarefa longa e diferenciá-la de uma resposta lenta ou extensa.
-2. Explicar por que horizonte de trabalho confiável virou uma fronteira competitiva.
-3. Diferenciar avaliação técnica de modelo, agente e sistema.
-4. Distinguir modelo, agente, harness, sessão e sandbox.
-5. Explicar por que tarefas longas exigem estado durável e handoffs.
-6. Projetar retomada, idempotência e verificação independente.
-7. Definir fronteiras seguras entre modelo, código e credenciais.
+1. Reconhecer casos reais de agentes de horizonte longo nos mundos pessoal e corporativo.
+2. Definir tarefa longa e diferenciá-la de uma resposta lenta ou extensa.
+3. Explicar por que horizonte de trabalho confiável virou uma fronteira competitiva.
+4. Diferenciar avaliação técnica de modelo, agente e sistema.
+5. Distinguir modelo, agente, harness, sessão e sandbox.
+6. Explicar por que tarefas longas exigem estado durável e handoffs.
+7. Projetar retomada, idempotência e verificação independente.
+8. Definir fronteiras seguras entre modelo, código e credenciais.
 
 ## ⏱️ Cronograma (120 min)
 
 | Bloco | Tempo | Conteúdo |
 |---|---:|---|
-| 1 | 30' | Definição, exemplos e a nova fronteira |
-| 2 | 30' | Avaliação técnica, horizonte e continuidade |
+| 1 | 12' | Casos reais nos dois mundos (OpenClaw, Project Vend, agentes de codificação, Deep Research) |
+| 2 | 23' | Definição de tarefa longa e a nova fronteira |
+| 3 | 27' | Avaliação técnica, horizonte e continuidade |
 | — | 10' | Intervalo |
-| 3 | 30' | Sandbox, credenciais, retomada e verificação |
-| 4 | 15' | Estudo de caso individual + resposta de referência |
-| 5 | 5' | Síntese e fechamento |
+| 4 | 28' | Sandbox, credenciais, retomada e verificação |
+| 5 | 15' | Estudo de caso individual + resposta de referência |
+| 6 | 5' | Síntese e fechamento |
+
+Abra pelos casos concretos antes de qualquer definição: OpenClaw e Project Vend
+no mundo pessoal, agentes de codificação assíncronos e Deep Research no mundo
+corporativo. O ponto comum é que em nenhum deles o problema foi a qualidade da
+resposta — foi sustentar o trabalho ao longo do tempo.
 
 Antes de apresentar harnesses, estabeleça que tarefa longa não significa “o
 modelo pensar por horas”: significa trabalho com etapas dependentes, estado
