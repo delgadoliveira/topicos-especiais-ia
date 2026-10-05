@@ -3,7 +3,7 @@ theme: apple-basic
 title: Tópicos Especiais em IA — Agentes de IA
 info: |
   ## Tópicos Especiais em IA — Agentes de IA (Zero to Hero)
-  Disciplina assíncrona em 6 encontros de 3h.
+  Disciplina em 6 encontros.
   Da história dos primeiros modelos até agentes em produção.
 class: text-center
 highlighter: shiki
@@ -24,7 +24,7 @@ colorSchema: dark
 ## 🤖 Agentes de IA — *Zero to Hero*
 
 <div class="text-xl opacity-80 mt-4">
-6 encontros · 3h cada · 100% prático
+4 encontros de 3h + 2 encontros de 2h · teoria, discussão e prática
 </div>
 
 <div class="abs-bl mx-14 my-12 flex gap-2 items-center opacity-60 text-sm">
@@ -37,7 +37,7 @@ colorSchema: dark
 
 <!--
 Bem-vindos! Esta disciplina vai te levar de zero ao estado-da-arte em Agentes de IA.
-São 6 encontros de 3h, incluindo dois encontros de imersão prática.
+São 6 encontros; os dois finais aprofundam arquitetura e governança de agentes.
 -->
 
 ---
@@ -249,6 +249,18 @@ layout: section
   <div class="text-sm opacity-70 mt-2">Falhas comuns, avaliação (SWE-bench, GAIA), observabilidade, Cursor / Claude Code / Devin / Manus, projeto final.</div>
 </div>
 
+<div class="p-5 rounded-xl border border-cyan-500/30 bg-cyan-500/5">
+  <div class="text-cyan-400 font-mono text-xs">ENCONTRO 5 · 2h</div>
+  <div class="text-xl font-bold mt-1">🏗️ Sistemas de trabalho</div>
+  <div class="text-sm opacity-70 mt-2">Long-running agents, harnesses, sessões duráveis, sandboxes, handoffs e verificação.</div>
+</div>
+
+<div class="p-5 rounded-xl border border-cyan-500/30 bg-cyan-500/5">
+  <div class="text-cyan-400 font-mono text-xs">ENCONTRO 6 · 2h</div>
+  <div class="text-xl font-bold mt-1">🏛️ Agentes na organização</div>
+  <div class="text-sm opacity-70 mt-2">Identidade, delegação, interoperabilidade, economia e governança operacional.</div>
+</div>
+
 </div>
 
 ---
@@ -272,7 +284,7 @@ class: text-center
 # Antes de começarmos…
 
 <div class="text-2xl mt-12 text-center opacity-90">
-Quase tudo que você vai ouvir nas próximas 18h<br>
+Quase tudo que você vai ouvir nas próximas 16h<br>
 <span class="text-cyan-400 font-bold">existe há menos de 3 anos.</span>
 </div>
 

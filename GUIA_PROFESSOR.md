@@ -11,7 +11,7 @@
 Para **cada encontro** você encontra:
 
 1. **Objetivos de aprendizagem** — o que o aluno deve sair sabendo fazer
-2. **Cronograma** sugerido (encontros são de 3h, considerando 15 min de intervalo)
+2. **Cronograma** sugerido (E1–E4 têm 3h; E5–E6 têm 2h)
 3. **Roteiro slide-a-slide** com talking points, analogias, e o que **não** dizer
 4. **Demos ao vivo** — checklist de preparação e o que mostrar
 5. **Perguntas frequentes** + respostas curtas
@@ -522,6 +522,60 @@ Para cada um:
 **P: "Como evitar 100% das alucinações?"** R: Não dá. Reduza com grounding, structured output, e detecção via LLM-as-judge.
 
 **P: "EU AI Act vai me afetar?"** R: Se você opera para usuários na UE, sim. Mesmo que sua empresa esteja fora.
+
+---
+
+# 🏗️ Encontro 5 — Do agente ao sistema de trabalho
+
+## 🎯 Objetivos de aprendizagem
+
+1. Distinguir modelo, agente, harness, sessão e sandbox.
+2. Explicar por que tarefas longas exigem estado durável e handoffs.
+3. Comparar compaction, trimming e context reset.
+4. Projetar retomada, idempotência e verificação independente.
+5. Definir fronteiras seguras entre modelo, código e credenciais.
+
+## ⏱️ Cronograma (120 min)
+
+| Bloco | Tempo | Conteúdo |
+|---|---:|---|
+| 1 | 25' | Horizonte de tarefas e mudança de unidade |
+| 2 | 30' | Harness, sessão, contexto e papéis |
+| — | 10' | Intervalo |
+| 3 | 30' | Sandbox, credenciais, retomada e verificação |
+| 4 | 20' | Caso de migração em grupos |
+| 5 | 5' | Fechamento |
+
+Conduza o caso sem escolher frameworks. Exija fronteiras, artefatos, checkpoints,
+aprovações e critérios de retomada. A novidade pedagógica é tratar o agente como
+um sistema durável, não repetir planejamento, memória ou eval em isolamento.
+
+---
+
+# 🏛️ Encontro 6 — Quando o agente entra na organização
+
+## 🎯 Objetivos de aprendizagem
+
+1. Diferenciar autoridade delegada, própria, subdelegada e interorganizacional.
+2. Modelar uma cadeia de delegação com escopo, expiração e auditoria.
+3. Explicar os papéis de registry, gateway e vault.
+4. Separar interoperabilidade técnica de confiança e autorização.
+5. Propor um modelo operacional para governar agentes em escala.
+
+## ⏱️ Cronograma (120 min)
+
+| Bloco | Tempo | Conteúdo |
+|---|---:|---|
+| 1 | 30' | Identidade, delegação e privilégio mínimo |
+| 2 | 25' | MCP, A2A, AGENTS.md, AAIF e confiança |
+| — | 10' | Intervalo |
+| 3 | 30' | Economia da ação, workflow redesign e agent sprawl |
+| 4 | 20' | Conselho de aprovação do agente de RH |
+| 5 | 5' | Fechamento |
+
+Na simulação final, distribua os papéis Produto, RH, Segurança, Jurídico e
+candidato. Não aceite “aprovar com guardrails” sem detalhar identidade,
+permissões, ações automáticas, aprovações humanas, métricas, logs e kill switch.
 
 ---
 

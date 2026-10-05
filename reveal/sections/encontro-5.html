@@ -1,286 +1,275 @@
-<!-- ENCONTRO 5 — IMERSÃO: CONSTRUIR -->
+<!-- ENCONTRO 5 — SISTEMAS DE TRABALHO AGÊNTICOS -->
 
 <section class="imm-slide imm-cover">
-  <span class="imm-type">Encontro 5 · Imersão</span>
-  <div class="imm-kicker">Construir</div>
-  <h1>Seu primeiro agente útil, do zero</h1>
-  <p class="imm-lead">Hoje você aprende primeiro a fazer o sistema funcionar; depois poderá comparar a resposta com uma IA real.</p>
+  <span class="imm-type">Encontro 5 · 120 minutos</span>
+  <div class="imm-kicker">Além do prompt</div>
+  <h1>Do agente ao<br>sistema de trabalho</h1>
+  <p class="imm-lead">Harnesses, ambientes, handoffs e verificação para agentes que trabalham por horas — não apenas por um turno.</p>
   <div class="imm-meta">
-    <span class="imm-pill">Simulador local</span>
-    <span class="imm-pill">Passo a passo</span>
-    <span class="imm-pill">Em dupla</span>
-    <a class="imm-pill" href="tutorials/simulador-agente.html" target="_blank" rel="noopener">Testar agora ↗</a>
-    <a class="imm-pill" href="tutorials/imersao-agente-local.html" target="_blank" rel="noopener">Abrir tutorial ↗</a>
+    <span class="imm-pill">Long-running agents</span>
+    <span class="imm-pill">Harness engineering</span>
+    <span class="imm-pill">Sandbox + verificação</span>
   </div>
-  <div class="imm-mark">01</div>
-  <span class="imm-page">01 / 15</span>
+  <div class="imm-mark">05</div>
+  <span class="imm-page">01 / 16</span>
+  <aside class="notes">2 min. Abra com a tese: o modelo deixou de ser o produto inteiro. A unidade de engenharia agora é o sistema que mantém o agente trabalhando.</aside>
 </section>
 
 <section class="imm-slide">
-  <span class="imm-type">Destino</span>
-  <div class="imm-kicker">Ao final da aula</div>
-  <h2>Uma pessoa pergunta.<br>Seu agente organiza a resposta.</h2>
-  <div class="imm-objective">
-    <div>
-      <div class="imm-big-number">1</div>
-      <p class="imm-lead">agente pequeno, claro e testável</p>
-    </div>
-    <div class="imm-checks">
-      <div class="imm-check"><span>✓</span><p>Roda sem internet e sem gastar créditos</p></div>
-      <div class="imm-check"><span>✓</span><p>Resolve uma tarefa bem definida</p></div>
-      <div class="imm-check"><span>✓</span><p>Explica seu limite quando não consegue ajudar</p></div>
-      <div class="imm-check"><span>✓</span><p>Está pronto para ser testado por outra dupla</p></div>
-    </div>
-  </div>
-  <span class="imm-page">02 / 15</span>
-</section>
-
-<section class="imm-slide">
-  <span class="imm-type">A história</span>
-  <div class="imm-kicker">Conheça Ana</div>
-  <h2>Ana estuda muito. Ainda assim, não sabe por onde começar.</h2>
-  <div class="imm-story">
-    <div class="imm-person">
-      <div class="imm-avatar">A</div>
-      <h3>Ana, 1º semestre</h3>
-      <p>Sem experiência com programação</p>
-    </div>
-    <div class="imm-notes">
-      <div class="imm-note">“Tenho prova sexta-feira.”</div>
-      <div class="imm-note">“São cinco assuntos.”</div>
-      <div class="imm-note">“Só tenho 40 minutos por dia.”</div>
-      <div class="imm-note">“Qual assunto estudo primeiro?”</div>
-      <div class="imm-note">Nossa missão: criar um <strong>Organizador de Estudos</strong> que devolve um plano curto e possível.</div>
-    </div>
-  </div>
-  <span class="imm-page">03 / 15</span>
-</section>
-
-<section class="imm-slide">
-  <span class="imm-type">Modelo mental</span>
-  <div class="imm-kicker">Da teoria à prática</div>
-  <h2>Os cinco componentes das aulas anteriores agora viram código.</h2>
-  <figure class="imm-architecture-image">
-    <img src="diagrams/componentes-do-agente.svg" alt="Arquitetura com Persona e Objetivo, Modelo, Memória, Tools mais Executor e Loop de Controle.">
-  </figure>
-  <div class="imm-contract"><em>Ponte curricular:</em> E1 apresentou Persona e ReAct; E2 aprofundou modelo, tools e loops; E3 trouxe memória; E4 mostrou falhas e avaliação. E5 integra os blocos; E6 testa o loop e suas condições de parada.</div>
-  <span class="imm-page">04 / 15</span>
-</section>
-
-<section class="imm-slide">
-  <span class="imm-type">Escopo</span>
-  <div class="imm-kicker">Primeira decisão</div>
-  <h2>Se não cabe em uma frase, ainda está grande demais.</h2>
+  <span class="imm-type">Fronteira curricular</span>
+  <div class="imm-kicker">O que não vamos repetir</div>
+  <h2>Os quatro encontros anteriores explicaram o agente.<br>Hoje explicamos o que o mantém vivo.</h2>
   <div class="imm-before-after">
     <div class="imm-example bad">
-      <div class="imm-label">✕ Vago demais</div>
-      <blockquote>“Meu agente ajuda estudantes em tudo.”</blockquote>
+      <div class="imm-label">Já vimos</div>
+      <blockquote>ReAct, tools, planning, memória, RAG, MCP, multiagentes, avaliação e observabilidade.</blockquote>
     </div>
     <div class="imm-transform">→</div>
     <div class="imm-example good">
-      <div class="imm-label">✓ Escopo testável</div>
-      <blockquote>“Meu agente transforma matérias e tempo disponível em um plano de estudo de três passos.”</blockquote>
+      <div class="imm-label">Novo hoje</div>
+      <blockquote>Sessões duráveis, sandboxes substituíveis, handoffs, resets, filas, retomada e verificação externa.</blockquote>
     </div>
   </div>
-  <span class="imm-page">05 / 15</span>
+  <div class="imm-contract"><em>Pergunta-guia:</em> o que precisa existir ao redor do modelo para ele concluir um projeto longo sem perder estado, acesso ou direção?</div>
+  <span class="imm-page">02 / 16</span>
+  <aside class="notes">5 min. Peça à turma exemplos de tarefas que cabem em um turno e de tarefas que exigem continuidade.</aside>
 </section>
 
 <section class="imm-slide">
-  <span class="imm-type">Contrato</span>
-  <div class="imm-kicker">Antes de programar</div>
-  <h2>Escreva a promessa que seu agente precisa cumprir.</h2>
-  <div class="imm-contract">
-    Quando receber <em>uma matéria ou tarefa, tempo disponível e prazo quando houver</em>, o agente deve responder com <em>três prioridades</em>, uma <em>justificativa curta</em> e um <em>próximo passo</em>.
-  </div>
-  <div class="imm-grid three">
-    <div class="imm-card accent"><h3>Útil</h3><p>A pessoa sabe o que fazer agora.</p></div>
-    <div class="imm-card accent"><h3>Curto</h3><p>A resposta tem no máximo 900 caracteres.</p></div>
-    <div class="imm-card accent"><h3>Honesto</h3><p>Se faltarem dados, o agente pede o que precisa.</p></div>
-  </div>
-  <span class="imm-page">06 / 15</span>
-</section>
-
-<section class="imm-slide">
-  <span class="imm-type">Roteiro</span>
-  <div class="imm-kicker">Mapa das duas imersões</div>
-  <h2>Primeiro construímos. Depois usamos evidências para melhorar.</h2>
-  <div class="imm-diagram">
-    <div class="imm-lane">
-      <div class="imm-lane-title"><b>Encontro 5</b><span>construir uma primeira versão útil</span></div>
-      <div class="imm-lane-steps">
-        <div class="imm-node"><b>1 · Definir</b><span>problema e promessa</span></div>
-        <div class="imm-node"><b>2 · Preparar</b><span>ambiente e simulador</span></div>
-        <div class="imm-node"><b>3 · Criar</b><span>persona + memória curta</span></div>
-        <div class="imm-node"><b>4 · Agir</b><span>modelo + tool + executor</span></div>
-      </div>
-    </div>
-    <div class="imm-bridge">a resposta que falha vira material para aprender</div>
-    <div class="imm-lane">
-      <div class="imm-lane-title"><b>Encontro 6</b><span>testar, melhorar e entregar</span></div>
-      <div class="imm-lane-steps three">
-        <div class="imm-node"><b>5 · Controlar</b><span>loop, reflexão e parada</span></div>
-        <div class="imm-node"><b>6 · Avaliar</b><span>casos + uma mudança por vez</span></div>
-        <div class="imm-node"><b>7 · Entregar</b><span>ZIP + avaliação automática</span></div>
-      </div>
-    </div>
-  </div>
-  <div class="imm-activity">
-    <div class="label">Regra da imersão</div>
-    <h3>Cada etapa deixa uma evidência visível.</h3>
-    <p>Uma frase, uma tela funcionando, um teste ou um relatório: sempre sabemos onde estamos.</p>
-  </div>
-  <span class="imm-page">07 / 15</span>
-</section>
-
-<section class="imm-slide">
-  <span class="imm-type">Laboratório</span>
-  <div class="imm-kicker">Passos 1 e 2</div>
-  <h2>Prepare um espaço seguro para experimentar.</h2>
-  <div class="imm-terminal">
-    <div class="imm-terminal-head"><span>PowerShell · pasta projeto-portal</span><span>copiar uma linha por vez</span></div>
-    <pre class="imm-terminal-body"><span class="prompt">&gt;</span> py -m venv .venv
-<span class="prompt">&gt;</span> .\.venv\Scripts\Activate.ps1
-<span class="prompt">&gt;</span> pip install -r requirements.txt
-<span class="prompt">&gt;</span> Copy-Item agents\_template_agent.py agents\meu-agente.py</pre>
-  </div>
-  <div class="imm-explain">
-    <div class="imm-command"><span class="num">A</span><div><h3>Ambiente virtual</h3><p>Uma caixa separada para as ferramentas desta aula.</p></div></div>
-    <div class="imm-command"><span class="num">B</span><div><h3>Cópia do modelo</h3><p>Compare com <code>organizador-estudos-referencia.py</code>, o caso resolvido.</p></div></div>
-  </div>
-  <span class="imm-page">08 / 15</span>
-</section>
-
-<section class="imm-slide">
-  <span class="imm-type">Persona + Modelo</span>
-  <div class="imm-kicker">Passo 3</div>
-  <h2>A persona orienta; o motor produz uma resposta.</h2>
-  <div class="imm-code-window">
-    <div class="imm-code-title"><span>dois papéis diferentes</span><span>não confunda instrução com motor</span></div>
-    <pre class="imm-code-body"><span class="focus">system_prompt = "Você é um organizador acolhedor..."</span>
-
-resposta = llm.chat([
-    {"role": "system", "content": system_prompt},
-    {"role": "user", "content": instrucao},
-])
-
-# MOCK_LLM=1 → simulador determinístico, sem IA
-# MOCK_LLM=0 → Qwen remoto, opcional</pre>
-  </div>
-  <div class="imm-grid four">
-    <div class="imm-card"><h3>Persona</h3><p>Papel, objetivo, formato e limites.</p></div>
-    <div class="imm-card"><h3>Simulador</h3><p>Valida o sistema; não interpreta o prompt.</p></div>
-    <div class="imm-card"><h3>Qwen</h3><p>IA real opcional via Hugging Face.</p></div>
-    <div class="imm-card"><h3>Roteador</h3><p><code>llm.chat()</code> escolhe o modo.</p></div>
-  </div>
-  <span class="imm-page">09 / 15</span>
-</section>
-
-<section class="imm-slide">
-  <span class="imm-type">Memória curta</span>
-  <div class="imm-kicker">Passo 4</div>
-  <h2>O agente recupera contexto recente — sem banco vetorial.</h2>
-  <div class="imm-grid four">
-    <div class="imm-card accent"><span class="imm-index">1</span><h3>Receber</h3><p><code>history</code> traz turnos anteriores.</p></div>
-    <div class="imm-card accent"><span class="imm-index">2</span><h3>Filtrar</h3><p>Guardar só mensagens recentes da pessoa.</p></div>
-    <div class="imm-card accent"><span class="imm-index">3</span><h3>Combinar</h3><p>Juntar lembrança e pedido atual.</p></div>
-    <div class="imm-card accent"><span class="imm-index">4</span><h3>Limitar</h3><p>Duas mensagens bastam neste exercício.</p></div>
-  </div>
-  <div class="imm-contract"><em>Memória ≠ cache:</em> memória recupera contexto da conversa; cache reaproveita uma resposta pronta para uma entrada idêntica.</div>
-  <span class="imm-page">10 / 15</span>
-</section>
-
-<section class="imm-slide">
-  <span class="imm-type">Tool + Executor</span>
-  <div class="imm-kicker">Agir com segurança</div>
-  <h2>A tool calcula. O executor decide o que pode rodar.</h2>
-  <div class="imm-code-window">
-    <div class="imm-code-title"><span>tool local previsível</span><span>allowlist explícita</span></div>
-    <pre class="imm-code-body">def planejar_blocos(minutos):
-    quantidade = max(1, min(3, minutos // 10))
-    return f"{quantidade} bloco(s)"
-
-TOOLS = {"planejar_blocos": planejar_blocos}
-
-def executar_tool(nome, argumento):
-    if nome not in TOOLS:
-        raise ValueError("Tool não permitida")
-    return TOOLS[nome](argumento)</pre>
-  </div>
-  <span class="imm-page">11 / 15</span>
-</section>
-
-<section class="imm-slide">
-  <span class="imm-type">Checkpoint</span>
-  <div class="imm-kicker">Passo 5</div>
-  <h2>O preflight encontra problemas antes de abrir o portal.</h2>
-  <div class="imm-terminal">
-    <div class="imm-terminal-head"><span>PowerShell</span><span>checagem local</span></div>
-    <pre class="imm-terminal-body"><span class="prompt">&gt;</span> python check_agent.py agents\meu-agente.py
-
-<span class="passed">✓ Python compatível</span>
-<span class="passed">✓ Dependências instaladas</span>
-<span class="passed">✓ Simulador ativo · nenhum modelo de IA</span>
-<span class="passed">✓ AGENT encontrado</span>
-
-<span class="passed">PRONTO PARA COMEÇAR</span></pre>
-  </div>
-  <div class="imm-grid three">
-    <div class="imm-card success"><h3>Verde</h3><p>Continue para o portal.</p></div>
-    <div class="imm-card warning"><h3>Amarelo</h3><p>Leia, mas você pode continuar.</p></div>
-    <div class="imm-card danger"><h3>Vermelho</h3><p>Pare e corrija a linha indicada.</p></div>
-  </div>
-  <span class="imm-page">12 / 15</span>
-</section>
-
-<section class="imm-slide">
-  <span class="imm-type">Diagnóstico</span>
-  <div class="imm-kicker">Quando algo falhar</div>
-  <h2>Não adivinhe. Use a mensagem como pista.</h2>
+  <span class="imm-type">Agenda</span>
+  <div class="imm-kicker">Ritmo de 2 horas</div>
+  <h2>Quatro blocos, uma discussão de arquitetura.</h2>
   <table class="imm-table">
-    <thead><tr><th>Você vê</th><th>Provável causa</th><th>Próxima ação</th></tr></thead>
+    <thead><tr><th>Tempo</th><th>Bloco</th><th>Pergunta central</th></tr></thead>
     <tbody>
-      <tr><td><span class="imm-pill no">SyntaxError</span></td><td>Aspas, vírgula ou parêntese ausente</td><td>Veja a linha indicada e compare com o modelo</td></tr>
-      <tr><td><span class="imm-pill no">ModuleNotFoundError</span></td><td>Ambiente não ativado ou instalação incompleta</td><td>Ative <code>.venv</code> e repita o <code>pip install</code></td></tr>
-      <tr><td><span class="imm-pill attention">Agente não aparece</span></td><td>Arquivo fora de <code>agents\</code> ou slug repetido</td><td>Confira nome, pasta e resultado do preflight</td></tr>
+      <tr><td>0–25 min</td><td>Do turno ao horizonte longo</td><td>O que muda quando o trabalho dura horas?</td></tr>
+      <tr><td>25–55 min</td><td>Harness e continuidade</td><td>Como estado e contexto sobrevivem?</td></tr>
+      <tr><td>55–65 min</td><td>Intervalo</td><td>—</td></tr>
+      <tr><td>65–95 min</td><td>Ambiente, segurança e retomada</td><td>Como agir sem expor o sistema?</td></tr>
+      <tr><td>95–120 min</td><td>Caso + debate</td><td>Onde colocar autonomia e verificação?</td></tr>
     </tbody>
   </table>
-  <div class="imm-activity"><div class="label">Dupla de apoio</div><h3>Explique o que você esperava ver e o que apareceu.</h3><p>Uma descrição precisa resolve mais rápido que “não funcionou”.</p></div>
-  <span class="imm-page">13 / 15</span>
+  <span class="imm-page">03 / 16</span>
+  <aside class="notes">3 min. Explique que não haverá laboratório; as atividades são decisões de arquitetura discutidas em grupos.</aside>
 </section>
 
 <section class="imm-slide">
-  <span class="imm-type">Portal</span>
-  <div class="imm-kicker">Passos 6 e 7</div>
-  <h2>Agora o agente ganha uma interface.</h2>
-  <div class="imm-app">
-    <div class="imm-app-side">
-      <div class="brand">Portal de Agentes</div>
-      <div class="imm-agent-select">📚 Organizador de Estudos</div>
-      <p style="margin-top: 18px; color: var(--cp-text-muted); font-size: 14px;">Modo seguro: MOCK</p>
+  <span class="imm-type">Mudança de unidade</span>
+  <div class="imm-kicker">2024 → 2026</div>
+  <h2>O foco saiu da “resposta inteligente” e foi para o “trabalho concluído”.</h2>
+  <div class="imm-grid four">
+    <div class="imm-card"><span class="imm-index">1</span><h3>Chat</h3><p>Uma pergunta, uma resposta, pouco estado.</p></div>
+    <div class="imm-card"><span class="imm-index">2</span><h3>Agente</h3><p>Objetivo, tools e loop dentro de uma sessão.</p></div>
+    <div class="imm-card accent"><span class="imm-index">3</span><h3>Harness</h3><p>Controla sessão, ferramentas, retomada e contexto.</p></div>
+    <div class="imm-card success"><span class="imm-index">4</span><h3>Sistema</h3><p>Entrega verificável que sobrevive a falhas e trocas de modelo.</p></div>
+  </div>
+  <div class="imm-contract">A pergunta madura não é “qual modelo?”. É: <em>qual arquitetura transforma capacidade probabilística em progresso durável?</em></div>
+  <span class="imm-page">04 / 16</span>
+  <aside class="notes">7 min. Compare com sistemas operacionais: abstrações estáveis ao redor de hardware que muda.</aside>
+</section>
+
+<section class="imm-slide">
+  <span class="imm-type">Capacidade</span>
+  <div class="imm-kicker">Task-completion time horizon</div>
+  <h2>Agentes estão resolvendo tarefas progressivamente mais longas — mas duração não é confiabilidade.</h2>
+  <div class="imm-objective">
+    <div>
+      <div class="imm-big-number">50%</div>
+      <p class="imm-lead">horizonte = duração da tarefa humana em que o agente teria metade de chance de sucesso</p>
     </div>
-    <div class="imm-app-main">
-      <h3>Converse com seu agente</h3>
-      <div class="imm-chat"><span class="who">EU</span><div class="imm-bubble">Tenho prova sexta. Preciso estudar frações, equações e porcentagem. Tenho 40 minutos hoje.</div></div>
-      <div class="imm-chat"><span class="who">IA</span><div class="imm-bubble answer"><strong>1. Frações</strong> — base para os outros assuntos.<br>Próximo passo: resolva 3 exercícios por 15 min.<br><br><strong>2. Equações</strong> — pratique por 15 min.<br><strong>3. Porcentagem</strong> — revise exemplos por 10 min.</div></div>
-      <div class="imm-status-row"><span class="imm-pill ok">✓ Local</span><span class="imm-pill ok">✓ Sem API</span><span class="imm-pill">Resposta em 0,2 s</span></div>
+    <div class="imm-checks">
+      <div class="imm-check"><span>✓</span><p>Mede dificuldade da tarefa, não tempo de execução do agente.</p></div>
+      <div class="imm-check"><span>!</span><p>O conjunto é concentrado em software, ML e segurança.</p></div>
+      <div class="imm-check"><span>!</span><p>A própria METR alerta que medidas acima de 16h ainda são pouco confiáveis.</p></div>
     </div>
   </div>
-  <span class="imm-page">14 / 15</span>
+  <div class="imm-source">Fonte: <a href="https://metr.org/time-horizons/" target="_blank" rel="noopener">METR — Task-Completion Time Horizons</a></div>
+  <span class="imm-page">05 / 16</span>
+  <aside class="notes">8 min. Evite transformar o gráfico em previsão de empregos. Destaque tarefas limpas versus trabalho real, carregado de contexto tácito.</aside>
+</section>
+
+<section class="imm-slide">
+  <span class="imm-type">Anatomia</span>
+  <div class="imm-kicker">As quatro peças</div>
+  <h2>Um agente de horizonte longo precisa separar memória, controle e execução.</h2>
+  <div class="imm-pipeline">
+    <div class="imm-node"><small>1</small><b>Sessão</b><span>log durável e append-only do que aconteceu</span></div>
+    <div class="imm-node"><small>2</small><b>Harness</b><span>loop que chama o modelo e roteia ações</span></div>
+    <div class="imm-node"><small>3</small><b>Sandbox</b><span>ambiente descartável para código e arquivos</span></div>
+    <div class="imm-node"><small>4</small><b>Gateway</b><span>tools e credenciais fora do alcance do código</span></div>
+  </div>
+  <div class="imm-contract"><em>Princípio:</em> qualquer peça deve poder falhar ou ser substituída sem apagar o projeto.</div>
+  <div class="imm-source">Fonte: <a href="https://www.anthropic.com/engineering/managed-agents" target="_blank" rel="noopener">Anthropic — Scaling Managed Agents</a></div>
+  <span class="imm-page">06 / 16</span>
+  <aside class="notes">8 min. Diferencie sessão de context window: sessão é o registro completo; contexto é só a seleção enviada ao modelo agora.</aside>
+</section>
+
+<section class="imm-slide">
+  <span class="imm-type">Falhas novas</span>
+  <div class="imm-kicker">Quando a tarefa atravessa contextos</div>
+  <h2>O agente pode continuar executando e, ainda assim, deixar de progredir.</h2>
+  <div class="imm-grid four">
+    <div class="imm-card danger"><h3>Deriva</h3><p>O objetivo vai mudando silenciosamente ao longo das iterações.</p></div>
+    <div class="imm-card warning"><h3>Estado perdido</h3><p>Uma nova sessão não sabe o que já foi decidido ou testado.</p></div>
+    <div class="imm-card warning"><h3>Encerramento precoce</h3><p>O modelo “arruma a casa” ao sentir o contexto terminar.</p></div>
+    <div class="imm-card danger"><h3>Autoaprovação</h3><p>Quem produziu o resultado tende a avaliá-lo com generosidade.</p></div>
+  </div>
+  <div class="imm-contract">Mais tokens adiam alguns sintomas. <em>Não substituem arquitetura de continuidade.</em></div>
+  <span class="imm-page">07 / 16</span>
+  <aside class="notes">7 min. Pergunte qual falha seria mais difícil de detectar apenas olhando a resposta final.</aside>
+</section>
+
+<section class="imm-slide">
+  <span class="imm-type">Continuidade</span>
+  <div class="imm-kicker">Artefatos vencem lembranças</div>
+  <h2>O próximo agente não precisa “lembrar de tudo”. Precisa encontrar o estado certo.</h2>
+  <div class="imm-grid three">
+    <div class="imm-card accent"><span class="imm-index">1</span><h3>Estado de trabalho</h3><p>Plano atual, decisões, pendências e critérios de pronto.</p></div>
+    <div class="imm-card accent"><span class="imm-index">2</span><h3>Artefatos</h3><p>Diffs, testes, screenshots, relatórios e logs persistidos.</p></div>
+    <div class="imm-card accent"><span class="imm-index">3</span><h3>Handoff</h3><p>O que mudou, o que falhou e qual é o próximo passo.</p></div>
+  </div>
+  <div class="imm-before-after">
+    <div class="imm-example bad"><div class="imm-label">Memória narrativa</div><blockquote>“Continue de onde paramos.”</blockquote></div>
+    <div class="imm-transform">→</div>
+    <div class="imm-example good"><div class="imm-label">Estado operacional</div><blockquote>“Teste 14 falha; hipótese B descartada; executar migração em staging.”</blockquote></div>
+  </div>
+  <span class="imm-page">08 / 16</span>
+  <aside class="notes">8 min. Relacione com Git, tickets e runbooks: organizações já sabem externalizar estado; agentes tornam isso obrigatório.</aside>
+</section>
+
+<section class="imm-slide">
+  <span class="imm-type">Reset de contexto</span>
+  <div class="imm-kicker">Compaction ≠ clean slate</div>
+  <h2>Às vezes, continuar a conversa é pior do que começar uma sessão nova.</h2>
+  <table class="imm-table">
+    <thead><tr><th>Estratégia</th><th>Preserva</th><th>Risco</th><th>Quando usar</th></tr></thead>
+    <tbody>
+      <tr><td>Compaction</td><td>Continuidade narrativa</td><td>Resumo irreversível e deriva acumulada</td><td>Trabalho curto ou estado simples</td></tr>
+      <tr><td>Trimming</td><td>Mensagens mais relevantes</td><td>Excluir detalhe necessário depois</td><td>Tool outputs volumosos</td></tr>
+      <tr><td>Context reset</td><td>Apenas o handoff estruturado</td><td>Handoff incompleto</td><td>Fases longas ou mudança de papel</td></tr>
+    </tbody>
+  </table>
+  <div class="imm-source">Fonte: <a href="https://www.anthropic.com/engineering/harness-design-long-running-apps" target="_blank" rel="noopener">Anthropic — Harness design for long-running application development</a></div>
+  <span class="imm-page">09 / 16</span>
+  <aside class="notes">7 min. Faça a analogia: trocar o turno de uma equipe com um relatório de passagem, em vez de manter todos acordados indefinidamente.</aside>
+</section>
+
+<section class="imm-slide">
+  <span class="imm-type">Papéis</span>
+  <div class="imm-kicker">Planner · Generator · Evaluator</div>
+  <h2>Separar produção de julgamento reduz dois vieses de uma vez.</h2>
+  <div class="imm-pipeline">
+    <div class="imm-node"><small>P</small><b>Planner</b><span>decompõe, ordena, define critérios e checkpoints</span></div>
+    <div class="imm-node"><small>G</small><b>Generator</b><span>executa uma unidade de trabalho e deixa artefatos</span></div>
+    <div class="imm-node"><small>E</small><b>Evaluator</b><span>procura falhas com uma rubrica independente</span></div>
+    <div class="imm-node"><small>↻</small><b>Controlador</b><span>decide repetir, avançar, escalar ou parar</span></div>
+  </div>
+  <div class="imm-contract">Multiagente aqui não é “personagem conversando”. É <em>separação de responsabilidades e incentivos</em>.</div>
+  <span class="imm-page">10 / 16</span>
+  <aside class="notes">8 min. Conecte à engenharia tradicional: autor, reviewer e CI não são a mesma função.</aside>
+</section>
+
+<section class="imm-slide">
+  <span class="imm-type">Segurança estrutural</span>
+  <div class="imm-kicker">Separar cérebro e mãos</div>
+  <h2>Código gerado não deve executar no mesmo lugar em que vivem as credenciais.</h2>
+  <div class="imm-before-after">
+    <div class="imm-example bad">
+      <div class="imm-label">Acoplado</div>
+      <blockquote>Harness + token + arquivos + código não confiável no mesmo container.</blockquote>
+    </div>
+    <div class="imm-transform">→</div>
+    <div class="imm-example good">
+      <div class="imm-label">Separado</div>
+      <blockquote>Sandbox descartável; vault externo; proxy injeta autorização sem revelar o segredo.</blockquote>
+    </div>
+  </div>
+  <div class="imm-grid three">
+    <div class="imm-card success"><h3>Efêmero</h3><p>Ambiente pode morrer e ser recriado.</p></div>
+    <div class="imm-card success"><h3>Escopo mínimo</h3><p>Permissão vinculada à tarefa.</p></div>
+    <div class="imm-card success"><h3>Saída mediada</h3><p>Rede e tools passam por políticas.</p></div>
+  </div>
+  <span class="imm-page">11 / 16</span>
+  <aside class="notes">8 min. Ressalte que “não mostrar o token no prompt” é insuficiente se o processo pode ler variáveis de ambiente.</aside>
+</section>
+
+<section class="imm-slide">
+  <span class="imm-type">Assíncrono</span>
+  <div class="imm-kicker">Dormir e acordar</div>
+  <h2>Long-running não significa um processo preso por horas.</h2>
+  <div class="imm-grid four">
+    <div class="imm-card accent"><h3>Checkpoint</h3><p>Persistir evento e estado antes de cada fronteira externa.</p></div>
+    <div class="imm-card accent"><h3>Idempotência</h3><p>Repetir uma ação não pode duplicar pagamento, e-mail ou deploy.</p></div>
+    <div class="imm-card accent"><h3>Wake</h3><p>Retomar por evento: aprovação, teste concluído ou prazo.</p></div>
+    <div class="imm-card accent"><h3>Compensação</h3><p>Desfazer ou neutralizar uma ação parcial quando possível.</p></div>
+  </div>
+  <div class="imm-contract"><em>Modelo mental:</em> menos “robô pensando sem parar”; mais “workflow durável que acorda o raciocínio quando necessário”.</div>
+  <span class="imm-page">12 / 16</span>
+  <aside class="notes">8 min. Use exemplos: aguardar CI, aprovação jurídica, resposta de fornecedor, janela de deploy.</aside>
+</section>
+
+<section class="imm-slide">
+  <span class="imm-type">Verificação</span>
+  <div class="imm-kicker">Escada de evidência</div>
+  <h2>Quanto maior a autonomia, mais independente precisa ser a prova.</h2>
+  <div class="imm-test-stack">
+    <div class="imm-test"><span class="imm-pill ok">1 · Determinístico</span><span class="question">Testes, schemas, invariantes, políticas</span><span class="evidence">barato e repetível</span></div>
+    <div class="imm-test"><span class="imm-pill">2 · Ambiente</span><span class="question">Executar, observar, comparar artefatos</span><span class="evidence">prova comportamento</span></div>
+    <div class="imm-test"><span class="imm-pill attention">3 · Avaliador separado</span><span class="question">Rubrica, crítica adversarial, comparação</span><span class="evidence">reduz autoaprovação</span></div>
+    <div class="imm-test"><span class="imm-pill no">4 · Humano</span><span class="question">Aprovação para ações caras, ambíguas ou irreversíveis</span><span class="evidence">responsabilidade explícita</span></div>
+  </div>
+  <span class="imm-page">13 / 16</span>
+  <aside class="notes">7 min. Mostre que LLM-as-judge é uma camada, não a fundação inteira da verificação.</aside>
+</section>
+
+<section class="imm-slide">
+  <span class="imm-type">Caso para a turma</span>
+  <div class="imm-kicker">Arquitetura no quadro</div>
+  <h2>Um agente deve migrar 40 serviços para uma nova API em cinco dias.</h2>
+  <div class="imm-grid three">
+    <div class="imm-card warning"><h3>Condições</h3><p>Repositórios diferentes, CI lento, documentação incompleta e deploy proibido sem aprovação.</p></div>
+    <div class="imm-card accent"><h3>Decisões</h3><p>Onde persistir estado? Quando resetar? Quem avalia? Quais ações exigem humano?</p></div>
+    <div class="imm-card danger"><h3>Riscos</h3><p>Duplicar PRs, vazar tokens, declarar sucesso cedo ou repetir deploy.</p></div>
+  </div>
+  <div class="imm-activity">
+    <div class="label">Discussão em grupos</div>
+    <h3>Desenhe sessão, harness, sandbox, papéis e quatro checkpoints.</h3>
+    <p>Não escolha frameworks. Explique as fronteiras e as evidências.</p>
+    <span class="imm-time">12 minutos + 8 de plenária</span>
+  </div>
+  <span class="imm-page">14 / 16</span>
+  <aside class="notes">20 min. Divida a turma. Na plenária, compare especialmente os pontos de aprovação e retomada.</aside>
+</section>
+
+<section class="imm-slide">
+  <span class="imm-type">Debate</span>
+  <div class="imm-kicker">Tese incômoda</div>
+  <h2>O próximo salto vem de modelos mais inteligentes<br>ou de sistemas menos ingênuos?</h2>
+  <div class="imm-before-after">
+    <div class="imm-example bad"><div class="imm-label">Modelo primeiro</div><blockquote>Mais contexto, melhor reasoning e menos intervenção.</blockquote></div>
+    <div class="imm-transform">×</div>
+    <div class="imm-example good"><div class="imm-label">Sistema primeiro</div><blockquote>Estado durável, ambiente seguro, especialização e prova independente.</blockquote></div>
+  </div>
+  <div class="imm-contract">Resposta esperada: <em>os dois</em> — mas melhorias no harness podem multiplicar o mesmo modelo e precisam ser removidas quando ficam obsoletas.</div>
+  <span class="imm-page">15 / 16</span>
+  <aside class="notes">10 min. Faça votação antes e depois dos argumentos. Use a “bitter lesson”: harnesses codificam limitações que podem desaparecer.</aside>
 </section>
 
 <section class="imm-slide">
   <span class="imm-type">Fechamento</span>
-  <div class="imm-kicker">Teste humano</div>
-  <h2>Seu agente funciona para alguém que não escreveu a instrução?</h2>
+  <div class="imm-kicker">Checklist de arquitetura</div>
+  <h2>Antes de chamar algo de agente de horizonte longo, responda:</h2>
   <div class="imm-done">
     <div class="imm-done-list">
-      <div class="imm-done-item"><span>✓</span><span>Troque de computador com outra dupla</span></div>
-      <div class="imm-done-item"><span>✓</span><span>Não explique como usar</span></div>
-      <div class="imm-done-item"><span>✓</span><span>Observe onde a pessoa hesita</span></div>
-      <div class="imm-done-item"><span>✓</span><span>Anote uma resposta que precisa melhorar</span></div>
+      <div class="imm-done-item"><span>1</span><span>Onde está o registro durável da sessão?</span></div>
+      <div class="imm-done-item"><span>2</span><span>Como uma execução falha e retoma sem duplicar ações?</span></div>
+      <div class="imm-done-item"><span>3</span><span>Quais artefatos atravessam resets de contexto?</span></div>
+      <div class="imm-done-item"><span>4</span><span>Credenciais estão fora da sandbox?</span></div>
+      <div class="imm-done-item"><span>5</span><span>Quem verifica o resultado e quem autoriza o irreversível?</span></div>
     </div>
-    <div class="imm-quote">“Ele funcionou no meu exemplo. Mas o que acontece quando a entrada vem incompleta, confusa ou fora do tema?”</div>
+    <div class="imm-quote">Um agente longo não é uma conversa longa. É um sistema capaz de preservar progresso.</div>
   </div>
-  <p class="imm-lead">No próximo encontro: transformar opinião em evidência — e evidência em melhoria.</p>
-  <span class="imm-page">15 / 15</span>
+  <div class="imm-source">Leituras: <a href="https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents" target="_blank" rel="noopener">Effective harnesses</a> · <a href="https://www.anthropic.com/engineering/harness-design-long-running-apps" target="_blank" rel="noopener">Harness design</a> · <a href="https://www.anthropic.com/engineering/managed-agents" target="_blank" rel="noopener">Managed Agents</a> · <a href="https://metr.org/time-horizons/" target="_blank" rel="noopener">METR</a></div>
+  <span class="imm-page">16 / 16</span>
+  <aside class="notes">4 min. Exit ticket oral: qual peça do sistema você subestimava antes desta aula?</aside>
 </section>

@@ -1,8 +1,9 @@
 # Tópicos Especiais em IA — Agentes de IA (Zero to Hero)
 
-Material da disciplina *Tópicos Especiais em IA — Agentes de IA*, organizada em
-**6 encontros de 3h**. Os encontros 5 e 6 formam uma imersão prática
-offline-first: cada aluno constrói, avalia e demonstra um agente de tarefa única.
+Material da disciplina *Tópicos Especiais em IA — Agentes de IA*. Os quatro
+primeiros encontros cobrem fundamentos e engenharia; os encontros 5 e 6 são
+aulas de 2h, orientadas a discussão, sobre sistemas agênticos de horizonte longo
+e agentes como atores organizacionais.
 
 ## Como rodar
 
@@ -59,7 +60,7 @@ Cores e estilos custom estão em `slides.md` (bloco `<style>`).
 | Encontro 2 | 3h | Chain-of-Thought, Tree-of-Thoughts, Planning, Function Calling, frameworks |
 | Encontro 3 | 3h | Skills, MCP, context window, RAG, memória, multi-agentes |
 | Encontro 4 | 3h | Falhas comuns, avaliação, observabilidade, Cursor/Claude Code/Devin |
-| Encontro 5 | 3h | Imersão I: escopo, prompt, contrato, portal local e testes offline |
-| Encontro 6 | 3h | Imersão II: avaliação, guardrails, limites de API, logs e apresentação |
+| Encontro 5 | 2h | Long-running agents: harnesses, sessões duráveis, sandboxes, handoffs e verificação |
+| Encontro 6 | 2h | Identidade, delegação, protocolos abertos, economia e governança de agentes |
 
 Linguagem: **Português**. Código: **Python**.

@@ -1,7 +1,7 @@
 {
   "name": "topicos-especiais-ia-agentes",
   "version": "3.1.0",
-  "description": "Tópicos Especiais em IA — Agentes de IA (Zero to Hero) — 6 encontros de 3h",
+  "description": "Tópicos Especiais em IA — Agentes de IA (Zero to Hero) — 6 encontros, 16h",
   "private": true,
   "scripts": {
     "dev": "npx serve . --listen 3000",

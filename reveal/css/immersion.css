@@ -125,11 +125,27 @@
 
 .imm-page {
   position: absolute;
-  right: 28px;
+  right: 86px;
   bottom: 22px;
   color: var(--cp-text-muted);
   font-size: 13px;
   font-weight: 650;
+}
+
+.imm-source {
+  margin-top: 18px;
+  color: var(--cp-text-muted);
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.imm-source a {
+  color: var(--cp-link);
+  text-decoration: none;
+}
+
+.imm-source a:hover {
+  text-decoration: underline;
 }
 
 .imm-grid {
