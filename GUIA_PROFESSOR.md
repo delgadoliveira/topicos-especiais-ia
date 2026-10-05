@@ -652,18 +652,38 @@ correção ou nota.
 8. Distinguir métricas de resultado de métricas de input ao avaliar agentes em produção.
 9. Analisar uma operação real conduzida por agente e identificar onde o controle faltou.
 10. Propor um modelo operacional para governar agentes em escala.
+11. Reconhecer as categorias de produto que já existem para emitir, fiscalizar e operar identidades de agente.
+12. Executar quatro movimentos de governança que não exigem time técnico, orçamento ou escolha de fornecedor.
+
+## 👥 Para quem este encontro é desenhado
+
+A audiência **decide, compra e responde pelo resultado — mas não implementa**.
+Ninguém na sala vai configurar um gateway, escrever uma política de escopo ou
+integrar um protocolo. Por isso o encontro não ensina a montar: ensina a
+**reconhecer o padrão e fazer as perguntas certas**.
+
+Três consequências práticas na condução:
+
+- O que importa é o **padrão emissor + fiscalizador + plataforma de operação**,
+  não os nomes dos produtos. Diga isso em voz alta: os nomes vão mudar, a divisão
+  de papéis não.
+- O slide de ferramentas serve para mostrar que **isto já é mercado, não teoria**.
+  Não é recomendação de compra, e o rodapé do slide diz isso.
+- O movimento mais útil de toda a aula é o **passo 3 — classificar por
+  reversibilidade, não por tecnologia**. É a única regra que o ouvinte consegue
+  aplicar na segunda-feira seguinte sem pedir nada a ninguém.
 
 ## ⏱️ Cronograma (120 min)
 
 | Bloco | Tempo | Conteúdo |
 |---|---:|---|
 | 1 | 14' | O caso da segunda-feira, o fio condutor e o vocabulário mínimo |
-| 2 | 26' | Identidade, cadeia de delegação, control plane e privilégio mínimo |
-| 3 | 14' | Protocolos abertos e por que interoperável não é autorizado |
+| 2 | 24' | Identidade, cadeia de delegação, control plane e privilégio mínimo |
+| 3 | 12' | Protocolos abertos e por que interoperável não é autorizado |
 | — | 10' | Intervalo |
-| 4 | 24' | **Virada:** economia da ação, redesenho do trabalho, contexto como diferencial e métricas |
-| 5 | 20' | **Virada:** agent sprawl, desalinhamento e Project Vend passo a passo |
-| 6 | 12' | A segunda-feira remontada, estudo de caso e fechamento |
+| 4 | 22' | **Virada:** economia da ação, redesenho do trabalho, contexto como diferencial e métricas |
+| 5 | 22' | **Virada:** agent sprawl, o mercado de governança, desalinhamento e Project Vend |
+| 6 | 16' | A segunda-feira remontada, por onde começar, estudo de caso e fechamento |
 
 ### Como o encontro se sustenta narrativamente
 
@@ -698,10 +718,26 @@ Encontro 3 em outro nível — lá, contexto era janela; aqui, é permissão,
 procedência e vantagem competitiva. Emende na tabela de métricas: contenção,
 aceitação na primeira revisão, custo por caso resolvido e reincidência.
 
-No bloco 5, percorra os seis passos do Project Vend como uma sessão real de um
-mês. O ponto a sustentar é que nenhuma das falhas foi um defeito de código:
+No bloco 5, logo depois do slide de *agent sprawl*, entra o slide de **mercado de
+governança**. Ele existe para tirar o encontro do campo conceitual: emissor de
+identidade (Microsoft Entra Agent ID, Okta for AI Agents), governador (SailPoint)
+e plataforma de operação (Microsoft Agent 365, ServiceNow AI Agent Control
+Tower). O ponto a sustentar é o **modelo de sponsor** do Entra Agent ID: todo
+agente exige um humano responsável por todo o ciclo de vida. O não repúdio, que
+até aqui era princípio de aula, virou campo obrigatório de produto. Deixe claro
+que a categoria é nova e em movimento — os nomes são exemplo do formato, não
+recomendação.
+
+Ainda no bloco 5, percorra os seis passos do Project Vend como uma sessão real de
+um mês. O ponto a sustentar é que nenhuma das falhas foi um defeito de código:
 todas foram decisões de negócio tomadas por um agente sem margem mínima, teto de
 compra ou conta de pagamento válida definidos no sistema que executa.
+
+Depois da segunda-feira remontada vem **por onde começar**: inventário da área,
+nome de responsável por agente, classificação por reversibilidade e definição do
+número que deve mudar. Nenhum dos quatro exige orçamento, fornecedor ou time
+técnico — e os quatro faltavam no caso de abertura. É o slide que converte a aula
+em ação para quem não vai implementar nada.
 
 No caso final, percorra as perspectivas de Produto, RH, Segurança, Jurídico e
 candidato na própria exposição. Depois apresente a resposta de referência. Não
