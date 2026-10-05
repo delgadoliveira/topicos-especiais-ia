@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
   ];
 
   const loadPromises = sectionFiles.map(({ id, file }) => 
-    fetch(file)
+    fetch(file, { cache: 'no-cache' })
       .then(r => r.ok ? r.text() : '')
       .then(html => {
         const el = document.getElementById(id);
