@@ -529,26 +529,30 @@ Para cada um:
 
 ## 🎯 Objetivos de aprendizagem
 
-1. Distinguir modelo, agente, harness, sessão e sandbox.
-2. Explicar por que tarefas longas exigem estado durável e handoffs.
-3. Comparar compaction, trimming e context reset.
-4. Projetar retomada, idempotência e verificação independente.
-5. Definir fronteiras seguras entre modelo, código e credenciais.
+1. Definir tarefa longa e diferenciá-la de uma resposta lenta ou extensa.
+2. Explicar por que horizonte de trabalho confiável virou uma fronteira competitiva.
+3. Diferenciar avaliação técnica de modelo, agente e sistema.
+4. Distinguir modelo, agente, harness, sessão e sandbox.
+5. Explicar por que tarefas longas exigem estado durável e handoffs.
+6. Projetar retomada, idempotência e verificação independente.
+7. Definir fronteiras seguras entre modelo, código e credenciais.
 
 ## ⏱️ Cronograma (120 min)
 
 | Bloco | Tempo | Conteúdo |
 |---|---:|---|
-| 1 | 25' | Horizonte de tarefas e mudança de unidade |
-| 2 | 30' | Harness, sessão, contexto e papéis |
+| 1 | 30' | Definição, exemplos e a nova fronteira |
+| 2 | 30' | Avaliação técnica, horizonte e continuidade |
 | — | 10' | Intervalo |
 | 3 | 30' | Sandbox, credenciais, retomada e verificação |
-| 4 | 20' | Caso de migração em grupos |
-| 5 | 5' | Fechamento |
+| 4 | 15' | Estudo de caso individual + resposta de referência |
+| 5 | 5' | Síntese e fechamento |
 
-Conduza o caso sem escolher frameworks. Exija fronteiras, artefatos, checkpoints,
-aprovações e critérios de retomada. A novidade pedagógica é tratar o agente como
-um sistema durável, não repetir planejamento, memória ou eval em isolamento.
+Antes de apresentar harnesses, estabeleça que tarefa longa não significa “o
+modelo pensar por horas”: significa trabalho com etapas dependentes, estado
+acumulado, esperas externas e prova de conclusão. Conduza o caso sem escolher
+frameworks. Oriente uma pausa individual e, em seguida, apresente a resposta de
+referência. Não há entrega, correção ou nota.
 
 ---
 
@@ -570,24 +574,24 @@ um sistema durável, não repetir planejamento, memória ou eval em isolamento.
 | 2 | 25' | MCP, A2A, AGENTS.md, AAIF e confiança |
 | — | 10' | Intervalo |
 | 3 | 30' | Economia da ação, workflow redesign e agent sprawl |
-| 4 | 20' | Conselho de aprovação do agente de RH |
+| 4 | 20' | Estudo de caso individual + resposta de referência |
 | 5 | 5' | Fechamento |
 
-Na simulação final, distribua os papéis Produto, RH, Segurança, Jurídico e
-candidato. Não aceite “aprovar com guardrails” sem detalhar identidade,
-permissões, ações automáticas, aprovações humanas, métricas, logs e kill switch.
+No caso final, peça ao estudante que considere individualmente as perspectivas
+de Produto, RH, Segurança, Jurídico e candidato. Depois apresente a resposta de
+referência. Não há entrega, correção ou nota.
 
 ---
 
-# 📊 Calibração & métricas pós-aula
+# 📝 Reflexão opcional — sem entrega ou avaliação
 
-Sugestão de mini-avaliação ao fim de cada encontro (3 min):
+Ao fim de cada encontro, o estudante pode registrar privadamente:
 
-1. Em uma frase, qual foi a ideia mais importante de hoje?
-2. O que ficou confuso?
-3. O que você quer praticar antes da próxima aula?
+1. Qual foi a ideia mais importante?
+2. O que ainda precisa ser revisto?
+3. Que decisão de arquitetura faria diferente agora?
 
-Resultados informam o recap da próxima aula.
+Essas perguntas não são enviadas, corrigidas ou usadas para nota.
 
 ---
 

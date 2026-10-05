@@ -24,7 +24,7 @@ colorSchema: dark
 ## 🤖 Agentes de IA — *Zero to Hero*
 
 <div class="text-xl opacity-80 mt-4">
-4 encontros de 3h + 2 encontros de 2h · teoria, discussão e prática
+4 encontros de 3h + 2 encontros de 2h · material assíncrono
 </div>
 
 <div class="abs-bl mx-14 my-12 flex gap-2 items-center opacity-60 text-sm">

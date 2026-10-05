@@ -11,7 +11,7 @@
     <span class="imm-pill">Sandbox + verificação</span>
   </div>
   <div class="imm-mark">05</div>
-  <span class="imm-page">01 / 16</span>
+  <span class="imm-page">01 / 21</span>
   <aside class="notes">2 min. Abra com a tese: o modelo deixou de ser o produto inteiro. A unidade de engenharia agora é o sistema que mantém o agente trabalhando.</aside>
 </section>
 
@@ -22,7 +22,7 @@
   <div class="imm-before-after">
     <div class="imm-example bad">
       <div class="imm-label">Já vimos</div>
-      <blockquote>ReAct, tools, planning, memória, RAG, MCP, multiagentes, avaliação e observabilidade.</blockquote>
+      <blockquote>ReAct, tools, planning, memória, RAG, MCP, multiagentes, falhas e observabilidade.</blockquote>
     </div>
     <div class="imm-transform">→</div>
     <div class="imm-example good">
@@ -31,26 +31,75 @@
     </div>
   </div>
   <div class="imm-contract"><em>Pergunta-guia:</em> o que precisa existir ao redor do modelo para ele concluir um projeto longo sem perder estado, acesso ou direção?</div>
-  <span class="imm-page">02 / 16</span>
-  <aside class="notes">5 min. Peça à turma exemplos de tarefas que cabem em um turno e de tarefas que exigem continuidade.</aside>
+  <span class="imm-page">02 / 21</span>
+  <aside class="notes">5 min. Convide o estudante a pensar em exemplos de tarefas que cabem em um turno e tarefas que exigem continuidade.</aside>
+</section>
+
+<section class="imm-slide">
+  <span class="imm-type">Definição</span>
+  <div class="imm-kicker">O que é uma tarefa longa?</div>
+  <h2>Não é uma resposta que demora.<br>É um trabalho que precisa preservar progresso.</h2>
+  <div class="imm-grid four">
+    <div class="imm-card accent"><span class="imm-index">1</span><h3>Múltiplas etapas</h3><p>O resultado depende de uma sequência de decisões e ações conectadas.</p></div>
+    <div class="imm-card accent"><span class="imm-index">2</span><h3>Estado acumulado</h3><p>Descobertas, decisões e artefatos precisam sobreviver entre etapas.</p></div>
+    <div class="imm-card accent"><span class="imm-index">3</span><h3>Esperas externas</h3><p>Testes, pessoas, APIs ou eventos podem interromper o fluxo.</p></div>
+    <div class="imm-card accent"><span class="imm-index">4</span><h3>Critério de conclusão</h3><p>“Parece bom” não basta; é preciso provar que o objetivo foi atingido.</p></div>
+  </div>
+  <div class="imm-contract"><em>Definição operacional:</em> uma tarefa é longa quando não cabe com segurança em uma única sessão contínua de raciocínio e execução.</div>
+  <span class="imm-page">03 / 21</span>
+  <aside class="notes">8 min. Corrija a confusão principal: longa não significa o modelo ficar pensando por horas. Significa que o trabalho exige continuidade entre etapas, contextos ou eventos.</aside>
+</section>
+
+<section class="imm-slide">
+  <span class="imm-type">Contraste</span>
+  <div class="imm-kicker">Resposta, tarefa, workflow, projeto</div>
+  <h2>A fronteira aparece quando cada resultado vira entrada para o próximo.</h2>
+  <div class="imm-test-stack">
+    <div class="imm-test"><span class="imm-pill ok">Resposta · segundos</span><span class="question">“Resuma este contrato.”</span><span class="evidence">um output</span></div>
+    <div class="imm-test"><span class="imm-pill">Tarefa · minutos</span><span class="question">“Compare três contratos e produza uma tabela.”</span><span class="evidence">várias operações</span></div>
+    <div class="imm-test"><span class="imm-pill attention">Workflow · horas</span><span class="question">“Revise, peça documentos ausentes e encaminhe exceções.”</span><span class="evidence">estado + espera</span></div>
+    <div class="imm-test"><span class="imm-pill no">Projeto · dias</span><span class="question">“Migre todos os contratos e valide o novo processo.”</span><span class="evidence">coordenação + prova</span></div>
+  </div>
+  <div class="imm-source"><b>Ideia-chave:</b> um erro inicial pode contaminar todas as etapas seguintes.</div>
+  <span class="imm-page">04 / 21</span>
+  <aside class="notes">7 min. Oriente o estudante a pausar e classificar mentalmente outros exemplos. Uma tarefa curta pode ter muitos tokens; um workflow longo pode passar boa parte do tempo esperando.</aside>
+</section>
+
+<section class="imm-slide">
+  <span class="imm-type">Nova fronteira</span>
+  <div class="imm-kicker">Por que isso importa agora?</div>
+  <h2>Modelos já respondem bem. A competição migrou para quanto trabalho conseguem concluir.</h2>
+  <div class="imm-grid four">
+    <div class="imm-card success"><h3>Capacidade</h3><p>Reasoning e uso de tools ampliaram o tamanho das tarefas possíveis.</p></div>
+    <div class="imm-card success"><h3>Ambiente</h3><p>Sandboxes e computer use permitem agir, testar e observar resultados.</p></div>
+    <div class="imm-card success"><h3>Persistência</h3><p>Execução assíncrona permite pausar, esperar eventos e retomar.</p></div>
+    <div class="imm-card warning"><h3>Confiabilidade</h3><p>Cada passo adicional multiplica as oportunidades de desvio e falha.</p></div>
+  </div>
+  <div class="imm-before-after">
+    <div class="imm-example bad"><div class="imm-label">Fronteira anterior</div><blockquote>Qual modelo produz a melhor resposta?</blockquote></div>
+    <div class="imm-transform">→</div>
+    <div class="imm-example good"><div class="imm-label">Fronteira atual</div><blockquote>Qual sistema conclui o maior trabalho útil com evidência e controle?</blockquote></div>
+  </div>
+  <span class="imm-page">05 / 21</span>
+  <aside class="notes">8 min. Explique que a nova fronteira combina capacidade e confiabilidade. Sem confiabilidade, aumentar o horizonte apenas produz falhas maiores e mais caras.</aside>
 </section>
 
 <section class="imm-slide">
   <span class="imm-type">Agenda</span>
   <div class="imm-kicker">Ritmo de 2 horas</div>
-  <h2>Quatro blocos, uma discussão de arquitetura.</h2>
+  <h2>Quatro blocos e um estudo de caso individual.</h2>
   <table class="imm-table">
     <thead><tr><th>Tempo</th><th>Bloco</th><th>Pergunta central</th></tr></thead>
     <tbody>
-      <tr><td>0–25 min</td><td>Do turno ao horizonte longo</td><td>O que muda quando o trabalho dura horas?</td></tr>
-      <tr><td>25–55 min</td><td>Harness e continuidade</td><td>Como estado e contexto sobrevivem?</td></tr>
-      <tr><td>55–65 min</td><td>Intervalo</td><td>—</td></tr>
-      <tr><td>65–95 min</td><td>Ambiente, segurança e retomada</td><td>Como agir sem expor o sistema?</td></tr>
-      <tr><td>95–120 min</td><td>Caso + debate</td><td>Onde colocar autonomia e verificação?</td></tr>
+      <tr><td>0–30 min</td><td>O que são tarefas longas</td><td>Por que elas são a nova fronteira?</td></tr>
+      <tr><td>30–60 min</td><td>Harness e continuidade</td><td>Como estado e contexto sobrevivem?</td></tr>
+      <tr><td>60–70 min</td><td>Intervalo</td><td>—</td></tr>
+      <tr><td>70–100 min</td><td>Ambiente, segurança e retomada</td><td>Como agir sem expor o sistema?</td></tr>
+      <tr><td>100–120 min</td><td>Caso + síntese</td><td>Onde colocar autonomia e verificação?</td></tr>
     </tbody>
   </table>
-  <span class="imm-page">03 / 16</span>
-  <aside class="notes">3 min. Explique que não haverá laboratório; as atividades são decisões de arquitetura discutidas em grupos.</aside>
+  <span class="imm-page">06 / 21</span>
+  <aside class="notes">3 min. Explique que não haverá laboratório nem entrega. As pausas servem apenas para o estudante organizar o próprio raciocínio antes de ver a resposta de referência.</aside>
 </section>
 
 <section class="imm-slide">
@@ -64,8 +113,32 @@
     <div class="imm-card success"><span class="imm-index">4</span><h3>Sistema</h3><p>Entrega verificável que sobrevive a falhas e trocas de modelo.</p></div>
   </div>
   <div class="imm-contract">A pergunta madura não é “qual modelo?”. É: <em>qual arquitetura transforma capacidade probabilística em progresso durável?</em></div>
-  <span class="imm-page">04 / 16</span>
+  <span class="imm-page">07 / 21</span>
   <aside class="notes">7 min. Compare com sistemas operacionais: abstrações estáveis ao redor de hardware que muda.</aside>
+</section>
+
+<section class="imm-slide">
+  <span class="imm-type">Avaliação técnica</span>
+  <div class="imm-kicker">Antes de olhar o gráfico</div>
+  <h2>Modelo, agente e sistema respondem a perguntas diferentes.</h2>
+  <div class="imm-grid three">
+    <div class="imm-card accent">
+      <span class="imm-index">M</span><h3>Avaliar o modelo</h3>
+      <p>Entrada → saída, geralmente sem tools. Mede conhecimento, reasoning, linguagem ou uma capacidade específica.</p>
+    </div>
+    <div class="imm-card accent">
+      <span class="imm-index">A</span><h3>Avaliar o agente</h3>
+      <p>Modelo + loop + tools + ambiente. Mede se consegue concluir uma tarefa observável.</p>
+    </div>
+    <div class="imm-card accent">
+      <span class="imm-index">S</span><h3>Avaliar o sistema</h3>
+      <p>Inclui custo, latência, recuperação, permissões e operação. Mede se funciona com segurança no mundo real.</p>
+    </div>
+  </div>
+  <div class="imm-contract">Um modelo melhor pode produzir um agente pior se o harness for fraco. E um bom agente ainda pode formar um sistema inseguro.</div>
+  <div class="imm-source">Avaliação técnica do artefato — não é prova, entrega ou nota do estudante.</div>
+  <span class="imm-page">08 / 21</span>
+  <aside class="notes">7 min. Dê um exemplo único nos três níveis: modelo escolhe uma ação; agente conclui a tarefa; sistema conclui dentro de custo, política e recuperação aceitáveis.</aside>
 </section>
 
 <section class="imm-slide">
@@ -84,7 +157,7 @@
     </div>
   </div>
   <div class="imm-source">Fonte: <a href="https://metr.org/time-horizons/" target="_blank" rel="noopener">METR — Task-Completion Time Horizons</a></div>
-  <span class="imm-page">05 / 16</span>
+  <span class="imm-page">09 / 21</span>
   <aside class="notes">8 min. Evite transformar o gráfico em previsão de empregos. Destaque tarefas limpas versus trabalho real, carregado de contexto tácito.</aside>
 </section>
 
@@ -100,7 +173,7 @@
   </div>
   <div class="imm-contract"><em>Princípio:</em> qualquer peça deve poder falhar ou ser substituída sem apagar o projeto.</div>
   <div class="imm-source">Fonte: <a href="https://www.anthropic.com/engineering/managed-agents" target="_blank" rel="noopener">Anthropic — Scaling Managed Agents</a></div>
-  <span class="imm-page">06 / 16</span>
+  <span class="imm-page">10 / 21</span>
   <aside class="notes">8 min. Diferencie sessão de context window: sessão é o registro completo; contexto é só a seleção enviada ao modelo agora.</aside>
 </section>
 
@@ -115,7 +188,7 @@
     <div class="imm-card danger"><h3>Autoaprovação</h3><p>Quem produziu o resultado tende a avaliá-lo com generosidade.</p></div>
   </div>
   <div class="imm-contract">Mais tokens adiam alguns sintomas. <em>Não substituem arquitetura de continuidade.</em></div>
-  <span class="imm-page">07 / 16</span>
+  <span class="imm-page">11 / 21</span>
   <aside class="notes">7 min. Pergunte qual falha seria mais difícil de detectar apenas olhando a resposta final.</aside>
 </section>
 
@@ -133,7 +206,7 @@
     <div class="imm-transform">→</div>
     <div class="imm-example good"><div class="imm-label">Estado operacional</div><blockquote>“Teste 14 falha; hipótese B descartada; executar migração em staging.”</blockquote></div>
   </div>
-  <span class="imm-page">08 / 16</span>
+  <span class="imm-page">12 / 21</span>
   <aside class="notes">8 min. Relacione com Git, tickets e runbooks: organizações já sabem externalizar estado; agentes tornam isso obrigatório.</aside>
 </section>
 
@@ -150,22 +223,22 @@
     </tbody>
   </table>
   <div class="imm-source">Fonte: <a href="https://www.anthropic.com/engineering/harness-design-long-running-apps" target="_blank" rel="noopener">Anthropic — Harness design for long-running application development</a></div>
-  <span class="imm-page">09 / 16</span>
+  <span class="imm-page">13 / 21</span>
   <aside class="notes">7 min. Faça a analogia: trocar o turno de uma equipe com um relatório de passagem, em vez de manter todos acordados indefinidamente.</aside>
 </section>
 
 <section class="imm-slide">
-  <span class="imm-type">Papéis</span>
-  <div class="imm-kicker">Planner · Generator · Evaluator</div>
+  <span class="imm-type">Papéis técnicos</span>
+  <div class="imm-kicker">Planner · Generator · Verifier</div>
   <h2>Separar produção de julgamento reduz dois vieses de uma vez.</h2>
   <div class="imm-pipeline">
     <div class="imm-node"><small>P</small><b>Planner</b><span>decompõe, ordena, define critérios e checkpoints</span></div>
     <div class="imm-node"><small>G</small><b>Generator</b><span>executa uma unidade de trabalho e deixa artefatos</span></div>
-    <div class="imm-node"><small>E</small><b>Evaluator</b><span>procura falhas com uma rubrica independente</span></div>
+    <div class="imm-node"><small>V</small><b>Verifier</b><span>procura falhas com critérios técnicos independentes</span></div>
     <div class="imm-node"><small>↻</small><b>Controlador</b><span>decide repetir, avançar, escalar ou parar</span></div>
   </div>
   <div class="imm-contract">Multiagente aqui não é “personagem conversando”. É <em>separação de responsabilidades e incentivos</em>.</div>
-  <span class="imm-page">10 / 16</span>
+  <span class="imm-page">14 / 21</span>
   <aside class="notes">8 min. Conecte à engenharia tradicional: autor, reviewer e CI não são a mesma função.</aside>
 </section>
 
@@ -189,7 +262,7 @@
     <div class="imm-card success"><h3>Escopo mínimo</h3><p>Permissão vinculada à tarefa.</p></div>
     <div class="imm-card success"><h3>Saída mediada</h3><p>Rede e tools passam por políticas.</p></div>
   </div>
-  <span class="imm-page">11 / 16</span>
+  <span class="imm-page">15 / 21</span>
   <aside class="notes">8 min. Ressalte que “não mostrar o token no prompt” é insuficiente se o processo pode ler variáveis de ambiente.</aside>
 </section>
 
@@ -204,27 +277,28 @@
     <div class="imm-card accent"><h3>Compensação</h3><p>Desfazer ou neutralizar uma ação parcial quando possível.</p></div>
   </div>
   <div class="imm-contract"><em>Modelo mental:</em> menos “robô pensando sem parar”; mais “workflow durável que acorda o raciocínio quando necessário”.</div>
-  <span class="imm-page">12 / 16</span>
+  <span class="imm-page">16 / 21</span>
   <aside class="notes">8 min. Use exemplos: aguardar CI, aprovação jurídica, resposta de fornecedor, janela de deploy.</aside>
 </section>
 
 <section class="imm-slide">
-  <span class="imm-type">Verificação</span>
+  <span class="imm-type">Verificação do sistema</span>
   <div class="imm-kicker">Escada de evidência</div>
   <h2>Quanto maior a autonomia, mais independente precisa ser a prova.</h2>
   <div class="imm-test-stack">
     <div class="imm-test"><span class="imm-pill ok">1 · Determinístico</span><span class="question">Testes, schemas, invariantes, políticas</span><span class="evidence">barato e repetível</span></div>
     <div class="imm-test"><span class="imm-pill">2 · Ambiente</span><span class="question">Executar, observar, comparar artefatos</span><span class="evidence">prova comportamento</span></div>
-    <div class="imm-test"><span class="imm-pill attention">3 · Avaliador separado</span><span class="question">Rubrica, crítica adversarial, comparação</span><span class="evidence">reduz autoaprovação</span></div>
+    <div class="imm-test"><span class="imm-pill attention">3 · Verificador separado</span><span class="question">Critérios técnicos, crítica adversarial, comparação</span><span class="evidence">reduz autoaprovação</span></div>
     <div class="imm-test"><span class="imm-pill no">4 · Humano</span><span class="question">Aprovação para ações caras, ambíguas ou irreversíveis</span><span class="evidence">responsabilidade explícita</span></div>
   </div>
-  <span class="imm-page">13 / 16</span>
+  <div class="imm-contract">Esta é <em>verificação do comportamento do sistema</em>, não avaliação ou nota do estudante.</div>
+  <span class="imm-page">17 / 21</span>
   <aside class="notes">7 min. Mostre que LLM-as-judge é uma camada, não a fundação inteira da verificação.</aside>
 </section>
 
 <section class="imm-slide">
-  <span class="imm-type">Caso para a turma</span>
-  <div class="imm-kicker">Arquitetura no quadro</div>
+  <span class="imm-type">Estudo de caso</span>
+  <div class="imm-kicker">Pausa individual</div>
   <h2>Um agente deve migrar 40 serviços para uma nova API em cinco dias.</h2>
   <div class="imm-grid three">
     <div class="imm-card warning"><h3>Condições</h3><p>Repositórios diferentes, CI lento, documentação incompleta e deploy proibido sem aprovação.</p></div>
@@ -232,17 +306,32 @@
     <div class="imm-card danger"><h3>Riscos</h3><p>Duplicar PRs, vazar tokens, declarar sucesso cedo ou repetir deploy.</p></div>
   </div>
   <div class="imm-activity">
-    <div class="label">Discussão em grupos</div>
-    <h3>Desenhe sessão, harness, sandbox, papéis e quatro checkpoints.</h3>
-    <p>Não escolha frameworks. Explique as fronteiras e as evidências.</p>
-    <span class="imm-time">12 minutos + 8 de plenária</span>
+    <div class="label">Pare antes de avançar</div>
+    <h3>Responda em cinco linhas: sessão, harness, sandbox, verificação e aprovação.</h3>
+    <p>Inclua como o trabalho retoma após uma falha. Depois, compare com a resposta seguinte.</p>
+    <span class="imm-time">Pausa sugerida: 8 minutos</span>
   </div>
-  <span class="imm-page">14 / 16</span>
-  <aside class="notes">20 min. Divida a turma. Na plenária, compare especialmente os pontos de aprovação e retomada.</aside>
+  <span class="imm-page">18 / 21</span>
+  <aside class="notes">8 min. Oriente o estudante a pausar o vídeo ou os slides. A resposta não é enviada; ela apenas prepara a comparação com a arquitetura de referência.</aside>
 </section>
 
 <section class="imm-slide">
-  <span class="imm-type">Debate</span>
+  <span class="imm-type">Resposta de referência</span>
+  <div class="imm-kicker">Uma arquitetura possível</div>
+  <h2>No caso dos 40 serviços, o trabalho avança por unidades pequenas e retomáveis.</h2>
+  <div class="imm-pipeline">
+    <div class="imm-node"><small>1</small><b>Planejar</b><span>inventário dos 40 serviços e critérios por repositório</span></div>
+    <div class="imm-node"><small>2</small><b>Executar</b><span>uma sandbox e um branch por serviço</span></div>
+    <div class="imm-node"><small>3</small><b>Verificar</b><span>testes, diff, compatibilidade e política de segurança</span></div>
+    <div class="imm-node"><small>4</small><b>Retomar</b><span>sessão durável registra estado, falhas e próximo serviço</span></div>
+  </div>
+  <div class="imm-contract"><em>Aprovação humana:</em> merge e deploy. <em>Idempotência:</em> um serviço só muda de estado após evidência persistida.</div>
+  <span class="imm-page">19 / 21</span>
+  <aside class="notes">7 min. Explique que esta não é a única resposta correta. Ela explicita as propriedades que precisam existir: isolamento, estado, prova, retomada e aprovação.</aside>
+</section>
+
+<section class="imm-slide">
+  <span class="imm-type">Síntese crítica</span>
   <div class="imm-kicker">Tese incômoda</div>
   <h2>O próximo salto vem de modelos mais inteligentes<br>ou de sistemas menos ingênuos?</h2>
   <div class="imm-before-after">
@@ -251,8 +340,8 @@
     <div class="imm-example good"><div class="imm-label">Sistema primeiro</div><blockquote>Estado durável, ambiente seguro, especialização e prova independente.</blockquote></div>
   </div>
   <div class="imm-contract">Resposta esperada: <em>os dois</em> — mas melhorias no harness podem multiplicar o mesmo modelo e precisam ser removidas quando ficam obsoletas.</div>
-  <span class="imm-page">15 / 16</span>
-  <aside class="notes">10 min. Faça votação antes e depois dos argumentos. Use a “bitter lesson”: harnesses codificam limitações que podem desaparecer.</aside>
+  <span class="imm-page">20 / 21</span>
+  <aside class="notes">4 min. Use como síntese rápida: harnesses codificam limitações que podem desaparecer conforme os modelos melhoram.</aside>
 </section>
 
 <section class="imm-slide">
@@ -270,6 +359,6 @@
     <div class="imm-quote">Um agente longo não é uma conversa longa. É um sistema capaz de preservar progresso.</div>
   </div>
   <div class="imm-source">Leituras: <a href="https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents" target="_blank" rel="noopener">Effective harnesses</a> · <a href="https://www.anthropic.com/engineering/harness-design-long-running-apps" target="_blank" rel="noopener">Harness design</a> · <a href="https://www.anthropic.com/engineering/managed-agents" target="_blank" rel="noopener">Managed Agents</a> · <a href="https://metr.org/time-horizons/" target="_blank" rel="noopener">METR</a></div>
-  <span class="imm-page">16 / 16</span>
-  <aside class="notes">4 min. Exit ticket oral: qual peça do sistema você subestimava antes desta aula?</aside>
+  <span class="imm-page">21 / 21</span>
+  <aside class="notes">4 min. Sugira uma reflexão privada e opcional: qual peça do sistema o estudante subestimava antes desta aula?</aside>
 </section>

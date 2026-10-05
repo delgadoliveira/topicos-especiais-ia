@@ -2,7 +2,7 @@
 
 Material da disciplina *Tópicos Especiais em IA — Agentes de IA*. Os quatro
 primeiros encontros cobrem fundamentos e engenharia; os encontros 5 e 6 são
-aulas de 2h, orientadas a discussão, sobre sistemas agênticos de horizonte longo
+aulas assíncronas de 2h, orientadas a estudo individual, sobre sistemas agênticos de horizonte longo
 e agentes como atores organizacionais.
 
 ## Como rodar
