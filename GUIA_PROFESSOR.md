@@ -529,36 +529,51 @@ Para cada um:
 
 ## 🎯 Objetivos de aprendizagem
 
-1. Reconhecer casos reais de agentes de horizonte longo nos mundos pessoal e corporativo.
-2. Definir tarefa longa e diferenciá-la de uma resposta lenta ou extensa.
-3. Identificar os problemas de produto que só aparecem quando o trabalho dura horas ou dias.
-4. Traduzir falhas técnicas de horizonte longo em sintomas percebidos pelo usuário.
-5. Diferenciar avaliação técnica de modelo, agente e sistema.
-6. Distinguir modelo, agente, harness, sessão e sandbox.
-7. Explicar por que tarefas longas exigem estado durável e handoffs.
-8. Percorrer uma sessão real passo a passo e identificar que peça do sistema atua em cada etapa.
-9. Projetar retomada, idempotência e verificação independente.
-10. Definir fronteiras seguras entre modelo, código e credenciais.
+1. Reconhecer, a partir de um caso concreto, por que um trabalho longo pode falhar mesmo quando todas as respostas estão corretas.
+2. Traduzir o vocabulário de engenharia (sessão, contexto, harness, sandbox, handoff, idempotência) para termos acessíveis fora da TI.
+3. Reconhecer casos reais de agentes de horizonte longo nos mundos pessoal e corporativo.
+4. Definir tarefa longa e diferenciá-la de uma resposta lenta ou extensa.
+5. Identificar os problemas de produto que só aparecem quando o trabalho dura horas ou dias.
+6. Identificar em que momento da tarefa cada falha de horizonte longo aparece.
+7. Traduzir falhas técnicas de horizonte longo em sintomas percebidos pelo usuário.
+8. Diferenciar avaliação técnica de modelo, agente e sistema.
+9. Explicar por que tarefas longas exigem estado durável e handoffs.
+10. Percorrer uma sessão real passo a passo e identificar que peça do sistema atua em cada etapa.
+11. Projetar retomada, idempotência e verificação independente.
+12. Definir fronteiras seguras entre modelo, código e credenciais.
 
 ## ⏱️ Cronograma (120 min)
 
 | Bloco | Tempo | Conteúdo |
 |---|---:|---|
-| 1 | 8' | Fio condutor do encontro + casos reais nos dois mundos |
-| 2 | 18' | O que é tarefa longa, a escada de resultados e por que isso importa agora |
-| 3 | 20' | **Virada:** o que quebra no caminho — falhas, tradução e sintoma de produto |
+| 1 | 14' | **O caso da sexta-feira** + fio condutor + vocabulário mínimo |
+| 2 | 20' | Casos reais, o que é tarefa longa e a escada de resultados |
+| 3 | 16' | Mudança de unidade, modelo/agente/sistema e horizonte de tarefas |
 | — | 10' | Intervalo |
-| 4 | 30' | **Virada:** a arquitetura derivada das falhas (sessão, harness, papéis, sandbox, verificação) |
-| 5 | 18' | Sessão real passo a passo + a mesma sessão vista pelo usuário |
-| 6 | 12' | Estudo de caso, arquitetura de referência, síntese e fechamento |
+| 4 | 18' | **Virada:** onde cada falha acontece, tradução e sintoma de produto |
+| 5 | 28' | **Virada:** a arquitetura derivada das falhas + sessão real passo a passo |
+| 6 | 14' | A sexta-feira remontada, arquitetura de referência, síntese e fechamento |
 
 ### Como o encontro se sustenta narrativamente
 
-O encontro inteiro responde a **uma** pergunta: *por que agentes que já respondem
-bem ainda falham em concluir um trabalho?* O terceiro slide apresenta essa
-pergunta decomposta em cinco movimentos, e cada bloco fecha um deles. Se algum
-conceito parecer solto durante a exposição, volte a esse slide e diga a qual
+O encontro **abre por uma história, não por um conceito**. O slide 3 narra uma
+sexta-feira em que um time delega a migração de 40 serviços e, na segunda, recebe
+"migração concluída" com 9 serviços marcados como prontos sem nunca terem sido
+testados. Essa sexta-feira é a espinha dorsal: cada peça técnica apresentada
+depois existe para impedir um dos cinco momentos dela. O estudo de caso do bloco
+6 é literalmente o mesmo cenário, agora com vocabulário para resolvê-lo — diga
+isso em voz alta quando chegar lá.
+
+Logo depois vem o fio condutor, que decompõe a pergunta do encontro — *por que
+agentes que já respondem bem ainda falham em concluir um trabalho?* — em cinco
+movimentos. Se algum conceito parecer solto, volte a esse slide e diga a qual
 movimento ele pertence.
+
+O slide 5 é o **vocabulário mínimo** e existe para a audiência que não é de
+engenharia: sessão, contexto, harness, sandbox, handoff e idempotência, cada um
+com um equivalente fora da TI (diário de obra, mestre de obras, cozinha de
+testes, passagem de plantão, botão do elevador). Use a coluna da direita durante
+toda a exposição; ela é a régua de tradução do encontro.
 
 A regra de ouro da sequência: **nenhuma peça técnica aparece antes do problema
 que ela resolve.** Por isso a anatomia do sistema não abre o bloco técnico — ela
@@ -570,9 +585,16 @@ fecha a discussão de capacidade e abre a de consequência. O segundo fecha as
 falhas e autoriza a arquitetura a existir. Narre-os explicitamente: "o que já
 estabelecemos" e "a pergunta que isso abre".
 
-Abra pelos casos concretos — OpenClaw e Project Vend no mundo pessoal, agentes
-de codificação assíncronos e Deep Research no corporativo. O ponto comum é que
-em nenhum deles o problema foi a qualidade da resposta.
+Quatro diagramas carregam o peso visual e substituem listas: a **escada de
+resultados** (resposta → tarefa → workflow → projeto, mostrando que a cada
+degrau muda o que precisa existir em volta), a **linha do tempo das falhas**
+(cada falha tem um momento — e a mais cara é a última, porque chega ao time
+parecendo sucesso), a **anatomia do sistema** e a **escada de evidência**
+(os quatro níveis se somam, não se substituem).
+
+Nos casos reais — OpenClaw e Project Vend no mundo pessoal, agentes de
+codificação assíncronos e Deep Research no corporativo — o ponto comum é que em
+nenhum deles o problema foi a qualidade da resposta.
 
 Antes de apresentar harnesses, estabeleça que tarefa longa não significa "o
 modelo pensar por horas": significa trabalho com etapas dependentes, estado

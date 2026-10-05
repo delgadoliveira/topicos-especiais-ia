@@ -11,7 +11,7 @@
     <span class="imm-pill">Sandbox + verificação</span>
   </div>
   <div class="imm-mark">05</div>
-  <span class="imm-page">01 / 30</span>
+  <span class="imm-page">01 / 31</span>
   <aside class="notes">2 min. Abra com a tese: o modelo deixou de ser o produto inteiro. A unidade de engenharia agora é o sistema que mantém o agente trabalhando.</aside>
 </section>
 
@@ -31,8 +31,24 @@
     </div>
   </div>
   <div class="imm-contract"><em>Pergunta-guia:</em> o que precisa existir ao redor do modelo para ele concluir um projeto longo sem perder estado, acesso ou direção?</div>
-  <span class="imm-page">02 / 30</span>
+  <span class="imm-page">02 / 31</span>
   <aside class="notes">5 min. Convide o estudante a pensar em exemplos de tarefas que cabem em um turno e tarefas que exigem continuidade.</aside>
+</section>
+
+<section class="imm-slide">
+  <span class="imm-type">Cenário</span>
+  <div class="imm-kicker">Uma sexta-feira qualquer</div>
+  <h2>Antes de qualquer conceito, um caso concreto.<br>Um time delega cinco dias de trabalho.</h2>
+  <div class="imm-beats">
+    <div class="imm-beat"><span>SEX 14h</span><p><b>“Migre estes 40 serviços para a nova API.”</b> O time delega ao agente e fecha o notebook.</p></div>
+    <div class="imm-beat"><span>SEX 19h</span><p>12 serviços convertidos. Ninguém está olhando — e também <b>não há o que olhar</b>: só um processo rodando.</p></div>
+    <div class="imm-beat bad"><span>SÁB 03h</span><p>A conversa fica longa demais e <b>recomeça do zero</b>. O agente perde as decisões que já tinha tomado.</p></div>
+    <div class="imm-beat bad"><span>SEG 09h</span><p>Ele anuncia: <b>“migração concluída”</b>. De fato, 31 serviços passaram. Outros 9 foram marcados como prontos <b>sem nunca terem sido testados</b>.</p></div>
+    <div class="imm-beat bad"><span>SEG 11h</span><p>O time gasta dois dias descobrindo <b>quais</b> 9. Na vez seguinte, ninguém delega mais nada.</p></div>
+  </div>
+  <div class="imm-contract">O modelo respondeu bem o tempo inteiro. <em>O trabalho, mesmo assim, não ficou pronto.</em></div>
+  <span class="imm-page">03 / 31</span>
+  <aside class="notes">6 min. Conte como história, sem jargão. Esta sexta-feira é a espinha do encontro: cada peça técnica que vier depois existe para impedir um destes cinco momentos. O encontro fecha remontando exatamente este caso.</aside>
 </section>
 
 <section class="imm-slide">
@@ -40,15 +56,35 @@
   <div class="imm-kicker">Uma pergunta, cinco movimentos</div>
   <h2>Por que agentes que já respondem bem<br>ainda falham em concluir um trabalho?</h2>
   <div class="imm-thread">
-    <div class="imm-thread-step"><span>1</span><b>Algo mudou fora do laboratório</b><i>O que esses casos têm em comum?</i></div>
+    <div class="imm-thread-step"><span>1</span><b>Aquela sexta-feira não é exceção</b><i>O que esses casos têm em comum?</i></div>
     <div class="imm-thread-step"><span>2</span><b>O que eles têm em comum é a tarefa longa</b><i>Ela é só uma resposta demorada?</i></div>
     <div class="imm-thread-step"><span>3</span><b>A capacidade cresceu rápido</b><i>Durar mais é o mesmo que concluir mais?</i></div>
     <div class="imm-thread-step"><span>4</span><b>Aparecem falhas que o chat nunca teve</b><i>Como elas chegam a quem usa o produto?</i></div>
     <div class="imm-thread-step"><span>5</span><b>A arquitetura nasce dessas falhas</b><i>Qual peça responde por qual falha?</i></div>
   </div>
-  <div class="imm-source"><b>Como ler este encontro:</b> cada bloco existe porque o anterior deixou uma pergunta aberta. Nenhuma peça técnica aparece antes do problema que ela resolve.</div>
-  <span class="imm-page">03 / 30</span>
+  <div class="imm-source"><b>Como ler este encontro:</b> cada bloco existe porque o anterior deixou uma pergunta aberta. Nenhuma peça técnica aparece antes do problema que ela resolve — e todas voltam à sexta-feira do slide anterior.</div>
+  <span class="imm-page">04 / 31</span>
   <aside class="notes">4 min. Este é o mapa do argumento, não um cronograma. Ele existe para que nenhum conceito pareça solto: tudo o que vier é resposta a uma destas cinco perguntas.</aside>
+</section>
+
+<section class="imm-slide">
+  <span class="imm-type">Vocabulário</span>
+  <div class="imm-kicker">Seis palavras que vão se repetir</div>
+  <h2>O vocabulário é de engenharia.<br>Traduzido, é tudo coisa que já existe fora da TI.</h2>
+  <table class="imm-table">
+    <thead><tr><th>Termo</th><th>Em português direto</th><th>Equivalente fora da TI</th></tr></thead>
+    <tbody>
+      <tr><td><b>Sessão</b></td><td>O registro corrido de tudo que foi feito até agora</td><td>O diário de obra: cada decisão fica escrita</td></tr>
+      <tr><td><b>Contexto</b></td><td>O trecho desse registro que o modelo consegue ler <i>agora</i></td><td>O que cabe na sua mesa — não a estante inteira</td></tr>
+      <tr><td><b>Harness</b></td><td>O programa que comanda o agente: o que ler, quando parar, quando retomar</td><td>O mestre de obras, que não assenta tijolo</td></tr>
+      <tr><td><b>Sandbox</b></td><td>Um ambiente descartável onde errar não estraga nada de verdade</td><td>A cozinha de testes, separada do salão</td></tr>
+      <tr><td><b>Handoff</b></td><td>O resumo que uma etapa deixa pronto para a etapa seguinte</td><td>A passagem de plantão no hospital</td></tr>
+      <tr><td><b>Idempotência</b></td><td>Garantia de que repetir a mesma ação não a executa duas vezes</td><td>Apertar o botão do elevador de novo não chama dois elevadores</td></tr>
+    </tbody>
+  </table>
+  <div class="imm-source">Use como régua de tradução, não para decorar. <b>Toda vez que um destes termos aparecer adiante, ele está resolvendo um momento da sexta-feira.</b></div>
+  <span class="imm-page">05 / 31</span>
+  <aside class="notes">6 min. Este slide existe para que ninguém de fora da engenharia precise fingir que entendeu. A coluna da direita é a que importa para a aula.</aside>
 </section>
 
 <section class="imm-slide">
@@ -68,7 +104,7 @@
     </div>
   </div>
   <div class="imm-source"><b>Fontes:</b> <a href="https://github.com/openclaw/openclaw" target="_blank" rel="noopener">OpenClaw</a> · <a href="https://www.anthropic.com/research/project-vend-1" target="_blank" rel="noopener">Anthropic, Project Vend</a></div>
-  <span class="imm-page">04 / 30</span>
+  <span class="imm-page">06 / 31</span>
   <aside class="notes">6 min. O objetivo é motivar antes de definir. Note que os quatro casos vêm de contextos muito distintos — hobbyista, varejo, engenharia e pesquisa — e mesmo assim esbarram nos mesmos problemas.</aside>
 </section>
 
@@ -83,7 +119,7 @@
     <div class="imm-card accent"><span class="imm-index">4</span><h3>Falta prova de conclusão</h3><p>O agente acha que terminou. Só um teste externo sabe se terminou mesmo.</p></div>
   </div>
   <div class="imm-source"><b>É por aqui que começamos:</b> antes de projetar o sistema, precisamos nomear o problema que ele resolve — a tarefa longa.</div>
-  <span class="imm-page">05 / 30</span>
+  <span class="imm-page">07 / 31</span>
   <aside class="notes">5 min. Este slide é a dobradiça do encontro: sai do fascínio pelo caso concreto e entra na definição técnica do próximo slide.</aside>
 </section>
 
@@ -98,7 +134,7 @@
     <div class="imm-card accent"><span class="imm-index">4</span><h3>Critério de conclusão</h3><p>“Parece bom” não basta; é preciso provar que o objetivo foi atingido.</p></div>
   </div>
   <div class="imm-contract"><em>Definição operacional:</em> uma tarefa é longa quando não cabe com segurança em uma única sessão contínua de raciocínio e execução.</div>
-  <span class="imm-page">06 / 30</span>
+  <span class="imm-page">08 / 31</span>
   <aside class="notes">8 min. Corrija a confusão principal: longa não significa o modelo ficar pensando por horas. Significa que o trabalho exige continuidade entre etapas, contextos ou eventos.</aside>
 </section>
 
@@ -106,49 +142,71 @@
   <span class="imm-type">Contraste</span>
   <div class="imm-kicker">Resposta, tarefa, workflow, projeto</div>
   <h2>A fronteira aparece quando cada resultado vira entrada para o próximo.</h2>
-  <div class="imm-test-stack">
-    <div class="imm-test"><span class="imm-pill ok">Resposta · segundos</span><span class="question">“Resuma este contrato.”</span><span class="evidence">um output</span></div>
-    <div class="imm-test"><span class="imm-pill">Tarefa · minutos</span><span class="question">“Compare três contratos e produza uma tabela.”</span><span class="evidence">várias operações</span></div>
-    <div class="imm-test"><span class="imm-pill attention">Workflow · horas</span><span class="question">“Revise, peça documentos ausentes e encaminhe exceções.”</span><span class="evidence">estado + espera</span></div>
-    <div class="imm-test"><span class="imm-pill no">Projeto · dias</span><span class="question">“Migre todos os contratos e valide o novo processo.”</span><span class="evidence">coordenação + prova</span></div>
-  </div>
-  <div class="imm-source"><b>Ideia-chave:</b> um erro inicial pode contaminar todas as etapas seguintes.</div>
-  <span class="imm-page">07 / 30</span>
+  <figure class="imm-figure">
+    <svg viewBox="0 0 1080 318" role="img" aria-label="Escada de quatro degraus: resposta em segundos, tarefa em minutos, workflow em horas e projeto em dias, com altura crescente.">
+      <defs>
+        <marker id="g5e-ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+          <path d="M0 0 L10 5 L0 10 z" class="imm-svg-fill-accent"/>
+        </marker>
+      </defs>
+
+      <path class="imm-svg-flow muted" d="M30 196 L250 196 L300 156 L520 156 L570 106 L790 106 L840 44 L1060 44"
+            stroke-dasharray="6 5" marker-end="url(#g5e-ar)"/>
+
+      <rect class="imm-svg-box soft" x="10" y="200" width="250" height="60" rx="12"/>
+      <text class="imm-svg-label" x="135" y="226" text-anchor="middle">RESPOSTA</text>
+      <text class="imm-svg-sub" x="135" y="247" text-anchor="middle">segundos · um output</text>
+
+      <rect class="imm-svg-box" x="280" y="160" width="250" height="100" rx="12"/>
+      <text class="imm-svg-label" x="405" y="186" text-anchor="middle">TAREFA</text>
+      <text class="imm-svg-sub" x="405" y="207" text-anchor="middle">minutos · várias operações</text>
+      <text class="imm-svg-tag" x="405" y="238" text-anchor="middle">PRECISA: ORDEM</text>
+
+      <rect class="imm-svg-box accent" x="550" y="110" width="250" height="150" rx="12"/>
+      <text class="imm-svg-label" x="675" y="136" text-anchor="middle">WORKFLOW</text>
+      <text class="imm-svg-sub" x="675" y="157" text-anchor="middle">horas · espera externa</text>
+      <text class="imm-svg-tag" x="675" y="188" text-anchor="middle">PRECISA: ESTADO</text>
+      <text class="imm-svg-tag" x="675" y="210" text-anchor="middle">PRECISA: RETOMADA</text>
+
+      <rect class="imm-svg-box accent" x="820" y="48" width="250" height="212" rx="12"/>
+      <text class="imm-svg-label" x="945" y="74" text-anchor="middle">PROJETO</text>
+      <text class="imm-svg-sub" x="945" y="95" text-anchor="middle">dias · coordenação</text>
+      <text class="imm-svg-tag" x="945" y="126" text-anchor="middle">PRECISA: ESTADO</text>
+      <text class="imm-svg-tag" x="945" y="148" text-anchor="middle">PRECISA: RETOMADA</text>
+      <text class="imm-svg-tag" x="945" y="170" text-anchor="middle">PRECISA: PROVA</text>
+      <text class="imm-svg-tag" x="945" y="192" text-anchor="middle">PRECISA: RESPONSÁVEL</text>
+
+      <line class="imm-svg-line" x1="10" y1="268" x2="1070" y2="268"/>
+      <text class="imm-svg-sub" x="135" y="292" text-anchor="middle">“Resuma este contrato.”</text>
+      <text class="imm-svg-sub" x="405" y="292" text-anchor="middle">“Compare três contratos</text>
+      <text class="imm-svg-sub" x="405" y="309" text-anchor="middle">e faça uma tabela.”</text>
+      <text class="imm-svg-sub" x="675" y="292" text-anchor="middle">“Revise, peça o que falta</text>
+      <text class="imm-svg-sub" x="675" y="309" text-anchor="middle">e encaminhe exceções.”</text>
+      <text class="imm-svg-sub" x="945" y="292" text-anchor="middle">“Migre todos os contratos</text>
+      <text class="imm-svg-sub" x="945" y="309" text-anchor="middle">e valide o novo processo.”</text>
+    </svg>
+  </figure>
+  <div class="imm-source"><b>Ideia-chave:</b> a cada degrau não muda só o tamanho do pedido — muda o que precisa existir em volta para ele terminar. E um erro no primeiro degrau contamina todos os seguintes.</div>
+  <span class="imm-page">09 / 31</span>
   <aside class="notes">7 min. Classifique em voz alta outros exemplos nessa mesma escada. Uma tarefa curta pode ter muitos tokens; um workflow longo pode passar boa parte do tempo esperando.</aside>
 </section>
 
 <section class="imm-slide">
-  <span class="imm-type">Nova fronteira</span>
-  <div class="imm-kicker">Por que isso importa agora?</div>
-  <h2>Modelos já respondem bem. A competição migrou para quanto trabalho conseguem concluir.</h2>
-  <div class="imm-grid four">
-    <div class="imm-card success"><h3>Capacidade</h3><p>Reasoning e uso de tools ampliaram o tamanho das tarefas possíveis.</p></div>
-    <div class="imm-card success"><h3>Ambiente</h3><p>Sandboxes e computer use permitem agir, testar e observar resultados.</p></div>
-    <div class="imm-card success"><h3>Persistência</h3><p>Execução assíncrona permite pausar, esperar eventos e retomar.</p></div>
-    <div class="imm-card warning"><h3>Confiabilidade</h3><p>Cada passo adicional multiplica as oportunidades de desvio e falha.</p></div>
-  </div>
-  <div class="imm-before-after">
-    <div class="imm-example bad"><div class="imm-label">Fronteira anterior</div><blockquote>Qual modelo produz a melhor resposta?</blockquote></div>
-    <div class="imm-transform">→</div>
-    <div class="imm-example good"><div class="imm-label">Fronteira atual</div><blockquote>Qual sistema conclui o maior trabalho útil com evidência e controle?</blockquote></div>
-  </div>
-  <span class="imm-page">08 / 30</span>
-  <aside class="notes">8 min. Explique que a nova fronteira combina capacidade e confiabilidade. Sem confiabilidade, aumentar o horizonte apenas produz falhas maiores e mais caras.</aside>
-</section>
-
-<section class="imm-slide">
   <span class="imm-type">Mudança de unidade</span>
-  <div class="imm-kicker">2024 → 2026</div>
-  <h2>O foco saiu da “resposta inteligente” e foi para o “trabalho concluído”.</h2>
-  <div class="imm-grid four">
-    <div class="imm-card"><span class="imm-index">1</span><h3>Chat</h3><p>Uma pergunta, uma resposta, pouco estado.</p></div>
-    <div class="imm-card"><span class="imm-index">2</span><h3>Agente</h3><p>Objetivo, tools e loop dentro de uma sessão.</p></div>
-    <div class="imm-card accent"><span class="imm-index">3</span><h3>Harness</h3><p>Controla sessão, ferramentas, retomada e contexto.</p></div>
-    <div class="imm-card success"><span class="imm-index">4</span><h3>Sistema</h3><p>Entrega verificável que sobrevive a falhas e trocas de modelo.</p></div>
-  </div>
-  <div class="imm-contract">A pergunta madura não é “qual modelo?”. É: <em>qual arquitetura transforma capacidade probabilística em progresso durável?</em></div>
-  <span class="imm-page">09 / 30</span>
-  <aside class="notes">7 min. Compare com sistemas operacionais: abstrações estáveis ao redor de hardware que muda.</aside>
+  <div class="imm-kicker">A pergunta que o mercado passou a fazer</div>
+  <h2>Saiu de “qual modelo responde melhor?”<br>para “qual sistema termina o trabalho?”.</h2>
+  <table class="imm-table">
+    <thead><tr><th>Unidade</th><th>O que entrega</th><th>Onde quebra na sexta-feira</th></tr></thead>
+    <tbody>
+      <tr><td><b>Chat</b></td><td>Uma pergunta, uma resposta, quase nenhum estado</td><td>Não atravessa o fim de semana</td></tr>
+      <tr><td><b>Agente</b></td><td>Objetivo, ferramentas e um loop dentro de uma sessão</td><td>Morre junto com a sessão, às 3h de sábado</td></tr>
+      <tr><td><b>Harness</b></td><td>Controla sessão, ferramentas, retomada e contexto</td><td>Sobrevive ao reset — mas ainda acredita no próprio agente</td></tr>
+      <tr><td><b>Sistema</b></td><td>Entrega verificável que sobrevive a falhas e a trocas de modelo</td><td>É o único nível que detecta os 9 serviços não testados</td></tr>
+    </tbody>
+  </table>
+  <div class="imm-source">Três forças empurraram essa virada — <b>capacidade</b> (raciocínio e uso de ferramentas), <b>ambiente</b> (sandboxes, uso de computador) e <b>persistência</b> (execução assíncrona). Falta a quarta: <b>confiabilidade</b>. Sem ela, aumentar o horizonte só produz falhas maiores e mais caras.</div>
+  <span class="imm-page">10 / 31</span>
+  <aside class="notes">10 min. Este slide funde o que antes eram dois. A coluna da direita é o que torna a escada concreta: cada unidade falha num momento específico da história de abertura. Analogia útil: sistemas operacionais criaram abstrações estáveis sobre hardware instável; o harness faz o mesmo sobre modelos instáveis.</aside>
 </section>
 
 <section class="imm-slide">
@@ -174,7 +232,7 @@
     <figcaption>Cada camada herda os problemas da camada de dentro e acrescenta os seus. Avaliação técnica do artefato — não é prova, entrega ou nota do estudante.</figcaption>
   </figure>
   <div class="imm-contract">Um modelo melhor pode produzir um agente pior se o harness for fraco. E um bom agente ainda pode formar um sistema inseguro.</div>
-  <span class="imm-page">10 / 30</span>
+  <span class="imm-page">11 / 31</span>
   <aside class="notes">7 min. Dê um exemplo único nos três níveis: modelo escolhe uma ação; agente conclui a tarefa; sistema conclui dentro de custo, política e recuperação aceitáveis.</aside>
 </section>
 
@@ -194,7 +252,7 @@
     </div>
   </div>
   <div class="imm-source">Fonte: <a href="https://metr.org/time-horizons/" target="_blank" rel="noopener">METR — Task-Completion Time Horizons</a></div>
-  <span class="imm-page">11 / 30</span>
+  <span class="imm-page">12 / 31</span>
   <aside class="notes">8 min. Evite transformar o gráfico em previsão de empregos. Destaque tarefas limpas versus trabalho real, carregado de contexto tácito.</aside>
 </section>
 
@@ -207,7 +265,7 @@
     <div class="imm-card accent"><h3>A pergunta que isso abre</h3><p>Se o agente continua rodando por horas ou dias, <b>o que exatamente quebra no caminho?</b> Não são erros de linguagem. São falhas de continuidade, de objetivo e de prova — e nenhuma delas existia no chat.</p></div>
   </div>
   <div class="imm-source"><b>Próximo bloco:</b> as falhas que só aparecem quando o trabalho atravessa o tempo — e como cada uma delas chega ao time de produto com outro nome.</div>
-  <span class="imm-page">12 / 30</span>
+  <span class="imm-page">13 / 31</span>
   <aside class="notes">3 min. Dobradiça do encontro. Deixe explícito que saímos da pergunta "até onde o agente chega" para "o que quebra enquanto ele tenta chegar".</aside>
 </section>
 
@@ -215,15 +273,59 @@
   <span class="imm-type">Falhas novas</span>
   <div class="imm-kicker">Quando a tarefa atravessa contextos</div>
   <h2>O agente pode continuar executando e, ainda assim, deixar de progredir.</h2>
-  <div class="imm-grid four">
-    <div class="imm-card danger"><h3>Deriva</h3><p>O objetivo vai mudando silenciosamente ao longo das iterações.</p></div>
-    <div class="imm-card warning"><h3>Estado perdido</h3><p>Uma nova sessão não sabe o que já foi decidido ou testado.</p></div>
-    <div class="imm-card warning"><h3>Encerramento precoce</h3><p>O modelo “arruma a casa” ao sentir o contexto terminar.</p></div>
-    <div class="imm-card danger"><h3>Autoaprovação</h3><p>Quem produziu o resultado tende a avaliá-lo com generosidade.</p></div>
-  </div>
-  <div class="imm-contract">Mais tokens adiam alguns sintomas. <em>Não substituem arquitetura de continuidade.</em></div>
-  <span class="imm-page">13 / 30</span>
-  <aside class="notes">7 min. Pergunte qual falha seria mais difícil de detectar apenas olhando a resposta final.</aside>
+  <figure class="imm-figure">
+    <svg viewBox="0 0 1080 300" role="img" aria-label="Linha do tempo de uma tarefa longa mostrando em que momento cada uma das quatro falhas aparece: deriva nas primeiras horas, estado perdido na virada de sessão, encerramento precoce perto do limite de contexto e autoaprovação na entrega.">
+      <defs>
+        <marker id="g5f-ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+          <path d="M0 0 L10 5 L0 10 z" class="imm-svg-fill-muted"/>
+        </marker>
+      </defs>
+
+      <text class="imm-svg-tag" x="20" y="18">O QUE FOI COMBINADO NO INÍCIO</text>
+      <line class="imm-svg-line" x1="20" y1="30" x2="1060" y2="30" stroke-dasharray="7 6"/>
+
+      <rect class="imm-svg-box danger" x="20" y="52" width="242" height="132" rx="12"/>
+      <text class="imm-svg-tag" x="141" y="78" text-anchor="middle">PRIMEIRAS HORAS</text>
+      <text class="imm-svg-label" x="141" y="103" text-anchor="middle">Deriva</text>
+      <text class="imm-svg-sub" x="141" y="130" text-anchor="middle">Nenhum passo parece errado.</text>
+      <text class="imm-svg-sub" x="141" y="150" text-anchor="middle">O conjunto saiu do lugar.</text>
+
+      <rect class="imm-svg-box warning" x="282" y="52" width="242" height="132" rx="12"/>
+      <text class="imm-svg-tag" x="403" y="78" text-anchor="middle">NA VIRADA DE SESSÃO</text>
+      <text class="imm-svg-label" x="403" y="103" text-anchor="middle">Estado perdido</text>
+      <text class="imm-svg-sub" x="403" y="130" text-anchor="middle">A sessão recomeça sem saber</text>
+      <text class="imm-svg-sub" x="403" y="150" text-anchor="middle">o que já foi decidido.</text>
+
+      <rect class="imm-svg-box warning" x="544" y="52" width="242" height="132" rx="12"/>
+      <text class="imm-svg-tag" x="665" y="78" text-anchor="middle">PERTO DO LIMITE</text>
+      <text class="imm-svg-label" x="665" y="103" text-anchor="middle">Encerramento precoce</text>
+      <text class="imm-svg-sub" x="665" y="130" text-anchor="middle">O modelo “arruma a casa”</text>
+      <text class="imm-svg-sub" x="665" y="150" text-anchor="middle">antes de terminar de verdade.</text>
+
+      <rect class="imm-svg-box danger" x="806" y="52" width="242" height="132" rx="12"/>
+      <text class="imm-svg-tag" x="927" y="78" text-anchor="middle">NA ENTREGA</text>
+      <text class="imm-svg-label" x="927" y="103" text-anchor="middle">Autoaprovação</text>
+      <text class="imm-svg-sub" x="927" y="130" text-anchor="middle">Quem produziu o resultado</text>
+      <text class="imm-svg-sub" x="927" y="150" text-anchor="middle">avalia com generosidade.</text>
+
+      <path class="imm-svg-line" d="M141 184 L141 230"/>
+      <path class="imm-svg-line" d="M403 184 L403 230"/>
+      <path class="imm-svg-line" d="M665 184 L665 230"/>
+      <path class="imm-svg-line" d="M927 184 L927 230"/>
+
+      <line class="imm-svg-line" x1="20" y1="238" x2="1050" y2="238" marker-end="url(#g5f-ar)"/>
+      <circle class="imm-svg-fill-danger" cx="141" cy="238" r="7"/>
+      <circle class="imm-svg-fill-warning" cx="403" cy="238" r="7"/>
+      <circle class="imm-svg-fill-warning" cx="665" cy="238" r="7"/>
+      <circle class="imm-svg-fill-danger" cx="927" cy="238" r="7"/>
+      <text class="imm-svg-sub" x="20" y="266">início da tarefa</text>
+      <text class="imm-svg-sub" x="1050" y="266" text-anchor="end">entrega ao time</text>
+      <text class="imm-svg-tag" x="535" y="291" text-anchor="middle">NENHUMA DELAS APARECE NA RESPOSTA FINAL — TODAS APARECEM NO HISTÓRICO</text>
+    </svg>
+  </figure>
+  <div class="imm-source">Mais tokens adiam alguns sintomas. <b>Não substituem arquitetura de continuidade.</b></div>
+  <span class="imm-page">14 / 31</span>
+  <aside class="notes">7 min. Destaque que a falha mais cara do slide é a quarta, porque é a única que chega ao time parecendo sucesso.</aside>
 </section>
 
 <section class="imm-slide">
@@ -240,7 +342,7 @@
     </tbody>
   </table>
   <div class="imm-contract">O churn não vem do erro isolado. Vem de <em>descobrir o erro depois de ter confiado</em>.</div>
-  <span class="imm-page">14 / 30</span>
+  <span class="imm-page">15 / 31</span>
   <aside class="notes">6 min. Use esta tabela como ponte: as decisões de arquitetura dos próximos slides existem para evitar a coluna do meio, não para satisfazer elegância técnica.</aside>
 </section>
 
@@ -255,7 +357,7 @@
     <div class="imm-card accent"><h3>“Quem responde por isso?”</h3><p>O cliente não reclama com o agente. Reclama com a empresa que o colocou no ar.</p></div>
   </div>
   <div class="imm-contract">Latência deixou de ser um número de performance. Virou <em>uma experiência que precisa ser desenhada</em>.</div>
-  <span class="imm-page">15 / 30</span>
+  <span class="imm-page">16 / 31</span>
   <aside class="notes">7 min. Este slide existe para evitar que o resto do encontro vire só arquitetura. Cada peça técnica adiante responde a uma dessas quatro perguntas de produto.</aside>
 </section>
 
@@ -273,7 +375,7 @@
     </tbody>
   </table>
   <div class="imm-contract">Leia o próximo bloco de trás para frente: <em>cada componente existe porque uma dessas quatro falhas já custou caro a alguém.</em></div>
-  <span class="imm-page">16 / 30</span>
+  <span class="imm-page">17 / 31</span>
   <aside class="notes">5 min. Slide mais importante da virada. Ele transforma a lista de componentes em respostas a problemas nomeados. Volte a esta tabela sempre que uma peça parecer arbitrária.</aside>
 </section>
 
@@ -328,7 +430,7 @@
     <figcaption>Fonte: <a href="https://www.anthropic.com/engineering/managed-agents" target="_blank" rel="noopener">Anthropic — Scaling Managed Agents</a></figcaption>
   </figure>
   <div class="imm-contract"><em>Princípio:</em> qualquer peça deve poder falhar ou ser substituída sem apagar o projeto.</div>
-  <span class="imm-page">17 / 30</span>
+  <span class="imm-page">18 / 31</span>
   <aside class="notes">8 min. Diferencie sessão de context window: sessão é o registro completo; contexto é só a seleção enviada ao modelo agora.</aside>
 </section>
 
@@ -346,7 +448,7 @@
     <div class="imm-transform">→</div>
     <div class="imm-example good"><div class="imm-label">Estado operacional</div><blockquote>“Teste 14 falha; hipótese B descartada; executar migração em staging.”</blockquote></div>
   </div>
-  <span class="imm-page">18 / 30</span>
+  <span class="imm-page">19 / 31</span>
   <aside class="notes">8 min. Relacione com Git, tickets e runbooks: organizações já sabem externalizar estado; agentes tornam isso obrigatório.</aside>
 </section>
 
@@ -363,7 +465,7 @@
     </tbody>
   </table>
   <div class="imm-source">Fonte: <a href="https://www.anthropic.com/engineering/harness-design-long-running-apps" target="_blank" rel="noopener">Anthropic — Harness design for long-running application development</a></div>
-  <span class="imm-page">19 / 30</span>
+  <span class="imm-page">20 / 31</span>
   <aside class="notes">7 min. Faça a analogia: trocar o turno de uma equipe com um relatório de passagem, em vez de manter todos acordados indefinidamente.</aside>
 </section>
 
@@ -378,7 +480,7 @@
     <div class="imm-node"><small>↻</small><b>Controlador</b><span>decide repetir, avançar, escalar ou parar</span></div>
   </div>
   <div class="imm-contract">Multiagente aqui não é “personagem conversando”. É <em>separação de responsabilidades e incentivos</em>.</div>
-  <span class="imm-page">20 / 30</span>
+  <span class="imm-page">21 / 31</span>
   <aside class="notes">8 min. Conecte à engenharia tradicional: autor, reviewer e CI não são a mesma função.</aside>
 </section>
 
@@ -402,7 +504,7 @@
     <div class="imm-card success"><h3>Escopo mínimo</h3><p>Permissão vinculada à tarefa.</p></div>
     <div class="imm-card success"><h3>Saída mediada</h3><p>Rede e tools passam por políticas.</p></div>
   </div>
-  <span class="imm-page">21 / 30</span>
+  <span class="imm-page">22 / 31</span>
   <aside class="notes">8 min. Ressalte que “não mostrar o token no prompt” é insuficiente se o processo pode ler variáveis de ambiente.</aside>
 </section>
 
@@ -417,7 +519,7 @@
     <div class="imm-card accent"><h3>Compensação</h3><p>Desfazer ou neutralizar uma ação parcial quando possível.</p></div>
   </div>
   <div class="imm-contract"><em>Modelo mental:</em> menos “robô pensando sem parar”; mais “workflow durável que acorda o raciocínio quando necessário”.</div>
-  <span class="imm-page">22 / 30</span>
+  <span class="imm-page">23 / 31</span>
   <aside class="notes">8 min. Use exemplos: aguardar CI, aprovação jurídica, resposta de fornecedor, janela de deploy.</aside>
 </section>
 
@@ -425,14 +527,48 @@
   <span class="imm-type">Verificação do sistema</span>
   <div class="imm-kicker">Escada de evidência</div>
   <h2>Quanto maior a autonomia, mais independente precisa ser a prova.</h2>
-  <div class="imm-test-stack">
-    <div class="imm-test"><span class="imm-pill ok">1 · Determinístico</span><span class="question">Testes, schemas, invariantes, políticas</span><span class="evidence">barato e repetível</span></div>
-    <div class="imm-test"><span class="imm-pill">2 · Ambiente</span><span class="question">Executar, observar, comparar artefatos</span><span class="evidence">prova comportamento</span></div>
-    <div class="imm-test"><span class="imm-pill attention">3 · Verificador separado</span><span class="question">Critérios técnicos, crítica adversarial, comparação</span><span class="evidence">reduz autoaprovação</span></div>
-    <div class="imm-test"><span class="imm-pill no">4 · Humano</span><span class="question">Aprovação para ações caras, ambíguas ou irreversíveis</span><span class="evidence">responsabilidade explícita</span></div>
-  </div>
-  <div class="imm-contract">Esta é <em>verificação do comportamento do sistema</em>, não avaliação ou nota do estudante.</div>
-  <span class="imm-page">23 / 30</span>
+  <figure class="imm-figure">
+    <svg viewBox="0 0 1080 286" role="img" aria-label="Quatro níveis de evidência em ordem crescente de independência: determinístico, ambiente, verificador separado e humano.">
+      <defs>
+        <marker id="g5v-ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+          <path d="M0 0 L10 5 L0 10 z" class="imm-svg-fill-accent"/>
+        </marker>
+      </defs>
+
+      <line class="imm-svg-flow" x1="44" y1="32" x2="44" y2="262" marker-end="url(#g5v-ar)"/>
+      <text class="imm-svg-tag" x="26" y="148" text-anchor="middle" transform="rotate(-90 26 148)">INDEPENDÊNCIA DA PROVA</text>
+
+      <rect class="imm-svg-box success" x="92" y="24" width="958" height="52" rx="12"/>
+      <rect class="imm-svg-fill-accent" x="106" y="34" width="32" height="32" rx="9"/>
+      <text class="imm-svg-fill-accent-fg" x="122" y="56" text-anchor="middle" font-size="16" font-weight="700">1</text>
+      <text class="imm-svg-label" x="156" y="45">Determinístico</text>
+      <text class="imm-svg-sub" x="156" y="65">Testes, schemas, invariantes, políticas — a máquina decide sozinha se passou</text>
+      <text class="imm-svg-tag" x="1036" y="55" text-anchor="end">BARATO E REPETÍVEL</text>
+
+      <rect class="imm-svg-box" x="92" y="86" width="958" height="52" rx="12"/>
+      <rect class="imm-svg-fill-accent" x="106" y="96" width="32" height="32" rx="9"/>
+      <text class="imm-svg-fill-accent-fg" x="122" y="118" text-anchor="middle" font-size="16" font-weight="700">2</text>
+      <text class="imm-svg-label" x="156" y="107">Ambiente</text>
+      <text class="imm-svg-sub" x="156" y="127">Executar de verdade, observar o resultado, comparar artefatos antes e depois</text>
+      <text class="imm-svg-tag" x="1036" y="117" text-anchor="end">PROVA COMPORTAMENTO</text>
+
+      <rect class="imm-svg-box warning" x="92" y="148" width="958" height="52" rx="12"/>
+      <rect class="imm-svg-fill-accent" x="106" y="158" width="32" height="32" rx="9"/>
+      <text class="imm-svg-fill-accent-fg" x="122" y="180" text-anchor="middle" font-size="16" font-weight="700">3</text>
+      <text class="imm-svg-label" x="156" y="169">Verificador separado</text>
+      <text class="imm-svg-sub" x="156" y="189">Outro agente, com critérios próprios, cuja função é tentar reprovar o resultado</text>
+      <text class="imm-svg-tag" x="1036" y="179" text-anchor="end">REDUZ AUTOAPROVAÇÃO</text>
+
+      <rect class="imm-svg-box danger" x="92" y="210" width="958" height="52" rx="12"/>
+      <rect class="imm-svg-fill-accent" x="106" y="220" width="32" height="32" rx="9"/>
+      <text class="imm-svg-fill-accent-fg" x="122" y="242" text-anchor="middle" font-size="16" font-weight="700">4</text>
+      <text class="imm-svg-label" x="156" y="231">Humano</text>
+      <text class="imm-svg-sub" x="156" y="251">Aprovação para ações caras, ambíguas ou que não dá para desfazer</text>
+      <text class="imm-svg-tag" x="1036" y="241" text-anchor="end">RESPONSABILIDADE EXPLÍCITA</text>
+    </svg>
+  </figure>
+  <div class="imm-source">Os níveis se somam, não se substituem. <b>Subir de nível custa caro</b> — por isso o nível 4 é reservado ao que é irreversível, e não usado como rede de segurança geral. Aqui “verificação” é do <b>comportamento do sistema</b>, não avaliação de estudante.</div>
+  <span class="imm-page">24 / 31</span>
   <aside class="notes">7 min. Mostre que LLM-as-judge é uma camada, não a fundação inteira da verificação.</aside>
 </section>
 
@@ -451,7 +587,7 @@
     </tbody>
   </table>
   <p class="imm-source">Fluxo documentado de agentes de codificação assíncronos (GitHub Copilot coding agent; OpenAI Codex e Google Jules operam de forma análoga).</p>
-  <span class="imm-page">24 / 30</span>
+  <span class="imm-page">25 / 31</span>
   <aside class="notes">8 min. Percorra linha a linha. A terceira coluna recupera exatamente os blocos já vistos; a quarta é o que o time de produto enxerga quando a peça não existe.</aside>
 </section>
 
@@ -469,7 +605,7 @@
     </tbody>
   </table>
   <div class="imm-contract">Os passos 1 a 5 fazem o agente <em>trabalhar</em>. Os passos 6 a 9 fazem o trabalho <em>poder ser aceito</em>.</div>
-  <span class="imm-page">25 / 30</span>
+  <span class="imm-page">26 / 31</span>
   <aside class="notes">8 min. Ponto central: quase todo o valor de produto está na segunda metade, e é justamente a metade que costuma ser cortada em protótipos.</aside>
 </section>
 
@@ -501,22 +637,22 @@
     <div class="imm-card success"><h3>“Falhou no passo 7.”</h3><p>Os seis passos anteriores já estão versionados e revisáveis.</p></div>
     <div class="imm-card success"><h3>“Quem responde?”</h3><p>Quem aprovou o merge. O nome está no histórico.</p></div>
   </div>
-  <span class="imm-page">26 / 30</span>
+  <span class="imm-page">27 / 31</span>
   <aside class="notes">6 min. Feche o arco aberto no bloco de produto: as quatro perguntas não foram resolvidas por um modelo melhor, e sim por decisões de arquitetura que viraram experiência.</aside>
 </section>
 
 <section class="imm-slide">
   <span class="imm-type">Estudo de caso</span>
-  <div class="imm-kicker">Caso para análise</div>
-  <h2>Um agente deve migrar 40 serviços para uma nova API em cinco dias.</h2>
+  <div class="imm-kicker">A sexta-feira, remontada</div>
+  <h2>De volta ao início do encontro:<br>migrar 40 serviços para uma nova API em cinco dias.</h2>
   <div class="imm-grid three">
     <div class="imm-card warning"><h3>Condições</h3><p>Repositórios diferentes, CI lento, documentação incompleta e deploy proibido sem aprovação.</p></div>
     <div class="imm-card accent"><h3>Decisões</h3><p>Onde persistir estado? Quando resetar? Quem avalia? Quais ações exigem humano?</p></div>
     <div class="imm-card danger"><h3>Riscos</h3><p>Duplicar PRs, vazar tokens, declarar sucesso cedo ou repetir deploy.</p></div>
   </div>
   <div class="imm-contract"><em>As cinco perguntas do caso:</em> onde vive a sessão, o que o harness controla, o que roda no sandbox, quem verifica e o que exige aprovação humana — e como o trabalho retoma depois de uma falha.</div>
-  <span class="imm-page">27 / 30</span>
-  <aside class="notes">8 min. Percorra as cinco perguntas em voz alta antes de revelar a arquitetura de referência do próximo slide. Não há entrega, correção ou nota.</aside>
+  <span class="imm-page">28 / 31</span>
+  <aside class="notes">8 min. Diga explicitamente que este é o mesmo caso da abertura — agora com vocabulário para resolvê-lo. Percorra as cinco perguntas em voz alta antes de revelar a arquitetura de referência do próximo slide. Não há entrega, correção ou nota.</aside>
 </section>
 
 <section class="imm-slide">
@@ -530,7 +666,7 @@
     <div class="imm-node"><small>4</small><b>Retomar</b><span>sessão durável registra estado, falhas e próximo serviço</span></div>
   </div>
   <div class="imm-contract"><em>Aprovação humana:</em> merge e deploy. <em>Idempotência:</em> um serviço só muda de estado após evidência persistida.</div>
-  <span class="imm-page">28 / 30</span>
+  <span class="imm-page">29 / 31</span>
   <aside class="notes">7 min. Explique que esta não é a única resposta correta. Ela explicita as propriedades que precisam existir: isolamento, estado, prova, retomada e aprovação.</aside>
 </section>
 
@@ -544,7 +680,7 @@
     <div class="imm-example good"><div class="imm-label">Sistema primeiro</div><blockquote>Estado durável, ambiente seguro, especialização e prova independente.</blockquote></div>
   </div>
   <div class="imm-contract">Resposta esperada: <em>os dois</em> — mas melhorias no harness podem multiplicar o mesmo modelo e precisam ser removidas quando ficam obsoletas.</div>
-  <span class="imm-page">29 / 30</span>
+  <span class="imm-page">30 / 31</span>
   <aside class="notes">4 min. Use como síntese rápida: harnesses codificam limitações que podem desaparecer conforme os modelos melhoram.</aside>
 </section>
 
@@ -563,6 +699,6 @@
     <div class="imm-quote">Um agente longo não é uma conversa longa. É um sistema capaz de preservar progresso.</div>
   </div>
   <div class="imm-source">Leituras: <a href="https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents" target="_blank" rel="noopener">Effective harnesses</a> · <a href="https://www.anthropic.com/engineering/harness-design-long-running-apps" target="_blank" rel="noopener">Harness design</a> · <a href="https://www.anthropic.com/engineering/managed-agents" target="_blank" rel="noopener">Managed Agents</a> · <a href="https://metr.org/time-horizons/" target="_blank" rel="noopener">METR</a></div>
-  <span class="imm-page">30 / 30</span>
+  <span class="imm-page">31 / 31</span>
   <aside class="notes">4 min. Sugira uma reflexão privada e opcional: qual peça do sistema o estudante subestimava antes desta aula?</aside>
 </section>
