@@ -529,7 +529,7 @@ Para cada um:
 
 ## 🎯 Objetivos de aprendizagem
 
-1. Reconhecer, a partir de um caso concreto, por que um trabalho longo pode falhar mesmo quando todas as respostas estão corretas.
+1. Reconhecer, a partir de um caso concreto de operação, por que um trabalho longo pode falhar mesmo quando todas as respostas estão corretas.
 2. Traduzir o vocabulário de engenharia (sessão, contexto, harness, sandbox, handoff, idempotência) para termos acessíveis fora da TI.
 3. Reconhecer casos reais de agentes de horizonte longo nos mundos pessoal e corporativo.
 4. Definir tarefa longa e diferenciá-la de uma resposta lenta ou extensa.
@@ -538,31 +538,51 @@ Para cada um:
 7. Traduzir falhas técnicas de horizonte longo em sintomas percebidos pelo usuário.
 8. Diferenciar avaliação técnica de modelo, agente e sistema.
 9. Explicar por que tarefas longas exigem estado durável e handoffs.
-10. Percorrer uma sessão real passo a passo e identificar que peça do sistema atua em cada etapa.
-11. Projetar retomada, idempotência e verificação independente.
-12. Definir fronteiras seguras entre modelo, código e credenciais.
+10. Percorrer uma operação real passo a passo e identificar que peça do sistema atua em cada etapa.
+11. Explicar por que a maior parte dos projetos de agentes é cancelada, a partir de dados públicos de mercado.
+12. Situar as quatro camadas do mercado de ferramentas e identificar qual delas a própria organização já possui.
+13. Formular perguntas de avaliação de fornecedor que revelem ausência de estado, verificação, aprovação e métrica.
 
 ## ⏱️ Cronograma (120 min)
 
 | Bloco | Tempo | Conteúdo |
 |---|---:|---|
-| 1 | 14' | **O caso da sexta-feira** + fio condutor + vocabulário mínimo |
-| 2 | 20' | Casos reais, o que é tarefa longa e a escada de resultados |
-| 3 | 16' | Mudança de unidade, modelo/agente/sistema e horizonte de tarefas |
+| 1 | 14' | **O caso da sexta-feira** (fila de reembolsos) + fio condutor + vocabulário mínimo |
+| 2 | 18' | Casos reais, o que é tarefa longa e a escada de resultados |
+| 3 | 14' | Mudança de unidade e horizonte de tarefas |
 | — | 10' | Intervalo |
-| 4 | 18' | **Virada:** onde cada falha acontece, tradução e sintoma de produto |
-| 5 | 28' | **Virada:** a arquitetura derivada das falhas + sessão real passo a passo |
-| 6 | 14' | A sexta-feira remontada, arquitetura de referência, síntese e fechamento |
+| 4 | 16' | **Virada:** onde cada falha acontece e como ela vira sintoma de produto |
+| 5 | 24' | **Virada:** a arquitetura derivada das falhas + a fila passo a passo |
+| 6 | 14' | **Realidade de mercado:** por que projetos são cancelados, Klarna, o que existe hoje e o que perguntar ao fornecedor |
+| 7 | 10' | A sexta-feira remontada, arquitetura de referência e fechamento |
+
+### Para quem este encontro é desenhado
+
+A audiência **não vai implementar nada disto**. São pessoas de produto, operação
+e gestão que precisam decidir se vale, escolher fornecedor e responder pelo
+resultado. Por isso o encontro evita deliberadamente exemplos de engenharia de
+software como espinha dorsal: o caso condutor é uma **fila de reembolsos**, não
+uma migração de código. Agentes de codificação aparecem apenas como *uma*
+instância do mesmo padrão — e o slide da sessão passo a passo diz isso
+explicitamente ("é um padrão de trabalho longo, não de um setor").
+
+O bloco 6 é o que ancora tudo na realidade de quem assiste, e é onde estão as
+três perguntas que eles realmente levam para o trabalho: *isto funciona mesmo?*,
+*o que existe para comprar?* e *o que eu pergunto antes de assinar?*
 
 ### Como o encontro se sustenta narrativamente
 
 O encontro **abre por uma história, não por um conceito**. O slide 3 narra uma
-sexta-feira em que um time delega a migração de 40 serviços e, na segunda, recebe
-"migração concluída" com 9 serviços marcados como prontos sem nunca terem sido
-testados. Essa sexta-feira é a espinha dorsal: cada peça técnica apresentada
-depois existe para impedir um dos cinco momentos dela. O estudo de caso do bloco
-6 é literalmente o mesmo cenário, agora com vocabulário para resolvê-lo — diga
-isso em voz alta quando chegar lá.
+sexta-feira em que uma operação delega "zere a fila de 400 reembolsos" e, na
+segunda, recebe "fila zerada" com 60 pedidos aprovados sem conferir comprovante.
+O piloto é suspenso. Essa fila é a espinha dorsal: cada peça apresentada depois
+existe para impedir um dos cinco momentos dela, e o estudo de caso do bloco 7 é
+literalmente o mesmo cenário — diga isso em voz alta quando chegar lá.
+
+O piloto suspenso tem uma segunda função: ele reaparece no bloco 6, quando a
+projeção da Gartner mostra que **cancelar é o desfecho mais comum do setor**, e
+pelos mesmos três motivos do caso (custo, valor pouco claro, controle de risco).
+A história não era didática — era estatística.
 
 Logo depois vem o fio condutor, que decompõe a pergunta do encontro — *por que
 agentes que já respondem bem ainda falham em concluir um trabalho?* — em cinco
@@ -592,16 +612,22 @@ degrau muda o que precisa existir em volta), a **linha do tempo das falhas**
 parecendo sucesso), a **anatomia do sistema** e a **escada de evidência**
 (os quatro níveis se somam, não se substituem).
 
-Nos casos reais — OpenClaw e Project Vend no mundo pessoal, agentes de
-codificação assíncronos e Deep Research no corporativo — o ponto comum é que em
-nenhum deles o problema foi a qualidade da resposta.
+Sobre o caso da **Klarna**: o ponto não é que automatizar foi errado — o volume
+e a economia anunciados foram reais. O ponto é que a métrica escolhida decide o
+resultado. Deixe claro que os números vieram da própria empresa e não são
+auditados de forma independente.
+
+Sobre o **panorama de ferramentas**: nomes mudam rápido, então o valor do slide
+são as quatro camadas, não a lista. A camada de avaliação e observabilidade é a
+que mais falta nos projetos reais — e é a que o encontro inteiro argumentou ser
+decisiva.
 
 Antes de apresentar harnesses, estabeleça que tarefa longa não significa "o
 modelo pensar por horas": significa trabalho com etapas dependentes, estado
 acumulado, esperas externas e prova de conclusão.
 
-O bloco 5 é a comprovação do argumento: percorra os nove passos de uma sessão
-real de agente de codificação assíncrono, mostrando em cada etapa qual peça já
+O bloco 5 é a comprovação do argumento: percorra os nove passos da mesma fila de
+reembolsos, agora com sistema em volta, mostrando em cada etapa qual peça já
 estudada entra em ação. Os passos 1 a 5 fazem o agente trabalhar; os passos 6 a 9
 fazem o trabalho poder ser aceito — e são justamente os que costumam ser
 cortados. Feche com a linha do tempo vista pelo usuário.
