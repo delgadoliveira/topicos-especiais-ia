@@ -644,16 +644,17 @@ correção ou nota.
 
 1. Reconstruir um incidente concreto de agente corporativo e nomear o que faltou nele.
 2. Traduzir o vocabulário de segurança corporativa (principal, mandato, capability, lease, control plane, não repúdio).
-3. Diferenciar autoridade delegada, própria, subdelegada e interorganizacional.
-4. Modelar uma cadeia de delegação com escopo, expiração e auditoria.
-5. Explicar os papéis de registry, gateway e vault.
-6. Separar interoperabilidade técnica de confiança e autorização.
-7. Explicar por que o contexto do negócio — e não o modelo — é o diferencial competitivo, e por que dar contexto é dar acesso.
-8. Distinguir métricas de resultado de métricas de input ao avaliar agentes em produção.
-9. Analisar uma operação real conduzida por agente e identificar onde o controle faltou.
-10. Propor um modelo operacional para governar agentes em escala.
-11. Reconhecer as categorias de produto que já existem para emitir, fiscalizar e operar identidades de agente.
-12. Executar quatro movimentos de governança que não exigem time técnico, orçamento ou escolha de fornecedor.
+3. Reconhecer, em produtos reais já noticiados, o grau de autonomia que cada um assume e quem responde por ele.
+4. Explicar, pela história do comércio agêntico (ACP, AP2, FIDO), por que "prova de autorização" virou infraestrutura de pagamento.
+5. Identificar os quatro campos que um mandato precisa ter: quem pediu, o quê e até quanto, até quando, e como se prova.
+6. Explicar os três controles que não podem morar no agente — catálogo, portaria e cofre — e a regra da permissão que cabe na frase da tarefa.
+7. Separar interoperabilidade técnica de confiança e autorização.
+8. Explicar por que o contexto do negócio — e não o modelo — é o diferencial competitivo, e por que dar contexto é dar acesso.
+9. Distinguir métricas de resultado de métricas de input ao avaliar agentes em produção.
+10. Analisar uma operação real conduzida por agente e identificar onde o controle faltou.
+11. Propor um modelo operacional para governar agentes em escala.
+12. Reconhecer as categorias de produto que já existem para emitir, fiscalizar e operar identidades de agente.
+13. Executar quatro movimentos de governança que não exigem time técnico, orçamento ou escolha de fornecedor.
 
 ## 👥 Para quem este encontro é desenhado
 
@@ -678,7 +679,7 @@ Três consequências práticas na condução:
 | Bloco | Tempo | Conteúdo |
 |---|---:|---|
 | 1 | 14' | O caso da segunda-feira, o fio condutor e o vocabulário mínimo |
-| 2 | 24' | Identidade, cadeia de delegação, control plane e privilégio mínimo |
+| 2 | 24' | Três agentes reais, o comércio agêntico, os quatro campos do mandato e os três controles |
 | 3 | 12' | Protocolos abertos e por que interoperável não é autorizado |
 | — | 10' | Intervalo |
 | 4 | 22' | **Virada:** economia da ação, redesenho do trabalho, contexto como diferencial e métricas |
@@ -704,6 +705,34 @@ lembre que o agente usou o crachá da analista. Ao falar de lease, lembre que a
 permissão sobreviveu às férias dela. Os dois slides de **virada** marcam as
 transições: da camada de identidade para a camada econômica, e da camada
 econômica para a de escala.
+
+### O bloco 2 não é uma aula de segurança da informação
+
+Este bloco foi reescrito justamente para **não** ser um curso de gestão de
+identidade. Ele agora é contado em quatro passos, e cada passo tem uma âncora no
+mundo que o ouvinte já viu:
+
+1. **Três agentes reais.** Codex rodando ~25 horas sozinho, Muse gerando gameplay
+   jogável para o Xbox, e o agente que compra por você. A coluna que importa é a
+   terceira — *quem responde se der errado*. Não entre em detalhe técnico de
+   nenhum dos três; leia a terceira coluna em voz alta e deixe a pergunta no ar.
+2. **Quem autorizou esta compra?** Em vez da antiga taxonomia de modelos de
+   autoridade, conte a notícia na ordem: OpenAI e Stripe publicam o ACP; o Google
+   anuncia o AP2 com Mastercard, PayPal e Amex; o AP2 vai para a FIDO Alliance;
+   e o Instant Checkout do ChatGPT é pausado por falta de lojistas. O quarto item
+   é obrigatório — sem ele o slide vira propaganda. A tese: quando Visa,
+   Mastercard e FIDO entram num problema, ele deixou de ser técnico.
+3. **Os quatro campos do mandato.** O "mandato" do AP2 é literalmente o conceito
+   da aula. Quem pediu, o quê e até quanto, até quando, como se prova. Feche com
+   os dois cartões: *"compre o que estiver faltando"* contra *"compre até
+   R$ 2.000 desta lista, nestes fornecedores, até sexta"*.
+4. **Catálogo, portaria e cofre.** Use a analogia do prédio e não as palavras
+   registry/gateway/vault: o catálogo diz quem mora, a portaria confere e deixa
+   passar, o cofre empresta a chave com hora para devolver. O morador nunca fica
+   com a chave mestra.
+
+Se o tempo apertar, o passo que pode ser resumido é o 4. Os passos 1 e 2 são o
+que faz o encontro inteiro parecer sobre o mundo real.
 
 O penúltimo movimento fecha o arco: **a segunda-feira remontada** relê os cinco
 momentos do caso de abertura, agora com o vocabulário do encontro, mostrando qual

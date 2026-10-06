@@ -102,24 +102,45 @@
 </section>
 
 <section class="imm-slide">
-  <span class="imm-type">Identidade</span>
-  <div class="imm-kicker">Quatro modelos de autoridade</div>
-  <h2>“O agente fez” é uma frase tecnicamente incompleta.</h2>
-  <div class="imm-grid four">
-    <div class="imm-card accent"><span class="imm-index">1</span><h3>Delegada pelo usuário</h3><p>Acessa recursos de uma pessoa com consentimento e escopo.</p></div>
-    <div class="imm-card accent"><span class="imm-index">2</span><h3>Própria do agente</h3><p>Age como workload identificado, sem representar uma pessoa.</p></div>
-    <div class="imm-card accent"><span class="imm-index">3</span><h3>Subdelegada</h3><p>Um orquestrador concede uma parte da tarefa a outro agente.</p></div>
-    <div class="imm-card accent"><span class="imm-index">4</span><h3>Interorganizacional</h3><p>Agentes de empresas diferentes negociam dados e ações.</p></div>
-  </div>
-  <div class="imm-source"><b>No caso da segunda-feira:</b> o agente operou no modelo 1 (crachá emprestado da analista) quando precisava do modelo 2 para agir sozinho e do modelo 4 para falar com o fornecedor. · Referência: <a href="https://docs.cloud.google.com/iam/docs/agent-identity-overview" target="_blank" rel="noopener">Google Cloud — Agent Identity overview</a></div>
+  <span class="imm-type">Mercado</span>
+  <div class="imm-kicker">Saiu do laborat&oacute;rio, virou not&iacute;cia</div>
+  <h2>Tr&ecirc;s agentes reais, tr&ecirc;s graus de autonomia&nbsp;&mdash;<br>e a mesma pergunta em aberto.</h2>
+  <table class="imm-table">
+    <thead><tr><th style="width:23%">Produto</th><th style="width:44%">O que ele faz sozinho</th><th>Quem responde se der errado</th></tr></thead>
+    <tbody>
+      <tr><td><b>OpenAI Codex</b><br><span class="imm-dim">GPT-5.3-Codex</span></td><td>Em um teste publicado pela pr&oacute;pria OpenAI, rodou <b>~25 horas seguidas</b> a partir de um reposit&oacute;rio vazio: ~13 milh&otilde;es de tokens, ~30 mil linhas de c&oacute;digo, rodando os pr&oacute;prios testes e consertando os pr&oacute;prios erros.</td><td>A pessoa que apertou &ldquo;come&ccedil;ar&rdquo; &mdash; se conseguir revisar 30 mil linhas.</td></tr>
+      <tr><td><b>Microsoft Muse</b><br><span class="imm-dim">modelo WHAM, Xbox</span></td><td>Aprendeu com sete anos de partidas reais e <b>gera gameplay jog&aacute;vel</b>, quadro a quadro, a partir do que voc&ecirc; faz no controle. O est&uacute;dio usa para testar ideia de jogo antes de existir jogo.</td><td>Ningu&eacute;m acompanha quadro a quadro. O controle &eacute; decidir o que vira produto.</td></tr>
+      <tr><td><b>Com&eacute;rcio ag&ecirc;ntico</b><br><span class="imm-dim">ChatGPT, Stripe, Google</span></td><td>O agente percorre a loja, monta o carrinho e <b>paga</b>. Sem voc&ecirc; abrir o site.</td><td>Aqui a pergunta virou padr&atilde;o da ind&uacute;stria. &Eacute; o pr&oacute;ximo slide.</td></tr>
+    </tbody>
+  </table>
+  <div class="imm-contract">Repare: nenhum dos tr&ecirc;s falha por falta de intelig&ecirc;ncia. Os tr&ecirc;s esbarram na mesma coisa &mdash; <em>quem assina embaixo do que o agente fez.</em></div>
+  <div class="imm-source"><b>Fontes:</b> OpenAI, <i>Run long horizon tasks with Codex</i> (developers.openai.com) &middot; Microsoft Research, projeto WHAM / Muse &middot; agenticcommerce.dev. <i>O teste do Codex &eacute; um experimento divulgado pelo fornecedor, n&atilde;o uma opera&ccedil;&atilde;o de produ&ccedil;&atilde;o.</i></div>
   <span class="imm-page">07 / 29</span>
-  <aside class="notes">8 min. Dê um exemplo para cada modelo. Destaque que identidade própria facilita auditoria e revogação.</aside>
+  <aside class="notes">7 min. Esta &eacute; a ponte entre o mundo que o aluno v&ecirc; na imprensa e o resto do encontro. N&atilde;o entre em detalhe t&eacute;cnico de nenhum dos tr&ecirc;s: o que interessa &eacute; a terceira coluna. Pergunte em voz alta: nos tr&ecirc;s casos, quem &eacute; o respons&aacute;vel?</aside>
 </section>
+
+
+<section class="imm-slide">
+  <span class="imm-type">Autoridade</span>
+  <div class="imm-kicker">Quando o agente compra por voc&ecirc;</div>
+  <h2>A ind&uacute;stria inteira parou para responder<br>uma pergunta s&oacute;: quem autorizou esta compra?</h2>
+  <div class="imm-thread">
+    <div class="imm-thread-step"><span>1</span><b>OpenAI e Stripe publicam o ACP &middot; set/2025</b><i>Padr&atilde;o aberto para o agente fechar a compra <u>sem nunca receber o n&uacute;mero do seu cart&atilde;o</u>. A loja continua dona da venda, do pre&ccedil;o e da entrega.</i></div>
+    <div class="imm-thread-step"><span>2</span><b>Google anuncia o AP2 &middot; set/2025</b><i>Com Mastercard, PayPal, Amex e mais de 60 empresas. A pe&ccedil;a central tem nome: o <u>mandato</u> &mdash; comprovante assinado de que voc&ecirc; autorizou aquela compra, naquele valor.</i></div>
+    <div class="imm-thread-step"><span>3</span><b>O AP2 vai para a FIDO Alliance &middot; abr/2026</b><i>A mesma entidade por tr&aacute;s do login sem senha. Deixou de ser produto de uma empresa e virou infraestrutura de pagamento.</i></div>
+    <div class="imm-thread-step"><span>4</span><b>E o Instant Checkout do ChatGPT &eacute; pausado &middot; mar/2026</b><i>Poucos lojistas tinham entrado. O padr&atilde;o andou mais r&aacute;pido que a ado&ccedil;&atilde;o &mdash; que &eacute; a hist&oacute;ria normal de toda infraestrutura nova.</i></div>
+  </div>
+  <div class="imm-contract">Quatro movimentos, bilh&otilde;es investidos, e nada disso deixa o agente mais inteligente. Tudo isso existe para produzir <em>prova de autoriza&ccedil;&atilde;o</em>. &Eacute; esse o problema de verdade.</div>
+  <div class="imm-source"><b>Fontes:</b> agenticcommerce.dev (OpenAI/Stripe) &middot; Google Cloud Blog, <i>Announcing Agent Payments Protocol</i> &middot; FIDO Alliance. <b>No caso da segunda-feira:</b> o agente usou o crach&aacute; emprestado da analista &mdash; exatamente o que um mandato assinado teria evitado.</div>
+  <span class="imm-page">08 / 29</span>
+  <aside class="notes">9 min. Este slide substitui a antiga taxonomia de modelos de autoridade. Conte como not&iacute;cia, na ordem. O ponto a sustentar: quando Visa, Mastercard e FIDO entram num problema, ele deixou de ser t&eacute;cnico e virou econ&ocirc;mico. O item 4 &eacute; importante para n&atilde;o soar propaganda &mdash; o rollout tropecou.</aside>
+</section>
+
 
 <section class="imm-slide">
   <span class="imm-type">Delegação</span>
-  <div class="imm-kicker">A cadeia precisa viajar com a ação</div>
-  <h2>Autoridade útil tem origem, escopo, duração e prova.</h2>
+  <div class="imm-kicker">Os quatro campos que precisam viajar juntos</div>
+  <h2>O mandato do pagamento tem quatro campos.<br>Toda autoridade &uacute;til tem os mesmos quatro.</h2>
   <figure class="imm-figure">
     <svg viewBox="0 0 1080 212" role="img" aria-label="Cadeia de delegação em quatro elos: principal, mandato, agente e ação, cada um respondendo a uma pergunta.">
       <defs>
@@ -128,50 +149,50 @@
         </marker>
       </defs>
 
-      <text class="imm-svg-tag" x="115" y="18" text-anchor="middle">QUEM?</text>
+      <text class="imm-svg-tag" x="115" y="18" text-anchor="middle">QUEM PEDIU?</text>
       <rect class="imm-svg-box accent" x="0" y="32" width="230" height="104" rx="14"/>
-      <text class="imm-svg-label" x="115" y="72" text-anchor="middle">Principal</text>
-      <text class="imm-svg-sub" x="115" y="96" text-anchor="middle">pessoa ou organização</text>
-      <text class="imm-svg-sub" x="115" y="115" text-anchor="middle">que inicia</text>
+      <text class="imm-svg-label" x="115" y="72" text-anchor="middle">Pessoa</text>
+      <text class="imm-svg-sub" x="115" y="96" text-anchor="middle">respons&aacute;vel com nome</text>
+      <text class="imm-svg-sub" x="115" y="115" text-anchor="middle">pela decis&atilde;o</text>
 
-      <text class="imm-svg-tag" x="398" y="18" text-anchor="middle">O QUÊ?</text>
+      <text class="imm-svg-tag" x="398" y="18" text-anchor="middle">O QU&Ecirc;, AT&Eacute; QUANTO?</text>
       <rect class="imm-svg-box accent" x="283" y="32" width="230" height="104" rx="14"/>
       <text class="imm-svg-label" x="398" y="72" text-anchor="middle">Mandato</text>
-      <text class="imm-svg-sub" x="398" y="96" text-anchor="middle">objetivo e limites</text>
+      <text class="imm-svg-sub" x="398" y="96" text-anchor="middle">a a&ccedil;&atilde;o e o teto</text>
       <text class="imm-svg-sub" x="398" y="115" text-anchor="middle">autorizados</text>
 
       <text class="imm-svg-tag" x="681" y="18" text-anchor="middle">ATÉ QUANDO?</text>
       <rect class="imm-svg-box accent" x="566" y="32" width="230" height="104" rx="14"/>
       <text class="imm-svg-label" x="681" y="72" text-anchor="middle">Agente</text>
-      <text class="imm-svg-sub" x="681" y="96" text-anchor="middle">identidade verificável</text>
+      <text class="imm-svg-sub" x="681" y="96" text-anchor="middle">identidade pr&oacute;pria</text>
       <text class="imm-svg-sub" x="681" y="115" text-anchor="middle">com expiração</text>
 
       <text class="imm-svg-tag" x="964" y="18" text-anchor="middle">COMO PROVAR?</text>
       <rect class="imm-svg-box accent" x="849" y="32" width="230" height="104" rx="14"/>
       <text class="imm-svg-label" x="964" y="72" text-anchor="middle">Ação</text>
-      <text class="imm-svg-sub" x="964" y="96" text-anchor="middle">recurso, efeito</text>
-      <text class="imm-svg-sub" x="964" y="115" text-anchor="middle">e responsável</text>
+      <text class="imm-svg-sub" x="964" y="96" text-anchor="middle">o que mudou</text>
+      <text class="imm-svg-sub" x="964" y="115" text-anchor="middle">no mundo real</text>
 
       <path class="imm-svg-flow" d="M230 84 H272" marker-end="url(#g6b-ar)"/>
       <path class="imm-svg-flow" d="M513 84 H555" marker-end="url(#g6b-ar)"/>
       <path class="imm-svg-flow" d="M796 84 H838" marker-end="url(#g6b-ar)"/>
 
       <path class="imm-svg-flow muted" d="M0 170 H1080" stroke-dasharray="7 6"/>
-      <text class="imm-svg-sub" x="540" y="196" text-anchor="middle">a cadeia inteira viaja junto com a ação — e fica no log, assinada</text>
+      <text class="imm-svg-sub" x="540" y="196" text-anchor="middle">os quatro viajam junto com a a&ccedil;&atilde;o &mdash; e ficam registrados, assinados</text>
     </svg>
   </figure>
   <div class="imm-grid two">
-    <div class="imm-card danger"><h3>Mandato vago</h3><p>“Acesse meu calendário.” Autoridade ampla, sem prazo e sem propósito declarado.</p></div>
-    <div class="imm-card success"><h3>Mandato preciso</h3><p>“Marque uma reunião de até 30 min com estes participantes, até sexta.” Escopo, limite e expiração explícitos.</p></div>
+    <div class="imm-card danger"><h3>Mandato vago</h3><p>&ldquo;Compre o que estiver faltando no escrit&oacute;rio.&rdquo; Sem teto, sem prazo, sem lista. &Eacute; o mandato que a analista deu sem perceber.</p></div>
+    <div class="imm-card success"><h3>Mandato preciso</h3><p>&ldquo;Compre at&eacute; R$ 2.000 desta lista, nestes fornecedores, at&eacute; sexta.&rdquo; Teto, cat&aacute;logo e prazo. D&aacute; para conferir depois.</p></div>
   </div>
-  <span class="imm-page">08 / 29</span>
-  <aside class="notes">8 min. Use o contraste “acessar meu calendário” versus “marcar uma reunião de até 30 min com estes participantes até sexta”.</aside>
+  <span class="imm-page">09 / 29</span>
+  <aside class="notes">8 min. Amarre direto no slide anterior: o &ldquo;mandato&rdquo; do AP2 &eacute; literalmente isto. Leia os dois cart&otilde;es em voz alta, um depois do outro &mdash; a diferen&ccedil;a entre eles &eacute; a diferen&ccedil;a entre conseguir e n&atilde;o conseguir responder ao financeiro na ter&ccedil;a-feira.</aside>
 </section>
 
 <section class="imm-slide">
-  <span class="imm-type">Control plane</span>
-  <div class="imm-kicker">Registry · Gateway · Vault</div>
-  <h2>Governar agentes exige controlar descoberta, acesso e credenciais separadamente.</h2>
+  <span class="imm-type">Controle</span>
+  <div class="imm-kicker">Cat&aacute;logo, portaria e cofre</div>
+  <h2>Tr&ecirc;s controles que n&atilde;o podem morar no agente.<br>Nenhum deles &eacute; sobre intelig&ecirc;ncia.</h2>
   <figure class="imm-figure">
     <svg viewBox="0 0 1080 262" role="img" aria-label="O agente pede uma capacidade ao gateway; o registry fornece política e o vault fornece um token curto; só o gateway fala com o recurso.">
       <defs>
@@ -184,62 +205,46 @@
       </defs>
 
       <rect class="imm-svg-box soft" x="390" y="0" width="260" height="54" rx="12"/>
-      <text class="imm-svg-label" x="520" y="25" text-anchor="middle">REGISTRY</text>
-      <text class="imm-svg-sub" x="520" y="44" text-anchor="middle">dono · versão · risco</text>
+      <text class="imm-svg-label" x="520" y="25" text-anchor="middle">CAT&Aacute;LOGO</text>
+      <text class="imm-svg-sub" x="520" y="44" text-anchor="middle">quem existe e de quem &eacute;</text>
 
       <rect class="imm-svg-box" x="0" y="86" width="220" height="92" rx="14"/>
       <text class="imm-svg-label" x="110" y="124" text-anchor="middle">AGENTE</text>
-      <text class="imm-svg-sub" x="110" y="146" text-anchor="middle">sandbox efêmero</text>
+      <text class="imm-svg-sub" x="110" y="146" text-anchor="middle">sem chave nenhuma</text>
 
       <rect class="imm-svg-box accent" x="390" y="86" width="260" height="92" rx="14"/>
-      <text class="imm-svg-label" x="520" y="120" text-anchor="middle">GATEWAY</text>
-      <text class="imm-svg-sub" x="520" y="142" text-anchor="middle">aplica política</text>
-      <text class="imm-svg-sub" x="520" y="161" text-anchor="middle">injeta autorização</text>
+      <text class="imm-svg-label" x="520" y="120" text-anchor="middle">PORTARIA</text>
+      <text class="imm-svg-sub" x="520" y="142" text-anchor="middle">confere a regra</text>
+      <text class="imm-svg-sub" x="520" y="161" text-anchor="middle">e deixa passar</text>
 
       <rect class="imm-svg-box" x="860" y="86" width="220" height="92" rx="14"/>
-      <text class="imm-svg-label" x="970" y="124" text-anchor="middle">RECURSO</text>
-      <text class="imm-svg-sub" x="970" y="146" text-anchor="middle">API · SaaS · repositório</text>
+      <text class="imm-svg-label" x="970" y="124" text-anchor="middle">SISTEMA</text>
+      <text class="imm-svg-sub" x="970" y="146" text-anchor="middle">ERP &middot; banco &middot; e-mail</text>
 
       <rect class="imm-svg-box soft" x="390" y="208" width="260" height="54" rx="12"/>
-      <text class="imm-svg-label" x="520" y="233" text-anchor="middle">VAULT</text>
-      <text class="imm-svg-sub" x="520" y="252" text-anchor="middle">emite token curto</text>
+      <text class="imm-svg-label" x="520" y="233" text-anchor="middle">COFRE</text>
+      <text class="imm-svg-sub" x="520" y="252" text-anchor="middle">empresta a chave, com prazo</text>
 
       <path class="imm-svg-flow" d="M220 132 H378" marker-end="url(#g6-ar-a)"/>
-      <text class="imm-svg-sub" x="299" y="122" text-anchor="middle">pede capacidade</text>
+      <text class="imm-svg-sub" x="299" y="122" text-anchor="middle">pede para fazer algo</text>
 
       <path class="imm-svg-flow" d="M650 132 H848" marker-end="url(#g6-ar-a)"/>
-      <text class="imm-svg-sub" x="749" y="122" text-anchor="middle">chamada autorizada</text>
+      <text class="imm-svg-sub" x="749" y="122" text-anchor="middle">a&ccedil;&atilde;o autorizada</text>
 
       <path class="imm-svg-flow muted" d="M520 54 V74" marker-end="url(#g6-ar-m)"/>
       <path class="imm-svg-flow muted" d="M520 208 V190" marker-end="url(#g6-ar-m)"/>
 
       <path class="imm-svg-flow danger" d="M470 235 H160 V186" stroke-dasharray="7 6"/>
-      <text class="imm-svg-sub" x="320" y="218" text-anchor="middle">✗ o segredo nunca chega aqui</text>
+      <text class="imm-svg-sub" x="320" y="218" text-anchor="middle">&#10007; a senha nunca chega aqui</text>
     </svg>
   </figure>
-  <div class="imm-contract">O agente conhece a <em>capacidade</em> que pode usar; não precisa possuir a credencial que a habilita.</div>
-  <span class="imm-page">09 / 29</span>
-  <aside class="notes">8 min. Relacione ao encontro 5: sandbox isolada e gateway são partes complementares.</aside>
-</section>
-
-<section class="imm-slide">
-  <span class="imm-type">Privilégio mínimo</span>
-  <div class="imm-kicker">Permissão como aluguel, não propriedade</div>
-  <h2>Agentes precisam de capabilities temporárias, não de chaves eternas.</h2>
-  <div class="imm-before-after">
-    <div class="imm-example bad">
-      <div class="imm-label">Acesso permanente</div>
-      <blockquote>Token amplo compartilhado por vários agentes, válido por meses.</blockquote>
-    </div>
-    <div class="imm-transform">→</div>
-    <div class="imm-example good">
-      <div class="imm-label">Lease por tarefa</div>
-      <blockquote>Escopo específico, recurso limitado, expiração curta e revogação imediata.</blockquote>
-    </div>
+  <div class="imm-grid two">
+    <div class="imm-card danger"><h3>Chave que o agente guarda</h3><p>Um acesso amplo, compartilhado entre v&aacute;rios agentes, que vale por meses. Foi assim que a permiss&atilde;o sobreviveu &agrave;s f&eacute;rias da analista.</p></div>
+    <div class="imm-card success"><h3>Chave emprestada por tarefa</h3><p>Vale para aquele sistema, para aquela a&ccedil;&atilde;o, por aquelas horas. Acabou a tarefa, acabou o acesso.</p></div>
   </div>
-  <div class="imm-contract"><em>Regra:</em> a permissão deve caber na frase que descreve a tarefa. Se não cabe, provavelmente está ampla demais.</div>
+  <div class="imm-contract">Regra pr&aacute;tica, sem jarg&atilde;o: <em>a permiss&atilde;o tem que caber na frase que descreve a tarefa.</em> Se n&atilde;o cabe, est&aacute; larga demais.</div>
   <span class="imm-page">10 / 29</span>
-  <aside class="notes">7 min. Explique permissões progressivas: leitura automática, escrita com política, publicação com aprovação.</aside>
+  <aside class="notes">8 min. Use a analogia do pr&eacute;dio: o cat&aacute;logo diz quem mora, a portaria confere e deixa passar, o cofre empresta a chave com hora para devolver. O morador nunca fica com a chave mestra. Os dois cart&otilde;es embaixo s&atilde;o a diferen&ccedil;a entre o caso da segunda-feira ter acontecido ou n&atilde;o.</aside>
 </section>
 
 <section class="imm-slide">
