@@ -529,32 +529,60 @@ Para cada um:
 
 ## 🎯 Objetivos de aprendizagem
 
-1. Reconhecer, a partir de um caso concreto de operação, por que um trabalho longo pode falhar mesmo quando todas as respostas estão corretas.
-2. Traduzir o vocabulário de engenharia (sessão, contexto, harness, sandbox, handoff, idempotência) para termos acessíveis fora da TI.
-3. Reconhecer casos reais de agentes de horizonte longo nos mundos pessoal e corporativo.
-4. Definir tarefa longa e diferenciá-la de uma resposta lenta ou extensa.
-5. Identificar os problemas de produto que só aparecem quando o trabalho dura horas ou dias.
-6. Identificar em que momento da tarefa cada falha de horizonte longo aparece.
-7. Traduzir falhas técnicas de horizonte longo em sintomas percebidos pelo usuário.
-8. Diferenciar avaliação técnica de modelo, agente e sistema.
-9. Explicar por que tarefas longas exigem estado durável e handoffs.
-10. Percorrer uma operação real passo a passo e identificar que peça do sistema atua em cada etapa.
-11. Explicar por que a maior parte dos projetos de agentes é cancelada, a partir de dados públicos de mercado.
-12. Situar as quatro camadas do mercado de ferramentas e identificar qual delas a própria organização já possui.
-13. Formular perguntas de avaliação de fornecedor que revelem ausência de estado, verificação, aprovação e métrica.
+1. Situar para onde o mercado de assistentes e agentes está indo — super apps corporativos, assistentes internos, interfaces geradas pelo modelo (Intelligent UI) e trabalho assíncrono — e dizer o que cada um dos dois encontros responde.
+2. Reconhecer, a partir de um caso concreto de operação, por que um trabalho longo pode falhar mesmo quando todas as respostas estão corretas.
+3. Traduzir o vocabulário de engenharia (sessão, contexto, harness, sandbox, handoff, idempotência) para termos acessíveis fora da TI.
+4. Reconhecer casos reais de agentes de horizonte longo nos mundos pessoal e corporativo.
+5. Definir tarefa longa e diferenciá-la de uma resposta lenta ou extensa.
+6. Identificar os problemas de produto que só aparecem quando o trabalho dura horas ou dias.
+7. Identificar em que momento da tarefa cada falha de horizonte longo aparece.
+8. Traduzir falhas técnicas de horizonte longo em sintomas percebidos pelo usuário.
+9. Diferenciar avaliação técnica de modelo, agente e sistema.
+10. Explicar por que tarefas longas exigem estado durável e handoffs.
+11. Percorrer uma operação real passo a passo e identificar que peça do sistema atua em cada etapa.
+12. Explicar por que a maior parte dos projetos de agentes é cancelada, a partir de dados públicos de mercado.
+13. Situar as quatro camadas do mercado de ferramentas e identificar qual delas a própria organização já possui.
+14. Formular perguntas de avaliação de fornecedor que revelem ausência de estado, verificação, aprovação e métrica.
 
 ## ⏱️ Cronograma (120 min)
 
 | Bloco | Tempo | Conteúdo |
 |---|---:|---|
+| 0 | 9' | **Panorama de mercado** (super app, assistentes internos, Intelligent UI, trabalho assíncrono) + **mapa dos dois encontros** |
 | 1 | 14' | **O caso da sexta-feira** (fila de reembolsos) + fio condutor + vocabulário mínimo |
 | 2 | 18' | Casos reais, o que é tarefa longa e a escada de resultados |
-| 3 | 14' | Mudança de unidade e horizonte de tarefas |
+| 3 | 12' | Mudança de unidade e horizonte de tarefas |
 | — | 10' | Intervalo |
-| 4 | 16' | **Virada:** onde cada falha acontece e como ela vira sintoma de produto |
-| 5 | 24' | **Virada:** a arquitetura derivada das falhas + a fila passo a passo |
-| 6 | 14' | **Realidade de mercado:** por que projetos são cancelados, Klarna, o que existe hoje e o que perguntar ao fornecedor |
-| 7 | 10' | A sexta-feira remontada, arquitetura de referência e fechamento |
+| 4 | 15' | **Virada:** onde cada falha acontece e como ela vira sintoma de produto |
+| 5 | 22' | **Virada:** a arquitetura derivada das falhas + a fila passo a passo |
+| 6 | 12' | **Realidade de mercado:** por que projetos são cancelados, Klarna, o que existe hoje e o que perguntar ao fornecedor |
+| 7 | 8' | A sexta-feira remontada, arquitetura de referência e fechamento |
+
+### Bloco 0 — abertura de mercado (slides 2 e 3)
+
+Os dois primeiros slides depois da capa existem para **situar antes de explicar**.
+A audiência não acompanha o mercado diariamente; entrar direto em "sessões
+duráveis" soa como assunto de engenharia.
+
+- **Slide 2 · Panorama.** Quatro movimentos, nesta ordem: (1) o **super app
+  corporativo** — um único ponto de entrada para conversa, documentos, código e
+  agentes; (2) os **assistentes internos**, em que a empresa monta dezenas de
+  agentes sobre os próprios dados; (3) a **Intelligent UI** — a resposta deixa de
+  ser texto e vira uma interface gerada na hora (tabela ordenável, calculadora,
+  painel); (4) o **trabalho assíncrono**, em que você delega e vai embora.
+  💡 Pergunte quantos já usam um assistente corporativo no trabalho: costuma ser
+  a maioria, e quase ninguém sabe quem governa aquilo.
+  ⚠️ Diga em voz alta que a lista de produtos envelhece em meses — o que fica são
+  os quatro movimentos. Cards 1 e 2 viram o Encontro 6; cards 3 e 4, o Encontro 5.
+- **Slide 3 · Mapa dos dois encontros.** É um contrato com a turma: o Encontro 5
+  responde **"terminou?"** (sessão durável, sandbox, handoff, reset, retomada,
+  verificação) e o Encontro 6 responde **"podia?"** (identidade, delegação,
+  protocolos, custo por ação, governança). Nenhum dos dois é sobre escolher
+  modelo. Quem faltar a um deles sabe exatamente o que perdeu.
+
+> 💡 Se o tempo apertar, este é o bloco que **comprime** (não corta): 5 min
+> bastam. Mas não comece pelo caso da sexta-feira sem ele — o caso ganha peso
+> justamente porque a audiência acabou de reconhecer o próprio contexto.
 
 ### Para quem este encontro é desenhado
 
@@ -572,7 +600,8 @@ três perguntas que eles realmente levam para o trabalho: *isto funciona mesmo?*
 
 ### Como o encontro se sustenta narrativamente
 
-O encontro **abre por uma história, não por um conceito**. O slide 3 narra uma
+O encontro **abre por um panorama de mercado e só depois por uma história** —
+nunca por um conceito. O slide 5 narra uma
 sexta-feira em que uma operação delega "zere a fila de 400 reembolsos" e, na
 segunda, recebe "fila zerada" com 60 pedidos aprovados sem conferir comprovante.
 O piloto é suspenso. Essa fila é a espinha dorsal: cada peça apresentada depois
@@ -589,7 +618,7 @@ agentes que já respondem bem ainda falham em concluir um trabalho?* — em cinc
 movimentos. Se algum conceito parecer solto, volte a esse slide e diga a qual
 movimento ele pertence.
 
-O slide 5 é o **vocabulário mínimo** e existe para a audiência que não é de
+O slide 7 é o **vocabulário mínimo** e existe para a audiência que não é de
 engenharia: sessão, contexto, harness, sandbox, handoff e idempotência, cada um
 com um equivalente fora da TI (diário de obra, mestre de obras, cozinha de
 testes, passagem de plantão, botão do elevador). Use a coluna da direita durante

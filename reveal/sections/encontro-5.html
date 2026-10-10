@@ -11,8 +11,45 @@
     <span class="imm-pill">Sandbox + verificação</span>
   </div>
   <div class="imm-mark">05</div>
-  <span class="imm-page">01 / 35</span>
+  <span class="imm-page">01 / 37</span>
   <aside class="notes">2 min. Abra com a tese: o modelo deixou de ser o produto inteiro. A unidade de engenharia agora é o sistema que mantém o agente trabalhando.</aside>
+</section>
+
+<section class="imm-slide">
+  <span class="imm-type">Panorama de mercado</span>
+  <div class="imm-kicker">Antes do conteúdo: para onde isto está indo</div>
+  <h2>O assistente saiu de dentro do aplicativo<br>e virou a porta de entrada do trabalho.</h2>
+  <div class="imm-grid four">
+    <div class="imm-card accent"><span class="imm-index">1</span><h3>Super app corporativo</h3><p>Um único ponto de entrada para conversa, documentos, código e agentes. A Microsoft consolida as versões do Copilot nessa direção; Google e Salesforce fazem o mesmo nos próprios ecossistemas.</p></div>
+    <div class="imm-card accent"><span class="imm-index">2</span><h3>Assistentes internos</h3><p>A empresa não compra <i>um</i> bot: monta dezenas de agentes sobre os próprios dados e processos. Daí nascem inventário, permissão e auditoria — tema do Encontro 6.</p></div>
+    <div class="imm-card accent"><span class="imm-index">3</span><h3>A resposta virou artefato</h3><p><b>Intelligent UI:</b> em vez de texto, o modelo devolve uma <b>interface</b> — tabela ordenável, calculadora, painel, simulação. Está no ChatGPT, no Gemini e nos artifacts do Claude.</p></div>
+    <div class="imm-card accent"><span class="imm-index">4</span><h3>Trabalho assíncrono</h3><p>Você delega e sai. O agente trabalha por minutos ou horas em uma máquina remota e devolve um pull request, um relatório ou um lote de decisões.</p></div>
+  </div>
+  <div class="imm-contract">Os quatro movimentos vão para o mesmo lugar: <em>o agente deixa de responder dentro de uma tela e passa a produzir trabalho que alguém precisa aceitar.</em></div>
+  <p class="imm-source"><b>Referências:</b> Gartner, <i>Magic Quadrant for Enterprise AI Assistants</i> (2026) e anúncios de Microsoft, Google, OpenAI, Anthropic e Salesforce em 2025–2026. <i>A lista de produtos envelhece em meses; a direção, não.</i></p>
+  <span class="imm-page">02 / 37</span>
+  <aside class="notes">6 min. Comece por aqui, não pelo conceito. Objetivo: situar quem não acompanha o mercado e justificar por que os dois encontros existem. Pergunte quantos já usam um assistente corporativo no trabalho — costuma ser a maioria, e quase ninguém sabe quem governa aquilo. Cards 1 e 2 viram o Encontro 6; cards 3 e 4 viram o Encontro 5. Diga em voz alta que a lista de produtos envelhece em meses, mas os quatro movimentos não.</aside>
+</section>
+
+<section class="imm-slide">
+  <span class="imm-type">Mapa</span>
+  <div class="imm-kicker">O que são estes dois encontros</div>
+  <h2>Duas aulas, duas perguntas diferentes.<br>Nenhuma delas é “qual modelo escolher?”.</h2>
+  <div class="imm-grid two">
+    <div class="imm-card accent">
+      <h3>Encontro 5 · hoje — Como o trabalho se sustenta</h3>
+      <p>O agente recebe um trabalho que não cabe em uma conversa. Vamos ver o que precisa existir em volta do modelo para que ele <b>termine</b>: sessões duráveis, sandbox, handoff, reset de contexto, retomada e verificação externa.</p>
+      <p><em>Pergunta:</em> o trabalho ficou pronto — e dá para provar?</p>
+    </div>
+    <div class="imm-card success">
+      <h3>Encontro 6 — Com que autoridade ele age</h3>
+      <p>O mesmo agente, agora dentro de uma organização: identidade própria, delegação com limite, protocolos entre agentes, custo por ação, governança e o inventário que quase ninguém tem.</p>
+      <p><em>Pergunta:</em> quem autorizou, em nome de quem, até que limite — e quem responde?</p>
+    </div>
+  </div>
+  <div class="imm-contract">Os dois encontros são sobre <em>produto e operação</em>, não sobre treinar modelo. Você não vai implementar nada disto — mas é você quem decide se vale, e quem assina embaixo.</div>
+  <span class="imm-page">03 / 37</span>
+  <aside class="notes">3 min. Slide de contrato com a turma: diga explicitamente o que cada aula entrega e o que ela não entrega. Deixe claro que o Encontro 5 responde “terminou?” e o 6 responde “podia?”. Quem precisar faltar a um dos dois sabe o que perdeu.</aside>
 </section>
 
 <section class="imm-slide">
@@ -31,7 +68,7 @@
     </div>
   </div>
   <div class="imm-contract"><em>Pergunta-guia:</em> o que precisa existir ao redor do modelo para ele concluir um projeto longo sem perder estado, acesso ou direção?</div>
-  <span class="imm-page">02 / 35</span>
+  <span class="imm-page">04 / 37</span>
   <aside class="notes">5 min. Convide o estudante a pensar em exemplos de tarefas que cabem em um turno e tarefas que exigem continuidade.</aside>
 </section>
 
@@ -47,7 +84,7 @@
     <div class="imm-beat bad"><span>SEG 11h</span><p>Como não há registro por pedido, são <b>dois dias só para descobrir quais</b> são esses 60. O financeiro suspende o piloto.</p></div>
   </div>
   <div class="imm-contract">Nenhuma resposta do modelo estava errada. <em>O trabalho, mesmo assim, não ficou pronto — e o piloto morreu.</em></div>
-  <span class="imm-page">03 / 35</span>
+  <span class="imm-page">05 / 37</span>
   <aside class="notes">6 min. Conte como história, sem jargão. A conta fecha e vale dizer em voz alta: 400 = 340 decididos com o critério certo + 60 decididos depois do reset de sábado; e os 120 da sexta = 90 decididos + 30 esperando documento. O reset das 3h não é um detalhe técnico — é a causa exata dos 60. Esta fila é a espinha do encontro: cada peça apresentada depois existe para impedir um destes cinco momentos. Guarde o último — o piloto suspenso volta no bloco de mercado, onde veremos que é o desfecho mais comum do setor.</aside>
 </section>
 
@@ -63,7 +100,7 @@
     <div class="imm-thread-step"><span>5</span><b>A arquitetura nasce dessas falhas</b><i>Qual peça responde por qual falha?</i></div>
   </div>
   <div class="imm-source"><b>Como ler este encontro:</b> cada bloco existe porque o anterior deixou uma pergunta aberta. Nenhuma peça técnica aparece antes do problema que ela resolve — e todas voltam à sexta-feira do slide anterior.</div>
-  <span class="imm-page">04 / 35</span>
+  <span class="imm-page">06 / 37</span>
   <aside class="notes">4 min. Este é o mapa do argumento, não um cronograma. Ele existe para que nenhum conceito pareça solto: tudo o que vier é resposta a uma destas cinco perguntas.</aside>
 </section>
 
@@ -83,7 +120,7 @@
     </tbody>
   </table>
   <div class="imm-source">Use como régua de tradução, não para decorar. <b>Toda vez que um destes termos aparecer adiante, ele está resolvendo um momento da sexta-feira.</b></div>
-  <span class="imm-page">05 / 35</span>
+  <span class="imm-page">07 / 37</span>
   <aside class="notes">6 min. Este slide existe para que ninguém de fora da engenharia precise fingir que entendeu. A coluna da direita é a que importa para a aula.</aside>
 </section>
 
@@ -104,7 +141,7 @@
     </div>
   </div>
   <div class="imm-source"><b>Fontes:</b> <a href="https://github.com/openclaw/openclaw" target="_blank" rel="noopener">OpenClaw</a> · <a href="https://www.anthropic.com/research/project-vend-1" target="_blank" rel="noopener">Anthropic, Project Vend</a></div>
-  <span class="imm-page">06 / 35</span>
+  <span class="imm-page">08 / 37</span>
   <aside class="notes">6 min. O objetivo é motivar antes de definir. Note que os quatro casos vêm de contextos muito distintos — hobbyista, varejo, engenharia e pesquisa — e mesmo assim esbarram nos mesmos problemas.</aside>
 </section>
 
@@ -119,7 +156,7 @@
     <div class="imm-card accent"><span class="imm-index">4</span><h3>Falta prova de conclusão</h3><p>O agente acha que terminou. Só um teste externo sabe se terminou mesmo.</p></div>
   </div>
   <div class="imm-source"><b>É por aqui que começamos:</b> antes de projetar o sistema, precisamos nomear o problema que ele resolve — a tarefa longa.</div>
-  <span class="imm-page">07 / 35</span>
+  <span class="imm-page">09 / 37</span>
   <aside class="notes">5 min. Este slide é a dobradiça do encontro: sai do fascínio pelo caso concreto e entra na definição técnica do próximo slide.</aside>
 </section>
 
@@ -134,7 +171,7 @@
     <div class="imm-card accent"><span class="imm-index">4</span><h3>Critério de conclusão</h3><p>“Parece bom” não basta; é preciso provar que o objetivo foi atingido.</p></div>
   </div>
   <div class="imm-contract"><em>Definição operacional:</em> uma tarefa é longa quando não cabe com segurança em uma única sessão contínua de raciocínio e execução.</div>
-  <span class="imm-page">08 / 35</span>
+  <span class="imm-page">10 / 37</span>
   <aside class="notes">8 min. Corrija a confusão principal: longa não significa o modelo ficar pensando por horas. Significa que o trabalho exige continuidade entre etapas, contextos ou eventos.</aside>
 </section>
 
@@ -187,7 +224,7 @@
     </svg>
   </figure>
   <div class="imm-source"><b>Ideia-chave:</b> a cada degrau não muda só o tamanho do pedido — muda o que precisa existir em volta para ele terminar. E um erro no primeiro degrau contamina todos os seguintes.</div>
-  <span class="imm-page">09 / 35</span>
+  <span class="imm-page">11 / 37</span>
   <aside class="notes">7 min. Classifique em voz alta outros exemplos nessa mesma escada. Uma tarefa curta pode ter muitos tokens; um workflow longo pode passar boa parte do tempo esperando.</aside>
 </section>
 
@@ -205,7 +242,7 @@
     </tbody>
   </table>
   <div class="imm-source">Três forças empurraram essa virada — <b>capacidade</b> (raciocínio e uso de ferramentas), <b>ambiente</b> (sandboxes, uso de computador) e <b>persistência</b> (execução assíncrona). Falta a quarta: <b>confiabilidade</b>. Sem ela, aumentar o horizonte só produz falhas maiores e mais caras.</div>
-  <span class="imm-page">10 / 35</span>
+  <span class="imm-page">12 / 37</span>
   <aside class="notes">10 min. Este slide funde o que antes eram dois. A coluna da direita é o que torna a escada concreta: cada unidade falha num momento específico da história de abertura. Analogia útil: sistemas operacionais criaram abstrações estáveis sobre hardware instável; o harness faz o mesmo sobre modelos instáveis.</aside>
 </section>
 
@@ -232,7 +269,7 @@
     <figcaption>Cada camada herda os problemas da camada de dentro e acrescenta os seus. Avaliação técnica do artefato — não é prova, entrega ou nota do estudante.</figcaption>
   </figure>
   <div class="imm-contract">Um modelo melhor pode produzir um agente pior se o harness for fraco. E um bom agente ainda pode formar um sistema inseguro.</div>
-  <span class="imm-page">11 / 35</span>
+  <span class="imm-page">13 / 37</span>
   <aside class="notes">7 min. Dê um exemplo único nos três níveis: modelo escolhe uma ação; agente conclui a tarefa; sistema conclui dentro de custo, política e recuperação aceitáveis.</aside>
 </section>
 
@@ -252,7 +289,7 @@
     </div>
   </div>
   <div class="imm-source">Fonte: <a href="https://metr.org/time-horizons/" target="_blank" rel="noopener">METR — Task-Completion Time Horizons</a></div>
-  <span class="imm-page">12 / 35</span>
+  <span class="imm-page">14 / 37</span>
   <aside class="notes">8 min. Evite transformar o gráfico em previsão de empregos. Destaque tarefas limpas versus trabalho real, carregado de contexto tácito.</aside>
 </section>
 
@@ -265,7 +302,7 @@
     <div class="imm-card accent"><h3>A pergunta que isso abre</h3><p>Se o agente continua rodando por horas ou dias, <b>o que exatamente quebra no caminho?</b> Não são erros de linguagem. São falhas de continuidade, de objetivo e de prova — e nenhuma delas existia no chat.</p></div>
   </div>
   <div class="imm-source"><b>Próximo bloco:</b> as falhas que só aparecem quando o trabalho atravessa o tempo — e como cada uma delas chega ao time de produto com outro nome.</div>
-  <span class="imm-page">13 / 35</span>
+  <span class="imm-page">15 / 37</span>
   <aside class="notes">3 min. Dobradiça do encontro. Deixe explícito que saímos da pergunta "até onde o agente chega" para "o que quebra enquanto ele tenta chegar".</aside>
 </section>
 
@@ -324,7 +361,7 @@
     </svg>
   </figure>
   <div class="imm-source">Mais tokens adiam alguns sintomas. <b>Não substituem arquitetura de continuidade.</b></div>
-  <span class="imm-page">14 / 35</span>
+  <span class="imm-page">16 / 37</span>
   <aside class="notes">7 min. Destaque que a falha mais cara do slide é a quarta, porque é a única que chega ao time parecendo sucesso.</aside>
 </section>
 
@@ -342,7 +379,7 @@
     </tbody>
   </table>
   <div class="imm-contract">O churn não vem do erro isolado. Vem de <em>descobrir o erro depois de ter confiado</em>.</div>
-  <span class="imm-page">15 / 35</span>
+  <span class="imm-page">17 / 37</span>
   <aside class="notes">6 min. Use esta tabela como ponte: as decisões de arquitetura dos próximos slides existem para evitar a coluna do meio, não para satisfazer elegância técnica.</aside>
 </section>
 
@@ -357,7 +394,7 @@
     <div class="imm-card accent"><h3>“Quem responde por isso?”</h3><p>O cliente não reclama com o agente. Reclama com a empresa que o colocou no ar.</p></div>
   </div>
   <div class="imm-contract">Latência deixou de ser um número de performance. Virou <em>uma experiência que precisa ser desenhada</em>.</div>
-  <span class="imm-page">16 / 35</span>
+  <span class="imm-page">18 / 37</span>
   <aside class="notes">7 min. Este slide existe para evitar que o resto do encontro vire só arquitetura. Cada peça técnica adiante responde a uma dessas quatro perguntas de produto.</aside>
 </section>
 
@@ -375,7 +412,7 @@
     </tbody>
   </table>
   <div class="imm-contract">Leia o próximo bloco de trás para frente: <em>cada componente existe porque uma dessas quatro falhas já custou caro a alguém.</em></div>
-  <span class="imm-page">17 / 35</span>
+  <span class="imm-page">19 / 37</span>
   <aside class="notes">5 min. Slide mais importante da virada. Ele transforma a lista de componentes em respostas a problemas nomeados. Volte a esta tabela sempre que uma peça parecer arbitrária.</aside>
 </section>
 
@@ -430,7 +467,7 @@
     <figcaption>Fonte: <a href="https://www.anthropic.com/engineering/managed-agents" target="_blank" rel="noopener">Anthropic — Scaling Managed Agents</a></figcaption>
   </figure>
   <div class="imm-contract"><em>Princípio:</em> qualquer peça deve poder falhar ou ser substituída sem apagar o projeto.</div>
-  <span class="imm-page">18 / 35</span>
+  <span class="imm-page">20 / 37</span>
   <aside class="notes">8 min. Diferencie sessão de context window: sessão é o registro completo; contexto é só a seleção enviada ao modelo agora.</aside>
 </section>
 
@@ -448,7 +485,7 @@
     <div class="imm-transform">→</div>
     <div class="imm-example good"><div class="imm-label">Estado operacional</div><blockquote>“Teste 14 falha; hipótese B descartada; executar migração em staging.”</blockquote></div>
   </div>
-  <span class="imm-page">19 / 35</span>
+  <span class="imm-page">21 / 37</span>
   <aside class="notes">8 min. Relacione com Git, tickets e runbooks: organizações já sabem externalizar estado; agentes tornam isso obrigatório.</aside>
 </section>
 
@@ -465,7 +502,7 @@
     </tbody>
   </table>
   <div class="imm-source">Fonte: <a href="https://www.anthropic.com/engineering/harness-design-long-running-apps" target="_blank" rel="noopener">Anthropic — Harness design for long-running application development</a></div>
-  <span class="imm-page">20 / 35</span>
+  <span class="imm-page">22 / 37</span>
   <aside class="notes">7 min. Faça a analogia: trocar o turno de uma equipe com um relatório de passagem, em vez de manter todos acordados indefinidamente.</aside>
 </section>
 
@@ -480,7 +517,7 @@
     <div class="imm-node"><small>↻</small><b>Controlador</b><span>decide repetir, avançar, escalar ou parar</span></div>
   </div>
   <div class="imm-contract">Multiagente aqui não é “personagem conversando”. É <em>separação de responsabilidades e incentivos</em>.</div>
-  <span class="imm-page">21 / 35</span>
+  <span class="imm-page">23 / 37</span>
   <aside class="notes">8 min. Conecte à engenharia tradicional: autor, reviewer e CI não são a mesma função.</aside>
 </section>
 
@@ -504,7 +541,7 @@
     <div class="imm-card success"><h3>Escopo mínimo</h3><p>Permissão vinculada à tarefa.</p></div>
     <div class="imm-card success"><h3>Saída mediada</h3><p>Rede e tools passam por políticas.</p></div>
   </div>
-  <span class="imm-page">22 / 35</span>
+  <span class="imm-page">24 / 37</span>
   <aside class="notes">8 min. Ressalte que “não mostrar o token no prompt” é insuficiente se o processo pode ler variáveis de ambiente.</aside>
 </section>
 
@@ -519,7 +556,7 @@
     <div class="imm-card accent"><h3>Compensação</h3><p>Desfazer ou neutralizar uma ação parcial quando possível.</p></div>
   </div>
   <div class="imm-contract"><em>Modelo mental:</em> menos “robô pensando sem parar”; mais “workflow durável que acorda o raciocínio quando necessário”.</div>
-  <span class="imm-page">23 / 35</span>
+  <span class="imm-page">25 / 37</span>
   <aside class="notes">8 min. Use exemplos: aguardar CI, aprovação jurídica, resposta de fornecedor, janela de deploy.</aside>
 </section>
 
@@ -568,7 +605,7 @@
     </svg>
   </figure>
   <div class="imm-source">Os níveis se somam, não se substituem. <b>Subir de nível custa caro</b> — por isso o nível 4 é reservado ao que é irreversível, e não usado como rede de segurança geral. Aqui “verificação” é do <b>comportamento do sistema</b>, não avaliação de estudante.</div>
-  <span class="imm-page">24 / 35</span>
+  <span class="imm-page">26 / 37</span>
   <aside class="notes">7 min. Mostre que LLM-as-judge é uma camada, não a fundação inteira da verificação.</aside>
 </section>
 
@@ -587,7 +624,7 @@
     </tbody>
   </table>
   <p class="imm-source">Esta mesma sequência de nove passos é a que os agentes de codificação assíncronos (GitHub Copilot coding agent, OpenAI Codex, Google Jules) executam com outro vocabulário. <b>É um padrão de trabalho longo, não de um setor.</b></p>
-  <span class="imm-page">25 / 35</span>
+  <span class="imm-page">27 / 37</span>
   <aside class="notes">8 min. Percorra linha a linha. A terceira coluna recupera exatamente os blocos já vistos; a quarta é o que o time de produto enxerga quando a peça não existe.</aside>
 </section>
 
@@ -605,7 +642,7 @@
     </tbody>
   </table>
   <div class="imm-contract">Os passos 1 a 5 fazem o agente <em>trabalhar</em>. Os passos 6 a 9 fazem o trabalho <em>poder ser aceito</em>.</div>
-  <span class="imm-page">26 / 35</span>
+  <span class="imm-page">28 / 37</span>
   <aside class="notes">8 min. Ponto central: quase todo o valor de produto está na segunda metade, e é justamente a metade que costuma ser cortada em protótipos.</aside>
 </section>
 
@@ -637,7 +674,7 @@
     <div class="imm-card success"><h3>“Parou no pedido 212.”</h3><p>Os 211 anteriores já estão decididos e auditáveis.</p></div>
     <div class="imm-card success"><h3>“Quem responde?”</h3><p>Quem liberou o pagamento. O nome está no histórico.</p></div>
   </div>
-  <span class="imm-page">27 / 35</span>
+  <span class="imm-page">29 / 37</span>
   <aside class="notes">6 min. Feche o arco aberto no bloco de produto: as quatro perguntas não foram resolvidas por um modelo melhor, e sim por decisões de arquitetura que viraram experiência.</aside>
 </section>
 
@@ -652,7 +689,7 @@
   </div>
   <div class="imm-contract">A Gartner projeta que <em>mais de 40% dos projetos de IA agêntica serão cancelados até o fim de 2027</em> — por esses três motivos, não por falta de capacidade técnica.</div>
   <p class="imm-source"><b>Fonte:</b> Gartner, comunicado de imprensa de jun/2025. A mesma análise aponta <b>“agent washing”</b>: entre milhares de fornecedores que se dizem agênticos, a consultoria identificou <b>menos de 130</b> com capacidade real. <i>Projeção de consultoria, não resultado medido.</i></p>
-  <span class="imm-page">28 / 35</span>
+  <span class="imm-page">30 / 37</span>
   <aside class="notes">7 min. Este é o slide que conecta a aula à realidade de quem assiste. O piloto da fila de reembolsos não é um exemplo didático: é o desfecho estatisticamente mais provável. E os três motivos são de gestão e produto, não de engenharia.</aside>
 </section>
 
@@ -667,7 +704,7 @@
   </div>
   <div class="imm-contract">“Custo infelizmente parece ter sido um fator de avaliação predominante demais; <em>o que você acaba tendo é qualidade mais baixa.</em>” — Sebastian Siemiatkowski, CEO</div>
   <p class="imm-source"><b>Fonte:</b> declarações do CEO à Bloomberg (mai/2025); cobertura em Fast Company e Economic Times. <i>Os números de volume e economia foram divulgados pela própria empresa e não são auditados de forma independente.</i></p>
-  <span class="imm-page">29 / 35</span>
+  <span class="imm-page">31 / 37</span>
   <aside class="notes">7 min. O ponto não é que automatizar foi errado — o volume e a economia foram reais. O ponto é que a métrica escolhida decide o resultado. Ligue ao slide anterior: "valor de negócio pouco claro" não significa ausência de número; significa escolher o número errado.</aside>
 </section>
 
@@ -685,7 +722,7 @@
     </tbody>
   </table>
   <div class="imm-source">A quarta camada é a que mais falta nos projetos — e é exatamente a que este encontro inteiro argumentou ser decisiva. <b>Comprar as três primeiras sem a quarta reproduz a sexta-feira.</b></div>
-  <span class="imm-page">30 / 35</span>
+  <span class="imm-page">32 / 37</span>
   <aside class="notes">8 min. Nomes mudam rápido; a utilidade do slide são as camadas, não a lista. Peça que identifiquem qual camada a empresa deles já tem — a maioria tem a primeira e nenhuma da quarta.</aside>
 </section>
 
@@ -705,7 +742,7 @@
     </tbody>
   </table>
   <p class="imm-source"><b>Sobre a quinta:</b> MCP (origem Anthropic) e A2A (origem Google) passaram a ser mantidos sob governança neutra na <b>Agentic AI Foundation</b>, da Linux Foundation — o que reduz a dependência de um único fornecedor (a2a-protocol.org e Forbes, ago/2026).</p>
-  <span class="imm-page">31 / 35</span>
+  <span class="imm-page">33 / 37</span>
   <aside class="notes">8 min. Este é o slide mais aplicável do encontro para quem não implementa. Cada linha é um bloco que já foi visto: estado, verificação, aprovação, progresso, interoperabilidade e métrica. Sugira que levem a tabela para a próxima reunião com fornecedor.</aside>
 </section>
 
@@ -719,7 +756,7 @@
     <div class="imm-card danger"><h3>Riscos</h3><p>Pagar duas vezes, aprovar sem comprovante, declarar a fila zerada cedo demais ou reenviar cobranças ao cliente.</p></div>
   </div>
   <div class="imm-contract"><em>As cinco perguntas do caso:</em> onde vive a sessão, o que o harness controla, o que roda no sandbox, quem verifica e o que exige aprovação humana — e como o trabalho retoma depois de uma falha.</div>
-  <span class="imm-page">32 / 35</span>
+  <span class="imm-page">34 / 37</span>
   <aside class="notes">8 min. Diga explicitamente que este é o mesmo caso da abertura — agora com vocabulário para resolvê-lo. Percorra as cinco perguntas em voz alta antes de revelar a arquitetura de referência do próximo slide. Não há entrega, correção ou nota.</aside>
 </section>
 
@@ -734,7 +771,7 @@
     <div class="imm-node"><small>4</small><b>Retomar</b><span>sessão durável registra critério, decisões e próximo pedido</span></div>
   </div>
   <div class="imm-contract"><em>Aprovação humana:</em> a liberação do pagamento. <em>Idempotência:</em> um pedido só muda de estado depois que a evidência foi gravada — por isso ninguém é pago duas vezes.</div>
-  <span class="imm-page">33 / 35</span>
+  <span class="imm-page">35 / 37</span>
   <aside class="notes">7 min. Explique que esta não é a única resposta correta. Ela explicita as propriedades que precisam existir: isolamento, estado, prova, retomada e aprovação.</aside>
 </section>
 
@@ -748,7 +785,7 @@
     <div class="imm-example good"><div class="imm-label">Sistema primeiro</div><blockquote>Estado durável, ambiente seguro, especialização e prova independente.</blockquote></div>
   </div>
   <div class="imm-contract">Resposta esperada: <em>os dois</em> — mas melhorias no harness podem multiplicar o mesmo modelo e precisam ser removidas quando ficam obsoletas.</div>
-  <span class="imm-page">34 / 35</span>
+  <span class="imm-page">36 / 37</span>
   <aside class="notes">4 min. Use como síntese rápida: harnesses codificam limitações que podem desaparecer conforme os modelos melhoram.</aside>
 </section>
 
@@ -767,6 +804,6 @@
     <div class="imm-quote">Um agente longo não é uma conversa longa. É um sistema capaz de preservar progresso.</div>
   </div>
   <div class="imm-source">Leituras: <a href="https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents" target="_blank" rel="noopener">Effective harnesses</a> · <a href="https://www.anthropic.com/engineering/harness-design-long-running-apps" target="_blank" rel="noopener">Harness design</a> · <a href="https://www.anthropic.com/engineering/managed-agents" target="_blank" rel="noopener">Managed Agents</a> · <a href="https://metr.org/time-horizons/" target="_blank" rel="noopener">METR</a></div>
-  <span class="imm-page">35 / 35</span>
+  <span class="imm-page">37 / 37</span>
   <aside class="notes">4 min. Sugira uma reflexão privada e opcional: qual peça do sistema o estudante subestimava antes desta aula?</aside>
 </section>

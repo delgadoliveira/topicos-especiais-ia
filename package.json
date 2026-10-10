@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "npx serve . --listen 3000",
     "build": "node build.js",
+    "guia": "node build-guia.js",
     "dev:slidev": "slidev --open",
     "build:slidev": "slidev build"
   },
@@ -19,6 +20,7 @@
     "serve": "^14.2.6"
   },
   "devDependencies": {
+    "marked": "^16.4.2",
     "playwright-chromium": "^1.61.0"
   },
   "allowScripts": {
