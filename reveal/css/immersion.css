@@ -1438,3 +1438,32 @@
   font-size: 13px;
   font-weight: 800;
 }
+
+/* ── Simulador de mandato (Encontro 6) ───────────────────────── */
+.reveal .imm-slide .mdt { display: grid; grid-template-columns: 290px 1fr; gap: 16px; margin-top: 10px; }
+.reveal .imm-slide .mdt-panel { border: 1px solid var(--cp-border); border-radius: 12px; padding: 12px 14px; background: color-mix(in srgb, var(--cp-accent) 4%, transparent); }
+.reveal .imm-slide .mdt-f { display: block; margin-bottom: 9px; font-size: 14px; line-height: 1.25; }
+.reveal .imm-slide .mdt-f > span { display: block; font-weight: 700; margin-bottom: 3px; opacity: .85; }
+.reveal .imm-slide .mdt-f select { width: 100%; font-size: 14px; padding: 4px 6px; border-radius: 7px; border: 1px solid var(--cp-border); background: var(--cp-bg-elevated); color: var(--cp-text); font-family: inherit; }
+.reveal .imm-slide .mdt-chk { display: flex; align-items: flex-start; gap: 7px; font-size: 13.5px; line-height: 1.25; margin-bottom: 7px; }
+.reveal .imm-slide .mdt-chk input { margin-top: 2px; accent-color: var(--cp-accent); }
+.reveal .imm-slide .mdt-reset { font-size: 13px; padding: 5px 11px; border-radius: 7px; border: 1px solid var(--cp-accent); background: transparent; color: var(--cp-accent); font-weight: 700; cursor: pointer; font-family: inherit; }
+.reveal .imm-slide .mdt-score { border-radius: 10px; padding: 8px 12px; margin-bottom: 10px; border-left: 5px solid var(--cp-border); }
+.reveal .imm-slide .mdt-score.good { border-left-color: var(--cp-success); background: color-mix(in srgb, var(--cp-success) 11%, transparent); }
+.reveal .imm-slide .mdt-score.bad  { border-left-color: var(--cp-danger);  background: color-mix(in srgb, var(--cp-danger) 11%, transparent); }
+.reveal .imm-slide .mdt-score.warn { border-left-color: var(--cp-warning); background: color-mix(in srgb, var(--cp-warning) 14%, transparent); }
+.reveal .imm-slide .mdt-nums { font-size: 15px; font-weight: 700; }
+.reveal .imm-slide .mdt-nums .bad { color: var(--cp-danger); font-size: 19px; }
+.reveal .imm-slide .mdt-nums .warn { color: var(--cp-warning); font-size: 19px; }
+.reveal .imm-slide .mdt-ver { font-size: 14px; opacity: .9; margin-top: 1px; }
+.reveal .imm-slide .mdt-out { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
+.reveal .imm-slide .mdt-chip { border: 1px solid var(--cp-border); border-left-width: 4px; border-radius: 8px; padding: 5px 9px; font-size: 12.5px; line-height: 1.25; }
+.reveal .imm-slide .mdt-chip b { display: block; font-size: 13px; }
+.reveal .imm-slide .mdt-chip .mdt-o { display: block; opacity: .72; }
+.reveal .imm-slide .mdt-chip .mdt-v { display: block; font-weight: 700; margin-top: 2px; }
+.reveal .imm-slide .mdt-chip.good { border-left-color: var(--cp-success); }
+.reveal .imm-slide .mdt-chip.good .mdt-v { color: var(--cp-success); }
+.reveal .imm-slide .mdt-chip.bad { border-left-color: var(--cp-danger); background: color-mix(in srgb, var(--cp-danger) 8%, transparent); }
+.reveal .imm-slide .mdt-chip.bad .mdt-v { color: var(--cp-danger); }
+.reveal .imm-slide .mdt-chip.warn { border-left-color: var(--cp-warning); background: color-mix(in srgb, var(--cp-warning) 10%, transparent); }
+.reveal .imm-slide .mdt-chip.warn .mdt-v { color: var(--cp-warning); }
