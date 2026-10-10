@@ -132,6 +132,54 @@
   font-weight: 650;
 }
 
+.imm-rail {
+  position: absolute;
+  bottom: 22px;
+  left: 30px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.imm-rail i {
+  display: block;
+  width: 20px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--cp-border);
+}
+
+.imm-rail i.done {
+  background: var(--cp-text-muted);
+  opacity: 0.35;
+}
+
+.imm-rail i.on {
+  width: 32px;
+  height: 5px;
+  background: var(--cp-accent);
+}
+
+.imm-rail.all i {
+  background: var(--cp-accent);
+  opacity: 0.55;
+}
+
+.imm-rail b {
+  margin-left: 6px;
+  color: var(--cp-text-muted);
+  font-size: 11.5px;
+  font-weight: 750;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.imm-rail b em {
+  color: var(--cp-accent);
+  font-style: normal;
+  font-weight: 850;
+}
+
 .imm-source {
   margin-top: 18px;
   color: var(--cp-text-muted);
