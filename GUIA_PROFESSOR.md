@@ -543,6 +543,7 @@ Para cada um:
 12. Explicar por que a maior parte dos projetos de agentes é cancelada, a partir de dados públicos de mercado.
 13. Situar as quatro camadas do mercado de ferramentas e identificar qual delas a própria organização já possui.
 14. Formular perguntas de avaliação de fornecedor que revelem ausência de estado, verificação, aprovação e métrica.
+15. **(Laboratório)** Escrever um handoff operacional de quatro campos — critério, estado, pendências e definição de pronto — e demonstrar que ele faz um trabalho sobreviver a uma troca de sessão.
 
 ## ⏱️ Cronograma (120 min)
 
@@ -557,6 +558,32 @@ Para cada um:
 | 5 | 22' | **Virada:** a arquitetura derivada das falhas + a fila passo a passo |
 | 6 | 12' | **Realidade de mercado:** por que projetos são cancelados, Klarna, o que existe hoje e o que perguntar ao fornecedor |
 | 7 | 8' | A sexta-feira remontada, arquitetura de referência e fechamento |
+
+### ⚠️ Rota de 120 minutos — leia antes de montar a aula
+
+O roteiro slide-a-slide deste encontro soma **cerca de 240 minutos de notas para 120 minutos de aula**. Isso é intencional: as notas são material de consulta, não um script para ler inteiro. Escolha uma das duas aulas abaixo.
+
+**Aula A — cobertura.** Use o cronograma acima como está. O aluno sai com mapa conceitual completo e nenhuma habilidade praticada.
+
+**Aula B — habilidade (recomendada).** Rode o **Laboratório 1** (slide 24, 35 min, roteiro em `LABORATORIOS.md`). Para abrir os 35 minutos:
+
+| Corte | Slides | Ganho |
+|---|---|---:|
+| Corte primeiro | 09 (escada de resultados), 14 (horizonte de tarefas), 17 (sintomas), 29 (passo a passo 2 de 2) | ~22' |
+| Comprima | Bloco 2 inteiro em 10' — cite dois casos, não cinco | ~8' |
+| Comprima | Bloco 6 em 6' — só o dado de cancelamento e as perguntas de fornecedor | ~6' |
+| **Nunca corte** | 05 (a sexta-feira), 06 (fio condutor), 12 (sobrevivência), 20–23 (harness, loop, artefatos, reset) | — |
+
+Os slides 20–23 são pré-requisito do laboratório: sem eles o aluno não sabe o que é um handoff nem por que o reset acontece.
+
+### 🧪 Laboratório 1 — "Faça a tarefa atravessar o reset" (slide 24)
+
+35 minutos, em duplas. Roteiro completo, fila de doze pedidos e critério de decisão em **`LABORATORIOS.md`** (renderize com `npm run labs`).
+
+- **Habilidade entregue:** escrever um handoff operacional que sobrevive à troca de sessão, de pessoa ou de ferramenta.
+- **Prova de que leva:** um handoff de quatro campos que outra conversa, sem histórico, consegue continuar sem refazer decisões.
+- **Infra:** qualquer assistente com conversas separadas; versão gratuita basta. Sem internet, roda em dupla com um aluno fazendo o papel do agente que esqueceu tudo.
+- **O passo que não pode ser pulado:** o passo 2 (quebrar). A frustração de ver o agente perder o critério é o conteúdo do encontro acontecendo com o aluno.
 
 ### Bloco 0 — abertura de mercado (slides 2 e 3)
 
@@ -684,6 +711,7 @@ correção ou nota.
 11. Propor um modelo operacional para governar agentes em escala.
 12. Reconhecer as categorias de produto que já existem para emitir, fiscalizar e operar identidades de agente.
 13. Executar quatro movimentos de governança que não exigem time técnico, orçamento ou escolha de fornecedor.
+14. **(Laboratório)** Redigir um mandato de quatro campos para um processo real da própria área, classificar suas ações por reversibilidade e auditar o mandato de outra dupla encontrando ao menos um furo.
 
 ## 👥 Para quem este encontro é desenhado
 
@@ -724,7 +752,7 @@ material de consulta —, mas tem um efeito colateral conhecido: **quem tenta da
 tudo acaba lendo slide**, e ler slide é exatamente o que torna um encontro
 denso em um encontro tedioso.
 
-Some a isso a composição do deck: no Encontro 6, **20 dos 29 slides são tabelas
+Some a isso a composição do deck: no Encontro 6, **20 dos 30 slides são tabelas
 ou grades de texto** e apenas 3 são visuais (no Encontro 5 são 10 visuais). Vinte
 caixas de texto seguidas, no ritmo acelerado de quem está atrasado, achatam tudo
 — inclusive as partes boas.
@@ -752,10 +780,23 @@ segunda-feira (03), os três agentes reais (07), o comércio agêntico (08), os
 quatro campos do mandato (09), catálogo/portaria/cofre (10), as perguntas de
 fornecedor (11), digital coworker × automação (15), contexto como diferencial
 (17), métricas de resultado (18), agent sprawl (20), o mercado de governança (21),
-os quatro movimentos sem time técnico (26) e o estudo de caso (27+28).
+os quatro movimentos sem time técnico (27) e o estudo de caso (28+29).
 
 Com esses cortes o encontro fecha em ~110' + 10' de intervalo — **com folga para
 a conversa, que é onde a audiência de fato aplica o conteúdo ao próprio trabalho.**
+
+### 🧪 Laboratório 2 — "Escreva o mandato, fure o do colega" (slide 25)
+
+35 minutos, em duplas. Roteiro completo, caso reserva e perguntas de auditoria em
+**`LABORATORIOS.md`** (renderize com `npm run labs`).
+
+- **Habilidade entregue:** redigir e auditar um mandato de agente para um processo real.
+- **Prova de que leva:** um mandato de quatro campos com as ações classificadas por reversibilidade, mais um furo encontrado no mandato de outra dupla.
+- **Infra:** nenhuma. Roda inteiro no papel.
+- **Pré-requisitos no deck:** 09 (os quatro campos) e 10 (catálogo, portaria, cofre). Sem esses dois, o lab não funciona.
+- **Para abrir os 35 minutos** use a tabela de cortes acima — ela já libera ~25', e comprimir Project Vend a um único relato fecha a conta.
+- **A pergunta que mais derruba mandato:** *"se o agente fizesse isso amanhã, como alguém descobriria, e em quanto tempo?"* — "alguém perceberia" não é resposta.
+- **Avalie pelo diagnóstico, não pela redação.** Quem teve o mandato furado aprendeu mais do que quem escreveu um mandato tão vago que ninguém conseguiu furar.
 
 ### Como o encontro se sustenta narrativamente
 
@@ -873,6 +914,8 @@ Essas perguntas não são enviadas, corrigidas ou usadas para nota.
 
 - **Repo:** https://github.com/delgadoliveira/topicos-especiais-ia
 - **Slides online:** https://delgadoliveira.github.io/topicos-especiais-ia/
+- **Laboratórios (Encontros 5 e 6):** `LABORATORIOS.md` — roteiros completos, materiais prontos e critérios de avaliação. Gere a versão navegável com `npm run labs`.
+- **Este guia em HTML:** `npm run guia`
 - **PDFs por encontro:** gerar com `npx slidev export slides.md --output dist/pdf/`
 - **Speaker mode:** `npx slidev --presenter` (mostra notas + próximo slide)
 

@@ -1,14 +1,15 @@
 /**
- * Gera GUIA_PROFESSOR.html a partir de GUIA_PROFESSOR.md.
+ * Gera <DOC>.html a partir de <DOC>.md.
  * HTML autocontido (sem rede): sumario lateral, busca e estilo de impressao.
- * Uso: npm run guia
+ * Uso: npm run guia  |  node build-guia.js LABORATORIOS.md
  */
 const fs = require('fs');
 const path = require('path');
 const { marked } = require('marked');
 
-const SRC = path.join(__dirname, 'GUIA_PROFESSOR.md');
-const OUT = path.join(__dirname, 'GUIA_PROFESSOR.html');
+const DOC = (process.argv[2] || 'GUIA_PROFESSOR.md').replace(/\.md$/i, '');
+const SRC = path.join(__dirname, DOC + '.md');
+const OUT = path.join(__dirname, DOC + '.html');
 
 const md = fs.readFileSync(SRC, 'utf8');
 
@@ -212,7 +213,7 @@ ${tocHtml}
   <main>
     <article>
 ${body}
-      <div id="meta">Gerado de <code>GUIA_PROFESSOR.md</code> em ${generated} · <code>npm run guia</code></div>
+      <div id="meta">Gerado de <code>${DOC}.md</code> em ${generated} · <code>npm run guia</code></div>
     </article>
   </main>
 </div>
@@ -273,5 +274,5 @@ ${body}
 `;
 
 fs.writeFileSync(OUT, html, 'utf8');
-console.log('✓ Guia gerado → ' + path.relative(__dirname, OUT));
+console.log('✓ Documento gerado → ' + path.relative(__dirname, OUT));
 console.log('  Seções no sumário: ' + toc.length);
