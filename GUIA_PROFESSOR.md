@@ -677,7 +677,7 @@ correção ou nota.
 4. Explicar, pela história do comércio agêntico (ACP, AP2, FIDO), por que "prova de autorização" virou infraestrutura de pagamento.
 5. Identificar os quatro campos que um mandato precisa ter: quem pediu, o quê e até quanto, até quando, e como se prova.
 6. Explicar os três controles que não podem morar no agente — catálogo, portaria e cofre — e a regra da permissão que cabe na frase da tarefa.
-7. Separar interoperabilidade técnica de confiança e autorização.
+7. Separar interoperabilidade técnica de confiança e autorização, e fazer a um fornecedor as três perguntas que revelam aprisionamento (conector proprietário, ecossistema fechado, padrão sob controle de uma só empresa).
 8. Explicar por que o contexto do negócio — e não o modelo — é o diferencial competitivo, e por que dar contexto é dar acesso.
 9. Distinguir métricas de resultado de métricas de input ao avaliar agentes em produção.
 10. Analisar uma operação real conduzida por agente e identificar onde o controle faltou.
@@ -714,6 +714,48 @@ Três consequências práticas na condução:
 | 4 | 22' | **Virada:** economia da ação, redesenho do trabalho, contexto como diferencial e métricas |
 | 5 | 22' | **Virada:** agent sprawl, o mercado de governança, desalinhamento e Project Vend |
 | 6 | 16' | A segunda-feira remontada, por onde começar, estudo de caso e fechamento |
+
+### ⚠️ Rota de 120 minutos — leia antes de montar a aula
+
+**O material está deliberadamente acima do tempo.** Somando as notas de todos os
+slides, o Encontro 6 tem **195 minutos de conteúdo para 120 minutos de aula** (o
+Encontro 5 tem 240'). Isso é proposital — o excedente serve de reserva e de
+material de consulta —, mas tem um efeito colateral conhecido: **quem tenta dar
+tudo acaba lendo slide**, e ler slide é exatamente o que torna um encontro
+denso em um encontro tedioso.
+
+Some a isso a composição do deck: no Encontro 6, **20 dos 29 slides são tabelas
+ou grades de texto** e apenas 3 são visuais (no Encontro 5 são 10 visuais). Vinte
+caixas de texto seguidas, no ritmo acelerado de quem está atrasado, achatam tudo
+— inclusive as partes boas.
+
+> 💡 **Regra de corte:** esta audiência quer duas coisas — *onde o mercado está* e
+> *o que eu faço com isso na minha empresa*. Todo slide que não serve a uma das
+> duas é candidato a corte, por mais correto que esteja.
+
+**Corte primeiro (≈25 min, sem perder o fio):**
+
+| Slide | Por quê |
+|---|---|
+| 02 · A camada que faltava | O mapa dos dois encontros, no início do E5, já faz esse trabalho. |
+| 06 · De ferramenta a principal | Conceitual. A mesma ideia aparece aplicada no slide do mandato. |
+| 13 e 19 · Viradas | São respiros de navegação. Diga a frase em voz alta e avance sem projetar. |
+| 16 · Fábrica e eletricidade | Analogia elegante, mas ninguém aplica na segunda-feira. |
+
+**Comprima (não corte):** vocabulário (05) vira consulta, não exposição — 3';
+*interoperável ≠ autorizado* (12) vira uma frase — 2'; *agentic misalignment* (22)
+é menção com um exemplo — 4'; Project Vend (23+24) é um caso contado uma vez,
+não duas — 8'.
+
+**Nunca corte** — é aqui que está o que a audiência veio buscar: o caso da
+segunda-feira (03), os três agentes reais (07), o comércio agêntico (08), os
+quatro campos do mandato (09), catálogo/portaria/cofre (10), as perguntas de
+fornecedor (11), digital coworker × automação (15), contexto como diferencial
+(17), métricas de resultado (18), agent sprawl (20), o mercado de governança (21),
+os quatro movimentos sem time técnico (26) e o estudo de caso (27+28).
+
+Com esses cortes o encontro fecha em ~110' + 10' de intervalo — **com folga para
+a conversa, que é onde a audiência de fato aplica o conteúdo ao próprio trabalho.**
 
 ### Como o encontro se sustenta narrativamente
 
