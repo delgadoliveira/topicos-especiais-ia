@@ -1,6 +1,7 @@
 # 🧪 Laboratórios — Encontros 5 e 6
 
-> Material do aluno. Dois laboratórios, um por encontro, de 35 minutos cada.
+> Material do aluno. Dois laboratórios, um por encontro. O deck reserva 25
+> minutos para cada um; o roteiro abaixo é a versão longa, de 35 minutos.
 > Nenhum exige programação. Nenhum exige ferramenta paga.
 
 ---
@@ -23,7 +24,7 @@ de programação. E ambas são, hoje, artefatos que empresas pedem por escrito.
 
 # 🔬 Laboratório 1 — Faça a tarefa atravessar o reset
 
-**Encontro 5 · 35 minutos · duplas**
+**Encontro 5 · 25 min em aula (versao longa 35 min) · duplas**
 **Habilidade:** escrever um handoff que preserva critério e progresso.
 
 ## O que você vai precisar
@@ -130,7 +131,7 @@ dizendo qual campo fez a maior diferença e por quê.
 
 # 🔬 Laboratório 2 — Escreva o mandato, fure o do colega
 
-**Encontro 6 · 35 minutos · duplas**
+**Encontro 6 · 25 min em aula (versao longa 35 min) · duplas**
 **Habilidade:** redigir um mandato de agente e auditar o de outra pessoa.
 
 ## O material
@@ -221,10 +222,11 @@ teoria.
 
 ## 📋 Para o professor
 
-**Encaixe no tempo.** Cada laboratório consome 35 minutos. Os decks dos dois
-encontros já somam mais conteúdo do que cabe em 120 minutos — rodar um
-laboratório exige cortar, não espremer. Use a seção **“Rota de 120 minutos”** do
-`GUIA_PROFESSOR.md` para escolher o que sai.
+**Encaixe no tempo.** Os decks reservam **25 minutos** para cada laboratório e já
+estão cronometrados em 120 minutos exatos — não é preciso cortar nada para rodá-los.
+O roteiro abaixo é a **versão longa, de 35 minutos**, para oficina, aula dupla ou
+tarefa de casa. Para a versão de 25': rode os passos 1 a 3 em 18' e reserve 7'
+para a troca entre duplas (passo 4), que é o passo que não pode ser pulado.
 
 **Sugestão de formato:** laboratório logo após o bloco de virada, não no final.
 Um laboratório no fim da aula vira tarefa de casa, e tarefa de casa não gera a

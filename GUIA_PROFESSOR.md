@@ -560,22 +560,33 @@ Para cada um:
 | 6 | 12' | **Realidade de mercado:** por que projetos são cancelados, Klarna, as quatro camadas e o que perguntar ao fornecedor |
 | 7 | 8' | A sexta-feira remontada, arquitetura de referência e fechamento |
 
-### ⚠️ Rota de 120 minutos — leia antes de montar a aula
+### ⏱️ Rota de 120 minutos — o deck já está no tempo
 
-O roteiro slide-a-slide deste encontro soma **cerca de 220 minutos de notas para 120 minutos de aula**. Isso é intencional: as notas são material de consulta e de estudo do professor, não um script para ler inteiro. Escolha uma das duas aulas abaixo.
+**O Encontro 5 tem 35 slides e soma exatamente 120 minutos**, laboratório
+incluído. O orçamento de cada slide está no início da sua nota de apresentador
+(`N min.`); somados, fecham a aula. Não há excedente para absorver atraso — o
+controle de tempo é por slide, não por bloco.
 
-**Aula A — cobertura.** Use o cronograma acima como está, pulando o slide 22 (laboratório). O aluno sai com mapa conceitual completo e nenhuma habilidade praticada.
+Isso muda a forma de usar as notas: elas **não são para ler**. A maior parte dos
+slides tem 2 a 3 minutos, o que dá para uma frase de enquadramento, a leitura do
+contrato em destaque e uma pergunta à turma. Os slides de 5 minutos (04, 14,
+17, 18) são os únicos em que cabe desenvolver.
 
-**Aula B — habilidade (recomendada).** Rode o **Laboratório 1** (slide 22, 35 min, roteiro em `LABORATORIOS.md`). Para abrir os 35 minutos:
+**Se estiver atrasado**, corte nesta ordem — cada item devolve o próprio
+orçamento sem quebrar o fio:
 
 | Corte | Slides | Ganho |
 |---|---|---:|
-| Corte primeiro | 10 (escada resposta → projeto), 15 (sintomas), 26 (escada de evidência), 35 (checklist) | ~22' |
-| Comprima | Bloco 2 em 10' — cite dois casos, não cinco | ~6' |
-| Comprima | Bloco 6 em 7' — o dado de cancelamento e as perguntas de fornecedor; as quatro camadas viram uma frase | ~8' |
-| **Nunca corte** | 04 (por que agora), 05 (a sexta-feira), 06 (fio condutor), 11 (sobrevivência), 18–21 (peças, harness, artefatos, reset) | — |
+| Primeiro | 13 e 16 (viradas) — diga a frase em voz alta e avance sem projetar | ~2' |
+| Depois | 23 e 24 (produção × julgamento, sandbox) — viram uma frase cada | ~4' |
+| Depois | 29 (Gartner) — o número é citado dentro do slide da Klarna | ~2' |
+| Por último | 33 e 34 (caso remontado + arquitetura de referência) — vire tarefa de casa | ~4' |
+| **Nunca corte** | 04 (por que agora), 05 (a sexta-feira), 06 (fio condutor), 11 (sobrevivência), 17–20 (peças, harness, artefatos, reset), 21 (simulador) | — |
 
-Os slides 18–21 são pré-requisito do laboratório: sem eles o aluno não sabe o que é um handoff nem por que o reset acontece.
+Os slides 17–20 são pré-requisito do laboratório: sem eles o aluno não sabe o
+que é um handoff nem por que o reset acontece. O **slide 21 é o simulador de
+travessia de reset** — rode-o ao vivo, projetado, antes de soltar as duplas:
+ele produz em 90 segundos a intuição que o laboratório vai exercitar.
 
 > 💡 **O slide 04 é o que responde “por que esta aula, por que agora”.** Ele mostra
 > a curva de horizonte de tarefa da METR — de ~9 segundos em 2020 para 12 a 17
@@ -587,7 +598,7 @@ Os slides 18–21 são pré-requisito do laboratório: sem eles o aluno não sab
 
 ### 🧪 Laboratório 1 — "Faça a tarefa atravessar o reset" (slide 22)
 
-35 minutos, em duplas. Roteiro completo, fila de doze pedidos e critério de decisão em **`LABORATORIOS.md`** (renderize com `npm run labs`).
+25 minutos em aula (versão longa de 35' em **`LABORATORIOS.md`**, renderize com `npm run labs`).
 
 - **Habilidade entregue:** escrever um handoff operacional que sobrevive à troca de sessão, de pessoa ou de ferramenta.
 - **Prova de que leva:** um handoff de quatro campos que outra conversa, sem histórico, consegue continuar sem refazer decisões.
@@ -752,58 +763,53 @@ Três consequências práticas na condução:
 | 5 | 22' | **Virada:** agent sprawl, o mercado de governança, desalinhamento e Project Vend |
 | 6 | 16' | A segunda-feira remontada, por onde começar, estudo de caso e fechamento |
 
-### ⚠️ Rota de 120 minutos — leia antes de montar a aula
+### ⏱️ Rota de 120 minutos — o deck já está no tempo
 
-**O material está deliberadamente acima do tempo.** Somando as notas de todos os
-slides, o Encontro 6 tem **195 minutos de conteúdo para 120 minutos de aula** (o
-Encontro 5 tem 220'). Isso é proposital — o excedente serve de reserva e de
-material de consulta —, mas tem um efeito colateral conhecido: **quem tenta dar
-tudo acaba lendo slide**, e ler slide é exatamente o que torna um encontro
-denso em um encontro tedioso.
+**O Encontro 6 tem 29 slides e soma exatamente 120 minutos**, laboratório
+incluído. O orçamento de cada slide está no início da sua nota de apresentador
+(`N min.`). Não há excedente para absorver atraso — o controle de tempo é por
+slide, não por bloco.
 
-Some a isso a composição do deck: no Encontro 6, **20 dos 30 slides são tabelas
-ou grades de texto** e apenas 3 são visuais (no Encontro 5 são 10 visuais). Vinte
-caixas de texto seguidas, no ritmo acelerado de quem está atrasado, achatam tudo
-— inclusive as partes boas.
+A consequência prática: **as notas não são para ler**. Na maioria dos slides cabe
+uma frase de enquadramento, a leitura do contrato em destaque e uma pergunta à
+turma. Ler slide é exatamente o que torna um encontro denso em um encontro
+tedioso.
 
 > 💡 **Regra de corte:** esta audiência quer duas coisas — *onde o mercado está* e
 > *o que eu faço com isso na minha empresa*. Todo slide que não serve a uma das
 > duas é candidato a corte, por mais correto que esteja.
 
-**Corte primeiro (≈25 min, sem perder o fio):**
+**Se estiver atrasado**, corte nesta ordem:
 
-| Slide | Por quê |
-|---|---|
-| 02 · A camada que faltava | O mapa dos dois encontros, no início do E5, já faz esse trabalho. |
-| 06 · De ferramenta a principal | Conceitual. A mesma ideia aparece aplicada no slide do mandato. |
-| 13 e 19 · Viradas | São respiros de navegação. Diga a frase em voz alta e avance sem projetar. |
-| 16 · Fábrica e eletricidade | Analogia elegante, mas ninguém aplica na segunda-feira. |
-
-**Comprima (não corte):** vocabulário (05) vira consulta, não exposição — 3';
-*interoperável ≠ autorizado* (12) vira uma frase — 2'; *agentic misalignment* (22)
-é menção com um exemplo — 4'; Project Vend (23+24) é um caso contado uma vez,
-não duas — 8'.
+| Slide | Por quê | Ganho |
+|---|---|---:|
+| 02 · A camada que faltava | O mapa dos dois encontros, no início do E5, já faz esse trabalho. | ~3' |
+| 06 · De ferramenta a principal | Conceitual. A mesma ideia aparece aplicada no slide do mandato. | ~3' |
+| 13 e 19 · Viradas | São respiros de navegação. Diga a frase em voz alta e avance sem projetar. | ~2' |
+| 12 · Interoperável ≠ autorizado | Vira uma frase dentro do slide do catálogo. | ~3' |
 
 **Nunca corte** — é aqui que está o que a audiência veio buscar: o caso da
 segunda-feira (03), os três agentes reais (07), o comércio agêntico (08), os
-quatro campos do mandato (09), catálogo/portaria/cofre (10), as perguntas de
-fornecedor (11), digital coworker × automação (15), contexto como diferencial
+quatro campos do mandato (09), catálogo/portaria/cofre (10), **o simulador de
+portaria (11)**, digital coworker × automação (16), contexto como diferencial
 (17), métricas de resultado (18), agent sprawl (20), o mercado de governança (21),
-os quatro movimentos sem time técnico (27) e o estudo de caso (28+29).
+**o incidente OpenAI–Hugging Face (23)**, Project Vend (24), os quatro
+movimentos sem time técnico (27) e o estudo de caso (28).
 
-Com esses cortes o encontro fecha em ~110' + 10' de intervalo — **com folga para
-a conversa, que é onde a audiência de fato aplica o conteúdo ao próprio trabalho.**
+> 🎛️ **O slide 11 é um simulador interativo.** Projete-o e rode ao vivo: com a
+> configuração padrão, cinco dos oito pedidos passam indevidamente. Peça à turma
+> para fechar a portaria antes de você mexer nos controles. É a melhor abertura
+> possível para o laboratório.
 
 ### 🧪 Laboratório 2 — "Escreva o mandato, fure o do colega" (slide 25)
 
-35 minutos, em duplas. Roteiro completo, caso reserva e perguntas de auditoria em
-**`LABORATORIOS.md`** (renderize com `npm run labs`).
+25 minutos em aula (versão longa de 35' em **`LABORATORIOS.md`**, renderize com `npm run labs`).
 
 - **Habilidade entregue:** redigir e auditar um mandato de agente para um processo real.
 - **Prova de que leva:** um mandato de quatro campos com as ações classificadas por reversibilidade, mais um furo encontrado no mandato de outra dupla.
 - **Infra:** nenhuma. Roda inteiro no papel.
 - **Pré-requisitos no deck:** 09 (os quatro campos) e 10 (catálogo, portaria, cofre). Sem esses dois, o lab não funciona.
-- **Para abrir os 35 minutos** use a tabela de cortes acima — ela já libera ~25', e comprimir Project Vend a um único relato fecha a conta.
+- **Para abrir os 25 minutos em aula**, use a versão curta: passos 1 a 3 valem 18', a troca entre duplas (passo 4) vale 7'. A versão de 35' em `LABORATORIOS.md` serve para oficina ou tarefa de casa.
 - **A pergunta que mais derruba mandato:** *"se o agente fizesse isso amanhã, como alguém descobriria, e em quanto tempo?"* — "alguém perceberia" não é resposta.
 - **Avalie pelo diagnóstico, não pela redação.** Quem teve o mandato furado aprendeu mais do que quem escreveu um mandato tão vago que ninguém conseguiu furar.
 
