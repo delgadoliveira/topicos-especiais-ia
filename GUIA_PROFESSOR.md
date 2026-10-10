@@ -923,6 +923,7 @@ Essas perguntas não são enviadas, corrigidas ou usadas para nota.
 
 - **Repo:** https://github.com/delgadoliveira/topicos-especiais-ia
 - **Slides online:** https://delgadoliveira.github.io/topicos-especiais-ia/
+- **Briefing do professor (Encontros 5 e 6):** `BRIEFING_PROFESSOR.md` — este guia diz *como conduzir*; o briefing ensina *o conteúdo*, no nível em que um aluno pode te testar. Gere com `npm run briefing`.
 - **Laboratórios (Encontros 5 e 6):** `LABORATORIOS.md` — roteiros completos, materiais prontos e critérios de avaliação. Gere a versão navegável com `npm run labs`.
 - **Este guia em HTML:** `npm run guia`
 - **PDFs por encontro:** gerar com `npx slidev export slides.md --output dist/pdf/`

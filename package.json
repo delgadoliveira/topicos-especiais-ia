@@ -8,6 +8,7 @@
     "build": "node build.js",
     "guia": "node build-guia.js",
     "labs": "node build-guia.js LABORATORIOS.md",
+    "briefing": "node build-guia.js BRIEFING_PROFESSOR.md",
     "dev:slidev": "slidev --open",
     "build:slidev": "slidev build"
   },
