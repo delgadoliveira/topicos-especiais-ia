@@ -530,7 +530,8 @@ Para cada um:
 ## 🎯 Objetivos de aprendizagem
 
 1. Situar para onde o mercado de assistentes e agentes está indo — super apps corporativos, assistentes internos, interfaces geradas pelo modelo (Intelligent UI) e trabalho assíncrono — e dizer o que cada um dos dois encontros responde.
-2. Reconhecer, a partir de um caso concreto de operação, por que um trabalho longo pode falhar mesmo quando todas as respostas estão corretas.
+2. Explicar, a partir da curva de horizonte de tarefa da METR, **por que agentes de longa duração são a fronteira agora** — e por que o número importa menos que a mudança no tamanho da unidade de trabalho delegável.
+3. Reconhecer, a partir de um caso concreto de operação, por que um trabalho longo pode falhar mesmo quando todas as respostas estão corretas.
 3. Traduzir o vocabulário de engenharia (sessão, contexto, harness, sandbox, handoff, idempotência) para termos acessíveis fora da TI.
 4. Reconhecer casos reais de agentes de horizonte longo nos mundos pessoal e corporativo.
 5. Definir tarefa longa e diferenciá-la de uma resposta lenta ou extensa.
@@ -549,34 +550,42 @@ Para cada um:
 
 | Bloco | Tempo | Conteúdo |
 |---|---:|---|
-| 0 | 9' | **Panorama de mercado** (super app, assistentes internos, Intelligent UI, trabalho assíncrono) + **mapa dos dois encontros** |
+| 0 | 11' | **Panorama de mercado** + **mapa dos dois encontros** + **por que agora** (a curva de horizonte da METR) |
 | 1 | 14' | **O caso da sexta-feira** (fila de reembolsos) + fio condutor + vocabulário mínimo |
-| 2 | 18' | Casos reais, o que é tarefa longa e a escada de resultados |
-| 3 | 12' | Mudança de unidade e horizonte de tarefas |
+| 2 | 16' | Casos reais, o que é tarefa longa e a escada resposta → projeto |
+| 3 | 12' | Mudança de unidade e os três níveis (modelo, agente, sistema) |
 | — | 10' | Intervalo |
 | 4 | 15' | **Virada:** onde cada falha acontece e como ela vira sintoma de produto |
 | 5 | 22' | **Virada:** a arquitetura derivada das falhas + a fila passo a passo |
-| 6 | 12' | **Realidade de mercado:** por que projetos são cancelados, Klarna, o que existe hoje e o que perguntar ao fornecedor |
+| 6 | 12' | **Realidade de mercado:** por que projetos são cancelados, Klarna, as quatro camadas e o que perguntar ao fornecedor |
 | 7 | 8' | A sexta-feira remontada, arquitetura de referência e fechamento |
 
 ### ⚠️ Rota de 120 minutos — leia antes de montar a aula
 
-O roteiro slide-a-slide deste encontro soma **cerca de 240 minutos de notas para 120 minutos de aula**. Isso é intencional: as notas são material de consulta, não um script para ler inteiro. Escolha uma das duas aulas abaixo.
+O roteiro slide-a-slide deste encontro soma **cerca de 220 minutos de notas para 120 minutos de aula**. Isso é intencional: as notas são material de consulta e de estudo do professor, não um script para ler inteiro. Escolha uma das duas aulas abaixo.
 
-**Aula A — cobertura.** Use o cronograma acima como está. O aluno sai com mapa conceitual completo e nenhuma habilidade praticada.
+**Aula A — cobertura.** Use o cronograma acima como está, pulando o slide 22 (laboratório). O aluno sai com mapa conceitual completo e nenhuma habilidade praticada.
 
-**Aula B — habilidade (recomendada).** Rode o **Laboratório 1** (slide 24, 35 min, roteiro em `LABORATORIOS.md`). Para abrir os 35 minutos:
+**Aula B — habilidade (recomendada).** Rode o **Laboratório 1** (slide 22, 35 min, roteiro em `LABORATORIOS.md`). Para abrir os 35 minutos:
 
 | Corte | Slides | Ganho |
 |---|---|---:|
-| Corte primeiro | 09 (escada de resultados), 14 (horizonte de tarefas), 17 (sintomas), 29 (passo a passo 2 de 2) | ~22' |
-| Comprima | Bloco 2 inteiro em 10' — cite dois casos, não cinco | ~8' |
-| Comprima | Bloco 6 em 6' — só o dado de cancelamento e as perguntas de fornecedor | ~6' |
-| **Nunca corte** | 05 (a sexta-feira), 06 (fio condutor), 12 (sobrevivência), 20–23 (harness, loop, artefatos, reset) | — |
+| Corte primeiro | 10 (escada resposta → projeto), 15 (sintomas), 26 (escada de evidência), 35 (checklist) | ~22' |
+| Comprima | Bloco 2 em 10' — cite dois casos, não cinco | ~6' |
+| Comprima | Bloco 6 em 7' — o dado de cancelamento e as perguntas de fornecedor; as quatro camadas viram uma frase | ~8' |
+| **Nunca corte** | 04 (por que agora), 05 (a sexta-feira), 06 (fio condutor), 11 (sobrevivência), 18–21 (peças, harness, artefatos, reset) | — |
 
-Os slides 20–23 são pré-requisito do laboratório: sem eles o aluno não sabe o que é um handoff nem por que o reset acontece.
+Os slides 18–21 são pré-requisito do laboratório: sem eles o aluno não sabe o que é um handoff nem por que o reset acontece.
 
-### 🧪 Laboratório 1 — "Faça a tarefa atravessar o reset" (slide 24)
+> 💡 **O slide 04 é o que responde “por que esta aula, por que agora”.** Ele mostra
+> a curva de horizonte de tarefa da METR — de ~9 segundos em 2020 para 12 a 17
+> horas em 2026, dobrando a cada 4 a 7 meses. O argumento não é a previsão: é que
+> a **unidade de trabalho delegável mudou de tamanho**, e tudo o que a empresa tem
+> em volta (aprovação, acompanhamento, auditoria) foi desenhado para a unidade
+> antiga. Leia em voz alta a régua de 50% de acerto e pergunte se alguém entregaria
+> 400 reembolsos a um estagiário que acerta metade das vezes.
+
+### 🧪 Laboratório 1 — "Faça a tarefa atravessar o reset" (slide 22)
 
 35 minutos, em duplas. Roteiro completo, fila de doze pedidos e critério de decisão em **`LABORATORIOS.md`** (renderize com `npm run labs`).
 
@@ -747,7 +756,7 @@ Três consequências práticas na condução:
 
 **O material está deliberadamente acima do tempo.** Somando as notas de todos os
 slides, o Encontro 6 tem **195 minutos de conteúdo para 120 minutos de aula** (o
-Encontro 5 tem 240'). Isso é proposital — o excedente serve de reserva e de
+Encontro 5 tem 220'). Isso é proposital — o excedente serve de reserva e de
 material de consulta —, mas tem um efeito colateral conhecido: **quem tenta dar
 tudo acaba lendo slide**, e ler slide é exatamente o que torna um encontro
 denso em um encontro tedioso.
