@@ -4,10 +4,11 @@
    morrer. O simulador mata a sessao e mostra o que o agente
    seguinte consegue (ou nao) retomar.
    Cenario ancorado na fila de 400 reembolsos do inicio do encontro:
-   no momento do reset, 120 pedidos ja decididos e 30 e-mails enviados.
+   no momento do reset, 90 pedidos ja decididos, 30 e-mails enviados
+   e 310 pedidos ainda por decidir (90 + 310 = 400).
    ═══════════════════════════════════════════════════════ */
 (function () {
-  const DECIDIDOS = 120, ENVIADOS = 30, RESTANTES = 280;
+  const DECIDIDOS = 90, ENVIADOS = 30, RESTANTES = 310;
 
   // pena: artefatos que PIORAM a travessia quando marcados.
   const ART = [
@@ -44,7 +45,7 @@
 
     const achados = [];
     if (parou) achados.push(['bad', 'A fila para', 'O agente seguinte n&atilde;o sabe o que estava fazendo. Nenhum pedido avan&ccedil;a at&eacute; algu&eacute;m voltar na segunda.']);
-    if (!s.crit) achados.push(['bad', incons + ' decis&otilde;es com outro crit&eacute;rio', 'Os ' + DECIDIDOS + ' primeiros seguiram uma r&eacute;gua; o resto segue outra. &Eacute; esse o buraco dos 60 sem comprovante.']);
+    if (!s.crit) achados.push(['bad', incons + ' decis&otilde;es com outro crit&eacute;rio', 'Os ' + DECIDIDOS + ' primeiros seguiram uma r&eacute;gua; os ' + RESTANTES + ' restantes seguem outra. &Eacute; a&iacute; que nascem os 60 aprovados sem comprovante.']);
     if (!s.feito) achados.push(['bad', reproc + ' pedidos reprocessados', 'Sem a lista do que j&aacute; foi decidido, o agente novo recome&ccedil;a por pedidos que j&aacute; tinham resposta.']);
     if (!s.mail) achados.push(['bad', dup + ' e-mails duplicados', 'Quem j&aacute; tinha recebido o pedido de documento recebe de novo. &Eacute; o erro de s&aacute;bado &agrave;s 3h.']);
     if (!s.just) achados.push(['warn', 'N&atilde;o audit&aacute;vel', 'D&aacute; para dizer quantos foram decididos, n&atilde;o por qu&ecirc;. Descobrir quais conferir vira trabalho manual.']);

@@ -666,10 +666,17 @@ movimentos. Se algum conceito parecer solto, volte a esse slide e diga a qual
 movimento ele pertence.
 
 O slide 7 é o **vocabulário mínimo** e existe para a audiência que não é de
-engenharia: sessão, contexto, harness, sandbox, handoff e idempotência, cada um
-com um equivalente fora da TI (diário de obra, mestre de obras, cozinha de
-testes, passagem de plantão, botão do elevador). Use a coluna da direita durante
-toda a exposição; ela é a régua de tradução do encontro.
+engenharia: sessão, contexto, harness, sandbox, handoff e idempotência. Os seis
+são traduzidos **dentro de um único domínio — o plantão de um hospital** (turno,
+beira do leito, coordenação do plantão, sala de simulação, passagem de plantão,
+dose registrada como aplicada). Isso é deliberado: com analogias de domínios
+diferentes, cada termo fica compreensível e as *relações* entre eles somem. Num
+domínio só, elas aparecem — o contexto é um recorte da sessão como a beira do
+leito é um recorte do prontuário; o handoff existe porque o turno acaba; a
+idempotência existe porque duas equipes podem achar que a dose não foi dada. E o
+fecho liga ao caso: às 3h de sábado o agente trocou de turno sem passar plantão.
+Use a coluna da direita durante toda a exposição; ela é a régua de tradução do
+encontro.
 
 A regra de ouro da sequência: **nenhuma peça técnica aparece antes do problema
 que ela resolve.** Por isso a anatomia do sistema não abre o bloco técnico — ela
