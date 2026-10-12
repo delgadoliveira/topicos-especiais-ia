@@ -532,19 +532,20 @@ Para cada um:
 1. Situar para onde o mercado de assistentes e agentes está indo — super apps corporativos, assistentes internos, interfaces geradas pelo modelo (Intelligent UI) e trabalho assíncrono — e dizer o que cada um dos dois encontros responde.
 2. Explicar, a partir da curva de horizonte de tarefa da METR, **por que agentes de longa duração são a fronteira agora** — e por que o número importa menos que a mudança no tamanho da unidade de trabalho delegável.
 3. Reconhecer, a partir de um caso concreto de operação, por que um trabalho longo pode falhar mesmo quando todas as respostas estão corretas.
-3. Traduzir o vocabulário de engenharia (sessão, contexto, harness, sandbox, handoff, idempotência) para termos acessíveis fora da TI.
-4. Reconhecer casos reais de agentes de horizonte longo nos mundos pessoal e corporativo.
-5. Definir tarefa longa e diferenciá-la de uma resposta lenta ou extensa.
-6. Identificar os problemas de produto que só aparecem quando o trabalho dura horas ou dias.
-7. Identificar em que momento da tarefa cada falha de horizonte longo aparece.
-8. Traduzir falhas técnicas de horizonte longo em sintomas percebidos pelo usuário.
-9. Diferenciar avaliação técnica de modelo, agente e sistema.
-10. Explicar por que tarefas longas exigem estado durável e handoffs.
-11. Percorrer uma operação real passo a passo e identificar que peça do sistema atua em cada etapa.
-12. Explicar por que a maior parte dos projetos de agentes é cancelada, a partir de dados públicos de mercado.
-13. Situar as quatro camadas do mercado de ferramentas e identificar qual delas a própria organização já possui.
-14. Formular perguntas de avaliação de fornecedor que revelem ausência de estado, verificação, aprovação e métrica.
-15. **(Laboratório)** Escrever um handoff operacional de quatro campos — critério, estado, pendências e definição de pronto — e demonstrar que ele faz um trabalho sobreviver a uma troca de sessão.
+4. Traduzir o vocabulário de engenharia (sessão, contexto, harness, sandbox, handoff, idempotência) para termos acessíveis fora da TI.
+5. Reconhecer casos reais de agentes de horizonte longo nos mundos pessoal e corporativo.
+6. Definir tarefa longa e diferenciá-la de uma resposta lenta ou extensa.
+7. Reconhecer o harness como a peça que de fato executa — e aplicar o teste de desligar o modelo para distingui-lo do agente.
+8. Identificar em que momento da tarefa cada falha de horizonte longo aparece.
+9. Traduzir falhas técnicas de horizonte longo no nome que elas recebem quando chegam ao time.
+10. Identificar os problemas de produto que só aparecem quando o trabalho dura horas ou dias.
+11. Explicar por que um modelo melhor pode produzir um agente pior, e um bom agente ainda formar um sistema inseguro — ou seja, por que avaliar modelo, agente e sistema são coisas diferentes.
+12. Explicar por que tarefas longas exigem estado durável e handoffs.
+13. Percorrer uma operação real passo a passo e identificar que peça do sistema atua em cada etapa.
+14. Explicar por que a maior parte dos projetos de agentes é cancelada, a partir de dados públicos de mercado.
+15. Situar as quatro camadas do mercado de ferramentas e identificar qual delas a própria organização já possui.
+16. Formular perguntas de avaliação de fornecedor que revelem ausência de estado, verificação, aprovação e métrica.
+17. **(Laboratório)** Escrever um handoff operacional de quatro campos — critério, estado, pendências e definição de pronto — e demonstrar que ele faz um trabalho sobreviver a uma troca de sessão.
 
 ## ⏱️ Cronograma (120 min)
 
