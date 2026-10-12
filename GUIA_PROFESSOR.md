@@ -550,15 +550,26 @@ Para cada um:
 
 | Bloco | Tempo | Conteúdo |
 |---|---:|---|
-| 0 | 11' | **Panorama de mercado** + **mapa dos dois encontros** + **por que agora** (a curva de horizonte da METR) |
-| 1 | 14' | **O caso da sexta-feira** (fila de reembolsos) + fio condutor + vocabulário mínimo |
-| 2 | 16' | Casos reais, o que é tarefa longa e a escada resposta → projeto |
-| 3 | 12' | Mudança de unidade e os três níveis (modelo, agente, sistema) |
-| — | 10' | Intervalo |
-| 4 | 15' | **Virada:** onde cada falha acontece e como ela vira sintoma de produto |
-| 5 | 22' | **Virada:** a arquitetura derivada das falhas + a fila passo a passo |
-| 6 | 12' | **Realidade de mercado:** por que projetos são cancelados, Klarna, as quatro camadas e o que perguntar ao fornecedor |
-| 7 | 8' | A sexta-feira remontada, arquitetura de referência e fechamento |
+| Abertura | 14' | **Panorama de mercado**, mapa dos dois encontros, **por que agora** (curva METR) e o fio condutor — slides 1–4 e 6 |
+| 1 · A sexta-feira | 10' | **O caso da fila de reembolsos**, o vocabulário do plantão e os casos reais — 5, 7, 8 |
+| 2 · A tarefa longa | 9' | O que é tarefa longa, a escada resposta → projeto e a mudança de unidade — 9–11 |
+| 3 · Os quatro nomes | 3' | Modelo, harness, agente e sistema — 12 |
+| 4 · As falhas | 8' | **Virada** + as quatro falhas e como cada uma chega ao produto — 13–15 |
+| 5 · Fazer o trabalho durar | 49' | **Virada** + harness, artefatos, reset, simulador e o **laboratório de 25'** — 16–23 |
+| 6 · Fazer o trabalho ser aceito | 12' | Papéis separados, sandbox, assíncrono, escada de evidência e a fila passo a passo — 24–29 |
+| 7 · A sua empresa | 9' | Cancelamentos, Klarna, as quatro camadas e o que perguntar ao fornecedor — 30–33 |
+| Fechamento | 6' | A sexta-feira remontada, arquitetura de referência e checklist — 34–36 |
+
+> 🧭 **A divisa entre os movimentos 5 e 6 é a tese do encontro.** O 5 responde
+> *"o trabalho sobrevive?"* e o 6 responde *"o resultado pode ser aceito?"*. São
+> problemas diferentes, e o slide 29 diz isso com as próprias palavras do caso:
+> os passos 1 a 5 fazem o agente **trabalhar**, os passos 6 a 9 fazem o trabalho
+> **poder ser aceito**. Quase todo projeto real resolve só o primeiro — é por
+> isso que a segunda metade é a que costuma ser cortada em protótipo.
+
+> ⏸️ **Não há slide de intervalo.** O laboratório de 25 minutos no meio do
+> movimento 5 cumpre esse papel. Se precisar de uma pausa formal, coloque-a
+> imediatamente antes do slide 17 — é a fronteira mais limpa do deck.
 
 ### ⏱️ Rota de 120 minutos — o deck já está no tempo
 
@@ -651,7 +662,7 @@ uma migração de código. Agentes de codificação aparecem apenas como *uma*
 instância do mesmo padrão — e o slide da sessão passo a passo diz isso
 explicitamente ("é um padrão de trabalho longo, não de um setor").
 
-O bloco 6 é o que ancora tudo na realidade de quem assiste, e é onde estão as
+O bloco 7 é o que ancora tudo na realidade de quem assiste, e é onde estão as
 três perguntas que eles realmente levam para o trabalho: *isto funciona mesmo?*,
 *o que existe para comprar?* e *o que eu pergunto antes de assinar?*
 
@@ -662,18 +673,25 @@ nunca por um conceito. O slide 5 narra uma
 sexta-feira em que uma operação delega "zere a fila de 400 reembolsos" e, na
 segunda, recebe "fila zerada" com 60 pedidos aprovados sem conferir comprovante.
 O piloto é suspenso. Essa fila é a espinha dorsal: cada peça apresentada depois
-existe para impedir um dos cinco momentos dela, e o estudo de caso do bloco 7 é
-literalmente o mesmo cenário — diga isso em voz alta quando chegar lá.
+existe para impedir um dos cinco momentos dela, e o estudo de caso do fechamento
+(slides 34–36) é literalmente o mesmo cenário — diga isso em voz alta quando
+chegar lá.
 
-O piloto suspenso tem uma segunda função: ele reaparece no bloco 6, quando a
+O piloto suspenso tem uma segunda função: ele reaparece no bloco 7, quando a
 projeção da Gartner mostra que **cancelar é o desfecho mais comum do setor**, e
 pelos mesmos três motivos do caso (custo, valor pouco claro, controle de risco).
 A história não era didática — era estatística.
 
 Logo depois vem o fio condutor, que decompõe a pergunta do encontro — *por que
-agentes que já respondem bem ainda falham em concluir um trabalho?* — em cinco
+agentes que já respondem bem ainda falham em concluir um trabalho?* — em sete
 movimentos. Se algum conceito parecer solto, volte a esse slide e diga a qual
 movimento ele pertence.
+
+A divisa mais importante do mapa é entre o movimento 5 (*fazer o trabalho
+durar*) e o 6 (*fazer o trabalho ser aceito*). São dois problemas diferentes, e
+o deck os separa com as palavras do próprio caso: os passos 1 a 5 da fila fazem
+o agente **trabalhar**; os passos 6 a 9 fazem o trabalho **poder ser aceito**.
+Projetos reais quase sempre entregam só o primeiro.
 
 O slide 7 é o **vocabulário mínimo** e existe para a audiência que não é de
 engenharia: sessão, contexto, harness, sandbox, handoff e idempotência. Os seis
@@ -719,11 +737,11 @@ Antes de apresentar harnesses, estabeleça que tarefa longa não significa "o
 modelo pensar por horas": significa trabalho com etapas dependentes, estado
 acumulado, esperas externas e prova de conclusão.
 
-O bloco 5 é a comprovação do argumento: percorra os nove passos da mesma fila de
+O bloco 6 é a comprovação do argumento: percorra os nove passos da mesma fila de
 reembolsos, agora com sistema em volta, mostrando em cada etapa qual peça já
 estudada entra em ação. Os passos 1 a 5 fazem o agente trabalhar; os passos 6 a 9
 fazem o trabalho poder ser aceito — e são justamente os que costumam ser
-cortados. Feche com a linha do tempo vista pelo usuário.
+cortados. É essa frase que dá nome aos dois blocos.
 
 Conduza o caso sem escolher frameworks. Percorra as perguntas do caso na própria
 exposição e, em seguida, apresente a arquitetura de referência. Não há entrega,
