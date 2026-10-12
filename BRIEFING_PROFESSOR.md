@@ -106,6 +106,22 @@ Isso tem uma consequência prática que vale dizer em voz alta: **toda a seguran
 real mora no harness.** Pedir educadamente ao modelo que não faça algo é uma
 sugestão; não dar a ferramenta é um controle.
 
+**O segundo erro comum: tratar harness e agente como sinônimos.** Modelo e
+harness são duas peças de software — arquivos que existem no disco, que alguém
+escreveu e que você pode abrir. **Agente não é uma terceira peça**: é o nome do
+arranjo das duas em loop, perseguindo um objetivo. Ninguém instala um agente;
+instala um harness que chama um modelo. Dois testes que resolvem na hora:
+
+- *"Qual arquivo eu abro para mudar isso?"* — para modelo e harness existe
+  resposta; para agente e sistema, não.
+- *"Desligue o modelo."* — o agente desaparece; o harness continua lá, rodando,
+  só sem ninguém a quem perguntar.
+
+Isso importa porque muda onde se põe limite. Quem acha que agente e harness são
+a mesma coisa tenta controlar o agente — e a única forma de fazer isso é pelo
+prompt, que é sugestão. Quem separa as duas coisas controla o harness, que é
+código.
+
 **Se perguntarem.** *"Mas o harness tem um modelo dentro para decidir?"* Não. Ele
 é código determinístico: `if`, `try`, lista de ferramentas permitidas, limite de
 valor, contador de tentativas. Um harness pode *consultar* um modelo para alguma

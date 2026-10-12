@@ -562,15 +562,16 @@ Para cada um:
 
 ### ⏱️ Rota de 120 minutos — o deck já está no tempo
 
-**O Encontro 5 tem 35 slides e soma exatamente 120 minutos**, laboratório
+**O Encontro 5 tem 36 slides e soma exatamente 120 minutos**, laboratório
 incluído. O orçamento de cada slide está no início da sua nota de apresentador
 (`N min.`); somados, fecham a aula. Não há excedente para absorver atraso — o
 controle de tempo é por slide, não por bloco.
 
 Isso muda a forma de usar as notas: elas **não são para ler**. A maior parte dos
 slides tem 2 a 3 minutos, o que dá para uma frase de enquadramento, a leitura do
-contrato em destaque e uma pergunta à turma. Os slides de 5 minutos (04, 14,
-17, 18) são os únicos em que cabe desenvolver.
+contrato em destaque e uma pergunta à turma. Só o slide 04 (a curva METR) tem 5
+minutos; os de 4 minutos — 02, 05, 14, 17 e 19 — são os outros em que cabe
+desenvolver.
 
 **Se estiver atrasado**, corte nesta ordem — cada item devolve o próprio
 orçamento sem quebrar o fio:
@@ -578,15 +579,24 @@ orçamento sem quebrar o fio:
 | Corte | Slides | Ganho |
 |---|---|---:|
 | Primeiro | 13 e 16 (viradas) — diga a frase em voz alta e avance sem projetar | ~2' |
-| Depois | 23 e 24 (produção × julgamento, sandbox) — viram uma frase cada | ~4' |
-| Depois | 29 (Gartner) — o número é citado dentro do slide da Klarna | ~2' |
-| Por último | 33 e 34 (caso remontado + arquitetura de referência) — vire tarefa de casa | ~4' |
-| **Nunca corte** | 04 (por que agora), 05 (a sexta-feira), 06 (fio condutor), 11 (sobrevivência), 17–20 (peças, harness, artefatos, reset), 21 (simulador) | — |
+| Depois | 24 e 25 (produção × julgamento, sandbox) — viram uma frase cada | ~4' |
+| Depois | 30 (Gartner) — o número é citado dentro do slide da Klarna | ~2' |
+| Por último | 34 e 35 (caso remontado + arquitetura de referência) — vire tarefa de casa | ~4' |
+| **Nunca corte** | 04 (por que agora), 05 (a sexta-feira), 06 (fio condutor), 11 (sobrevivência), 12 (as quatro entidades), 17 (o que é o harness), 18–21 (peças, volta a volta, artefatos, reset), 22 (simulador) | — |
 
-Os slides 17–20 são pré-requisito do laboratório: sem eles o aluno não sabe o
-que é um handoff nem por que o reset acontece. O **slide 21 é o simulador de
+Os slides 17 a 21 são pré-requisito do laboratório: sem eles o aluno não sabe o
+que é um handoff nem por que o reset acontece. O **slide 22 é o simulador de
 travessia de reset** — rode-o ao vivo, projetado, antes de soltar as duplas:
 ele produz em 90 segundos a intuição que o laboratório vai exercitar.
+
+> ⚠️ **A confusão que trava a aula é "harness = agente".** Ela é desarmada em
+> dois pontos e os dois precisam ser ditos em voz alta. No **slide 12**, modelo e
+> harness aparecem lado a lado como duas peças de software, e *agente* é
+> apresentado como nome do arranjo das duas — não como uma terceira caixa. No
+> **slide 17**, o teste prático: desligue o modelo e o que continua rodando é o
+> harness. Pergunta que fecha o assunto quando alguém trava: *"qual arquivo eu
+> abro para mudar isso?"* — para modelo e harness existe resposta; para agente e
+> sistema, não.
 
 > 💡 **O slide 04 é o que responde “por que esta aula, por que agora”.** Ele mostra
 > a curva de horizonte de tarefa da METR — de ~9 segundos em 2020 para 12 a 17
@@ -596,7 +606,7 @@ ele produz em 90 segundos a intuição que o laboratório vai exercitar.
 > antiga. Leia em voz alta a régua de 50% de acerto e pergunte se alguém entregaria
 > 400 reembolsos a um estagiário que acerta metade das vezes.
 
-### 🧪 Laboratório 1 — "Faça a tarefa atravessar o reset" (slide 22)
+### 🧪 Laboratório 1 — "Faça a tarefa atravessar o reset" (slide 23)
 
 25 minutos em aula (versão longa de 35' em **`LABORATORIOS.md`**, renderize com `npm run labs`).
 
@@ -945,3 +955,4 @@ Essas perguntas não são enviadas, corrigidas ou usadas para nota.
 ---
 
 _Última atualização: 2025. Este guia deve ser revisado a cada nova oferta da disciplina conforme o ecossistema evolui._
+
