@@ -619,6 +619,24 @@ ele produz em 90 segundos a intuição que o laboratório vai exercitar.
 > *decisões* sobre o harness — quando resetar, o que persistir, o que deixar
 > executar — continuam no movimento 5, onde há falha nomeada para justificá-las.
 
+> 🔗 **"Isso não é o que vimos no Encontro 1?" — é, e a resposta certa é dizer
+> que sim.** A palavra *harness* é nova; a coisa não é. Dos **cinco componentes
+> do agente** apresentados no Encontro 1, **quatro são o harness**: system
+> prompt, memória, executor de ferramentas e loop de controle. O quinto, o LLM,
+> é a única peça que *não* é. E o loop do slide 19 é o mesmo **ciclo de vida de
+> um turno** visto lá em sete etapas — contexto, chamada ao LLM, saída,
+> validação, execução, observação —, quase um para um. O Encontro 1 já dizia a
+> coisa certa, inclusive: na etapa 5 quem valida é *"o sistema"*, não o modelo.
+> Só não tinha dado nome.
+>
+> **A diferença cabe em um passo.** No Encontro 1, a observação volta ao passo 2
+> dentro da mesma janela, e todas as condições de parada são formas de
+> *desistir*: `max_steps`, orçamento, timeout, erro fatal. No Encontro 5 aparece
+> uma condição que não existia — **recomeçar**. É a única diferença estrutural
+> entre os dois loops, e é ela que separa uma demo de uma operação que atravessa
+> o fim de semana. Se alguém disser "então é só o mesmo agente rodando mais
+> tempo", esta é a frase que responde.
+
 > 🧩 **O slide 15 fecha dois circuitos ao mesmo tempo.** Cada uma das quatro
 > falhas traz, em itálico, o nome que ela recebe quando chega ao time — ninguém
 > abre um chamado dizendo "houve deriva de objetivo", dizem *"ele piorou com o
