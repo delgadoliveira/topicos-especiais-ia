@@ -350,116 +350,7 @@ Se alguém perguntar por que a curva acelerou no último trecho: a METR mediu ~7
   <div class="imm-contract">Um modelo melhor pode produzir um agente pior se o harness for fraco. <em>E um bom agente ainda pode formar um sistema inseguro.</em></div>
   <div class="imm-rail" aria-hidden="true"><i class="done"></i><i class="done"></i><i class="on"></i><i></i><i></i><i></i><i></i><b><em>3</em> &middot; Os quatro nomes</b></div>
   <span class="imm-page">12 / 36</span>
-  <aside class="notes">3 min. Este slide existe para desfazer a confusão mais comum da aula: <b>harness e agente não são sinônimos</b>. Diga em voz alta: modelo e harness são duas peças de software, uma ao lado da outra; <i>agente</i> é o nome que damos às duas em loop perseguindo um objetivo, e <i>sistema</i> é o nome do conjunto maior que torna o resultado aceitável. Ninguém instala um agente. A pergunta que resolve na hora, se alguém travar: "qual arquivo eu abro para mudar isso?" — para modelo e harness há resposta; para agente e sistema, não. Repare que o modelo <b>propõe</b> a ação, não executa: isso prepara o slide do harness volta a volta, onde o passo 3 é o modelo devolvendo texto e o passo 5 é o harness executando com uma credencial que o modelo nunca vê.</aside>
-</section>
-
-<section class="imm-slide">
-  <span class="imm-type">Virada</span>
-  <div class="imm-kicker">Movimento 3 → 4</div>
-  <h2>Até aqui falamos de capacidade.<br>A partir daqui, de consequência.</h2>
-  <div class="imm-grid two">
-    <div class="imm-card"><h3>O que já está estabelecido</h3><p>A unidade de trabalho deixou de ser a resposta e passou a ser a tarefa. A curva de horizonte mostra agentes sustentando tarefas cada vez mais longas — e deixa claro que <b>durar mais não é prova de confiabilidade</b>.</p></div>
-    <div class="imm-card accent"><h3>A pergunta que isso abre</h3><p>Se o agente continua rodando por horas ou dias, <b>o que exatamente quebra no caminho?</b> Não são erros de linguagem. São falhas de continuidade, de objetivo e de prova — e nenhuma delas existia no chat.</p></div>
-  </div>
-  <div class="imm-source"><b>Próximo bloco:</b> as falhas que só aparecem quando o trabalho atravessa o tempo — e como cada uma delas chega ao time de produto com outro nome.</div>
-  <div class="imm-rail" aria-hidden="true"><i class="done"></i><i class="done"></i><i class="done"></i><i></i><i></i><i></i><i></i><b>Dobradi&ccedil;a <em>3 &rarr; 4</em></b></div>
-  <span class="imm-page">13 / 36</span>
-  <aside class="notes">1 min. Dobradiça do encontro. Deixe explícito que saímos da pergunta "até onde o agente chega" para "o que quebra enquanto ele tenta chegar".</aside>
-</section>
-
-<section class="imm-slide">
-  <span class="imm-type">Falhas novas</span>
-  <div class="imm-kicker">Quando a tarefa atravessa contextos &middot; no produto, nenhuma aparece com esse nome</div>
-  <h2>O agente pode continuar executando e, ainda assim, deixar de progredir.</h2>
-  <figure class="imm-figure">
-    <svg viewBox="0 0 1080 278" role="img" aria-label="Linha do tempo de uma tarefa longa mostrando em que momento cada uma das quatro falhas aparece: deriva nas primeiras horas, estado perdido na virada de sessão, encerramento precoce perto do limite de contexto e autoaprovação na entrega.">
-      <defs>
-        <marker id="g5f-ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
-          <path d="M0 0 L10 5 L0 10 z" class="imm-svg-fill-muted"/>
-        </marker>
-      </defs>
-
-      <text class="imm-svg-tag" x="20" y="18">O QUE FOI COMBINADO NO INÍCIO</text>
-      <line class="imm-svg-line" x1="20" y1="30" x2="1060" y2="30" stroke-dasharray="7 6"/>
-
-      <rect class="imm-svg-box danger" x="20" y="52" width="242" height="132" rx="12"/>
-      <text class="imm-svg-tag" x="141" y="78" text-anchor="middle">PRIMEIRAS HORAS</text>
-      <text class="imm-svg-label" x="141" y="103" text-anchor="middle">Deriva</text>
-      <text class="imm-svg-sub" x="141" y="130" text-anchor="middle">Nenhum passo parece errado.</text>
-      <text class="imm-svg-sub" x="141" y="150" text-anchor="middle">O conjunto saiu do lugar.</text>
-
-      <rect class="imm-svg-box warning" x="282" y="52" width="242" height="132" rx="12"/>
-      <text class="imm-svg-tag" x="403" y="78" text-anchor="middle">NA VIRADA DE SESSÃO</text>
-      <text class="imm-svg-label" x="403" y="103" text-anchor="middle">Estado perdido</text>
-      <text class="imm-svg-sub" x="403" y="130" text-anchor="middle">A sessão recomeça sem saber</text>
-      <text class="imm-svg-sub" x="403" y="150" text-anchor="middle">o que já foi decidido.</text>
-
-      <rect class="imm-svg-box warning" x="544" y="52" width="242" height="132" rx="12"/>
-      <text class="imm-svg-tag" x="665" y="78" text-anchor="middle">PERTO DO LIMITE</text>
-      <text class="imm-svg-label" x="665" y="103" text-anchor="middle">Encerramento precoce</text>
-      <text class="imm-svg-sub" x="665" y="130" text-anchor="middle">O modelo “arruma a casa”</text>
-      <text class="imm-svg-sub" x="665" y="150" text-anchor="middle">antes de terminar de verdade.</text>
-
-      <rect class="imm-svg-box danger" x="806" y="52" width="242" height="132" rx="12"/>
-      <text class="imm-svg-tag" x="927" y="78" text-anchor="middle">NA ENTREGA</text>
-      <text class="imm-svg-label" x="927" y="103" text-anchor="middle">Autoaprovação</text>
-      <text class="imm-svg-sub" x="927" y="130" text-anchor="middle">Quem produziu o resultado</text>
-      <text class="imm-svg-sub" x="927" y="150" text-anchor="middle">avalia com generosidade.</text>
-
-      <path class="imm-svg-line" d="M141 184 L141 210"/>
-      <path class="imm-svg-line" d="M403 184 L403 210"/>
-      <path class="imm-svg-line" d="M665 184 L665 210"/>
-      <path class="imm-svg-line" d="M927 184 L927 210"/>
-
-      <line class="imm-svg-line" x1="20" y1="218" x2="1050" y2="218" marker-end="url(#g5f-ar)"/>
-      <circle class="imm-svg-fill-danger" cx="141" cy="218" r="7"/>
-      <circle class="imm-svg-fill-warning" cx="403" cy="218" r="7"/>
-      <circle class="imm-svg-fill-warning" cx="665" cy="218" r="7"/>
-      <circle class="imm-svg-fill-danger" cx="927" cy="218" r="7"/>
-      <text class="imm-svg-sub" x="20" y="246">início da tarefa</text>
-      <text class="imm-svg-sub" x="1050" y="246" text-anchor="end">entrega ao time</text>
-      <text class="imm-svg-tag" x="535" y="271" text-anchor="middle">NENHUMA DELAS APARECE NA RESPOSTA FINAL — TODAS APARECEM NO HISTÓRICO</text>
-    </svg>
-  </figure>
-  <div class="imm-contract">O churn n&atilde;o vem do erro isolado. Vem de <em>descobrir o erro depois de ter confiado</em>.</div>
-  <div class="imm-rail" aria-hidden="true"><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i></i><i></i><i></i><b><em>4</em> &middot; As falhas</b></div>
-  <span class="imm-page">14 / 36</span>
-  <aside class="notes">4 min. Destaque que a falha mais cara do slide é a quarta, porque é a única que chega ao time parecendo sucesso.</aside>
-</section>
-
-<section class="imm-slide">
-  <span class="imm-type">Produto</span>
-  <div class="imm-kicker">O outro lado da tela</div>
-  <h2>Quando o trabalho dura dias, o produto precisa responder perguntas que o chat nunca teve.</h2>
-  <div class="imm-grid four">
-    <div class="imm-card accent"><h3>“Está indo bem?”</h3><p>Progresso invisível faz o usuário abandonar ou refazer o trabalho por fora.</p></div>
-    <div class="imm-card accent"><h3>“Mudei de ideia.”</h3><p>Corrigir o rumo no meio não pode significar jogar fora cinco dias de trabalho.</p></div>
-    <div class="imm-card accent"><h3>“Parou no pedido 212.”</h3><p>Os 211 já resolvidos valem muito mais que um relatório de erro.</p></div>
-    <div class="imm-card accent"><h3>“Quem responde por isso?”</h3><p>O cliente não reclama com o agente. Reclama com a empresa que o colocou no ar.</p></div>
-  </div>
-  <div class="imm-contract">Latência deixou de ser um número de performance. Virou <em>uma experiência que precisa ser desenhada</em>.</div>
-  <div class="imm-rail" aria-hidden="true"><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i></i><i></i><i></i><b><em>4</em> &middot; As falhas</b></div>
-  <span class="imm-page">15 / 36</span>
-  <aside class="notes">3 min. Este slide existe para evitar que o resto do encontro vire só arquitetura. Cada peça técnica adiante responde a uma dessas quatro perguntas de produto.</aside>
-</section>
-
-<section class="imm-slide">
-  <span class="imm-type">Virada</span>
-  <div class="imm-kicker">Movimento 4 → 5</div>
-  <h2>Agora a arquitetura pode aparecer —<br>porque já sabemos o que ela precisa resolver.</h2>
-  <table class="imm-table">
-    <thead><tr><th>Falha que acabamos de nomear</th><th>Peça que responde</th><th>Pergunta de projeto</th></tr></thead>
-    <tbody>
-      <tr><td>O progresso se perde entre sessões</td><td>Sessão durável e artefatos</td><td>Onde mora o estado?</td></tr>
-      <tr><td>O contexto satura e o objetivo escorrega</td><td>Harness com reset e retomada</td><td>Quem decide recomeçar?</td></tr>
-      <tr><td>O agente se autoavalia e se engana</td><td>Papéis separados e verificação</td><td>Quem julga o resultado?</td></tr>
-      <tr><td>Uma ação errada vaza para o mundo real</td><td>Sandbox e gateway de credenciais</td><td>Onde a ação executa?</td></tr>
-    </tbody>
-  </table>
-  <div class="imm-contract">Leia o próximo bloco de trás para frente: <em>cada componente existe porque uma dessas quatro falhas já custou caro a alguém.</em></div>
-  <div class="imm-rail" aria-hidden="true"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i></i><i></i><i></i><b>Dobradi&ccedil;a <em>4 &rarr; 5</em></b></div>
-  <span class="imm-page">16 / 36</span>
-  <aside class="notes">1 min. Slide mais importante da virada. Ele transforma a lista de componentes em respostas a problemas nomeados. Volte a esta tabela sempre que uma peça parecer arbitrária.</aside>
+  <aside class="notes">3 min. Este slide existe para desfazer a confusão mais comum da aula: <b>harness e agente não são sinônimos</b>. Diga em voz alta: modelo e harness são duas peças de software, uma ao lado da outra; <i>agente</i> é o nome que damos às duas em loop perseguindo um objetivo, e <i>sistema</i> é o nome do conjunto maior que torna o resultado aceitável. Ninguém instala um agente. A pergunta que resolve na hora, se alguém travar: "qual arquivo eu abro para mudar isso?" — para modelo e harness há resposta; para agente e sistema, não. Repare que o modelo <b>propõe</b> a ação, não executa — e é exatamente por isso que o próximo slide é inteiro sobre o harness, a peça que de fato age.</aside>
 </section>
 
 <section class="imm-slide">
@@ -507,9 +398,126 @@ Se alguém perguntar por que a curva acelerou no último trecho: a METR mediu ~7
     <figcaption><b>Você já usa harnesses sem chamá-los assim:</b> o runtime do Copilot ou do Cursor, que decide o que mandar ao modelo e roda os comandos; a automação que chama uma API de LLM em um passo; o orquestrador do seu fornecedor de agentes.</figcaption>
   </figure>
   <div class="imm-contract">Harness é o que você escreve; <em>agente é o que o conjunto faz</em>. Desligue o modelo e o agente some — o harness continua lá, rodando, só sem ninguém a quem perguntar.</div>
-  <div class="imm-rail" aria-hidden="true"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i></i><i></i><b><em>5</em> &middot; Fazer o trabalho durar</b></div>
-  <span class="imm-page">17 / 36</span>
+  <div class="imm-rail" aria-hidden="true"><i class="done"></i><i class="done"></i><i class="on"></i><i></i><i></i><i></i><i></i><b><em>3</em> &middot; Os quatro nomes</b></div>
+  <span class="imm-page">13 / 36</span>
   <aside class="notes">4 min. Este slide existe porque a turma confunde harness com agente. Três âncoras, nesta ordem. <b>O que é:</b> um programa comum — Python, TypeScript, às vezes um workflow visual — sem nenhum modelo dentro. Se alguém perguntar "quem escreve o harness?", a resposta é: ou o seu time, ou o fornecedor, e é a escolha mais consequente do projeto. <b>Onde age:</b> ele é a única peça que fala com os dois lados. O modelo não tem braços; o mundo não entende texto solto. Todo poder real do agente passa por aqui — por isso é aqui que se põe limite, e não no prompt. <b>Como reconhecer:</b> desligue o modelo. O que continua rodando, esperando, gravando log, é o harness. Pergunta boa para a turma: "no seu trabalho, quem é o harness hoje?" — quase sempre é uma pessoa, e é exatamente essa pessoa que a automação pretende substituir.</aside>
+</section>
+
+<section class="imm-slide">
+  <span class="imm-type">Virada</span>
+  <div class="imm-kicker">Movimento 3 → 4</div>
+  <h2>Até aqui falamos de capacidade.<br>A partir daqui, de consequência.</h2>
+  <div class="imm-grid two">
+    <div class="imm-card"><h3>O que já está estabelecido</h3><p>A unidade de trabalho deixou de ser a resposta e passou a ser a tarefa; e já sabemos quem são os quatro envolvidos — em especial que <b>o harness é quem age, e o modelo só pede</b>.</p></div>
+    <div class="imm-card accent"><h3>A pergunta que isso abre</h3><p>Se o agente continua rodando por horas ou dias, <b>o que exatamente quebra no caminho?</b> Não são erros de linguagem. São falhas de continuidade, de objetivo e de prova — e nenhuma delas existia no chat.</p></div>
+  </div>
+  <div class="imm-source"><b>Próximo bloco:</b> as falhas que só aparecem quando o trabalho atravessa o tempo — e como cada uma delas chega ao time de produto com outro nome.</div>
+  <div class="imm-rail" aria-hidden="true"><i class="done"></i><i class="done"></i><i class="done"></i><i></i><i></i><i></i><i></i><b>Dobradi&ccedil;a <em>3 &rarr; 4</em></b></div>
+  <span class="imm-page">14 / 36</span>
+  <aside class="notes">1 min. Dobradiça do encontro. Deixe explícito que saímos da pergunta "até onde o agente chega" para "o que quebra enquanto ele tenta chegar". Os três movimentos anteriores entregaram o vocabulário; daqui em diante nada é definição — tudo é consequência.</aside>
+</section>
+
+<section class="imm-slide">
+  <span class="imm-type">Falhas novas</span>
+  <div class="imm-kicker">Tr&ecirc;s delas aconteceram na sexta-feira &middot; e nenhuma chega ao time com esse nome</div>
+  <h2>O agente pode continuar executando e, ainda assim, deixar de progredir.</h2>
+  <figure class="imm-figure">
+    <svg viewBox="0 0 1080 298" role="img" aria-label="Linha do tempo de uma tarefa longa mostrando em que momento cada uma das quatro falhas aparece: deriva nas primeiras horas, estado perdido na virada de sessão, encerramento precoce perto do limite de contexto e autoaprovação na entrega.">
+      <defs>
+        <marker id="g5f-ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+          <path d="M0 0 L10 5 L0 10 z" class="imm-svg-fill-muted"/>
+        </marker>
+      </defs>
+
+      <text class="imm-svg-tag" x="20" y="18">O QUE FOI COMBINADO NO INÍCIO</text>
+      <line class="imm-svg-line" x1="20" y1="30" x2="1060" y2="30" stroke-dasharray="7 6"/>
+
+      <rect class="imm-svg-box danger" x="20" y="50" width="242" height="158" rx="12"/>
+      <text class="imm-svg-tag" x="141" y="74" text-anchor="middle">PRIMEIRAS HORAS</text>
+      <text class="imm-svg-label" x="141" y="99" text-anchor="middle">Deriva</text>
+      <text class="imm-svg-sub" x="141" y="124" text-anchor="middle">Nenhum passo parece errado.</text>
+      <text class="imm-svg-sub" x="141" y="143" text-anchor="middle">O conjunto saiu do lugar.</text>
+      <line class="imm-svg-line" x1="48" y1="162" x2="234" y2="162" stroke-dasharray="4 5"/>
+      <text class="imm-svg-sub" style="font-style:italic" x="141" y="188" text-anchor="middle">“ele piorou com o tempo”</text>
+
+      <rect class="imm-svg-box warning" x="282" y="50" width="242" height="158" rx="12"/>
+      <text class="imm-svg-tag" x="403" y="74" text-anchor="middle">NA VIRADA DE SESSÃO</text>
+      <text class="imm-svg-label" x="403" y="99" text-anchor="middle">Estado perdido</text>
+      <text class="imm-svg-sub" x="403" y="124" text-anchor="middle">A sessão recomeça sem saber</text>
+      <text class="imm-svg-sub" x="403" y="143" text-anchor="middle">o que já foi decidido.</text>
+      <line class="imm-svg-line" x1="310" y1="162" x2="496" y2="162" stroke-dasharray="4 5"/>
+      <text class="imm-svg-sub" style="font-style:italic" x="403" y="188" text-anchor="middle">“ele esqueceu tudo”</text>
+
+      <rect class="imm-svg-box warning" x="544" y="50" width="242" height="158" rx="12"/>
+      <text class="imm-svg-tag" x="665" y="74" text-anchor="middle">PERTO DO LIMITE</text>
+      <text class="imm-svg-label" x="665" y="99" text-anchor="middle">Encerramento precoce</text>
+      <text class="imm-svg-sub" x="665" y="124" text-anchor="middle">O modelo “arruma a casa”</text>
+      <text class="imm-svg-sub" x="665" y="143" text-anchor="middle">antes de terminar de verdade.</text>
+      <line class="imm-svg-line" x1="572" y1="162" x2="758" y2="162" stroke-dasharray="4 5"/>
+      <text class="imm-svg-sub" style="font-style:italic" x="665" y="188" text-anchor="middle">“entregou pela metade”</text>
+
+      <rect class="imm-svg-box danger" x="806" y="50" width="242" height="158" rx="12"/>
+      <text class="imm-svg-tag" x="927" y="74" text-anchor="middle">NA ENTREGA</text>
+      <text class="imm-svg-label" x="927" y="99" text-anchor="middle">Autoaprovação</text>
+      <text class="imm-svg-sub" x="927" y="124" text-anchor="middle">Quem produziu o resultado</text>
+      <text class="imm-svg-sub" x="927" y="143" text-anchor="middle">avalia com generosidade.</text>
+      <line class="imm-svg-line" x1="834" y1="162" x2="1020" y2="162" stroke-dasharray="4 5"/>
+      <text class="imm-svg-sub" style="font-style:italic" x="927" y="188" text-anchor="middle">“disse que fez e não fez”</text>
+
+      <path class="imm-svg-line" d="M141 208 L141 228"/>
+      <path class="imm-svg-line" d="M403 208 L403 228"/>
+      <path class="imm-svg-line" d="M665 208 L665 228"/>
+      <path class="imm-svg-line" d="M927 208 L927 228"/>
+
+      <line class="imm-svg-line" x1="20" y1="236" x2="1050" y2="236" marker-end="url(#g5f-ar)"/>
+      <circle class="imm-svg-fill-danger" cx="141" cy="236" r="7"/>
+      <circle class="imm-svg-fill-warning" cx="403" cy="236" r="7"/>
+      <circle class="imm-svg-fill-warning" cx="665" cy="236" r="7"/>
+      <circle class="imm-svg-fill-danger" cx="927" cy="236" r="7"/>
+      <text class="imm-svg-sub" x="20" y="262">início da tarefa</text>
+      <text class="imm-svg-sub" x="1050" y="262" text-anchor="end">entrega ao time</text>
+      <text class="imm-svg-tag" x="535" y="288" text-anchor="middle">SÃO FALHAS DE PROCESSO, NÃO DE LINGUAGEM — NENHUMA APARECE NA RESPOSTA FINAL, TODAS APARECEM NO HISTÓRICO</text>
+    </svg>
+  </figure>
+  <div class="imm-contract">O churn n&atilde;o vem do erro isolado. Vem de <em>descobrir o erro depois de ter confiado</em>.</div>
+  <div class="imm-rail" aria-hidden="true"><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i></i><i></i><i></i><b><em>4</em> &middot; As falhas</b></div>
+  <span class="imm-page">15 / 36</span>
+  <aside class="notes">4 min. Percorra os quatro e, em cada um, aponte o momento da sexta-feira: a <b>deriva</b> é o critério do comprovante escorregando; o <b>estado perdido</b> é SÁB 03h; a <b>autoaprovação</b> é o relatório "400 de 400 — fila zerada". O <b>encerramento precoce</b> é a única que não apareceu no caso — vale dizer isso, porque mostra que a lista não foi desenhada para caber na história. A linha em itálico é o nome que a falha recebe quando chega ao time: ninguém abre um chamado dizendo "houve deriva de objetivo", dizem "o agente piorou com o tempo". Destaque que a falha mais cara é a quarta, porque é a única que chega parecendo sucesso.</aside>
+</section>
+
+<section class="imm-slide">
+  <span class="imm-type">Produto</span>
+  <div class="imm-kicker">O outro lado da tela</div>
+  <h2>Quando o trabalho dura dias, o produto precisa responder perguntas que o chat nunca teve.</h2>
+  <div class="imm-grid four">
+    <div class="imm-card accent"><h3>“Está indo bem?”</h3><p>Progresso invisível faz o usuário abandonar ou refazer o trabalho por fora.</p></div>
+    <div class="imm-card accent"><h3>“Mudei de ideia.”</h3><p>Corrigir o rumo no meio não pode significar jogar fora cinco dias de trabalho.</p></div>
+    <div class="imm-card accent"><h3>“Parou no pedido 212.”</h3><p>Os 211 já resolvidos valem muito mais que um relatório de erro.</p></div>
+    <div class="imm-card accent"><h3>“Quem responde por isso?”</h3><p>O cliente não reclama com o agente. Reclama com a empresa que o colocou no ar.</p></div>
+  </div>
+  <div class="imm-contract">Latência deixou de ser um número de performance. Virou <em>uma experiência que precisa ser desenhada</em>.</div>
+  <div class="imm-rail" aria-hidden="true"><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i></i><i></i><i></i><b><em>4</em> &middot; As falhas</b></div>
+  <span class="imm-page">16 / 36</span>
+  <aside class="notes">3 min. Este slide existe para evitar que o resto do encontro vire só arquitetura. Cada peça técnica adiante responde a uma dessas quatro perguntas de produto.</aside>
+</section>
+
+<section class="imm-slide">
+  <span class="imm-type">Virada</span>
+  <div class="imm-kicker">Movimento 4 → 5</div>
+  <h2>Agora a arquitetura pode aparecer —<br>porque já sabemos o que ela precisa resolver.</h2>
+  <table class="imm-table">
+    <thead><tr><th>Falha que acabamos de nomear</th><th>Peça que responde</th><th>Pergunta de projeto</th></tr></thead>
+    <tbody>
+      <tr><td>O progresso se perde entre sessões</td><td>Sessão durável e artefatos</td><td>Onde mora o estado?</td></tr>
+      <tr><td>O contexto satura e o objetivo escorrega</td><td>Harness com reset e retomada</td><td>Quem decide recomeçar?</td></tr>
+      <tr><td>O agente se autoavalia e se engana</td><td>Papéis separados e verificação</td><td>Quem julga o resultado?</td></tr>
+      <tr><td>Uma ação errada vaza para o mundo real</td><td>Sandbox e gateway de credenciais</td><td>Onde a ação executa?</td></tr>
+    </tbody>
+  </table>
+  <div class="imm-contract">Leia o próximo bloco de trás para frente: <em>cada componente existe porque uma dessas quatro falhas já custou caro a alguém.</em></div>
+  <div class="imm-rail" aria-hidden="true"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i></i><i></i><i></i><b>Dobradi&ccedil;a <em>4 &rarr; 5</em></b></div>
+  <span class="imm-page">17 / 36</span>
+  <aside class="notes">1 min. Slide mais importante da virada. Ele transforma a lista de componentes em respostas a problemas nomeados. Volte a esta tabela sempre que uma peça parecer arbitrária.</aside>
 </section>
 
 <section class="imm-slide">

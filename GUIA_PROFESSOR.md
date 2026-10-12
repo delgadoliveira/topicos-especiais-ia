@@ -553,9 +553,9 @@ Para cada um:
 | Abertura | 14' | **Panorama de mercado**, mapa dos dois encontros, **por que agora** (curva METR) e o fio condutor — slides 1–4 e 6 |
 | 1 · A sexta-feira | 10' | **O caso da fila de reembolsos**, o vocabulário do plantão e os casos reais — 5, 7, 8 |
 | 2 · A tarefa longa | 9' | O que é tarefa longa, a escada resposta → projeto e a mudança de unidade — 9–11 |
-| 3 · Os quatro nomes | 3' | Modelo, harness, agente e sistema — 12 |
-| 4 · As falhas | 8' | **Virada** + as quatro falhas e como cada uma chega ao produto — 13–15 |
-| 5 · Fazer o trabalho durar | 49' | **Virada** + harness, artefatos, reset, simulador e o **laboratório de 25'** — 16–23 |
+| 3 · Os quatro nomes | 7' | Modelo, harness, agente e sistema — e o slide inteiro sobre o harness — 12, 13 |
+| 4 · As falhas | 8' | **Virada** + as quatro falhas e como cada uma chega ao produto — 14–16 |
+| 5 · Fazer o trabalho durar | 45' | **Virada** + anatomia, volta a volta, artefatos, reset, simulador e o **laboratório de 25'** — 17–23 |
 | 6 · Fazer o trabalho ser aceito | 12' | Papéis separados, sandbox, assíncrono, escada de evidência e a fila passo a passo — 24–29 |
 | 7 · A sua empresa | 9' | Cancelamentos, Klarna, as quatro camadas e o que perguntar ao fornecedor — 30–33 |
 | Fechamento | 6' | A sexta-feira remontada, arquitetura de referência e checklist — 34–36 |
@@ -569,7 +569,7 @@ Para cada um:
 
 > ⏸️ **Não há slide de intervalo.** O laboratório de 25 minutos no meio do
 > movimento 5 cumpre esse papel. Se precisar de uma pausa formal, coloque-a
-> imediatamente antes do slide 17 — é a fronteira mais limpa do deck.
+> imediatamente antes do slide 18 — é a fronteira mais limpa do deck.
 
 ### ⏱️ Rota de 120 minutos — o deck já está no tempo
 
@@ -581,7 +581,7 @@ controle de tempo é por slide, não por bloco.
 Isso muda a forma de usar as notas: elas **não são para ler**. A maior parte dos
 slides tem 2 a 3 minutos, o que dá para uma frase de enquadramento, a leitura do
 contrato em destaque e uma pergunta à turma. Só o slide 04 (a curva METR) tem 5
-minutos; os de 4 minutos — 02, 05, 14, 17 e 19 — são os outros em que cabe
+minutos; os de 4 minutos — 02, 05, 13, 15 e 19 — são os outros em que cabe
 desenvolver.
 
 **Se estiver atrasado**, corte nesta ordem — cada item devolve o próprio
@@ -589,13 +589,13 @@ orçamento sem quebrar o fio:
 
 | Corte | Slides | Ganho |
 |---|---|---:|
-| Primeiro | 13 e 16 (viradas) — diga a frase em voz alta e avance sem projetar | ~2' |
+| Primeiro | 14 e 17 (viradas) — diga a frase em voz alta e avance sem projetar | ~2' |
 | Depois | 24 e 25 (produção × julgamento, sandbox) — viram uma frase cada | ~4' |
 | Depois | 30 (Gartner) — o número é citado dentro do slide da Klarna | ~2' |
 | Por último | 34 e 35 (caso remontado + arquitetura de referência) — vire tarefa de casa | ~4' |
-| **Nunca corte** | 04 (por que agora), 05 (a sexta-feira), 06 (fio condutor), 11 (sobrevivência), 12 (as quatro entidades), 17 (o que é o harness), 18–21 (peças, volta a volta, artefatos, reset), 22 (simulador) | — |
+| **Nunca corte** | 04 (por que agora), 05 (a sexta-feira), 06 (fio condutor), 11 (sobrevivência), 12 (as quatro entidades), 13 (o que é o harness), 15 (as quatro falhas), 18–21 (peças, volta a volta, artefatos, reset), 22 (simulador) | — |
 
-Os slides 17 a 21 são pré-requisito do laboratório: sem eles o aluno não sabe o
+Os slides 18 a 21 são pré-requisito do laboratório: sem eles o aluno não sabe o
 que é um handoff nem por que o reset acontece. O **slide 22 é o simulador de
 travessia de reset** — rode-o ao vivo, projetado, antes de soltar as duplas:
 ele produz em 90 segundos a intuição que o laboratório vai exercitar.
@@ -604,10 +604,26 @@ ele produz em 90 segundos a intuição que o laboratório vai exercitar.
 > dois pontos e os dois precisam ser ditos em voz alta. No **slide 12**, modelo e
 > harness aparecem lado a lado como duas peças de software, e *agente* é
 > apresentado como nome do arranjo das duas — não como uma terceira caixa. No
-> **slide 17**, o teste prático: desligue o modelo e o que continua rodando é o
-> harness. Pergunta que fecha o assunto quando alguém trava: *"qual arquivo eu
+> **slide 13** — que vem logo depois, de propósito — o teste prático: desligue o
+> modelo e o que continua rodando é o harness. Pergunta que fecha o assunto: *"qual arquivo eu
 > abro para mudar isso?"* — para modelo e harness existe resposta; para agente e
 > sistema, não.
+
+> 📐 **Por que o slide do harness está aqui e não lá na frente.** Ele já esteve
+> no bloco da arquitetura, e isso criava um buraco: a palavra *harness* era
+> introduzida no slide 12 e só explicada cinco slides depois — sendo usada no
+> meio do caminho como se fosse conhecida. O harness, porém, não é um componente
+> que se escolhe em resposta a uma falha; é uma **entidade que já existe em todo
+> agente**, com ou sem projeto. Por isso ele pertence ao bloco do vocabulário. As
+> *decisões* sobre o harness — quando resetar, o que persistir, o que deixar
+> executar — continuam no movimento 5, onde há falha nomeada para justificá-las.
+
+> 🧩 **O slide 15 fecha dois circuitos ao mesmo tempo.** Cada uma das quatro
+> falhas traz, em itálico, o nome que ela recebe quando chega ao time — ninguém
+> abre um chamado dizendo "houve deriva de objetivo", dizem *"ele piorou com o
+> tempo"*. E três das quatro aconteceram literalmente na sexta-feira do slide 5;
+> aponte cada uma ao passar. A exceção é o **encerramento precoce** — diga isso,
+> porque prova que a lista não foi desenhada para caber na história.
 
 > 💡 **O slide 04 é o que responde “por que esta aula, por que agora”.** Ele mostra
 > a curva de horizonte de tarefa da METR — de ~9 segundos em 2020 para 12 a 17
