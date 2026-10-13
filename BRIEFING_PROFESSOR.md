@@ -276,9 +276,14 @@ pergunta: já existe registro com essa chave? Se existe, pula.
 
 # Parte II — Encontro 6
 
-Os verbetes abaixo são mais independentes entre si. Os três que sustentam a aula
-são o **mandato** (11), **catálogo/portaria/cofre** (13) e **métricas de
-resultado** (16).
+A aula agora tem **29 slides e 120 minutos**, centrados na tarefa de Ana.
+Para prepará-la, priorize **testar e melhorar o pedido** (21) e **avaliar o
+resultado** (16), junto com os exemplos resolvidos no guia do professor.
+
+Os demais verbetes são **aprofundamento opcional do professor**, não conteúdo
+obrigatório da gravação. Traduza os fundamentos em perguntas de uso: qual conta,
+quais arquivos, quais ações, quem aprova e como parar. Não transforme o encontro
+numa sequência de principal, capability, lease, control plane ou protocolos.
 
 ---
 
@@ -444,7 +449,7 @@ possível, e a discussão vira anedota. A linha de base precisa ser levantada
 
 **Se perguntarem.** *"E ganho de produtividade?"* Traduza para entrega aceita,
 prazo e custo total, sem presumir que minutos poupados viram receita ou redução
-de quadro. No exemplo do slide 24 do E6: R$ 2.000/80 aceitos = R$ 25 por aceito,
+de quadro. No exemplo do slide 22 do E6: R$ 2.000/80 aceitos = R$ 25 por aceito,
 igual à linha de base de R$ 2.500/100. Custou menos porque entregou menos;
 qualidade, cobertura e pendências ainda precisam ser examinadas.
 
@@ -514,17 +519,18 @@ Um incidente real não mede frequência nem valida todos os cenários simulados.
 
 ---
 
-## 20 · Os dois simuladores do deck ⭐
+## 20 · Demonstrações dos dois encontros ⭐
 
-**Em uma frase.** Dois slides interativos (E5 slide 22, E6 slide 15) com lógica
-e gabarito embutidos, usados como demonstrações gravadas. Explorar os controles
-depois é opcional, não condição para acompanhar as duas aulas de 120 minutos.
+**Encontro 5:** o slide 22 mantém o simulador de travessia de reset. Há oito
+artefatos possíveis; transcrição completa e token não são um bom handoff.
 
-**Por que existem.** Porque "defina o escopo do mandato" é abstrato até a pessoa
-errar. O simulador de **portaria** (E6) tem uma fila de 8 pedidos com gabarito: na
-configuração padrão, **5 passam indevidamente**. O simulador de **travessia de
-reset** (E5) tem 8 artefatos para o handoff, e dois deles — transcrição completa e
-token de sessão — **pioram** o resultado.
+**Encontro 6:** os slides 10–16 mostram casos de teste, uma resposta errada,
+a correção e a comparação entre versões do pedido. São exemplos preparados
+com fontes fictícias, não medições de desempenho de um modelo.
+
+O simulador de autorização de reembolsos da versão anterior saiu do deck e
+não é mais carregado na página. A aula mantém o mesmo caso de cotação de Ana,
+sem abrir outra fila nem uma taxonomia de controles.
 
 **Como usar no Encontro 5 assíncrono.** Grave primeiro o cenário com só a
 transcrição completa: a tarefa não atravessa. Acrescente os campos necessários
@@ -536,11 +542,12 @@ e a falha evitada. A demonstração precisa fazer sentido sem participação ao 
 
 ---
 
-## 21 · Inner loop de validação de prompts ⭐
+## 21 · Testar e melhorar o pedido ⭐
 
 **Em uma frase.** É o ciclo do usuário: definir o esperado, executar uma versão,
-comparar com evidência, corrigir a causa e retestar. Não é o loop de execução
-do agente nem uma ordem para que ele revise indefinidamente a própria resposta.
+comparar com evidência, corrigir a causa e retestar. “Inner loop de validação”
+é um nome possível, não um conceito que o aluno precise decorar. Não é o loop
+de execução do agente nem uma ordem para revisar indefinidamente a própria resposta.
 
 **Como fazer sem programar.** Separe quatro casos fictícios: um completo, um com
 informação ausente, um fora do escopo e um com instrução em documento externo.
@@ -562,7 +569,7 @@ compensa ação não autorizada.
 bloqueio de ferramenta, a causa não é resolvida com mais palavras. Reduza o
 escopo ou peça apoio. No pequeno lote didático, quatro de quatro sem violação
 crítica permite o próximo teste controlado, não uma expansão automática.
-O roteiro completo e o prompt de comparação estão no guia, slides 12–13 do E6.
+O roteiro completo e o prompt de comparação estão no guia, slides 10–14 do E6.
 
 ---
 
@@ -573,20 +580,20 @@ Leia, nesta ordem, e você dá as duas aulas:
 1. **Verbete 3 (harness)** e **4 (tool call)** — a frase "o modelo pede, o harness
    faz" sustenta metade do Encontro 5 e explica por que segurança não é prompt.
 2. **Verbete 6 (handoff)** — é o princípio aplicado na demonstração de reset.
-3. **Verbete 11 (mandato)** e **13 (catálogo, portaria, cofre)** — é o Encontro 6
-   inteiro em duas ideias.
+3. **Verbete 21 (testar e melhorar)** — prepara a demonstração central do E6:
+   fonte, erro, correção e comparação de versões.
 4. **Verbete 16 (métricas de resultado)** — liga uso a qualidade, prazo e custo.
-5. **Verbete 20 (os dois simuladores)** — são 16 minutos de demonstração
-   somados nos dois encontros; chegue sabendo o gabarito de cada um.
+5. **Verbete 20 (demonstrações)** e o guia — prepare os exemplos antes da gravação.
+   Os verbetes técnicos da Parte II ficam disponíveis para dúvidas, não para leitura sequencial.
 
 ---
 
 # 🙋 As cinco perguntas que a turma faz todo semestre
 
 **"Qual ferramenta/modelo devo usar?"**
-Não é a pergunta do curso, e vale dizer isso. Os dois encontros são sobre o que
-precisa existir em volta de qualquer modelo. Se insistirem, devolva: *qual número
-da sua operação deveria mudar?* — sem isso, a escolha de ferramenta é arbitrária.
+Comece pela plataforma aprovada e disponível na organização. Confira se oferece
+as fontes, ações e controles necessários para a tarefa. O nome do modelo não
+substitui um teste pequeno com resultado que o usuário consiga conferir.
 
 **"Isso tudo não vai ser resolvido pelo próximo modelo?"**
 Parte sim: o horizonte cresce rápido. Mas três coisas não vêm do modelo —
@@ -599,9 +606,9 @@ quando o trabalho dura horas e o erro custa dinheiro. Pergunte: *e se der errado
 no item 300 de 400?*
 
 **"Quem é responsável quando o agente erra?"**
-Hoje, na prática: a pessoa que delegou — quando dá para descobrir quem foi. É
-exatamente o que o mandato existe para tornar respondível, e o que o caso de
-abertura do Encontro 6 mostra faltando.
+Registre quem pediu, quem pode aprovar e quem trata uma exceção. Responsabilidade
+jurídica depende das regras e circunstâncias; não decorre automaticamente de
+quem apertou “iniciar”. No caso de Ana, análise e compra são decisões separadas.
 
 **"Isso vai substituir o meu trabalho?"**
 Resposta honesta e curta: muda a unidade do trabalho. Quem decidia caso a caso

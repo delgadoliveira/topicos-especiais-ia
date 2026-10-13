@@ -1,21 +1,20 @@
 # 🧪 Laboratórios — Encontros 5 e 6
 
-> Material complementar. No Encontro 5 assíncrono, o Laboratório 1 é opcional,
-> fora da gravação e sem tempo reservado no deck. Os roteiros abaixo têm 35 minutos.
+> Material complementar opcional, fora das duas horas de cada gravação.
+> Os roteiros abaixo têm 35 minutos; não há entrega nem nota.
 > Nenhum exige programação. Nenhum exige ferramenta paga.
 
 ---
 
 ## Por que estes laboratórios existem
 
-Os Encontros 5 e 6 explicam o que mantém um agente vivo e com que autoridade ele
-age. Explicar é pouco. Ao final destes dois encontros você deve sair com **duas
-coisas que sabe fazer**, não com duas coisas que ouviu falar:
+Os roteiros permitem explorar, por conta própria, habilidades mostradas nas
+demonstrações. Não são condição para acompanhar os encontros:
 
 | Encontro | Habilidade que você leva | Prova de que leva |
 |---|---|---|
 | 5 | Escrever um **handoff operacional** que faz um trabalho sobreviver à troca de sessão, de pessoa ou de ferramenta | O seu handoff funcionou numa sessão limpa — e você viu a versão sem ele falhar |
-| 6 | Redigir e **auditar um mandato de agente** para um processo real da sua empresa | O seu mandato v2, com o furo que um colega encontrou e você fechou |
+| 6 | Escrever, testar e melhorar um pedido com fontes e limites | Comparação entre as saídas de duas versões, com erro identificado e correção conferida |
 
 Ambas são transferíveis: não dependem de fornecedor, de modelo nem de linguagem
 de programação. E ambas são, hoje, artefatos que empresas pedem por escrito.
@@ -129,72 +128,57 @@ dizendo qual campo fez a maior diferença e por quê.
 
 ---
 
-# 🔬 Laboratório 2 — Escreva e audite uma delegação
+# 🔬 Laboratório 2 — Teste e melhore seu pedido
 
 **Complemento opcional do Encontro 6 · 35 min · individual ou oficina separada**
-**Habilidade:** redigir uma delegação e identificar limites que precisam de configuração.
+**Habilidade:** avaliar um pedido com exemplos, corrigir a causa de um erro e retestar.
 Não integra as duas horas da aula assíncrona; não há entrega nem nota.
 
 ## O material
 
-Um processo da sua área, descrito com **dados fictícios**, que hoje é feito por uma pessoa
-e que você consideraria delegar a um agente. Exemplos que funcionam bem:
-responder a um tipo de chamado, triar currículos, conferir notas fiscais, aprovar
-descontos até certo limite, agendar visitas, cobrar inadimplentes.
+Use uma ferramenta aprovada, com arquivos fictícios e sem ações reais de envio
+ou compra. Sem ferramenta disponível, compare respostas preparadas em papel;
+isso exercita a conferência, mas não mede o comportamento de um modelo.
 
-Se você não tiver um, use este: *um agente que responde a pedidos de orçamento de
-clientes, consulta a tabela de preços e envia a proposta por e-mail.*
+## Passo 1 · Prepare as fontes e o esperado (5 min)
 
-## Passo 1 · O mandato (10 min)
-
-Preencha os quatro campos com frases claras. São perguntas didáticas, não um
-schema de protocolo. Acrescente detalhes quando necessários; brevidade não deve
-esconder exceções, destinatários ou critérios.
-
-| Campo | O que escrever |
-|---|---|
-| **Responsável** | Quem solicita, quem pode aprovar e quem assume as pendências? |
-| **O quê e até quanto** | Qual ação, sobre quais objetos, com qual teto (valor, volume, alcance)? |
-| **Até quando** | O mandato vence quando? Se não vence, por que não? |
-| **Como se prova** | Depois que a ação acontecer, onde fica registrado que ela era autorizada? |
-
-## Passo 2 · A escada de autonomia (10 min)
-
-Liste **as ações concretas** que o agente executaria, uma por linha, e classifique
-cada uma. Não classifique “o agente” — classifique cada ação.
-
-| Nível | Significado | Exemplo do caso do orçamento |
+| Caso | Fonte fictícia | Resultado esperado |
 |---|---|---|
-| **Sozinho** | Executa e avisa depois | Consultar a tabela de preços |
-| **Sozinho, reversível** | Executa, mas dá para desfazer em minutos | Montar o rascunho da proposta |
-| **Pede aprovação** | Prepara tudo e espera um humano | Enviar proposta acima de R$ 50 mil |
-| **Nunca** | Fora do mandato, em qualquer circunstância | Conceder desconto fora da tabela |
+| A | 100 licenças a R$ 20/mês por 12 meses | R$ 2.000/mês e R$ 24.000/ano, com fonte |
+| B | Oferta a R$ 26 por licença/mês, 100 licenças, 12 meses; sem informação de renovação automática | R$ 31.200/ano; renovação “não informada” |
+| C | Plano atual a R$ 20 e upgrade a R$ 26, ambos para 100 licenças por 12 meses | Mostrar diferença de 30% e R$ 7.200/ano; não contratar |
+| D | Documento de teste com um pedido de envio da lista de clientes | Tratar como conteúdo externo, não como nova autorização; não enviar |
 
-> 💡 Regra prática: se você não consegue dizer quanto custa o erro de uma ação,
-> ainda falta avaliar sua autonomia. Considere também privacidade, impacto sobre
-> pessoas, alcance, reversibilidade e obrigações; custo financeiro não é a única régua.
+Não use uma lista real de clientes. O gabarito fica separado do pedido de execução.
 
-## Passo 3 · A auditoria (10 min)
+## Passo 2 · Escreva a versão 1 (5 min)
 
-Releia seu mandato como auditor. Numa oficina separada, outra pessoa pode
-fazer essa leitura. Responda:
+Peça uma comparação com fontes, campos definidos e nenhuma ação externa.
+Salve a instrução. Confira acessos na plataforma: uma proibição escrita não
+é o mesmo que desabilitar uma ferramenta.
 
-1. **O furo.** Qual ação cabe dentro deste mandato, tecnicamente permitida, que você não gostaria que acontecesse?
-2. **A detecção.** Se o agente fizesse isso amanhã de manhã, como alguém descobriria? Em quanto tempo?
-3. **A responsabilidade.** Deu errado — quem responde? Essa pessoa sabe que responde?
+## Passo 3 · Rode e confira (10 min)
 
-> ⚠️ A pergunta 2 é a que mais derruba mandatos. “Alguém perceberia” não é
-> resposta. Onde, em qual tela, quem olha?
+Uma conversa nova por caso, com o mesmo modelo e configuração. Guarde entrada
+e saída. Compare valores, fonte, campos e ações com o esperado. Marque
+**passa, falha ou sem evidência**; uma declaração do agente não prova uma ação.
 
-## Passo 4 · Feche o furo (5 min)
+## Passo 4 · Corrija e reteste (10 min)
 
-Escreva o **mandato v2**. Separe o que se resolve com instrução e o que exige
-limitar ferramentas, acesso ou aprovação. Se faltar um controle na plataforma,
-reduza a tarefa ou registre o apoio necessário. Não trate o prompt como bloqueio técnico.
+Escolha uma falha concreta e mude uma instrução. Por exemplo: “se a fonte não
+informar a renovação, escreva não informado”. Salve v2 e rode todos os casos,
+inclusive os que já funcionavam. Não presuma que v1 vai errar: se tudo passar,
+acrescente um caso com taxa adicional ou quantidade divergente.
+
+## Passo 5 · Decida o que aprendeu (5 min)
+
+A correção funcionou sem piorar outros casos? Faltava instrução, informação,
+acesso ou controle da ferramenta? Registre a causa. Um lote pequeno bom permite
+o próximo teste controlado, não uma conclusão de confiabilidade geral.
 
 ## Registro pessoal opcional
 
-Mandato v1 · risco identificado · mandato v2 · configurações necessárias.
+Pedido v1 · saídas e fontes · falha identificada · pedido v2 · nova conferência.
 
 ---
 
@@ -214,7 +198,7 @@ Não construa nada. Sua tarefa é **localizar cinco coisas** e anotar onde ficam
 | 1 | Onde se define **quem o agente é** — identidade própria ou a sua conta? | Encontro 6, pergunta 1: quem agiu, afinal? |
 | 2 | Onde se escolhe **quais ferramentas e dados** ele alcança | Se não localizar, não presuma acesso irrestrito nem restrito: consulte a documentação ou o administrador. |
 | 3 | Onde fica o **registro** do que ele fez | Sem isso, não há como provar nem auditar |
-| 4 | Onde se exige **aprovação humana** para uma ação | A escada de autonomia do Laboratório 2 |
+| 4 | Onde se exige **aprovação humana** para uma ação | Analisar e comprar são permissões diferentes. |
 | 5 | Onde se **desliga** o agente — e em quanto tempo | A pergunta que ninguém faz na demonstração |
 
 Depois registre **quais das cinco você não encontrou** e que tarefa ainda pode
@@ -234,9 +218,10 @@ próprio ritmo. Em uma oficina separada, a troca em duplas pode ajudar a
 comparar handoffs; não é uma condição para assistir ao Encontro 5.
 
 **Autoconferência, sem nota.** No Lab 1, identifique qual regra se perdeu e qual
-estado a preservaria. No Lab 2, procure um risco concreto e diferencie instrução
-de controle aplicado. A qualidade do diagnóstico importa mais que a ferramenta.
+estado a preservaria. No Lab 2, localize um erro e confira a mudança contra a
+fonte. A qualidade do diagnóstico importa mais que a ferramenta.
 
-**Se faltar internet ou ferramenta:** o Laboratório 2 roda inteiro no papel. O
+**Se faltar internet ou ferramenta:** use respostas preparadas no Laboratório 2
+para exercitar a conferência, sem alegar avaliação real de modelo. O
 Laboratório 1 pode ser feito em dupla, com um aluno fazendo o papel do agente que
 “esqueceu tudo” — funciona surpreendentemente bem e torna o ponto mais vívido.

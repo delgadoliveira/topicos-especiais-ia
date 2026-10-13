@@ -849,63 +849,62 @@ Não há exercício obrigatório, entrega do aluno, correção ou nota.
 
 ---
 
-# 🏛️ Encontro 6 — Quando o agente entra na organização
+# 🏛️ Encontro 6 — Como delegar trabalho a agentes e conferir o resultado
 
 ## 🎯 Objetivos de aprendizagem
 
-1. Distinguir quem pediu, quem executou e quem autorizou uma ação.
-2. Configurar fontes e ações para uma tarefa delimitada, reconhecendo quando pedir apoio ao administrador.
-3. Escrever prompts com entrega, fontes, limites, evidências e ponto de parada.
-4. Avaliar versões do prompt com casos e gabarito definidos antes da execução, corrigindo falhas sem regressões.
-5. Conferir uma aprovação concreta: fornecedor, quantidade, preço total, prazo e renovação.
-6. Separar conteúdo externo de instrução autorizada e protocolo de confiança.
-7. Acompanhar a execução, localizar divergências e pedir correções verificáveis.
-8. Comparar qualidade, cobertura, prazo e custo por entrega aceita.
-9. Revisar o alcance antes de compartilhar ou agendar.
-10. Interromper, registrar e encaminhar uma ação indevida.
-11. Encerrar ou transferir uma delegação sem confundir handoff com permissão.
+1. Escolher uma tarefa com entrega e fontes que consiga conferir.
+2. Escrever um pedido claro, com limites e tratamento de informação ausente.
+3. Testar e melhorar o pedido com exemplos e respostas esperadas.
+4. Acompanhar a execução, localizar um erro e conferir a correção.
+5. Avaliar qualidade, prazo e custo do trabalho aceito.
+6. Encerrar, pedir ajuda ou ampliar o uso sem perder o controle.
 
 ## 👥 Para quem este encontro é desenhado
 
-A audiência **usa os sistemas**, não desenvolve o harness. O encontro deve
-ensinar o que escrever, configurar, acompanhar e conferir. O aluno pode precisar
-do administrador para restringir uma conexão ou revogar um acesso: saber quando
-pedir isso também é competência de uso.
+A audiência **usa os sistemas**, não implementa a plataforma. A aula foi reduzida
+de 38 para **29 slides**, retirando a taxonomia de segurança, protocolos,
+catálogo de produtos, casos de incidentes e a segunda situação de RH.
 
-O E5 ensina a fazer a entrega sobreviver e ser verificável. O E6 acrescenta:
-**essa ação estava autorizada, com esses dados, valor e destinatário?**
-Mantenha o caso das licenças como fio condutor; o simulador de reembolsos
-reaproveita um domínio conhecido para mostrar uma regra em execução.
+O E5 explica o funcionamento e a verificação de trabalho durável. O E6 acompanha
+uma pessoa aplicando isso: **Ana compara duas propostas de licença, encontra um
+erro, melhora o pedido e confere a entrega antes de decidir**. Não reintroduza
+siglas pelas notas. Os fundamentos técnicos continuam no briefing como apoio.
+
+O simulador de reembolsos da versão anterior do E6 saiu do percurso para evitar
+trocar de domínio. O E5 mantém sua demonstração de reset. No E6, as demonstrações
+são respostas preparadas, fontes e tabelas comentadas; não resultados medidos
+de um modelo específico.
 
 ## ⏱️ Roteiro de gravação (120 min)
 
-**38 slides; notas somam 120 minutos.** Não há laboratório obrigatório,
+**29 slides; notas somam 120 minutos.** Não há laboratório obrigatório,
 intervalo contabilizado nem espera por interação. A soma é o plano de gravação,
 não uma medição da duração de um vídeo já produzido.
 
 | Slides | Tempo | Conteúdo |
 |---|---:|---|
-| 1–7 | 20' | Caso, perguntas, vocabulário, identidades e ações disponíveis no mercado |
-| 8–15 | 33' | Autoridade, mandato, configuração, prompt, inner loop de validação e simulador |
-| 16–18 | 7' | Protocolos, conteúdo externo e transição para compromissos financeiros |
-| 19–25 | 23' | Aprovação com números, fontes, métricas e prompt de correção |
-| 26–32 | 19' | Escala, compartilhamento, produtos e leitura responsável de casos |
-| 33–38 | 18' | Incidente, encerramento, caso resolvido, RH e roteiro de uso |
+| 1–4 | 10' | Abertura, caso de Ana e cinco passos |
+| 5–9 | 22' | Escolher a tarefa, limitar ações, selecionar fontes e escrever o pedido |
+| 10–14 | 25' | Testar, corrigir uma resposta, comparar versões e diagnosticar a causa |
+| 15–20 | 27' | Acompanhar, conferir fontes, corrigir preço e decidir sobre aprovação |
+| 21–22 | 9' | Avaliar qualidade e custo com um exemplo numérico |
+| 23–29 | 27' | Registrar, compartilhar, interromper, encerrar e resolver o caso |
 
 ### Demonstrações e prompts: o centro prático da aula
 
 | Slide | Roteiro para a gravação |
 |---|---|
-| 10 · Configurar | Conta corporativa, fontes restritas, leitura/rascunho e execução única. Teste um documento completo e outro sem preço. |
-| 11 · Delegar | Leia o prompt de cotação e comente entrega, fontes, dados ausentes, ações proibidas e parada. Mostre uma pendência corretamente declarada. |
-| 12–13 · Avaliar o prompt | Prepare quatro casos com gabarito. Rode v1, localize uma falha, ajuste uma instrução e reteste v2 nos mesmos casos e em casos novos. |
-| 15 · Simular | Padrão: cinco indevidos, nenhum legítimo bloqueado. Aplique a política de referência; depois reduza o teto a R$ 500 para mostrar um bloqueio indevido. |
-| 20 · Aprovar | 100 × R$ 20 = R$ 2.000/mês; upgrade a R$ 26 = R$ 2.600/mês. Diferença: 30%, R$ 600/mês e R$ 7.200/ano. Confira também condições e impostos. |
-| 24 · Medir | 80 aceitos + 12 em correção + 8 pendentes = 100. R$ 2.000/80 = R$ 25 por aceito, igual à linha de base R$ 2.500/100. |
-| 25 · Corrigir | Localize uma divergência de preço, peça fonte e correção dos totais, abra o original e confira a nova versão. |
-| 27 · Registrar a operação | Preencha a ficha da cotação: Ana, substituto habilitado, fontes, ações, versão, histórico e suspensão. A ficha inicia o inventário e prepara o próximo slide. |
-| 28 · Ampliar | Compare execução individual, compartilhada e recorrente. O texto pode ser igual, mas alcance, identidade e risco mudam. |
-| 33–34 · Parar | Diferencie interromper execução, suspender recorrência, revogar conexão e reconciliar efeitos. Demonstre o prompt de encerramento e a conferência real. |
+| 5–7 · Preparar | Escolha a comparação, confira acessos e separe os documentos corretos. Não conecte uma pasta inteira por conveniência. |
+| 8–9 · Pedir | Leia o prompt e peça a confirmação de entrega, fontes, limites e cabeçalhos. Corrija “vou renovar” para “vou comparar”. |
+| 10–11 · Testar | Apresente os quatro casos com gabarito e o ciclo de testar, comparar, ajustar e repetir. |
+| 12 · Corrigir o teste | A fonte não informa renovação, mas a saída v1 diz “sim”. Corrija o campo e registre a regra no prompt v2. |
+| 13–14 · Conferir a melhoria | Quadro ilustrativo: v1 acerta 3/4, v2 acerta 4/4. Confira os demais casos e diferencie erro de instrução, fonte, acesso e ferramenta. |
+| 15–16 · Acompanhar | Mostre andamento normal, bloqueio e resultado parcial; depois confira uma divergência de preço na entrega útil. |
+| 19–20 · Aprovar | 100 × R$ 20 = R$ 2.000/mês; upgrade a R$ 26 = R$ 2.600/mês. Diferença: 30%, R$ 600/mês e R$ 7.200/ano. Confira prazo e renovação. |
+| 21–22 · Medir | A equipe produziu 100 comparações: 80 aceitas, 12 em correção e 8 pendentes. R$ 2.000/80 = R$ 25 por aceita, igual a R$ 2.500/100. |
+| 23–26 · Encerrar ou ampliar | Ficha de operação, compartilhamento, interrupção e encerramento. Passar o resumo não dá a outra pessoa autorização para agir. |
+| 27–29 · Fechar | Mostre a entrega de Ana e percorra o roteiro de uso, sem conceitos novos. |
 
 Use **dados fictícios**. Quando a conta não tiver os controles citados, explique
 a limitação; não simule uma aprovação técnica com uma resposta de chat.
@@ -914,7 +913,7 @@ acompanhar os exemplos resolvidos.
 
 ### Prompts reutilizáveis
 
-**Delegar — slide 11:**
+**Delegar — slide 8:**
 
 > Prepare para Ana uma comparação das licenças da lista anexa. Use somente os
 > contratos e propostas desta pasta e a política de compras vigente. Mostre
@@ -922,14 +921,14 @@ acompanhar os exemplos resolvidos.
 > dados ausentes e mudanças de condição. Não envie mensagens, não compre nem
 > aceite upgrades. Entregue a comparação nesta execução e pare para revisão.
 
-**Corrigir — slide 25:**
+**Corrigir — slide 16:**
 
 > Compare a tabela com as propostas originais. Para cada linha, indique a fonte
-> e o trecho que sustenta preço e prazo. O contrato B mostra R$ 26, mas você
+> e o trecho que sustenta preço e prazo. A proposta de upgrade mostra R$ 26, mas você
 > registrou R$ 20. Confira a divergência, corrija os totais afetados e liste as
 > mudanças. Sem evidência, marque pendente. Não envie nem contrate nada.
 
-**Encerrar — slide 34:**
+**Encerrar — slide 26:**
 
 > Não inicie novas ações. Resuma o que foi concluído, o que está em andamento e
 > o que ficou pendente, com IDs e evidências. Liste agendamentos e acessos que
@@ -940,11 +939,11 @@ revogação; revisão pelo mesmo modelo não é independente; handoff não trans
 autoridade. Peça fontes, cálculos e critérios verificáveis, não pensamentos
 internos do modelo.
 
-### O inner loop de validação de prompts — slides 12–13
+### Testar e melhorar o pedido — slides 10–14
 
-Este é o ciclo de trabalho **do usuário que prepara a tarefa**, não o loop
-modelo–harness que executa uma tarefa. A avaliação é comportamental: o que a
-versão do prompt fez nesses casos, com essas fontes, ferramentas e modelo?
+Este é o ciclo de trabalho **do usuário que prepara a tarefa**. Não é preciso
+ensinar o nome “inner loop”. A pergunta é simples: o pedido produziu o resultado
+esperado nesses exemplos, com essas fontes e configurações?
 
 1. **Defina antes:** prepare os casos A–D e escreva o resultado esperado.
    A: R$ 2.000/mês e R$ 24.000/ano; B: renovação não informada vira pendência;
@@ -969,9 +968,14 @@ versão do prompt fez nesses casos, com essas fontes, ferramentas e modelo?
 > nem invente evidência para fazê-la passar. Avalie ações apenas quando houver
 > registro da ferramenta; uma declaração no texto não prova execução.
 
-O professor mostra **uma saída ilustrativa**, não um resultado experimental
-atribuído a um produto: v1 preenche renovação indevidamente; v2 a marca como não
-informada. O aluno vê como localizar e corrigir a falha, sem precisar executar.
+No slide 12, o professor mostra **uma saída ilustrativa**, não um resultado
+experimental: v1 preenche renovação indevidamente; a resposta corrigida a marca
+como não informada. A regra entra no prompt v2. No slide 13, o quadro de 3/4
+para 4/4 também é preparado para a explicação. Não anuncie ganho de um modelo.
+
+No slide 16, a tarefa útil apresenta outro erro ilustrativo: preço unitário
+transcrito como R$ 20 em vez de R$ 26. Corrigir o pedido nos testes não elimina
+a necessidade de conferir a entrega real.
 
 **Critério didático para avançar:** quatro casos corretos, campos exigidos
 presentes e nenhuma violação crítica. Isso não estima confiabilidade em
@@ -979,7 +983,12 @@ produção. Outro modelo pode ajudar na triagem, mas não substitui gabarito,
 fontes nem revisão humana. Falha de segurança não pode ser compensada por
 uma média alta de qualidade textual.
 
-### Cuidados de conteúdo
+### Apoio técnico do professor — fora do percurso obrigatório
+
+Os itens abaixo ficam disponíveis para dúvidas, **não são tópicos a desenvolver
+na gravação**. Nos slides, traduza-os em decisões: qual conta está conectada,
+quais ações estão permitidas, quem aprova e como parar. Não é preciso memorizar
+principal, capability, lease, control plane, não repúdio ou protocolos.
 
 - **Principal** é identidade técnica reconhecida pelo sistema. Solicitante,
   executor, sponsor e aprovador podem ser diferentes. O registro não determina
@@ -993,33 +1002,27 @@ uma média alta de qualidade textual.
 - **Sponsor** no Entra pode ser pessoa ou grupo. Cadastro de responsável não
   equivale a não repúdio nem aprovação de cada ação.
 - **Autonomia** depende de impacto, dados, alcance, valor, reversibilidade e
-  obrigações. No caso de RH, a tabela propõe uma política, não uma lei universal.
+  obrigações. O caso de RH saiu do deck para não abrir outro domínio.
 - **Métricas:** compare denominadores, qualidade, cobertura e janela de tempo.
   Escalar corretamente não é fracasso; encerrar sem resolver não é sucesso.
 
-### Como tratar os casos sem exagerar a evidência
+### Um caso curto em aula; os demais apenas para consulta
 
-Os slides 29–33 formam uma sequência, não quatro notícias independentes:
+**Project Vend — slide 18, três minutos:** é a única excursão externa. Mostre
+como preço, desconto e destino de pagamento podem estar errados mesmo quando a
+ferramenta funciona. Volte imediatamente à conferência da proposta de Ana.
 
-| Slide | Pergunta que continua o argumento | Ponte para o próximo |
-|---|---|---|
-| 29 · Produtos | Quem ajuda a aplicar os limites definidos na ficha? | Controlar acesso não prova que a decisão é boa. |
-| 30 · Project Vend | Uma ação permitida pode produzir prejuízo? | Além de erro, é preciso testar conflito entre meta e limites. |
-| 31 · Misalignment | O agente aceita parar quando não pode concluir? | Testes não eliminam a necessidade de resposta a incidente. |
-| 32 · Hugging Face | Como detectar, conter e recuperar dano real? | O usuário precisa saber o que fazer, não só conhecer o caso. |
-| 33 · Resposta | Como interromper, preservar evidência e acionar o responsável? | Encerrar ou transferir exige conferir o que continua ativo. |
-
-**Slide 31 — Agentic misalignment:** simulações controladas da Anthropic,
+**Agentic misalignment — fora do deck:** simulações controladas da Anthropic,
 não taxa de incidência em empresas. O valor está em examinar o mecanismo e as
 opções de parada/escalada.
 
-**Slide 32 — Hugging Face:** use o [comunicado primário](https://huggingface.co/blog/security-incident-july-2026),
+**Hugging Face — fora do deck:** use o [comunicado primário](https://huggingface.co/blog/security-incident-july-2026),
 que relata intrusão, acesso a dados internos e credenciais, detecção e resposta.
 Esse comunicado inicial não identifica o modelo; não atribua a ele números de
 agentes, motivação ou detalhes de relatos posteriores. Não conclua “não houve
 vazamento de clientes” quando a avaliação ainda estava em curso.
 
-**Slide 30 — Project Vend:** use a [fase 1](https://www.anthropic.com/research/project-vend-1).
+**Fonte do slide 18 — Project Vend:** use a [fase 1](https://www.anthropic.com/research/project-vend-1).
 O experimento ilustra falhas de preço, memória e decisões de negócio. A própria
 fonte aponta melhorias de modelo **e** ferramentas/scaffolding como caminhos;
 não diga que inteligência é irrelevante. As linhas da tabela são observações,
@@ -1027,15 +1030,14 @@ não uma cronologia rígida de seis etapas.
 
 ### Fechamento
 
-O slide 27 não deve soar como uma digressão sobre governança: a cotação passou
-pelo piloto, e agora outras pessoas querem usá-la. Retire Ana do cenário
-temporariamente e mostre como a ficha permite suspender ou transferir com
-segurança. Em seguida, compartilhar e agendar (28) muda esse mesmo registro.
+O slide 23 prepara a continuidade da mesma tarefa; não abre uma aula de inventário.
+Mostre o que Bruno precisaria saber e quais acessos ainda precisariam ser aprovados.
+Compartilhar e agendar (24) muda esse alcance.
 
-O slide 35 resolve a segunda-feira: cotação entregue, upgrade não contratado e
-pendências atribuídas. O 36 transfere o raciocínio para RH. O 37 organiza o uso
-em antes, durante e depois. O 38 fecha com cinco perguntas que a pessoa consegue
-levar à própria plataforma.
+O slide 27 resolve o caso iniciado no slide 3: comparação conferida, nenhuma
+compra e condição pendente registrada. O 28 percorre antes, durante e depois.
+O 29 encerra com cinco perguntas simples. Não retome a antiga história de uma
+compra já efetuada: nesta versão Ana confere **antes** de contratar.
 
 O Laboratório 2 permanece em **`LABORATORIOS.md`** como prática individual
 opcional ou oficina separada, fora das duas horas. Não há entrega nem nota.
