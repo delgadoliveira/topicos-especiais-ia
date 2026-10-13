@@ -129,14 +129,15 @@ dizendo qual campo fez a maior diferença e por quê.
 
 ---
 
-# 🔬 Laboratório 2 — Escreva o mandato, fure o do colega
+# 🔬 Laboratório 2 — Escreva e audite uma delegação
 
-**Encontro 6 · 25 min em aula (versao longa 35 min) · duplas**
-**Habilidade:** redigir um mandato de agente e auditar o de outra pessoa.
+**Complemento opcional do Encontro 6 · 35 min · individual ou oficina separada**
+**Habilidade:** redigir uma delegação e identificar limites que precisam de configuração.
+Não integra as duas horas da aula assíncrona; não há entrega nem nota.
 
 ## O material
 
-Um processo **real** da sua empresa, da sua área, que hoje é feito por uma pessoa
+Um processo da sua área, descrito com **dados fictícios**, que hoje é feito por uma pessoa
 e que você consideraria delegar a um agente. Exemplos que funcionam bem:
 responder a um tipo de chamado, triar currículos, conferir notas fiscais, aprovar
 descontos até certo limite, agendar visitas, cobrar inadimplentes.
@@ -146,12 +147,13 @@ clientes, consulta a tabela de preços e envia a proposta por e-mail.*
 
 ## Passo 1 · O mandato (10 min)
 
-Preencha os quatro campos. Escreva frases, não tópicos — um mandato que não cabe
-numa frase é um mandato que ninguém vai conseguir auditar.
+Preencha os quatro campos com frases claras. São perguntas didáticas, não um
+schema de protocolo. Acrescente detalhes quando necessários; brevidade não deve
+esconder exceções, destinatários ou critérios.
 
 | Campo | O que escrever |
 |---|---|
-| **Quem pediu** | Em nome de qual pessoa ou cargo o agente age? Não vale “a empresa”. |
+| **Responsável** | Quem solicita, quem pode aprovar e quem assume as pendências? |
 | **O quê e até quanto** | Qual ação, sobre quais objetos, com qual teto (valor, volume, alcance)? |
 | **Até quando** | O mandato vence quando? Se não vence, por que não? |
 | **Como se prova** | Depois que a ação acontecer, onde fica registrado que ela era autorizada? |
@@ -169,12 +171,13 @@ cada uma. Não classifique “o agente” — classifique cada ação.
 | **Nunca** | Fora do mandato, em qualquer circunstância | Conceder desconto fora da tabela |
 
 > 💡 Regra prática: se você não consegue dizer quanto custa o erro de uma ação,
-> ela ainda não pode ficar no nível “sozinho”.
+> ainda falta avaliar sua autonomia. Considere também privacidade, impacto sobre
+> pessoas, alcance, reversibilidade e obrigações; custo financeiro não é a única régua.
 
 ## Passo 3 · A auditoria (10 min)
 
-Troque a folha com a dupla ao lado. Você agora é o auditor. Responda **sobre o
-mandato do colega**, por escrito:
+Releia seu mandato como auditor. Numa oficina separada, outra pessoa pode
+fazer essa leitura. Responda:
 
 1. **O furo.** Qual ação cabe dentro deste mandato, tecnicamente permitida, que você não gostaria que acontecesse?
 2. **A detecção.** Se o agente fizesse isso amanhã de manhã, como alguém descobriria? Em quanto tempo?
@@ -185,22 +188,22 @@ mandato do colega**, por escrito:
 
 ## Passo 4 · Feche o furo (5 min)
 
-Pegue sua folha de volta e escreva o **mandato v2**, corrigindo o furo apontado.
-Se o furo não puder ser fechado por escrito, escreva isso — é uma descoberta
-legítima e vale a mesma nota.
+Escreva o **mandato v2**. Separe o que se resolve com instrução e o que exige
+limitar ferramentas, acesso ou aprovação. Se faltar um controle na plataforma,
+reduza a tarefa ou registre o apoio necessário. Não trate o prompt como bloqueio técnico.
 
-## Entregável
+## Registro pessoal opcional
 
-Mandato v1 · o furo que o colega encontrou · mandato v2.
+Mandato v1 · risco identificado · mandato v2 · configurações necessárias.
 
 ---
 
 # 🔭 Exploração guiada — 15 minutos numa plataforma real
 
-Opcional, mas é o que transforma os dois encontros em algo que você reconhece no
-próximo fornecedor que entrar na sua sala.
+Opcional e fora das duas horas. O objetivo é reconhecer os controles na
+plataforma autorizada pela sua organização.
 
-Escolha **uma** plataforma com camada gratuita ou trial: Microsoft Copilot
+Escolha **uma** plataforma aprovada, com acesso disponível na sua conta: Microsoft Copilot
 Studio, Salesforce Agentforce, Google Agentspace, n8n, Zapier Agents, Make, ou a
 própria área de *custom GPTs* / *Projects* / *Gems* do assistente que você já usa.
 
@@ -209,34 +212,30 @@ Não construa nada. Sua tarefa é **localizar cinco coisas** e anotar onde ficam
 | # | Procure por | Por que importa |
 |---|---|---|
 | 1 | Onde se define **quem o agente é** — identidade própria ou a sua conta? | Encontro 6, pergunta 1: quem agiu, afinal? |
-| 2 | Onde se escolhe **quais ferramentas e dados** ele alcança | O catálogo. Se não existe, o escopo é “tudo”. |
+| 2 | Onde se escolhe **quais ferramentas e dados** ele alcança | Se não localizar, não presuma acesso irrestrito nem restrito: consulte a documentação ou o administrador. |
 | 3 | Onde fica o **registro** do que ele fez | Sem isso, não há como provar nem auditar |
 | 4 | Onde se exige **aprovação humana** para uma ação | A escada de autonomia do Laboratório 2 |
 | 5 | Onde se **desliga** o agente — e em quanto tempo | A pergunta que ninguém faz na demonstração |
 
-Depois responda em duas linhas: **quais das cinco você não encontrou?** As que
-faltam são exatamente as seis perguntas de compra do Encontro 5 deixando de ser
-teoria.
+Depois registre **quais das cinco você não encontrou** e que tarefa ainda pode
+delegar com segurança nesse ambiente. Recursos e controles variam por plano.
 
 ---
 
 ## 📋 Para o professor
 
-**Encaixe no tempo.** O Encontro 5 não reserva tempo para laboratório: a aula
-assíncrona inclui uma demonstração de reset e segue para a verificação do
-resultado. O Lab 1 permanece como prática opcional de 35 minutos, não como
-atividade exigida para acompanhar a gravação. O deck do Encontro 6 ainda
-contém sua atividade de 25 minutos; o roteiro deste documento é a versão longa.
+**Encaixe no tempo.** Ambos os encontros têm roteiro de 120 minutos sem
+laboratório obrigatório. O E5 demonstra reset e verificação; o E6 demonstra
+limites, prompts, aprovação, medição e encerramento. Os laboratórios são
+complementos opcionais de 35 minutos cada.
 
 **Sugestão de formato:** em estudo individual, o Lab 1 pode ser feito no
 próprio ritmo. Em uma oficina separada, a troca em duplas pode ajudar a
 comparar handoffs; não é uma condição para assistir ao Encontro 5.
 
-**Avaliação.** Os dois entregáveis são curtos e corrigíveis em minutos. Avalie
-pela qualidade do diagnóstico, não pela ferramenta: no Lab 1, o aluno que
-identificou *qual* regra se perdeu primeiro entendeu mais do que o que produziu o
-handoff mais bonito. No Lab 2, o aluno cujo mandato foi furado aprendeu mais do
-que o que escreveu um mandato tão vago que ninguém conseguiu furar.
+**Autoconferência, sem nota.** No Lab 1, identifique qual regra se perdeu e qual
+estado a preservaria. No Lab 2, procure um risco concreto e diferencie instrução
+de controle aplicado. A qualidade do diagnóstico importa mais que a ferramenta.
 
 **Se faltar internet ou ferramenta:** o Laboratório 2 roda inteiro no papel. O
 Laboratório 1 pode ser feito em dupla, com um aluno fazendo o papel do agente que

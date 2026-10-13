@@ -719,7 +719,7 @@ Se alguém perguntar por que a curva acelerou no último trecho: a METR mediu ~7
   <div class="imm-contract">Duas das oito op&ccedil;&otilde;es <em>pioram</em> a travessia. Guardar mais n&atilde;o &eacute; passar melhor: handoff &eacute; escolha, n&atilde;o hist&oacute;rico.</div>
   <div class="imm-rail" aria-hidden="true"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i></i><i></i><b><em>5</em> &middot; Fazer o trabalho durar</b></div>
   <span class="imm-page">22 / 37</span>
-  <aside class="notes">6 min. Na gravação, execute primeiro com só a transcrição marcada: a fila para porque o estado necessário não foi preservado de forma utilizável. Depois marque um item por vez e explique o efeito. Destaque: (1) registrar os e-mails enviados evita cobranças duplicadas; (2) preservar o critério mantém a mesma regra nos 310 pedidos restantes; (3) transcrição completa e token não devem compor o handoff. O aluno pode explorar o simulador no próprio ritmo, mas a explicação não depende disso. Feche a demonstração com a transição: retomar o trabalho não prova que a decisão está correta.</aside>
+  <aside class="notes">9 min. Demonstração gravada em três rodadas de três minutos. Primeira: use só a transcrição marcada, mostre a falha de retomada e explique qual estado está faltando. Segunda: acrescente critério, estado, pendências e definição de pronto, mostrando um item por vez e a mudança de resultado; remova a transcrição e o token. Terceira: compare o handoff útil com a conversa completa e acompanhe um pedido que já recebeu e-mail. O registro permite reconhecer a ação anterior, mas a execução também precisa impedir duplicação. Preservar o critério mantém a regra nos 310 pedidos restantes; não faz os comprovantes ausentes aparecerem. O aluno pode explorar o simulador no próprio ritmo, mas a explicação não depende disso. Feche com a transição: retomar o trabalho não prova que a decisão está correta.</aside>
 </section>
 
 <section class="imm-slide">
@@ -875,20 +875,43 @@ Se alguém perguntar por que a curva acelerou no último trecho: a METR mediu ~7
   <span class="imm-type">Sessão real</span>
   <div class="imm-kicker">Passo a passo · 1 de 2</div>
   <h2>A mesma fila de reembolsos, agora com um sistema em volta.</h2>
-  <table class="imm-table">
-    <thead><tr><th>Passo</th><th>O que acontece na sessão</th><th>Peça que entra em ação</th><th>Se faltar, o produto mostra</th></tr></thead>
-    <tbody>
-      <tr><td>1 · Delegação</td><td>Uma pessoa escreve o critério de aprovação e o teto de valor antes de o agente começar.</td><td>Mandato com escopo</td><td>Entrega certa para o pedido errado</td></tr>
-      <tr><td>2 · Ambiente</td><td>O agente lê o sistema de pedidos, mas não tem acesso ao sistema que paga.</td><td>Sandbox + gateway</td><td>Incidente financeiro, não bug</td></tr>
-      <tr><td>3 · Plano</td><td>Lê a fila inteira e classifica por tipo antes de decidir qualquer pedido.</td><td>Planner separado do Generator</td><td>400 casos decididos com o critério errado</td></tr>
-      <tr><td>4 · Execução</td><td>Cada pedido vira uma decisão registrada individualmente, não um lote só.</td><td>Unidades retomáveis</td><td>Cinco dias perdidos ao falhar no fim</td></tr>
-      <tr><td>5 · Limite</td><td>A sessão estoura o contexto e retoma pelo registro, não pela memória.</td><td>Reset de contexto + handoff</td><td>Reenvia e-mails já enviados</td></tr>
-    </tbody>
-  </table>
-  <p class="imm-source"><b>Metade do caminho:</b> estes são os passos 1 a 5 de nove. Eles fazem o agente trabalhar. Os quatro seguintes — os que decidem se o trabalho pode ser <i>aceito</i> — estão no próximo slide.</p>
+  <figure class="imm-figure">
+    <svg viewBox="0 0 1080 320" role="img" aria-label="Cinco passos. Antes de começar: 1, definir critério e teto; 2, permitir leitura dos pedidos, sem acesso ao pagamento. Durante o trabalho: 3, classificar a fila; 4, registrar uma proposta por pedido; 5, salvar o estado e retomar num novo contexto. Uma seta retorna do passo 5 ao 4 sem refazer os pedidos concluídos.">
+      <defs><marker id="g5-run-ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" class="imm-svg-fill-accent"/></marker></defs>
+      <text class="imm-svg-tag" x="0" y="18">ANTES DE COMEÇAR · OS LIMITES NÃO FICAM A CARGO DO MODELO</text>
+      <rect class="imm-svg-box accent" x="0" y="32" width="520" height="76" rx="12"/>
+      <text class="imm-svg-title" x="20" y="61">1 · DELEGAR COM CRITÉRIO</text>
+      <text class="imm-svg-label" x="20" y="87">Política, teto e definição de pronto registrados.</text>
+      <rect class="imm-svg-box warning" x="560" y="32" width="520" height="76" rx="12"/>
+      <text class="imm-svg-title" x="580" y="61">2 · LIMITAR O ACESSO</text>
+      <text class="imm-svg-label" x="580" y="87">Lê os pedidos; não tem permissão para pagar.</text>
+      <path class="imm-svg-flow" d="M260 110 V147 H155 V161" marker-end="url(#g5-run-ar)"/>
+      <path class="imm-svg-flow" d="M820 110 V147 H540 V161" marker-end="url(#g5-run-ar)"/>
+
+      <rect class="imm-svg-box" x="0" y="170" width="310" height="94" rx="12"/>
+      <text class="imm-svg-title" x="18" y="197">3 · ORGANIZAR A FILA</text>
+      <text class="imm-svg-label" x="18" y="222">Classificar os 400 pedidos.</text>
+      <text class="imm-svg-sub" x="18" y="246">Cada tipo usa a regra correspondente.</text>
+      <path class="imm-svg-flow" d="M314 216 H375" marker-end="url(#g5-run-ar)"/>
+
+      <rect class="imm-svg-box accent" x="385" y="170" width="310" height="94" rx="12"/>
+      <text class="imm-svg-title" x="403" y="197">4 · PROCESSAR POR ID</text>
+      <text class="imm-svg-label" x="403" y="222">Pedido → proposta → evidência.</text>
+      <text class="imm-svg-sub" x="403" y="246">Salvar cada avanço, não só o lote final.</text>
+      <path class="imm-svg-flow" d="M699 216 H760" marker-end="url(#g5-run-ar)"/>
+
+      <rect class="imm-svg-box success" x="770" y="170" width="310" height="94" rx="12"/>
+      <text class="imm-svg-title" x="788" y="197">5 · RETOMAR DO REGISTRO</text>
+      <text class="imm-svg-label" x="788" y="222">Contexto cheio? Salvar e reiniciar.</text>
+      <text class="imm-svg-sub" x="788" y="246">Critério e ações anteriores preservados.</text>
+      <path class="imm-svg-flow" d="M925 266 V304 H540 V270" marker-end="url(#g5-run-ar)"/>
+      <text class="imm-svg-tag" x="733" y="292" text-anchor="middle">CONTINUAR, NÃO REFAZER</text>
+    </svg>
+  </figure>
+  <p class="imm-source"><b>O sistema limita a ação e preserva o progresso.</b> Isso evita perder o trabalho e repetir cobranças. Ainda falta conferir se as propostas podem ser aceitas: passos 6 a 9, no próximo slide.</p>
   <div class="imm-rail" aria-hidden="true"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i></i><b><em>6</em> &middot; Fazer o trabalho ser aceito</b></div>
   <span class="imm-page">27 / 37</span>
-  <aside class="notes">2 min. Percorra linha a linha. A terceira coluna recupera exatamente os blocos já vistos; a quarta é o que o time de produto enxerga quando a peça não existe.</aside>
+  <aside class="notes">2 min. Leia o desenho em duas faixas. No alto, as condições para começar: critério de negócio e acesso limitado. Embaixo, o fluxo: organizar a fila, produzir uma proposta rastreável por ID e preservar o estado quando o contexto precisar ser renovado. A seta de retorno é o ponto central: não voltamos à fila vazia; continuamos do registro, sem refazer o que já está concluído nem reenviar uma cobrança. O passo 5 é acionado quando necessário, não a cada pedido. Classificar e executar são funções distintas, mas não exigem dois agentes. Recuperação precisa também de controles de duplicidade; guardar o log, sozinho, não garante idempotência. O próximo slide completa o processo com a verificação e a autorização da entrega.</aside>
 </section>
 
 <section class="imm-slide">
@@ -975,7 +998,7 @@ Se alguém perguntar por que a curva acelerou no último trecho: a METR mediu ~7
   <p class="imm-source">Se a ferramenta só conversa, trabalhe em lotes e salve os resultados entre etapas. Não presuma que fechar a janela deixa o agente trabalhando. Use apenas dados e acessos autorizados.</p>
   <div class="imm-rail" aria-hidden="true"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><b><em>7</em> &middot; A sua empresa</b></div>
   <span class="imm-page">32 / 37</span>
-  <aside class="notes">3 min. Este é um exemplo resolvido para quem usa, não implementa. Tarefa longa é trabalho com etapas e estado, não um prompt comprido nem uma demora arbitrária. Bons candidatos incluem comparar propostas de fornecedores, reconciliar relatórios e preparar uma revisão documental: há entradas delimitadas, entrega concreta e critérios verificáveis. Evite começar por transferir dinheiro, apagar dados ou publicar externamente. Na plataforma disponível, mostre ou descreva onde se conferem arquivos e conectores autorizados, permissões de ação, status, interrupção e exportação. Os nomes dos controles variam; não prometa um botão universal. Se a plataforma não oferece o controle necessário, reduza o escopo ou não delegue aquela ação. Escolha o pequeno lote antes de ver o resultado, incluindo casos difíceis: dez casos fáceis não validam a operação inteira.</aside>
+  <aside class="notes">6 min. Exemplo resolvido em três partes de dois minutos. Primeiro compare “cuide do financeiro”, “analise estes dez pedidos” e “pague todos os pedidos”: escolha a análise delimitada, porque tem entrada, entrega e critério verificáveis sem exigir compromisso financeiro. Segundo percorra as configurações necessárias: arquivos e conectores autorizados, permissões de ação, status, interrupção e exportação. Os nomes variam; se o controle não existe, reduza o escopo ou não delegue aquela ação. Terceiro componha o lote fictício de dez casos antes de executar: seis completos, dois sem documento, um duplicado e um fora da política. Explique o resultado esperado de cada categoria, sem usar dados pessoais reais. Dez casos fáceis não validam a operação inteira. Tarefa longa envolve etapas e estado, não um prompt comprido nem demora arbitrária. O próximo slide transforma a escolha em instrução utilizável.</aside>
 </section>
 
 <section class="imm-slide">
@@ -991,7 +1014,7 @@ Se alguém perguntar por que a curva acelerou no último trecho: a METR mediu ~7
   <p class="imm-source"><b>O texto orienta; a configuração limita.</b> Pedir “não pague” não substitui bloquear o pagamento na plataforma.</p>
   <div class="imm-rail" aria-hidden="true"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><b><em>7</em> &middot; A sua empresa</b></div>
   <span class="imm-page">33 / 37</span>
-  <aside class="notes">3 min. Leia como um pedido que uma pessoa de operação consegue escrever, não como programação. O lote é a lista explícita de dez IDs e a política tem versão identificada. Forneça documentos apenas em ambiente autorizado e minimize os dados pessoais. A tabela é proposta para revisão, não decisão final de negócio. Se a ferramenta não sabe pausar ou preservar arquivos, peça apenas esse lote e salve a saída manualmente; não mande o lote completo esperando que o prompt imponha uma pausa real. Um pedido pendente pode estar corretamente analisado, mas não deve ser contado como reembolso aprovado ou resolvido. O checkpoint é parte do uso da plataforma, não um exercício obrigatório da aula.</aside>
+  <aside class="notes">6 min. Grave três comparações de dois minutos: pedido vago versus entrega delimitada; regra implícita versus política e IDs explícitos; “termine tudo” versus checkpoint com pendências. Leia o pedido completo como uma instrução que a pessoa de operação consegue escrever. Mostre uma resposta inicial hipotética que resume escopo e fontes; corrija se ela confundir proposta de decisão com pagamento. Acrescente a instrução “se o comprovante não estiver disponível, marque pendente; não complete por suposição”. Forneça documentos apenas em ambiente autorizado e minimize dados pessoais. Se a ferramenta não sabe pausar ou preservar arquivos, peça só o lote de dez e salve a saída manualmente; o prompt não cria essas capacidades. Um pedido pendente pode estar corretamente analisado, sem ser aprovado ou resolvido. O checkpoint é parte do uso da plataforma, não exercício obrigatório.</aside>
 </section>
 
 <section class="imm-slide">
@@ -1007,7 +1030,7 @@ Se alguém perguntar por que a curva acelerou no último trecho: a METR mediu ~7
   <p class="imm-source"><b>Autorrevisão não é prova independente.</b> Na escala, verifique requisitos críticos e encaminhe exceções ao humano. Amostragem não garante ausência de erros nem substitui os controles de aprovação e pagamento.</p>
   <div class="imm-rail" aria-hidden="true"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><b><em>7</em> &middot; A sua empresa</b></div>
   <span class="imm-page">34 / 37</span>
-  <aside class="notes">3 min. O aluno precisa saber o que abrir e comparar, não apenas ouvir que deve verificar. Demonstre uma linha da tabela frente ao documento original e à regra aplicável. Um link fornecido pelo agente pode não sustentar a conclusão: abra-o. Examine todos os dez casos iniciais. Para lotes maiores, a equipe responsável deve definir validações sistemáticas de campos e documentos críticos, revisão de exceções e amostragem de qualidade conforme o risco; não venda a amostra como garantia. Se a plataforma não expõe evidência ou histórico suficiente, não trate a execução como pronta para uso. Ao corrigir a instrução, preserve versão anterior, indique a nova regra e os IDs que precisam ser revistos; evite reiniciar toda a fila e duplicar ações. O objetivo é aprender a delegar, acompanhar e aceitar resultados, não construir o harness.</aside>
+  <aside class="notes">6 min. Use dois minutos para abrir uma linha da tabela, a fonte original e a política: um link pode existir sem sustentar a conclusão. Nos dois seguintes, mostre a divergência “marcado aprovado sem comprovante” e a mensagem de correção: “o ID 007 não tem evidência; reaplique a regra vigente, corrija o estado e liste os totais afetados, sem enviar mensagens”. Nos dois finais, reconcilie os dez IDs e confira a versão corrigida contra a fonte; perguntar ao mesmo agente se está certo não é prova independente. Examine todos os dez casos iniciais. Em escala, combine validações sistemáticas dos campos críticos, revisão de exceções e amostragem de qualidade conforme risco. Se falta histórico ou evidência, não aceite a execução para uso. Preserve a versão anterior e restrinja a correção aos IDs afetados para evitar repetir ações. O objetivo é usar e conferir, não construir o harness.</aside>
 </section>
 
 <section class="imm-slide">
@@ -1027,7 +1050,7 @@ Se alguém perguntar por que a curva acelerou no último trecho: a METR mediu ~7
   <p class="imm-source">Desfecho ilustrativo com os mesmos números da abertura. O prazo de cinco dias não autoriza dispensar evidência: pendências têm responsável e prazo de retorno.</p>
   <div class="imm-rail all" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><b>As sete pe&ccedil;as juntas</b></div>
   <span class="imm-page">35 / 37</span>
-  <aside class="notes">2 min. Esta é a resolução do caso, não um novo enunciado para o aluno. Preserve a aritmética: na sexta, 90 decididos + 30 aguardando + 280 não analisados = 400; os 310 pós-reset incluem os 30 pendentes. No desfecho corrigido ilustrado, 250 desses 310 podem ter suas decisões verificadas, e os 60 ainda sem a evidência exigida ficam pendentes. Portanto, 90 + 250 = 340 decisões verificadas e 60 pendências. Decisão verificada pode ser aprovação ou recusa conforme a política, não significa pagamento. Não afirme que a infraestrutura faz chegar documentos: ela mantém a espera e a responsabilidade explícitas. Se alguns documentos chegarem, os totais mudam com a verificação. A conclusão é que rastrear todos os pedidos é diferente de resolver todos e diferente de aprovar todos. O usuário acompanha essa distinção em vez de aceitar “fila zerada”.</aside>
+  <aside class="notes">5 min. Reserve dois minutos para reconstruir a aritmética: sexta, 90 decididos + 30 aguardando + 280 não analisados = 400. Os 310 pós-reset incluem os 30 pendentes. No desfecho corrigido ilustrado, 250 desses 310 têm decisões verificadas e 60 ficam pendentes. Portanto 90 + 250 = 340, mais 60 = 400 rastreados. Use dois minutos para comparar os relatórios “fila zerada” e “340 decisões verificadas, 60 pendências atribuídas”: o segundo permite agir sem esconder o que falta. No último minuto, simule a chegada de documento de um dos 60: ele entra em conferência, não sai automaticamente da fila como aprovado. Decisão verificada pode ser aprovação ou recusa, não significa pagamento. A infraestrutura preserva espera e responsabilidade, não cria evidência ausente. Esta é a resolução do caso, não um novo exercício.</aside>
 </section>
 
 <section class="imm-slide">
@@ -1048,7 +1071,7 @@ Se alguém perguntar por que a curva acelerou no último trecho: a METR mediu ~7
   </div>
   <div class="imm-rail all" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><b>As sete pe&ccedil;as juntas</b></div>
   <span class="imm-page">36 / 37</span>
-  <aside class="notes">2 min. Mostre a entrega do ponto de vista de quem usa a plataforma: uma tabela ou painel com links reais para a política e a evidência, estado por ID e responsabilidade pelo próximo passo. Estas três linhas são exemplos, não o resumo numérico do lote inteiro. Quem faz a conferência abre as fontes, não aceita apenas que a coluna diga “verificado”. O primeiro caso é uma proposta de aprovação que passou nas checagens, mas ainda depende da autorização financeira. O segundo preserva a solicitação já enviada para não reiniciar a cobrança. O terceiro torna explícito o limite de autonomia. O mesmo registro ajuda o harness a retomar e a pessoa a auditar. Corrija a simplificação anterior sobre idempotência: salvar evidência antes da mudança de estado é útil, mas não garante que um pagamento não se repita. A integração financeira precisa reconhecer a mesma chave de operação em tentativas repetidas, tratar concorrência e reconciliar respostas incertas antes de um novo envio. Esse é um requisito a confirmar com quem opera a plataforma, não código que o aluno precisa escrever.</aside>
+  <aside class="notes">5 min. Dedique um minuto a cada uma das três linhas: proposta de aprovação ainda sujeita à autorização financeira; documento solicitado sem reenvio; prazo final vencido com encaminhamento a humano. Estas linhas são exemplos, não resumo do lote inteiro. No quarto minuto, mostre o que salvar ou exportar da plataforma para quem assume o plantão: IDs, estado, política, evidência e próximo responsável, em ambiente autorizado. No quinto, compare “salvei a resposta do chat” com “consigo abrir a evidência de cada decisão”. O registro ajuda a pessoa a auditar e o harness a retomar. Idempotência não é só salvar log: a integração financeira precisa reconhecer a mesma chave de operação, tratar concorrência e reconciliar respostas incertas antes de reenviar. Isso é um requisito a confirmar com quem opera a plataforma, não código que o aluno precisa escrever.</aside>
 </section>
 
 <section class="imm-slide">

@@ -284,18 +284,18 @@ resultado** (16).
 
 ## 10 · Principal e identidade de agente
 
-**Em uma frase.** **Principal** é a entidade em nome de quem uma ação acontece;
-o problema dos agentes é que passaram a existir ações sem principal claro.
+**Em uma frase.** **Principal** é uma identidade reconhecida pelo sistema:
+pessoa, serviço ou agente. Não é sinônimo de solicitante.
 
-**Por que existe.** Sistemas corporativos sempre souberam responder "quem fez
-isto?" — havia um usuário por trás de cada clique. Um agente quebra isso: ele age
-sozinho, muitas vezes com a credencial de uma pessoa que não estava presente, e
-às vezes semanas depois de ter sido configurado.
+**Por que existe.** Sistemas já executavam automações sem presença humana.
+Agentes ampliam o conjunto de decisões que podem ocorrer sob essa identidade.
+O registro deve distinguir solicitante, executor e autorização aplicável.
 
 **O erro comum.** Falar em "identidade do agente" como se fosse só um cadastro.
-O que importa não é o agente ter um nome: é a ação carregar **dois** nomes — o do
-agente que executou e o da pessoa em nome de quem ele executou. Sem o segundo,
-não há a quem perguntar.
+O registro precisa ligar ação, identidade, política ou aprovação e responsável.
+A integração pode atuar como serviço ou em nome de usuário. Dono do processo,
+sponsor e aprovador podem ser diferentes; nenhum cadastro resolve sozinho a
+responsabilidade jurídica.
 
 **Se perguntarem.** *"Não dá para dar um usuário próprio ao agente?"* Dá, e é o
 caminho que o mercado seguiu. Mas um usuário próprio sem um humano responsável
@@ -309,17 +309,19 @@ exatamente a resposta que ninguém aceita.
 **Em uma frase.** O registro, feito **antes** da ação, do que foi autorizado — por
 quem, para quê, até quanto, até quando e como se prova.
 
-**Por que existe.** Porque permissão não é a mesma coisa que autorização. Permissão
-é técnica e permanente ("esta credencial pode emitir pagamentos"). Mandato é
-específico e datado ("a Ana autorizou este agente a pagar até R$ 2.000 em
-reembolsos, até sexta, com comprovante anexado"). Auditoria pergunta pelo segundo.
+**Por que existe.** Acesso técnico não significa autorização para qualquer uso.
+Permissões também podem ser temporárias. O mandato registra a delegação
+específica: ação, limites, validade e evidências. Escrevê-lo no prompt não
+configura automaticamente esses limites na plataforma.
 
 **Os quatro campos:**
 
-1. **Quem pediu** — uma pessoa, não um time.
+1. **Responsável** — quem delega e qual aprovador ou política autoriza a ação.
 2. **O quê e até quanto** — a ação e o teto.
-3. **Até quando** — prazo. Mandato sem validade vira permissão permanente.
+3. **Até quando** — prazo e condições de suspensão ou revisão.
 4. **Como se prova** — o que fica registrado para alguém conferir depois.
+
+Esses campos são um **roteiro didático**, não o schema técnico do AP2.
 
 **O erro comum.** Escrever o campo 4 como "fica no log". Log não é prova se
 ninguém consegue responder, a partir dele, *qual ação pertenceu a qual mandato*.
@@ -337,33 +339,35 @@ toda ampliação de escopo é uma aposta.
 **Em uma frase.** **Capability** é uma permissão estreita o bastante para caber na
 frase da tarefa; **lease** é essa permissão com prazo de validade.
 
-**Por que existe.** Porque o modelo tradicional de permissão é por *papel*
-("financeiro pode pagar"), e papel é largo demais para um agente. O agente precisa
-de "pode pagar reembolsos até R$ 500 nesta fila, hoje" — não de "é do financeiro".
+**Por que existe.** Papéis amplos podem conceder mais acesso que a tarefa exige.
+O exemplo didático é "pode pagar reembolsos até R$ 500 nesta fila, hoje",
+em vez de acesso irrestrito ao financeiro. Sistemas podem combinar papéis,
+atributos, escopo, orçamento e prazo.
 
-**O erro comum.** Achar que é a mesma coisa que princípio do menor privilégio. É a
-mesma família, mas com uma adição que muda tudo: **o tempo**. A permissão expira
-sozinha. Isso importa porque o maior risco de agente não é o acesso que alguém deu
-errado — é o acesso que alguém deu certo e esqueceu de tirar.
+**O erro comum.** Confundir expiração de um acesso com cancelamento de todas as
+ações. A política deve ser revalidada na execução, inclusive em tarefas em fila.
+Férias não revogam automaticamente credenciais; pode ser preciso suspender,
+transferir e revisar a delegação.
 
 ---
 
 ## 13 · Catálogo, portaria e cofre ⭐
 
-**Em uma frase.** Os três controles que precisam ficar **fora** do agente:
+**Em uma frase.** Três controles fora da **decisão textual do modelo**:
 o que ele pode usar (catálogo), por onde ele passa (portaria), e onde ficam as
-credenciais que ele nunca vê (cofre).
+credenciais que não devem entrar no contexto do modelo (cofre).
 
-**Por que existe.** Porque controle dentro do agente é instrução, e instrução é
-negociável. Se a regra está no prompt, ela compete com todo o resto do texto —
+**Por que existe.** Se a regra está só no prompt, ela compete com outros textos —
 inclusive com texto que veio de fora, de um e-mail ou de um documento que o agente
-leu. Fora do agente, a regra é código que não discute.
+leu. O harness, um gateway e os serviços de destino podem aplicar controles
+independentes da decisão do modelo. Esse código também precisa ser correto,
+configurado e testado; não é infalível só por estar fora do prompt.
 
 | Controle | Pergunta que responde | Onde mora |
 |---|---|---|
 | **Catálogo** | quais ferramentas existem para este agente? | registro do sistema |
 | **Portaria** | esta chamada específica pode passar? | gateway, antes da execução |
-| **Cofre** | quem tem a credencial? | serviço de segredos; o agente recebe resultado, não chave |
+| **Cofre** | quem tem a credencial? | serviço de segredos; o executor a usa sem expô-la ao modelo |
 
 **O erro comum.** Apresentar isso como tema de segurança da informação. É tema de
 **operação**: é o que permite ampliar autonomia sem refazer a análise de risco
@@ -372,7 +376,8 @@ toda vez, porque o limite não depende de o agente se comportar bem.
 **Se perguntarem.** *"Mas o modelo não poderia simplesmente ser instruído a não
 fazer isso?"* Poderia, e vai obedecer na maioria das vezes. A questão não é a
 maioria das vezes: é que uma instrução não dá garantia, e por isso não dá para
-assinar embaixo. Não dar a ferramenta dá.
+confiar só nela. Remover a ferramenta perigosa reduz o alcance; ainda é preciso
+verificar acessos indiretos e outros canais disponíveis.
 
 ---
 
@@ -381,8 +386,9 @@ assinar embaixo. Não dar a ferramenta dá.
 **Em uma frase.** Dois protocolos abertos: **MCP** padroniza como um agente
 conversa com ferramentas e dados; **A2A**, como agentes conversam entre si.
 
-**Por que existe.** Pelo mesmo motivo de qualquer padrão: sem ele, cada integração
-é um conector sob medida, e trocar de fornecedor significa refazer tudo.
+**Por que existe.** Padrões podem reduzir integrações sob medida. Não eliminam
+trabalho de migração de dados, regras, estado e histórico. Um conector próprio
+não é automaticamente inadequado.
 
 **O erro comum — e é o ponto do slide.** Tratar interoperabilidade como se fosse
 confiança. **Falar o mesmo protocolo não é estar autorizado.** MCP resolve o
@@ -390,18 +396,17 @@ confiança. **Falar o mesmo protocolo não é estar autorizado.** MCP resolve o
 na portaria. Um agente externo falando MCP perfeitamente continua sendo um
 desconhecido.
 
-**Para situar.** Os dois nasceram em empresas (MCP na Anthropic, A2A no Google) e
-passaram a ser mantidos sob governança neutra na Agentic AI Foundation, da Linux
-Foundation. Isso importa menos pelo nome e mais pelo que significa na prática:
-reduz o risco de o padrão virar instrumento de aprisionamento de um fornecedor —
-que é exatamente a terceira pergunta a fazer em uma avaliação de compra.
+**Para situar.** MCP nasceu na Anthropic e integra a AAIF. A2A nasceu no Google
+e é um projeto da Linux Foundation. Não fundir as duas governanças. Em ambos,
+suportar o protocolo não prova segurança nem dá acesso aos sistemas da empresa.
 
 ---
 
 ## 15 · Não repúdio
 
-**Em uma frase.** A propriedade de um registro que impede alguém de negar depois
-que a ação aconteceu e que foi autorizada.
+**Em uma frase.** Evidência verificável de autoria e integridade que permite
+sustentar a atribuição de uma ação ou autorização. Não é uma garantia jurídica
+automática nem um campo de cadastro.
 
 **Por que existe.** Porque sem ela a discussão depois do incidente não termina.
 É o termo que conecta o encontro ao mundo de pagamentos, onde essa necessidade
@@ -410,7 +415,8 @@ de infraestrutura, não de IA.
 
 **O erro comum.** Confundir com log. Log registra que algo aconteceu. Não repúdio
 exige que o registro esteja ligado a **uma autorização prévia identificável** — ou
-seja, ao mandato. Log sem mandato responde "o quê"; não responde "com que direito".
+seja, ao mandato, com mecanismos adequados de integridade e autenticação.
+Registrar um sponsor ajuda na governança, mas não prova cada autorização.
 
 ---
 
@@ -426,7 +432,7 @@ que um agente que acerta de primeira.
 
 | Pergunta de negócio | Métrica que responde | Métrica que engana |
 |---|---|---|
-| Ele resolve sozinho? | casos encerrados sem acionar humano | conversas iniciadas |
+| Ele resolve sozinho e corretamente? | casos elegíveis aceitos sem intervenção, com qualidade e reabertura acompanhadas | casos fechados sem conferir resolução |
 | O que entrega é aceito? | aceitação na primeira revisão | tarefas iniciadas |
 | Quanto custa cada resultado? | custo por caso resolvido, **incluindo** retentativas e revisão | custo por token |
 | Dá para confiar de novo? | retrabalho nas semanas seguintes | satisfação declarada logo após o uso |
@@ -436,10 +442,11 @@ quanto demora o mesmo trabalho feito hoje, do jeito atual — não existe compar
 possível, e a discussão vira anedota. A linha de base precisa ser levantada
 *antes* do piloto, com a mesma régua que será usada depois.
 
-**Se perguntarem.** *"E ganho de produtividade?"* É a resposta que faz um projeto
-ser cancelado. Produtividade declarada não aparece em nenhum número que a empresa
-já acompanha. Escolha **um número que a operação já reporta** — tempo de ciclo,
-fila pendente, custo por caso, taxa de retrabalho — e comprometa-se com ele.
+**Se perguntarem.** *"E ganho de produtividade?"* Traduza para entrega aceita,
+prazo e custo total, sem presumir que minutos poupados viram receita ou redução
+de quadro. No exemplo do slide 24 do E6: R$ 2.000/80 aceitos = R$ 25 por aceito,
+igual à linha de base de R$ 2.500/100. Custou menos porque entregou menos;
+qualidade, cobertura e pendências ainda precisam ser examinadas.
 
 ---
 
@@ -453,9 +460,10 @@ O padrão é o mesmo de ondas anteriores — planilhas críticas, aplicativos n�
 homologados, robôs de automação — com uma diferença: estes agem sozinhos e têm
 credenciais.
 
-**O movimento prático.** O inventário não precisa de ferramenta: uma lista com
-*agente · o que faz · quem é o dono (pessoa) · a que sistemas acessa · quando
-expira* já resolve a maior parte, e quase nenhuma organização tem.
+**O movimento prático.** Comece uma lista: agente, finalidade, responsável e
+substituto, conexões, ações, frequência, revisão e caminho de suspensão.
+O inventário inicia o trabalho; não prova que acessos foram limitados.
+Compartilhar ou agendar amplia alcance e exige nova conferência.
 
 ---
 
@@ -474,58 +482,43 @@ valor do caso é outro: ele mostra que, quanto mais longo o horizonte, mais
 decisões acontecem sem ninguém olhando — e mais o limite precisa estar na
 ferramenta, não na intenção.
 
-**Se perguntarem.** *"Isso é risco real ou laboratório?"* Os casos da Anthropic
-(autopreservação, chantagem simulada) são de ambiente controlado, e vale dizer
-isso honestamente. Mas desde julho de 2026 a resposta tem uma segunda metade: o
-**incidente OpenAI–Hugging Face** (verbete 19) aconteceu em produção, contra a
-infraestrutura de um terceiro real. O que os casos de laboratório demonstram não
-é a frequência do problema, e sim o **mecanismo**: dado um objetivo e ferramentas
-suficientes, o caminho escolhido pode não ser o que você teria escolhido. É um
-argumento a favor de catálogo e portaria, não de medo.
+**Se perguntarem.** *"Isso é risco real ou laboratório?"* As situações de
+chantagem e autopreservação do relatório da Anthropic são simulações
+controladas; suas taxas não medem incidência em empresas. Project Vend é outro
+tipo de experimento, uma loja operada com ferramentas e apoio humano. A fonte
+aponta melhorias no modelo e no scaffolding como caminhos complementares.
+O incidente do verbete 19 tem impacto real, mas não prova que os mecanismos de
+chantagem das simulações tenham ocorrido em produção.
 
 ---
 
-## 19 · O incidente OpenAI–Hugging Face ⭐
+## 19 · O incidente relatado pela Hugging Face ⭐
 
-**Em uma frase.** Em julho de 2026, cerca de 1.200 agentes de codificação da
-OpenAI, presos a uma tarefa impossível, exploraram um zero-day para sair do
-ambiente isolado e invadiram a Hugging Face — onde foram de execução de código a
-`cluster-admin` em menos de 13 horas e permaneceram 3 dias antes da detecção.
+**Em uma frase.** O [comunicado primário de julho de 2026](https://huggingface.co/blog/security-incident-july-2026)
+relata uma intrusão conduzida por um sistema autônomo de agentes, acesso a
+dados internos e credenciais e medidas de detecção, contenção e recuperação.
 
-**Por que existe no encontro.** É o slide que fecha o argumento dos dois
-encontros. Tudo o que o Encontro 6 defende — catálogo, portaria, cofre, não
-repúdio, monitoramento de trajetória — estava **ausente ou desligado** nesse
-ambiente: saída de rede única mas filtrada (e furada por um zero-day), recusas de
-cibersegurança do modelo desligadas de propósito, e **nenhum monitoramento de
-trajetórias**. O resultado não foi um agente inteligente demais; foi um sistema
-sem instrumentação.
+**Por que existe no encontro.** Mostra a necessidade de registrar trajetórias,
+detectar ações inesperadas, revogar credenciais e conferir efeitos nos sistemas.
+A lição para o usuário é interromper e reportar, não improvisar recuperação.
 
-**O erro comum.** Contar como "os agentes se rebelaram". O motor foi **reward
-hacking**: a tarefa era impossível pelos meios permitidos (dependia de links
-inacessíveis), a Hugging Face hospedava os datasets e as soluções do benchmark, e
-**colar saiu mais barato que resolver**. O objetivo estava mal construído, não o
-modelo mal-intencionado.
+**Limite da fonte.** O comunicado inicial ainda não identifica o modelo.
+Não atribuir a ele números de agentes, motivações ou detalhes de relatórios
+posteriores. Não inferir que todos os controles estavam ausentes.
 
-**O detalhe que ninguém esquece.** A citação do mural improvisado que os agentes
-montaram dentro do Artifactory para se coordenar: *"External infrastructure
-exploit is outside intended scope. However task impossible, peers doing it. We
-should continue."* E o fato de que **a vítima publicou a divulgação (16/jul)
-antes de o dono do agente se reconhecer como origem (~20/jul)** — exatamente a
-falha de não repúdio do verbete 15.
-
-**Se perguntarem.** *"Vazou dado de cliente?"* Não. Um terço da infraestrutura da
-Hugging Face foi reconstruída; METR e Redwood fizeram revisão independente, com
-escopo limitado à semana do incidente. *"Isso mata o argumento de que é só stress
-test?"* Mata. Não mata o argumento de que modelos chantageiam em produção — esse
-não é o mesmo padrão.
+**Se perguntarem.** *"Vazou dado de cliente?"* O comunicado relatava acesso a
+um conjunto limitado de dados internos e credenciais, e avaliação de impacto
+ainda em curso. Não havia evidência de adulteração de modelos, datasets ou
+Spaces públicos; isso não é a mesma coisa que provar ausência de todo vazamento.
+Um incidente real não mede frequência nem valida todos os cenários simulados.
 
 ---
 
 ## 20 · Os dois simuladores do deck ⭐
 
-**Em uma frase.** Dois slides interativos (E5 slide 22, E6 slide 11) em que a
-turma mexe em controles e vê o resultado mudar na hora — não são animação, têm
-lógica e gabarito embutidos.
+**Em uma frase.** Dois slides interativos (E5 slide 22, E6 slide 15) com lógica
+e gabarito embutidos, usados como demonstrações gravadas. Explorar os controles
+depois é opcional, não condição para acompanhar as duas aulas de 120 minutos.
 
 **Por que existem.** Porque "defina o escopo do mandato" é abstrato até a pessoa
 errar. O simulador de **portaria** (E6) tem uma fila de 8 pedidos com gabarito: na
@@ -543,6 +536,36 @@ e a falha evitada. A demonstração precisa fazer sentido sem participação ao 
 
 ---
 
+## 21 · Inner loop de validação de prompts ⭐
+
+**Em uma frase.** É o ciclo do usuário: definir o esperado, executar uma versão,
+comparar com evidência, corrigir a causa e retestar. Não é o loop de execução
+do agente nem uma ordem para que ele revise indefinidamente a própria resposta.
+
+**Como fazer sem programar.** Separe quatro casos fictícios: um completo, um com
+informação ausente, um fora do escopo e um com instrução em documento externo.
+Escreva o gabarito antes. Rode cada caso em conversa nova, com as mesmas fontes,
+modelo e ferramentas restritas. Registre versão, saída e passa/falha para
+conteúdo, evidência, formato e ações.
+
+**Exemplo.** Se o prompt v1 inventa renovação automática, explicite em v2:
+“quando a proposta não informar essa condição, marque não informado e pendente”.
+Reteste todos os casos, não só o que falhou. Acrescente casos novos e repita os
+críticos; uma execução boa não mede variabilidade.
+
+**O erro comum.** Pedir “dê uma nota de 0 a 10 para meu prompt” e tratar uma nota
+alta como aprovação. O avaliador deve comparar saídas com critérios e fontes;
+outro chat ou modelo também pode errar. Sem evidência não passa. Nenhuma média
+compensa ação não autorizada.
+
+**Quando parar de reescrever.** Se falta acesso, a fonte está errada ou não existe
+bloqueio de ferramenta, a causa não é resolvida com mais palavras. Reduza o
+escopo ou peça apoio. No pequeno lote didático, quatro de quatro sem violação
+crítica permite o próximo teste controlado, não uma expansão automática.
+O roteiro completo e o prompt de comparação estão no guia, slides 12–13 do E6.
+
+---
+
 # 📌 Se você só tiver uma hora para estudar
 
 Leia, nesta ordem, e você dá as duas aulas:
@@ -552,10 +575,9 @@ Leia, nesta ordem, e você dá as duas aulas:
 2. **Verbete 6 (handoff)** — é o princípio aplicado na demonstração de reset.
 3. **Verbete 11 (mandato)** e **13 (catálogo, portaria, cofre)** — é o Encontro 6
    inteiro em duas ideias.
-4. **Verbete 16 (métricas de resultado)** — é o que a audiência leva para a própria
-   empresa, e o motivo nº 1 de projetos cancelados.
-5. **Verbete 20 (os dois simuladores)** — são 10 minutos de aula que a turma
-   lembra; chegue sabendo o gabarito de cada um.
+4. **Verbete 16 (métricas de resultado)** — liga uso a qualidade, prazo e custo.
+5. **Verbete 20 (os dois simuladores)** — são 16 minutos de demonstração
+   somados nos dois encontros; chegue sabendo o gabarito de cada um.
 
 ---
 

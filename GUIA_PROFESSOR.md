@@ -547,7 +547,7 @@ Para cada um:
 16. Delimitar uma tarefa longa no trabalho, configurar acessos e pontos de revisão na plataforma e verificar a entrega contra fontes e critérios.
 17. Reconhecer os quatro campos de um handoff operacional — critério, estado, pendências e definição de pronto — e explicar seu papel na retomada, a partir da demonstração.
 
-## ⏱️ Roteiro de gravação (102 min estimados)
+## ⏱️ Roteiro de gravação (120 min)
 
 | Bloco | Tempo | Conteúdo |
 |---|---:|---|
@@ -556,10 +556,10 @@ Para cada um:
 | 2 · A tarefa longa | 9' | O que é tarefa longa, a escada resposta → projeto e a mudança de unidade — 9–11 |
 | 3 · Os quatro nomes | 7' | Modelo, harness, agente e sistema — e o slide inteiro sobre o harness — 12, 13 |
 | 4 · As falhas | 8' | **Virada** + as quatro falhas e como cada uma chega ao produto — 14–16 |
-| 5 · Fazer o trabalho durar | 20' | **Virada** + anatomia, volta a volta, artefatos, reset e demonstração do simulador — 17–22 |
+| 5 · Fazer o trabalho durar | 23' | **Virada** + anatomia, volta a volta, artefatos, reset e demonstração do simulador — 17–22 |
 | 6 · Fazer o trabalho ser aceito | 12' | Proposta → evidência → decisão, sandbox, assíncrono, escada de evidência e a fila passo a passo — 23–28 |
-| 7 · A sua empresa | 16' | Régua do piloto, Klarna, quatro camadas e uso da plataforma: escolher, instruir, acompanhar e verificar — 29–34 |
-| Fechamento | 6' | Caso resolvido, entrega auditável de referência e checklist de quem delega — 35–37 |
+| 7 · A sua empresa | 25' | Régua do piloto, Klarna, quatro camadas e uso da plataforma: escolher, instruir, acompanhar e verificar — 29–34 |
+| Fechamento | 12' | Caso resolvido, entrega auditável de referência e checklist de quem delega — 35–37 |
 
 > 🧭 **A divisa entre os movimentos 5 e 6 é a tese do encontro.** O 5 responde
 > *"o trabalho sobrevive?"* e o 6 responde *"o resultado pode ser aceito?"*. São
@@ -574,27 +574,24 @@ Para cada um:
 
 ### ⏱️ Ritmo da gravação
 
-**O Encontro 5 tem 37 slides e 102 minutos estimados de exposição.**
-Os tempos nas notas (`N min.`) são referências para gravação, não duração
-obrigatória para quem assiste. O laboratório de 25 minutos saiu; a aplicação
-ao trabalho ganhou 7 minutos de exemplos explicados, sem atividade obrigatória.
+**O Encontro 5 tem 37 slides e um roteiro de 120 minutos de exposição.**
+O orçamento das notas (`N min.`) soma duas horas, sem laboratório, intervalo
+ou espera por participação. A duração final depende da gravação: use as notas
+para preparar demonstrações, não para apenas ler o slide.
 
-Isso muda a forma de usar as notas: elas **não são para ler**. A maior parte dos
-slides tem 2 a 3 minutos, o que dá para uma frase de enquadramento, a leitura do
-contrato em destaque e uma pergunta à turma. Só o slide 04 (a curva METR) tem 5
-minutos; os de 4 minutos — 02, 05, 13, 15 e 19 — são os outros em que cabe
-desenvolver.
+Os 18 minutos adicionais aprofundam o uso da plataforma:
 
-**Se precisar de uma gravação mais curta**, comprima nesta ordem, sem depender
-de participação ao vivo:
+| Slide | Tempo | O que demonstrar |
+|---|---:|---|
+| 22 · Reset | 9' | Três rodadas: falha, reconstrução do handoff e conferência de uma ação anterior |
+| 32 · Escolher a tarefa | 6' | Comparar três pedidos, conferir acessos e selecionar dez casos representativos |
+| 33 · Escrever o pedido | 6' | Entrega, fontes, política, tratamento de dados ausentes e ponto de parada |
+| 34 · Conferir e corrigir | 6' | Abrir evidência, localizar erro, escrever correção e reconciliar os dez IDs |
+| 35 · Resolver o caso | 5' | Fechar a conta dos 400 e distinguir decisão, pendência e pagamento |
+| 36 · Entrega auditável | 5' | Percorrer as três linhas e mostrar o que salvar para o próximo responsável |
 
-| Corte | Slides | Ganho |
-|---|---|---:|
-| Primeiro | 14 e 17 (viradas) — diga a frase em voz alta e avance sem projetar | ~2' |
-| Depois | 23 e 24 (verificação, sandbox) — preserve o exemplo e resuma a explicação | até 4' |
-| Depois | 29 (régua do piloto) — preserve as três perguntas e omita o dado de contexto | até 1' |
-| Por último | 35 e 36 (caso resolvido + entrega auditável) — deixe como consulta | ~4' |
-| **Nunca corte** | 04 (por que agora), 05 (a sexta-feira), 06 (fio condutor), 11 (sobrevivência), 12 (as quatro entidades), 13 (o que é o harness), 15 (as quatro falhas), 18–21 (peças, volta a volta, artefatos, reset), 22 (simulador) | — |
+Cada demonstração deve funcionar sem uma resposta do aluno. Exemplos de saída
+são ilustrativos; não os apresente como execução real de um produto.
 
 Os slides 18 a 21 explicam o handoff e o reset. O **slide 22 é o simulador de
 travessia de reset**: mostre na gravação um cenário que falha e outro que
@@ -856,186 +853,192 @@ Não há exercício obrigatório, entrega do aluno, correção ou nota.
 
 ## 🎯 Objetivos de aprendizagem
 
-1. Reconstruir um incidente concreto de agente corporativo e nomear o que faltou nele.
-2. Traduzir o vocabulário de segurança corporativa (principal, mandato, capability, lease, control plane, não repúdio).
-3. Reconhecer, em produtos reais já noticiados, o grau de autonomia que cada um assume e quem responde por ele.
-4. Explicar, pela história do comércio agêntico (ACP, AP2, FIDO), por que "prova de autorização" virou infraestrutura de pagamento.
-5. Identificar os quatro campos que um mandato precisa ter: quem pediu, o quê e até quanto, até quando, e como se prova.
-6. Explicar os três controles que não podem morar no agente — catálogo, portaria e cofre — e a regra da permissão que cabe na frase da tarefa.
-7. Separar interoperabilidade técnica de confiança e autorização, e fazer a um fornecedor as três perguntas que revelam aprisionamento (conector proprietário, ecossistema fechado, padrão sob controle de uma só empresa).
-8. Explicar por que o contexto do negócio — e não o modelo — é o diferencial competitivo, e por que dar contexto é dar acesso.
-9. Distinguir métricas de resultado de métricas de input ao avaliar agentes em produção.
-10. Analisar uma operação real conduzida por agente e identificar onde o controle faltou.
-11. Propor um modelo operacional para governar agentes em escala.
-12. Reconhecer as categorias de produto que já existem para emitir, fiscalizar e operar identidades de agente.
-13. Executar quatro movimentos de governança que não exigem time técnico, orçamento ou escolha de fornecedor.
-14. **(Laboratório)** Redigir um mandato de quatro campos para um processo real da própria área, classificar suas ações por reversibilidade e auditar o mandato de outra dupla encontrando ao menos um furo.
+1. Distinguir quem pediu, quem executou e quem autorizou uma ação.
+2. Configurar fontes e ações para uma tarefa delimitada, reconhecendo quando pedir apoio ao administrador.
+3. Escrever prompts com entrega, fontes, limites, evidências e ponto de parada.
+4. Avaliar versões do prompt com casos e gabarito definidos antes da execução, corrigindo falhas sem regressões.
+5. Conferir uma aprovação concreta: fornecedor, quantidade, preço total, prazo e renovação.
+6. Separar conteúdo externo de instrução autorizada e protocolo de confiança.
+7. Acompanhar a execução, localizar divergências e pedir correções verificáveis.
+8. Comparar qualidade, cobertura, prazo e custo por entrega aceita.
+9. Revisar o alcance antes de compartilhar ou agendar.
+10. Interromper, registrar e encaminhar uma ação indevida.
+11. Encerrar ou transferir uma delegação sem confundir handoff com permissão.
 
 ## 👥 Para quem este encontro é desenhado
 
-A audiência **decide, compra e responde pelo resultado — mas não implementa**.
-Ninguém na sala vai configurar um gateway, escrever uma política de escopo ou
-integrar um protocolo. Por isso o encontro não ensina a montar: ensina a
-**reconhecer o padrão e fazer as perguntas certas**.
+A audiência **usa os sistemas**, não desenvolve o harness. O encontro deve
+ensinar o que escrever, configurar, acompanhar e conferir. O aluno pode precisar
+do administrador para restringir uma conexão ou revogar um acesso: saber quando
+pedir isso também é competência de uso.
 
-Três consequências práticas na condução:
+O E5 ensina a fazer a entrega sobreviver e ser verificável. O E6 acrescenta:
+**essa ação estava autorizada, com esses dados, valor e destinatário?**
+Mantenha o caso das licenças como fio condutor; o simulador de reembolsos
+reaproveita um domínio conhecido para mostrar uma regra em execução.
 
-- O que importa é o **padrão emissor + fiscalizador + plataforma de operação**,
-  não os nomes dos produtos. Diga isso em voz alta: os nomes vão mudar, a divisão
-  de papéis não.
-- O slide de ferramentas serve para mostrar que **isto já é mercado, não teoria**.
-  Não é recomendação de compra, e o rodapé do slide diz isso.
-- O movimento mais útil de toda a aula é o **passo 3 — classificar por
-  reversibilidade, não por tecnologia**. É a única regra que o ouvinte consegue
-  aplicar na segunda-feira seguinte sem pedir nada a ninguém.
+## ⏱️ Roteiro de gravação (120 min)
 
-## ⏱️ Cronograma (120 min)
+**38 slides; notas somam 120 minutos.** Não há laboratório obrigatório,
+intervalo contabilizado nem espera por interação. A soma é o plano de gravação,
+não uma medição da duração de um vídeo já produzido.
 
-| Bloco | Tempo | Conteúdo |
+| Slides | Tempo | Conteúdo |
 |---|---:|---|
-| 1 | 14' | O caso da segunda-feira, o fio condutor e o vocabulário mínimo |
-| 2 | 24' | Três agentes reais, o comércio agêntico, os quatro campos do mandato e os três controles |
-| 3 | 12' | Protocolos abertos e por que interoperável não é autorizado |
-| — | 10' | Intervalo |
-| 4 | 22' | **Virada:** economia da ação, redesenho do trabalho, contexto como diferencial e métricas |
-| 5 | 22' | **Virada:** agent sprawl, o mercado de governança, desalinhamento e Project Vend |
-| 6 | 16' | A segunda-feira remontada, por onde começar, estudo de caso e fechamento |
+| 1–7 | 20' | Caso, perguntas, vocabulário, identidades e ações disponíveis no mercado |
+| 8–15 | 33' | Autoridade, mandato, configuração, prompt, inner loop de validação e simulador |
+| 16–18 | 7' | Protocolos, conteúdo externo e transição para compromissos financeiros |
+| 19–25 | 23' | Aprovação com números, fontes, métricas e prompt de correção |
+| 26–32 | 19' | Escala, compartilhamento, produtos e leitura responsável de casos |
+| 33–38 | 18' | Incidente, encerramento, caso resolvido, RH e roteiro de uso |
 
-### ⏱️ Rota de 120 minutos — o deck já está no tempo
+### Demonstrações e prompts: o centro prático da aula
 
-**O Encontro 6 tem 29 slides e soma exatamente 120 minutos**, laboratório
-incluído. O orçamento de cada slide está no início da sua nota de apresentador
-(`N min.`). Não há excedente para absorver atraso — o controle de tempo é por
-slide, não por bloco.
+| Slide | Roteiro para a gravação |
+|---|---|
+| 10 · Configurar | Conta corporativa, fontes restritas, leitura/rascunho e execução única. Teste um documento completo e outro sem preço. |
+| 11 · Delegar | Leia o prompt de cotação e comente entrega, fontes, dados ausentes, ações proibidas e parada. Mostre uma pendência corretamente declarada. |
+| 12–13 · Avaliar o prompt | Prepare quatro casos com gabarito. Rode v1, localize uma falha, ajuste uma instrução e reteste v2 nos mesmos casos e em casos novos. |
+| 15 · Simular | Padrão: cinco indevidos, nenhum legítimo bloqueado. Aplique a política de referência; depois reduza o teto a R$ 500 para mostrar um bloqueio indevido. |
+| 20 · Aprovar | 100 × R$ 20 = R$ 2.000/mês; upgrade a R$ 26 = R$ 2.600/mês. Diferença: 30%, R$ 600/mês e R$ 7.200/ano. Confira também condições e impostos. |
+| 24 · Medir | 80 aceitos + 12 em correção + 8 pendentes = 100. R$ 2.000/80 = R$ 25 por aceito, igual à linha de base R$ 2.500/100. |
+| 25 · Corrigir | Localize uma divergência de preço, peça fonte e correção dos totais, abra o original e confira a nova versão. |
+| 27 · Registrar a operação | Preencha a ficha da cotação: Ana, substituto habilitado, fontes, ações, versão, histórico e suspensão. A ficha inicia o inventário e prepara o próximo slide. |
+| 28 · Ampliar | Compare execução individual, compartilhada e recorrente. O texto pode ser igual, mas alcance, identidade e risco mudam. |
+| 33–34 · Parar | Diferencie interromper execução, suspender recorrência, revogar conexão e reconciliar efeitos. Demonstre o prompt de encerramento e a conferência real. |
 
-A consequência prática: **as notas não são para ler**. Na maioria dos slides cabe
-uma frase de enquadramento, a leitura do contrato em destaque e uma pergunta à
-turma. Ler slide é exatamente o que torna um encontro denso em um encontro
-tedioso.
+Use **dados fictícios**. Quando a conta não tiver os controles citados, explique
+a limitação; não simule uma aprovação técnica com uma resposta de chat.
+As telas variam por produto e plano. Não é obrigatório ter uma conta paga para
+acompanhar os exemplos resolvidos.
 
-> 💡 **Regra de corte:** esta audiência quer duas coisas — *onde o mercado está* e
-> *o que eu faço com isso na minha empresa*. Todo slide que não serve a uma das
-> duas é candidato a corte, por mais correto que esteja.
+### Prompts reutilizáveis
 
-**Se estiver atrasado**, corte nesta ordem:
+**Delegar — slide 11:**
 
-| Slide | Por quê | Ganho |
-|---|---|---:|
-| 02 · A camada que faltava | O mapa dos dois encontros, no início do E5, já faz esse trabalho. | ~3' |
-| 06 · De ferramenta a principal | Conceitual. A mesma ideia aparece aplicada no slide do mandato. | ~3' |
-| 13 e 19 · Viradas | São respiros de navegação. Diga a frase em voz alta e avance sem projetar. | ~2' |
-| 12 · Interoperável ≠ autorizado | Vira uma frase dentro do slide do catálogo. | ~3' |
+> Prepare para Ana uma comparação das licenças da lista anexa. Use somente os
+> contratos e propostas desta pasta e a política de compras vigente. Mostre
+> fornecedor, quantidade, preço mensal, compromisso anual e fonte. Sinalize
+> dados ausentes e mudanças de condição. Não envie mensagens, não compre nem
+> aceite upgrades. Entregue a comparação nesta execução e pare para revisão.
 
-**Nunca corte** — é aqui que está o que a audiência veio buscar: o caso da
-segunda-feira (03), os três agentes reais (07), o comércio agêntico (08), os
-quatro campos do mandato (09), catálogo/portaria/cofre (10), **o simulador de
-portaria (11)**, digital coworker × automação (16), contexto como diferencial
-(17), métricas de resultado (18), agent sprawl (20), o mercado de governança (21),
-**o incidente OpenAI–Hugging Face (23)**, Project Vend (24), os quatro
-movimentos sem time técnico (27) e o estudo de caso (28).
+**Corrigir — slide 25:**
 
-> 🎛️ **O slide 11 é um simulador interativo.** Projete-o e rode ao vivo: com a
-> configuração padrão, cinco dos oito pedidos passam indevidamente. Peça à turma
-> para fechar a portaria antes de você mexer nos controles. É a melhor abertura
-> possível para o laboratório.
+> Compare a tabela com as propostas originais. Para cada linha, indique a fonte
+> e o trecho que sustenta preço e prazo. O contrato B mostra R$ 26, mas você
+> registrou R$ 20. Confira a divergência, corrija os totais afetados e liste as
+> mudanças. Sem evidência, marque pendente. Não envie nem contrate nada.
 
-### 🧪 Laboratório 2 — "Escreva o mandato, fure o do colega" (slide 25)
+**Encerrar — slide 34:**
 
-25 minutos em aula (versão longa de 35' em **`LABORATORIOS.md`**, renderize com `npm run labs`).
+> Não inicie novas ações. Resuma o que foi concluído, o que está em andamento e
+> o que ficou pendente, com IDs e evidências. Liste agendamentos e acessos que
+> precisam de revisão; não os declare revogados sem confirmação.
 
-- **Habilidade entregue:** redigir e auditar um mandato de agente para um processo real.
-- **Prova de que leva:** um mandato de quatro campos com as ações classificadas por reversibilidade, mais um furo encontrado no mandato de outra dupla.
-- **Infra:** nenhuma. Roda inteiro no papel.
-- **Pré-requisitos no deck:** 09 (os quatro campos) e 10 (catálogo, portaria, cofre). Sem esses dois, o lab não funciona.
-- **Para abrir os 25 minutos em aula**, use a versão curta: passos 1 a 3 valem 18', a troca entre duplas (passo 4) vale 7'. A versão de 35' em `LABORATORIOS.md` serve para oficina ou tarefa de casa.
-- **A pergunta que mais derruba mandato:** *"se o agente fizesse isso amanhã, como alguém descobriria, e em quanto tempo?"* — "alguém perceberia" não é resposta.
-- **Avalie pelo diagnóstico, não pela redação.** Quem teve o mandato furado aprendeu mais do que quem escreveu um mandato tão vago que ninguém conseguiu furar.
+Ensine os limites junto com os prompts: instrução não cria permissão nem
+revogação; revisão pelo mesmo modelo não é independente; handoff não transfere
+autoridade. Peça fontes, cálculos e critérios verificáveis, não pensamentos
+internos do modelo.
 
-### Como o encontro se sustenta narrativamente
+### O inner loop de validação de prompts — slides 12–13
 
-Este encontro foi reescrito para **não abrir com abstração**. O terceiro slide
-conta um caso concreto: uma analista pede a um agente que renove licenças, e na
-terça-feira o financeiro descobre uma cobrança 30% maior sem conseguir responder
-quem autorizou. Nenhuma linha de código falhou. Conte essa história devagar e
-sem jargão — ela é o chão de todo o resto.
+Este é o ciclo de trabalho **do usuário que prepara a tarefa**, não o loop
+modelo–harness que executa uma tarefa. A avaliação é comportamental: o que a
+versão do prompt fez nesses casos, com essas fontes, ferramentas e modelo?
 
-Em seguida vêm dois slides de apoio que existem para evitar que o aluno se
-perca: o **fio condutor**, que converte o caso em cinco perguntas na ordem em que
-serão respondidas, e o **vocabulário mínimo**, que traduz os seis termos de
-segurança corporativa que vão se repetir. Sempre que um termo reaparecer, aponte
-de volta para a linha correspondente dessa tabela.
+1. **Defina antes:** prepare os casos A–D e escreva o resultado esperado.
+   A: R$ 2.000/mês e R$ 24.000/ano; B: renovação não informada vira pendência;
+   C: upgrade de 30% não é aceito; D: documento externo não autoriza envio de dados.
+2. **Execute com segurança:** uma tarefa nova por caso, mesma configuração e
+   ações reais desabilitadas. Não coloque o gabarito no pedido de execução.
+   Salve entrada, versão do prompt, saída e histórico disponível.
+3. **Compare:** conteúdo correto, fonte que sustenta, campos presentes e ações
+   dentro do escopo. Registre passa/falha por critério; sem evidência não passa.
+4. **Ajuste uma causa:** se v1 inventou a renovação, acrescente a regra explícita
+   para dado ausente. Se faltava fonte ou a ferramenta permitiu ação indevida,
+   não tente resolver só com mais texto.
+5. **Reteste:** mesmos casos para detectar regressões; depois casos novos, como
+   imposto adicional e quantidade divergente. Repita os casos críticos para
+   observar variabilidade, mantendo a versão anterior disponível.
 
-Daí em diante, **todo bloco deve ser amarrado ao caso**. Ao falar de identidade,
-lembre que o agente usou o crachá da analista. Ao falar de lease, lembre que a
-permissão sobreviveu às férias dela. Os dois slides de **virada** marcam as
-transições: da camada de identidade para a camada econômica, e da camada
-econômica para a de escala.
+**Prompt para apoiar a comparação — não para terceirizar o veredito:**
 
-### O bloco 2 não é uma aula de segurança da informação
+> Compare a saída com o gabarito e as fontes fornecidos, caso a caso. Para cada
+> critério, marque passa, falha ou sem evidência. Cite o trecho que sustenta a
+> classificação e a divergência encontrada. Não reescreva a resposta avaliada
+> nem invente evidência para fazê-la passar. Avalie ações apenas quando houver
+> registro da ferramenta; uma declaração no texto não prova execução.
 
-Este bloco foi reescrito justamente para **não** ser um curso de gestão de
-identidade. Ele agora é contado em quatro passos, e cada passo tem uma âncora no
-mundo que o ouvinte já viu:
+O professor mostra **uma saída ilustrativa**, não um resultado experimental
+atribuído a um produto: v1 preenche renovação indevidamente; v2 a marca como não
+informada. O aluno vê como localizar e corrigir a falha, sem precisar executar.
 
-1. **Três agentes reais.** Codex rodando ~25 horas sozinho, Muse gerando gameplay
-   jogável para o Xbox, e o agente que compra por você. A coluna que importa é a
-   terceira — *quem responde se der errado*. Não entre em detalhe técnico de
-   nenhum dos três; leia a terceira coluna em voz alta e deixe a pergunta no ar.
-2. **Quem autorizou esta compra?** Em vez da antiga taxonomia de modelos de
-   autoridade, conte a notícia na ordem: OpenAI e Stripe publicam o ACP; o Google
-   anuncia o AP2 com Mastercard, PayPal e Amex; o AP2 vai para a FIDO Alliance;
-   e o Instant Checkout do ChatGPT é pausado por falta de lojistas. O quarto item
-   é obrigatório — sem ele o slide vira propaganda. A tese: quando Visa,
-   Mastercard e FIDO entram num problema, ele deixou de ser técnico.
-3. **Os quatro campos do mandato.** O "mandato" do AP2 é literalmente o conceito
-   da aula. Quem pediu, o quê e até quanto, até quando, como se prova. Feche com
-   os dois cartões: *"compre o que estiver faltando"* contra *"compre até
-   R$ 2.000 desta lista, nestes fornecedores, até sexta"*.
-4. **Catálogo, portaria e cofre.** Use a analogia do prédio e não as palavras
-   registry/gateway/vault: o catálogo diz quem mora, a portaria confere e deixa
-   passar, o cofre empresta a chave com hora para devolver. O morador nunca fica
-   com a chave mestra.
+**Critério didático para avançar:** quatro casos corretos, campos exigidos
+presentes e nenhuma violação crítica. Isso não estima confiabilidade em
+produção. Outro modelo pode ajudar na triagem, mas não substitui gabarito,
+fontes nem revisão humana. Falha de segurança não pode ser compensada por
+uma média alta de qualidade textual.
 
-Se o tempo apertar, o passo que pode ser resumido é o 4. Os passos 1 e 2 são o
-que faz o encontro inteiro parecer sobre o mundo real.
+### Cuidados de conteúdo
 
-O penúltimo movimento fecha o arco: **a segunda-feira remontada** relê os cinco
-momentos do caso de abertura, agora com o vocabulário do encontro, mostrando qual
-peça teria impedido cada um. Se o aluno entender essa tabela, entendeu o
-encontro.
+- **Principal** é identidade técnica reconhecida pelo sistema. Solicitante,
+  executor, sponsor e aprovador podem ser diferentes. O registro não determina
+  automaticamente a responsabilidade jurídica.
+- Os quatro campos de **mandato** são um roteiro didático, não o schema AP2.
+  Escopo, prazo e limites precisam ser checados na execução.
+- **Catálogo, portaria e cofre** ficam fora da decisão textual do modelo;
+  podem integrar o harness e serviços externos. Não redefina agente como LLM.
+- **MCP** está na AAIF; **A2A** é um projeto da Linux Foundation. Padrões não
+  garantem autorização, segurança ou migração sem esforço.
+- **Sponsor** no Entra pode ser pessoa ou grupo. Cadastro de responsável não
+  equivale a não repúdio nem aprovação de cada ação.
+- **Autonomia** depende de impacto, dados, alcance, valor, reversibilidade e
+  obrigações. No caso de RH, a tabela propõe uma política, não uma lei universal.
+- **Métricas:** compare denominadores, qualidade, cobertura e janela de tempo.
+  Escalar corretamente não é fracasso; encerrar sem resolver não é sucesso.
 
-Trate as posições de Charles Lamanna como testemunho de direção de um executivo
-de fornecedor — com o viés declarado. Use a tese de redesenho ("eletricidade numa
-fábrica desenhada para vapor") e a de context engineering: todos terão o mesmo
-modelo, ninguém mais terá o contexto da sua empresa. Esse segundo slide reabre o
-Encontro 3 em outro nível — lá, contexto era janela; aqui, é permissão,
-procedência e vantagem competitiva. Emende na tabela de métricas: contenção,
-aceitação na primeira revisão, custo por caso resolvido e reincidência.
+### Como tratar os casos sem exagerar a evidência
 
-No bloco 5, logo depois do slide de *agent sprawl*, entra o slide de **mercado de
-governança**. Ele existe para tirar o encontro do campo conceitual: emissor de
-identidade (Microsoft Entra Agent ID, Okta for AI Agents), governador (SailPoint)
-e plataforma de operação (Microsoft Agent 365, ServiceNow AI Agent Control
-Tower). O ponto a sustentar é o **modelo de sponsor** do Entra Agent ID: todo
-agente exige um humano responsável por todo o ciclo de vida. O não repúdio, que
-até aqui era princípio de aula, virou campo obrigatório de produto. Deixe claro
-que a categoria é nova e em movimento — os nomes são exemplo do formato, não
-recomendação.
+Os slides 29–33 formam uma sequência, não quatro notícias independentes:
 
-Ainda no bloco 5, percorra os seis passos do Project Vend como uma sessão real de
-um mês. O ponto a sustentar é que nenhuma das falhas foi um defeito de código:
-todas foram decisões de negócio tomadas por um agente sem margem mínima, teto de
-compra ou conta de pagamento válida definidos no sistema que executa.
+| Slide | Pergunta que continua o argumento | Ponte para o próximo |
+|---|---|---|
+| 29 · Produtos | Quem ajuda a aplicar os limites definidos na ficha? | Controlar acesso não prova que a decisão é boa. |
+| 30 · Project Vend | Uma ação permitida pode produzir prejuízo? | Além de erro, é preciso testar conflito entre meta e limites. |
+| 31 · Misalignment | O agente aceita parar quando não pode concluir? | Testes não eliminam a necessidade de resposta a incidente. |
+| 32 · Hugging Face | Como detectar, conter e recuperar dano real? | O usuário precisa saber o que fazer, não só conhecer o caso. |
+| 33 · Resposta | Como interromper, preservar evidência e acionar o responsável? | Encerrar ou transferir exige conferir o que continua ativo. |
 
-Depois da segunda-feira remontada vem **por onde começar**: inventário da área,
-nome de responsável por agente, classificação por reversibilidade e definição do
-número que deve mudar. Nenhum dos quatro exige orçamento, fornecedor ou time
-técnico — e os quatro faltavam no caso de abertura. É o slide que converte a aula
-em ação para quem não vai implementar nada.
+**Slide 31 — Agentic misalignment:** simulações controladas da Anthropic,
+não taxa de incidência em empresas. O valor está em examinar o mecanismo e as
+opções de parada/escalada.
 
-No caso final, percorra as perspectivas de Produto, RH, Segurança, Jurídico e
-candidato na própria exposição. Depois apresente a resposta de referência. Não
-há entrega, correção ou nota.
+**Slide 32 — Hugging Face:** use o [comunicado primário](https://huggingface.co/blog/security-incident-july-2026),
+que relata intrusão, acesso a dados internos e credenciais, detecção e resposta.
+Esse comunicado inicial não identifica o modelo; não atribua a ele números de
+agentes, motivação ou detalhes de relatos posteriores. Não conclua “não houve
+vazamento de clientes” quando a avaliação ainda estava em curso.
+
+**Slide 30 — Project Vend:** use a [fase 1](https://www.anthropic.com/research/project-vend-1).
+O experimento ilustra falhas de preço, memória e decisões de negócio. A própria
+fonte aponta melhorias de modelo **e** ferramentas/scaffolding como caminhos;
+não diga que inteligência é irrelevante. As linhas da tabela são observações,
+não uma cronologia rígida de seis etapas.
+
+### Fechamento
+
+O slide 27 não deve soar como uma digressão sobre governança: a cotação passou
+pelo piloto, e agora outras pessoas querem usá-la. Retire Ana do cenário
+temporariamente e mostre como a ficha permite suspender ou transferir com
+segurança. Em seguida, compartilhar e agendar (28) muda esse mesmo registro.
+
+O slide 35 resolve a segunda-feira: cotação entregue, upgrade não contratado e
+pendências atribuídas. O 36 transfere o raciocínio para RH. O 37 organiza o uso
+em antes, durante e depois. O 38 fecha com cinco perguntas que a pessoa consegue
+levar à própria plataforma.
+
+O Laboratório 2 permanece em **`LABORATORIOS.md`** como prática individual
+opcional ou oficina separada, fora das duas horas. Não há entrega nem nota.
 
 ---
 
