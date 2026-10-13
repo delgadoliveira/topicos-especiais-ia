@@ -207,8 +207,8 @@ com "conversamos sobre...", é resumo.
 
 **Por que isto é a habilidade central do Encontro 5.** É a única coisa da aula
 que o aluno aplica na segunda-feira sem comprar nada, sem código e sem permissão
-de ninguém — inclusive em trabalho entre humanos. É por isso que o laboratório 1
-é sobre isso.
+de ninguém — inclusive em trabalho entre humanos. A gravação demonstra essa
+ideia; o laboratório 1 fica como prática complementar opcional.
 
 ---
 
@@ -523,7 +523,7 @@ não é o mesmo padrão.
 
 ## 20 · Os dois simuladores do deck ⭐
 
-**Em uma frase.** Dois slides interativos (E5 slide 21, E6 slide 11) em que a
+**Em uma frase.** Dois slides interativos (E5 slide 22, E6 slide 11) em que a
 turma mexe em controles e vê o resultado mudar na hora — não são animação, têm
 lógica e gabarito embutidos.
 
@@ -533,13 +533,13 @@ configuração padrão, **5 passam indevidamente**. O simulador de **travessia d
 reset** (E5) tem 8 artefatos para o handoff, e dois deles — transcrição completa e
 token de sessão — **pioram** o resultado.
 
-**Como usar em aula.** Projete, não explique. Peça à turma a configuração antes de
-mexer: *"o que vocês colocariam no handoff?"* A resposta instintiva (marcar a
-transcrição completa) produz "a tarefa não atravessou". Essa frustração de 30
-segundos vale mais que cinco minutos de exposição e prepara o laboratório.
+**Como usar no Encontro 5 assíncrono.** Grave primeiro o cenário com só a
+transcrição completa: a tarefa não atravessa. Acrescente os campos necessários
+e explique por que cada resultado muda. Quem assiste pode explorar por conta
+própria, mas não precisa interromper a gravação nem fazer um laboratório.
 
-**O erro comum.** Apertar os controles sozinho enquanto narra. O valor está na
-turma errar primeiro.
+**O erro comum.** Mudar controles sem explicar a relação entre o campo salvo
+e a falha evitada. A demonstração precisa fazer sentido sem participação ao vivo.
 
 ---
 
@@ -549,7 +549,7 @@ Leia, nesta ordem, e você dá as duas aulas:
 
 1. **Verbete 3 (harness)** e **4 (tool call)** — a frase "o modelo pede, o harness
    faz" sustenta metade do Encontro 5 e explica por que segurança não é prompt.
-2. **Verbete 6 (handoff)** — é a habilidade que o laboratório 1 entrega.
+2. **Verbete 6 (handoff)** — é o princípio aplicado na demonstração de reset.
 3. **Verbete 11 (mandato)** e **13 (catálogo, portaria, cofre)** — é o Encontro 6
    inteiro em duas ideias.
 4. **Verbete 16 (métricas de resultado)** — é o que a audiência leva para a própria
@@ -586,4 +586,3 @@ Resposta honesta e curta: muda a unidade do trabalho. Quem decidia caso a caso
 passa a escrever critério, conferir amostra e responder pelo lote. O caso da
 Klarna, no Encontro 5, é o contraexemplo útil — automatizaram atendimento e
 voltaram a contratar pessoas quando a métrica dominante era custo.
-

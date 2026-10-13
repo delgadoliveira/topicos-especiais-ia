@@ -1,7 +1,7 @@
 # 🧪 Laboratórios — Encontros 5 e 6
 
-> Material do aluno. Dois laboratórios, um por encontro. O deck reserva 25
-> minutos para cada um; o roteiro abaixo é a versão longa, de 35 minutos.
+> Material complementar. No Encontro 5 assíncrono, o Laboratório 1 é opcional,
+> fora da gravação e sem tempo reservado no deck. Os roteiros abaixo têm 35 minutos.
 > Nenhum exige programação. Nenhum exige ferramenta paga.
 
 ---
@@ -24,7 +24,7 @@ de programação. E ambas são, hoje, artefatos que empresas pedem por escrito.
 
 # 🔬 Laboratório 1 — Faça a tarefa atravessar o reset
 
-**Encontro 5 · 25 min em aula (versao longa 35 min) · duplas**
+**Encontro 5 · prática opcional de 35 min · individual ou em dupla, fora da gravação**
 **Habilidade:** escrever um handoff que preserva critério e progresso.
 
 ## O que você vai precisar
@@ -222,15 +222,15 @@ teoria.
 
 ## 📋 Para o professor
 
-**Encaixe no tempo.** Os decks reservam **25 minutos** para cada laboratório e já
-estão cronometrados em 120 minutos exatos — não é preciso cortar nada para rodá-los.
-O roteiro abaixo é a **versão longa, de 35 minutos**, para oficina, aula dupla ou
-tarefa de casa. Para a versão de 25': rode os passos 1 a 3 em 18' e reserve 7'
-para a troca entre duplas (passo 4), que é o passo que não pode ser pulado.
+**Encaixe no tempo.** O Encontro 5 não reserva tempo para laboratório: a aula
+assíncrona inclui uma demonstração de reset e segue para a verificação do
+resultado. O Lab 1 permanece como prática opcional de 35 minutos, não como
+atividade exigida para acompanhar a gravação. O deck do Encontro 6 ainda
+contém sua atividade de 25 minutos; o roteiro deste documento é a versão longa.
 
-**Sugestão de formato:** laboratório logo após o bloco de virada, não no final.
-Um laboratório no fim da aula vira tarefa de casa, e tarefa de casa não gera a
-conversa que é o ponto do exercício.
+**Sugestão de formato:** em estudo individual, o Lab 1 pode ser feito no
+próprio ritmo. Em uma oficina separada, a troca em duplas pode ajudar a
+comparar handoffs; não é uma condição para assistir ao Encontro 5.
 
 **Avaliação.** Os dois entregáveis são curtos e corrigíveis em minutos. Avalie
 pela qualidade do diagnóstico, não pela ferramenta: no Lab 1, o aluno que

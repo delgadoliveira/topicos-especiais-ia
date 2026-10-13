@@ -542,12 +542,12 @@ Para cada um:
 11. Explicar por que um modelo melhor pode produzir um agente pior, e um bom agente ainda formar um sistema inseguro — ou seja, por que avaliar modelo, agente e sistema são coisas diferentes.
 12. Explicar por que tarefas longas exigem estado durável e handoffs.
 13. Percorrer uma operação real passo a passo e identificar que peça do sistema atua em cada etapa.
-14. Explicar por que a maior parte dos projetos de agentes é cancelada, a partir de dados públicos de mercado.
+14. Definir critérios de valor, custo e risco para ampliar um piloto, distinguindo projeções de mercado de resultados observados.
 15. Situar as quatro camadas do mercado de ferramentas e identificar qual delas a própria organização já possui.
-16. Formular perguntas de avaliação de fornecedor que revelem ausência de estado, verificação, aprovação e métrica.
-17. **(Laboratório)** Escrever um handoff operacional de quatro campos — critério, estado, pendências e definição de pronto — e demonstrar que ele faz um trabalho sobreviver a uma troca de sessão.
+16. Delimitar uma tarefa longa no trabalho, configurar acessos e pontos de revisão na plataforma e verificar a entrega contra fontes e critérios.
+17. Reconhecer os quatro campos de um handoff operacional — critério, estado, pendências e definição de pronto — e explicar seu papel na retomada, a partir da demonstração.
 
-## ⏱️ Cronograma (120 min)
+## ⏱️ Roteiro de gravação (102 min estimados)
 
 | Bloco | Tempo | Conteúdo |
 |---|---:|---|
@@ -556,28 +556,28 @@ Para cada um:
 | 2 · A tarefa longa | 9' | O que é tarefa longa, a escada resposta → projeto e a mudança de unidade — 9–11 |
 | 3 · Os quatro nomes | 7' | Modelo, harness, agente e sistema — e o slide inteiro sobre o harness — 12, 13 |
 | 4 · As falhas | 8' | **Virada** + as quatro falhas e como cada uma chega ao produto — 14–16 |
-| 5 · Fazer o trabalho durar | 45' | **Virada** + anatomia, volta a volta, artefatos, reset, simulador e o **laboratório de 25'** — 17–23 |
-| 6 · Fazer o trabalho ser aceito | 12' | Papéis separados, sandbox, assíncrono, escada de evidência e a fila passo a passo — 24–29 |
-| 7 · A sua empresa | 9' | Cancelamentos, Klarna, as quatro camadas e o que perguntar ao fornecedor — 30–33 |
-| Fechamento | 6' | A sexta-feira remontada, arquitetura de referência e checklist — 34–36 |
+| 5 · Fazer o trabalho durar | 20' | **Virada** + anatomia, volta a volta, artefatos, reset e demonstração do simulador — 17–22 |
+| 6 · Fazer o trabalho ser aceito | 12' | Proposta → evidência → decisão, sandbox, assíncrono, escada de evidência e a fila passo a passo — 23–28 |
+| 7 · A sua empresa | 16' | Régua do piloto, Klarna, quatro camadas e uso da plataforma: escolher, instruir, acompanhar e verificar — 29–34 |
+| Fechamento | 6' | Caso resolvido, entrega auditável de referência e checklist de quem delega — 35–37 |
 
 > 🧭 **A divisa entre os movimentos 5 e 6 é a tese do encontro.** O 5 responde
 > *"o trabalho sobrevive?"* e o 6 responde *"o resultado pode ser aceito?"*. São
-> problemas diferentes, e o slide 29 diz isso com as próprias palavras do caso:
+> problemas diferentes, e o slide 28 diz isso com as próprias palavras do caso:
 > os passos 1 a 5 fazem o agente **trabalhar**, os passos 6 a 9 fazem o trabalho
 > **poder ser aceito**. Quase todo projeto real resolve só o primeiro — é por
 > isso que a segunda metade é a que costuma ser cortada em protótipo.
 
-> ⏸️ **Não há slide de intervalo.** O laboratório de 25 minutos no meio do
-> movimento 5 cumpre esse papel. Se precisar de uma pausa formal, coloque-a
-> imediatamente antes do slide 18 — é a fronteira mais limpa do deck.
+> **Formato assíncrono.** Não há laboratório em duplas nem pausa obrigatória.
+> Grave a demonstração do simulador e siga para a verificação do resultado.
+> O roteiro do laboratório permanece apenas como material complementar opcional.
 
-### ⏱️ Rota de 120 minutos — o deck já está no tempo
+### ⏱️ Ritmo da gravação
 
-**O Encontro 5 tem 36 slides e soma exatamente 120 minutos**, laboratório
-incluído. O orçamento de cada slide está no início da sua nota de apresentador
-(`N min.`); somados, fecham a aula. Não há excedente para absorver atraso — o
-controle de tempo é por slide, não por bloco.
+**O Encontro 5 tem 37 slides e 102 minutos estimados de exposição.**
+Os tempos nas notas (`N min.`) são referências para gravação, não duração
+obrigatória para quem assiste. O laboratório de 25 minutos saiu; a aplicação
+ao trabalho ganhou 7 minutos de exemplos explicados, sem atividade obrigatória.
 
 Isso muda a forma de usar as notas: elas **não são para ler**. A maior parte dos
 slides tem 2 a 3 minutos, o que dá para uma frase de enquadramento, a leitura do
@@ -585,21 +585,21 @@ contrato em destaque e uma pergunta à turma. Só o slide 04 (a curva METR) tem 
 minutos; os de 4 minutos — 02, 05, 13, 15 e 19 — são os outros em que cabe
 desenvolver.
 
-**Se estiver atrasado**, corte nesta ordem — cada item devolve o próprio
-orçamento sem quebrar o fio:
+**Se precisar de uma gravação mais curta**, comprima nesta ordem, sem depender
+de participação ao vivo:
 
 | Corte | Slides | Ganho |
 |---|---|---:|
 | Primeiro | 14 e 17 (viradas) — diga a frase em voz alta e avance sem projetar | ~2' |
-| Depois | 24 e 25 (produção × julgamento, sandbox) — viram uma frase cada | ~4' |
-| Depois | 30 (Gartner) — o número é citado dentro do slide da Klarna | ~2' |
-| Por último | 34 e 35 (caso remontado + arquitetura de referência) — vire tarefa de casa | ~4' |
+| Depois | 23 e 24 (verificação, sandbox) — preserve o exemplo e resuma a explicação | até 4' |
+| Depois | 29 (régua do piloto) — preserve as três perguntas e omita o dado de contexto | até 1' |
+| Por último | 35 e 36 (caso resolvido + entrega auditável) — deixe como consulta | ~4' |
 | **Nunca corte** | 04 (por que agora), 05 (a sexta-feira), 06 (fio condutor), 11 (sobrevivência), 12 (as quatro entidades), 13 (o que é o harness), 15 (as quatro falhas), 18–21 (peças, volta a volta, artefatos, reset), 22 (simulador) | — |
 
-Os slides 18 a 21 são pré-requisito do laboratório: sem eles o aluno não sabe o
-que é um handoff nem por que o reset acontece. O **slide 22 é o simulador de
-travessia de reset** — rode-o ao vivo, projetado, antes de soltar as duplas:
-ele produz em 90 segundos a intuição que o laboratório vai exercitar.
+Os slides 18 a 21 explicam o handoff e o reset. O **slide 22 é o simulador de
+travessia de reset**: mostre na gravação um cenário que falha e outro que
+preserva os campos necessários, explicando a diferença. Explorar a interface
+é opcional para quem assiste; a demonstração deve ser compreensível sozinha.
 
 > ⚠️ **A confusão que trava a aula é "harness = agente".** Ela é desarmada em
 > dois pontos e os dois precisam ser ditos em voz alta. No **slide 12**, modelo e
@@ -652,14 +652,41 @@ ele produz em 90 segundos a intuição que o laboratório vai exercitar.
 > antiga. Leia em voz alta a régua de 50% de acerto e pergunte se alguém entregaria
 > 400 reembolsos a um estagiário que acerta metade das vezes.
 
-### 🧪 Laboratório 1 — "Faça a tarefa atravessar o reset" (slide 23)
+### Da retomada à verificação (slide 23)
 
-25 minutos em aula (versão longa de 35' em **`LABORATORIOS.md`**, renderize com `npm run labs`).
+O slide parte de um dos 60 pedidos sem comprovante: a proposta de aprovação
+não basta para aceitá-lo. Percorra as quatro funções — fixar critério, produzir
+a proposta, conferir evidência e aplicar a regra — mostrando o resultado
+concreto: o pedido fica pendente, não aprovado.
 
-- **Habilidade entregue:** escrever um handoff operacional que sobrevive à troca de sessão, de pessoa ou de ferramenta.
-- **Prova de que leva:** um handoff de quatro campos que outra conversa, sem histórico, consegue continuar sem refazer decisões.
-- **Infra:** qualquer assistente com conversas separadas; versão gratuita basta. Sem internet, roda em dupla com um aluno fazendo o papel do agente que esqueceu tudo.
-- **O passo que não pode ser pulado:** o passo 2 (quebrar). A frustração de ver o agente perder o critério é o conteúdo do encontro acontecendo com o aluno.
+Não apresente isso como obrigação de usar quatro agentes. O harness coordena
+a execução; a checagem pode usar código, fontes originais e revisão humana.
+Outro LLM pode repetir o mesmo erro. Relacione ao Evaluator-Optimizer do
+Encontro 2 e à avaliação do Encontro 4: o foco aqui é impedir que uma proposta
+sem evidência vire decisão aceita.
+
+O antigo laboratório de handoff não faz parte do deck nem é pré-requisito.
+Seu roteiro em **`LABORATORIOS.md`** fica disponível para prática opcional,
+fora da gravação (`npm run labs`).
+
+### Como a espera termina (slide 25)
+
+“Dormir” não significa deixar o modelo monitorando e-mail. O harness salva o
+pedido e os prazos antes de encerrar a execução. Uma integração detecta o
+documento recebido; um agendador dispara os vencimentos. Ambos publicam eventos
+com o ID do pedido numa fila de retomada. Um executor roda o harness, que lê
+o estado atual e aplica a política; só chama o modelo quando precisa analisar.
+
+Separe os dois prazos do exemplo: o primeiro permite um lembrete único; o
+final encaminha ao humano se o documento ainda não chegou. Ausência de
+resposta não dispara nada sozinha — quem dispara é o relógio. O recebimento
+do documento também não autoriza aprovação automática: ele abre a conferência.
+Eventos duplicados ou atrasados devem ser confrontados com o estado atual,
+com controle de concorrência e idempotência no envio, não só uma consulta ao log.
+
+Durante a espera não há chamadas ao modelo, mas armazenamento, fila e
+monitoramento podem custar. Ao retomar, o contexto é reconstruído a partir
+do estado salvo; não há uma memória do modelo que ficou “dormindo”.
 
 ### Bloco 0 — abertura de mercado (slides 2 e 3)
 
@@ -697,9 +724,42 @@ uma migração de código. Agentes de codificação aparecem apenas como *uma*
 instância do mesmo padrão — e o slide da sessão passo a passo diz isso
 explicitamente ("é um padrão de trabalho longo, não de um setor").
 
-O bloco 7 é o que ancora tudo na realidade de quem assiste, e é onde estão as
-três perguntas que eles realmente levam para o trabalho: *isto funciona mesmo?*,
-*o que existe para comprar?* e *o que eu pergunto antes de assinar?*
+O bloco 7 ancora tudo na realidade de quem assiste: *vale a pena?*, *qual
+ferramenta tenho à disposição?* e, principalmente, *como uso isso no trabalho?*
+Os slides 32–34 são exemplos resolvidos, não exercícios em sala:
+
+- **32 · Escolher e configurar:** recorte verificável, lote pequeno com casos
+  difíceis, fontes autorizadas, modo de leitura/rascunho e capacidade real de
+  trabalhar em segundo plano. Se a plataforma não preserva progresso ou não
+  permite pausar, diminua o escopo; o prompt não cria a funcionalidade.
+- **33 · Instruir:** um briefing reutilizável com entrega e fontes, limites e
+  exceções, ponto de revisão e definição de pronto. Mostre que configurações
+  de permissão precisam sustentar as restrições escritas.
+- **34 · Acompanhar e verificar:** consultar histórico, abrir a entrega,
+  conferir os dez casos contra as fontes, reconciliar IDs e pendências,
+  corrigir os casos afetados e só então autorizar a continuação. Uma segunda
+  opinião do mesmo agente não substitui checagem independente.
+
+A aula não presume uma interface específica: mostre as funções a procurar
+na plataforma aprovada pela empresa, sem prometer controles universais.
+O fechamento (37) retoma essas decisões do usuário, não um checklist de implementação.
+
+### Fechar o caso com uma resposta, não com mais perguntas (slides 35–36)
+
+O slide 35 resolve os momentos da abertura: delimitar o pedido, registrar a
+triagem, retomar sem repetir ações e bloquear decisões sem evidência.
+Se os 60 comprovantes ainda faltarem, o fechamento ilustrativo é
+**340 decisões verificadas + 60 pendências = 400 pedidos rastreados**.
+Isso não significa 400 resolvidos nem 400 aprovados; decisões verificadas
+também podem ser recusas. Não prometa que automação elimina espera externa.
+
+O slide 36 mostra o artefato que o usuário deve exigir: situação por ID,
+evidência e política vinculadas, próximo passo e responsável. São linhas
+ilustrativas, não um segundo conjunto de totais. A retomada usa o registro;
+a conferência humana abre as fontes. E salvar um log não garante idempotência:
+o sistema financeiro precisa deduplicar a operação de pagamento, inclusive
+quando há repetição de tentativa ou resposta incerta. A aprovação humana
+continua sendo uma etapa separada.
 
 ### Como o encontro se sustenta narrativamente
 
@@ -709,13 +769,21 @@ sexta-feira em que uma operação delega "zere a fila de 400 reembolsos" e, na
 segunda, recebe "fila zerada" com 60 pedidos aprovados sem conferir comprovante.
 O piloto é suspenso. Essa fila é a espinha dorsal: cada peça apresentada depois
 existe para impedir um dos cinco momentos dela, e o estudo de caso do fechamento
-(slides 34–36) é literalmente o mesmo cenário — diga isso em voz alta quando
+(slides 35–37) é literalmente o mesmo cenário — diga isso em voz alta quando
 chegar lá.
 
-O piloto suspenso tem uma segunda função: ele reaparece no bloco 7, quando a
-projeção da Gartner mostra que **cancelar é o desfecho mais comum do setor**, e
-pelos mesmos três motivos do caso (custo, valor pouco claro, controle de risco).
-A história não era didática — era estatística.
+O piloto suspenso tem uma segunda função: ele reaparece no bloco 7 como
+contraste entre volume processado e valor entregue. O slide 29 transforma a
+arquitetura numa decisão de negócio: definir metas e limites antes do piloto,
+depois comparar tempo até decisão correta, custo por pedido aceito e risco
+com a operação sem agente. Os dois dias de investigação do caso são custo;
+“400 de 400” não prova qualidade.
+
+A Gartner entra como contexto, não como mensagem principal: sua projeção de
+mais de 40% de cancelamentos até 2027 cita custo, valor e risco, mas não mede
+uma maioria já cancelada nem elimina limitações técnicas. O caso didático
+ilustra esses riscos; não é evidência estatística. A passagem para Klarna é:
+economia sem qualidade não basta para justificar a expansão.
 
 Logo depois vem o fio condutor, que decompõe a pergunta do encontro — *por que
 agentes que já respondem bem ainda falham em concluir um trabalho?* — em sete
@@ -778,9 +846,9 @@ estudada entra em ação. Os passos 1 a 5 fazem o agente trabalhar; os passos 6 
 fazem o trabalho poder ser aceito — e são justamente os que costumam ser
 cortados. É essa frase que dá nome aos dois blocos.
 
-Conduza o caso sem escolher frameworks. Percorra as perguntas do caso na própria
-exposição e, em seguida, apresente a arquitetura de referência. Não há entrega,
-correção ou nota.
+Conduza o caso sem escolher frameworks. Mostre o desfecho corrigido e a
+entrega auditável de referência: o que o aluno deve acompanhar e conferir.
+Não há exercício obrigatório, entrega do aluno, correção ou nota.
 
 ---
 
@@ -1008,4 +1076,3 @@ Essas perguntas não são enviadas, corrigidas ou usadas para nota.
 ---
 
 _Última atualização: 2025. Este guia deve ser revisado a cada nova oferta da disciplina conforme o ecossistema evolui._
-

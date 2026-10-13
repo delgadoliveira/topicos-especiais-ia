@@ -1425,6 +1425,10 @@
 .imm-pipeline .imm-node:last-child::after { content: ""; }
 .imm-pipeline .imm-node + .imm-node::before { content: ""; }
 
+.imm-pipeline.four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.imm-pipeline.four .imm-node b { font-size: 18px; }
+.imm-pipeline.four .imm-node span { font-size: 16px; line-height: 1.35; }
+
 .imm-pipeline .imm-node small {
   display: flex;
   width: 28px;
