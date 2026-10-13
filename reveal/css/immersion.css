@@ -1019,6 +1019,17 @@
 
 .reveal .imm-user .imm-figure { margin-top: 16px; }
 .reveal .imm-user .imm-figure + .imm-grid { margin-top: 16px; }
+
+/* Diagramas do E6: texto legivel e cores compartilhadas com o tema. */
+.reveal .slides section.imm-user:has(.imm-explainer) { padding-bottom: 64px; }
+.reveal .imm-user .imm-explainer .imm-svg-title { font-size: 22px; }
+.reveal .imm-user .imm-explainer .imm-svg-label { font-size: 20px; }
+.reveal .imm-user .imm-explainer .imm-svg-sub { fill: var(--cp-text-soft); font-size: 18px; }
+.reveal .imm-user .imm-explainer .imm-svg-tag { font-size: 15px; }
+.reveal .imm-user .imm-explainer .imm-svg-value { fill: var(--cp-text); font-size: 32px; font-weight: 750; }
+.reveal .imm-user .imm-explainer figcaption { color: var(--cp-text-soft); font-size: 16px; }
+.reveal .imm-user:has(.imm-explainer) .imm-source { color: var(--cp-text-soft); }
+
 .reveal .imm-slide.imm-user .mdt-chk,
 .reveal .imm-slide.imm-user .mdt-f,
 .reveal .imm-slide.imm-user .mdt-f select { font-size: 15px; }

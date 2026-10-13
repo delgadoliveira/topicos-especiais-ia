@@ -911,6 +911,24 @@ a limitação; não simule uma aprovação técnica com uma resposta de chat.
 As telas variam por produto e plano. Não é obrigatório ter uma conta paga para
 acompanhar os exemplos resolvidos.
 
+### Como conduzir os visuais
+
+Os diagramas substituem texto nos slides existentes; não acrescentam slides
+nem tempo ao roteiro. Aponte para a relação representada, em vez de ler cada caixa.
+
+| Slide | O que mostrar no visual |
+|---|---|
+| 4 · Percurso | Siga as cinco etapas. Ana continua responsável pelas decisões em cada passagem. |
+| 11 · Ciclo | Percorra a seta de volta da correção à execução: retestar, não apenas editar o pedido. O gabarito não muda para acomodar a saída. |
+| 12 · Fonte e campo | Localize a cláusula ausente no documento fictício e compare o campo errado com o corrigido. O cálculo certo não valida uma condição inventada. |
+| 13 · Matriz | Compare a mesma linha nas duas versões. Só B muda; os outros acertos precisam permanecer. Símbolos e texto acompanham as cores. |
+| 19 · Preço | As barras partem de zero e usam a mesma escala anual. A faixa adicional é R$ 7.200, não R$ 6: a quantidade e os 12 meses mudam o compromisso. |
+| 20 · Aprovação | A comparação chega à pessoa habilitada, não diretamente à compra. A seta de retorno mostra o que fazer se uma condição faltar ou mudar. |
+| 22 · Resultado | A barra fecha 100: 80 aceitas, 12 em correção, 8 pendentes. Depois compare as duas divisões: R$ 25 por aceita em ambos os processos. São custos de produzir análises, não preços de licenças. |
+
+Os números, a proposta e a matriz são **ilustrativos**, não medições de um
+produto. Não transforme quatro casos em uma estimativa de confiabilidade.
+
 ### Prompts reutilizáveis
 
 **Delegar — slide 8:**

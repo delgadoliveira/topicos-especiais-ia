@@ -47,13 +47,20 @@
   <span class="imm-type">Fio condutor</span>
   <div class="imm-kicker">Cinco passos · sempre a mesma tarefa de Ana</div>
   <h2>Do pedido vago à entrega conferida.</h2>
-  <div class="imm-thread">
-    <div class="imm-thread-step"><span>1</span><b>Preparar o pedido</b><i>Qual entrega quero, quais fontes usar e o que não pode fazer?</i></div>
-    <div class="imm-thread-step"><span>2</span><b>Testar e melhorar</b><i>Como vejo se a instrução funciona antes de depender dela?</i></div>
-    <div class="imm-thread-step"><span>3</span><b>Acompanhar e conferir</b><i>Onde vejo o andamento e como encontro um erro na entrega?</i></div>
-    <div class="imm-thread-step"><span>4</span><b>Avaliar se ajudou</b><i>O trabalho ficou melhor, mais rápido ou menos caro?</i></div>
-    <div class="imm-thread-step"><span>5</span><b>Encerrar ou ampliar</b><i>O que salvar, quem assume e o que muda ao repetir ou compartilhar?</i></div>
-  </div>
+  <figure class="imm-figure imm-explainer">
+    <svg viewBox="0 0 1120 250" role="img" aria-labelledby="e6-route-title e6-route-desc">
+      <title id="e6-route-title">Cinco passos do pedido à entrega conferida</title>
+      <desc id="e6-route-desc">Preparar fontes e limites; testar e corrigir; acompanhar e conferir a entrega; avaliar qualidade e custo; encerrar ou ampliar. Ana permanece responsável pelas decisões.</desc>
+      <defs><marker id="e6-route-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10Z" class="imm-svg-fill-accent"/></marker></defs>
+      <g class="imm-svg-flow" marker-end="url(#e6-route-arrow)"><path d="M200 100H225"/><path d="M430 100H455"/><path d="M660 100H685"/><path d="M890 100H915"/></g>
+      <g transform="translate(0 20)"><rect width="200" height="172" rx="16" class="imm-svg-box accent"/><text x="20" y="32" class="imm-svg-tag">01 · PREPARAR</text><text x="20" y="76" class="imm-svg-title">O pedido</text><text x="20" y="112" class="imm-svg-sub">Entrega, fontes</text><text x="20" y="138" class="imm-svg-sub">e limites.</text></g>
+      <g transform="translate(230 20)"><rect width="200" height="172" rx="16" class="imm-svg-box accent"/><text x="20" y="32" class="imm-svg-tag">02 · TESTAR</text><text x="20" y="76" class="imm-svg-title">Os exemplos</text><text x="20" y="112" class="imm-svg-sub">Ver o erro, corrigir</text><text x="20" y="138" class="imm-svg-sub">e testar de novo.</text></g>
+      <g transform="translate(460 20)"><rect width="200" height="172" rx="16" class="imm-svg-box accent"/><text x="20" y="32" class="imm-svg-tag">03 · CONFERIR</text><text x="20" y="76" class="imm-svg-title">A execução</text><text x="20" y="112" class="imm-svg-sub">Acompanhar, abrir</text><text x="20" y="138" class="imm-svg-sub">fontes e revisar.</text></g>
+      <g transform="translate(690 20)"><rect width="200" height="172" rx="16" class="imm-svg-box accent"/><text x="20" y="32" class="imm-svg-tag">04 · AVALIAR</text><text x="20" y="76" class="imm-svg-title">O resultado</text><text x="20" y="112" class="imm-svg-sub">Qualidade, tempo</text><text x="20" y="138" class="imm-svg-sub">e custo total.</text></g>
+      <g transform="translate(920 20)"><rect width="200" height="172" rx="16" class="imm-svg-box accent"/><text x="20" y="32" class="imm-svg-tag">05 · DECIDIR</text><text x="20" y="76" class="imm-svg-title">O próximo uso</text><text x="20" y="112" class="imm-svg-sub">Encerrar, salvar</text><text x="20" y="138" class="imm-svg-sub">ou ampliar.</text></g>
+      <text x="560" y="232" text-anchor="middle" class="imm-svg-label">Ana decide em cada passagem — o agente não recebe um “cheque em branco”.</text>
+    </svg>
+  </figure>
   <div class="imm-source">Aula assíncrona: exemplos resolvidos pelo professor, sem exercício obrigatório. Os números e respostas de Ana são ilustrativos, não uma avaliação de um produto.</div>
   <span class="imm-page">4 / 29</span>
   <aside class="notes">2 min. Mapa do argumento, não cronograma. Se o aluno se perder em algum conceito, este slide diz a qual pergunta aquele conceito pertence.</aside>
@@ -160,12 +167,20 @@
   <span class="imm-type">Testar e melhorar</span>
   <div class="imm-kicker">Um ciclo simples · comparar com o que deveria acontecer</div>
   <h2>Teste, localize a falha, ajuste e repita.<br>Mude uma coisa de cada vez.</h2>
-  <div class="imm-pipeline four">
-    <div class="imm-node"><small>1</small><b>Defina o esperado</b><span>Casos A–D, fontes e critérios escritos antes do teste.</span></div>
-    <div class="imm-node"><small>2</small><b>Rode a versão</b><span>Mesmo lote e configuração, novas conversas. Salve as saídas.</span></div>
-    <div class="imm-node"><small>3</small><b>Compare a evidência</b><span>Marque passa/falha por caso e critério; localize a causa.</span></div>
-    <div class="imm-node"><small>4</small><b>Ajuste e reteste</b><span>Prompt v2: <strong>volte ao passo 2</strong> e acrescente casos novos.</span></div>
-  </div>
+  <figure class="imm-figure imm-explainer">
+    <svg viewBox="0 0 1120 265" role="img" aria-labelledby="e6-cycle-title e6-cycle-desc">
+      <title id="e6-cycle-title">Ciclo de testar e melhorar o pedido</title>
+      <desc id="e6-cycle-desc">Defina o esperado, rode a versão, compare a evidência e ajuste uma causa. A seta retorna de ajustar para rodar: repita os casos anteriores e acrescente novos, sem mudar o gabarito para aprovar a resposta.</desc>
+      <defs><marker id="e6-cycle-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10Z" class="imm-svg-fill-accent"/></marker></defs>
+      <g class="imm-svg-flow" marker-end="url(#e6-cycle-arrow)"><path d="M244 90H282"/><path d="M536 90H574"/><path d="M828 90H866"/></g>
+      <g transform="translate(0 12)"><rect width="244" height="164" rx="16" class="imm-svg-box"/><text x="18" y="32" class="imm-svg-tag">1 · ANTES DO TESTE</text><text x="18" y="73" class="imm-svg-title">Defina o esperado</text><text x="18" y="110" class="imm-svg-sub">Casos A–D, fontes</text><text x="18" y="138" class="imm-svg-sub">e critérios escritos.</text></g>
+      <g transform="translate(292 12)"><rect width="244" height="164" rx="16" class="imm-svg-box accent"/><text x="18" y="32" class="imm-svg-tag">2 · EXECUÇÃO</text><text x="18" y="73" class="imm-svg-title">Rode a versão</text><text x="18" y="110" class="imm-svg-sub">Novas conversas, mesma</text><text x="18" y="138" class="imm-svg-sub">configuração. Salve.</text></g>
+      <g transform="translate(584 12)"><rect width="244" height="164" rx="16" class="imm-svg-box accent"/><text x="18" y="32" class="imm-svg-tag">3 · CONFERÊNCIA</text><text x="18" y="73" class="imm-svg-title">Compare a evidência</text><text x="18" y="110" class="imm-svg-sub">Passa, falha ou</text><text x="18" y="138" class="imm-svg-sub">sem evidência?</text></g>
+      <g transform="translate(876 12)"><rect width="244" height="164" rx="16" class="imm-svg-box accent"/><text x="18" y="32" class="imm-svg-tag">4 · CORREÇÃO</text><text x="18" y="73" class="imm-svg-title">Ajuste uma causa</text><text x="18" y="110" class="imm-svg-sub">Salve o pedido v2.</text><text x="18" y="138" class="imm-svg-sub">Não apague a v1.</text></g>
+      <path d="M998 176V242H414V184" class="imm-svg-flow" marker-end="url(#e6-cycle-arrow)"/>
+      <text x="706" y="220" text-anchor="middle" class="imm-svg-label">Reteste os casos antigos + casos novos</text>
+    </svg>
+  </figure>
   <div class="imm-contract">“Compare saída e gabarito por caso. Marque <em>passa, falha ou sem evidência</em>; cite o trecho e a divergência. Não reescreva a resposta para fazê-la passar.”</div>
   <p class="imm-source"><b>Exemplo didático:</b> v1 inventa a renovação do caso B → v2 explicita “não informado”. Reteste também A, C e D. IA pode ajudar a localizar diferenças; você confere o julgamento nas fontes.</p>
   <div class="imm-rail" aria-hidden="true"><i class="done"></i><i class="on"></i><i></i><i></i><i></i><b><em>2</em> · Testar e melhorar</b></div>
@@ -177,11 +192,33 @@
   <span class="imm-type">Demonstração resolvida</span>
   <div class="imm-kicker">O erro está em um campo · a correção precisa apontar esse campo</div>
   <h2>A proposta não diz se renova automaticamente.<br>O agente escreveu “sim”.</h2>
-  <div class="imm-grid three">
-    <div class="imm-card"><h3>Fonte de teste</h3><p>“100 licenças; R$ 26 por licença/mês; prazo de 12 meses.”</p><p><b>Renovação automática:</b> não consta no documento.</p></div>
-    <div class="imm-card danger"><h3>Saída v1 · erro</h3><p>Total anual: R$ 31.200.</p><p><b>Renovação automática: sim.</b></p><p>O cálculo está certo. A condição foi inventada.</p></div>
-    <div class="imm-card success"><h3>Saída corrigida</h3><p>Total anual: R$ 31.200.</p><p><b>Renovação: não informada.</b></p><p>Pendência: confirmar antes de decidir.</p></div>
-  </div>
+  <figure class="imm-figure imm-explainer">
+    <svg viewBox="0 0 1120 260" role="img" aria-labelledby="e6-evidence-title e6-evidence-desc">
+      <title id="e6-evidence-title">Conferência do campo renovação na proposta original</title>
+      <desc id="e6-evidence-desc">Proposta fictícia: 100 licenças a 26 reais por mês, por 12 meses, sem cláusula de renovação automática. A versão 1 inventa sim. A correção mantém o total anual de 31.200 reais e marca renovação não informada, pendente de confirmação.</desc>
+      <defs><marker id="e6-evidence-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10Z" class="imm-svg-fill-accent"/></marker></defs>
+      <path d="M10 10H338L366 38V250H10Z" class="imm-svg-box"/>
+      <path d="M338 10V38H366" class="imm-svg-line"/>
+      <text x="32" y="48" class="imm-svg-tag">PROPOSTA · TRECHO FICTÍCIO</text>
+      <text x="32" y="91" class="imm-svg-label">Quantidade: 100 licenças</text>
+      <text x="32" y="123" class="imm-svg-label">Preço: R$ 26/licença/mês</text>
+      <text x="32" y="155" class="imm-svg-label">Prazo: 12 meses</text>
+      <rect x="28" y="173" width="320" height="61" rx="8" class="imm-svg-zone neutral"/>
+      <text x="44" y="196" class="imm-svg-tag">OBSERVAÇÃO DA REVISÃO</text>
+      <text x="44" y="222" class="imm-svg-sub">Renovação não informada.</text>
+      <path d="M370 130H414" class="imm-svg-flow" marker-end="url(#e6-evidence-arrow)"/>
+      <rect x="424" y="10" width="696" height="240" rx="16" class="imm-svg-box"/>
+      <text x="448" y="48" class="imm-svg-tag">O CAMPO QUE PRECISA MUDAR</text>
+      <text x="448" y="90" class="imm-svg-label">v1 · Renovação automática:</text>
+      <rect x="760" y="65" width="334" height="38" rx="8" class="imm-svg-box danger"/>
+      <text x="778" y="91" class="imm-svg-label">× Sim — sem evidência</text>
+      <text x="448" y="146" class="imm-svg-label">Corrigida · Renovação:</text>
+      <rect x="760" y="121" width="334" height="38" rx="8" class="imm-svg-box success"/>
+      <text x="778" y="147" class="imm-svg-label">✓ Não informada</text>
+      <text x="448" y="199" class="imm-svg-label">Total anual preservado: R$ 31.200.</text>
+      <text x="448" y="229" class="imm-svg-sub">Pendência: confirmar a condição antes de decidir.</text>
+    </svg>
+  </figure>
   <div class="imm-contract">“Você preencheu uma condição ausente. <em>Marque ‘não informado’ quando a fonte não disser.</em> Corrija essa linha, sem inventar uma regra padrão.”</div>
   <div class="imm-source">Saídas preparadas para a explicação, não resultados medidos num produto. Corrigir a resposta de hoje não basta: salve a regra na próxima versão do pedido.</div>
   <div class="imm-rail" aria-hidden="true"><i class="done"></i><i class="on"></i><i></i><i></i><i></i><b><em>2</em> · Testar e melhorar</b></div>
@@ -193,15 +230,31 @@
   <span class="imm-type">Conferir a nova versão</span>
   <div class="imm-kicker">Não teste só o caso que acabou de corrigir</div>
   <h2>A nova instrução resolveu o erro.<br>Ela preservou o que já estava certo?</h2>
-  <table class="imm-table">
-    <thead><tr><th>Mesmo caso, mesma fonte</th><th>Versão 1</th><th>Versão 2</th></tr></thead>
-    <tbody>
-      <tr><td>A · Valores completos</td><td>Correto</td><td>Correto</td></tr>
-      <tr><td>B · Condição ausente</td><td><b>Inventou “sim”</b></td><td>Marcou “não informado”</td></tr>
-      <tr><td>C · Oferta fora do pedido</td><td>Não contratou</td><td>Não contratou</td></tr>
-      <tr><td>D · Instrução no documento</td><td>Não seguiu a instrução</td><td>Não seguiu a instrução</td></tr>
-    </tbody>
-  </table>
+  <figure class="imm-figure imm-explainer">
+    <svg viewBox="0 0 1120 266" role="img" aria-labelledby="e6-matrix-title e6-matrix-desc">
+      <title id="e6-matrix-title">Matriz ilustrativa dos mesmos quatro testes nas versões 1 e 2</title>
+      <desc id="e6-matrix-desc">Versão 1: três acertos e uma falha no caso B, inventando sim. Versão 2: quatro acertos; B passa a não informado e os outros casos continuam corretos. Resultados preparados para ensino, não medidos num modelo.</desc>
+      <text x="12" y="30" class="imm-svg-tag">MESMO CASO, MESMA FONTE</text>
+      <text x="430" y="30" class="imm-svg-title">v1 · 3 de 4</text>
+      <text x="788" y="30" class="imm-svg-title">v2 · 4 de 4</text>
+      <text x="12" y="84" class="imm-svg-label">A · Valores completos</text>
+      <text x="12" y="138" class="imm-svg-label">B · Condição ausente</text>
+      <text x="12" y="192" class="imm-svg-label">C · Upgrade fora do pedido</text>
+      <text x="12" y="246" class="imm-svg-label">D · Ordem externa indevida</text>
+      <g transform="translate(414 54)">
+        <rect width="330" height="42" rx="10" class="imm-svg-box success"/><text x="16" y="28" class="imm-svg-label">✓ Cálculo e fonte corretos</text>
+        <rect y="54" width="330" height="42" rx="10" class="imm-svg-box danger"/><text x="16" y="82" class="imm-svg-label">× Inventou “sim”</text>
+        <rect y="108" width="330" height="42" rx="10" class="imm-svg-box success"/><text x="16" y="136" class="imm-svg-label">✓ +30%; não contratou</text>
+        <rect y="162" width="330" height="42" rx="10" class="imm-svg-box success"/><text x="16" y="190" class="imm-svg-label">✓ Ignorou a ordem indevida</text>
+      </g>
+      <g transform="translate(772 54)">
+        <rect width="348" height="42" rx="10" class="imm-svg-box success"/><text x="16" y="28" class="imm-svg-label">✓ Cálculo e fonte corretos</text>
+        <rect y="54" width="348" height="42" rx="10" class="imm-svg-box success"/><text x="16" y="82" class="imm-svg-label">✓ “Não informado”</text>
+        <rect y="108" width="348" height="42" rx="10" class="imm-svg-box success"/><text x="16" y="136" class="imm-svg-label">✓ +30%; não contratou</text>
+        <rect y="162" width="348" height="42" rx="10" class="imm-svg-box success"/><text x="16" y="190" class="imm-svg-label">✓ Ignorou a ordem indevida</text>
+      </g>
+    </svg>
+  </figure>
   <div class="imm-contract"><em>Neste exemplo: 3 de 4 → 4 de 4.</em> Agora teste casos novos e repita os mais importantes antes de ampliar.</div>
   <div class="imm-source">Quadro ilustrativo, não comparação de modelos. Registre também fontes, campos exigidos e ações; uma frase dizendo “não enviei” não prova o que a ferramenta fez.</div>
   <div class="imm-rail" aria-hidden="true"><i class="done"></i><i class="on"></i><i></i><i></i><i></i><b><em>2</em> · Testar e melhorar</b></div>
@@ -296,10 +349,28 @@
   <span class="imm-type">Aprovar</span>
   <div class="imm-kicker">A proposta é informação · não é uma nova ordem</div>
   <h2>“Só R$ 6 a mais” por licença.<br>Você está autorizando quanto, por quanto tempo?</h2>
-  <div class="imm-grid two">
-    <div class="imm-card success"><h3>Plano atual · exemplo ilustrativo</h3><p><b>100 × R$ 20 = R$ 2.000/mês</b></p><p>Em 12 meses: R$ 24.000.<br>Sem mudança de plano.</p></div>
-    <div class="imm-card warning"><h3>Upgrade proposto</h3><p><b>100 × R$ 26 = R$ 2.600/mês</b></p><p>Em 12 meses: R$ 31.200.<br><b>+30% · +R$ 7.200/ano.</b></p></div>
-  </div>
+  <figure class="imm-figure imm-explainer">
+    <svg viewBox="0 0 1120 275" role="img" aria-labelledby="e6-price-title e6-price-desc">
+      <title id="e6-price-title">Compromisso anual: plano atual versus upgrade para 100 licenças</title>
+      <desc id="e6-price-desc">Barras com origem em zero e escala comum, em reais por 12 meses. Atual: 100 vezes 20 reais por mês, 2.000 mensais, 24.000 anuais. Upgrade: 100 vezes 26, 2.600 mensais, 31.200 anuais. A faixa adicional representa 7.200 reais, aumento de 30%. Sem taxas adicionais no exemplo.</desc>
+      <text x="220" y="24" class="imm-svg-tag">COMPROMISSO EM 12 MESES · R$ · 100 LICENÇAS</text>
+      <path d="M220 38V210 M460 38V210 M700 38V210 M940 38V210" class="imm-svg-grid"/>
+      <text x="8" y="75" class="imm-svg-title">Plano atual</text><text x="8" y="103" class="imm-svg-sub">R$ 2.000/mês</text>
+      <rect x="220" y="52" width="480" height="48" class="imm-svg-box accent imm-svg-fill-accent-soft" data-annual-cost="24000"/>
+      <text x="716" y="83" class="imm-svg-value">24.000</text>
+      <text x="8" y="154" class="imm-svg-title">Upgrade</text><text x="8" y="182" class="imm-svg-sub">R$ 2.600/mês</text>
+      <rect x="220" y="131" width="480" height="48" class="imm-svg-box accent imm-svg-fill-accent-soft"/>
+      <rect x="700" y="131" width="144" height="48" class="imm-svg-fill-warning" data-annual-increase="7200"/>
+      <text x="862" y="163" class="imm-svg-value">31.200</text>
+      <path d="M220 210H940" class="imm-svg-line"/>
+      <text x="220" y="234" text-anchor="middle" class="imm-svg-sub">0</text>
+      <text x="460" y="234" text-anchor="middle" class="imm-svg-sub">12.000</text>
+      <text x="700" y="234" text-anchor="middle" class="imm-svg-sub">24.000</text>
+      <text x="940" y="234" text-anchor="middle" class="imm-svg-sub">36.000</text>
+      <rect x="220" y="252" width="16" height="16" class="imm-svg-fill-warning"/>
+      <text x="248" y="266" class="imm-svg-label">Faixa adicional: +R$ 7.200/ano (+30%) por R$ 6 a mais/licença/mês.</text>
+    </svg>
+  </figure>
   <div class="imm-contract">“Não autorizo o upgrade. Prepare a opção sem mudança de plano e mostre <em>total, prazo, impostos e renovação</em>. Não contrate; encaminhe ao aprovador habilitado.”</div>
   <p class="imm-source">Abra a proposta original. Confira fornecedor e destinatário. Valores do exemplo não incluem taxas adicionais; sem condições completas, não há aprovação informada.</p>
   <div class="imm-rail" aria-hidden="true"><i class="done"></i><i class="done"></i><i class="on"></i><i></i><i></i><b><em>3</em> · Acompanhar e conferir</b></div>
@@ -311,12 +382,34 @@
   <span class="imm-type">Autoridade</span>
   <div class="imm-kicker">Quando o agente compra por voc&ecirc;</div>
   <h2>“Pode pesquisar” não significa “pode comprar”.<br>A confirmação precisa mostrar o compromisso final.</h2>
-  <div class="imm-thread">
-    <div class="imm-thread-step"><span>1</span><b>Pedido inicial</b><i>Pesquisar ou cotar licenças autoriza preparar opções, não aceitar um upgrade por conta própria.</i></div>
-    <div class="imm-thread-step"><span>2</span><b>Proposta final</b><i>Conferir fornecedor, itens, quantidade, preço total, impostos, renovação automática e prazo contratual.</i></div>
-    <div class="imm-thread-step"><span>3</span><b>Autorização específica</b><i>Confirmar exatamente essa proposta. Se valor ou condições mudarem, a aprovação anterior não cobre automaticamente a mudança.</i></div>
-    <div class="imm-thread-step"><span>4</span><b>Comprovante e responsável</b><i>Guardar a autorização ligada à transação e saber quem trata cancelamento, divergência ou cobrança duplicada.</i></div>
-  </div>
+  <figure class="imm-figure imm-explainer">
+    <svg viewBox="0 0 1120 280" role="img" aria-labelledby="e6-approval-title e6-approval-desc">
+      <title id="e6-approval-title">Fronteira entre comparar e comprar</title>
+      <desc id="e6-approval-desc">O agente prepara a comparação e para. A pessoa habilitada confere a proposta final e autoriza especificamente antes de qualquer compra. Condições ausentes ou alteradas retornam para esclarecimento. No caso de Ana, a compra continua bloqueada. Aprovação e comprovante devem ficar ligados.</desc>
+      <defs><marker id="e6-approval-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10Z" class="imm-svg-fill-accent"/></marker></defs>
+      <rect x="0" y="15" width="312" height="160" rx="16" class="imm-svg-box accent"/>
+      <text x="22" y="49" class="imm-svg-tag">AGENTE · LEITURA E RASCUNHO</text>
+      <text x="22" y="92" class="imm-svg-title">Prepara a comparação</text>
+      <text x="22" y="126" class="imm-svg-sub">Fontes, totais e pendências.</text>
+      <text x="22" y="152" class="imm-svg-sub">Entrega e para para revisão.</text>
+      <path d="M312 95H390" class="imm-svg-flow" marker-end="url(#e6-approval-arrow)"/>
+      <rect x="400" y="15" width="340" height="160" rx="16" class="imm-svg-box warning"/>
+      <text x="422" y="49" class="imm-svg-tag">PESSOA HABILITADA · DECISÃO</text>
+      <text x="422" y="92" class="imm-svg-title">Confere e autoriza</text>
+      <text x="422" y="126" class="imm-svg-sub">Fornecedor, total, impostos,</text>
+      <text x="422" y="152" class="imm-svg-sub">quantidade, prazo e renovação.</text>
+      <path d="M740 95H812" class="imm-svg-flow" stroke-dasharray="7 5" marker-end="url(#e6-approval-arrow)"/>
+      <text x="778" y="66" text-anchor="middle" class="imm-svg-tag">SE SIM</text>
+      <rect x="824" y="15" width="296" height="160" rx="16" class="imm-svg-box"/>
+      <text x="846" y="49" class="imm-svg-tag">SÓ APÓS AUTORIZAÇÃO</text>
+      <text x="846" y="92" class="imm-svg-title">Etapa de compra</text>
+      <text x="846" y="126" class="imm-svg-sub">Ana: ainda bloqueada.</text>
+      <text x="846" y="152" class="imm-svg-sub">Renovação não esclarecida.</text>
+      <path d="M570 175V224H156V184" class="imm-svg-flow" marker-end="url(#e6-approval-arrow)"/>
+      <text x="363" y="211" text-anchor="middle" class="imm-svg-sub">Faltou ou mudou uma condição? Volte.</text>
+      <text x="560" y="267" text-anchor="middle" class="imm-svg-label">Se houver compra: guarde autorização + comprovante + responsável pela correção.</text>
+    </svg>
+  </figure>
   <div class="imm-contract">Se a plataforma não mostra <em>o que você está autorizando</em>, limite o agente à cotação ou ao rascunho.</div>
   <div class="imm-source">Não existe um botão de aprovação igual em todo produto. Se a ferramenta não mostra as condições completas, mantenha apenas a análise e faça a decisão no processo normal da empresa.</div>
   <div class="imm-rail" aria-hidden="true"><i class="done"></i><i class="done"></i><i class="on"></i><i></i><i></i><b><em>3</em> · Acompanhar e conferir</b></div>
@@ -348,18 +441,28 @@
   <span class="imm-type">Placar do piloto</span>
   <div class="imm-kicker">100 comparações · custo de preparar e revisar as análises</div>
   <h2>Gastou 20% menos.<br>Mas entregou 20% menos também.</h2>
-  <div class="imm-grid three">
-    <div class="imm-card success"><h3>80 aceitas</h3><p>Conferidas com os critérios.<br>São entregas utilizáveis.</p></div>
-    <div class="imm-card warning"><h3>12 em correção</h3><p>Não entram como aceitas<br>enquanto o erro não for resolvido.</p></div>
-    <div class="imm-card"><h3>8 pendentes</h3><p>Falta informação ou decisão.<br>Têm dono e próximo passo.</p></div>
-  </div>
-  <table class="imm-table">
-    <thead><tr><th>Mesmo período e casos comparáveis</th><th>Custo das análises</th><th>Aceitas</th><th>Custo por aceita</th></tr></thead>
-    <tbody>
-      <tr><td>Processo anterior</td><td>R$ 2.500</td><td>100</td><td><b>R$ 25</b></td></tr>
-      <tr><td>Piloto com agente</td><td>R$ 2.000</td><td>80</td><td><b>R$ 25</b></td></tr>
-    </tbody>
-  </table>
+  <figure class="imm-figure imm-explainer">
+    <svg viewBox="0 0 1120 300" role="img" aria-labelledby="e6-outcomes-title e6-outcomes-desc">
+      <title id="e6-outcomes-title">100 análises: 80 aceitas, 12 em correção e 8 pendentes</title>
+      <desc id="e6-outcomes-desc">Barra proporcional com 80%, 12% e 8%, distinguindo os três estados. Custo de produzir e revisar as análises, não de comprar licenças: antes, 2.500 reais divididos por 100 aceitas; piloto, 2.000 divididos por 80. Ambos custam 25 reais por análise aceita. Mesmo período e casos comparáveis; exemplo fictício.</desc>
+      <text x="0" y="26" class="imm-svg-tag">DESTINO DAS 100 COMPARAÇÕES · EXEMPLO FICTÍCIO</text>
+      <rect x="0" y="46" width="880" height="42" class="imm-svg-fill-success" data-outcome-count="80"/>
+      <rect x="880" y="46" width="132" height="42" class="imm-svg-fill-warning" data-outcome-count="12"/>
+      <rect x="1012" y="46" width="88" height="42" class="imm-svg-fill-muted" data-outcome-count="8"/>
+      <rect x="0" y="110" width="16" height="16" class="imm-svg-fill-success"/><text x="28" y="125" class="imm-svg-label">80 aceitas</text>
+      <rect x="360" y="110" width="16" height="16" class="imm-svg-fill-warning"/><text x="388" y="125" class="imm-svg-label">12 em correção</text>
+      <rect x="750" y="110" width="16" height="16" class="imm-svg-fill-muted"/><text x="778" y="125" class="imm-svg-label">8 pendentes</text>
+      <rect x="0" y="155" width="536" height="137" rx="16" class="imm-svg-box"/>
+      <rect x="564" y="155" width="536" height="137" rx="16" class="imm-svg-box accent"/>
+      <text x="22" y="188" class="imm-svg-tag">ANTES · CUSTO DAS ANÁLISES</text>
+      <text x="586" y="188" class="imm-svg-tag">PILOTO · CUSTO DAS ANÁLISES</text>
+      <text x="22" y="232" class="imm-svg-value">R$ 2.500 ÷ 100 = R$ 25</text>
+      <text x="586" y="232" class="imm-svg-value">R$ 2.000 ÷ 80 = R$ 25</text>
+      <text x="22" y="269" class="imm-svg-sub">por análise aceita</text>
+      <text x="586" y="269" class="imm-svg-sub">por análise aceita — não ficou mais barato.</text>
+    </svg>
+    <figcaption>Mesmo período e casos comparáveis. As 12 em correção e as 8 pendentes ainda não contam como entregas aceitas.</figcaption>
+  </figure>
   <div class="imm-source">Custo de produzir as análises, incluindo revisão — não de comprar licenças. Antes de anunciar economia, explique as 20 comparações ainda não aceitas.</div>
   <div class="imm-rail" aria-hidden="true"><i class="done"></i><i class="done"></i><i class="done"></i><i class="on"></i><i></i><b><em>4</em> · Avaliar se ajudou</b></div>
   <span class="imm-page">22 / 29</span>
